@@ -1,0 +1,197 @@
+on fadeNodeTo n, val, ms, cb
+  [  0] pushcons 0 .............................. <"node_tween">
+  [  2] pushcons 1 .............................. <"scripts.anim">
+  [  4] pusharglist 2 ........................... <"node_tween", "scripts.anim">
+  [  6] extcall 34 .............................. <script("node_tween", "scripts.anim")>
+  [  8] pushsymb 17 ............................. <#node>
+  [ 10] getparam 0 .............................. <n>
+  [ 12] pushsymb 9 .............................. <#start>
+  [ 14] getparam 0 .............................. <n>
+  [ 16] pusharglist 1 ........................... <n>
+  [ 18] objcall 106 ............................. <n.getAlpha()>
+  [ 20] pushsymb 96 ............................. <#end>
+  [ 22] getparam 1 .............................. <val>
+  [ 24] pushsymb 59 ............................. <#ms>
+  [ 26] getparam 2 .............................. <ms>
+  [ 28] pushsymb 91 ............................. <#setter>
+  [ 30] pushsymb 52 ............................. <#setAlpha>
+  [ 32] pushsymb 60 ............................. <#callback>
+  [ 34] getparam 3 .............................. <cb>
+  [ 36] pusharglist 12 .......................... <[#node: n, #start: n.getAlpha(), #end: val, #ms: ms, #setter: #setAlpha, #callback: cb]>
+  [ 38] pushproplist ............................ <[#node: n, #start: n.getAlpha(), #end: val, #ms: ms, #setter: #setAlpha, #callback: cb]>
+  [ 39] pusharglist 2 ........................... <script("node_tween", "scripts.anim"), [#node: n, #start: n.getAlpha(), #end: val, #ms: ms, #setter: #setAlpha, #callback: cb]>
+  [ 41] objcall 0 ............................... <script("node_tween", "scripts.anim").new([#node: n, #start: n.getAlpha(), #end: val, #ms: ms, #setter: #setAlpha, #callback: cb])>
+  [ 43] pusharglistnoret 1 ...................... <script("node_tween", "scripts.anim").new([#node: n, #start: n.getAlpha(), #end: val, #ms: ms, #setter: #setAlpha, #callback: cb])>
+  [ 45] extcall 39 .............................. return script("node_tween", "scripts.anim").new([#node: n, #start: n.getAlpha(), #end: val, #ms: ms, #setter: #setAlpha, #callback: cb])
+  [ 47] ret
+end
+
+on flashNode Args
+  [  0] getparam 0 .............................. <Args>
+  [  2] pushsymb 17 ............................. <#node>
+  [  4] pusharglist 2 ........................... <Args, #node>
+  [  6] objcall 21 .............................. <Args[#node]>
+  [  8] setlocal 0 .............................. n = Args[#node]
+  [ 10] getparam 0 .............................. <Args>
+  [ 12] pushsymb 75 ............................. <#loopCount>
+  [ 14] pusharglist 2 ........................... <Args, #loopCount>
+  [ 16] objcall 21 .............................. <Args[#loopCount]>
+  [ 18] setlocal 1 .............................. times = Args[#loopCount]
+  [ 20] getparam 0 .............................. <Args>
+  [ 22] pushsymb 59 ............................. <#ms>
+  [ 24] pusharglist 2 ........................... <Args, #ms>
+  [ 26] objcall 21 .............................. <Args[#ms]>
+  [ 28] setlocal 2 .............................. ms = Args[#ms]
+  [ 30] getparam 0 .............................. <Args>
+  [ 32] pushsymb 108 ............................ <#invert>
+  [ 34] pusharglist 2 ........................... <Args, #invert>
+  [ 36] objcall 21 .............................. <Args[#invert]>
+  [ 38] setlocal 3 .............................. inv = Args[#invert]
+  [ 40] getparam 0 .............................. <Args>
+  [ 42] pushsymb 35 ............................. <#group>
+  [ 44] pusharglist 2 ........................... <Args, #group>
+  [ 46] objcall 21 .............................. <Args[#group]>
+  [ 48] setlocal 4 .............................. grp = Args[#group]
+  [ 50] getparam 0 .............................. <Args>
+  [ 52] pushsymb 60 ............................. <#callback>
+  [ 54] pusharglist 2 ........................... <Args, #callback>
+  [ 56] objcall 21 .............................. <Args[#callback]>
+  [ 58] setlocal 5 .............................. cb = Args[#callback]
+  [ 60] pusharglist 0 ........................... <[]>
+  [ 62] pushlist ................................ <[]>
+  [ 63] setlocal 6 .............................. ad = []
+  [ 65] getlocal 2 .............................. <ms>
+  [ 67] pusharglist 1 ........................... <ms>
+  [ 69] extcall 24 .............................. <voidp(ms)>
+  [ 71] jmpifz [ 79] ............................ if voidp(ms) then
+  [ 74] pushint16 500 ........................... <500>
+  [ 77] setlocal 2 .............................. ms = 500
+  [ 79] getlocal 1 .............................. <times>
+  [ 81] pusharglist 1 ........................... <times>
+  [ 83] extcall 24 .............................. <voidp(times)>
+  [ 85] jmpifz [ 92] ............................ if voidp(times) then
+  [ 88] pushint8 3 .............................. <3>
+  [ 90] setlocal 1 .............................. times = 3
+  [ 92] getlocal 3 .............................. <inv>
+  [ 94] pusharglist 1 ........................... <inv>
+  [ 96] extcall 24 .............................. <voidp(inv)>
+  [ 98] jmpifz [104] ............................ if voidp(inv) then
+  [101] pushzero ................................ <0>
+  [102] setlocal 3 .............................. inv = 0
+  [104] pushint8 1 .............................. <1>
+  [106] setlocal 7
+  [108] getlocal 7
+  [110] getlocal 1 .............................. <times>
+  [112] lteq
+  [113] jmpifz [152] ............................ repeat with i = 1 to times
+  [116] getlocal 6 .............................. <ad>
+  [118] pushsymb 109 ............................ <#visible>
+  [120] getlocal 3 .............................. <inv>
+  [122] pusharglist 2 ........................... <[#visible: inv]>
+  [124] pushproplist ............................ <[#visible: inv]>
+  [125] pusharglistnoret 2 ...................... <ad, [#visible: inv]>
+  [127] objcall 81 .............................. ad.add([#visible: inv])
+  [129] getlocal 6 .............................. <ad>
+  [131] pushsymb 109 ............................ <#visible>
+  [133] getlocal 3 .............................. <inv>
+  [135] not ..................................... <not inv>
+  [136] pusharglist 2 ........................... <[#visible: not inv]>
+  [138] pushproplist ............................ <[#visible: not inv]>
+  [139] pusharglistnoret 2 ...................... <ad, [#visible: not inv]>
+  [141] objcall 81 .............................. ad.add([#visible: not inv])
+  [143] pushint8 1
+  [145] getlocal 7
+  [147] add
+  [148] setlocal 7
+  [150] endrepeat [108]
+  [152] pushcons 2 .............................. <"flash">
+  [154] getlocal 6 .............................. <ad>
+  [156] pusharglist 2 ........................... <["flash": ad]>
+  [158] pushproplist ............................ <["flash": ad]>
+  [159] setlocal 8 .............................. anim = ["flash": ad]
+  [161] pushcons 3 .............................. <"node_anim">
+  [163] pusharglist 1 ........................... <"node_anim">
+  [165] extcall 34 .............................. <script("node_anim")>
+  [167] pushsymb 17 ............................. <#node>
+  [169] getlocal 0 .............................. <n>
+  [171] pushsymb 19 ............................. <#data>
+  [173] getlocal 8 .............................. <anim>
+  [175] pushsymb 35 ............................. <#group>
+  [177] getlocal 4 .............................. <grp>
+  [179] pusharglist 6 ........................... <[#node: n, #data: anim, #group: grp]>
+  [181] pushproplist ............................ <[#node: n, #data: anim, #group: grp]>
+  [182] pusharglist 2 ........................... <script("node_anim"), [#node: n, #data: anim, #group: grp]>
+  [184] objcall 0 ............................... <script("node_anim").new([#node: n, #data: anim, #group: grp])>
+  [186] setlocal 9 .............................. obj = script("node_anim").new([#node: n, #data: anim, #group: grp])
+  [188] getlocal 9 .............................. <obj>
+  [190] getlocal 8 .............................. <anim>
+  [192] pusharglistnoret 2 ...................... <obj, anim>
+  [194] objcall 1 ............................... obj.setAnimData(anim)
+  [196] getlocal 9 .............................. <obj>
+  [198] pushcons 2 .............................. <"flash">
+  [200] pushsymb 75 ............................. <#loopCount>
+  [202] pushint8 1 .............................. <1>
+  [204] pushsymb 23 ............................. <#frameMS>
+  [206] getlocal 2 .............................. <ms>
+  [208] pushsymb 60 ............................. <#callback>
+  [210] getlocal 5 .............................. <cb>
+  [212] pushsymb 48 ............................. <#animProps>
+  [214] pushsymb 109 ............................ <#visible>
+  [216] pusharglist 1 ........................... <[#visible]>
+  [218] pushlist ................................ <[#visible]>
+  [219] pusharglist 8 ........................... <[#loopCount: 1, #frameMS: ms, #callback: cb, #animProps: [#visible]]>
+  [221] pushproplist ............................ <[#loopCount: 1, #frameMS: ms, #callback: cb, #animProps: [#visible]]>
+  [222] pusharglistnoret 3 ...................... <obj, "flash", [#loopCount: 1, #frameMS: ms, #callback: cb, #animProps: [#visible]]>
+  [224] objcall 11 .............................. obj.setAnimation("flash", [#loopCount: 1, #frameMS: ms, #callback: cb, #animProps: [#visible]])
+  [226] getlocal 9 .............................. <obj>
+  [228] pusharglistnoret 1 ...................... <obj>
+  [230] extcall 39 .............................. return obj
+  [232] ret
+end
+
+on moveNodeTo n, pt, ms, cb
+  [  0] getparam 0 .............................. <n>
+  [  2] getobjprop 73 ........................... <n.ilk>
+  [  4] pushsymb 74 ............................. <#propList>
+  [  6] eq ...................................... <n.ilk = #propList>
+  [  7] jmpifz [ 42] ............................ if n.ilk = #propList then
+  [ 10] getparam 0 .............................. <n>
+  [ 12] getobjprop 57 ........................... <n.pt>
+  [ 14] setparam 1 .............................. pt = n.pt
+  [ 16] getparam 0 .............................. <n>
+  [ 18] pushsymb 59 ............................. <#ms>
+  [ 20] pusharglist 2 ........................... <n, #ms>
+  [ 22] objcall 21 .............................. <n[#ms]>
+  [ 24] setparam 2 .............................. ms = n[#ms]
+  [ 26] getparam 0 .............................. <n>
+  [ 28] pushsymb 61 ............................. <#cb>
+  [ 30] pusharglist 2 ........................... <n, #cb>
+  [ 32] objcall 21 .............................. <n[#cb]>
+  [ 34] setparam 3 .............................. cb = n[#cb]
+  [ 36] getparam 0 .............................. <n>
+  [ 38] getobjprop 17 ........................... <n.node>
+  [ 40] setparam 0 .............................. n = n.node
+  [ 42] pushcons 0 .............................. <"node_tween">
+  [ 44] pushcons 1 .............................. <"scripts.anim">
+  [ 46] pusharglist 2 ........................... <"node_tween", "scripts.anim">
+  [ 48] extcall 34 .............................. <script("node_tween", "scripts.anim")>
+  [ 50] pushsymb 17 ............................. <#node>
+  [ 52] getparam 0 .............................. <n>
+  [ 54] pushsymb 9 .............................. <#start>
+  [ 56] getparam 0 .............................. <n>
+  [ 58] pusharglist 1 ........................... <n>
+  [ 60] objcall 116 ............................. <n.getLoc()>
+  [ 62] pushsymb 96 ............................. <#end>
+  [ 64] getparam 1 .............................. <pt>
+  [ 66] pushsymb 59 ............................. <#ms>
+  [ 68] getparam 2 .............................. <ms>
+  [ 70] pushsymb 91 ............................. <#setter>
+  [ 72] pushsymb 117 ............................ <#setLoc>
+  [ 74] pushsymb 60 ............................. <#callback>
+  [ 76] getparam 3 .............................. <cb>
+  [ 78] pusharglist 12 .......................... <[#node: n, #start: n.getLoc(), #end: pt, #ms: ms, #setter: #setLoc, #callback: cb]>
+  [ 80] pushproplist ............................ <[#node: n, #start: n.getLoc(), #end: pt, #ms: ms, #setter: #setLoc, #callback: cb]>
+  [ 81] pusharglistnoret 2 ...................... <script("node_tween", "scripts.anim"), [#node: n, #start: n.getLoc(), #end: pt, #ms: ms, #setter: #setLoc, #callback: cb]>
+  [ 83] objcall 0 ............................... script("node_tween", "scripts.anim").new([#node: n, #start: n.getLoc(), #end: pt, #ms: ms, #setter: #setLoc, #callback: cb])
+  [ 85] ret
+end

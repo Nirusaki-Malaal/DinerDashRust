@@ -1,0 +1,201 @@
+property node, startVal, endVal, diff, lengthMS, currentMS, getter, setter, eventGroup, callback
+
+on new me, Args
+  [  0] getparam 1 .............................. <Args>
+  [  2] pusharglist 1 ........................... <Args>
+  [  4] extcall 24 .............................. <voidp(Args)>
+  [  6] not ..................................... <not voidp(Args)>
+  [  7] jmpifz [ 18] ............................ if not voidp(Args) then
+  [ 10] getparam 0 .............................. <me>
+  [ 12] getparam 1 .............................. <Args>
+  [ 14] pusharglistnoret 2 ...................... <me, Args>
+  [ 16] objcall 87 .............................. me.startTween(Args)
+  [ 18] getparam 0 .............................. <me>
+  [ 20] pusharglistnoret 1 ...................... <me>
+  [ 22] extcall 39 .............................. return me
+  [ 24] ret
+end
+
+on destroy me
+  [  0] getparam 0 .............................. <me>
+  [  2] pushsymb 68 ............................. <#exitFrame>
+  [  4] getprop 89 .............................. <eventGroup>
+  [  6] pusharglistnoret 3 ...................... <me, #exitFrame, eventGroup>
+  [  8] extcall 69 .............................. unsubscribe(me, #exitFrame, eventGroup)
+  [ 10] pusharglist 0 ........................... <>
+  [ 12] extcall 70 .............................. <VOID>
+  [ 14] setprop 60 .............................. callback = VOID
+  [ 16] pusharglist 0 ........................... <>
+  [ 18] extcall 70 .............................. <VOID>
+  [ 20] setprop 17 .............................. node = VOID
+  [ 22] ret
+end
+
+on startTween me, Args
+  [  0] getparam 1 .............................. <Args>
+  [  2] getobjprop 59 ........................... <Args.ms>
+  [  4] setprop 90 .............................. lengthMS = Args.ms
+  [  6] getparam 1 .............................. <Args>
+  [  8] getobjprop 17 ........................... <Args.node>
+  [ 10] setprop 17 .............................. node = Args.node
+  [ 12] getparam 1 .............................. <Args>
+  [ 14] getobjprop 91 ........................... <Args.setter>
+  [ 16] setprop 91 .............................. setter = Args.setter
+  [ 18] getprop 17 .............................. <node>
+  [ 20] pusharglist 1 ........................... <node>
+  [ 22] objcall 92 .............................. <node.handlers()>
+  [ 24] getprop 91 .............................. <setter>
+  [ 26] pusharglist 2 ........................... <node.handlers(), setter>
+  [ 28] objcall 93 .............................. <node.handlers().getOne(setter)>
+  [ 30] pushzero ................................ <0>
+  [ 31] eq ...................................... <node.handlers().getOne(setter) = 0>
+  [ 32] jmpifz [ 39] ............................ if node.handlers().getOne(setter) = 0 then
+  [ 35] pusharglistnoret 0 ...................... <>
+  [ 37] extcall 39 .............................. return 
+  [ 39] getparam 1 .............................. <Args>
+  [ 41] getobjprop 9 ............................ <Args.start>
+  [ 43] setprop 94 .............................. startVal = Args.start
+  [ 45] getparam 1 .............................. <Args>
+  [ 47] getobjprop 96 ........................... <Args.end>
+  [ 49] setprop 95 .............................. endVal = Args.end
+  [ 51] getparam 1 .............................. <Args>
+  [ 53] pushsymb 35 ............................. <#group>
+  [ 55] pusharglist 2 ........................... <Args, #group>
+  [ 57] objcall 21 .............................. <Args[#group]>
+  [ 59] setprop 89 .............................. eventGroup = Args[#group]
+  [ 61] getparam 1 .............................. <Args>
+  [ 63] pushsymb 60 ............................. <#callback>
+  [ 65] pusharglist 2 ........................... <Args, #callback>
+  [ 67] objcall 21 .............................. <Args[#callback]>
+  [ 69] setprop 60 .............................. callback = Args[#callback]
+  [ 71] getprop 60 .............................. <callback>
+  [ 73] pusharglist 1 ........................... <callback>
+  [ 75] extcall 24 .............................. <voidp(callback)>
+  [ 77] not ..................................... <not voidp(callback)>
+  [ 78] jmpifz [108] ............................ if not voidp(callback) then
+  [ 81] getprop 60 .............................. <callback>
+  [ 83] getchainedprop 37 ....................... <callback.target>
+  [ 85] pusharglist 1 ........................... <callback.target>
+  [ 87] objcall 92 .............................. <callback.target.handlers()>
+  [ 89] getprop 60 .............................. <callback>
+  [ 91] getobjprop 38 ........................... <callback.handler>
+  [ 93] pusharglist 2 ........................... <callback.target.handlers(), callback.handler>
+  [ 95] objcall 93 .............................. <callback.target.handlers().getOne(callback.handler)>
+  [ 97] pushzero ................................ <0>
+  [ 98] eq ...................................... <callback.target.handlers().getOne(callback.handler) = 0>
+  [ 99] jmpifz [108] ............................ if callback.target.handlers().getOne(callback.handler) = 0 then
+  [102] pusharglist 0 ........................... <>
+  [104] extcall 70 .............................. <VOID>
+  [106] setprop 60 .............................. callback = VOID
+  [108] getprop 95 .............................. <endVal>
+  [110] getprop 94 .............................. <startVal>
+  [112] sub ..................................... <endVal - startVal>
+  [113] setprop 97 .............................. diff = endVal - startVal
+  [115] pushzero ................................ <0>
+  [116] setprop 98 .............................. currentMS = 0
+  [118] getprop 90 .............................. <lengthMS>
+  [120] pushzero ................................ <0>
+  [121] eq ...................................... <lengthMS = 0>
+  [122] jmpifz [134] ............................ if lengthMS = 0 then / else
+  [125] getparam 0 .............................. <me>
+  [127] pusharglistnoret 1 ...................... <me>
+  [129] objcall 88 .............................. me.endTween()
+  [131] jmp [154]
+  [134] getprop 91 .............................. <setter>
+  [136] getprop 17 .............................. <node>
+  [138] getprop 94 .............................. <startVal>
+  [140] pusharglistnoret 3 ...................... <setter, node, startVal>
+  [142] extcall 83 .............................. call(setter, node, startVal)
+  [144] getparam 0 .............................. <me>
+  [146] pushsymb 68 ............................. <#exitFrame>
+  [148] getprop 89 .............................. <eventGroup>
+  [150] pusharglistnoret 3 ...................... <me, #exitFrame, eventGroup>
+  [152] extcall 67 .............................. subscribe(me, #exitFrame, eventGroup)
+  [154] ret
+end
+
+on exitFrame me, ms
+  [  0] getprop 17 .............................. <node>
+  [  2] pusharglist 1 ........................... <node>
+  [  4] extcall 24 .............................. <voidp(node)>
+  [  6] jmpifz [ 23] ............................ if voidp(node) then
+  [  9] getparam 0 .............................. <me>
+  [ 11] pushsymb 68 ............................. <#exitFrame>
+  [ 13] getprop 89 .............................. <eventGroup>
+  [ 15] pusharglistnoret 3 ...................... <me, #exitFrame, eventGroup>
+  [ 17] extcall 69 .............................. unsubscribe(me, #exitFrame, eventGroup)
+  [ 19] pusharglistnoret 0 ...................... <>
+  [ 21] extcall 39 .............................. return 
+  [ 23] getprop 90 .............................. <lengthMS>
+  [ 25] getprop 98 .............................. <currentMS>
+  [ 27] getparam 1 .............................. <ms>
+  [ 29] add ..................................... <currentMS + ms>
+  [ 30] pusharglist 2 ........................... <lengthMS, currentMS + ms>
+  [ 32] extcall 64 .............................. <min(lengthMS, currentMS + ms)>
+  [ 34] setprop 98 .............................. currentMS = min(lengthMS, currentMS + ms)
+  [ 36] getprop 98 .............................. <currentMS>
+  [ 38] getprop 90 .............................. <lengthMS>
+  [ 40] eq ...................................... <currentMS = lengthMS>
+  [ 41] jmpifz [ 54] ............................ if currentMS = lengthMS then
+  [ 44] getparam 0 .............................. <me>
+  [ 46] pusharglistnoret 1 ...................... <me>
+  [ 48] objcall 88 .............................. me.endTween()
+  [ 50] pusharglistnoret 0 ...................... <>
+  [ 52] extcall 39 .............................. return 
+  [ 54] getprop 98 .............................. <currentMS>
+  [ 56] pusharglist 1 ........................... <currentMS>
+  [ 58] extcall 99 .............................. <float(currentMS)>
+  [ 60] getprop 90 .............................. <lengthMS>
+  [ 62] div ..................................... <float(currentMS) / lengthMS>
+  [ 63] setlocal 0 .............................. frac = float(currentMS) / lengthMS
+  [ 65] getlocal 0 .............................. <frac>
+  [ 67] getprop 97 .............................. <diff>
+  [ 69] mul ..................................... <frac * diff>
+  [ 70] getprop 94 .............................. <startVal>
+  [ 72] add ..................................... <(frac * diff) + startVal>
+  [ 73] setlocal 1 .............................. val = (frac * diff) + startVal
+  [ 75] getprop 91 .............................. <setter>
+  [ 77] getprop 17 .............................. <node>
+  [ 79] getlocal 1 .............................. <val>
+  [ 81] pusharglistnoret 3 ...................... <setter, node, val>
+  [ 83] extcall 83 .............................. call(setter, node, val)
+  [ 85] ret
+end
+
+on endTween me
+  [  0] getparam 0 .............................. <me>
+  [  2] pushsymb 68 ............................. <#exitFrame>
+  [  4] getprop 89 .............................. <eventGroup>
+  [  6] pusharglistnoret 3 ...................... <me, #exitFrame, eventGroup>
+  [  8] extcall 69 .............................. unsubscribe(me, #exitFrame, eventGroup)
+  [ 10] getprop 17 .............................. <node>
+  [ 12] pusharglist 1 ........................... <node>
+  [ 14] extcall 24 .............................. <voidp(node)>
+  [ 16] jmpifz [ 23] ............................ if voidp(node) then
+  [ 19] pusharglistnoret 0 ...................... <>
+  [ 21] extcall 39 .............................. return 
+  [ 23] getprop 91 .............................. <setter>
+  [ 25] getprop 17 .............................. <node>
+  [ 27] getprop 95 .............................. <endVal>
+  [ 29] pusharglistnoret 3 ...................... <setter, node, endVal>
+  [ 31] extcall 83 .............................. call(setter, node, endVal)
+  [ 33] getprop 60 .............................. <callback>
+  [ 35] pusharglist 1 ........................... <callback>
+  [ 37] extcall 24 .............................. <voidp(callback)>
+  [ 39] not ..................................... <not voidp(callback)>
+  [ 40] jmpifz [ 63] ............................ if not voidp(callback) then
+  [ 43] getprop 60 .............................. <callback>
+  [ 45] getobjprop 38 ........................... <callback.handler>
+  [ 47] getprop 60 .............................. <callback>
+  [ 49] getobjprop 37 ........................... <callback.target>
+  [ 51] getprop 60 .............................. <callback>
+  [ 53] pushsymb 41 ............................. <#Args>
+  [ 55] pusharglist 2 ........................... <callback, #Args>
+  [ 57] objcall 21 .............................. <callback[#Args]>
+  [ 59] pusharglistnoret 3 ...................... <callback.handler, callback.target, callback[#Args]>
+  [ 61] extcall 83 .............................. call(callback.handler, callback.target, callback[#Args])
+  [ 63] pusharglist 0 ........................... <>
+  [ 65] extcall 70 .............................. <VOID>
+  [ 67] setprop 17 .............................. node = VOID
+  [ 69] ret
+end
