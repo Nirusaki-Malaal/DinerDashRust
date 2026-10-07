@@ -1,0 +1,1305 @@
+property glob, currentMode, hiscores, stages, unlockedBGs, savedGame, numHighScores, game_mgr, demoMode, unlock, unlocked, expired, daysLeft, save, timebomb, options, initialized, defaults, profiles, currentProfile, prefName, numHiScores, seenItems
+
+on new me, g
+  [  0] getparam 1 .............................. <g>
+  [  2] setprop 22 .............................. glob = g
+  [  4] getprop 22 .............................. <glob>
+  [  6] getchainedprop 24 ....................... <glob.managers>
+  [  8] getobjprop 25 ........................... <glob.managers.game>
+  [ 10] setprop 23 .............................. game_mgr = glob.managers.game
+  [ 12] pusharglist 0 ........................... <[:]>
+  [ 14] pushproplist ............................ <[:]>
+  [ 15] setprop 26 .............................. stages = [:]
+  [ 17] pushint8 10 ............................. <10>
+  [ 19] setprop 27 .............................. numHiScores = 10
+  [ 21] pusharglist 0 ........................... <[:]>
+  [ 23] pushproplist ............................ <[:]>
+  [ 24] setprop 28 .............................. defaults = [:]
+  [ 26] getprop 28 .............................. <defaults>
+  [ 28] pushsymb 29 ............................. <#fullscreen>
+  [ 30] pushint8 1 .............................. <1>
+  [ 32] pusharglistnoret 3 ...................... <defaults, #fullscreen, 1>
+  [ 34] objcall 30 .............................. defaults[#fullscreen] = 1
+  [ 36] getprop 28 .............................. <defaults>
+  [ 38] pushsymb 31 ............................. <#music>
+  [ 40] pushint8 1 .............................. <1>
+  [ 42] pusharglistnoret 3 ...................... <defaults, #music, 1>
+  [ 44] objcall 30 .............................. defaults[#music] = 1
+  [ 46] getprop 28 .............................. <defaults>
+  [ 48] pushsymb 32 ............................. <#sfx>
+  [ 50] pushint8 1 .............................. <1>
+  [ 52] pusharglistnoret 3 ...................... <defaults, #sfx, 1>
+  [ 54] objcall 30 .............................. defaults[#sfx] = 1
+  [ 56] getprop 28 .............................. <defaults>
+  [ 58] pushsymb 33 ............................. <#profiles>
+  [ 60] pusharglist 0 ........................... <[:]>
+  [ 62] pushproplist ............................ <[:]>
+  [ 63] pusharglistnoret 3 ...................... <defaults, #profiles, [:]>
+  [ 65] objcall 30 .............................. defaults[#profiles] = [:]
+  [ 67] getprop 28 .............................. <defaults>
+  [ 69] pushsymb 34 ............................. <#seenItems>
+  [ 71] pusharglist 0 ........................... <[]>
+  [ 73] pushlist ................................ <[]>
+  [ 74] pusharglistnoret 3 ...................... <defaults, #seenItems, []>
+  [ 76] objcall 30 .............................. defaults[#seenItems] = []
+  [ 78] pushsymb 35 ............................. <#name>
+  [ 80] pushcons 0 .............................. <"Margaret">
+  [ 82] pushsymb 36 ............................. <#score>
+  [ 84] pushint16 20000 ......................... <20000>
+  [ 87] pusharglist 4 ........................... <[#name: "Margaret", #score: 20000]>
+  [ 89] pushproplist ............................ <[#name: "Margaret", #score: 20000]>
+  [ 90] pushsymb 35 ............................. <#name>
+  [ 92] pushcons 1 .............................. <"Indra">
+  [ 94] pushsymb 36 ............................. <#score>
+  [ 96] pushint16 15000 ......................... <15000>
+  [ 99] pusharglist 4 ........................... <[#name: "Indra", #score: 15000]>
+  [101] pushproplist ............................ <[#name: "Indra", #score: 15000]>
+  [102] pushsymb 35 ............................. <#name>
+  [104] pushcons 2 .............................. <"Jorge">
+  [106] pushsymb 36 ............................. <#score>
+  [108] pushint16 10000 ......................... <10000>
+  [111] pusharglist 4 ........................... <[#name: "Jorge", #score: 10000]>
+  [113] pushproplist ............................ <[#name: "Jorge", #score: 10000]>
+  [114] pushsymb 35 ............................. <#name>
+  [116] pushcons 3 .............................. <"Tamesha">
+  [118] pushsymb 36 ............................. <#score>
+  [120] pushint16 7500 .......................... <7500>
+  [123] pusharglist 4 ........................... <[#name: "Tamesha", #score: 7500]>
+  [125] pushproplist ............................ <[#name: "Tamesha", #score: 7500]>
+  [126] pushsymb 35 ............................. <#name>
+  [128] pushcons 4 .............................. <"Aziz">
+  [130] pushsymb 36 ............................. <#score>
+  [132] pushint16 6000 .......................... <6000>
+  [135] pusharglist 4 ........................... <[#name: "Aziz", #score: 6000]>
+  [137] pushproplist ............................ <[#name: "Aziz", #score: 6000]>
+  [138] pushsymb 35 ............................. <#name>
+  [140] pushcons 5 .............................. <"Jack">
+  [142] pushsymb 36 ............................. <#score>
+  [144] pushint16 5000 .......................... <5000>
+  [147] pusharglist 4 ........................... <[#name: "Jack", #score: 5000]>
+  [149] pushproplist ............................ <[#name: "Jack", #score: 5000]>
+  [150] pushsymb 35 ............................. <#name>
+  [152] pushcons 6 .............................. <"Aiden">
+  [154] pushsymb 36 ............................. <#score>
+  [156] pushint16 4000 .......................... <4000>
+  [159] pusharglist 4 ........................... <[#name: "Aiden", #score: 4000]>
+  [161] pushproplist ............................ <[#name: "Aiden", #score: 4000]>
+  [162] pushsymb 35 ............................. <#name>
+  [164] pushcons 7 .............................. <"Milagros">
+  [166] pushsymb 36 ............................. <#score>
+  [168] pushint16 3000 .......................... <3000>
+  [171] pusharglist 4 ........................... <[#name: "Milagros", #score: 3000]>
+  [173] pushproplist ............................ <[#name: "Milagros", #score: 3000]>
+  [174] pushsymb 35 ............................. <#name>
+  [176] pushcons 8 .............................. <"Wu">
+  [178] pushsymb 36 ............................. <#score>
+  [180] pushint16 2000 .......................... <2000>
+  [183] pusharglist 4 ........................... <[#name: "Wu", #score: 2000]>
+  [185] pushproplist ............................ <[#name: "Wu", #score: 2000]>
+  [186] pushsymb 35 ............................. <#name>
+  [188] pushcons 9 .............................. <"Suzie">
+  [190] pushsymb 36 ............................. <#score>
+  [192] pushint16 1000 .......................... <1000>
+  [195] pusharglist 4 ........................... <[#name: "Suzie", #score: 1000]>
+  [197] pushproplist ............................ <[#name: "Suzie", #score: 1000]>
+  [198] pusharglist 10 .......................... <[[#name: "Margaret", #score: 20000], [#name: "Indra", #score: 15000], [#name: "Jorge", #score: 10000], [#name: "Tamesha", #score: 7500], [#name: "Aziz", #score: 6000], [#name: "Jack", #score: 5000], [#name: "Aiden", #score: 4000], [#name: "Milagros", #score: 3000], [#name: "Wu", #score: 2000], [#name: "Suzie", #score: 1000]]>
+  [200] pushlist ................................ <[[#name: "Margaret", #score: 20000], [#name: "Indra", #score: 15000], [#name: "Jorge", #score: 10000], [#name: "Tamesha", #score: 7500], [#name: "Aziz", #score: 6000], [#name: "Jack", #score: 5000], [#name: "Aiden", #score: 4000], [#name: "Milagros", #score: 3000], [#name: "Wu", #score: 2000], [#name: "Suzie", #score: 1000]]>
+  [201] setlocal 0 .............................. c = [[#name: "Margaret", #score: 20000], [#name: "Indra", #score: 15000], [#name: "Jorge", #score: 10000], [#name: "Tamesha", #score: 7500], [#name: "Aziz", #score: 6000], [#name: "Jack", #score: 5000], [#name: "Aiden", #score: 4000], [#name: "Milagros", #score: 3000], [#name: "Wu", #score: 2000], [#name: "Suzie", #score: 1000]]
+  [203] pushsymb 35 ............................. <#name>
+  [205] pushcons 0 .............................. <"Margaret">
+  [207] pushsymb 36 ............................. <#score>
+  [209] pushint16 2000 .......................... <2000>
+  [212] pusharglist 4 ........................... <[#name: "Margaret", #score: 2000]>
+  [214] pushproplist ............................ <[#name: "Margaret", #score: 2000]>
+  [215] pushsymb 35 ............................. <#name>
+  [217] pushcons 1 .............................. <"Indra">
+  [219] pushsymb 36 ............................. <#score>
+  [221] pushint16 1500 .......................... <1500>
+  [224] pusharglist 4 ........................... <[#name: "Indra", #score: 1500]>
+  [226] pushproplist ............................ <[#name: "Indra", #score: 1500]>
+  [227] pushsymb 35 ............................. <#name>
+  [229] pushcons 2 .............................. <"Jorge">
+  [231] pushsymb 36 ............................. <#score>
+  [233] pushint16 1000 .......................... <1000>
+  [236] pusharglist 4 ........................... <[#name: "Jorge", #score: 1000]>
+  [238] pushproplist ............................ <[#name: "Jorge", #score: 1000]>
+  [239] pushsymb 35 ............................. <#name>
+  [241] pushcons 3 .............................. <"Tamesha">
+  [243] pushsymb 36 ............................. <#score>
+  [245] pushint16 750 ........................... <750>
+  [248] pusharglist 4 ........................... <[#name: "Tamesha", #score: 750]>
+  [250] pushproplist ............................ <[#name: "Tamesha", #score: 750]>
+  [251] pushsymb 35 ............................. <#name>
+  [253] pushcons 4 .............................. <"Aziz">
+  [255] pushsymb 36 ............................. <#score>
+  [257] pushint16 500 ........................... <500>
+  [260] pusharglist 4 ........................... <[#name: "Aziz", #score: 500]>
+  [262] pushproplist ............................ <[#name: "Aziz", #score: 500]>
+  [263] pushsymb 35 ............................. <#name>
+  [265] pushcons 5 .............................. <"Jack">
+  [267] pushsymb 36 ............................. <#score>
+  [269] pushint16 400 ........................... <400>
+  [272] pusharglist 4 ........................... <[#name: "Jack", #score: 400]>
+  [274] pushproplist ............................ <[#name: "Jack", #score: 400]>
+  [275] pushsymb 35 ............................. <#name>
+  [277] pushcons 6 .............................. <"Aiden">
+  [279] pushsymb 36 ............................. <#score>
+  [281] pushint16 300 ........................... <300>
+  [284] pusharglist 4 ........................... <[#name: "Aiden", #score: 300]>
+  [286] pushproplist ............................ <[#name: "Aiden", #score: 300]>
+  [287] pushsymb 35 ............................. <#name>
+  [289] pushcons 7 .............................. <"Milagros">
+  [291] pushsymb 36 ............................. <#score>
+  [293] pushint16 200 ........................... <200>
+  [296] pusharglist 4 ........................... <[#name: "Milagros", #score: 200]>
+  [298] pushproplist ............................ <[#name: "Milagros", #score: 200]>
+  [299] pushsymb 35 ............................. <#name>
+  [301] pushcons 8 .............................. <"Wu">
+  [303] pushsymb 36 ............................. <#score>
+  [305] pushint8 100 ............................ <100>
+  [307] pusharglist 4 ........................... <[#name: "Wu", #score: 100]>
+  [309] pushproplist ............................ <[#name: "Wu", #score: 100]>
+  [310] pushsymb 35 ............................. <#name>
+  [312] pushcons 9 .............................. <"Suzie">
+  [314] pushsymb 36 ............................. <#score>
+  [316] pushint8 50 ............................. <50>
+  [318] pusharglist 4 ........................... <[#name: "Suzie", #score: 50]>
+  [320] pushproplist ............................ <[#name: "Suzie", #score: 50]>
+  [321] pusharglist 10 .......................... <[[#name: "Margaret", #score: 2000], [#name: "Indra", #score: 1500], [#name: "Jorge", #score: 1000], [#name: "Tamesha", #score: 750], [#name: "Aziz", #score: 500], [#name: "Jack", #score: 400], [#name: "Aiden", #score: 300], [#name: "Milagros", #score: 200], [#name: "Wu", #score: 100], [#name: "Suzie", #score: 50]]>
+  [323] pushlist ................................ <[[#name: "Margaret", #score: 2000], [#name: "Indra", #score: 1500], [#name: "Jorge", #score: 1000], [#name: "Tamesha", #score: 750], [#name: "Aziz", #score: 500], [#name: "Jack", #score: 400], [#name: "Aiden", #score: 300], [#name: "Milagros", #score: 200], [#name: "Wu", #score: 100], [#name: "Suzie", #score: 50]]>
+  [324] setlocal 1 .............................. ee = [[#name: "Margaret", #score: 2000], [#name: "Indra", #score: 1500], [#name: "Jorge", #score: 1000], [#name: "Tamesha", #score: 750], [#name: "Aziz", #score: 500], [#name: "Jack", #score: 400], [#name: "Aiden", #score: 300], [#name: "Milagros", #score: 200], [#name: "Wu", #score: 100], [#name: "Suzie", #score: 50]]
+  [326] getprop 28 .............................. <defaults>
+  [328] pushsymb 37 ............................. <#hiscores>
+  [330] pushsymb 38 ............................. <#career>
+  [332] getlocal 0 .............................. <c>
+  [334] pushsymb 39 ............................. <#endless_easy>
+  [336] getlocal 1 .............................. <ee>
+  [338] pushsymb 40 ............................. <#endless_medium>
+  [340] getlocal 1 .............................. <ee>
+  [342] pusharglist 1 ........................... <ee>
+  [344] objcall 41 .............................. <ee.duplicate()>
+  [346] pushsymb 42 ............................. <#endless_hard>
+  [348] getlocal 1 .............................. <ee>
+  [350] pusharglist 1 ........................... <ee>
+  [352] objcall 41 .............................. <ee.duplicate()>
+  [354] pusharglist 8 ........................... <[#career: c, #endless_easy: ee, #endless_medium: ee.duplicate(), #endless_hard: ee.duplicate()]>
+  [356] pushproplist ............................ <[#career: c, #endless_easy: ee, #endless_medium: ee.duplicate(), #endless_hard: ee.duplicate()]>
+  [357] pusharglistnoret 3 ...................... <defaults, #hiscores, [#career: c, #endless_easy: ee, #endless_medium: ee.duplicate(), #endless_hard: ee.duplicate()]>
+  [359] objcall 30 .............................. defaults[#hiscores] = [#career: c, #endless_easy: ee, #endless_medium: ee.duplicate(), #endless_hard: ee.duplicate()]
+  [361] getprop 28 .............................. <defaults>
+  [363] pushsymb 43 ............................. <#savedGame>
+  [365] pushsymb 44 ............................. <#stage>
+  [367] pushint8 1 .............................. <1>
+  [369] pushsymb 45 ............................. <#level>
+  [371] pushint8 1 .............................. <1>
+  [373] pushsymb 46 ............................. <#bg>
+  [375] pushcons 10 ............................. <"state_1">
+  [377] pusharglist 6 ........................... <[#stage: 1, #level: 1, #bg: "state_1"]>
+  [379] pushproplist ............................ <[#stage: 1, #level: 1, #bg: "state_1"]>
+  [380] pusharglistnoret 3 ...................... <defaults, #savedGame, [#stage: 1, #level: 1, #bg: "state_1"]>
+  [382] objcall 30 .............................. defaults[#savedGame] = [#stage: 1, #level: 1, #bg: "state_1"]
+  [384] getprop 28 .............................. <defaults>
+  [386] pushsymb 47 ............................. <#currentProfile>
+  [388] pusharglist 0 ........................... <>
+  [390] extcall 48 .............................. <VOID>
+  [392] pusharglistnoret 3 ...................... <defaults, #currentProfile, VOID>
+  [394] objcall 30 .............................. defaults[#currentProfile] = VOID
+  [396] getprop 28 .............................. <defaults>
+  [398] pushsymb 49 ............................. <#options>
+  [400] pushsymb 29 ............................. <#fullscreen>
+  [402] pushint8 1 .............................. <1>
+  [404] pushsymb 31 ............................. <#music>
+  [406] pushint8 1 .............................. <1>
+  [408] pushsymb 32 ............................. <#sfx>
+  [410] pushint8 1 .............................. <1>
+  [412] pusharglist 6 ........................... <[#fullscreen: 1, #music: 1, #sfx: 1]>
+  [414] pushproplist ............................ <[#fullscreen: 1, #music: 1, #sfx: 1]>
+  [415] pusharglistnoret 3 ...................... <defaults, #options, [#fullscreen: 1, #music: 1, #sfx: 1]>
+  [417] objcall 30 .............................. defaults[#options] = [#fullscreen: 1, #music: 1, #sfx: 1]
+  [419] getprop 28 .............................. <defaults>
+  [421] pushsymb 50 ............................. <#unlock>
+  [423] pushint32 999999 ........................ <999999>
+  [428] pusharglist 1 ........................... <999999>
+  [430] extcall 51 .............................. <random(999999)>
+  [432] pusharglistnoret 3 ...................... <defaults, #unlock, random(999999)>
+  [434] objcall 30 .............................. defaults[#unlock] = random(999999)
+  [436] getprop 28 .............................. <defaults>
+  [438] pushsymb 52 ............................. <#unlockedBGs>
+  [440] pusharglist 0 ........................... <[:]>
+  [442] pushproplist ............................ <[:]>
+  [443] pusharglistnoret 3 ...................... <defaults, #unlockedBGs, [:]>
+  [445] objcall 30 .............................. defaults[#unlockedBGs] = [:]
+  [447] getparam 0 .............................. <me>
+  [449] pusharglistnoret 1 ...................... <me>
+  [451] extcall 53 .............................. return me
+  [453] ret
+end
+
+on init me
+  [  0] getprop 58 .............................. <initialized>
+  [  2] jmpifz [  9] ............................ if initialized then
+  [  5] pusharglistnoret 0 ...................... <>
+  [  7] extcall 53 .............................. return 
+  [  9] pushint8 1 .............................. <1>
+  [ 11] setprop 58 .............................. initialized = 1
+  [ 13] pusharglist 0 ........................... <>
+  [ 15] extcall 60 .............................. <getConfigData()>
+  [ 17] pushsymb 59 ............................. <#timebomb>
+  [ 19] pusharglist 2 ........................... <getConfigData(), #timebomb>
+  [ 21] objcall 61 .............................. <getConfigData()[#timebomb]>
+  [ 23] setprop 59 .............................. timebomb = getConfigData()[#timebomb]
+  [ 25] getprop 59 .............................. <timebomb>
+  [ 27] pusharglist 1 ........................... <timebomb>
+  [ 29] extcall 62 .............................. <voidp(timebomb)>
+  [ 31] jmpifz [ 42] ............................ if voidp(timebomb) then
+  [ 34] pushsymb 63 ............................. <#enabled>
+  [ 36] pushzero ................................ <0>
+  [ 37] pusharglist 2 ........................... <[#enabled: 0]>
+  [ 39] pushproplist ............................ <[#enabled: 0]>
+  [ 40] setprop 59 .............................. timebomb = [#enabled: 0]
+  [ 42] getmovieprop 64 ......................... <the runMode>
+  [ 44] pushcons 11 ............................. <"Author">
+  [ 46] eq ...................................... <the runMode = "Author">
+  [ 47] jmpifz [ 94] ............................ if the runMode = "Author" then
+  [ 50] pushcons 12 ............................. <"version.txt">
+  [ 52] pusharglist 1 ........................... <"version.txt">
+  [ 54] extcall 65 .............................. <getNetText("version.txt")>
+  [ 56] setlocal 0 .............................. t = getNetText("version.txt")
+  [ 58] getlocal 0 .............................. <t>
+  [ 60] pusharglist 1 ........................... <t>
+  [ 62] extcall 66 .............................. <netDone(t)>
+  [ 64] not ..................................... <not netDone(t)>
+  [ 65] jmpifz [ 74] ............................ repeat while not netDone(t)
+  [ 68] pusharglistnoret 0 ...................... <>
+  [ 70] extcall 67 .............................. nothing()
+  [ 72] endrepeat [ 58]
+  [ 74] getlocal 0 .............................. <t>
+  [ 76] pusharglist 1 ........................... <t>
+  [ 78] extcall 68 .............................. <netTextResult(t)>
+  [ 80] setlocal 1 .............................. txt = netTextResult(t)
+  [ 82] pushcons 13 ............................. <"version_txt">
+  [ 84] pushcons 14 ............................. <"scripts.config">
+  [ 86] pusharglist 2 ........................... <"version_txt", "scripts.config">
+  [ 88] extcall 69 .............................. <member("version_txt", "scripts.config")>
+  [ 90] getlocal 1 .............................. <txt>
+  [ 92] setobjprop 70 ........................... member("version_txt", "scripts.config").text = txt
+  [ 94] getparam 0 .............................. <me>
+  [ 96] pusharglistnoret 1 ...................... <me>
+  [ 98] objcall 5 ............................... me.loadState()
+  [100] ret
+end
+
+on lockAll me
+  [  0] pushint8 1 .............................. <1>
+  [  2] setlocal 0
+  [  4] getlocal 0
+  [  6] pushint8 5 .............................. <5>
+  [  8] lteq
+  [  9] jmpifz [ 76] ............................ repeat with s = 1 to 5
+  [ 12] getprop 26 .............................. <stages>
+  [ 14] getlocal 0 .............................. <s>
+  [ 16] pusharglist 2 ........................... <stages, s>
+  [ 18] objcall 61 .............................. <stages[s]>
+  [ 20] setlocal 1 .............................. i = stages[s]
+  [ 22] getlocal 1 .............................. <i>
+  [ 24] peek 0
+  [ 26] pusharglist 1
+  [ 28] extcall 73
+  [ 30] pushint8 1
+  [ 32] peek 0
+  [ 34] peek 2
+  [ 36] lteq
+  [ 37] jmpifz [ 65] ............................ repeat with j in i
+  [ 40] peek 2
+  [ 42] peek 1
+  [ 44] pusharglist 2
+  [ 46] extcall 61
+  [ 48] setlocal 2
+  [ 50] getlocal 2 .............................. <j>
+  [ 52] pushzero ................................ <0>
+  [ 53] setobjprop 74 ........................... j.unlocked = 0
+  [ 55] getlocal 2 .............................. <j>
+  [ 57] pushzero ................................ <0>
+  [ 58] setobjprop 75 ........................... j.starred = 0
+  [ 60] pushint8 1
+  [ 62] add
+  [ 63] endrepeat [ 32]
+  [ 65] pop 3
+  [ 67] pushint8 1
+  [ 69] getlocal 0
+  [ 71] add
+  [ 72] setlocal 0
+  [ 74] endrepeat [  4]
+  [ 76] getprop 26 .............................. <stages>
+  [ 78] pushint8 1 .............................. <1>
+  [ 80] pusharglist 2 ........................... <stages, 1>
+  [ 82] objcall 61 .............................. <stages[1]>
+  [ 84] pushint8 1 .............................. <1>
+  [ 86] pusharglist 2 ........................... <stages[1], 1>
+  [ 88] objcall 61 .............................. <stages[1][1]>
+  [ 90] pushint8 1 .............................. <1>
+  [ 92] setobjprop 74 ........................... stages[1][1].unlocked = 1
+  [ 94] pushsymb 44 ............................. <#stage>
+  [ 96] pushint8 1 .............................. <1>
+  [ 98] pushsymb 45 ............................. <#level>
+  [100] pushint8 1 .............................. <1>
+  [102] pusharglist 4 ........................... <[#stage: 1, #level: 1]>
+  [104] pushproplist ............................ <[#stage: 1, #level: 1]>
+  [105] setprop 43 .............................. savedGame = [#stage: 1, #level: 1]
+  [107] getprop 34 .............................. <seenItems>
+  [109] pusharglistnoret 1 ...................... <seenItems>
+  [111] objcall 76 .............................. seenItems.deleteAll()
+  [113] getparam 0 .............................. <me>
+  [115] pusharglistnoret 1 ...................... <me>
+  [117] objcall 8 ............................... me.saveState()
+  [119] ret
+end
+
+on unlockAll me
+  [  0] pushint8 1 .............................. <1>
+  [  2] setlocal 0
+  [  4] getlocal 0
+  [  6] pushint8 4 .............................. <4>
+  [  8] lteq
+  [  9] jmpifz [ 93] ............................ repeat with s = 1 to 4
+  [ 12] getprop 34 .............................. <seenItems>
+  [ 14] getlocal 0 .............................. <s>
+  [ 16] pusharglist 2 ........................... <seenItems, s>
+  [ 18] objcall 80 .............................. <seenItems.getOne(s)>
+  [ 20] pushzero ................................ <0>
+  [ 21] eq ...................................... <seenItems.getOne(s) = 0>
+  [ 22] jmpifz [ 33] ............................ if seenItems.getOne(s) = 0 then
+  [ 25] getprop 34 .............................. <seenItems>
+  [ 27] getlocal 0 .............................. <s>
+  [ 29] pusharglistnoret 2 ...................... <seenItems, s>
+  [ 31] objcall 81 .............................. seenItems.add(s)
+  [ 33] getprop 26 .............................. <stages>
+  [ 35] getlocal 0 .............................. <s>
+  [ 37] pusharglist 2 ........................... <stages, s>
+  [ 39] objcall 61 .............................. <stages[s]>
+  [ 41] setlocal 1 .............................. i = stages[s]
+  [ 43] getlocal 1 .............................. <i>
+  [ 45] peek 0
+  [ 47] pusharglist 1
+  [ 49] extcall 73
+  [ 51] pushint8 1
+  [ 53] peek 0
+  [ 55] peek 2
+  [ 57] lteq
+  [ 58] jmpifz [ 82] ............................ repeat with j in i
+  [ 61] peek 2
+  [ 63] peek 1
+  [ 65] pusharglist 2
+  [ 67] extcall 61
+  [ 69] setlocal 2
+  [ 71] getlocal 2 .............................. <j>
+  [ 73] pushint8 1 .............................. <1>
+  [ 75] setobjprop 74 ........................... j.unlocked = 1
+  [ 77] pushint8 1
+  [ 79] add
+  [ 80] endrepeat [ 53]
+  [ 82] pop 3
+  [ 84] pushint8 1
+  [ 86] getlocal 0
+  [ 88] add
+  [ 89] setlocal 0
+  [ 91] endrepeat [  4]
+  [ 93] pushsymb 44 ............................. <#stage>
+  [ 95] getprop 26 .............................. <stages>
+  [ 97] getobjprop 73 ........................... <stages.count>
+  [ 99] pushsymb 45 ............................. <#level>
+  [101] getprop 26 .............................. <stages>
+  [103] getprop 26 .............................. <stages>
+  [105] getobjprop 73 ........................... <stages.count>
+  [107] pusharglist 2 ........................... <stages, stages.count>
+  [109] objcall 61 .............................. <stages[stages.count]>
+  [111] getobjprop 73 ........................... <stages[stages.count].count>
+  [113] pusharglist 4 ........................... <[#stage: stages.count, #level: stages[stages.count].count]>
+  [115] pushproplist ............................ <[#stage: stages.count, #level: stages[stages.count].count]>
+  [116] setprop 43 .............................. savedGame = [#stage: stages.count, #level: stages[stages.count].count]
+  [118] getparam 0 .............................. <me>
+  [120] pusharglistnoret 1 ...................... <me>
+  [122] objcall 8 ............................... me.saveState()
+  [124] ret
+end
+
+on destroy me
+  [  0] pusharglist 0 ........................... <>
+  [  2] extcall 48 .............................. <VOID>
+  [  4] setprop 22 .............................. glob = VOID
+  [  6] ret
+end
+
+on loadState me
+  [  0] pushcons 15 ............................. <"lunchprefs">
+  [  2] pusharglist 1 ........................... <"lunchprefs">
+  [  4] extcall 84 .............................. <getPref("lunchprefs")>
+  [  6] pusharglist 1 ........................... <getPref("lunchprefs")>
+  [  8] extcall 83 .............................. <devoid(getPref("lunchprefs"))>
+  [ 10] pusharglist 1 ........................... <devoid(getPref("lunchprefs"))>
+  [ 12] extcall 82 .............................. <value(devoid(getPref("lunchprefs")))>
+  [ 14] setlocal 0 .............................. ls = value(devoid(getPref("lunchprefs")))
+  [ 16] getprop 28 .............................. <defaults>
+  [ 18] pusharglist 1 ........................... <defaults>
+  [ 20] extcall 85 .............................. <Keys(defaults)>
+  [ 22] setlocal 1 .............................. ks = Keys(defaults)
+  [ 24] getlocal 0 .............................. <ls>
+  [ 26] pusharglist 1 ........................... <ls>
+  [ 28] extcall 62 .............................. <voidp(ls)>
+  [ 30] jmpifz [ 93] ............................ if voidp(ls) then / else
+  [ 33] getlocal 1 .............................. <ks>
+  [ 35] peek 0
+  [ 37] pusharglist 1
+  [ 39] extcall 73
+  [ 41] pushint8 1
+  [ 43] peek 0
+  [ 45] peek 2
+  [ 47] lteq
+  [ 48] jmpifz [ 82] ............................ repeat with k in ks
+  [ 51] peek 2
+  [ 53] peek 1
+  [ 55] pusharglist 2
+  [ 57] extcall 61
+  [ 59] setlocal 2
+  [ 61] getparam 0 .............................. <me>
+  [ 63] getlocal 2 .............................. <k>
+  [ 65] getprop 28 .............................. <defaults>
+  [ 67] getlocal 2 .............................. <k>
+  [ 69] pusharglist 2 ........................... <defaults, k>
+  [ 71] objcall 61 .............................. <defaults[k]>
+  [ 73] pusharglistnoret 3 ...................... <me, k, defaults[k]>
+  [ 75] objcall 30 .............................. me[k] = defaults[k]
+  [ 77] pushint8 1
+  [ 79] add
+  [ 80] endrepeat [ 43]
+  [ 82] pop 3
+  [ 84] getparam 0 .............................. <me>
+  [ 86] pusharglistnoret 1 ...................... <me>
+  [ 88] objcall 8 ............................... me.saveState()
+  [ 90] jmp [187]
+  [ 93] getlocal 1 .............................. <ks>
+  [ 95] peek 0
+  [ 97] pusharglist 1
+  [ 99] extcall 73
+  [101] pushint8 1
+  [103] peek 0
+  [105] peek 2
+  [107] lteq
+  [108] jmpifz [175] ............................ repeat with k in ks
+  [111] peek 2
+  [113] peek 1
+  [115] pusharglist 2
+  [117] extcall 61
+  [119] setlocal 2
+  [121] getlocal 0 .............................. <ls>
+  [123] getlocal 2 .............................. <k>
+  [125] pusharglist 2 ........................... <ls, k>
+  [127] objcall 61 .............................. <ls[k]>
+  [129] setlocal 3 .............................. v = ls[k]
+  [131] getlocal 3 .............................. <v>
+  [133] pusharglist 1 ........................... <v>
+  [135] extcall 62 .............................. <voidp(v)>
+  [137] not ..................................... <not voidp(v)>
+  [138] jmpifz [154] ............................ if not voidp(v) then
+  [141] getparam 0 .............................. <me>
+  [143] getlocal 2 .............................. <k>
+  [145] getlocal 3 .............................. <v>
+  [147] pusharglistnoret 3 ...................... <me, k, v>
+  [149] objcall 30 .............................. me[k] = v
+  [151] jmp [170] ............................... next repeat
+  [154] getparam 0 .............................. <me>
+  [156] getlocal 2 .............................. <k>
+  [158] getprop 28 .............................. <defaults>
+  [160] getlocal 2 .............................. <k>
+  [162] pusharglist 2 ........................... <defaults, k>
+  [164] objcall 61 .............................. <defaults[k]>
+  [166] pusharglistnoret 3 ...................... <me, k, defaults[k]>
+  [168] objcall 30 .............................. me[k] = defaults[k]
+  [170] pushint8 1
+  [172] add
+  [173] endrepeat [103]
+  [175] pop 3
+  [177] getlocal 0 .............................. <ls>
+  [179] pushsymb 86 ............................. <#xlck>
+  [181] pusharglist 2 ........................... <ls, #xlck>
+  [183] objcall 61 .............................. <ls[#xlck]>
+  [185] setprop 50 .............................. unlock = ls[#xlck]
+  [187] pusharglist 0 ........................... <[:]>
+  [189] pushproplist ............................ <[:]>
+  [190] setlocal 4 .............................. hs = [:]
+  [192] getprop 28 .............................. <defaults>
+  [194] getobjprop 37 ........................... <defaults.hiscores>
+  [196] pusharglist 1 ........................... <defaults.hiscores>
+  [198] extcall 85 .............................. <Keys(defaults.hiscores)>
+  [200] peek 0
+  [202] pusharglist 1
+  [204] extcall 73
+  [206] pushint8 1
+  [208] peek 0
+  [210] peek 2
+  [212] lteq
+  [213] jmpifz [272] ............................ repeat with i in Keys(defaults.hiscores)
+  [216] peek 2
+  [218] peek 1
+  [220] pusharglist 2
+  [222] extcall 61
+  [224] setlocal 5
+  [226] getprop 37 .............................. <hiscores>
+  [228] getlocal 5 .............................. <i>
+  [230] pusharglist 2 ........................... <hiscores, i>
+  [232] objcall 61 .............................. <hiscores[i]>
+  [234] setlocal 6 .............................. s = hiscores[i]
+  [236] getlocal 6 .............................. <s>
+  [238] pusharglist 1 ........................... <s>
+  [240] extcall 62 .............................. <voidp(s)>
+  [242] jmpifz [257] ............................ if voidp(s) then
+  [245] getprop 28 .............................. <defaults>
+  [247] pushsymb 37 ............................. <#hiscores>
+  [249] getlocal 5 .............................. <i>
+  [251] pusharglist 3 ........................... <defaults, #hiscores, i>
+  [253] objcall 87 .............................. <defaults.hiscores[i]>
+  [255] setlocal 6 .............................. s = defaults.hiscores[i]
+  [257] getlocal 4 .............................. <hs>
+  [259] getlocal 5 .............................. <i>
+  [261] getlocal 6 .............................. <s>
+  [263] pusharglistnoret 3 ...................... <hs, i, s>
+  [265] objcall 30 .............................. hs[i] = s
+  [267] pushint8 1
+  [269] add
+  [270] endrepeat [208]
+  [272] pop 3
+  [274] getlocal 4 .............................. <hs>
+  [276] setprop 37 .............................. hiscores = hs
+  [278] getprop 47 .............................. <currentProfile>
+  [280] pusharglist 1 ........................... <currentProfile>
+  [282] extcall 62 .............................. <voidp(currentProfile)>
+  [284] not ..................................... <not voidp(currentProfile)>
+  [285] jmpifz [296] ............................ if not voidp(currentProfile) then
+  [288] getparam 0 .............................. <me>
+  [290] getprop 47 .............................. <currentProfile>
+  [292] pusharglistnoret 2 ...................... <me, currentProfile>
+  [294] objcall 17 .............................. me.setCurrentProfile(currentProfile)
+  [296] getparam 0 .............................. <me>
+  [298] pusharglistnoret 1 ...................... <me>
+  [300] objcall 19 .............................. me.updateOptions()
+  [302] getprop 50 .............................. <unlock>
+  [304] pusharglist 1 ........................... <unlock>
+  [306] extcall 62 .............................. <voidp(unlock)>
+  [308] jmpifz [328] ............................ if voidp(unlock) then
+  [311] pushint32 999999 ........................ <999999>
+  [316] pusharglist 1 ........................... <999999>
+  [318] extcall 51 .............................. <random(999999)>
+  [320] setprop 50 .............................. unlock = random(999999)
+  [322] getparam 0 .............................. <me>
+  [324] pusharglistnoret 1 ...................... <me>
+  [326] objcall 8 ............................... me.saveState()
+  [328] getparam 0 .............................. <me>
+  [330] getprop 50 .............................. <unlock>
+  [332] pusharglistnoret 2 ...................... <me, unlock>
+  [334] objcall 7 ............................... me.tryCode(unlock)
+  [336] pushint8 1 .............................. <1>
+  [338] pusharglistnoret 1 ...................... <1>
+  [340] extcall 53 .............................. return 1
+  [342] ret
+end
+
+on loadProfile me, pfdata
+  [  0] getparam 1 .............................. <pfdata>
+  [  2] pusharglist 1 ........................... <pfdata>
+  [  4] extcall 62 .............................. <voidp(pfdata)>
+  [  6] jmpifz [ 13] ............................ if voidp(pfdata) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 53 .............................. return 
+  [ 13] pushint8 1 .............................. <1>
+  [ 15] setlocal 0 .............................. highestStage = 1
+  [ 17] pushint8 1 .............................. <1>
+  [ 19] setlocal 1 .............................. highestLevel = 1
+  [ 21] getprop 22 .............................. <glob>
+  [ 23] getchainedprop 24 ....................... <glob.managers>
+  [ 25] getchainedprop 93 ....................... <glob.managers.config>
+  [ 27] getchainedprop 25 ....................... <glob.managers.config.game>
+  [ 29] getchainedprop 38 ....................... <glob.managers.config.game.career>
+  [ 31] getobjprop 26 ........................... <glob.managers.config.game.career.stages>
+  [ 33] setlocal 2 .............................. cfg = glob.managers.config.game.career.stages
+  [ 35] getprop 22 .............................. <glob>
+  [ 37] getchainedprop 24 ....................... <glob.managers>
+  [ 39] getchainedprop 93 ....................... <glob.managers.config>
+  [ 41] getobjprop 94 ........................... <glob.managers.config.gfx>
+  [ 43] setlocal 3 .............................. bgstates = glob.managers.config.gfx
+  [ 45] getparam 1 .............................. <pfdata>
+  [ 47] getobjprop 26 ........................... <pfdata.stages>
+  [ 49] setprop 26 .............................. stages = pfdata.stages
+  [ 51] getparam 1 .............................. <pfdata>
+  [ 53] pushsymb 34 ............................. <#seenItems>
+  [ 55] pusharglist 2 ........................... <pfdata, #seenItems>
+  [ 57] objcall 61 .............................. <pfdata[#seenItems]>
+  [ 59] setprop 34 .............................. seenItems = pfdata[#seenItems]
+  [ 61] getprop 34 .............................. <seenItems>
+  [ 63] pusharglist 1 ........................... <seenItems>
+  [ 65] extcall 95 .............................. <listp(seenItems)>
+  [ 67] not ..................................... <not listp(seenItems)>
+  [ 68] jmpifz [ 86] ............................ if not listp(seenItems) then
+  [ 71] pusharglist 0 ........................... <[]>
+  [ 73] pushlist ................................ <[]>
+  [ 74] setprop 34 .............................. seenItems = []
+  [ 76] getparam 1 .............................. <pfdata>
+  [ 78] pushsymb 34 ............................. <#seenItems>
+  [ 80] getprop 34 .............................. <seenItems>
+  [ 82] pusharglistnoret 3 ...................... <pfdata, #seenItems, seenItems>
+  [ 84] objcall 30 .............................. pfdata[#seenItems] = seenItems
+  [ 86] getprop 26 .............................. <stages>
+  [ 88] pusharglist 1 ........................... <stages>
+  [ 90] extcall 85 .............................. <Keys(stages)>
+  [ 92] peek 0
+  [ 94] pusharglist 1
+  [ 96] extcall 73
+  [ 98] pushint8 1
+  [100] peek 0
+  [102] peek 2
+  [104] lteq
+  [105] jmpifz [191] ............................ repeat with i in Keys(stages)
+  [108] peek 2
+  [110] peek 1
+  [112] pusharglist 2
+  [114] extcall 61
+  [116] setlocal 4
+  [118] getlocal 2 .............................. <cfg>
+  [120] getlocal 4 .............................. <i>
+  [122] pusharglist 2 ........................... <cfg, i>
+  [124] objcall 61 .............................. <cfg[i]>
+  [126] setlocal 5 .............................. st = cfg[i]
+  [128] getlocal 2 .............................. <cfg>
+  [130] getlocal 4 .............................. <i>
+  [132] pusharglist 2 ........................... <cfg, i>
+  [134] objcall 61 .............................. <cfg[i]>
+  [136] pusharglist 1 ........................... <cfg[i]>
+  [138] extcall 62 .............................. <voidp(cfg[i])>
+  [140] jmpifz [154] ............................ if voidp(cfg[i]) then
+  [143] getprop 26 .............................. <stages>
+  [145] getlocal 4 .............................. <i>
+  [147] pusharglistnoret 2 ...................... <stages, i>
+  [149] objcall 96 .............................. stages.deleteProp(i)
+  [151] jmp [186] ............................... next repeat
+  [154] getprop 26 .............................. <stages>
+  [156] getlocal 4 .............................. <i>
+  [158] pusharglist 2 ........................... <stages, i>
+  [160] objcall 61 .............................. <stages[i]>
+  [162] setlocal 6 .............................. myst = stages[i]
+  [164] getlocal 6 .............................. <myst>
+  [166] getobjprop 73 ........................... <myst.count>
+  [168] pushint8 10 ............................. <10>
+  [170] gt ...................................... <myst.count > 10>
+  [171] jmpifz [186] ............................ repeat while myst.count > 10
+  [174] getlocal 6 .............................. <myst>
+  [176] getlocal 6 .............................. <myst>
+  [178] getobjprop 73 ........................... <myst.count>
+  [180] pusharglistnoret 2 ...................... <myst, myst.count>
+  [182] objcall 97 .............................. myst.deleteAt(myst.count)
+  [184] endrepeat [164]
+  [186] pushint8 1
+  [188] add
+  [189] endrepeat [100]
+  [191] pop 3
+  [193] pushint8 1 .............................. <1>
+  [195] setlocal 4
+  [197] getlocal 4
+  [199] getlocal 2 .............................. <cfg>
+  [201] getobjprop 73 ........................... <cfg.count>
+  [203] lteq
+  [204] jmpifz [373] ............................ repeat with i = 1 to cfg.count
+  [207] getlocal 2 .............................. <cfg>
+  [209] getlocal 4 .............................. <i>
+  [211] pusharglist 2 ........................... <cfg, i>
+  [213] objcall 98 .............................. <cfg.getPropAt(i)>
+  [215] setlocal 7 .............................. stname = cfg.getPropAt(i)
+  [217] getprop 26 .............................. <stages>
+  [219] getlocal 7 .............................. <stname>
+  [221] pusharglist 2 ........................... <stages, stname>
+  [223] objcall 61 .............................. <stages[stname]>
+  [225] setlocal 8 .............................. stls = stages[stname]
+  [227] getlocal 8 .............................. <stls>
+  [229] pusharglist 1 ........................... <stls>
+  [231] extcall 62 .............................. <voidp(stls)>
+  [233] jmpifz [251] ............................ if voidp(stls) then
+  [236] pusharglist 0 ........................... <[]>
+  [238] pushlist ................................ <[]>
+  [239] setlocal 8 .............................. stls = []
+  [241] getprop 26 .............................. <stages>
+  [243] getlocal 7 .............................. <stname>
+  [245] getlocal 8 .............................. <stls>
+  [247] pusharglistnoret 3 ...................... <stages, stname, stls>
+  [249] objcall 30 .............................. stages[stname] = stls
+  [251] getlocal 2 .............................. <cfg>
+  [253] getlocal 4 .............................. <i>
+  [255] pusharglist 2 ........................... <cfg, i>
+  [257] objcall 61 .............................. <cfg[i]>
+  [259] setlocal 5 .............................. st = cfg[i]
+  [261] pushint8 1 .............................. <1>
+  [263] setlocal 9
+  [265] getlocal 9
+  [267] getlocal 5 .............................. <st>
+  [269] getobjprop 99 ........................... <st.numLevels>
+  [271] lteq
+  [272] jmpifz [364] ............................ repeat with j = 1 to st.numLevels
+  [275] getlocal 9 .............................. <j>
+  [277] getlocal 8 .............................. <stls>
+  [279] getobjprop 73 ........................... <stls.count>
+  [281] gt ...................................... <j > stls.count>
+  [282] jmpifz [334] ............................ if j > stls.count then
+  [285] getlocal 3 .............................. <bgstates>
+  [287] getlocal 5 .............................. <st>
+  [289] getobjprop 100 .......................... <st.id>
+  [291] pusharglist 2 ........................... <bgstates, st.id>
+  [293] objcall 61 .............................. <bgstates[st.id]>
+  [295] setlocal 10 ............................. bgs = bgstates[st.id]
+  [297] getlocal 10 ............................. <bgs>
+  [299] pusharglist 1 ........................... <bgs>
+  [301] extcall 62 .............................. <voidp(bgs)>
+  [303] not ..................................... <not voidp(bgs)>
+  [304] jmpifz [319] ............................ if not voidp(bgs) then
+  [307] getlocal 10 ............................. <bgs>
+  [309] getchainedprop 101 ...................... <bgs.states>
+  [311] pushint8 1 .............................. <1>
+  [313] pusharglist 2 ........................... <bgs.states, 1>
+  [315] objcall 98 .............................. <bgs.states.getPropAt(1)>
+  [317] setlocal 11 ............................. bgunlock = bgs.states.getPropAt(1)
+  [319] getlocal 8 .............................. <stls>
+  [321] pushsymb 74 ............................. <#unlocked>
+  [323] pushzero ................................ <0>
+  [324] pushsymb 75 ............................. <#starred>
+  [326] pushzero ................................ <0>
+  [327] pusharglist 4 ........................... <[#unlocked: 0, #starred: 0]>
+  [329] pushproplist ............................ <[#unlocked: 0, #starred: 0]>
+  [330] pusharglistnoret 2 ...................... <stls, [#unlocked: 0, #starred: 0]>
+  [332] objcall 81 .............................. stls.add([#unlocked: 0, #starred: 0])
+  [334] getlocal 8 .............................. <stls>
+  [336] getlocal 9 .............................. <j>
+  [338] pusharglist 2 ........................... <stls, j>
+  [340] objcall 61 .............................. <stls[j]>
+  [342] getobjprop 74 ........................... <stls[j].unlocked>
+  [344] jmpifz [355] ............................ if stls[j].unlocked then
+  [347] getlocal 9 .............................. <j>
+  [349] setlocal 1 .............................. highestLevel = j
+  [351] getlocal 4 .............................. <i>
+  [353] setlocal 0 .............................. highestStage = i
+  [355] pushint8 1
+  [357] getlocal 9
+  [359] add
+  [360] setlocal 9
+  [362] endrepeat [265]
+  [364] pushint8 1
+  [366] getlocal 4
+  [368] add
+  [369] setlocal 4
+  [371] endrepeat [197]
+  [373] getprop 26 .............................. <stages>
+  [375] pushint8 1 .............................. <1>
+  [377] pusharglist 2 ........................... <stages, 1>
+  [379] objcall 61 .............................. <stages[1]>
+  [381] pushint8 1 .............................. <1>
+  [383] pusharglist 2 ........................... <stages[1], 1>
+  [385] objcall 61 .............................. <stages[1][1]>
+  [387] pushint8 1 .............................. <1>
+  [389] setobjprop 74 ........................... stages[1][1].unlocked = 1
+  [391] getparam 1 .............................. <pfdata>
+  [393] pushsymb 43 ............................. <#savedGame>
+  [395] pusharglist 2 ........................... <pfdata, #savedGame>
+  [397] objcall 61 .............................. <pfdata[#savedGame]>
+  [399] pusharglist 1 ........................... <pfdata[#savedGame]>
+  [401] extcall 62 .............................. <voidp(pfdata[#savedGame])>
+  [403] jmpifz [425] ............................ if voidp(pfdata[#savedGame]) then
+  [406] getparam 1 .............................. <pfdata>
+  [408] pushsymb 43 ............................. <#savedGame>
+  [410] pushsymb 44 ............................. <#stage>
+  [412] getlocal 0 .............................. <highestStage>
+  [414] pushsymb 45 ............................. <#level>
+  [416] getlocal 1 .............................. <highestLevel>
+  [418] pusharglist 4 ........................... <[#stage: highestStage, #level: highestLevel]>
+  [420] pushproplist ............................ <[#stage: highestStage, #level: highestLevel]>
+  [421] pusharglistnoret 3 ...................... <pfdata, #savedGame, [#stage: highestStage, #level: highestLevel]>
+  [423] objcall 30 .............................. pfdata[#savedGame] = [#stage: highestStage, #level: highestLevel]
+  [425] getparam 1 .............................. <pfdata>
+  [427] pushsymb 43 ............................. <#savedGame>
+  [429] pusharglist 2 ........................... <pfdata, #savedGame>
+  [431] objcall 61 .............................. <pfdata[#savedGame]>
+  [433] setprop 43 .............................. savedGame = pfdata[#savedGame]
+  [435] ret
+end
+
+on tryCode me, cd
+  [  0] getprop 59 .............................. <timebomb>
+  [  2] getobjprop 63 ........................... <timebomb.enabled>
+  [  4] not ..................................... <not timebomb.enabled>
+  [  5] jmpifz [ 21] ............................ if not timebomb.enabled then
+  [  8] pushint8 1 .............................. <1>
+  [ 10] setprop 74 .............................. unlocked = 1
+  [ 12] pushzero ................................ <0>
+  [ 13] setprop 113 ............................. expired = 0
+  [ 15] pushint8 1 .............................. <1>
+  [ 17] pusharglistnoret 1 ...................... <1>
+  [ 19] extcall 53 .............................. return 1
+  [ 21] getprop 59 .............................. <timebomb>
+  [ 23] pushsymb 114 ............................ <#unlockCode>
+  [ 25] pusharglist 2 ........................... <timebomb, #unlockCode>
+  [ 27] objcall 61 .............................. <timebomb[#unlockCode]>
+  [ 29] setlocal 0 .............................. unlockCode = timebomb[#unlockCode]
+  [ 31] getparam 1 .............................. <cd>
+  [ 33] getlocal 0 .............................. <unlockCode>
+  [ 35] nteq .................................... <cd <> unlockCode>
+  [ 36] jmpifz [ 74] ............................ if cd <> unlockCode then / else
+  [ 39] pushzero ................................ <0>
+  [ 40] setprop 74 .............................. unlocked = 0
+  [ 42] getprop 59 .............................. <timebomb>
+  [ 44] getobjprop 117 .......................... <timebomb.month>
+  [ 46] getprop 59 .............................. <timebomb>
+  [ 48] getobjprop 118 .......................... <timebomb.day>
+  [ 50] getprop 59 .............................. <timebomb>
+  [ 52] getobjprop 119 .......................... <timebomb.year>
+  [ 54] pusharglist 3 ........................... <timebomb.month, timebomb.day, timebomb.year>
+  [ 56] extcall 116 ............................. <daysUntil(timebomb.month, timebomb.day, timebomb.year)>
+  [ 58] setprop 115 ............................. daysLeft = daysUntil(timebomb.month, timebomb.day, timebomb.year)
+  [ 60] getprop 115 ............................. <daysLeft>
+  [ 62] pushzero ................................ <0>
+  [ 63] lt ...................................... <daysLeft < 0>
+  [ 64] setprop 113 ............................. expired = daysLeft < 0
+  [ 66] pushzero ................................ <0>
+  [ 67] pusharglistnoret 1 ...................... <0>
+  [ 69] extcall 53 .............................. return 0
+  [ 71] jmp [ 87]
+  [ 74] pushint8 1 .............................. <1>
+  [ 76] setprop 74 .............................. unlocked = 1
+  [ 78] pushzero ................................ <0>
+  [ 79] setprop 113 ............................. expired = 0
+  [ 81] pushint8 1 .............................. <1>
+  [ 83] pusharglistnoret 1 ...................... <1>
+  [ 85] extcall 53 .............................. return 1
+  [ 87] ret
+end
+
+on saveState me
+  [  0] pushcons 15 ............................. <"lunchprefs">
+  [  2] pushsymb 49 ............................. <#options>
+  [  4] getprop 49 .............................. <options>
+  [  6] pushsymb 33 ............................. <#profiles>
+  [  8] getprop 33 .............................. <profiles>
+  [ 10] pushsymb 52 ............................. <#unlockedBGs>
+  [ 12] getprop 52 .............................. <unlockedBGs>
+  [ 14] pushsymb 37 ............................. <#hiscores>
+  [ 16] getprop 37 .............................. <hiscores>
+  [ 18] pushsymb 86 ............................. <#xlck>
+  [ 20] getprop 50 .............................. <unlock>
+  [ 22] pushsymb 47 ............................. <#currentProfile>
+  [ 24] getprop 47 .............................. <currentProfile>
+  [ 26] pusharglist 12 .......................... <[#options: options, #profiles: profiles, #unlockedBGs: unlockedBGs, #hiscores: hiscores, #xlck: unlock, #currentProfile: currentProfile]>
+  [ 28] pushproplist ............................ <[#options: options, #profiles: profiles, #unlockedBGs: unlockedBGs, #hiscores: hiscores, #xlck: unlock, #currentProfile: currentProfile]>
+  [ 29] pusharglist 1 ........................... <[#options: options, #profiles: profiles, #unlockedBGs: unlockedBGs, #hiscores: hiscores, #xlck: unlock, #currentProfile: currentProfile]>
+  [ 31] extcall 122 ............................. <string([#options: options, #profiles: profiles, #unlockedBGs: unlockedBGs, #hiscores: hiscores, #xlck: unlock, #currentProfile: currentProfile])>
+  [ 33] pusharglist 1 ........................... <string([#options: options, #profiles: profiles, #unlockedBGs: unlockedBGs, #hiscores: hiscores, #xlck: unlock, #currentProfile: currentProfile])>
+  [ 35] extcall 83 .............................. <devoid(string([#options: options, #profiles: profiles, #unlockedBGs: unlockedBGs, #hiscores: hiscores, #xlck: unlock, #currentProfile: currentProfile]))>
+  [ 37] pusharglistnoret 2 ...................... <"lunchprefs", devoid(string([#options: options, #profiles: profiles, #unlockedBGs: unlockedBGs, #hiscores: hiscores, #xlck: unlock, #currentProfile: currentProfile]))>
+  [ 39] extcall 121 ............................. setPref("lunchprefs", devoid(string([#options: options, #profiles: profiles, #unlockedBGs: unlockedBGs, #hiscores: hiscores, #xlck: unlock, #currentProfile: currentProfile])))
+  [ 41] ret
+end
+
+on starLevel me, Args
+  [  0] getprop 26 .............................. <stages>
+  [  2] getparam 1 .............................. <Args>
+  [  4] getobjprop 44 ........................... <Args.stage>
+  [  6] pusharglist 2 ........................... <stages, Args.stage>
+  [  8] objcall 61 .............................. <stages[Args.stage]>
+  [ 10] getparam 1 .............................. <Args>
+  [ 12] getobjprop 45 ........................... <Args.level>
+  [ 14] pusharglist 2 ........................... <stages[Args.stage], Args.level>
+  [ 16] objcall 61 .............................. <stages[Args.stage][Args.level]>
+  [ 18] pushint8 1 .............................. <1>
+  [ 20] setobjprop 75 ........................... stages[Args.stage][Args.level].starred = 1
+  [ 22] getparam 0 .............................. <me>
+  [ 24] pusharglistnoret 1 ...................... <me>
+  [ 26] objcall 8 ............................... me.saveState()
+  [ 28] ret
+end
+
+on savegame me, Args
+  [  0] getparam 1 .............................. <Args>
+  [  2] setprop 43 .............................. savedGame = Args
+  [  4] getprop 33 .............................. <profiles>
+  [  6] getprop 47 .............................. <currentProfile>
+  [  8] pusharglist 2 ........................... <profiles, currentProfile>
+  [ 10] objcall 61 .............................. <profiles[currentProfile]>
+  [ 12] pushsymb 43 ............................. <#savedGame>
+  [ 14] getparam 1 .............................. <Args>
+  [ 16] pusharglistnoret 3 ...................... <profiles[currentProfile], #savedGame, Args>
+  [ 18] objcall 30 .............................. profiles[currentProfile][#savedGame] = Args
+  [ 20] getprop 26 .............................. <stages>
+  [ 22] getparam 1 .............................. <Args>
+  [ 24] getobjprop 44 ........................... <Args.stage>
+  [ 26] pusharglist 2 ........................... <stages, Args.stage>
+  [ 28] objcall 61 .............................. <stages[Args.stage]>
+  [ 30] getparam 1 .............................. <Args>
+  [ 32] getobjprop 45 ........................... <Args.level>
+  [ 34] pusharglist 2 ........................... <stages[Args.stage], Args.level>
+  [ 36] objcall 61 .............................. <stages[Args.stage][Args.level]>
+  [ 38] setlocal 0 .............................. lvl = stages[Args.stage][Args.level]
+  [ 40] getlocal 0 .............................. <lvl>
+  [ 42] pushint8 1 .............................. <1>
+  [ 44] setobjprop 74 ........................... lvl.unlocked = 1
+  [ 46] getparam 1 .............................. <Args>
+  [ 48] getobjprop 44 ........................... <Args.stage>
+  [ 50] getprop 43 .............................. <savedGame>
+  [ 52] getobjprop 44 ........................... <savedGame.stage>
+  [ 54] gteq .................................... <Args.stage >= savedGame.stage>
+  [ 55] getparam 1 .............................. <Args>
+  [ 57] getobjprop 45 ........................... <Args.level>
+  [ 59] getprop 43 .............................. <savedGame>
+  [ 61] getobjprop 45 ........................... <savedGame.level>
+  [ 63] gteq .................................... <Args.level >= savedGame.level>
+  [ 64] and ..................................... <(Args.stage >= savedGame.stage) and (Args.level >= savedGame.level)>
+  [ 65] jmpifz [ 72] ............................ if (Args.stage >= savedGame.stage) and (Args.level >= savedGame.level) then
+  [ 68] getparam 1 .............................. <Args>
+  [ 70] setprop 43 .............................. savedGame = Args
+  [ 72] getparam 0 .............................. <me>
+  [ 74] pusharglistnoret 1 ...................... <me>
+  [ 76] objcall 8 ............................... me.saveState()
+  [ 78] ret
+end
+
+on checkHighScore me, Args
+  [  0] getparam 1 .............................. <Args>
+  [  2] getobjprop 125 .......................... <Args.mode>
+  [  4] setlocal 0 .............................. m = Args.mode
+  [  6] getprop 37 .............................. <hiscores>
+  [  8] getlocal 0 .............................. <m>
+  [ 10] pusharglist 2 ........................... <hiscores, m>
+  [ 12] objcall 61 .............................. <hiscores[m]>
+  [ 14] setlocal 1 .............................. sc = hiscores[m]
+  [ 16] getlocal 1 .............................. <sc>
+  [ 18] pusharglist 1 ........................... <sc>
+  [ 20] extcall 62 .............................. <voidp(sc)>
+  [ 22] jmpifz [ 29] ............................ if voidp(sc) then
+  [ 25] pusharglistnoret 0 ...................... <>
+  [ 27] extcall 53 .............................. return 
+  [ 29] getparam 1 .............................. <Args>
+  [ 31] getobjprop 36 ........................... <Args.score>
+  [ 33] getlocal 1 .............................. <sc>
+  [ 35] getlocal 1 .............................. <sc>
+  [ 37] getobjprop 73 ........................... <sc.count>
+  [ 39] pusharglist 2 ........................... <sc, sc.count>
+  [ 41] objcall 61 .............................. <sc[sc.count]>
+  [ 43] getobjprop 36 ........................... <sc[sc.count].score>
+  [ 45] gt ...................................... <Args.score > sc[sc.count].score>
+  [ 46] pusharglistnoret 1 ...................... <Args.score > sc[sc.count].score>
+  [ 48] extcall 53 .............................. return Args.score > sc[sc.count].score
+  [ 50] ret
+end
+
+on submitScore me, sc, m, diff
+  [  0] getparam 1 .............................. <sc>
+  [  2] pushzero ................................ <0>
+  [  3] eq ...................................... <sc = 0>
+  [  4] jmpifz [ 12] ............................ if sc = 0 then
+  [  7] pushzero ................................ <0>
+  [  8] pusharglistnoret 1 ...................... <0>
+  [ 10] extcall 53 .............................. return 0
+  [ 12] getparam 2 .............................. <m>
+  [ 14] pushsymb 128 ............................ <#endless>
+  [ 16] eq ...................................... <m = #endless>
+  [ 17] jmpifz [ 62] ............................ if m = #endless then
+  [ 20] getparam 3 .............................. <diff>
+  [ 22] pushint8 1 .............................. <1>
+  [ 24] eq ...................................... <diff = 1>
+  [ 25] jmpifz [ 35] ............................ if diff = 1 then / else
+  [ 28] pushsymb 39 ............................. <#endless_easy>
+  [ 30] setparam 2 .............................. m = #endless_easy
+  [ 32] jmp [ 62]
+  [ 35] getparam 3 .............................. <diff>
+  [ 37] pushint8 2 .............................. <2>
+  [ 39] eq ...................................... <diff = 2>
+  [ 40] jmpifz [ 50] ............................ if diff = 2 then / else
+  [ 43] pushsymb 40 ............................. <#endless_medium>
+  [ 45] setparam 2 .............................. m = #endless_medium
+  [ 47] jmp [ 62]
+  [ 50] getparam 3 .............................. <diff>
+  [ 52] pushint8 3 .............................. <3>
+  [ 54] eq ...................................... <diff = 3>
+  [ 55] jmpifz [ 62] ............................ if diff = 3 then
+  [ 58] pushsymb 42 ............................. <#endless_hard>
+  [ 60] setparam 2 .............................. m = #endless_hard
+  [ 62] getprop 37 .............................. <hiscores>
+  [ 64] getparam 2 .............................. <m>
+  [ 66] pusharglist 2 ........................... <hiscores, m>
+  [ 68] objcall 61 .............................. <hiscores[m]>
+  [ 70] setlocal 0 .............................. ls = hiscores[m]
+  [ 72] getlocal 0 .............................. <ls>
+  [ 74] pusharglist 1 ........................... <ls>
+  [ 76] extcall 62 .............................. <voidp(ls)>
+  [ 78] jmpifz [ 86] ............................ if voidp(ls) then
+  [ 81] pushzero ................................ <0>
+  [ 82] pusharglistnoret 1 ...................... <0>
+  [ 84] extcall 53 .............................. return 0
+  [ 86] pushint8 1 .............................. <1>
+  [ 88] setlocal 1
+  [ 90] getlocal 1
+  [ 92] getlocal 0 .............................. <ls>
+  [ 94] getobjprop 73 ........................... <ls.count>
+  [ 96] lteq
+  [ 97] jmpifz [132] ............................ repeat with i = 1 to ls.count
+  [100] getparam 1 .............................. <sc>
+  [102] getlocal 0 .............................. <ls>
+  [104] getlocal 1 .............................. <i>
+  [106] pusharglist 2 ........................... <ls, i>
+  [108] objcall 61 .............................. <ls[i]>
+  [110] pushsymb 36 ............................. <#score>
+  [112] pusharglist 2 ........................... <ls[i], #score>
+  [114] objcall 61 .............................. <ls[i][#score]>
+  [116] gt ...................................... <sc > ls[i][#score]>
+  [117] jmpifz [123] ............................ if sc > ls[i][#score] then
+  [120] jmp [132] ............................... exit repeat
+  [123] pushint8 1
+  [125] getlocal 1
+  [127] add
+  [128] setlocal 1
+  [130] endrepeat [ 90]
+  [132] getlocal 1 .............................. <i>
+  [134] getprop 27 .............................. <numHiScores>
+  [136] gt ...................................... <i > numHiScores>
+  [137] jmpifz [145] ............................ if i > numHiScores then
+  [140] pushzero ................................ <0>
+  [141] pusharglistnoret 1 ...................... <0>
+  [143] extcall 53 .............................. return 0
+  [145] getlocal 0 .............................. <ls>
+  [147] getlocal 1 .............................. <i>
+  [149] pushsymb 35 ............................. <#name>
+  [151] getprop 47 .............................. <currentProfile>
+  [153] pushsymb 36 ............................. <#score>
+  [155] getparam 1 .............................. <sc>
+  [157] pusharglist 4 ........................... <[#name: currentProfile, #score: sc]>
+  [159] pushproplist ............................ <[#name: currentProfile, #score: sc]>
+  [160] pusharglistnoret 3 ...................... <ls, i, [#name: currentProfile, #score: sc]>
+  [162] objcall 129 ............................. ls.addAt(i, [#name: currentProfile, #score: sc])
+  [164] getlocal 0 .............................. <ls>
+  [166] getobjprop 73 ........................... <ls.count>
+  [168] getprop 27 .............................. <numHiScores>
+  [170] gt ...................................... <ls.count > numHiScores>
+  [171] jmpifz [186] ............................ repeat while ls.count > numHiScores
+  [174] getlocal 0 .............................. <ls>
+  [176] getlocal 0 .............................. <ls>
+  [178] getobjprop 73 ........................... <ls.count>
+  [180] pusharglistnoret 2 ...................... <ls, ls.count>
+  [182] objcall 97 .............................. ls.deleteAt(ls.count)
+  [184] endrepeat [164]
+  [186] getparam 0 .............................. <me>
+  [188] pusharglistnoret 1 ...................... <me>
+  [190] objcall 8 ............................... me.saveState()
+  [192] getlocal 1 .............................. <i>
+  [194] pusharglistnoret 1 ...................... <i>
+  [196] extcall 53 .............................. return i
+  [198] ret
+end
+
+on getProfiles me
+  [  0] getprop 33 .............................. <profiles>
+  [  2] pusharglistnoret 1 ...................... <profiles>
+  [  4] extcall 53 .............................. return profiles
+  [  6] ret
+end
+
+on getCurrentProfile me
+  [  0] getprop 47 .............................. <currentProfile>
+  [  2] pusharglist 1 ........................... <currentProfile>
+  [  4] extcall 62 .............................. <voidp(currentProfile)>
+  [  6] not ..................................... <not voidp(currentProfile)>
+  [  7] jmpifz [ 16] ............................ if not voidp(currentProfile) then
+  [ 10] getprop 47 .............................. <currentProfile>
+  [ 12] pusharglistnoret 1 ...................... <currentProfile>
+  [ 14] extcall 53 .............................. return currentProfile
+  [ 16] ret
+end
+
+on newProfile me, nm
+  [  0] getprop 33 .............................. <profiles>
+  [  2] getparam 1 .............................. <nm>
+  [  4] pusharglist 2 ........................... <profiles, nm>
+  [  6] objcall 61 .............................. <profiles[nm]>
+  [  8] pusharglist 1 ........................... <profiles[nm]>
+  [ 10] extcall 62 .............................. <voidp(profiles[nm])>
+  [ 12] not ..................................... <not voidp(profiles[nm])>
+  [ 13] jmpifz [ 21] ............................ if not voidp(profiles[nm]) then
+  [ 16] pushzero ................................ <0>
+  [ 17] pusharglistnoret 1 ...................... <0>
+  [ 19] extcall 53 .............................. return 0
+  [ 21] pusharglist 0 ........................... <[:]>
+  [ 23] pushproplist ............................ <[:]>
+  [ 24] setlocal 0 .............................. np = [:]
+  [ 26] getlocal 0 .............................. <np>
+  [ 28] pushsymb 26 ............................. <#stages>
+  [ 30] pusharglist 0 ........................... <[:]>
+  [ 32] pushproplist ............................ <[:]>
+  [ 33] pusharglistnoret 3 ...................... <np, #stages, [:]>
+  [ 35] objcall 30 .............................. np[#stages] = [:]
+  [ 37] getlocal 0 .............................. <np>
+  [ 39] pushsymb 43 ............................. <#savedGame>
+  [ 41] pushsymb 44 ............................. <#stage>
+  [ 43] pushint8 1 .............................. <1>
+  [ 45] pushsymb 45 ............................. <#level>
+  [ 47] pushint8 1 .............................. <1>
+  [ 49] pusharglist 4 ........................... <[#stage: 1, #level: 1]>
+  [ 51] pushproplist ............................ <[#stage: 1, #level: 1]>
+  [ 52] pusharglistnoret 3 ...................... <np, #savedGame, [#stage: 1, #level: 1]>
+  [ 54] objcall 30 .............................. np[#savedGame] = [#stage: 1, #level: 1]
+  [ 56] getlocal 0 .............................. <np>
+  [ 58] pushsymb 35 ............................. <#name>
+  [ 60] getparam 1 .............................. <nm>
+  [ 62] pusharglistnoret 3 ...................... <np, #name, nm>
+  [ 64] objcall 30 .............................. np[#name] = nm
+  [ 66] getprop 33 .............................. <profiles>
+  [ 68] getparam 1 .............................. <nm>
+  [ 70] getlocal 0 .............................. <np>
+  [ 72] pusharglistnoret 3 ...................... <profiles, nm, np>
+  [ 74] objcall 30 .............................. profiles[nm] = np
+  [ 76] pushint8 1 .............................. <1>
+  [ 78] pusharglistnoret 1 ...................... <1>
+  [ 80] extcall 53 .............................. return 1
+  [ 82] ret
+end
+
+on deleteProfile me, nm
+  [  0] getprop 33 .............................. <profiles>
+  [  2] getparam 1 .............................. <nm>
+  [  4] pusharglist 2 ........................... <profiles, nm>
+  [  6] objcall 61 .............................. <profiles[nm]>
+  [  8] setlocal 0 .............................. p = profiles[nm]
+  [ 10] getlocal 0 .............................. <p>
+  [ 12] pusharglist 1 ........................... <p>
+  [ 14] extcall 62 .............................. <voidp(p)>
+  [ 16] jmpifz [ 23] ............................ if voidp(p) then
+  [ 19] pusharglistnoret 0 ...................... <>
+  [ 21] extcall 53 .............................. return 
+  [ 23] getparam 1 .............................. <nm>
+  [ 25] getprop 47 .............................. <currentProfile>
+  [ 27] eq ...................................... <nm = currentProfile>
+  [ 28] jmpifz [ 37] ............................ if nm = currentProfile then
+  [ 31] pusharglist 0 ........................... <>
+  [ 33] extcall 48 .............................. <VOID>
+  [ 35] setprop 47 .............................. currentProfile = VOID
+  [ 37] getprop 33 .............................. <profiles>
+  [ 39] getparam 1 .............................. <nm>
+  [ 41] pusharglistnoret 2 ...................... <profiles, nm>
+  [ 43] objcall 96 .............................. profiles.deleteProp(nm)
+  [ 45] getparam 0 .............................. <me>
+  [ 47] pusharglistnoret 1 ...................... <me>
+  [ 49] objcall 8 ............................... me.saveState()
+  [ 51] ret
+end
+
+on setCurrentProfile me, nm
+  [  0] getparam 1 .............................. <nm>
+  [  2] setprop 47 .............................. currentProfile = nm
+  [  4] getprop 33 .............................. <profiles>
+  [  6] getparam 1 .............................. <nm>
+  [  8] pusharglist 2 ........................... <profiles, nm>
+  [ 10] objcall 61 .............................. <profiles[nm]>
+  [ 12] setlocal 0 .............................. p = profiles[nm]
+  [ 14] getlocal 0 .............................. <p>
+  [ 16] pusharglist 1 ........................... <p>
+  [ 18] extcall 62 .............................. <voidp(p)>
+  [ 20] jmpifz [ 28] ............................ if voidp(p) then
+  [ 23] pushzero ................................ <0>
+  [ 24] pusharglistnoret 1 ...................... <0>
+  [ 26] extcall 53 .............................. return 0
+  [ 28] getparam 0 .............................. <me>
+  [ 30] getlocal 0 .............................. <p>
+  [ 32] pusharglistnoret 2 ...................... <me, p>
+  [ 34] objcall 6 ............................... me.loadProfile(p)
+  [ 36] getparam 0 .............................. <me>
+  [ 38] pusharglistnoret 1 ...................... <me>
+  [ 40] objcall 8 ............................... me.saveState()
+  [ 42] ret
+end
+
+on seenItem me, m
+  [  0] getprop 34 .............................. <seenItems>
+  [  2] getparam 1 .............................. <m>
+  [  4] pusharglist 2 ........................... <seenItems, m>
+  [  6] objcall 80 .............................. <seenItems.getOne(m)>
+  [  8] pushzero ................................ <0>
+  [  9] eq ...................................... <seenItems.getOne(m) = 0>
+  [ 10] jmpifz [ 21] ............................ if seenItems.getOne(m) = 0 then
+  [ 13] getprop 34 .............................. <seenItems>
+  [ 15] getparam 1 .............................. <m>
+  [ 17] pusharglistnoret 2 ...................... <seenItems, m>
+  [ 19] objcall 81 .............................. seenItems.add(m)
+  [ 21] ret
+end
+
+on updateOptions
+  [  0] getmovieprop 64 ......................... <the runMode>
+  [  2] pushcons 11 ............................. <"Author">
+  [  4] nteq .................................... <the runMode <> "Author">
+  [  5] jmpifz [ 20] ............................ if the runMode <> "Author" then
+  [  8] getprop 49 .............................. <options>
+  [ 10] pushsymb 29 ............................. <#fullscreen>
+  [ 12] pusharglist 2 ........................... <options, #fullscreen>
+  [ 14] objcall 61 .............................. <options[#fullscreen]>
+  [ 16] pusharglistnoret 1 ...................... <options[#fullscreen]>
+  [ 18] extcall 134 ............................. setFullscreen(options[#fullscreen])
+  [ 20] getprop 49 .............................. <options>
+  [ 22] pushsymb 31 ............................. <#music>
+  [ 24] pusharglist 2 ........................... <options, #music>
+  [ 26] objcall 61 .............................. <options[#music]>
+  [ 28] pushint8 100 ............................ <100>
+  [ 30] mul ..................................... <options[#music] * 100>
+  [ 31] pusharglistnoret 1 ...................... <options[#music] * 100>
+  [ 33] extcall 135 ............................. SndSetMusicVolume(options[#music] * 100)
+  [ 35] getprop 49 .............................. <options>
+  [ 37] pushsymb 31 ............................. <#music>
+  [ 39] pusharglist 2 ........................... <options, #music>
+  [ 41] objcall 61 .............................. <options[#music]>
+  [ 43] not ..................................... <not options[#music]>
+  [ 44] jmpifz [ 51] ............................ if not options[#music] then
+  [ 47] pusharglistnoret 0 ...................... <>
+  [ 49] extcall 136 ............................. SndMusicStop()
+  [ 51] getprop 49 .............................. <options>
+  [ 53] pushsymb 32 ............................. <#sfx>
+  [ 55] pusharglist 2 ........................... <options, #sfx>
+  [ 57] objcall 61 .............................. <options[#sfx]>
+  [ 59] pushint8 100 ............................ <100>
+  [ 61] mul ..................................... <options[#sfx] * 100>
+  [ 62] pusharglistnoret 1 ...................... <options[#sfx] * 100>
+  [ 64] extcall 137 ............................. SndSetSFXVolume(options[#sfx] * 100)
+  [ 66] ret
+end
+
+on unlockBG me, stname, bgnum
+  [  0] getprop 52 .............................. <unlockedBGs>
+  [  2] getparam 1 .............................. <stname>
+  [  4] pusharglist 2 ........................... <unlockedBGs, stname>
+  [  6] objcall 61 .............................. <unlockedBGs[stname]>
+  [  8] pusharglist 1 ........................... <unlockedBGs[stname]>
+  [ 10] extcall 138 ............................. <integer(unlockedBGs[stname])>
+  [ 12] setlocal 0 .............................. st = integer(unlockedBGs[stname])
+  [ 14] getprop 52 .............................. <unlockedBGs>
+  [ 16] getparam 1 .............................. <stname>
+  [ 18] getlocal 0 .............................. <st>
+  [ 20] getparam 2 .............................. <bgnum>
+  [ 22] pusharglist 2 ........................... <st, bgnum>
+  [ 24] extcall 139 ............................. <max(st, bgnum)>
+  [ 26] pusharglistnoret 3 ...................... <unlockedBGs, stname, max(st, bgnum)>
+  [ 28] objcall 30 .............................. unlockedBGs[stname] = max(st, bgnum)
+  [ 30] getparam 0 .............................. <me>
+  [ 32] pusharglistnoret 1 ...................... <me>
+  [ 34] objcall 8 ............................... me.saveState()
+  [ 36] ret
+end
+
+on getUnlockedBG me, stname
+  [  0] pushint8 1 .............................. <1>
+  [  2] getprop 52 .............................. <unlockedBGs>
+  [  4] getparam 1 .............................. <stname>
+  [  6] pusharglist 2 ........................... <unlockedBGs, stname>
+  [  8] objcall 61 .............................. <unlockedBGs[stname]>
+  [ 10] pusharglist 2 ........................... <1, unlockedBGs[stname]>
+  [ 12] extcall 139 ............................. <max(1, unlockedBGs[stname])>
+  [ 14] pusharglistnoret 1 ...................... <max(1, unlockedBGs[stname])>
+  [ 16] extcall 53 .............................. return max(1, unlockedBGs[stname])
+  [ 18] ret
+end

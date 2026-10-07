@@ -1,0 +1,102 @@
+{
+  "totalLength": 762,
+  "totalLength2": 762,
+  "headerLength": 92,
+  "scriptNumber": 2,
+  "unk20": 23,
+  "parentNumber": -1,
+  "scriptFlags": 2,
+  "unk42": 0,
+  "castID": 2031619,
+  "factoryNameID": -1,
+  "handlerVectorsCount": 0,
+  "handlerVectorsOffset": 762,
+  "handlerVectorsSize": 0,
+  "propertiesCount": 0,
+  "propertiesOffset": 92,
+  "globalsCount": 0,
+  "globalsOffset": 92,
+  "handlersCount": 3,
+  "handlersOffset": 92,
+  "literalsCount": 4,
+  "literalsOffset": 672,
+  "literalsDataCount": 58,
+  "literalsDataOffset": 704,
+  "propertyNameIDs": [],
+  "globalNameIDs": [],
+  "handlers": [
+    {
+      "nameID": 103,
+      "vectorPos": 65535,
+      "compiledLen": 48,
+      "compiledOffset": 230,
+      "argumentCount": 4,
+      "argumentOffset": 278,
+      "localsCount": 0,
+      "localsOffset": 286,
+      "globalsCount": 0,
+      "globalsOffset": 92,
+      "unknown1": 15,
+      "unknown2": 3,
+      "lineCount": 2,
+      "lineOffset": 286,
+      "stackHeight": 14
+    },
+    {
+      "nameID": 104,
+      "vectorPos": 65535,
+      "compiledLen": 233,
+      "compiledOffset": 288,
+      "argumentCount": 1,
+      "argumentOffset": 522,
+      "localsCount": 10,
+      "localsOffset": 524,
+      "globalsCount": 0,
+      "globalsOffset": 92,
+      "unknown1": 197,
+      "unknown2": 10,
+      "lineCount": 23,
+      "lineOffset": 544,
+      "stackHeight": 11
+    },
+    {
+      "nameID": 105,
+      "vectorPos": 65535,
+      "compiledLen": 86,
+      "compiledOffset": 568,
+      "argumentCount": 4,
+      "argumentOffset": 654,
+      "localsCount": 0,
+      "localsOffset": 662,
+      "globalsCount": 0,
+      "globalsOffset": 92,
+      "unknown1": 894,
+      "unknown2": 40,
+      "lineCount": 9,
+      "lineOffset": 662,
+      "stackHeight": 14
+    }
+  ],
+  "literals": [
+    {
+      "type": 1,
+      "offset": 0,
+      "value": "node_tween"
+    },
+    {
+      "type": 1,
+      "offset": 16,
+      "value": "scripts.anim"
+    },
+    {
+      "type": 1,
+      "offset": 34,
+      "value": "flash"
+    },
+    {
+      "type": 1,
+      "offset": 44,
+      "value": "node_anim"
+    }
+  ]
+}
