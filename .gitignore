@@ -1,0 +1,32 @@
+# Build outputs
+/target/
+/dist/
+/.toolchains/
+/.build/
+/wasm/pkg/
+
+# Security, signatures, and keystores
+*.keystore
+*.jks
+*.idsig
+
+# Research and planning scratchpads
+research.md
+plan.md
+context.md
+scratch/
+*.tmp
+*.temp
+
+# Python caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE and OS artifacts
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
