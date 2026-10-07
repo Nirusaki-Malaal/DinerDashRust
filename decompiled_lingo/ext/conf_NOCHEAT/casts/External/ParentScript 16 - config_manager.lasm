@@ -1,0 +1,3445 @@
+property overall, customer, group, game, powerups, gfx, useExtConfigs, author, xparser, addTableName, addTableDesc, snackIDs, initialized, sitterRegPoints
+
+on new me
+  [  0] getmovieprop 125 ........................ <the runMode>
+  [  2] pushcons 0 .............................. <"Author">
+  [  4] containsstr ............................. <the runMode contains "Author">
+  [  5] setprop 153 ............................. author = the runMode contains "Author"
+  [  7] pushsymb 155 ............................ <#papadom>
+  [  9] pushsymb 156 ............................ <#somosa>
+  [ 11] pushsymb 157 ............................ <#crab>
+  [ 13] pushsymb 158 ............................ <#bread>
+  [ 15] pusharglist 4 ........................... <[#papadom, #somosa, #crab, #bread]>
+  [ 17] pushlist ................................ <[#papadom, #somosa, #crab, #bread]>
+  [ 18] setprop 154 ............................. snackIDs = [#papadom, #somosa, #crab, #bread]
+  [ 20] pushcons 1 .............................. <"refresh_flag">
+  [ 22] pushcons 2 .............................. <"scripts.config">
+  [ 24] pusharglist 2 ........................... <"refresh_flag", "scripts.config">
+  [ 26] extcall 159 ............................. <member("refresh_flag", "scripts.config")>
+  [ 28] setlocal 0 .............................. m = member("refresh_flag", "scripts.config")
+  [ 30] getlocal 0 .............................. <m>
+  [ 32] getobjprop 160 .......................... <m.number>
+  [ 34] pushint8 1 .............................. <1>
+  [ 36] inv ..................................... <-1>
+  [ 37] eq ...................................... <m.number = -1>
+  [ 38] jmpifz [ 67] ............................ if m.number = -1 then
+  [ 41] pushsymb 161 ............................ <#text>
+  [ 43] pushcons 2 .............................. <"scripts.config">
+  [ 45] pusharglist 1 ........................... <"scripts.config">
+  [ 47] extcall 162 ............................. <castLib("scripts.config")>
+  [ 49] pusharglist 2 ........................... <#text, castLib("scripts.config")>
+  [ 51] extcall 0 ............................... <new(#text, castLib("scripts.config"))>
+  [ 53] setlocal 0 .............................. m = new(#text, castLib("scripts.config"))
+  [ 55] getlocal 0 .............................. <m>
+  [ 57] pushcons 3 .............................. <"1">
+  [ 59] setobjprop 161 .......................... m.text = "1"
+  [ 61] getlocal 0 .............................. <m>
+  [ 63] pushcons 1 .............................. <"refresh_flag">
+  [ 65] setobjprop 35 ........................... m.name = "refresh_flag"
+  [ 67] getlocal 0 .............................. <m>
+  [ 69] getobjprop 161 .......................... <m.text>
+  [ 71] pusharglist 1 ........................... <m.text>
+  [ 73] extcall 129 ............................. <integer(m.text)>
+  [ 75] jmpifz [ 88] ............................ if integer(m.text) then
+  [ 78] pusharglistnoret 0 ...................... <>
+  [ 80] extcall 163 ............................. refreshConfigs()
+  [ 82] getlocal 0 .............................. <m>
+  [ 84] pushcons 4 .............................. <"0">
+  [ 86] setobjprop 161 .......................... m.text = "0"
+  [ 88] getprop 153 ............................. <author>
+  [ 90] jmpifz [116] ............................ if author then
+  [ 93] pushcons 5 .............................. <"gameLab">
+  [ 95] pushint32 2298015 ....................... <2298015>
+  [100] pusharglistnoret 2 ...................... <"gameLab", 2298015>
+  [102] extcall 164 ............................. baRegister("gameLab", 2298015)
+  [104] pushcons 6 .............................. <"xml.parser">
+  [106] pusharglist 1 ........................... <"xml.parser">
+  [108] extcall 166 ............................. <script("xml.parser")>
+  [110] pusharglist 1 ........................... <script("xml.parser")>
+  [112] objcall 0 ............................... <script("xml.parser").new()>
+  [114] setprop 165 ............................. xparser = script("xml.parser").new()
+  [116] pushcons 7 .............................. <"new table">
+  [118] setprop 167 ............................. addTableName = "new table"
+  [120] pushcons 8 .............................. <"add a new table to the restaurant">
+  [122] setprop 168 ............................. addTableDesc = "add a new table to the restaurant"
+  [124] pusharglist 0 ........................... <[:]>
+  [126] pushproplist ............................ <[:]>
+  [127] setprop 85 .............................. gfx = [:]
+  [129] pusharglist 0 ........................... <[:]>
+  [131] pushproplist ............................ <[:]>
+  [132] setlocal 1 .............................. dstates = [:]
+  [134] pushint8 1 .............................. <1>
+  [136] setlocal 2
+  [138] getlocal 2
+  [140] pushint8 4 .............................. <4>
+  [142] lteq
+  [143] jmpifz [306] ............................ repeat with i = 1 to 4
+  [146] pusharglist 0 ........................... <[:]>
+  [148] pushproplist ............................ <[:]>
+  [149] setlocal 3 .............................. ds = [:]
+  [151] pushint8 1 .............................. <1>
+  [153] setlocal 4
+  [155] getlocal 4
+  [157] pushint8 3 .............................. <3>
+  [159] lteq
+  [160] jmpifz [284] ............................ repeat with j = 1 to 3
+  [163] getlocal 4 .............................. <j>
+  [165] pushint8 2 .............................. <2>
+  [167] eq ...................................... <j = 2>
+  [168] jmpifz [181] ............................ if j = 2 then / else
+  [171] pushcons 9 .............................. <"remove_2">
+  [173] pusharglist 1 ........................... <["remove_2"]>
+  [175] pushlist ................................ <["remove_2"]>
+  [176] setlocal 5 .............................. nms = ["remove_2"]
+  [178] jmp [210]
+  [181] pushcons 10 ............................. <"remove_">
+  [183] getlocal 4 .............................. <j>
+  [185] joinstr ................................. <"remove_" & j>
+  [186] pushcons 11 ............................. <"a">
+  [188] joinstr ................................. <"remove_" & j & "a">
+  [189] pushcons 10 ............................. <"remove_">
+  [191] getlocal 4 .............................. <j>
+  [193] joinstr ................................. <"remove_" & j>
+  [194] pushcons 12 ............................. <"b">
+  [196] joinstr ................................. <"remove_" & j & "b">
+  [197] pushcons 10 ............................. <"remove_">
+  [199] getlocal 4 .............................. <j>
+  [201] joinstr ................................. <"remove_" & j>
+  [202] pushcons 13 ............................. <"c">
+  [204] joinstr ................................. <"remove_" & j & "c">
+  [205] pusharglist 3 ........................... <["remove_" & j & "a", "remove_" & j & "b", "remove_" & j & "c"]>
+  [207] pushlist ................................ <["remove_" & j & "a", "remove_" & j & "b", "remove_" & j & "c"]>
+  [208] setlocal 5 .............................. nms = ["remove_" & j & "a", "remove_" & j & "b", "remove_" & j & "c"]
+  [210] getlocal 5 .............................. <nms>
+  [212] peek 0
+  [214] pusharglist 1
+  [216] extcall 64
+  [218] pushint8 1
+  [220] peek 0
+  [222] peek 2
+  [224] lteq
+  [225] jmpifz [273] ............................ repeat with n in nms
+  [228] peek 2
+  [230] peek 1
+  [232] pusharglist 2
+  [234] extcall 61
+  [236] setlocal 6
+  [238] getlocal 4 .............................. <j>
+  [240] getlocal 2 .............................. <i>
+  [242] gteq .................................... <j >= i>
+  [243] jmpifz [259] ............................ if j >= i then
+  [246] getlocal 3 .............................. <ds>
+  [248] getlocal 6 .............................. <n>
+  [250] pushint8 1 .............................. <1>
+  [252] pusharglistnoret 3 ...................... <ds, n, 1>
+  [254] objcall 30 .............................. ds[n] = 1
+  [256] jmp [268] ............................... next repeat
+  [259] getlocal 3 .............................. <ds>
+  [261] getlocal 6 .............................. <n>
+  [263] pushzero ................................ <0>
+  [264] pusharglistnoret 3 ...................... <ds, n, 0>
+  [266] objcall 30 .............................. ds[n] = 0
+  [268] pushint8 1
+  [270] add
+  [271] endrepeat [220]
+  [273] pop 3
+  [275] pushint8 1
+  [277] getlocal 4
+  [279] add
+  [280] setlocal 4
+  [282] endrepeat [155]
+  [284] getlocal 1 .............................. <dstates>
+  [286] pushcons 14 ............................. <"state_">
+  [288] getlocal 2 .............................. <i>
+  [290] joinstr ................................. <"state_" & i>
+  [291] getlocal 3 .............................. <ds>
+  [293] pusharglistnoret 3 ...................... <dstates, "state_" & i, ds>
+  [295] objcall 30 .............................. dstates["state_" & i] = ds
+  [297] pushint8 1
+  [299] getlocal 2
+  [301] add
+  [302] setlocal 2
+  [304] endrepeat [138]
+  [306] pushcons 15 ............................. <"state_1">
+  [308] pushcons 16 ............................. <"tiki_2">
+  [310] pushzero ................................ <0>
+  [311] pushcons 17 ............................. <"tiki_3">
+  [313] pushzero ................................ <0>
+  [314] pushcons 18 ............................. <"tiki_4">
+  [316] pushzero ................................ <0>
+  [317] pusharglist 6 ........................... <["tiki_2": 0, "tiki_3": 0, "tiki_4": 0]>
+  [319] pushproplist ............................ <["tiki_2": 0, "tiki_3": 0, "tiki_4": 0]>
+  [320] pushcons 19 ............................. <"state_2">
+  [322] pushcons 16 ............................. <"tiki_2">
+  [324] pushint8 1 .............................. <1>
+  [326] pushcons 17 ............................. <"tiki_3">
+  [328] pushzero ................................ <0>
+  [329] pushcons 18 ............................. <"tiki_4">
+  [331] pushzero ................................ <0>
+  [332] pusharglist 6 ........................... <["tiki_2": 1, "tiki_3": 0, "tiki_4": 0]>
+  [334] pushproplist ............................ <["tiki_2": 1, "tiki_3": 0, "tiki_4": 0]>
+  [335] pushcons 20 ............................. <"state_3">
+  [337] pushcons 16 ............................. <"tiki_2">
+  [339] pushint8 1 .............................. <1>
+  [341] pushcons 17 ............................. <"tiki_3">
+  [343] pushint8 1 .............................. <1>
+  [345] pushcons 18 ............................. <"tiki_4">
+  [347] pushzero ................................ <0>
+  [348] pusharglist 6 ........................... <["tiki_2": 1, "tiki_3": 1, "tiki_4": 0]>
+  [350] pushproplist ............................ <["tiki_2": 1, "tiki_3": 1, "tiki_4": 0]>
+  [351] pushcons 21 ............................. <"state_4">
+  [353] pushcons 16 ............................. <"tiki_2">
+  [355] pushint8 1 .............................. <1>
+  [357] pushcons 17 ............................. <"tiki_3">
+  [359] pushint8 1 .............................. <1>
+  [361] pushcons 18 ............................. <"tiki_4">
+  [363] pushint8 1 .............................. <1>
+  [365] pusharglist 6 ........................... <["tiki_2": 1, "tiki_3": 1, "tiki_4": 1]>
+  [367] pushproplist ............................ <["tiki_2": 1, "tiki_3": 1, "tiki_4": 1]>
+  [368] pusharglist 8 ........................... <["state_1": ["tiki_2": 0, "tiki_3": 0, "tiki_4": 0], "state_2": ["tiki_2": 1, "tiki_3": 0, "tiki_4": 0], "state_3": ["tiki_2": 1, "tiki_3": 1, "tiki_4": 0], "state_4": ["tiki_2": 1, "tiki_3": 1, "tiki_4": 1]]>
+  [370] pushproplist ............................ <["state_1": ["tiki_2": 0, "tiki_3": 0, "tiki_4": 0], "state_2": ["tiki_2": 1, "tiki_3": 0, "tiki_4": 0], "state_3": ["tiki_2": 1, "tiki_3": 1, "tiki_4": 0], "state_4": ["tiki_2": 1, "tiki_3": 1, "tiki_4": 1]]>
+  [371] setlocal 7 .............................. tiki = ["state_1": ["tiki_2": 0, "tiki_3": 0, "tiki_4": 0], "state_2": ["tiki_2": 1, "tiki_3": 0, "tiki_4": 0], "state_3": ["tiki_2": 1, "tiki_3": 1, "tiki_4": 0], "state_4": ["tiki_2": 1, "tiki_3": 1, "tiki_4": 1]]
+  [373] pushcons 15 ............................. <"state_1">
+  [375] pushcons 22 ............................. <"bg_seafood_2">
+  [377] pushzero ................................ <0>
+  [378] pushcons 23 ............................. <"bg_seafood_3">
+  [380] pushzero ................................ <0>
+  [381] pushcons 24 ............................. <"bg_seafood_4">
+  [383] pushzero ................................ <0>
+  [384] pusharglist 6 ........................... <["bg_seafood_2": 0, "bg_seafood_3": 0, "bg_seafood_4": 0]>
+  [386] pushproplist ............................ <["bg_seafood_2": 0, "bg_seafood_3": 0, "bg_seafood_4": 0]>
+  [387] pushcons 19 ............................. <"state_2">
+  [389] pushcons 22 ............................. <"bg_seafood_2">
+  [391] pushint8 1 .............................. <1>
+  [393] pushcons 23 ............................. <"bg_seafood_3">
+  [395] pushzero ................................ <0>
+  [396] pushcons 24 ............................. <"bg_seafood_4">
+  [398] pushzero ................................ <0>
+  [399] pusharglist 6 ........................... <["bg_seafood_2": 1, "bg_seafood_3": 0, "bg_seafood_4": 0]>
+  [401] pushproplist ............................ <["bg_seafood_2": 1, "bg_seafood_3": 0, "bg_seafood_4": 0]>
+  [402] pushcons 20 ............................. <"state_3">
+  [404] pushcons 22 ............................. <"bg_seafood_2">
+  [406] pushint8 1 .............................. <1>
+  [408] pushcons 23 ............................. <"bg_seafood_3">
+  [410] pushint8 1 .............................. <1>
+  [412] pushcons 24 ............................. <"bg_seafood_4">
+  [414] pushzero ................................ <0>
+  [415] pusharglist 6 ........................... <["bg_seafood_2": 1, "bg_seafood_3": 1, "bg_seafood_4": 0]>
+  [417] pushproplist ............................ <["bg_seafood_2": 1, "bg_seafood_3": 1, "bg_seafood_4": 0]>
+  [418] pushcons 21 ............................. <"state_4">
+  [420] pushcons 22 ............................. <"bg_seafood_2">
+  [422] pushint8 1 .............................. <1>
+  [424] pushcons 23 ............................. <"bg_seafood_3">
+  [426] pushint8 1 .............................. <1>
+  [428] pushcons 24 ............................. <"bg_seafood_4">
+  [430] pushint8 1 .............................. <1>
+  [432] pusharglist 6 ........................... <["bg_seafood_2": 1, "bg_seafood_3": 1, "bg_seafood_4": 1]>
+  [434] pushproplist ............................ <["bg_seafood_2": 1, "bg_seafood_3": 1, "bg_seafood_4": 1]>
+  [435] pusharglist 8 ........................... <["state_1": ["bg_seafood_2": 0, "bg_seafood_3": 0, "bg_seafood_4": 0], "state_2": ["bg_seafood_2": 1, "bg_seafood_3": 0, "bg_seafood_4": 0], "state_3": ["bg_seafood_2": 1, "bg_seafood_3": 1, "bg_seafood_4": 0], "state_4": ["bg_seafood_2": 1, "bg_seafood_3": 1, "bg_seafood_4": 1]]>
+  [437] pushproplist ............................ <["state_1": ["bg_seafood_2": 0, "bg_seafood_3": 0, "bg_seafood_4": 0], "state_2": ["bg_seafood_2": 1, "bg_seafood_3": 0, "bg_seafood_4": 0], "state_3": ["bg_seafood_2": 1, "bg_seafood_3": 1, "bg_seafood_4": 0], "state_4": ["bg_seafood_2": 1, "bg_seafood_3": 1, "bg_seafood_4": 1]]>
+  [438] setlocal 8 .............................. seafood = ["state_1": ["bg_seafood_2": 0, "bg_seafood_3": 0, "bg_seafood_4": 0], "state_2": ["bg_seafood_2": 1, "bg_seafood_3": 0, "bg_seafood_4": 0], "state_3": ["bg_seafood_2": 1, "bg_seafood_3": 1, "bg_seafood_4": 0], "state_4": ["bg_seafood_2": 1, "bg_seafood_3": 1, "bg_seafood_4": 1]]
+  [440] pushcons 15 ............................. <"state_1">
+  [442] pushcons 25 ............................. <"bg_chez_2">
+  [444] pushzero ................................ <0>
+  [445] pushcons 26 ............................. <"bg_chez_3">
+  [447] pushzero ................................ <0>
+  [448] pushcons 27 ............................. <"bg_chez_4a">
+  [450] pushzero ................................ <0>
+  [451] pushcons 28 ............................. <"bg_chez_4b">
+  [453] pushzero ................................ <0>
+  [454] pusharglist 8 ........................... <["bg_chez_2": 0, "bg_chez_3": 0, "bg_chez_4a": 0, "bg_chez_4b": 0]>
+  [456] pushproplist ............................ <["bg_chez_2": 0, "bg_chez_3": 0, "bg_chez_4a": 0, "bg_chez_4b": 0]>
+  [457] pushcons 19 ............................. <"state_2">
+  [459] pushcons 25 ............................. <"bg_chez_2">
+  [461] pushint8 1 .............................. <1>
+  [463] pushcons 26 ............................. <"bg_chez_3">
+  [465] pushzero ................................ <0>
+  [466] pushcons 27 ............................. <"bg_chez_4a">
+  [468] pushzero ................................ <0>
+  [469] pushcons 28 ............................. <"bg_chez_4b">
+  [471] pushzero ................................ <0>
+  [472] pusharglist 8 ........................... <["bg_chez_2": 1, "bg_chez_3": 0, "bg_chez_4a": 0, "bg_chez_4b": 0]>
+  [474] pushproplist ............................ <["bg_chez_2": 1, "bg_chez_3": 0, "bg_chez_4a": 0, "bg_chez_4b": 0]>
+  [475] pushcons 20 ............................. <"state_3">
+  [477] pushcons 25 ............................. <"bg_chez_2">
+  [479] pushint8 1 .............................. <1>
+  [481] pushcons 26 ............................. <"bg_chez_3">
+  [483] pushint8 1 .............................. <1>
+  [485] pushcons 27 ............................. <"bg_chez_4a">
+  [487] pushzero ................................ <0>
+  [488] pushcons 28 ............................. <"bg_chez_4b">
+  [490] pushzero ................................ <0>
+  [491] pusharglist 8 ........................... <["bg_chez_2": 1, "bg_chez_3": 1, "bg_chez_4a": 0, "bg_chez_4b": 0]>
+  [493] pushproplist ............................ <["bg_chez_2": 1, "bg_chez_3": 1, "bg_chez_4a": 0, "bg_chez_4b": 0]>
+  [494] pushcons 21 ............................. <"state_4">
+  [496] pushcons 25 ............................. <"bg_chez_2">
+  [498] pushint8 1 .............................. <1>
+  [500] pushcons 26 ............................. <"bg_chez_3">
+  [502] pushint8 1 .............................. <1>
+  [504] pushcons 27 ............................. <"bg_chez_4a">
+  [506] pushint8 1 .............................. <1>
+  [508] pushcons 28 ............................. <"bg_chez_4b">
+  [510] pushint8 1 .............................. <1>
+  [512] pusharglist 8 ........................... <["bg_chez_2": 1, "bg_chez_3": 1, "bg_chez_4a": 1, "bg_chez_4b": 1]>
+  [514] pushproplist ............................ <["bg_chez_2": 1, "bg_chez_3": 1, "bg_chez_4a": 1, "bg_chez_4b": 1]>
+  [515] pusharglist 8 ........................... <["state_1": ["bg_chez_2": 0, "bg_chez_3": 0, "bg_chez_4a": 0, "bg_chez_4b": 0], "state_2": ["bg_chez_2": 1, "bg_chez_3": 0, "bg_chez_4a": 0, "bg_chez_4b": 0], "state_3": ["bg_chez_2": 1, "bg_chez_3": 1, "bg_chez_4a": 0, "bg_chez_4b": 0], "state_4": ["bg_chez_2": 1, "bg_chez_3": 1, "bg_chez_4a": 1, "bg_chez_4b": 1]]>
+  [517] pushproplist ............................ <["state_1": ["bg_chez_2": 0, "bg_chez_3": 0, "bg_chez_4a": 0, "bg_chez_4b": 0], "state_2": ["bg_chez_2": 1, "bg_chez_3": 0, "bg_chez_4a": 0, "bg_chez_4b": 0], "state_3": ["bg_chez_2": 1, "bg_chez_3": 1, "bg_chez_4a": 0, "bg_chez_4b": 0], "state_4": ["bg_chez_2": 1, "bg_chez_3": 1, "bg_chez_4a": 1, "bg_chez_4b": 1]]>
+  [518] setlocal 9 .............................. chez = ["state_1": ["bg_chez_2": 0, "bg_chez_3": 0, "bg_chez_4a": 0, "bg_chez_4b": 0], "state_2": ["bg_chez_2": 1, "bg_chez_3": 0, "bg_chez_4a": 0, "bg_chez_4b": 0], "state_3": ["bg_chez_2": 1, "bg_chez_3": 1, "bg_chez_4a": 0, "bg_chez_4b": 0], "state_4": ["bg_chez_2": 1, "bg_chez_3": 1, "bg_chez_4a": 1, "bg_chez_4b": 1]]
+  [520] pusharglist 0 ........................... <[:]>
+  [522] pushproplist ............................ <[:]>
+  [523] setlocal 10 ............................. goddess = [:]
+  [525] pushcons 29 ............................. <"bg_1">
+  [527] pushcons 30 ............................. <"bg_2">
+  [529] pusharglist 2 ........................... <["bg_1", "bg_2"]>
+  [531] pushlist ................................ <["bg_1", "bg_2"]>
+  [532] setlocal 11 ............................. bg = ["bg_1", "bg_2"]
+  [534] pushcons 31 ............................. <"crack_1_a">
+  [536] pushcons 32 ............................. <"crack_1_b">
+  [538] pushcons 33 ............................. <"crack_1_c">
+  [540] pusharglist 3 ........................... <["crack_1_a", "crack_1_b", "crack_1_c"]>
+  [542] pushlist ................................ <["crack_1_a", "crack_1_b", "crack_1_c"]>
+  [543] setlocal 12 ............................. crack1 = ["crack_1_a", "crack_1_b", "crack_1_c"]
+  [545] pusharglist 0 ........................... <[]>
+  [547] pushlist ................................ <[]>
+  [548] setlocal 13 ............................. crack2 = []
+  [550] pusharglist 0 ........................... <[]>
+  [552] pushlist ................................ <[]>
+  [553] setlocal 14 ............................. crack3 = []
+  [555] pushcons 11 ............................. <"a">
+  [557] pushcons 12 ............................. <"b">
+  [559] pushcons 13 ............................. <"c">
+  [561] pushcons 34 ............................. <"d">
+  [563] pusharglist 4 ........................... <["a", "b", "c", "d"]>
+  [565] pushlist ................................ <["a", "b", "c", "d"]>
+  [566] peek 0
+  [568] pusharglist 1
+  [570] extcall 64
+  [572] pushint8 1
+  [574] peek 0
+  [576] peek 2
+  [578] lteq
+  [579] jmpifz [619] ............................ repeat with i in ["a", "b", "c", "d"]
+  [582] peek 2
+  [584] peek 1
+  [586] pusharglist 2
+  [588] extcall 61
+  [590] setlocal 2
+  [592] getlocal 13 ............................. <crack2>
+  [594] pushcons 35 ............................. <"crack_2_">
+  [596] getlocal 2 .............................. <i>
+  [598] joinstr ................................. <"crack_2_" & i>
+  [599] pusharglistnoret 2 ...................... <crack2, "crack_2_" & i>
+  [601] objcall 72 .............................. crack2.add("crack_2_" & i)
+  [603] getlocal 14 ............................. <crack3>
+  [605] pushcons 36 ............................. <"crack_3_">
+  [607] getlocal 2 .............................. <i>
+  [609] joinstr ................................. <"crack_3_" & i>
+  [610] pusharglistnoret 2 ...................... <crack3, "crack_3_" & i>
+  [612] objcall 72 .............................. crack3.add("crack_3_" & i)
+  [614] pushint8 1
+  [616] add
+  [617] endrepeat [574]
+  [619] pop 3
+  [621] pusharglist 0 ........................... <[:]>
+  [623] pushproplist ............................ <[:]>
+  [624] setlocal 15 ............................. st = [:]
+  [626] getlocal 11 ............................. <bg>
+  [628] getlocal 12 ............................. <crack1>
+  [630] getlocal 13 ............................. <crack2>
+  [632] getlocal 14 ............................. <crack3>
+  [634] pusharglist 4 ........................... <[bg, crack1, crack2, crack3]>
+  [636] pushlist ................................ <[bg, crack1, crack2, crack3]>
+  [637] pusharglist 1 ........................... <[bg, crack1, crack2, crack3]>
+  [639] extcall 169 ............................. <unionset([bg, crack1, crack2, crack3])>
+  [641] setlocal 16 ............................. k = unionset([bg, crack1, crack2, crack3])
+  [643] getlocal 16 ............................. <k>
+  [645] peek 0
+  [647] pusharglist 1
+  [649] extcall 64
+  [651] pushint8 1
+  [653] peek 0
+  [655] peek 2
+  [657] lteq
+  [658] jmpifz [685] ............................ repeat with i in k
+  [661] peek 2
+  [663] peek 1
+  [665] pusharglist 2
+  [667] extcall 61
+  [669] setlocal 2
+  [671] getlocal 15 ............................. <st>
+  [673] getlocal 2 .............................. <i>
+  [675] pushzero ................................ <0>
+  [676] pusharglistnoret 3 ...................... <st, i, 0>
+  [678] objcall 30 .............................. st[i] = 0
+  [680] pushint8 1
+  [682] add
+  [683] endrepeat [653]
+  [685] pop 3
+  [687] pushcons 15 ............................. <"state_1">
+  [689] pushcons 19 ............................. <"state_2">
+  [691] pushcons 20 ............................. <"state_3">
+  [693] pushcons 21 ............................. <"state_4">
+  [695] pushcons 37 ............................. <"state_5">
+  [697] pusharglist 5 ........................... <["state_1", "state_2", "state_3", "state_4", "state_5"]>
+  [699] pushlist ................................ <["state_1", "state_2", "state_3", "state_4", "state_5"]>
+  [700] peek 0
+  [702] pusharglist 1
+  [704] extcall 64
+  [706] pushint8 1
+  [708] peek 0
+  [710] peek 2
+  [712] lteq
+  [713] jmpifz [745] ............................ repeat with i in ["state_1", "state_2", "state_3", "state_4", "state_5"]
+  [716] peek 2
+  [718] peek 1
+  [720] pusharglist 2
+  [722] extcall 61
+  [724] setlocal 2
+  [726] getlocal 10 ............................. <goddess>
+  [728] getlocal 2 .............................. <i>
+  [730] getlocal 15 ............................. <st>
+  [732] pusharglist 1 ........................... <st>
+  [734] objcall 41 .............................. <st.duplicate()>
+  [736] pusharglistnoret 3 ...................... <goddess, i, st.duplicate()>
+  [738] objcall 30 .............................. goddess[i] = st.duplicate()
+  [740] pushint8 1
+  [742] add
+  [743] endrepeat [708]
+  [745] pop 3
+  [747] getlocal 12 ............................. <crack1>
+  [749] peek 0
+  [751] pusharglist 1
+  [753] extcall 64
+  [755] pushint8 1
+  [757] peek 0
+  [759] peek 2
+  [761] lteq
+  [762] jmpifz [796] ............................ repeat with i in crack1
+  [765] peek 2
+  [767] peek 1
+  [769] pusharglist 2
+  [771] extcall 61
+  [773] setlocal 2
+  [775] getlocal 10 ............................. <goddess>
+  [777] pushcons 19 ............................. <"state_2">
+  [779] pusharglist 2 ........................... <goddess, "state_2">
+  [781] objcall 61 .............................. <goddess["state_2"]>
+  [783] getlocal 2 .............................. <i>
+  [785] pushint8 1 .............................. <1>
+  [787] pusharglistnoret 3 ...................... <goddess["state_2"], i, 1>
+  [789] objcall 30 .............................. goddess["state_2"][i] = 1
+  [791] pushint8 1
+  [793] add
+  [794] endrepeat [757]
+  [796] pop 3
+  [798] getlocal 13 ............................. <crack2>
+  [800] peek 0
+  [802] pusharglist 1
+  [804] extcall 64
+  [806] pushint8 1
+  [808] peek 0
+  [810] peek 2
+  [812] lteq
+  [813] jmpifz [847] ............................ repeat with i in crack2
+  [816] peek 2
+  [818] peek 1
+  [820] pusharglist 2
+  [822] extcall 61
+  [824] setlocal 2
+  [826] getlocal 10 ............................. <goddess>
+  [828] pushcons 20 ............................. <"state_3">
+  [830] pusharglist 2 ........................... <goddess, "state_3">
+  [832] objcall 61 .............................. <goddess["state_3"]>
+  [834] getlocal 2 .............................. <i>
+  [836] pushint8 1 .............................. <1>
+  [838] pusharglistnoret 3 ...................... <goddess["state_3"], i, 1>
+  [840] objcall 30 .............................. goddess["state_3"][i] = 1
+  [842] pushint8 1
+  [844] add
+  [845] endrepeat [808]
+  [847] pop 3
+  [849] getlocal 14 ............................. <crack3>
+  [851] peek 0
+  [853] pusharglist 1
+  [855] extcall 64
+  [857] pushint8 1
+  [859] peek 0
+  [861] peek 2
+  [863] lteq
+  [864] jmpifz [898] ............................ repeat with i in crack3
+  [867] peek 2
+  [869] peek 1
+  [871] pusharglist 2
+  [873] extcall 61
+  [875] setlocal 2
+  [877] getlocal 10 ............................. <goddess>
+  [879] pushcons 21 ............................. <"state_4">
+  [881] pusharglist 2 ........................... <goddess, "state_4">
+  [883] objcall 61 .............................. <goddess["state_4"]>
+  [885] getlocal 2 .............................. <i>
+  [887] pushint8 1 .............................. <1>
+  [889] pusharglistnoret 3 ...................... <goddess["state_4"], i, 1>
+  [891] objcall 30 .............................. goddess["state_4"][i] = 1
+  [893] pushint8 1
+  [895] add
+  [896] endrepeat [859]
+  [898] pop 3
+  [900] pushint8 1 .............................. <1>
+  [902] setlocal 2
+  [904] getlocal 2
+  [906] pushint8 4 .............................. <4>
+  [908] lteq
+  [909] jmpifz [940] ............................ repeat with i = 1 to 4
+  [912] getlocal 10 ............................. <goddess>
+  [914] pushcons 14 ............................. <"state_">
+  [916] getlocal 2 .............................. <i>
+  [918] joinstr ................................. <"state_" & i>
+  [919] pusharglist 2 ........................... <goddess, "state_" & i>
+  [921] objcall 61 .............................. <goddess["state_" & i]>
+  [923] pushcons 30 ............................. <"bg_2">
+  [925] pushint8 1 .............................. <1>
+  [927] pusharglistnoret 3 ...................... <goddess["state_" & i], "bg_2", 1>
+  [929] objcall 30 .............................. goddess["state_" & i]["bg_2"] = 1
+  [931] pushint8 1
+  [933] getlocal 2
+  [935] add
+  [936] setlocal 2
+  [938] endrepeat [904]
+  [940] getlocal 10 ............................. <goddess>
+  [942] pushcons 37 ............................. <"state_5">
+  [944] pusharglist 2 ........................... <goddess, "state_5">
+  [946] objcall 61 .............................. <goddess["state_5"]>
+  [948] pushcons 30 ............................. <"bg_2">
+  [950] pushint8 1 .............................. <1>
+  [952] pusharglistnoret 3 ...................... <goddess["state_5"], "bg_2", 1>
+  [954] objcall 30 .............................. goddess["state_5"]["bg_2"] = 1
+  [956] getprop 85 .............................. <gfx>
+  [958] pushcons 38 ............................. <"diner">
+  [960] pushsymb 170 ............................ <#nodeID>
+  [962] pushcons 39 ............................. <"bg_diner">
+  [964] pushsymb 92 ............................. <#states>
+  [966] getlocal 1 .............................. <dstates>
+  [968] pusharglist 4 ........................... <[#nodeID: "bg_diner", #states: dstates]>
+  [970] pushproplist ............................ <[#nodeID: "bg_diner", #states: dstates]>
+  [971] pusharglistnoret 3 ...................... <gfx, "diner", [#nodeID: "bg_diner", #states: dstates]>
+  [973] objcall 30 .............................. gfx["diner"] = [#nodeID: "bg_diner", #states: dstates]
+  [975] getprop 85 .............................. <gfx>
+  [977] pushcons 40 ............................. <"family">
+  [979] pushsymb 170 ............................ <#nodeID>
+  [981] pushcons 41 ............................. <"bg_tiki">
+  [983] pushsymb 92 ............................. <#states>
+  [985] getlocal 7 .............................. <tiki>
+  [987] pusharglist 4 ........................... <[#nodeID: "bg_tiki", #states: tiki]>
+  [989] pushproplist ............................ <[#nodeID: "bg_tiki", #states: tiki]>
+  [990] pusharglistnoret 3 ...................... <gfx, "family", [#nodeID: "bg_tiki", #states: tiki]>
+  [992] objcall 30 .............................. gfx["family"] = [#nodeID: "bg_tiki", #states: tiki]
+  [994] getprop 85 .............................. <gfx>
+  [996] pushcons 42 ............................. <"finedining">
+  [998] pushsymb 170 ............................ <#nodeID>
+  [1000] pushcons 43 ............................ <"bg_seafood">
+  [1002] pushsymb 92 ............................ <#states>
+  [1004] getlocal 8 ............................. <seafood>
+  [1006] pusharglist 4 .......................... <[#nodeID: "bg_seafood", #states: seafood]>
+  [1008] pushproplist ........................... <[#nodeID: "bg_seafood", #states: seafood]>
+  [1009] pusharglistnoret 3 ..................... <gfx, "finedining", [#nodeID: "bg_seafood", #states: seafood]>
+  [1011] objcall 30 ............................. gfx["finedining"] = [#nodeID: "bg_seafood", #states: seafood]
+  [1013] getprop 85 ............................. <gfx>
+  [1015] pushcons 44 ............................ <"chezflos">
+  [1017] pushsymb 170 ........................... <#nodeID>
+  [1019] pushcons 45 ............................ <"bg_chez">
+  [1021] pushsymb 92 ............................ <#states>
+  [1023] getlocal 9 ............................. <chez>
+  [1025] pusharglist 4 .......................... <[#nodeID: "bg_chez", #states: chez]>
+  [1027] pushproplist ........................... <[#nodeID: "bg_chez", #states: chez]>
+  [1028] pusharglistnoret 3 ..................... <gfx, "chezflos", [#nodeID: "bg_chez", #states: chez]>
+  [1030] objcall 30 ............................. gfx["chezflos"] = [#nodeID: "bg_chez", #states: chez]
+  [1032] getprop 85 ............................. <gfx>
+  [1034] pushcons 46 ............................ <"goddess">
+  [1036] pushsymb 170 ........................... <#nodeID>
+  [1038] pushcons 47 ............................ <"bg_goddess">
+  [1040] pushsymb 92 ............................ <#states>
+  [1042] getlocal 10 ............................ <goddess>
+  [1044] pusharglist 4 .......................... <[#nodeID: "bg_goddess", #states: goddess]>
+  [1046] pushproplist ........................... <[#nodeID: "bg_goddess", #states: goddess]>
+  [1047] pusharglistnoret 3 ..................... <gfx, "goddess", [#nodeID: "bg_goddess", #states: goddess]>
+  [1049] objcall 30 ............................. gfx["goddess"] = [#nodeID: "bg_goddess", #states: goddess]
+  [1051] pushcons 48 ............................ <"sitter_regpoints">
+  [1053] pushcons 49 ............................ <"scripts.layout">
+  [1055] pusharglist 2 .......................... <"sitter_regpoints", "scripts.layout">
+  [1057] extcall 159 ............................ <member("sitter_regpoints", "scripts.layout")>
+  [1059] setlocal 0 ............................. m = member("sitter_regpoints", "scripts.layout")
+  [1061] getlocal 0 ............................. <m>
+  [1063] getobjprop 160 ......................... <m.number>
+  [1065] pushint8 1 ............................. <1>
+  [1067] inv .................................... <-1>
+  [1068] nteq ................................... <m.number <> -1>
+  [1069] jmpifz [1082] .......................... if m.number <> -1 then
+  [1072] getlocal 0 ............................. <m>
+  [1074] getobjprop 161 ......................... <m.text>
+  [1076] pusharglist 1 .......................... <m.text>
+  [1078] extcall 73 ............................. <value(m.text)>
+  [1080] setprop 171 ............................ sitterRegPoints = value(m.text)
+  [1082] getprop 171 ............................ <sitterRegPoints>
+  [1084] pusharglist 1 .......................... <sitterRegPoints>
+  [1086] extcall 62 ............................. <voidp(sitterRegPoints)>
+  [1088] jmpifz [1096] .......................... if voidp(sitterRegPoints) then
+  [1091] pusharglist 0 .......................... <[:]>
+  [1093] pushproplist ........................... <[:]>
+  [1094] setprop 171 ............................ sitterRegPoints = [:]
+  [1096] getparam 0 ............................. <me>
+  [1098] pusharglistnoret 1 ..................... <me>
+  [1100] extcall 53 ............................. return me
+  [1102] ret
+end
+
+on init me
+  [  0] getprop 58 .............................. <initialized>
+  [  2] jmpifz [  9] ............................ if initialized then
+  [  5] pusharglistnoret 0 ...................... <>
+  [  7] extcall 53 .............................. return 
+  [  9] pushint8 1 .............................. <1>
+  [ 11] setprop 58 .............................. initialized = 1
+  [ 13] getmovieprop 183 ........................ <the milliSeconds>
+  [ 15] setlocal 0 .............................. m1 = the milliSeconds
+  [ 17] getparam 0 .............................. <me>
+  [ 19] pusharglistnoret 1 ...................... <me>
+  [ 21] objcall 142 ............................. me.getGlobal()
+  [ 23] getparam 0 .............................. <me>
+  [ 25] pusharglistnoret 1 ...................... <me>
+  [ 27] objcall 144 ............................. me.getCustomer()
+  [ 29] getparam 0 .............................. <me>
+  [ 31] pusharglistnoret 1 ...................... <me>
+  [ 33] objcall 143 ............................. me.getPowerups()
+  [ 35] pusharglist 0 ........................... <[:]>
+  [ 37] pushproplist ............................ <[:]>
+  [ 38] setprop 25 .............................. game = [:]
+  [ 40] getparam 0 .............................. <me>
+  [ 42] pusharglistnoret 1 ...................... <me>
+  [ 44] objcall 145 ............................. me.getCareer()
+  [ 46] getparam 0 .............................. <me>
+  [ 48] pusharglistnoret 1 ...................... <me>
+  [ 50] objcall 146 ............................. me.getEndless()
+  [ 52] ret
+end
+
+on getValueIfUnchanged me, str
+  [  0] pushzero ................................ <0>
+  [  1] setlocal 0 .............................. useExt = 0
+  [  3] getprop 153 ............................. <author>
+  [  5] jmpifz [ 83] ............................ if author then
+  [  8] getmovieprop 186 ........................ <the moviePath>
+  [ 10] pushcons 50 ............................. <"config/">
+  [ 12] joinstr ................................. <the moviePath & "config/">
+  [ 13] getparam 1 .............................. <str>
+  [ 15] joinstr ................................. <the moviePath & "config/" & str>
+  [ 16] pushcons 51 ............................. <".xml">
+  [ 18] joinstr ................................. <the moviePath & "config/" & str & ".xml">
+  [ 19] pushcons 52 ............................. <"mm/dd/yy">
+  [ 21] pushcons 53 ............................. <":hh:nn:ss">
+  [ 23] pusharglist 3 ........................... <the moviePath & "config/" & str & ".xml", "mm/dd/yy", ":hh:nn:ss">
+  [ 25] extcall 185 ............................. <baFileDate(the moviePath & "config/" & str & ".xml", "mm/dd/yy", ":hh:nn:ss")>
+  [ 27] setlocal 1 .............................. filedate = baFileDate(the moviePath & "config/" & str & ".xml", "mm/dd/yy", ":hh:nn:ss")
+  [ 29] getlocal 1 .............................. <filedate>
+  [ 31] getparam 1 .............................. <str>
+  [ 33] pushcons 54 ............................. <"_date">
+  [ 35] joinstr ................................. <str & "_date">
+  [ 36] pusharglist 1 ........................... <str & "_date">
+  [ 38] extcall 159 ............................. <member(str & "_date")>
+  [ 40] getobjprop 161 .......................... <member(str & "_date").text>
+  [ 42] nteq .................................... <filedate <> member(str & "_date").text>
+  [ 43] setlocal 0 .............................. useExt = filedate <> member(str & "_date").text
+  [ 45] getparam 1 .............................. <str>
+  [ 47] pushcons 54 ............................. <"_date">
+  [ 49] joinstr ................................. <str & "_date">
+  [ 50] pusharglist 1 ........................... <str & "_date">
+  [ 52] extcall 159 ............................. <member(str & "_date")>
+  [ 54] getlocal 1 .............................. <filedate>
+  [ 56] setobjprop 161 .......................... member(str & "_date").text = filedate
+  [ 58] getparam 1 .............................. <str>
+  [ 60] pushcons 55 ............................. <"endless">
+  [ 62] eq ...................................... <str = "endless">
+  [ 63] getparam 1 .............................. <str>
+  [ 65] pushcons 56 ............................. <"career">
+  [ 67] eq ...................................... <str = "career">
+  [ 68] or ...................................... <(str = "endless") or (str = "career")>
+  [ 69] jmpifz [ 83] ............................ if (str = "endless") or (str = "career") then
+  [ 72] getlocal 0 .............................. <useExt>
+  [ 74] getparam 0 .............................. <me>
+  [ 76] pusharglist 1 ........................... <me>
+  [ 78] objcall 138 ............................. <me.getConfigCastChanged()>
+  [ 80] or ...................................... <useExt or me.getConfigCastChanged()>
+  [ 81] setlocal 0 .............................. useExt = useExt or me.getConfigCastChanged()
+  [ 83] getlocal 0 .............................. <useExt>
+  [ 85] not ..................................... <not useExt>
+  [ 86] jmpifz [101] ............................ if not useExt then
+  [ 89] getparam 0 .............................. <me>
+  [ 91] getparam 1 .............................. <str>
+  [ 93] pusharglist 2 ........................... <me, str>
+  [ 95] objcall 139 ............................. <me.loadData(str)>
+  [ 97] pusharglistnoret 1 ...................... <me.loadData(str)>
+  [ 99] extcall 53 .............................. return me.loadData(str)
+  [101] ret
+end
+
+on getConfigCastChanged me
+  [  0] pushzero ................................ <0>
+  [  1] setlocal 0 .............................. changed = 0
+  [  3] getprop 153 ............................. <author>
+  [  5] jmpifz [ 86] ............................ if author then
+  [  8] pushcons 57 ............................. <"config">
+  [ 10] pusharglist 1 ........................... <"config">
+  [ 12] extcall 162 ............................. <castLib("config")>
+  [ 14] getobjprop 190 .......................... <castLib("config").fileName>
+  [ 16] setlocal 1 .............................. fn = castLib("config").fileName
+  [ 18] getlocal 1 .............................. <fn>
+  [ 20] pushcons 52 ............................. <"mm/dd/yy">
+  [ 22] pushcons 53 ............................. <":hh:nn:ss">
+  [ 24] pusharglist 3 ........................... <fn, "mm/dd/yy", ":hh:nn:ss">
+  [ 26] extcall 185 ............................. <baFileDate(fn, "mm/dd/yy", ":hh:nn:ss")>
+  [ 28] setlocal 2 .............................. filedate = baFileDate(fn, "mm/dd/yy", ":hh:nn:ss")
+  [ 30] pushcons 58 ............................. <"config_date">
+  [ 32] pushcons 2 .............................. <"scripts.config">
+  [ 34] pusharglist 2 ........................... <"config_date", "scripts.config">
+  [ 36] extcall 159 ............................. <member("config_date", "scripts.config")>
+  [ 38] setlocal 3 .............................. m = member("config_date", "scripts.config")
+  [ 40] getlocal 3 .............................. <m>
+  [ 42] getobjprop 160 .......................... <m.number>
+  [ 44] pushint8 1 .............................. <1>
+  [ 46] inv ..................................... <-1>
+  [ 47] eq ...................................... <m.number = -1>
+  [ 48] jmpifz [ 71] ............................ if m.number = -1 then
+  [ 51] pushsymb 161 ............................ <#text>
+  [ 53] pushcons 2 .............................. <"scripts.config">
+  [ 55] pusharglist 1 ........................... <"scripts.config">
+  [ 57] extcall 162 ............................. <castLib("scripts.config")>
+  [ 59] pusharglist 2 ........................... <#text, castLib("scripts.config")>
+  [ 61] extcall 0 ............................... <new(#text, castLib("scripts.config"))>
+  [ 63] setlocal 3 .............................. m = new(#text, castLib("scripts.config"))
+  [ 65] getlocal 3 .............................. <m>
+  [ 67] pushcons 58 ............................. <"config_date">
+  [ 69] setobjprop 35 ........................... m.name = "config_date"
+  [ 71] getlocal 2 .............................. <filedate>
+  [ 73] getlocal 3 .............................. <m>
+  [ 75] getobjprop 161 .......................... <m.text>
+  [ 77] nteq .................................... <filedate <> m.text>
+  [ 78] setlocal 0 .............................. changed = filedate <> m.text
+  [ 80] getlocal 3 .............................. <m>
+  [ 82] getlocal 2 .............................. <filedate>
+  [ 84] setobjprop 161 .......................... m.text = filedate
+  [ 86] getlocal 0 .............................. <changed>
+  [ 88] pusharglistnoret 1 ...................... <changed>
+  [ 90] extcall 53 .............................. return changed
+  [ 92] ret
+end
+
+on loadData me, str
+  [  0] getparam 1 .............................. <str>
+  [  2] pushcons 59 ............................. <"_dump">
+  [  4] joinstr ................................. <str & "_dump">
+  [  5] pushcons 2 .............................. <"scripts.config">
+  [  7] pusharglist 2 ........................... <str & "_dump", "scripts.config">
+  [  9] extcall 159 ............................. <member(str & "_dump", "scripts.config")>
+  [ 11] setlocal 0 .............................. m = member(str & "_dump", "scripts.config")
+  [ 13] getlocal 0 .............................. <m>
+  [ 15] getobjprop 160 .......................... <m.number>
+  [ 17] pushint8 1 .............................. <1>
+  [ 19] inv ..................................... <-1>
+  [ 20] eq ...................................... <m.number = -1>
+  [ 21] jmpifz [ 28] ............................ if m.number = -1 then
+  [ 24] pusharglistnoret 0 ...................... <>
+  [ 26] extcall 53 .............................. return 
+  [ 28] getlocal 0 .............................. <m>
+  [ 30] getobjprop 161 .......................... <m.text>
+  [ 32] pusharglist 1 ........................... <m.text>
+  [ 34] extcall 74 .............................. <devoid(m.text)>
+  [ 36] pusharglist 1 ........................... <devoid(m.text)>
+  [ 38] extcall 73 .............................. <value(devoid(m.text))>
+  [ 40] pusharglistnoret 1 ...................... <value(devoid(m.text))>
+  [ 42] extcall 53 .............................. return value(devoid(m.text))
+  [ 44] ret
+end
+
+on saveData me, str, data
+  [  0] getparam 1 .............................. <str>
+  [  2] pushcons 59 ............................. <"_dump">
+  [  4] joinstr ................................. <str & "_dump">
+  [  5] pushcons 2 .............................. <"scripts.config">
+  [  7] pusharglist 2 ........................... <str & "_dump", "scripts.config">
+  [  9] extcall 159 ............................. <member(str & "_dump", "scripts.config")>
+  [ 11] setlocal 0 .............................. m = member(str & "_dump", "scripts.config")
+  [ 13] getlocal 0 .............................. <m>
+  [ 15] getobjprop 160 .......................... <m.number>
+  [ 17] pushint8 1 .............................. <1>
+  [ 19] inv ..................................... <-1>
+  [ 20] eq ...................................... <m.number = -1>
+  [ 21] jmpifz [ 47] ............................ if m.number = -1 then
+  [ 24] pushsymb 161 ............................ <#text>
+  [ 26] pushcons 2 .............................. <"scripts.config">
+  [ 28] pusharglist 1 ........................... <"scripts.config">
+  [ 30] extcall 162 ............................. <castLib("scripts.config")>
+  [ 32] pusharglist 2 ........................... <#text, castLib("scripts.config")>
+  [ 34] extcall 0 ............................... <new(#text, castLib("scripts.config"))>
+  [ 36] setlocal 0 .............................. m = new(#text, castLib("scripts.config"))
+  [ 38] getlocal 0 .............................. <m>
+  [ 40] getparam 1 .............................. <str>
+  [ 42] pushcons 59 ............................. <"_dump">
+  [ 44] joinstr ................................. <str & "_dump">
+  [ 45] setobjprop 35 ........................... m.name = str & "_dump"
+  [ 47] getlocal 0 .............................. <m>
+  [ 49] getparam 2 .............................. <data>
+  [ 51] pusharglist 1 ........................... <data>
+  [ 53] extcall 113 ............................. <string(data)>
+  [ 55] setobjprop 161 .......................... m.text = string(data)
+  [ 57] ret
+end
+
+on parseXML me, str
+  [  0] pushcons 50 ............................. <"config/">
+  [  2] getparam 1 .............................. <str>
+  [  4] joinstr ................................. <"config/" & str>
+  [  5] pushcons 51 ............................. <".xml">
+  [  7] joinstr ................................. <"config/" & str & ".xml">
+  [  8] pusharglist 1 ........................... <"config/" & str & ".xml">
+  [ 10] extcall 194 ............................. <getNetText("config/" & str & ".xml")>
+  [ 12] setlocal 0 .............................. id = getNetText("config/" & str & ".xml")
+  [ 14] getlocal 0 .............................. <id>
+  [ 16] pusharglist 1 ........................... <id>
+  [ 18] extcall 195 ............................. <netTextResult(id)>
+  [ 20] setlocal 1 .............................. xmltext = netTextResult(id)
+  [ 22] getprop 165 ............................. <xparser>
+  [ 24] getlocal 1 .............................. <xmltext>
+  [ 26] pusharglistnoret 2 ...................... <xparser, xmltext>
+  [ 28] objcall 196 ............................. xparser.parseString(xmltext)
+  [ 30] ret
+end
+
+on getGlobal me
+  [  0] getparam 0 .............................. <me>
+  [  2] pushcons 60 ............................. <"global">
+  [  4] pusharglist 2 ........................... <me, "global">
+  [  6] objcall 137 ............................. <me.getValueIfUnchanged("global")>
+  [  8] setprop 198 ............................. overall = me.getValueIfUnchanged("global")
+  [ 10] getprop 198 ............................. <overall>
+  [ 12] getobjprop 86 ........................... <overall.listp>
+  [ 14] jmpifz [ 21] ............................ if overall.listp then
+  [ 17] pusharglistnoret 0 ...................... <>
+  [ 19] extcall 53 .............................. return 
+  [ 21] getparam 0 .............................. <me>
+  [ 23] pushcons 60 ............................. <"global">
+  [ 25] pusharglistnoret 2 ...................... <me, "global">
+  [ 27] objcall 141 ............................. me.parseXML("global")
+  [ 29] getprop 165 ............................. <xparser>
+  [ 31] pushint8 1 .............................. <1>
+  [ 33] pusharglist 2 ........................... <xparser, 1>
+  [ 35] objcall 61 .............................. <xparser[1]>
+  [ 37] setlocal 0 .............................. gbl = xparser[1]
+  [ 39] getlocal 0 .............................. <gbl>
+  [ 41] getobjprop 199 .......................... <gbl.attributeValue>
+  [ 43] setlocal 1 .............................. att = gbl.attributeValue
+  [ 45] pusharglist 0 ........................... <[:]>
+  [ 47] pushproplist ............................ <[:]>
+  [ 48] setprop 198 ............................. overall = [:]
+  [ 50] pushint8 1 .............................. <1>
+  [ 52] setlocal 2
+  [ 54] getlocal 2
+  [ 56] getlocal 1 .............................. <att>
+  [ 58] getobjprop 64 ........................... <att.count>
+  [ 60] lteq
+  [ 61] jmpifz [ 99] ............................ repeat with i = 1 to att.count
+  [ 64] getprop 198 ............................. <overall>
+  [ 66] getlocal 1 .............................. <att>
+  [ 68] getlocal 2 .............................. <i>
+  [ 70] pusharglist 2 ........................... <att, i>
+  [ 72] objcall 89 .............................. <att.getPropAt(i)>
+  [ 74] getlocal 1 .............................. <att>
+  [ 76] getlocal 2 .............................. <i>
+  [ 78] pusharglist 2 ........................... <att, i>
+  [ 80] objcall 61 .............................. <att[i]>
+  [ 82] pusharglist 1 ........................... <att[i]>
+  [ 84] extcall 129 ............................. <integer(att[i])>
+  [ 86] pusharglistnoret 3 ...................... <overall, att.getPropAt(i), integer(att[i])>
+  [ 88] objcall 30 .............................. overall[att.getPropAt(i)] = integer(att[i])
+  [ 90] pushint8 1
+  [ 92] getlocal 2
+  [ 94] add
+  [ 95] setlocal 2
+  [ 97] endrepeat [ 54]
+  [ 99] pusharglist 0 ........................... <[:]>
+  [101] pushproplist ............................ <[:]>
+  [102] setlocal 3 .............................. pts = [:]
+  [104] getlocal 0 .............................. <gbl>
+  [106] pushcons 61 ............................. <"actionPoints">
+  [108] pusharglist 2 ........................... <gbl, "actionPoints">
+  [110] objcall 61 .............................. <gbl["actionPoints"]>
+  [112] setlocal 4 .............................. apnode = gbl["actionPoints"]
+  [114] getlocal 4 .............................. <apnode>
+  [116] getobjprop 199 .......................... <apnode.attributeValue>
+  [118] setlocal 1 .............................. att = apnode.attributeValue
+  [120] getlocal 4 .............................. <apnode>
+  [122] getobjprop 200 .......................... <apnode.attributeName>
+  [124] peek 0
+  [126] pusharglist 1
+  [128] extcall 64
+  [130] pushint8 1
+  [132] peek 0
+  [134] peek 2
+  [136] lteq
+  [137] jmpifz [179] ............................ repeat with i in apnode.attributeName
+  [140] peek 2
+  [142] peek 1
+  [144] pusharglist 2
+  [146] extcall 61
+  [148] setlocal 2
+  [150] getlocal 3 .............................. <pts>
+  [152] getlocal 2 .............................. <i>
+  [154] pusharglist 1 ........................... <i>
+  [156] extcall 201 ............................. <symbol(i)>
+  [158] getlocal 1 .............................. <att>
+  [160] getlocal 2 .............................. <i>
+  [162] pusharglist 2 ........................... <att, i>
+  [164] objcall 61 .............................. <att[i]>
+  [166] pusharglist 1 ........................... <att[i]>
+  [168] extcall 129 ............................. <integer(att[i])>
+  [170] pusharglistnoret 3 ...................... <pts, symbol(i), integer(att[i])>
+  [172] objcall 30 .............................. pts[symbol(i)] = integer(att[i])
+  [174] pushint8 1
+  [176] add
+  [177] endrepeat [132]
+  [179] pop 3
+  [181] getprop 198 ............................. <overall>
+  [183] pushsymb 202 ............................ <#actionPoints>
+  [185] getlocal 3 .............................. <pts>
+  [187] pusharglistnoret 3 ...................... <overall, #actionPoints, pts>
+  [189] objcall 30 .............................. overall[#actionPoints] = pts
+  [191] pusharglist 0 ........................... <[:]>
+  [193] pushproplist ............................ <[:]>
+  [194] setlocal 5 .............................. tb = [:]
+  [196] getlocal 0 .............................. <gbl>
+  [198] pushcons 62 ............................. <"timebomb">
+  [200] pusharglist 2 ........................... <gbl, "timebomb">
+  [202] objcall 61 .............................. <gbl["timebomb"]>
+  [204] setlocal 6 .............................. tbnode = gbl["timebomb"]
+  [206] getlocal 6 .............................. <tbnode>
+  [208] getobjprop 199 .......................... <tbnode.attributeValue>
+  [210] setlocal 1 .............................. att = tbnode.attributeValue
+  [212] getlocal 6 .............................. <tbnode>
+  [214] getobjprop 200 .......................... <tbnode.attributeName>
+  [216] peek 0
+  [218] pusharglist 1
+  [220] extcall 64
+  [222] pushint8 1
+  [224] peek 0
+  [226] peek 2
+  [228] lteq
+  [229] jmpifz [271] ............................ repeat with i in tbnode.attributeName
+  [232] peek 2
+  [234] peek 1
+  [236] pusharglist 2
+  [238] extcall 61
+  [240] setlocal 2
+  [242] getlocal 5 .............................. <tb>
+  [244] getlocal 2 .............................. <i>
+  [246] pusharglist 1 ........................... <i>
+  [248] extcall 201 ............................. <symbol(i)>
+  [250] getlocal 1 .............................. <att>
+  [252] getlocal 2 .............................. <i>
+  [254] pusharglist 2 ........................... <att, i>
+  [256] objcall 61 .............................. <att[i]>
+  [258] pusharglist 1 ........................... <att[i]>
+  [260] extcall 129 ............................. <integer(att[i])>
+  [262] pusharglistnoret 3 ...................... <tb, symbol(i), integer(att[i])>
+  [264] objcall 30 .............................. tb[symbol(i)] = integer(att[i])
+  [266] pushint8 1
+  [268] add
+  [269] endrepeat [224]
+  [271] pop 3
+  [273] getprop 198 ............................. <overall>
+  [275] pushsymb 59 ............................. <#timebomb>
+  [277] getlocal 5 .............................. <tb>
+  [279] pusharglistnoret 3 ...................... <overall, #timebomb, tb>
+  [281] objcall 30 .............................. overall[#timebomb] = tb
+  [283] getparam 0 .............................. <me>
+  [285] pushcons 60 ............................. <"global">
+  [287] getprop 198 ............................. <overall>
+  [289] pusharglistnoret 3 ...................... <me, "global", overall>
+  [291] objcall 140 ............................. me.saveData("global", overall)
+  [293] ret
+end
+
+on getPowerups me
+  [  0] getparam 0 .............................. <me>
+  [  2] pushcons 63 ............................. <"powerups">
+  [  4] pusharglist 2 ........................... <me, "powerups">
+  [  6] objcall 137 ............................. <me.getValueIfUnchanged("powerups")>
+  [  8] setprop 209 ............................. powerups = me.getValueIfUnchanged("powerups")
+  [ 10] getprop 209 ............................. <powerups>
+  [ 12] getobjprop 86 ........................... <powerups.listp>
+  [ 14] jmpifz [ 21] ............................ if powerups.listp then
+  [ 17] pusharglistnoret 0 ...................... <>
+  [ 19] extcall 53 .............................. return 
+  [ 21] getparam 0 .............................. <me>
+  [ 23] pushcons 63 ............................. <"powerups">
+  [ 25] pusharglistnoret 2 ...................... <me, "powerups">
+  [ 27] objcall 141 ............................. me.parseXML("powerups")
+  [ 29] getprop 165 ............................. <xparser>
+  [ 31] pushcons 63 ............................. <"powerups">
+  [ 33] pusharglist 2 ........................... <xparser, "powerups">
+  [ 35] objcall 61 .............................. <xparser["powerups"]>
+  [ 37] setlocal 0 .............................. pupnodelist = xparser["powerups"]
+  [ 39] pusharglist 0 ........................... <[:]>
+  [ 41] pushproplist ............................ <[:]>
+  [ 42] setprop 209 ............................. powerups = [:]
+  [ 44] getlocal 0 .............................. <pupnodelist>
+  [ 46] peek 0
+  [ 48] pusharglist 1
+  [ 50] extcall 64
+  [ 52] pushint8 1
+  [ 54] peek 0
+  [ 56] peek 2
+  [ 58] lteq
+  [ 59] jmpifz [418] ............................ repeat with pupnode in pupnodelist
+  [ 62] peek 2
+  [ 64] peek 1
+  [ 66] pusharglist 2
+  [ 68] extcall 61
+  [ 70] setlocal 1
+  [ 72] getlocal 1 .............................. <pupnode>
+  [ 74] getobjprop 199 .......................... <pupnode.attributeValue>
+  [ 76] setlocal 2 .............................. atts = pupnode.attributeValue
+  [ 78] pusharglist 0 ........................... <[:]>
+  [ 80] pushproplist ............................ <[:]>
+  [ 81] setlocal 3 .............................. pup = [:]
+  [ 83] getlocal 1 .............................. <pupnode>
+  [ 85] getobjprop 200 .......................... <pupnode.attributeName>
+  [ 87] peek 0
+  [ 89] pusharglist 1
+  [ 91] extcall 64
+  [ 93] pushint8 1
+  [ 95] peek 0
+  [ 97] peek 2
+  [ 99] lteq
+  [100] jmpifz [138] ............................ repeat with k in pupnode.attributeName
+  [103] peek 2
+  [105] peek 1
+  [107] pusharglist 2
+  [109] extcall 61
+  [111] setlocal 4
+  [113] getlocal 3 .............................. <pup>
+  [115] getlocal 4 .............................. <k>
+  [117] pusharglist 1 ........................... <k>
+  [119] extcall 201 ............................. <symbol(k)>
+  [121] getlocal 2 .............................. <atts>
+  [123] getlocal 4 .............................. <k>
+  [125] pusharglist 2 ........................... <atts, k>
+  [127] objcall 61 .............................. <atts[k]>
+  [129] pusharglistnoret 3 ...................... <pup, symbol(k), atts[k]>
+  [131] objcall 30 .............................. pup[symbol(k)] = atts[k]
+  [133] pushint8 1
+  [135] add
+  [136] endrepeat [ 95]
+  [138] pop 3
+  [140] pusharglist 0 ........................... <[]>
+  [142] pushlist ................................ <[]>
+  [143] setlocal 5 .............................. lvls = []
+  [145] getlocal 1 .............................. <pupnode>
+  [147] pushcons 64 ............................. <"powerupLevels">
+  [149] pusharglist 2 ........................... <pupnode, "powerupLevels">
+  [151] objcall 61 .............................. <pupnode["powerupLevels"]>
+  [153] setlocal 6 .............................. puplevelnodes = pupnode["powerupLevels"]
+  [155] pushint8 1 .............................. <1>
+  [157] setlocal 7
+  [159] getlocal 7
+  [161] getlocal 6 .............................. <puplevelnodes>
+  [163] getobjprop 64 ........................... <puplevelnodes.count>
+  [165] lteq
+  [166] jmpifz [386] ............................ repeat with i = 1 to puplevelnodes.count
+  [169] getlocal 6 .............................. <puplevelnodes>
+  [171] getlocal 7 .............................. <i>
+  [173] pusharglist 2 ........................... <puplevelnodes, i>
+  [175] objcall 61 .............................. <puplevelnodes[i]>
+  [177] setlocal 8 .............................. lvlnode = puplevelnodes[i]
+  [179] pusharglist 0 ........................... <[:]>
+  [181] pushproplist ............................ <[:]>
+  [182] setlocal 9 .............................. lvl = [:]
+  [184] getlocal 8 .............................. <lvlnode>
+  [186] getobjprop 200 .......................... <lvlnode.attributeName>
+  [188] peek 0
+  [190] pusharglist 1
+  [192] extcall 64
+  [194] pushint8 1
+  [196] peek 0
+  [198] peek 2
+  [200] lteq
+  [201] jmpifz [241] ............................ repeat with k in lvlnode.attributeName
+  [204] peek 2
+  [206] peek 1
+  [208] pusharglist 2
+  [210] extcall 61
+  [212] setlocal 4
+  [214] getlocal 9 .............................. <lvl>
+  [216] getlocal 4 .............................. <k>
+  [218] pusharglist 1 ........................... <k>
+  [220] extcall 201 ............................. <symbol(k)>
+  [222] getlocal 8 .............................. <lvlnode>
+  [224] pushsymb 199 ............................ <#attributeValue>
+  [226] getlocal 4 .............................. <k>
+  [228] pusharglist 3 ........................... <lvlnode, #attributeValue, k>
+  [230] objcall 78 .............................. <lvlnode.attributeValue[k]>
+  [232] pusharglistnoret 3 ...................... <lvl, symbol(k), lvlnode.attributeValue[k]>
+  [234] objcall 30 .............................. lvl[symbol(k)] = lvlnode.attributeValue[k]
+  [236] pushint8 1
+  [238] add
+  [239] endrepeat [196]
+  [241] pop 3
+  [243] pusharglist 0 ........................... <[:]>
+  [245] pushproplist ............................ <[:]>
+  [246] setlocal 10 ............................. props = [:]
+  [248] getlocal 8 .............................. <lvlnode>
+  [250] pushcons 65 ............................. <"numProps">
+  [252] pusharglist 2 ........................... <lvlnode, "numProps">
+  [254] objcall 61 .............................. <lvlnode["numProps"]>
+  [256] getobjprop 199 .......................... <lvlnode["numProps"].attributeValue>
+  [258] setlocal 11 ............................. numprops = lvlnode["numProps"].attributeValue
+  [260] getlocal 8 .............................. <lvlnode>
+  [262] pushcons 65 ............................. <"numProps">
+  [264] pusharglist 2 ........................... <lvlnode, "numProps">
+  [266] objcall 61 .............................. <lvlnode["numProps"]>
+  [268] getobjprop 200 .......................... <lvlnode["numProps"].attributeName>
+  [270] setlocal 12 ............................. klist = lvlnode["numProps"].attributeName
+  [272] getlocal 12 ............................. <klist>
+  [274] peek 0
+  [276] pusharglist 1
+  [278] extcall 64
+  [280] pushint8 1
+  [282] peek 0
+  [284] peek 2
+  [286] lteq
+  [287] jmpifz [331] ............................ repeat with k in klist
+  [290] peek 2
+  [292] peek 1
+  [294] pusharglist 2
+  [296] extcall 61
+  [298] setlocal 4
+  [300] getlocal 10 ............................. <props>
+  [302] getlocal 4 .............................. <k>
+  [304] pusharglist 1 ........................... <k>
+  [306] extcall 201 ............................. <symbol(k)>
+  [308] getlocal 11 ............................. <numprops>
+  [310] getlocal 4 .............................. <k>
+  [312] pusharglist 2 ........................... <numprops, k>
+  [314] objcall 61 .............................. <numprops[k]>
+  [316] pushsymb 160 ............................ <#number>
+  [318] pusharglist 2 ........................... <numprops[k], #number>
+  [320] extcall 210 ............................. <asType(numprops[k], #number)>
+  [322] pusharglistnoret 3 ...................... <props, symbol(k), asType(numprops[k], #number)>
+  [324] objcall 30 .............................. props[symbol(k)] = asType(numprops[k], #number)
+  [326] pushint8 1
+  [328] add
+  [329] endrepeat [282]
+  [331] pop 3
+  [333] getlocal 9 .............................. <lvl>
+  [335] pushsymb 211 ............................ <#properties>
+  [337] getlocal 10 ............................. <props>
+  [339] pusharglistnoret 3 ...................... <lvl, #properties, props>
+  [341] objcall 30 .............................. lvl[#properties] = props
+  [343] getlocal 9 .............................. <lvl>
+  [345] pushsymb 45 ............................. <#level>
+  [347] getlocal 7 .............................. <i>
+  [349] pusharglistnoret 3 ...................... <lvl, #level, i>
+  [351] objcall 30 .............................. lvl[#level] = i
+  [353] getlocal 9 .............................. <lvl>
+  [355] pushsymb 212 ............................ <#type>
+  [357] getlocal 3 .............................. <pup>
+  [359] getobjprop 91 ........................... <pup.id>
+  [361] pusharglist 1 ........................... <pup.id>
+  [363] extcall 201 ............................. <symbol(pup.id)>
+  [365] pusharglistnoret 3 ...................... <lvl, #type, symbol(pup.id)>
+  [367] objcall 30 .............................. lvl[#type] = symbol(pup.id)
+  [369] getlocal 5 .............................. <lvls>
+  [371] getlocal 9 .............................. <lvl>
+  [373] pusharglistnoret 2 ...................... <lvls, lvl>
+  [375] objcall 72 .............................. lvls.add(lvl)
+  [377] pushint8 1
+  [379] getlocal 7
+  [381] add
+  [382] setlocal 7
+  [384] endrepeat [159]
+  [386] getlocal 3 .............................. <pup>
+  [388] pushsymb 213 ............................ <#levels>
+  [390] getlocal 5 .............................. <lvls>
+  [392] pusharglistnoret 3 ...................... <pup, #levels, lvls>
+  [394] objcall 30 .............................. pup[#levels] = lvls
+  [396] getprop 209 ............................. <powerups>
+  [398] getlocal 3 .............................. <pup>
+  [400] getobjprop 91 ........................... <pup.id>
+  [402] pusharglist 1 ........................... <pup.id>
+  [404] extcall 201 ............................. <symbol(pup.id)>
+  [406] getlocal 3 .............................. <pup>
+  [408] pusharglistnoret 3 ...................... <powerups, symbol(pup.id), pup>
+  [410] objcall 30 .............................. powerups[symbol(pup.id)] = pup
+  [412] pushint8 1
+  [414] add
+  [415] endrepeat [ 54]
+  [418] pop 3
+  [420] getparam 0 .............................. <me>
+  [422] pushcons 63 ............................. <"powerups">
+  [424] getprop 209 ............................. <powerups>
+  [426] pusharglistnoret 3 ...................... <me, "powerups", powerups>
+  [428] objcall 140 ............................. me.saveData("powerups", powerups)
+  [430] ret
+end
+
+on getCustomer me
+  [  0] getparam 0 .............................. <me>
+  [  2] pushcons 66 ............................. <"customer">
+  [  4] pusharglist 2 ........................... <me, "customer">
+  [  6] objcall 137 ............................. <me.getValueIfUnchanged("customer")>
+  [  8] setlocal 0 .............................. gc = me.getValueIfUnchanged("customer")
+  [ 10] getlocal 0 .............................. <gc>
+  [ 12] getobjprop 86 ........................... <gc.listp>
+  [ 14] jmpifz [ 33] ............................ if gc.listp then
+  [ 17] getlocal 0 .............................. <gc>
+  [ 19] getobjprop 224 .......................... <gc.customer>
+  [ 21] setprop 224 ............................. customer = gc.customer
+  [ 23] getlocal 0 .............................. <gc>
+  [ 25] getobjprop 225 .......................... <gc.group>
+  [ 27] setprop 225 ............................. group = gc.group
+  [ 29] pusharglistnoret 0 ...................... <>
+  [ 31] extcall 53 .............................. return 
+  [ 33] getparam 0 .............................. <me>
+  [ 35] pushcons 66 ............................. <"customer">
+  [ 37] pusharglistnoret 2 ...................... <me, "customer">
+  [ 39] objcall 141 ............................. me.parseXML("customer")
+  [ 41] getprop 165 ............................. <xparser>
+  [ 43] pushcons 67 ............................. <"customerConfig">
+  [ 45] pusharglist 2 ........................... <xparser, "customerConfig">
+  [ 47] objcall 61 .............................. <xparser["customerConfig"]>
+  [ 49] setlocal 1 .............................. cust = xparser["customerConfig"]
+  [ 51] pusharglist 0 ........................... <[:]>
+  [ 53] pushproplist ............................ <[:]>
+  [ 54] setprop 224 ............................. customer = [:]
+  [ 56] getlocal 1 .............................. <cust>
+  [ 58] pushcons 68 ............................. <"customers">
+  [ 60] pusharglist 2 ........................... <cust, "customers">
+  [ 62] objcall 61 .............................. <cust["customers"]>
+  [ 64] peek 0
+  [ 66] pusharglist 1
+  [ 68] extcall 64
+  [ 70] pushint8 1
+  [ 72] peek 0
+  [ 74] peek 2
+  [ 76] lteq
+  [ 77] jmpifz [132] ............................ repeat with i in cust["customers"]
+  [ 80] peek 2
+  [ 82] peek 1
+  [ 84] pusharglist 2
+  [ 86] extcall 61
+  [ 88] setlocal 2
+  [ 90] getlocal 2 .............................. <i>
+  [ 92] getobjprop 199 .......................... <i.attributeValue>
+  [ 94] setlocal 3 .............................. att = i.attributeValue
+  [ 96] getprop 224 ............................. <customer>
+  [ 98] getlocal 3 .............................. <att>
+  [100] pushcons 69 ............................. <"id">
+  [102] pusharglist 2 ........................... <att, "id">
+  [104] objcall 61 .............................. <att["id"]>
+  [106] pushsymb 226 ............................ <#color>
+  [108] getlocal 3 .............................. <att>
+  [110] pushcons 70 ............................. <"color">
+  [112] pusharglist 2 ........................... <att, "color">
+  [114] objcall 61 .............................. <att["color"]>
+  [116] pusharglist 1 ........................... <att["color"]>
+  [118] extcall 201 ............................. <symbol(att["color"])>
+  [120] pusharglist 2 ........................... <[#color: symbol(att["color"])]>
+  [122] pushproplist ............................ <[#color: symbol(att["color"])]>
+  [123] pusharglistnoret 3 ...................... <customer, att["id"], [#color: symbol(att["color"])]>
+  [125] objcall 30 .............................. customer[att["id"]] = [#color: symbol(att["color"])]
+  [127] pushint8 1
+  [129] add
+  [130] endrepeat [ 72]
+  [132] pop 3
+  [134] pushsymb 227 ............................ <#deciding>
+  [136] pushsymb 228 ............................ <#eating>
+  [138] pushsymb 229 ............................ <#scoring>
+  [140] pushsymb 230 ............................ <#leaving>
+  [142] pusharglist 4 ........................... <[#deciding, #eating, #scoring, #leaving]>
+  [144] pushlist ................................ <[#deciding, #eating, #scoring, #leaving]>
+  [145] setlocal 4 .............................. activeStates = [#deciding, #eating, #scoring, #leaving]
+  [147] pushsymb 231 ............................ <#waiting>
+  [149] pushsymb 232 ............................ <#ready>
+  [151] pushsymb 233 ............................ <#ordered>
+  [153] pushsymb 234 ............................ <#check>
+  [155] pusharglist 4 ........................... <[#waiting, #ready, #ordered, #check]>
+  [157] pushlist ................................ <[#waiting, #ready, #ordered, #check]>
+  [158] setlocal 5 .............................. passiveStates = [#waiting, #ready, #ordered, #check]
+  [160] pusharglist 0 ........................... <[:]>
+  [162] pushproplist ............................ <[:]>
+  [163] setprop 225 ............................. group = [:]
+  [165] getlocal 1 .............................. <cust>
+  [167] pushcons 71 ............................. <"groupDefaults">
+  [169] pusharglist 2 ........................... <cust, "groupDefaults">
+  [171] objcall 61 .............................. <cust["groupDefaults"]>
+  [173] setlocal 6 .............................. gdefs = cust["groupDefaults"]
+  [175] getlocal 6 .............................. <gdefs>
+  [177] getobjprop 199 .......................... <gdefs.attributeValue>
+  [179] setlocal 3 .............................. att = gdefs.attributeValue
+  [181] pusharglist 0 ........................... <[:]>
+  [183] pushproplist ............................ <[:]>
+  [184] setlocal 7 .............................. gd = [:]
+  [186] getlocal 6 .............................. <gdefs>
+  [188] getobjprop 200 .......................... <gdefs.attributeName>
+  [190] peek 0
+  [192] pusharglist 1
+  [194] extcall 64
+  [196] pushint8 1
+  [198] peek 0
+  [200] peek 2
+  [202] lteq
+  [203] jmpifz [247] ............................ repeat with k in gdefs.attributeName
+  [206] peek 2
+  [208] peek 1
+  [210] pusharglist 2
+  [212] extcall 61
+  [214] setlocal 8
+  [216] getlocal 7 .............................. <gd>
+  [218] getlocal 8 .............................. <k>
+  [220] pusharglist 1 ........................... <k>
+  [222] extcall 201 ............................. <symbol(k)>
+  [224] getlocal 3 .............................. <att>
+  [226] getlocal 8 .............................. <k>
+  [228] pusharglist 2 ........................... <att, k>
+  [230] objcall 61 .............................. <att[k]>
+  [232] pushsymb 160 ............................ <#number>
+  [234] pusharglist 2 ........................... <att[k], #number>
+  [236] extcall 210 ............................. <asType(att[k], #number)>
+  [238] pusharglistnoret 3 ...................... <gd, symbol(k), asType(att[k], #number)>
+  [240] objcall 30 .............................. gd[symbol(k)] = asType(att[k], #number)
+  [242] pushint8 1
+  [244] add
+  [245] endrepeat [198]
+  [247] pop 3
+  [249] pusharglist 0 ........................... <[:]>
+  [251] pushproplist ............................ <[:]>
+  [252] setlocal 9 .............................. defstates = [:]
+  [254] getlocal 6 .............................. <gdefs>
+  [256] pushcons 72 ............................. <"groupStates">
+  [258] pusharglist 2 ........................... <gdefs, "groupStates">
+  [260] objcall 61 .............................. <gdefs["groupStates"]>
+  [262] peek 0
+  [264] pusharglist 1
+  [266] extcall 64
+  [268] pushint8 1
+  [270] peek 0
+  [272] peek 2
+  [274] lteq
+  [275] jmpifz [408] ............................ repeat with i in gdefs["groupStates"]
+  [278] peek 2
+  [280] peek 1
+  [282] pusharglist 2
+  [284] extcall 61
+  [286] setlocal 2
+  [288] getlocal 2 .............................. <i>
+  [290] getobjprop 199 .......................... <i.attributeValue>
+  [292] setlocal 3 .............................. att = i.attributeValue
+  [294] pusharglist 0 ........................... <[:]>
+  [296] pushproplist ............................ <[:]>
+  [297] setlocal 10 ............................. gs = [:]
+  [299] getlocal 2 .............................. <i>
+  [301] getobjprop 200 .......................... <i.attributeName>
+  [303] peek 0
+  [305] pusharglist 1
+  [307] extcall 64
+  [309] pushint8 1
+  [311] peek 0
+  [313] peek 2
+  [315] lteq
+  [316] jmpifz [369] ............................ repeat with k in i.attributeName
+  [319] peek 2
+  [321] peek 1
+  [323] pusharglist 2
+  [325] extcall 61
+  [327] setlocal 8
+  [329] getlocal 8 .............................. <k>
+  [331] pushcons 69 ............................. <"id">
+  [333] eq ...................................... <k = "id">
+  [334] jmpifz [340] ............................ if k = "id" then
+  [337] jmp [364] ............................... next repeat
+  [340] getlocal 10 ............................. <gs>
+  [342] getlocal 8 .............................. <k>
+  [344] pusharglist 1 ........................... <k>
+  [346] extcall 201 ............................. <symbol(k)>
+  [348] getlocal 3 .............................. <att>
+  [350] getlocal 8 .............................. <k>
+  [352] pusharglist 2 ........................... <att, k>
+  [354] objcall 61 .............................. <att[k]>
+  [356] pusharglist 1 ........................... <att[k]>
+  [358] extcall 129 ............................. <integer(att[k])>
+  [360] pusharglistnoret 3 ...................... <gs, symbol(k), integer(att[k])>
+  [362] objcall 30 .............................. gs[symbol(k)] = integer(att[k])
+  [364] pushint8 1
+  [366] add
+  [367] endrepeat [311]
+  [369] pop 3
+  [371] getlocal 10 ............................. <gs>
+  [373] pushsymb 235 ............................ <#minMS>
+  [375] getlocal 7 .............................. <gd>
+  [377] getobjprop 235 .......................... <gd.minMS>
+  [379] pusharglistnoret 3 ...................... <gs, #minMS, gd.minMS>
+  [381] objcall 30 .............................. gs[#minMS] = gd.minMS
+  [383] getlocal 9 .............................. <defstates>
+  [385] getlocal 3 .............................. <att>
+  [387] pushcons 69 ............................. <"id">
+  [389] pusharglist 2 ........................... <att, "id">
+  [391] objcall 61 .............................. <att["id"]>
+  [393] pusharglist 1 ........................... <att["id"]>
+  [395] extcall 201 ............................. <symbol(att["id"])>
+  [397] getlocal 10 ............................. <gs>
+  [399] pusharglistnoret 3 ...................... <defstates, symbol(att["id"]), gs>
+  [401] objcall 30 .............................. defstates[symbol(att["id"])] = gs
+  [403] pushint8 1
+  [405] add
+  [406] endrepeat [270]
+  [408] pop 3
+  [410] getlocal 7 .............................. <gd>
+  [412] pushsymb 236 ............................ <#stateData>
+  [414] getlocal 9 .............................. <defstates>
+  [416] pusharglistnoret 3 ...................... <gd, #stateData, defstates>
+  [418] objcall 30 .............................. gd[#stateData] = defstates
+  [420] getprop 225 ............................. <group>
+  [422] pushsymb 28 ............................. <#defaults>
+  [424] getlocal 7 .............................. <gd>
+  [426] pusharglistnoret 3 ...................... <group, #defaults, gd>
+  [428] objcall 30 .............................. group[#defaults] = gd
+  [430] pusharglist 0 ........................... <[:]>
+  [432] pushproplist ............................ <[:]>
+  [433] setlocal 11 ............................. gtypes = [:]
+  [435] getlocal 1 .............................. <cust>
+  [437] pushcons 73 ............................. <"groupTypes">
+  [439] pusharglist 2 ........................... <cust, "groupTypes">
+  [441] objcall 61 .............................. <cust["groupTypes"]>
+  [443] peek 0
+  [445] pusharglist 1
+  [447] extcall 64
+  [449] pushint8 1
+  [451] peek 0
+  [453] peek 2
+  [455] lteq
+  [456] jmpifz [1020] ........................... repeat with tp in cust["groupTypes"]
+  [459] peek 2
+  [461] peek 1
+  [463] pusharglist 2
+  [465] extcall 61
+  [467] setlocal 12
+  [469] getlocal 7 .............................. <gd>
+  [471] pusharglist 1 ........................... <gd>
+  [473] objcall 41 .............................. <gd.duplicate()>
+  [475] setlocal 13 ............................. gt = gd.duplicate()
+  [477] getlocal 12 ............................. <tp>
+  [479] getobjprop 199 .......................... <tp.attributeValue>
+  [481] setlocal 3 .............................. att = tp.attributeValue
+  [483] getlocal 12 ............................. <tp>
+  [485] getobjprop 200 .......................... <tp.attributeName>
+  [487] peek 0
+  [489] pusharglist 1
+  [491] extcall 64
+  [493] pushint8 1
+  [495] peek 0
+  [497] peek 2
+  [499] lteq
+  [500] jmpifz [585] ............................ repeat with k in tp.attributeName
+  [503] peek 2
+  [505] peek 1
+  [507] pusharglist 2
+  [509] extcall 61
+  [511] setlocal 8
+  [513] getlocal 8 .............................. <k>
+  [515] pushcons 69 ............................. <"id">
+  [517] eq ...................................... <k = "id">
+  [518] jmpifz [527] ............................ if k = "id" then
+  [521] jmp [580] ............................... next repeat
+  [524] jmp [580] ............................... next repeat
+  [527] getlocal 8 .............................. <k>
+  [529] pushcons 74 ............................. <"graphicType">
+  [531] eq ...................................... <k = "graphicType">
+  [532] jmpifz [554] ............................ if k = "graphicType" then
+  [535] getlocal 13 ............................. <gt>
+  [537] pushsymb 237 ............................ <#graphicType>
+  [539] getlocal 3 .............................. <att>
+  [541] getlocal 8 .............................. <k>
+  [543] pusharglist 2 ........................... <att, k>
+  [545] objcall 61 .............................. <att[k]>
+  [547] pusharglistnoret 3 ...................... <gt, #graphicType, att[k]>
+  [549] objcall 30 .............................. gt[#graphicType] = att[k]
+  [551] jmp [580] ............................... next repeat
+  [554] getlocal 13 ............................. <gt>
+  [556] getlocal 8 .............................. <k>
+  [558] pusharglist 1 ........................... <k>
+  [560] extcall 201 ............................. <symbol(k)>
+  [562] getlocal 3 .............................. <att>
+  [564] getlocal 8 .............................. <k>
+  [566] pusharglist 2 ........................... <att, k>
+  [568] objcall 61 .............................. <att[k]>
+  [570] pushsymb 160 ............................ <#number>
+  [572] pusharglist 2 ........................... <att[k], #number>
+  [574] extcall 210 ............................. <asType(att[k], #number)>
+  [576] pusharglistnoret 3 ...................... <gt, symbol(k), asType(att[k], #number)>
+  [578] objcall 30 .............................. gt[symbol(k)] = asType(att[k], #number)
+  [580] pushint8 1
+  [582] add
+  [583] endrepeat [495]
+  [585] pop 3
+  [587] getlocal 11 ............................. <gtypes>
+  [589] getlocal 3 .............................. <att>
+  [591] pushcons 69 ............................. <"id">
+  [593] pusharglist 2 ........................... <att, "id">
+  [595] objcall 61 .............................. <att["id"]>
+  [597] getlocal 13 ............................. <gt>
+  [599] pusharglistnoret 3 ...................... <gtypes, att["id"], gt>
+  [601] objcall 30 .............................. gtypes[att["id"]] = gt
+  [603] getlocal 12 ............................. <tp>
+  [605] pushcons 72 ............................. <"groupStates">
+  [607] pusharglist 2 ........................... <tp, "groupStates">
+  [609] objcall 61 .............................. <tp["groupStates"]>
+  [611] setlocal 14 ............................. override_states = tp["groupStates"]
+  [613] getlocal 3 .............................. <att>
+  [615] pushcons 69 ............................. <"id">
+  [617] pusharglist 2 ........................... <att, "id">
+  [619] objcall 61 .............................. <att["id"]>
+  [621] pushcons 75 ............................. <"boy">
+  [623] eq ...................................... <att["id"] = "boy">
+  [624] jmpifz [631] ............................ if att["id"] = "boy" then
+  [627] pusharglistnoret 0 ...................... <>
+  [629] extcall 238 ............................. nothing()
+  [631] getlocal 14 ............................. <override_states>
+  [633] pusharglist 1 ........................... <override_states>
+  [635] extcall 62 .............................. <voidp(override_states)>
+  [637] not ..................................... <not voidp(override_states)>
+  [638] jmpifz [793] ............................ if not voidp(override_states) then
+  [641] pushint8 1 .............................. <1>
+  [643] setlocal 15
+  [645] getlocal 15
+  [647] getlocal 14 ............................. <override_states>
+  [649] getobjprop 64 ........................... <override_states.count>
+  [651] lteq
+  [652] jmpifz [789] ............................ repeat with huh = 1 to override_states.count
+  [655] getlocal 14 ............................. <override_states>
+  [657] pushsymb 239 ............................ <#child>
+  [659] getlocal 15 ............................. <huh>
+  [661] pusharglist 3 ........................... <override_states, #child, huh>
+  [663] objcall 78 .............................. <override_states.child[huh]>
+  [665] setlocal 16 ............................. os = override_states.child[huh]
+  [667] getlocal 16 ............................. <os>
+  [669] getobjprop 199 .......................... <os.attributeValue>
+  [671] setlocal 17 ............................. os_att = os.attributeValue
+  [673] pusharglist 0 ........................... <[:]>
+  [675] pushproplist ............................ <[:]>
+  [676] setlocal 10 ............................. gs = [:]
+  [678] getlocal 16 ............................. <os>
+  [680] getobjprop 200 .......................... <os.attributeName>
+  [682] peek 0
+  [684] pusharglist 1
+  [686] extcall 64
+  [688] pushint8 1
+  [690] peek 0
+  [692] peek 2
+  [694] lteq
+  [695] jmpifz [744] ............................ repeat with k in os.attributeName
+  [698] peek 2
+  [700] peek 1
+  [702] pusharglist 2
+  [704] extcall 61
+  [706] setlocal 8
+  [708] getlocal 8 .............................. <k>
+  [710] pushcons 69 ............................. <"id">
+  [712] eq ...................................... <k = "id">
+  [713] jmpifz [719] ............................ if k = "id" then
+  [716] jmp [739] ............................... next repeat
+  [719] getlocal 10 ............................. <gs>
+  [721] getlocal 8 .............................. <k>
+  [723] getlocal 17 ............................. <os_att>
+  [725] getlocal 8 .............................. <k>
+  [727] pusharglist 2 ........................... <os_att, k>
+  [729] objcall 61 .............................. <os_att[k]>
+  [731] pusharglist 1 ........................... <os_att[k]>
+  [733] extcall 129 ............................. <integer(os_att[k])>
+  [735] pusharglistnoret 3 ...................... <gs, k, integer(os_att[k])>
+  [737] objcall 30 .............................. gs[k] = integer(os_att[k])
+  [739] pushint8 1
+  [741] add
+  [742] endrepeat [690]
+  [744] pop 3
+  [746] getlocal 10 ............................. <gs>
+  [748] pushsymb 235 ............................ <#minMS>
+  [750] getlocal 7 .............................. <gd>
+  [752] getobjprop 235 .......................... <gd.minMS>
+  [754] pusharglistnoret 3 ...................... <gs, #minMS, gd.minMS>
+  [756] objcall 30 .............................. gs[#minMS] = gd.minMS
+  [758] getlocal 13 ............................. <gt>
+  [760] pushsymb 236 ............................ <#stateData>
+  [762] getlocal 17 ............................. <os_att>
+  [764] pushcons 69 ............................. <"id">
+  [766] pusharglist 2 ........................... <os_att, "id">
+  [768] objcall 61 .............................. <os_att["id"]>
+  [770] pusharglist 1 ........................... <os_att["id"]>
+  [772] extcall 201 ............................. <symbol(os_att["id"])>
+  [774] getlocal 10 ............................. <gs>
+  [776] pusharglistnoret 4 ...................... <gt, #stateData, symbol(os_att["id"]), gs>
+  [778] objcall 240 ............................. gt.stateData[symbol(os_att["id"])] = gs
+  [780] pushint8 1
+  [782] getlocal 15
+  [784] add
+  [785] setlocal 15
+  [787] endrepeat [645]
+  [789] pusharglistnoret 0 ...................... <>
+  [791] extcall 238 ............................. nothing()
+  [793] getlocal 13 ............................. <gt>
+  [795] getobjprop 241 .......................... <gt.slowness>
+  [797] setlocal 18 ............................. slowness = gt.slowness
+  [799] getlocal 13 ............................. <gt>
+  [801] getobjprop 242 .......................... <gt.patience>
+  [803] setlocal 19 ............................. patience = gt.patience
+  [805] getlocal 18 ............................. <slowness>
+  [807] pushfloat32 1.0 ......................... <1.0>
+  [812] eq ...................................... <slowness = 1.0>
+  [813] getlocal 19 ............................. <patience>
+  [815] pushfloat32 1.0 ......................... <1.0>
+  [820] eq ...................................... <patience = 1.0>
+  [821] and ..................................... <(slowness = 1.0) and (patience = 1.0)>
+  [822] jmpifz [828] ............................ if (slowness = 1.0) and (patience = 1.0) then
+  [825] jmp [1014] .............................. next repeat
+  [828] getlocal 4 .............................. <activeStates>
+  [830] peek 0
+  [832] pusharglist 1
+  [834] extcall 64
+  [836] pushint8 1
+  [838] peek 0
+  [840] peek 2
+  [842] lteq
+  [843] jmpifz [919] ............................ repeat with st in activeStates
+  [846] peek 2
+  [848] peek 1
+  [850] pusharglist 2
+  [852] extcall 61
+  [854] setlocal 20
+  [856] getlocal 13 ............................. <gt>
+  [858] pushsymb 236 ............................ <#stateData>
+  [860] getlocal 20 ............................. <st>
+  [862] pusharglist 3 ........................... <gt, #stateData, st>
+  [864] objcall 78 .............................. <gt.stateData[st]>
+  [866] setlocal 21 ............................. statelist = gt.stateData[st]
+  [868] pushint8 1 .............................. <1>
+  [870] setlocal 22
+  [872] getlocal 22
+  [874] getlocal 21 ............................. <statelist>
+  [876] getobjprop 64 ........................... <statelist.count>
+  [878] lteq
+  [879] jmpifz [914] ............................ repeat with modnum = 1 to statelist.count
+  [882] getlocal 21 ............................. <statelist>
+  [884] getlocal 22 ............................. <modnum>
+  [886] getlocal 21 ............................. <statelist>
+  [888] getlocal 22 ............................. <modnum>
+  [890] pusharglist 2 ........................... <statelist, modnum>
+  [892] objcall 61 .............................. <statelist[modnum]>
+  [894] getlocal 18 ............................. <slowness>
+  [896] mul ..................................... <statelist[modnum] * slowness>
+  [897] pusharglist 1 ........................... <statelist[modnum] * slowness>
+  [899] extcall 129 ............................. <integer(statelist[modnum] * slowness)>
+  [901] pusharglistnoret 3 ...................... <statelist, modnum, integer(statelist[modnum] * slowness)>
+  [903] objcall 30 .............................. statelist[modnum] = integer(statelist[modnum] * slowness)
+  [905] pushint8 1
+  [907] getlocal 22
+  [909] add
+  [910] setlocal 22
+  [912] endrepeat [872]
+  [914] pushint8 1
+  [916] add
+  [917] endrepeat [838]
+  [919] pop 3
+  [921] getlocal 5 .............................. <passiveStates>
+  [923] peek 0
+  [925] pusharglist 1
+  [927] extcall 64
+  [929] pushint8 1
+  [931] peek 0
+  [933] peek 2
+  [935] lteq
+  [936] jmpifz [1012] ........................... repeat with st in passiveStates
+  [939] peek 2
+  [941] peek 1
+  [943] pusharglist 2
+  [945] extcall 61
+  [947] setlocal 20
+  [949] getlocal 13 ............................. <gt>
+  [951] pushsymb 236 ............................ <#stateData>
+  [953] getlocal 20 ............................. <st>
+  [955] pusharglist 3 ........................... <gt, #stateData, st>
+  [957] objcall 78 .............................. <gt.stateData[st]>
+  [959] setlocal 21 ............................. statelist = gt.stateData[st]
+  [961] pushint8 1 .............................. <1>
+  [963] setlocal 22
+  [965] getlocal 22
+  [967] getlocal 21 ............................. <statelist>
+  [969] getobjprop 64 ........................... <statelist.count>
+  [971] lteq
+  [972] jmpifz [1007] ........................... repeat with modnum = 1 to statelist.count
+  [975] getlocal 21 ............................. <statelist>
+  [977] getlocal 22 ............................. <modnum>
+  [979] getlocal 21 ............................. <statelist>
+  [981] getlocal 22 ............................. <modnum>
+  [983] pusharglist 2 ........................... <statelist, modnum>
+  [985] objcall 61 .............................. <statelist[modnum]>
+  [987] getlocal 19 ............................. <patience>
+  [989] mul ..................................... <statelist[modnum] * patience>
+  [990] pusharglist 1 ........................... <statelist[modnum] * patience>
+  [992] extcall 129 ............................. <integer(statelist[modnum] * patience)>
+  [994] pusharglistnoret 3 ...................... <statelist, modnum, integer(statelist[modnum] * patience)>
+  [996] objcall 30 .............................. statelist[modnum] = integer(statelist[modnum] * patience)
+  [998] pushint8 1
+  [1000] getlocal 22
+  [1002] add
+  [1003] setlocal 22
+  [1005] endrepeat [965]
+  [1007] pushint8 1
+  [1009] add
+  [1010] endrepeat [931]
+  [1012] pop 3
+  [1014] pushint8 1
+  [1016] add
+  [1017] endrepeat [451]
+  [1020] pop 3
+  [1022] getprop 225 ............................ <group>
+  [1024] pushsymb 243 ........................... <#types>
+  [1026] getlocal 11 ............................ <gtypes>
+  [1028] pusharglistnoret 3 ..................... <group, #types, gtypes>
+  [1030] objcall 30 ............................. group[#types] = gtypes
+  [1032] getparam 0 ............................. <me>
+  [1034] pushcons 66 ............................ <"customer">
+  [1036] pushsymb 225 ........................... <#group>
+  [1038] getprop 225 ............................ <group>
+  [1040] pushsymb 224 ........................... <#customer>
+  [1042] getprop 224 ............................ <customer>
+  [1044] pusharglist 4 .......................... <[#group: group, #customer: customer]>
+  [1046] pushproplist ........................... <[#group: group, #customer: customer]>
+  [1047] pusharglistnoret 3 ..................... <me, "customer", [#group: group, #customer: customer]>
+  [1049] objcall 140 ............................ me.saveData("customer", [#group: group, #customer: customer])
+  [1051] ret
+end
+
+on getCareer me
+  [  0] getprop 25 .............................. <game>
+  [  2] pushsymb 38 ............................. <#career>
+  [  4] getparam 0 .............................. <me>
+  [  6] pushcons 56 ............................. <"career">
+  [  8] pusharglist 2 ........................... <me, "career">
+  [ 10] objcall 137 ............................. <me.getValueIfUnchanged("career")>
+  [ 12] pusharglistnoret 3 ...................... <game, #career, me.getValueIfUnchanged("career")>
+  [ 14] objcall 30 .............................. game[#career] = me.getValueIfUnchanged("career")
+  [ 16] getprop 25 .............................. <game>
+  [ 18] getchainedprop 38 ....................... <game.career>
+  [ 20] getobjprop 86 ........................... <game.career.listp>
+  [ 22] jmpifz [ 29] ............................ if game.career.listp then
+  [ 25] pusharglistnoret 0 ...................... <>
+  [ 27] extcall 53 .............................. return 
+  [ 29] getparam 0 .............................. <me>
+  [ 31] pushcons 56 ............................. <"career">
+  [ 33] pusharglistnoret 2 ...................... <me, "career">
+  [ 35] objcall 141 ............................. me.parseXML("career")
+  [ 37] getprop 165 ............................. <xparser>
+  [ 39] pushcons 76 ............................. <"careerMode">
+  [ 41] pusharglist 2 ........................... <xparser, "careerMode">
+  [ 43] objcall 61 .............................. <xparser["careerMode"]>
+  [ 45] setlocal 0 .............................. career = xparser["careerMode"]
+  [ 47] pusharglist 0 ........................... <[:]>
+  [ 49] pushproplist ............................ <[:]>
+  [ 50] setlocal 1 .............................. stages = [:]
+  [ 52] getlocal 0 .............................. <career>
+  [ 54] pushcons 77 ............................. <"stages">
+  [ 56] pusharglist 2 ........................... <career, "stages">
+  [ 58] objcall 61 .............................. <career["stages"]>
+  [ 60] peek 0
+  [ 62] pusharglist 1
+  [ 64] extcall 64
+  [ 66] pushint8 1
+  [ 68] peek 0
+  [ 70] peek 2
+  [ 72] lteq
+  [ 73] jmpifz [1193] ........................... repeat with stg_node in career["stages"]
+  [ 76] peek 2
+  [ 78] peek 1
+  [ 80] pusharglist 2
+  [ 82] extcall 61
+  [ 84] setlocal 2
+  [ 86] getlocal 2 .............................. <stg_node>
+  [ 88] getobjprop 199 .......................... <stg_node.attributeValue>
+  [ 90] setlocal 3 .............................. att = stg_node.attributeValue
+  [ 92] pusharglist 0 ........................... <[:]>
+  [ 94] pushproplist ............................ <[:]>
+  [ 95] setlocal 4 .............................. st = [:]
+  [ 97] getlocal 2 .............................. <stg_node>
+  [ 99] getobjprop 200 .......................... <stg_node.attributeName>
+  [101] peek 0
+  [103] pusharglist 1
+  [105] extcall 64
+  [107] pushint8 1
+  [109] peek 0
+  [111] peek 2
+  [113] lteq
+  [114] jmpifz [191] ............................ repeat with k in stg_node.attributeName
+  [117] peek 2
+  [119] peek 1
+  [121] pusharglist 2
+  [123] extcall 61
+  [125] setlocal 5
+  [127] getlocal 3 .............................. <att>
+  [129] getlocal 5 .............................. <k>
+  [131] pusharglist 2 ........................... <att, k>
+  [133] objcall 61 .............................. <att[k]>
+  [135] setlocal 6 .............................. val = att[k]
+  [137] getlocal 5 .............................. <k>
+  [139] pushcons 69 ............................. <"id">
+  [141] eq ...................................... <k = "id">
+  [142] jmpifz [156] ............................ if k = "id" then / else
+  [145] getlocal 6 .............................. <val>
+  [147] pusharglist 1 ........................... <val>
+  [149] extcall 201 ............................. <symbol(val)>
+  [151] setlocal 6 .............................. val = symbol(val)
+  [153] jmp [172]
+  [156] getlocal 5 .............................. <k>
+  [158] pushcons 78 ............................. <"numStars">
+  [160] eq ...................................... <k = "numStars">
+  [161] jmpifz [172] ............................ if k = "numStars" then
+  [164] getlocal 6 .............................. <val>
+  [166] pusharglist 1 ........................... <val>
+  [168] extcall 129 ............................. <integer(val)>
+  [170] setlocal 6 .............................. val = integer(val)
+  [172] getlocal 4 .............................. <st>
+  [174] getlocal 5 .............................. <k>
+  [176] pusharglist 1 ........................... <k>
+  [178] extcall 201 ............................. <symbol(k)>
+  [180] getlocal 6 .............................. <val>
+  [182] pusharglistnoret 3 ...................... <st, symbol(k), val>
+  [184] objcall 30 .............................. st[symbol(k)] = val
+  [186] pushint8 1
+  [188] add
+  [189] endrepeat [109]
+  [191] pop 3
+  [193] pusharglist 0 ........................... <[]>
+  [195] pushlist ................................ <[]>
+  [196] setlocal 7 .............................. lvls = []
+  [198] getlocal 2 .............................. <stg_node>
+  [200] pushcons 79 ............................. <"levels">
+  [202] pusharglist 2 ........................... <stg_node, "levels">
+  [204] objcall 61 .............................. <stg_node["levels"]>
+  [206] peek 0
+  [208] pusharglist 1
+  [210] extcall 64
+  [212] pushint8 1
+  [214] peek 0
+  [216] peek 2
+  [218] lteq
+  [219] jmpifz [1131] ........................... repeat with lvl_node in stg_node["levels"]
+  [222] peek 2
+  [224] peek 1
+  [226] pusharglist 2
+  [228] extcall 61
+  [230] setlocal 8
+  [232] pusharglist 0 ........................... <[:]>
+  [234] pushproplist ............................ <[:]>
+  [235] setlocal 9 .............................. lvl = [:]
+  [237] getlocal 8 .............................. <lvl_node>
+  [239] getobjprop 199 .......................... <lvl_node.attributeValue>
+  [241] setlocal 10 ............................. lvl_att = lvl_node.attributeValue
+  [243] getlocal 8 .............................. <lvl_node>
+  [245] getobjprop 200 .......................... <lvl_node.attributeName>
+  [247] peek 0
+  [249] pusharglist 1
+  [251] extcall 64
+  [253] pushint8 1
+  [255] peek 0
+  [257] peek 2
+  [259] lteq
+  [260] jmpifz [350] ............................ repeat with k in lvl_node.attributeName
+  [263] peek 2
+  [265] peek 1
+  [267] pusharglist 2
+  [269] extcall 61
+  [271] setlocal 5
+  [273] getlocal 5 .............................. <k>
+  [275] pushcons 80 ............................. <"layoutFile">
+  [277] eq ...................................... <k = "layoutFile">
+  [278] jmpifz [284] ............................ if k = "layoutFile" then
+  [281] jmp [345] ............................... next repeat
+  [284] getlocal 5 .............................. <k>
+  [286] pushcons 81 ............................. <"bgState">
+  [288] eq ...................................... <k = "bgState">
+  [289] getlocal 5 .............................. <k>
+  [291] pushcons 82 ............................. <"doodle">
+  [293] eq ...................................... <k = "doodle">
+  [294] or ...................................... <(k = "bgState") or (k = "doodle")>
+  [295] jmpifz [321] ............................ if (k = "bgState") or (k = "doodle") then
+  [298] getlocal 9 .............................. <lvl>
+  [300] getlocal 5 .............................. <k>
+  [302] pusharglist 1 ........................... <k>
+  [304] extcall 201 ............................. <symbol(k)>
+  [306] getlocal 10 ............................. <lvl_att>
+  [308] getlocal 5 .............................. <k>
+  [310] pusharglist 2 ........................... <lvl_att, k>
+  [312] objcall 61 .............................. <lvl_att[k]>
+  [314] pusharglistnoret 3 ...................... <lvl, symbol(k), lvl_att[k]>
+  [316] objcall 30 .............................. lvl[symbol(k)] = lvl_att[k]
+  [318] jmp [345] ............................... next repeat
+  [321] getlocal 9 .............................. <lvl>
+  [323] getlocal 5 .............................. <k>
+  [325] pusharglist 1 ........................... <k>
+  [327] extcall 201 ............................. <symbol(k)>
+  [329] getlocal 10 ............................. <lvl_att>
+  [331] getlocal 5 .............................. <k>
+  [333] pusharglist 2 ........................... <lvl_att, k>
+  [335] objcall 61 .............................. <lvl_att[k]>
+  [337] pusharglist 1 ........................... <lvl_att[k]>
+  [339] extcall 129 ............................. <integer(lvl_att[k])>
+  [341] pusharglistnoret 3 ...................... <lvl, symbol(k), integer(lvl_att[k])>
+  [343] objcall 30 .............................. lvl[symbol(k)] = integer(lvl_att[k])
+  [345] pushint8 1
+  [347] add
+  [348] endrepeat [255]
+  [350] pop 3
+  [352] getlocal 8 .............................. <lvl_node>
+  [354] pushsymb 199 ............................ <#attributeValue>
+  [356] pushcons 80 ............................. <"layoutFile">
+  [358] pusharglist 3 ........................... <lvl_node, #attributeValue, "layoutFile">
+  [360] objcall 78 .............................. <lvl_node.attributeValue["layoutFile"]>
+  [362] setlocal 11 ............................. memname = lvl_node.attributeValue["layoutFile"]
+  [364] getlocal 11 ............................. <memname>
+  [366] pushcons 57 ............................. <"config">
+  [368] pusharglist 2 ........................... <memname, "config">
+  [370] extcall 159 ............................. <member(memname, "config")>
+  [372] setlocal 12 ............................. m = member(memname, "config")
+  [374] getlocal 12 ............................. <m>
+  [376] getobjprop 160 .......................... <m.number>
+  [378] pushint8 1 .............................. <1>
+  [380] inv ..................................... <-1>
+  [381] eq ...................................... <m.number = -1>
+  [382] jmpifz [408] ............................ if m.number = -1 then
+  [385] pushcons 83 ............................. <"no leveldata member named ">
+  [387] getlocal 11 ............................. <memname>
+  [389] joinstr ................................. <"no leveldata member named " & memname>
+  [390] pushcons 84 ............................. <" in config cast">
+  [392] joinstr ................................. <"no leveldata member named " & memname & " in config cast">
+  [393] pusharglistnoret 1 ...................... <"no leveldata member named " & memname & " in config cast">
+  [395] extcall 261 ............................. complain("no leveldata member named " & memname & " in config cast")
+  [398] pushcons 85 ............................. <"thislevel">
+  [400] pushcons 57 ............................. <"config">
+  [402] pusharglist 2 ........................... <"thislevel", "config">
+  [404] extcall 159 ............................. <member("thislevel", "config")>
+  [406] setlocal 12 ............................. m = member("thislevel", "config")
+  [408] getlocal 9 .............................. <lvl>
+  [410] pushsymb 262 ............................ <#layout>
+  [413] getlocal 12 ............................. <m>
+  [415] getobjprop 161 .......................... <m.text>
+  [417] pusharglist 1 ........................... <m.text>
+  [419] extcall 263 ............................. <getLevelLayout(m.text)>
+  [422] pusharglistnoret 3 ...................... <lvl, #layout, getLevelLayout(m.text)>
+  [424] objcall 30 .............................. lvl[#layout] = getLevelLayout(m.text)
+  [426] getlocal 8 .............................. <lvl_node>
+  [428] pushcons 86 ............................. <"podium">
+  [430] pusharglist 2 ........................... <lvl_node, "podium">
+  [432] objcall 61 .............................. <lvl_node["podium"]>
+  [434] setlocal 13 ............................. pod_node = lvl_node["podium"]
+  [436] getlocal 13 ............................. <pod_node>
+  [438] pusharglist 1 ........................... <pod_node>
+  [440] extcall 62 .............................. <voidp(pod_node)>
+  [442] not ..................................... <not voidp(pod_node)>
+  [443] jmpifz [525] ............................ if not voidp(pod_node) then
+  [446] pusharglist 0 ........................... <[:]>
+  [448] pushproplist ............................ <[:]>
+  [449] setlocal 14 ............................. podls = [:]
+  [451] getlocal 13 ............................. <pod_node>
+  [453] getobjprop 200 .......................... <pod_node.attributeName>
+  [455] peek 0
+  [457] pusharglist 1
+  [459] extcall 64
+  [461] pushint8 1
+  [463] peek 0
+  [465] peek 2
+  [467] lteq
+  [468] jmpifz [512] ............................ repeat with pod_att in pod_node.attributeName
+  [471] peek 2
+  [473] peek 1
+  [475] pusharglist 2
+  [477] extcall 61
+  [479] setlocal 15
+  [481] getlocal 14 ............................. <podls>
+  [483] getlocal 15 ............................. <pod_att>
+  [485] pusharglist 1 ........................... <pod_att>
+  [487] extcall 201 ............................. <symbol(pod_att)>
+  [489] getlocal 13 ............................. <pod_node>
+  [491] pushsymb 199 ............................ <#attributeValue>
+  [493] getlocal 15 ............................. <pod_att>
+  [495] pusharglist 3 ........................... <pod_node, #attributeValue, pod_att>
+  [497] objcall 78 .............................. <pod_node.attributeValue[pod_att]>
+  [499] pusharglist 1 ........................... <pod_node.attributeValue[pod_att]>
+  [501] extcall 129 ............................. <integer(pod_node.attributeValue[pod_att])>
+  [503] pusharglistnoret 3 ...................... <podls, symbol(pod_att), integer(pod_node.attributeValue[pod_att])>
+  [505] objcall 30 .............................. podls[symbol(pod_att)] = integer(pod_node.attributeValue[pod_att])
+  [507] pushint8 1
+  [509] add
+  [510] endrepeat [463]
+  [512] pop 3
+  [514] getlocal 9 .............................. <lvl>
+  [516] pushsymb 264 ............................ <#podium>
+  [519] getlocal 14 ............................. <podls>
+  [521] pusharglistnoret 3 ...................... <lvl, #podium, podls>
+  [523] objcall 30 .............................. lvl[#podium] = podls
+  [525] getlocal 8 .............................. <lvl_node>
+  [527] pushcons 63 ............................. <"powerups">
+  [529] pusharglist 2 ........................... <lvl_node, "powerups">
+  [531] objcall 61 .............................. <lvl_node["powerups"]>
+  [533] setlocal 16 ............................. upg_node = lvl_node["powerups"]
+  [535] getlocal 16 ............................. <upg_node>
+  [537] pusharglist 1 ........................... <upg_node>
+  [539] extcall 62 .............................. <voidp(upg_node)>
+  [541] not ..................................... <not voidp(upg_node)>
+  [542] jmpifz [673] ............................ if not voidp(upg_node) then
+  [545] pusharglist 0 ........................... <[:]>
+  [547] pushproplist ............................ <[:]>
+  [548] setlocal 17 ............................. sugs = [:]
+  [550] getlocal 16 ............................. <upg_node>
+  [552] getobjprop 200 .......................... <upg_node.attributeName>
+  [554] peek 0
+  [556] pusharglist 1
+  [558] extcall 64
+  [560] pushint8 1
+  [562] peek 0
+  [564] peek 2
+  [566] lteq
+  [567] jmpifz [661] ............................ repeat with k in upg_node.attributeName
+  [570] peek 2
+  [572] peek 1
+  [574] pusharglist 2
+  [576] extcall 61
+  [578] setlocal 5
+  [580] getlocal 5 .............................. <k>
+  [582] pusharglist 1 ........................... <k>
+  [584] extcall 201 ............................. <symbol(k)>
+  [586] setlocal 18 ............................. pup_type = symbol(k)
+  [588] getlocal 16 ............................. <upg_node>
+  [590] pushsymb 199 ............................ <#attributeValue>
+  [592] getlocal 5 .............................. <k>
+  [594] pusharglist 3 ........................... <upg_node, #attributeValue, k>
+  [596] objcall 78 .............................. <upg_node.attributeValue[k]>
+  [598] pusharglist 1 ........................... <upg_node.attributeValue[k]>
+  [600] extcall 129 ............................. <integer(upg_node.attributeValue[k])>
+  [602] setlocal 19 ............................. pup_level = integer(upg_node.attributeValue[k])
+  [604] getparam 0 .............................. <me>
+  [606] getlocal 18 ............................. <pup_type>
+  [608] getlocal 19 ............................. <pup_level>
+  [610] pusharglist 3 ........................... <me, pup_type, pup_level>
+  [612] objcall 151 ............................. <me.getPowerupConfig(pup_type, pup_level)>
+  [614] setlocal 20 ............................. pup = me.getPowerupConfig(pup_type, pup_level)
+  [616] getlocal 20 ............................. <pup>
+  [618] pusharglist 1 ........................... <pup>
+  [620] extcall 62 .............................. <voidp(pup)>
+  [622] jmpifz [646] ............................ if voidp(pup) then
+  [625] pushcons 87 ............................. <"no powerup '">
+  [627] getlocal 18 ............................. <pup_type>
+  [629] joinstr ................................. <"no powerup '" & pup_type>
+  [630] pushcons 88 ............................. <"' lvl '">
+  [632] joinstr ................................. <"no powerup '" & pup_type & "' lvl '">
+  [633] getlocal 19 ............................. <pup_level>
+  [635] joinstr ................................. <"no powerup '" & pup_type & "' lvl '" & pup_level>
+  [636] pushcons 89 ............................. <" in powerup.xml">
+  [638] pusharglistnoret 2 ...................... <"no powerup '" & pup_type & "' lvl '" & pup_level, " in powerup.xml">
+  [640] extcall 261 ............................. complain("no powerup '" & pup_type & "' lvl '" & pup_level, " in powerup.xml")
+  [643] jmp [656] ............................... next repeat
+  [646] getlocal 17 ............................. <sugs>
+  [648] getlocal 18 ............................. <pup_type>
+  [650] getlocal 20 ............................. <pup>
+  [652] pusharglistnoret 3 ...................... <sugs, pup_type, pup>
+  [654] objcall 30 .............................. sugs[pup_type] = pup
+  [656] pushint8 1
+  [658] add
+  [659] endrepeat [562]
+  [661] pop 3
+  [663] getlocal 9 .............................. <lvl>
+  [665] pushsymb 209 ............................ <#powerups>
+  [667] getlocal 17 ............................. <sugs>
+  [669] pusharglistnoret 3 ...................... <lvl, #powerups, sugs>
+  [671] objcall 30 .............................. lvl[#powerups] = sugs
+  [673] getlocal 9 .............................. <lvl>
+  [675] pushsymb 265 ............................ <#snackPercent>
+  [678] pusharglist 2 ........................... <lvl, #snackPercent>
+  [680] objcall 61 .............................. <lvl[#snackPercent]>
+  [682] pusharglist 1 ........................... <lvl[#snackPercent]>
+  [684] extcall 62 .............................. <voidp(lvl[#snackPercent])>
+  [686] not ..................................... <not voidp(lvl[#snackPercent])>
+  [687] jmpifz [828] ............................ if not voidp(lvl[#snackPercent]) then
+  [690] pusharglist 0 ........................... <[]>
+  [692] pushlist ................................ <[]>
+  [693] setlocal 21 ............................. snacks = []
+  [695] getlocal 8 .............................. <lvl_node>
+  [697] pushcons 90 ............................. <"snacks">
+  [699] pusharglist 2 ........................... <lvl_node, "snacks">
+  [701] objcall 61 .............................. <lvl_node["snacks"]>
+  [703] setlocal 22 ............................. snack_nodes = lvl_node["snacks"]
+  [705] getlocal 22 ............................. <snack_nodes>
+  [707] pusharglist 1 ........................... <snack_nodes>
+  [709] extcall 62 .............................. <voidp(snack_nodes)>
+  [711] not ..................................... <not voidp(snack_nodes)>
+  [712] jmpifz [817] ............................ if not voidp(snack_nodes) then
+  [715] getlocal 22 ............................. <snack_nodes>
+  [717] peek 0
+  [719] pusharglist 1
+  [721] extcall 64
+  [723] pushint8 1
+  [725] peek 0
+  [727] peek 2
+  [729] lteq
+  [730] jmpifz [815] ............................ repeat with sn in snack_nodes
+  [733] peek 2
+  [735] peek 1
+  [737] pusharglist 2
+  [739] extcall 61
+  [741] setlocal 23
+  [743] getlocal 23 ............................. <sn>
+  [745] pusharglist 1 ........................... <sn>
+  [747] objcall 266 ............................. <sn.getText()>
+  [750] pusharglist 1 ........................... <sn.getText()>
+  [752] extcall 201 ............................. <symbol(sn.getText())>
+  [754] setlocal 24 ............................. snid = symbol(sn.getText())
+  [756] getprop 154 ............................. <snackIDs>
+  [758] getlocal 24 ............................. <snid>
+  [760] pusharglist 2 ........................... <snackIDs, snid>
+  [762] objcall 71 .............................. <snackIDs.getOne(snid)>
+  [764] pushzero ................................ <0>
+  [765] eq ...................................... <snackIDs.getOne(snid) = 0>
+  [766] jmpifz [789] ............................ if snackIDs.getOne(snid) = 0 then
+  [769] getlocal 24 ............................. <snid>
+  [771] pushcons 91 ............................. <" not one of currently available snacks: ">
+  [773] joinstr ................................. <snid & " not one of currently available snacks: ">
+  [774] getprop 154 ............................. <snackIDs>
+  [776] pusharglist 1 ........................... <snackIDs>
+  [778] extcall 113 ............................. <string(snackIDs)>
+  [780] joinstr ................................. <snid & " not one of currently available snacks: " & string(snackIDs)>
+  [781] pusharglistnoret 1 ...................... <snid & " not one of currently available snacks: " & string(snackIDs)>
+  [783] extcall 261 ............................. complain(snid & " not one of currently available snacks: " & string(snackIDs))
+  [786] jmp [810] ............................... next repeat
+  [789] getlocal 21 ............................. <snacks>
+  [791] getlocal 24 ............................. <snid>
+  [793] pusharglist 2 ........................... <snacks, snid>
+  [795] objcall 71 .............................. <snacks.getOne(snid)>
+  [797] pushzero ................................ <0>
+  [798] eq ...................................... <snacks.getOne(snid) = 0>
+  [799] jmpifz [810] ............................ if snacks.getOne(snid) = 0 then
+  [802] getlocal 21 ............................. <snacks>
+  [804] getlocal 24 ............................. <snid>
+  [806] pusharglistnoret 2 ...................... <snacks, snid>
+  [808] objcall 72 .............................. snacks.add(snid)
+  [810] pushint8 1
+  [812] add
+  [813] endrepeat [725]
+  [815] pop 3
+  [817] getlocal 9 .............................. <lvl>
+  [819] pushsymb 267 ............................ <#snacks>
+  [822] getlocal 21 ............................. <snacks>
+  [824] pusharglistnoret 3 ...................... <lvl, #snacks, snacks>
+  [826] objcall 30 .............................. lvl[#snacks] = snacks
+  [828] pusharglist 0 ........................... <[]>
+  [830] pushlist ................................ <[]>
+  [831] setlocal 25 ............................. grps = []
+  [833] getlocal 8 .............................. <lvl_node>
+  [835] pushcons 92 ............................. <"groups">
+  [837] pusharglist 2 ........................... <lvl_node, "groups">
+  [839] objcall 61 .............................. <lvl_node["groups"]>
+  [841] peek 0
+  [843] pusharglist 1
+  [845] extcall 64
+  [847] pushint8 1
+  [849] peek 0
+  [851] peek 2
+  [853] lteq
+  [854] jmpifz [1001] ........................... repeat with gr_node in lvl_node["groups"]
+  [857] peek 2
+  [859] peek 1
+  [861] pusharglist 2
+  [863] extcall 61
+  [865] setlocal 26
+  [867] pusharglist 0 ........................... <[:]>
+  [869] pushproplist ............................ <[:]>
+  [870] setlocal 27 ............................. gr = [:]
+  [872] getlocal 26 ............................. <gr_node>
+  [874] getobjprop 199 .......................... <gr_node.attributeValue>
+  [876] setlocal 28 ............................. gr_att = gr_node.attributeValue
+  [878] getlocal 27 ............................. <gr>
+  [880] pushsymb 268 ............................ <#queueTimeMS>
+  [883] getlocal 28 ............................. <gr_att>
+  [885] getobjprop 268 .......................... <gr_att.queueTimeMS>
+  [888] pusharglist 1 ........................... <gr_att.queueTimeMS>
+  [890] extcall 129 ............................. <integer(gr_att.queueTimeMS)>
+  [892] pusharglistnoret 3 ...................... <gr, #queueTimeMS, integer(gr_att.queueTimeMS)>
+  [894] objcall 30 .............................. gr[#queueTimeMS] = integer(gr_att.queueTimeMS)
+  [896] getlocal 27 ............................. <gr>
+  [898] pushsymb 212 ............................ <#type>
+  [900] getlocal 28 ............................. <gr_att>
+  [902] pushcons 93 ............................. <"groupType">
+  [904] pusharglist 2 ........................... <gr_att, "groupType">
+  [906] objcall 61 .............................. <gr_att["groupType"]>
+  [908] pusharglistnoret 3 ...................... <gr, #type, gr_att["groupType"]>
+  [910] objcall 30 .............................. gr[#type] = gr_att["groupType"]
+  [912] pusharglist 0 ........................... <[]>
+  [914] pushlist ................................ <[]>
+  [915] setlocal 29 ............................. cs = []
+  [917] getlocal 26 ............................. <gr_node>
+  [919] pushcons 94 ............................. <"customerIDs">
+  [921] pusharglist 2 ........................... <gr_node, "customerIDs">
+  [923] objcall 61 .............................. <gr_node["customerIDs"]>
+  [925] peek 0
+  [927] pusharglist 1
+  [929] extcall 64
+  [931] pushint8 1
+  [933] peek 0
+  [935] peek 2
+  [937] lteq
+  [938] jmpifz [975] ............................ repeat with cid in gr_node["customerIDs"]
+  [941] peek 2
+  [943] peek 1
+  [945] pusharglist 2
+  [947] extcall 61
+  [949] setlocal 30
+  [951] getlocal 29 ............................. <cs>
+  [953] getprop 224 ............................. <customer>
+  [955] getlocal 30 ............................. <cid>
+  [957] pusharglist 1 ........................... <cid>
+  [959] objcall 266 ............................. <cid.getText()>
+  [962] pusharglist 2 ........................... <customer, cid.getText()>
+  [964] objcall 61 .............................. <customer[cid.getText()]>
+  [966] pusharglistnoret 2 ...................... <cs, customer[cid.getText()]>
+  [968] objcall 72 .............................. cs.add(customer[cid.getText()])
+  [970] pushint8 1
+  [972] add
+  [973] endrepeat [933]
+  [975] pop 3
+  [977] getlocal 27 ............................. <gr>
+  [979] pushsymb 269 ............................ <#customers>
+  [982] getlocal 29 ............................. <cs>
+  [984] pusharglistnoret 3 ...................... <gr, #customers, cs>
+  [986] objcall 30 .............................. gr[#customers] = cs
+  [988] getlocal 25 ............................. <grps>
+  [990] getlocal 27 ............................. <gr>
+  [992] pusharglistnoret 2 ...................... <grps, gr>
+  [994] objcall 72 .............................. grps.add(gr)
+  [996] pushint8 1
+  [998] add
+  [999] endrepeat [849]
+  [1001] pop 3
+  [1003] getlocal 9 ............................. <lvl>
+  [1005] pushsymb 270 ........................... <#groups>
+  [1008] getlocal 25 ............................ <grps>
+  [1010] pusharglistnoret 3 ..................... <lvl, #groups, grps>
+  [1012] objcall 30 ............................. lvl[#groups] = grps
+  [1014] pusharglist 0 .......................... <[:]>
+  [1016] pushproplist ........................... <[:]>
+  [1017] setlocal 31 ............................ txt = [:]
+  [1019] getlocal 8 ............................. <lvl_node>
+  [1021] pushcons 95 ............................ <"text">
+  [1023] pusharglist 2 .......................... <lvl_node, "text">
+  [1025] objcall 61 ............................. <lvl_node["text"]>
+  [1027] peek 0
+  [1029] pusharglist 1
+  [1031] extcall 64
+  [1033] pushint8 1
+  [1035] peek 0
+  [1037] peek 2
+  [1039] lteq
+  [1040] jmpifz [1079] .......................... repeat with txtnode in lvl_node["text"]
+  [1043] peek 2
+  [1045] peek 1
+  [1047] pusharglist 2
+  [1049] extcall 61
+  [1051] setlocal 32
+  [1053] getlocal 31 ............................ <txt>
+  [1055] getlocal 32 ............................ <txtnode>
+  [1057] getobjprop 35 .......................... <txtnode.name>
+  [1059] pusharglist 1 .......................... <txtnode.name>
+  [1061] extcall 201 ............................ <symbol(txtnode.name)>
+  [1063] getlocal 32 ............................ <txtnode>
+  [1065] pusharglist 1 .......................... <txtnode>
+  [1067] objcall 266 ............................ <txtnode.getText()>
+  [1070] pusharglistnoret 3 ..................... <txt, symbol(txtnode.name), txtnode.getText()>
+  [1072] objcall 30 ............................. txt[symbol(txtnode.name)] = txtnode.getText()
+  [1074] pushint8 1
+  [1076] add
+  [1077] endrepeat [1035]
+  [1079] pop 3
+  [1081] getlocal 9 ............................. <lvl>
+  [1083] pushsymb 161 ........................... <#text>
+  [1085] getlocal 31 ............................ <txt>
+  [1087] pusharglistnoret 3 ..................... <lvl, #text, txt>
+  [1089] objcall 30 ............................. lvl[#text] = txt
+  [1091] getlocal 7 ............................. <lvls>
+  [1093] getlocal 9 ............................. <lvl>
+  [1095] pusharglistnoret 2 ..................... <lvls, lvl>
+  [1097] objcall 72 ............................. lvls.add(lvl)
+  [1099] getparam 0 ............................. <me>
+  [1101] pushcons 96 ............................ <"career_">
+  [1103] getlocal 1 ............................. <stages>
+  [1105] getobjprop 64 .......................... <stages.count>
+  [1107] pushint8 1 ............................. <1>
+  [1109] add .................................... <stages.count + 1>
+  [1110] joinstr ................................ <"career_" & stages.count + 1>
+  [1111] pushcons 97 ............................ <"_">
+  [1113] joinstr ................................ <"career_" & stages.count + 1 & "_">
+  [1114] getlocal 7 ............................. <lvls>
+  [1116] getobjprop 64 .......................... <lvls.count>
+  [1118] joinstr ................................ <"career_" & stages.count + 1 & "_" & lvls.count>
+  [1119] getlocal 9 ............................. <lvl>
+  [1121] pusharglistnoret 3 ..................... <me, "career_" & stages.count + 1 & "_" & lvls.count, lvl>
+  [1123] objcall 140 ............................ me.saveData("career_" & stages.count + 1 & "_" & lvls.count, lvl)
+  [1125] pushint8 1
+  [1127] add
+  [1128] endrepeat [214]
+  [1131] pop 3
+  [1133] getlocal 4 ............................. <st>
+  [1135] pushsymb 90 ............................ <#numLevels>
+  [1137] getlocal 7 ............................. <lvls>
+  [1139] getobjprop 64 .......................... <lvls.count>
+  [1141] pusharglistnoret 3 ..................... <st, #numLevels, lvls.count>
+  [1143] objcall 30 ............................. st[#numLevels] = lvls.count
+  [1145] getlocal 4 ............................. <st>
+  [1147] pushsymb 271 ........................... <#introText>
+  [1150] getlocal 2 ............................. <stg_node>
+  [1152] pushcons 98 ............................ <"introText">
+  [1154] pusharglist 2 .......................... <stg_node, "introText">
+  [1156] objcall 61 ............................. <stg_node["introText"]>
+  [1158] pusharglist 1 .......................... <stg_node["introText"]>
+  [1160] objcall 266 ............................ <stg_node["introText"].getText()>
+  [1163] pusharglistnoret 3 ..................... <st, #introText, stg_node["introText"].getText()>
+  [1165] objcall 30 ............................. st[#introText] = stg_node["introText"].getText()
+  [1167] getlocal 1 ............................. <stages>
+  [1169] getlocal 3 ............................. <att>
+  [1171] pushcons 69 ............................ <"id">
+  [1173] pusharglist 2 .......................... <att, "id">
+  [1175] objcall 61 ............................. <att["id"]>
+  [1177] pusharglist 1 .......................... <att["id"]>
+  [1179] extcall 201 ............................ <symbol(att["id"])>
+  [1181] getlocal 4 ............................. <st>
+  [1183] pusharglistnoret 3 ..................... <stages, symbol(att["id"]), st>
+  [1185] objcall 30 ............................. stages[symbol(att["id"])] = st
+  [1187] pushint8 1
+  [1189] add
+  [1190] endrepeat [ 68]
+  [1193] pop 3
+  [1195] getprop 25 ............................. <game>
+  [1197] pushsymb 26 ............................ <#stages>
+  [1199] getlocal 1 ............................. <stages>
+  [1201] pushsymb 272 ........................... <#numStages>
+  [1204] getlocal 1 ............................. <stages>
+  [1206] getobjprop 64 .......................... <stages.count>
+  [1208] pusharglist 4 .......................... <[#stages: stages, #numStages: stages.count]>
+  [1210] pushproplist ........................... <[#stages: stages, #numStages: stages.count]>
+  [1211] setobjprop 38 .......................... game.career = [#stages: stages, #numStages: stages.count]
+  [1213] getparam 0 ............................. <me>
+  [1215] pushcons 56 ............................ <"career">
+  [1217] getprop 25 ............................. <game>
+  [1219] getobjprop 38 .......................... <game.career>
+  [1221] pusharglistnoret 3 ..................... <me, "career", game.career>
+  [1223] objcall 140 ............................ me.saveData("career", game.career)
+  [1225] ret
+end
+
+on getEndless me
+  [  0] getprop 25 .............................. <game>
+  [  2] pushsymb 119 ............................ <#endless>
+  [  4] getparam 0 .............................. <me>
+  [  6] pushcons 55 ............................. <"endless">
+  [  8] pusharglist 2 ........................... <me, "endless">
+  [ 10] objcall 137 ............................. <me.getValueIfUnchanged("endless")>
+  [ 12] pusharglistnoret 3 ...................... <game, #endless, me.getValueIfUnchanged("endless")>
+  [ 14] objcall 30 .............................. game[#endless] = me.getValueIfUnchanged("endless")
+  [ 16] getprop 25 .............................. <game>
+  [ 18] getchainedprop 119 ...................... <game.endless>
+  [ 20] getobjprop 86 ........................... <game.endless.listp>
+  [ 22] jmpifz [ 29] ............................ if game.endless.listp then
+  [ 25] pusharglistnoret 0 ...................... <>
+  [ 27] extcall 53 .............................. return 
+  [ 29] getparam 0 .............................. <me>
+  [ 31] pushcons 55 ............................. <"endless">
+  [ 33] pusharglistnoret 2 ...................... <me, "endless">
+  [ 35] objcall 141 ............................. me.parseXML("endless")
+  [ 37] pusharglist 0 ........................... <[:]>
+  [ 39] pushproplist ............................ <[:]>
+  [ 40] setlocal 0 .............................. endls = [:]
+  [ 42] getprop 165 ............................. <xparser>
+  [ 44] pushcons 99 ............................. <"endlessMode">
+  [ 46] pusharglist 2 ........................... <xparser, "endlessMode">
+  [ 48] objcall 61 .............................. <xparser["endlessMode"]>
+  [ 50] setlocal 1 .............................. enode = xparser["endlessMode"]
+  [ 52] getlocal 1 .............................. <enode>
+  [ 54] pushcons 100 ............................ <"endlessStages">
+  [ 56] pusharglist 2 ........................... <enode, "endlessStages">
+  [ 58] objcall 61 .............................. <enode["endlessStages"]>
+  [ 60] peek 0
+  [ 62] pusharglist 1
+  [ 64] extcall 64
+  [ 66] pushint8 1
+  [ 68] peek 0
+  [ 70] peek 2
+  [ 72] lteq
+  [ 73] jmpifz [1874] ........................... repeat with stagenode in enode["endlessStages"]
+  [ 76] peek 2
+  [ 78] peek 1
+  [ 80] pusharglist 2
+  [ 82] extcall 61
+  [ 84] setlocal 2
+  [ 86] pusharglist 0 ........................... <[:]>
+  [ 88] pushproplist ............................ <[:]>
+  [ 89] setlocal 3 .............................. estage = [:]
+  [ 91] getlocal 2 .............................. <stagenode>
+  [ 93] getobjprop 199 .......................... <stagenode.attributeValue>
+  [ 95] setlocal 4 .............................. att = stagenode.attributeValue
+  [ 97] getlocal 2 .............................. <stagenode>
+  [ 99] getobjprop 200 .......................... <stagenode.attributeName>
+  [101] peek 0
+  [103] pusharglist 1
+  [105] extcall 64
+  [107] pushint8 1
+  [109] peek 0
+  [111] peek 2
+  [113] lteq
+  [114] jmpifz [195] ............................ repeat with k in stagenode.attributeName
+  [117] peek 2
+  [119] peek 1
+  [121] pusharglist 2
+  [123] extcall 61
+  [125] setlocal 5
+  [127] getlocal 5 .............................. <k>
+  [129] pushcons 101 ............................ <"name">
+  [131] eq ...................................... <k = "name">
+  [132] getlocal 5 .............................. <k>
+  [134] pushcons 69 ............................. <"id">
+  [136] eq ...................................... <k = "id">
+  [137] or ...................................... <(k = "name") or (k = "id")>
+  [138] jmpifz [164] ............................ if (k = "name") or (k = "id") then
+  [141] getlocal 3 .............................. <estage>
+  [143] getlocal 5 .............................. <k>
+  [145] pusharglist 1 ........................... <k>
+  [147] extcall 201 ............................. <symbol(k)>
+  [149] getlocal 4 .............................. <att>
+  [151] getlocal 5 .............................. <k>
+  [153] pusharglist 2 ........................... <att, k>
+  [155] objcall 61 .............................. <att[k]>
+  [157] pusharglistnoret 3 ...................... <estage, symbol(k), att[k]>
+  [159] objcall 30 .............................. estage[symbol(k)] = att[k]
+  [161] jmp [190] ............................... next repeat
+  [164] getlocal 3 .............................. <estage>
+  [166] getlocal 5 .............................. <k>
+  [168] pusharglist 1 ........................... <k>
+  [170] extcall 201 ............................. <symbol(k)>
+  [172] getlocal 4 .............................. <att>
+  [174] getlocal 5 .............................. <k>
+  [176] pusharglist 2 ........................... <att, k>
+  [178] objcall 61 .............................. <att[k]>
+  [180] pushsymb 160 ............................ <#number>
+  [182] pusharglist 2 ........................... <att[k], #number>
+  [184] extcall 210 ............................. <asType(att[k], #number)>
+  [186] pusharglistnoret 3 ...................... <estage, symbol(k), asType(att[k], #number)>
+  [188] objcall 30 .............................. estage[symbol(k)] = asType(att[k], #number)
+  [190] pushint8 1
+  [192] add
+  [193] endrepeat [109]
+  [195] pop 3
+  [197] pusharglist 0 ........................... <[]>
+  [199] pushlist ................................ <[]>
+  [200] setlocal 6 .............................. lvls = []
+  [202] getlocal 2 .............................. <stagenode>
+  [204] pushcons 102 ............................ <"endlessLevels">
+  [206] pusharglist 2 ........................... <stagenode, "endlessLevels">
+  [208] objcall 61 .............................. <stagenode["endlessLevels"]>
+  [210] peek 0
+  [212] pusharglist 1
+  [214] extcall 64
+  [216] pushint8 1
+  [218] peek 0
+  [220] peek 2
+  [222] lteq
+  [223] jmpifz [1838] ........................... repeat with lvl_node in stagenode["endlessLevels"]
+  [226] peek 2
+  [228] peek 1
+  [230] pusharglist 2
+  [232] extcall 61
+  [234] setlocal 7
+  [236] pusharglist 0 ........................... <[:]>
+  [238] pushproplist ............................ <[:]>
+  [239] setlocal 8 .............................. lvl = [:]
+  [241] getlocal 7 .............................. <lvl_node>
+  [243] getobjprop 199 .......................... <lvl_node.attributeValue>
+  [245] setlocal 9 .............................. lvl_att = lvl_node.attributeValue
+  [247] getlocal 7 .............................. <lvl_node>
+  [249] getobjprop 200 .......................... <lvl_node.attributeName>
+  [251] peek 0
+  [253] pusharglist 1
+  [255] extcall 64
+  [257] pushint8 1
+  [259] peek 0
+  [261] peek 2
+  [263] lteq
+  [264] jmpifz [325] ............................ repeat with k in lvl_node.attributeName
+  [267] peek 2
+  [269] peek 1
+  [271] pusharglist 2
+  [273] extcall 61
+  [275] setlocal 5
+  [277] getlocal 5 .............................. <k>
+  [279] pushcons 80 ............................. <"layoutFile">
+  [281] eq ...................................... <k = "layoutFile">
+  [282] getlocal 5 .............................. <k>
+  [284] pushcons 69 ............................. <"id">
+  [286] eq ...................................... <k = "id">
+  [287] or ...................................... <(k = "layoutFile") or (k = "id")>
+  [288] jmpifz [294] ............................ if (k = "layoutFile") or (k = "id") then
+  [291] jmp [320] ............................... next repeat
+  [294] getlocal 8 .............................. <lvl>
+  [296] getlocal 5 .............................. <k>
+  [298] pusharglist 1 ........................... <k>
+  [300] extcall 201 ............................. <symbol(k)>
+  [302] getlocal 9 .............................. <lvl_att>
+  [304] getlocal 5 .............................. <k>
+  [306] pusharglist 2 ........................... <lvl_att, k>
+  [308] objcall 61 .............................. <lvl_att[k]>
+  [310] pushsymb 160 ............................ <#number>
+  [312] pusharglist 2 ........................... <lvl_att[k], #number>
+  [314] extcall 210 ............................. <asType(lvl_att[k], #number)>
+  [316] pusharglistnoret 3 ...................... <lvl, symbol(k), asType(lvl_att[k], #number)>
+  [318] objcall 30 .............................. lvl[symbol(k)] = asType(lvl_att[k], #number)
+  [320] pushint8 1
+  [322] add
+  [323] endrepeat [259]
+  [325] pop 3
+  [327] pushsymb 296 ............................ <#difficultyIncreaseMS>
+  [330] pushsymb 297 ............................ <#startingTimeMultiplier>
+  [333] pushsymb 298 ............................ <#timeMultiplierDecrease>
+  [336] pushsymb 299 ............................ <#timeMultiplierMinimum>
+  [339] pusharglist 4 ........................... <[#difficultyIncreaseMS, #startingTimeMultiplier, #timeMultiplierDecrease, #timeMultiplierMinimum]>
+  [341] pushlist ................................ <[#difficultyIncreaseMS, #startingTimeMultiplier, #timeMultiplierDecrease, #timeMultiplierMinimum]>
+  [342] peek 0
+  [344] pusharglist 1
+  [346] extcall 64
+  [348] pushint8 1
+  [350] peek 0
+  [352] peek 2
+  [354] lteq
+  [355] jmpifz [404] ............................ repeat with rampprop in [#difficultyIncreaseMS, #startingTimeMultiplier, #timeMultiplierDecrease, #timeMultiplierMinimum]
+  [358] peek 2
+  [360] peek 1
+  [362] pusharglist 2
+  [364] extcall 61
+  [366] setlocal 10
+  [368] getlocal 8 .............................. <lvl>
+  [370] getlocal 10 ............................. <rampprop>
+  [372] pusharglist 2 ........................... <lvl, rampprop>
+  [374] objcall 61 .............................. <lvl[rampprop]>
+  [376] pusharglist 1 ........................... <lvl[rampprop]>
+  [378] extcall 62 .............................. <voidp(lvl[rampprop])>
+  [380] jmpifz [399] ............................ if voidp(lvl[rampprop]) then
+  [383] getlocal 8 .............................. <lvl>
+  [385] getlocal 10 ............................. <rampprop>
+  [387] getlocal 3 .............................. <estage>
+  [389] getlocal 10 ............................. <rampprop>
+  [391] pusharglist 2 ........................... <estage, rampprop>
+  [393] objcall 61 .............................. <estage[rampprop]>
+  [395] pusharglistnoret 3 ...................... <lvl, rampprop, estage[rampprop]>
+  [397] objcall 30 .............................. lvl[rampprop] = estage[rampprop]
+  [399] pushint8 1
+  [401] add
+  [402] endrepeat [350]
+  [404] pop 3
+  [406] getlocal 7 .............................. <lvl_node>
+  [408] pushsymb 199 ............................ <#attributeValue>
+  [410] pushcons 80 ............................. <"layoutFile">
+  [412] pusharglist 3 ........................... <lvl_node, #attributeValue, "layoutFile">
+  [414] objcall 78 .............................. <lvl_node.attributeValue["layoutFile"]>
+  [416] setlocal 11 ............................. memname = lvl_node.attributeValue["layoutFile"]
+  [418] getlocal 11 ............................. <memname>
+  [420] pushcons 57 ............................. <"config">
+  [422] pusharglist 2 ........................... <memname, "config">
+  [424] extcall 159 ............................. <member(memname, "config")>
+  [426] setlocal 12 ............................. m = member(memname, "config")
+  [428] getlocal 12 ............................. <m>
+  [430] getobjprop 160 .......................... <m.number>
+  [432] pushint8 1 .............................. <1>
+  [434] inv ..................................... <-1>
+  [435] eq ...................................... <m.number = -1>
+  [436] jmpifz [462] ............................ if m.number = -1 then
+  [439] pushcons 83 ............................. <"no leveldata member named ">
+  [441] getlocal 11 ............................. <memname>
+  [443] joinstr ................................. <"no leveldata member named " & memname>
+  [444] pushcons 84 ............................. <" in config cast">
+  [446] joinstr ................................. <"no leveldata member named " & memname & " in config cast">
+  [447] pusharglistnoret 1 ...................... <"no leveldata member named " & memname & " in config cast">
+  [449] extcall 261 ............................. complain("no leveldata member named " & memname & " in config cast")
+  [452] pushcons 85 ............................. <"thislevel">
+  [454] pushcons 57 ............................. <"config">
+  [456] pusharglist 2 ........................... <"thislevel", "config">
+  [458] extcall 159 ............................. <member("thislevel", "config")>
+  [460] setlocal 12 ............................. m = member("thislevel", "config")
+  [462] getlocal 8 .............................. <lvl>
+  [464] pushsymb 262 ............................ <#layout>
+  [467] getlocal 12 ............................. <m>
+  [469] getobjprop 161 .......................... <m.text>
+  [471] pusharglist 1 ........................... <m.text>
+  [473] extcall 263 ............................. <getLevelLayout(m.text)>
+  [476] pusharglistnoret 3 ...................... <lvl, #layout, getLevelLayout(m.text)>
+  [478] objcall 30 .............................. lvl[#layout] = getLevelLayout(m.text)
+  [480] getlocal 7 .............................. <lvl_node>
+  [482] pushcons 86 ............................. <"podium">
+  [484] pusharglist 2 ........................... <lvl_node, "podium">
+  [486] objcall 61 .............................. <lvl_node["podium"]>
+  [488] setlocal 13 ............................. pod_node = lvl_node["podium"]
+  [490] getlocal 13 ............................. <pod_node>
+  [492] pusharglist 1 ........................... <pod_node>
+  [494] extcall 62 .............................. <voidp(pod_node)>
+  [496] not ..................................... <not voidp(pod_node)>
+  [497] jmpifz [579] ............................ if not voidp(pod_node) then
+  [500] pusharglist 0 ........................... <[:]>
+  [502] pushproplist ............................ <[:]>
+  [503] setlocal 14 ............................. podls = [:]
+  [505] getlocal 13 ............................. <pod_node>
+  [507] getobjprop 200 .......................... <pod_node.attributeName>
+  [509] peek 0
+  [511] pusharglist 1
+  [513] extcall 64
+  [515] pushint8 1
+  [517] peek 0
+  [519] peek 2
+  [521] lteq
+  [522] jmpifz [566] ............................ repeat with pod_att in pod_node.attributeName
+  [525] peek 2
+  [527] peek 1
+  [529] pusharglist 2
+  [531] extcall 61
+  [533] setlocal 15
+  [535] getlocal 14 ............................. <podls>
+  [537] getlocal 15 ............................. <pod_att>
+  [539] pusharglist 1 ........................... <pod_att>
+  [541] extcall 201 ............................. <symbol(pod_att)>
+  [543] getlocal 13 ............................. <pod_node>
+  [545] pushsymb 199 ............................ <#attributeValue>
+  [547] getlocal 15 ............................. <pod_att>
+  [549] pusharglist 3 ........................... <pod_node, #attributeValue, pod_att>
+  [551] objcall 78 .............................. <pod_node.attributeValue[pod_att]>
+  [553] pusharglist 1 ........................... <pod_node.attributeValue[pod_att]>
+  [555] extcall 129 ............................. <integer(pod_node.attributeValue[pod_att])>
+  [557] pusharglistnoret 3 ...................... <podls, symbol(pod_att), integer(pod_node.attributeValue[pod_att])>
+  [559] objcall 30 .............................. podls[symbol(pod_att)] = integer(pod_node.attributeValue[pod_att])
+  [561] pushint8 1
+  [563] add
+  [564] endrepeat [517]
+  [566] pop 3
+  [568] getlocal 8 .............................. <lvl>
+  [570] pushsymb 264 ............................ <#podium>
+  [573] getlocal 14 ............................. <podls>
+  [575] pusharglistnoret 3 ...................... <lvl, #podium, podls>
+  [577] objcall 30 .............................. lvl[#podium] = podls
+  [579] pusharglist 0 ........................... <[:]>
+  [581] pushproplist ............................ <[:]>
+  [582] setlocal 16 ............................. sugs = [:]
+  [584] getlocal 7 .............................. <lvl_node>
+  [586] pushcons 63 ............................. <"powerups">
+  [588] pusharglist 2 ........................... <lvl_node, "powerups">
+  [590] objcall 61 .............................. <lvl_node["powerups"]>
+  [592] setlocal 17 ............................. upg_node = lvl_node["powerups"]
+  [594] getlocal 17 ............................. <upg_node>
+  [596] pusharglist 1 ........................... <upg_node>
+  [598] extcall 62 .............................. <voidp(upg_node)>
+  [600] not ..................................... <not voidp(upg_node)>
+  [601] jmpifz [717] ............................ if not voidp(upg_node) then
+  [604] getlocal 17 ............................. <upg_node>
+  [606] getobjprop 200 .......................... <upg_node.attributeName>
+  [608] peek 0
+  [610] pusharglist 1
+  [612] extcall 64
+  [614] pushint8 1
+  [616] peek 0
+  [618] peek 2
+  [620] lteq
+  [621] jmpifz [715] ............................ repeat with k in upg_node.attributeName
+  [624] peek 2
+  [626] peek 1
+  [628] pusharglist 2
+  [630] extcall 61
+  [632] setlocal 5
+  [634] getlocal 5 .............................. <k>
+  [636] pusharglist 1 ........................... <k>
+  [638] extcall 201 ............................. <symbol(k)>
+  [640] setlocal 18 ............................. pup_type = symbol(k)
+  [642] getlocal 17 ............................. <upg_node>
+  [644] pushsymb 199 ............................ <#attributeValue>
+  [646] getlocal 5 .............................. <k>
+  [648] pusharglist 3 ........................... <upg_node, #attributeValue, k>
+  [650] objcall 78 .............................. <upg_node.attributeValue[k]>
+  [652] pusharglist 1 ........................... <upg_node.attributeValue[k]>
+  [654] extcall 129 ............................. <integer(upg_node.attributeValue[k])>
+  [656] setlocal 19 ............................. pup_level = integer(upg_node.attributeValue[k])
+  [658] getparam 0 .............................. <me>
+  [660] getlocal 18 ............................. <pup_type>
+  [662] getlocal 19 ............................. <pup_level>
+  [664] pusharglist 3 ........................... <me, pup_type, pup_level>
+  [666] objcall 151 ............................. <me.getPowerupConfig(pup_type, pup_level)>
+  [668] setlocal 20 ............................. pup = me.getPowerupConfig(pup_type, pup_level)
+  [670] getlocal 20 ............................. <pup>
+  [672] pusharglist 1 ........................... <pup>
+  [674] extcall 62 .............................. <voidp(pup)>
+  [676] jmpifz [700] ............................ if voidp(pup) then
+  [679] pushcons 87 ............................. <"no powerup '">
+  [681] getlocal 18 ............................. <pup_type>
+  [683] joinstr ................................. <"no powerup '" & pup_type>
+  [684] pushcons 88 ............................. <"' lvl '">
+  [686] joinstr ................................. <"no powerup '" & pup_type & "' lvl '">
+  [687] getlocal 19 ............................. <pup_level>
+  [689] joinstr ................................. <"no powerup '" & pup_type & "' lvl '" & pup_level>
+  [690] pushcons 89 ............................. <" in powerup.xml">
+  [692] pusharglistnoret 2 ...................... <"no powerup '" & pup_type & "' lvl '" & pup_level, " in powerup.xml">
+  [694] extcall 261 ............................. complain("no powerup '" & pup_type & "' lvl '" & pup_level, " in powerup.xml")
+  [697] jmp [710] ............................... next repeat
+  [700] getlocal 16 ............................. <sugs>
+  [702] getlocal 18 ............................. <pup_type>
+  [704] getlocal 20 ............................. <pup>
+  [706] pusharglistnoret 3 ...................... <sugs, pup_type, pup>
+  [708] objcall 30 .............................. sugs[pup_type] = pup
+  [710] pushint8 1
+  [712] add
+  [713] endrepeat [616]
+  [715] pop 3
+  [717] getlocal 8 .............................. <lvl>
+  [719] pushsymb 209 ............................ <#powerups>
+  [721] getlocal 16 ............................. <sugs>
+  [723] pusharglistnoret 3 ...................... <lvl, #powerups, sugs>
+  [725] objcall 30 .............................. lvl[#powerups] = sugs
+  [727] getlocal 8 .............................. <lvl>
+  [729] pushsymb 265 ............................ <#snackPercent>
+  [732] pusharglist 2 ........................... <lvl, #snackPercent>
+  [734] objcall 61 .............................. <lvl[#snackPercent]>
+  [736] pusharglist 1 ........................... <lvl[#snackPercent]>
+  [738] extcall 62 .............................. <voidp(lvl[#snackPercent])>
+  [740] not ..................................... <not voidp(lvl[#snackPercent])>
+  [741] jmpifz [882] ............................ if not voidp(lvl[#snackPercent]) then
+  [744] pusharglist 0 ........................... <[]>
+  [746] pushlist ................................ <[]>
+  [747] setlocal 21 ............................. snacks = []
+  [749] getlocal 7 .............................. <lvl_node>
+  [751] pushcons 90 ............................. <"snacks">
+  [753] pusharglist 2 ........................... <lvl_node, "snacks">
+  [755] objcall 61 .............................. <lvl_node["snacks"]>
+  [757] setlocal 22 ............................. snack_nodes = lvl_node["snacks"]
+  [759] getlocal 22 ............................. <snack_nodes>
+  [761] pusharglist 1 ........................... <snack_nodes>
+  [763] extcall 62 .............................. <voidp(snack_nodes)>
+  [765] not ..................................... <not voidp(snack_nodes)>
+  [766] jmpifz [871] ............................ if not voidp(snack_nodes) then
+  [769] getlocal 22 ............................. <snack_nodes>
+  [771] peek 0
+  [773] pusharglist 1
+  [775] extcall 64
+  [777] pushint8 1
+  [779] peek 0
+  [781] peek 2
+  [783] lteq
+  [784] jmpifz [869] ............................ repeat with sn in snack_nodes
+  [787] peek 2
+  [789] peek 1
+  [791] pusharglist 2
+  [793] extcall 61
+  [795] setlocal 23
+  [797] getlocal 23 ............................. <sn>
+  [799] pusharglist 1 ........................... <sn>
+  [801] objcall 266 ............................. <sn.getText()>
+  [804] pusharglist 1 ........................... <sn.getText()>
+  [806] extcall 201 ............................. <symbol(sn.getText())>
+  [808] setlocal 24 ............................. snid = symbol(sn.getText())
+  [810] getprop 154 ............................. <snackIDs>
+  [812] getlocal 24 ............................. <snid>
+  [814] pusharglist 2 ........................... <snackIDs, snid>
+  [816] objcall 71 .............................. <snackIDs.getOne(snid)>
+  [818] pushzero ................................ <0>
+  [819] eq ...................................... <snackIDs.getOne(snid) = 0>
+  [820] jmpifz [843] ............................ if snackIDs.getOne(snid) = 0 then
+  [823] getlocal 24 ............................. <snid>
+  [825] pushcons 91 ............................. <" not one of currently available snacks: ">
+  [827] joinstr ................................. <snid & " not one of currently available snacks: ">
+  [828] getprop 154 ............................. <snackIDs>
+  [830] pusharglist 1 ........................... <snackIDs>
+  [832] extcall 113 ............................. <string(snackIDs)>
+  [834] joinstr ................................. <snid & " not one of currently available snacks: " & string(snackIDs)>
+  [835] pusharglistnoret 1 ...................... <snid & " not one of currently available snacks: " & string(snackIDs)>
+  [837] extcall 261 ............................. complain(snid & " not one of currently available snacks: " & string(snackIDs))
+  [840] jmp [864] ............................... next repeat
+  [843] getlocal 21 ............................. <snacks>
+  [845] getlocal 24 ............................. <snid>
+  [847] pusharglist 2 ........................... <snacks, snid>
+  [849] objcall 71 .............................. <snacks.getOne(snid)>
+  [851] pushzero ................................ <0>
+  [852] eq ...................................... <snacks.getOne(snid) = 0>
+  [853] jmpifz [864] ............................ if snacks.getOne(snid) = 0 then
+  [856] getlocal 21 ............................. <snacks>
+  [858] getlocal 24 ............................. <snid>
+  [860] pusharglistnoret 2 ...................... <snacks, snid>
+  [862] objcall 72 .............................. snacks.add(snid)
+  [864] pushint8 1
+  [866] add
+  [867] endrepeat [779]
+  [869] pop 3
+  [871] getlocal 8 .............................. <lvl>
+  [873] pushsymb 267 ............................ <#snacks>
+  [876] getlocal 21 ............................. <snacks>
+  [878] pusharglistnoret 3 ...................... <lvl, #snacks, snacks>
+  [880] objcall 30 .............................. lvl[#snacks] = snacks
+  [882] pusharglist 0 ........................... <[]>
+  [884] pushlist ................................ <[]>
+  [885] setlocal 25 ............................. tugs = []
+  [887] getlocal 8 .............................. <lvl>
+  [889] getobjprop 262 .......................... <lvl.layout>
+  [892] setlocal 26 ............................. last_layout = lvl.layout
+  [894] getlocal 7 .............................. <lvl_node>
+  [896] pushcons 103 ............................ <"tableUpgrades">
+  [898] pusharglist 2 ........................... <lvl_node, "tableUpgrades">
+  [900] objcall 61 .............................. <lvl_node["tableUpgrades"]>
+  [902] setlocal 27 ............................. tugnodes = lvl_node["tableUpgrades"]
+  [904] getlocal 27 ............................. <tugnodes>
+  [906] pusharglist 1 ........................... <tugnodes>
+  [908] extcall 62 .............................. <voidp(tugnodes)>
+  [910] not ..................................... <not voidp(tugnodes)>
+  [911] jmpifz [1067] ........................... if not voidp(tugnodes) then
+  [914] getlocal 7 .............................. <lvl_node>
+  [916] pushcons 103 ............................ <"tableUpgrades">
+  [918] pusharglist 2 ........................... <lvl_node, "tableUpgrades">
+  [920] objcall 61 .............................. <lvl_node["tableUpgrades"]>
+  [922] peek 0
+  [924] pusharglist 1
+  [926] extcall 64
+  [928] pushint8 1
+  [930] peek 0
+  [932] peek 2
+  [934] lteq
+  [935] jmpifz [1065] ........................... repeat with ugnode in lvl_node["tableUpgrades"]
+  [938] peek 2
+  [940] peek 1
+  [942] pusharglist 2
+  [944] extcall 61
+  [946] setlocal 28
+  [948] getlocal 28 ............................. <ugnode>
+  [950] pusharglist 1 ........................... <ugnode>
+  [952] objcall 266 ............................. <ugnode.getText()>
+  [955] setlocal 29 ............................. tugname = ugnode.getText()
+  [957] getlocal 29 ............................. <tugname>
+  [959] pushcons 57 ............................. <"config">
+  [961] pusharglist 2 ........................... <tugname, "config">
+  [963] extcall 159 ............................. <member(tugname, "config")>
+  [965] setlocal 12 ............................. m = member(tugname, "config")
+  [967] getlocal 12 ............................. <m>
+  [969] getobjprop 160 .......................... <m.number>
+  [971] pushint8 1 .............................. <1>
+  [973] inv ..................................... <-1>
+  [974] eq ...................................... <m.number = -1>
+  [975] jmpifz [1001] ........................... if m.number = -1 then
+  [978] pushcons 83 ............................. <"no leveldata member named ">
+  [980] getlocal 29 ............................. <tugname>
+  [982] joinstr ................................. <"no leveldata member named " & tugname>
+  [983] pushcons 84 ............................. <" in config cast">
+  [985] joinstr ................................. <"no leveldata member named " & tugname & " in config cast">
+  [986] pusharglistnoret 1 ...................... <"no leveldata member named " & tugname & " in config cast">
+  [988] extcall 261 ............................. complain("no leveldata member named " & tugname & " in config cast")
+  [991] pushcons 85 ............................. <"thislevel">
+  [993] pushcons 57 ............................. <"config">
+  [995] pusharglist 2 ........................... <"thislevel", "config">
+  [997] extcall 159 ............................. <member("thislevel", "config")>
+  [999] setlocal 12 ............................. m = member("thislevel", "config")
+  [1001] getlocal 12 ............................ <m>
+  [1003] getobjprop 161 ......................... <m.text>
+  [1005] pusharglist 1 .......................... <m.text>
+  [1007] extcall 263 ............................ <getLevelLayout(m.text)>
+  [1010] setlocal 30 ............................ newlayout = getLevelLayout(m.text)
+  [1012] getlocal 26 ............................ <last_layout>
+  [1014] getlocal 30 ............................ <newlayout>
+  [1016] pusharglist 2 .......................... <last_layout, newlayout>
+  [1018] extcall 300 ............................ <getAddedTable(last_layout, newlayout)>
+  [1021] setlocal 31 ............................ tug = getAddedTable(last_layout, newlayout)
+  [1023] getlocal 31 ............................ <tug>
+  [1025] pusharglist 1 .......................... <tug>
+  [1027] extcall 62 ............................. <voidp(tug)>
+  [1029] jmpifz [1048] .......................... if voidp(tug) then
+  [1032] pushcons 104 ........................... <"problem using layout file ">
+  [1034] getlocal 29 ............................ <tugname>
+  [1036] joinstr ................................ <"problem using layout file " & tugname>
+  [1037] pushcons 105 ........................... <" as table upgrade">
+  [1039] joinstr ................................ <"problem using layout file " & tugname & " as table upgrade">
+  [1040] pusharglistnoret 1 ..................... <"problem using layout file " & tugname & " as table upgrade">
+  [1042] extcall 261 ............................ complain("problem using layout file " & tugname & " as table upgrade")
+  [1045] jmp [1065] ............................. exit repeat
+  [1048] getlocal 25 ............................ <tugs>
+  [1050] getlocal 31 ............................ <tug>
+  [1052] pusharglistnoret 2 ..................... <tugs, tug>
+  [1054] objcall 72 ............................. tugs.add(tug)
+  [1056] getlocal 30 ............................ <newlayout>
+  [1058] setlocal 26 ............................ last_layout = newlayout
+  [1060] pushint8 1
+  [1062] add
+  [1063] endrepeat [930]
+  [1065] pop 3
+  [1067] getlocal 8 ............................. <lvl>
+  [1069] pushsymb 301 ........................... <#tableUpgrades>
+  [1072] getlocal 25 ............................ <tugs>
+  [1074] pusharglistnoret 3 ..................... <lvl, #tableUpgrades, tugs>
+  [1076] objcall 30 ............................. lvl[#tableUpgrades] = tugs
+  [1078] pusharglist 0 .......................... <[]>
+  [1080] pushlist ............................... <[]>
+  [1081] setlocal 32 ............................ slvls = []
+  [1083] getlocal 7 ............................. <lvl_node>
+  [1085] pushcons 106 ........................... <"subLevels">
+  [1087] pusharglist 2 .......................... <lvl_node, "subLevels">
+  [1089] objcall 61 ............................. <lvl_node["subLevels"]>
+  [1091] setlocal 33 ............................ slvl_nodes = lvl_node["subLevels"]
+  [1093] getlocal 8 ............................. <lvl>
+  [1095] getchainedprop 209 ..................... <lvl.powerups>
+  [1097] pusharglist 1 .......................... <lvl.powerups>
+  [1099] objcall 41 ............................. <lvl.powerups.duplicate()>
+  [1101] setlocal 34 ............................ pup_keeptrack = lvl.powerups.duplicate()
+  [1103] pushzero ............................... <0>
+  [1104] setlocal 35 ............................ last_goal = 0
+  [1106] getlocal 33 ............................ <slvl_nodes>
+  [1108] pusharglist 1 .......................... <slvl_nodes>
+  [1110] extcall 62 ............................. <voidp(slvl_nodes)>
+  [1112] not .................................... <not voidp(slvl_nodes)>
+  [1113] jmpifz [1785] .......................... if not voidp(slvl_nodes) then
+  [1116] getlocal 33 ............................ <slvl_nodes>
+  [1118] peek 0
+  [1120] pusharglist 1
+  [1122] extcall 64
+  [1124] pushint8 1
+  [1126] peek 0
+  [1128] peek 2
+  [1130] lteq
+  [1131] jmpifz [1783] .......................... repeat with subnode in slvl_nodes
+  [1134] peek 2
+  [1136] peek 1
+  [1138] pusharglist 2
+  [1140] extcall 61
+  [1142] setlocal 36
+  [1144] pusharglist 0 .......................... <[:]>
+  [1146] pushproplist ........................... <[:]>
+  [1147] setlocal 37 ............................ slvl = [:]
+  [1149] getlocal 37 ............................ <slvl>
+  [1151] pushsymb 302 ........................... <#goal>
+  [1154] getlocal 36 ............................ <subnode>
+  [1156] pushsymb 199 ........................... <#attributeValue>
+  [1158] pushcons 107 ........................... <"goal">
+  [1160] pusharglist 3 .......................... <subnode, #attributeValue, "goal">
+  [1162] objcall 78 ............................. <subnode.attributeValue["goal"]>
+  [1164] pusharglist 1 .......................... <subnode.attributeValue["goal"]>
+  [1166] extcall 129 ............................ <integer(subnode.attributeValue["goal"])>
+  [1168] getlocal 35 ............................ <last_goal>
+  [1170] add .................................... <integer(subnode.attributeValue["goal"]) + last_goal>
+  [1171] pusharglistnoret 3 ..................... <slvl, #goal, integer(subnode.attributeValue["goal"]) + last_goal>
+  [1173] objcall 30 ............................. slvl[#goal] = integer(subnode.attributeValue["goal"]) + last_goal
+  [1175] getlocal 37 ............................ <slvl>
+  [1177] pushsymb 302 ........................... <#goal>
+  [1180] pusharglist 2 .......................... <slvl, #goal>
+  [1182] objcall 61 ............................. <slvl[#goal]>
+  [1184] setlocal 35 ............................ last_goal = slvl[#goal]
+  [1186] pusharglist 0 .......................... <[]>
+  [1188] pushlist ............................... <[]>
+  [1189] setlocal 38 ............................ grps = []
+  [1191] pushzero ............................... <0>
+  [1192] setlocal 39 ............................ totfreq = 0
+  [1194] getlocal 36 ............................ <subnode>
+  [1196] pushcons 108 ........................... <"randomGroups">
+  [1198] pusharglist 2 .......................... <subnode, "randomGroups">
+  [1200] objcall 61 ............................. <subnode["randomGroups"]>
+  [1202] peek 0
+  [1204] pusharglist 1
+  [1206] extcall 64
+  [1208] pushint8 1
+  [1210] peek 0
+  [1212] peek 2
+  [1214] lteq
+  [1215] jmpifz [1348] .......................... repeat with gr_node in subnode["randomGroups"]
+  [1218] peek 2
+  [1220] peek 1
+  [1222] pusharglist 2
+  [1224] extcall 61
+  [1226] setlocal 40
+  [1228] pusharglist 0 .......................... <[:]>
+  [1230] pushproplist ........................... <[:]>
+  [1231] setlocal 41 ............................ gr = [:]
+  [1233] getlocal 40 ............................ <gr_node>
+  [1235] getobjprop 199 ......................... <gr_node.attributeValue>
+  [1237] setlocal 42 ............................ gr_att = gr_node.attributeValue
+  [1239] getlocal 42 ............................ <gr_att>
+  [1241] pushsymb 268 ........................... <#queueTimeMS>
+  [1244] pusharglist 2 .......................... <gr_att, #queueTimeMS>
+  [1246] objcall 61 ............................. <gr_att[#queueTimeMS]>
+  [1248] setlocal 43 ............................ qtms = gr_att[#queueTimeMS]
+  [1250] getlocal 43 ............................ <qtms>
+  [1252] pusharglist 1 .......................... <qtms>
+  [1254] extcall 62 ............................. <voidp(qtms)>
+  [1256] jmpifz [1269] .......................... if voidp(qtms) then
+  [1259] pushcons 109 ........................... <"no queueTimeMS in an endless level">
+  [1261] pusharglistnoret 1 ..................... <"no queueTimeMS in an endless level">
+  [1263] extcall 303 ............................ put "no queueTimeMS in an endless level"
+  [1266] jmp [1343] ............................. next repeat
+  [1269] getlocal 41 ............................ <gr>
+  [1271] pushsymb 268 ........................... <#queueTimeMS>
+  [1274] getlocal 42 ............................ <gr_att>
+  [1276] getobjprop 268 ......................... <gr_att.queueTimeMS>
+  [1279] pusharglist 1 .......................... <gr_att.queueTimeMS>
+  [1281] extcall 129 ............................ <integer(gr_att.queueTimeMS)>
+  [1283] pusharglistnoret 3 ..................... <gr, #queueTimeMS, integer(gr_att.queueTimeMS)>
+  [1285] objcall 30 ............................. gr[#queueTimeMS] = integer(gr_att.queueTimeMS)
+  [1287] getlocal 42 ............................ <gr_att>
+  [1289] pushcons 110 ........................... <"frequency">
+  [1291] pusharglist 2 .......................... <gr_att, "frequency">
+  [1293] objcall 61 ............................. <gr_att["frequency"]>
+  [1295] pusharglist 1 .......................... <gr_att["frequency"]>
+  [1297] extcall 129 ............................ <integer(gr_att["frequency"])>
+  [1299] setlocal 44 ............................ freq = integer(gr_att["frequency"])
+  [1301] getlocal 41 ............................ <gr>
+  [1303] pushsymb 304 ........................... <#Frequency>
+  [1306] getlocal 44 ............................ <freq>
+  [1308] pusharglistnoret 3 ..................... <gr, #Frequency, freq>
+  [1310] objcall 30 ............................. gr[#Frequency] = freq
+  [1312] getlocal 39 ............................ <totfreq>
+  [1314] getlocal 44 ............................ <freq>
+  [1316] add .................................... <totfreq + freq>
+  [1317] setlocal 39 ............................ totfreq = totfreq + freq
+  [1319] getlocal 41 ............................ <gr>
+  [1321] pushsymb 212 ........................... <#type>
+  [1323] getlocal 42 ............................ <gr_att>
+  [1325] pushcons 93 ............................ <"groupType">
+  [1327] pusharglist 2 .......................... <gr_att, "groupType">
+  [1329] objcall 61 ............................. <gr_att["groupType"]>
+  [1331] pusharglistnoret 3 ..................... <gr, #type, gr_att["groupType"]>
+  [1333] objcall 30 ............................. gr[#type] = gr_att["groupType"]
+  [1335] getlocal 38 ............................ <grps>
+  [1337] getlocal 41 ............................ <gr>
+  [1339] pusharglistnoret 2 ..................... <grps, gr>
+  [1341] objcall 72 ............................. grps.add(gr)
+  [1343] pushint8 1
+  [1345] add
+  [1346] endrepeat [1210]
+  [1348] pop 3
+  [1350] getlocal 37 ............................ <slvl>
+  [1352] pushsymb 270 ........................... <#groups>
+  [1355] getlocal 38 ............................ <grps>
+  [1357] pusharglistnoret 3 ..................... <slvl, #groups, grps>
+  [1359] objcall 30 ............................. slvl[#groups] = grps
+  [1361] getlocal 37 ............................ <slvl>
+  [1363] pushsymb 305 ........................... <#totalGroupFrequency>
+  [1366] getlocal 39 ............................ <totfreq>
+  [1368] pusharglistnoret 3 ..................... <slvl, #totalGroupFrequency, totfreq>
+  [1370] objcall 30 ............................. slvl[#totalGroupFrequency] = totfreq
+  [1372] getlocal 36 ............................ <subnode>
+  [1374] pushcons 111 ........................... <"upgrades">
+  [1376] pusharglist 2 .......................... <subnode, "upgrades">
+  [1378] objcall 61 ............................. <subnode["upgrades"]>
+  [1380] setlocal 45 ............................ ugnodes = subnode["upgrades"]
+  [1382] getlocal 45 ............................ <ugnodes>
+  [1384] pusharglist 1 .......................... <ugnodes>
+  [1386] extcall 62 ............................. <voidp(ugnodes)>
+  [1388] not .................................... <not voidp(ugnodes)>
+  [1389] jmpifz [1644] .......................... if not voidp(ugnodes) then
+  [1392] pusharglist 0 .......................... <[]>
+  [1394] pushlist ............................... <[]>
+  [1395] setlocal 46 ............................ ugs = []
+  [1397] getlocal 45 ............................ <ugnodes>
+  [1399] peek 0
+  [1401] pusharglist 1
+  [1403] extcall 64
+  [1405] pushint8 1
+  [1407] peek 0
+  [1409] peek 2
+  [1411] lteq
+  [1412] jmpifz [1631] .......................... repeat with ugnode in ugnodes
+  [1415] peek 2
+  [1417] peek 1
+  [1419] pusharglist 2
+  [1421] extcall 61
+  [1423] setlocal 28
+  [1425] getlocal 28 ............................ <ugnode>
+  [1427] pusharglist 1 .......................... <ugnode>
+  [1429] objcall 266 ............................ <ugnode.getText()>
+  [1432] pusharglist 1 .......................... <ugnode.getText()>
+  [1434] extcall 201 ............................ <symbol(ugnode.getText())>
+  [1436] setlocal 18 ............................ pup_type = symbol(ugnode.getText())
+  [1438] getlocal 34 ............................ <pup_keeptrack>
+  [1440] getlocal 18 ............................ <pup_type>
+  [1442] pusharglist 2 .......................... <pup_keeptrack, pup_type>
+  [1444] objcall 61 ............................. <pup_keeptrack[pup_type]>
+  [1446] setlocal 47 ............................ mypup = pup_keeptrack[pup_type]
+  [1448] getlocal 47 ............................ <mypup>
+  [1450] pusharglist 1 .......................... <mypup>
+  [1452] extcall 62 ............................. <voidp(mypup)>
+  [1454] jmpifz [1464] .......................... if voidp(mypup) then / else
+  [1457] pushint8 1 ............................. <1>
+  [1459] setlocal 48 ............................ lvlnum = 1
+  [1461] jmp [1473]
+  [1464] getlocal 47 ............................ <mypup>
+  [1466] getobjprop 45 .......................... <mypup.level>
+  [1468] pushint8 1 ............................. <1>
+  [1470] add .................................... <mypup.level + 1>
+  [1471] setlocal 48 ............................ lvlnum = mypup.level + 1
+  [1473] getlocal 18 ............................ <pup_type>
+  [1475] pushsymb 306 ........................... <#table>
+  [1478] eq ..................................... <pup_type = #table>
+  [1479] jmpifz [1566] .......................... if pup_type = #table then / else
+  [1482] getlocal 48 ............................ <lvlnum>
+  [1484] getlocal 8 ............................. <lvl>
+  [1486] pushsymb 301 ........................... <#tableUpgrades>
+  [1489] pusharglist 2 .......................... <lvl, #tableUpgrades>
+  [1491] objcall 64 ............................. <lvl.tableUpgrades.count>
+  [1493] gt ..................................... <lvlnum > lvl.tableUpgrades.count>
+  [1494] jmpifz [1527] .......................... if lvlnum > lvl.tableUpgrades.count then
+  [1497] pushcons 112 ........................... <"table upgrade offered ">
+  [1499] getlocal 48 ............................ <lvlnum>
+  [1501] joinstr ................................ <"table upgrade offered " & lvlnum>
+  [1502] pushcons 113 ........................... <" times but only ">
+  [1504] joinstr ................................ <"table upgrade offered " & lvlnum & " times but only ">
+  [1505] getlocal 8 ............................. <lvl>
+  [1507] pushsymb 301 ........................... <#tableUpgrades>
+  [1510] pusharglist 2 .......................... <lvl, #tableUpgrades>
+  [1512] objcall 64 ............................. <lvl.tableUpgrades.count>
+  [1514] joinstr ................................ <"table upgrade offered " & lvlnum & " times but only " & lvl.tableUpgrades.count>
+  [1515] pushcons 114 ........................... <" layout files defined ">
+  [1517] joinstr ................................ <"table upgrade offered " & lvlnum & " times but only " & lvl.tableUpgrades.count & " layout files defined ">
+  [1518] pusharglistnoret 1 ..................... <"table upgrade offered " & lvlnum & " times but only " & lvl.tableUpgrades.count & " layout files defined ">
+  [1520] extcall 261 ............................ complain("table upgrade offered " & lvlnum & " times but only " & lvl.tableUpgrades.count & " layout files defined ")
+  [1523] pusharglistnoret 0 ..................... <>
+  [1525] extcall 53 ............................. return 
+  [1527] pushsymb 212 ........................... <#type>
+  [1529] pushsymb 306 ........................... <#table>
+  [1532] pushsymb 45 ............................ <#level>
+  [1534] getlocal 48 ............................ <lvlnum>
+  [1536] pushsymb 35 ............................ <#name>
+  [1538] getprop 167 ............................ <addTableName>
+  [1540] pushsymb 307 ........................... <#description>
+  [1543] getprop 168 ............................ <addTableDesc>
+  [1545] pushsymb 211 ........................... <#properties>
+  [1547] getlocal 8 ............................. <lvl>
+  [1549] pushsymb 301 ........................... <#tableUpgrades>
+  [1552] getlocal 48 ............................ <lvlnum>
+  [1554] pusharglist 3 .......................... <lvl, #tableUpgrades, lvlnum>
+  [1556] objcall 78 ............................. <lvl.tableUpgrades[lvlnum]>
+  [1558] pusharglist 10 ......................... <[#type: #table, #level: lvlnum, #name: addTableName, #description: addTableDesc, #properties: lvl.tableUpgrades[lvlnum]]>
+  [1560] pushproplist ........................... <[#type: #table, #level: lvlnum, #name: addTableName, #description: addTableDesc, #properties: lvl.tableUpgrades[lvlnum]]>
+  [1561] setlocal 20 ............................ pup = [#type: #table, #level: lvlnum, #name: addTableName, #description: addTableDesc, #properties: lvl.tableUpgrades[lvlnum]]
+  [1563] jmp [1608]
+  [1566] getparam 0 ............................. <me>
+  [1568] getlocal 18 ............................ <pup_type>
+  [1570] getlocal 48 ............................ <lvlnum>
+  [1572] pusharglist 3 .......................... <me, pup_type, lvlnum>
+  [1574] objcall 151 ............................ <me.getPowerupConfig(pup_type, lvlnum)>
+  [1576] setlocal 20 ............................ pup = me.getPowerupConfig(pup_type, lvlnum)
+  [1578] getlocal 20 ............................ <pup>
+  [1580] pusharglist 1 .......................... <pup>
+  [1582] extcall 62 ............................. <voidp(pup)>
+  [1584] jmpifz [1608] .......................... if voidp(pup) then
+  [1587] pushcons 87 ............................ <"no powerup '">
+  [1589] getlocal 18 ............................ <pup_type>
+  [1591] joinstr ................................ <"no powerup '" & pup_type>
+  [1592] pushcons 88 ............................ <"' lvl '">
+  [1594] joinstr ................................ <"no powerup '" & pup_type & "' lvl '">
+  [1595] getlocal 48 ............................ <lvlnum>
+  [1597] joinstr ................................ <"no powerup '" & pup_type & "' lvl '" & lvlnum>
+  [1598] pushcons 89 ............................ <" in powerup.xml">
+  [1600] pusharglistnoret 2 ..................... <"no powerup '" & pup_type & "' lvl '" & lvlnum, " in powerup.xml">
+  [1602] extcall 261 ............................ complain("no powerup '" & pup_type & "' lvl '" & lvlnum, " in powerup.xml")
+  [1605] jmp [1626] ............................. next repeat
+  [1608] getlocal 34 ............................ <pup_keeptrack>
+  [1610] getlocal 18 ............................ <pup_type>
+  [1612] getlocal 20 ............................ <pup>
+  [1614] pusharglistnoret 3 ..................... <pup_keeptrack, pup_type, pup>
+  [1616] objcall 30 ............................. pup_keeptrack[pup_type] = pup
+  [1618] getlocal 46 ............................ <ugs>
+  [1620] getlocal 20 ............................ <pup>
+  [1622] pusharglistnoret 2 ..................... <ugs, pup>
+  [1624] objcall 72 ............................. ugs.add(pup)
+  [1626] pushint8 1
+  [1628] add
+  [1629] endrepeat [1407]
+  [1631] pop 3
+  [1633] getlocal 37 ............................ <slvl>
+  [1635] pushsymb 308 ........................... <#upgrades>
+  [1638] getlocal 46 ............................ <ugs>
+  [1640] pusharglistnoret 3 ..................... <slvl, #upgrades, ugs>
+  [1642] objcall 30 ............................. slvl[#upgrades] = ugs
+  [1644] getlocal 36 ............................ <subnode>
+  [1646] pushcons 115 ........................... <"randomColors">
+  [1648] pusharglist 2 .......................... <subnode, "randomColors">
+  [1650] objcall 61 ............................. <subnode["randomColors"]>
+  [1652] setlocal 49 ............................ rcol_nodes = subnode["randomColors"]
+  [1654] getlocal 49 ............................ <rcol_nodes>
+  [1656] pusharglist 1 .......................... <rcol_nodes>
+  [1658] extcall 62 ............................. <voidp(rcol_nodes)>
+  [1660] not .................................... <not voidp(rcol_nodes)>
+  [1661] jmpifz [1732] .......................... if not voidp(rcol_nodes) then
+  [1664] pusharglist 0 .......................... <[]>
+  [1666] pushlist ............................... <[]>
+  [1667] setlocal 50 ............................ rcols = []
+  [1669] getlocal 49 ............................ <rcol_nodes>
+  [1671] peek 0
+  [1673] pusharglist 1
+  [1675] extcall 64
+  [1677] pushint8 1
+  [1679] peek 0
+  [1681] peek 2
+  [1683] lteq
+  [1684] jmpifz [1719] .......................... repeat with rcol_node in rcol_nodes
+  [1687] peek 2
+  [1689] peek 1
+  [1691] pusharglist 2
+  [1693] extcall 61
+  [1695] setlocal 51
+  [1697] getlocal 50 ............................ <rcols>
+  [1699] getlocal 51 ............................ <rcol_node>
+  [1701] pusharglist 1 .......................... <rcol_node>
+  [1703] objcall 266 ............................ <rcol_node.getText()>
+  [1706] pusharglist 1 .......................... <rcol_node.getText()>
+  [1708] extcall 201 ............................ <symbol(rcol_node.getText())>
+  [1710] pusharglistnoret 2 ..................... <rcols, symbol(rcol_node.getText())>
+  [1712] objcall 72 ............................. rcols.add(symbol(rcol_node.getText()))
+  [1714] pushint8 1
+  [1716] add
+  [1717] endrepeat [1679]
+  [1719] pop 3
+  [1721] getlocal 37 ............................ <slvl>
+  [1723] pushsymb 309 ........................... <#randomColors>
+  [1726] getlocal 50 ............................ <rcols>
+  [1728] pusharglistnoret 3 ..................... <slvl, #randomColors, rcols>
+  [1730] objcall 30 ............................. slvl[#randomColors] = rcols
+  [1732] getlocal 32 ............................ <slvls>
+  [1734] getlocal 37 ............................ <slvl>
+  [1736] pusharglistnoret 2 ..................... <slvls, slvl>
+  [1738] objcall 72 ............................. slvls.add(slvl)
+  [1740] getparam 0 ............................. <me>
+  [1742] pushcons 116 ........................... <"endsub_">
+  [1744] getlocal 0 ............................. <endls>
+  [1746] getobjprop 64 .......................... <endls.count>
+  [1748] pushint8 1 ............................. <1>
+  [1750] add .................................... <endls.count + 1>
+  [1751] joinstr ................................ <"endsub_" & endls.count + 1>
+  [1752] pushcons 97 ............................ <"_">
+  [1754] joinstr ................................ <"endsub_" & endls.count + 1 & "_">
+  [1755] getlocal 6 ............................. <lvls>
+  [1757] getobjprop 64 .......................... <lvls.count>
+  [1759] pushint8 1 ............................. <1>
+  [1761] add .................................... <lvls.count + 1>
+  [1762] joinstr ................................ <"endsub_" & endls.count + 1 & "_" & lvls.count + 1>
+  [1763] pushcons 97 ............................ <"_">
+  [1765] joinstr ................................ <"endsub_" & endls.count + 1 & "_" & lvls.count + 1 & "_">
+  [1766] getlocal 32 ............................ <slvls>
+  [1768] getobjprop 64 .......................... <slvls.count>
+  [1770] joinstr ................................ <"endsub_" & endls.count + 1 & "_" & lvls.count + 1 & "_" & slvls.count>
+  [1771] getlocal 37 ............................ <slvl>
+  [1773] pusharglistnoret 3 ..................... <me, "endsub_" & endls.count + 1 & "_" & lvls.count + 1 & "_" & slvls.count, slvl>
+  [1775] objcall 140 ............................ me.saveData("endsub_" & endls.count + 1 & "_" & lvls.count + 1 & "_" & slvls.count, slvl)
+  [1777] pushint8 1
+  [1779] add
+  [1780] endrepeat [1126]
+  [1783] pop 3
+  [1785] getlocal 8 ............................. <lvl>
+  [1787] pushsymb 310 ........................... <#numSublevels>
+  [1790] getlocal 32 ............................ <slvls>
+  [1792] getobjprop 64 .......................... <slvls.count>
+  [1794] pusharglistnoret 3 ..................... <lvl, #numSublevels, slvls.count>
+  [1796] objcall 30 ............................. lvl[#numSublevels] = slvls.count
+  [1798] getlocal 6 ............................. <lvls>
+  [1800] getlocal 8 ............................. <lvl>
+  [1802] pusharglistnoret 2 ..................... <lvls, lvl>
+  [1804] objcall 72 ............................. lvls.add(lvl)
+  [1806] getparam 0 ............................. <me>
+  [1808] pushcons 117 ........................... <"endless_">
+  [1810] getlocal 0 ............................. <endls>
+  [1812] getobjprop 64 .......................... <endls.count>
+  [1814] pushint8 1 ............................. <1>
+  [1816] add .................................... <endls.count + 1>
+  [1817] joinstr ................................ <"endless_" & endls.count + 1>
+  [1818] pushcons 97 ............................ <"_">
+  [1820] joinstr ................................ <"endless_" & endls.count + 1 & "_">
+  [1821] getlocal 6 ............................. <lvls>
+  [1823] getobjprop 64 .......................... <lvls.count>
+  [1825] joinstr ................................ <"endless_" & endls.count + 1 & "_" & lvls.count>
+  [1826] getlocal 8 ............................. <lvl>
+  [1828] pusharglistnoret 3 ..................... <me, "endless_" & endls.count + 1 & "_" & lvls.count, lvl>
+  [1830] objcall 140 ............................ me.saveData("endless_" & endls.count + 1 & "_" & lvls.count, lvl)
+  [1832] pushint8 1
+  [1834] add
+  [1835] endrepeat [218]
+  [1838] pop 3
+  [1840] getlocal 3 ............................. <estage>
+  [1842] pushsymb 90 ............................ <#numLevels>
+  [1844] getlocal 6 ............................. <lvls>
+  [1846] getobjprop 64 .......................... <lvls.count>
+  [1848] pusharglistnoret 3 ..................... <estage, #numLevels, lvls.count>
+  [1850] objcall 30 ............................. estage[#numLevels] = lvls.count
+  [1852] getlocal 0 ............................. <endls>
+  [1854] getlocal 3 ............................. <estage>
+  [1856] getobjprop 91 .......................... <estage.id>
+  [1858] pusharglist 1 .......................... <estage.id>
+  [1860] extcall 201 ............................ <symbol(estage.id)>
+  [1862] getlocal 3 ............................. <estage>
+  [1864] pusharglistnoret 3 ..................... <endls, symbol(estage.id), estage>
+  [1866] objcall 30 ............................. endls[symbol(estage.id)] = estage
+  [1868] pushint8 1
+  [1870] add
+  [1871] endrepeat [ 68]
+  [1874] pop 3
+  [1876] getprop 25 ............................. <game>
+  [1878] pushsymb 26 ............................ <#stages>
+  [1880] getlocal 0 ............................. <endls>
+  [1882] pushsymb 272 ........................... <#numStages>
+  [1885] getlocal 0 ............................. <endls>
+  [1887] getobjprop 64 .......................... <endls.count>
+  [1889] pusharglist 4 .......................... <[#stages: endls, #numStages: endls.count]>
+  [1891] pushproplist ........................... <[#stages: endls, #numStages: endls.count]>
+  [1892] setobjprop 119 ......................... game.endless = [#stages: endls, #numStages: endls.count]
+  [1894] getparam 0 ............................. <me>
+  [1896] pushcons 55 ............................ <"endless">
+  [1898] getprop 25 ............................. <game>
+  [1900] getobjprop 119 ......................... <game.endless>
+  [1902] pusharglistnoret 3 ..................... <me, "endless", game.endless>
+  [1904] objcall 140 ............................ me.saveData("endless", game.endless)
+  [1906] ret
+end
+
+on getConfig
+  [  0] getprop 198 ............................. <overall>
+  [  2] pusharglist 1 ........................... <overall>
+  [  4] objcall 41 .............................. <overall.duplicate()>
+  [  6] pusharglistnoret 1 ...................... <overall.duplicate()>
+  [  8] extcall 53 .............................. return overall.duplicate()
+  [ 10] ret
+end
+
+on getStageData me, Args
+  [  0] getprop 25 .............................. <game>
+  [  2] getparam 1 .............................. <Args>
+  [  4] getobjprop 116 .......................... <Args.mode>
+  [  6] pusharglist 2 ........................... <game, Args.mode>
+  [  8] objcall 61 .............................. <game[Args.mode]>
+  [ 10] pushsymb 26 ............................. <#stages>
+  [ 12] getparam 1 .............................. <Args>
+  [ 14] getobjprop 44 ........................... <Args.stage>
+  [ 16] pusharglist 3 ........................... <game[Args.mode], #stages, Args.stage>
+  [ 18] objcall 78 .............................. <game[Args.mode].stages[Args.stage]>
+  [ 20] pusharglistnoret 1 ...................... <game[Args.mode].stages[Args.stage]>
+  [ 22] extcall 53 .............................. return game[Args.mode].stages[Args.stage]
+  [ 24] ret
+end
+
+on getLevelData me, Args
+  [  0] getparam 0 .............................. <me>
+  [  2] getparam 1 .............................. <Args>
+  [  4] getobjprop 116 .......................... <Args.mode>
+  [  6] pushcons 97 ............................. <"_">
+  [  8] joinstr ................................. <Args.mode & "_">
+  [  9] getparam 1 .............................. <Args>
+  [ 11] getobjprop 44 ........................... <Args.stage>
+  [ 13] joinstr ................................. <Args.mode & "_" & Args.stage>
+  [ 14] pushcons 97 ............................. <"_">
+  [ 16] joinstr ................................. <Args.mode & "_" & Args.stage & "_">
+  [ 17] getparam 1 .............................. <Args>
+  [ 19] getobjprop 45 ........................... <Args.level>
+  [ 21] joinstr ................................. <Args.mode & "_" & Args.stage & "_" & Args.level>
+  [ 22] pusharglist 2 ........................... <me, Args.mode & "_" & Args.stage & "_" & Args.level>
+  [ 24] objcall 139 ............................. <me.loadData(Args.mode & "_" & Args.stage & "_" & Args.level)>
+  [ 26] setlocal 0 .............................. d = me.loadData(Args.mode & "_" & Args.stage & "_" & Args.level)
+  [ 28] getlocal 0 .............................. <d>
+  [ 30] pusharglistnoret 1 ...................... <d>
+  [ 32] extcall 53 .............................. return d
+  [ 34] ret
+end
+
+on getSublevelData me, Args
+  [  0] getparam 0 .............................. <me>
+  [  2] pushcons 116 ............................ <"endsub_">
+  [  4] getparam 1 .............................. <Args>
+  [  6] getobjprop 44 ........................... <Args.stage>
+  [  8] joinstr ................................. <"endsub_" & Args.stage>
+  [  9] pushcons 97 ............................. <"_">
+  [ 11] joinstr ................................. <"endsub_" & Args.stage & "_">
+  [ 12] getparam 1 .............................. <Args>
+  [ 14] getobjprop 340 .......................... <Args.difficulty>
+  [ 17] joinstr ................................. <"endsub_" & Args.stage & "_" & Args.difficulty>
+  [ 18] pushcons 97 ............................. <"_">
+  [ 20] joinstr ................................. <"endsub_" & Args.stage & "_" & Args.difficulty & "_">
+  [ 21] getparam 1 .............................. <Args>
+  [ 23] getobjprop 341 .......................... <Args.sublevel>
+  [ 26] joinstr ................................. <"endsub_" & Args.stage & "_" & Args.difficulty & "_" & Args.sublevel>
+  [ 27] pusharglist 2 ........................... <me, "endsub_" & Args.stage & "_" & Args.difficulty & "_" & Args.sublevel>
+  [ 29] objcall 139 ............................. <me.loadData("endsub_" & Args.stage & "_" & Args.difficulty & "_" & Args.sublevel)>
+  [ 31] setlocal 0 .............................. d = me.loadData("endsub_" & Args.stage & "_" & Args.difficulty & "_" & Args.sublevel)
+  [ 33] getlocal 0 .............................. <d>
+  [ 35] pusharglistnoret 1 ...................... <d>
+  [ 37] extcall 53 .............................. return d
+  [ 39] ret
+end
+
+on getPowerupConfig me, type, level
+  [  0] getprop 209 ............................. <powerups>
+  [  2] getparam 1 .............................. <type>
+  [  4] pusharglist 2 ........................... <powerups, type>
+  [  6] objcall 61 .............................. <powerups[type]>
+  [  8] setlocal 0 .............................. pc = powerups[type]
+  [ 10] getlocal 0 .............................. <pc>
+  [ 12] pusharglist 1 ........................... <pc>
+  [ 14] extcall 62 .............................. <voidp(pc)>
+  [ 16] jmpifz [ 23] ............................ if voidp(pc) then
+  [ 19] pusharglistnoret 0 ...................... <>
+  [ 21] extcall 53 .............................. return 
+  [ 23] pushint8 1 .............................. <1>
+  [ 25] getparam 2 .............................. <level>
+  [ 27] pusharglist 2 ........................... <1, level>
+  [ 29] extcall 130 ............................. <max(1, level)>
+  [ 31] setparam 2 .............................. level = max(1, level)
+  [ 33] getlocal 0 .............................. <pc>
+  [ 35] pushsymb 213 ............................ <#levels>
+  [ 37] pusharglist 2 ........................... <pc, #levels>
+  [ 39] objcall 64 .............................. <pc.levels.count>
+  [ 41] getparam 2 .............................. <level>
+  [ 43] lt ...................................... <pc.levels.count < level>
+  [ 44] jmpifz [ 51] ............................ if pc.levels.count < level then
+  [ 47] pusharglistnoret 0 ...................... <>
+  [ 49] extcall 53 .............................. return 
+  [ 51] getlocal 0 .............................. <pc>
+  [ 53] pushsymb 213 ............................ <#levels>
+  [ 55] getparam 2 .............................. <level>
+  [ 57] pusharglist 3 ........................... <pc, #levels, level>
+  [ 59] objcall 78 .............................. <pc.levels[level]>
+  [ 61] pusharglistnoret 1 ...................... <pc.levels[level]>
+  [ 63] extcall 53 .............................. return pc.levels[level]
+  [ 65] ret
+end
+
+on getLevels me, st
+  [  0] getparam 1 .............................. <st>
+  [  2] pusharglist 1 ........................... <st>
+  [  4] extcall 62 .............................. <voidp(st)>
+  [  6] jmpifz [ 14] ............................ if voidp(st) then
+  [  9] pushsymb 343 ............................ <#diner>
+  [ 12] setparam 1 .............................. st = #diner
+  [ 14] getprop 25 .............................. <game>
+  [ 16] pusharglist 1 ........................... <game>
+  [ 18] extcall 62 .............................. <voidp(game)>
+  [ 20] jmpifz [ 29] ............................ if voidp(game) then
+  [ 23] getparam 0 .............................. <me>
+  [ 25] pusharglistnoret 1 ...................... <me>
+  [ 27] objcall 1 ............................... me.init()
+  [ 29] getprop 25 .............................. <game>
+  [ 31] getchainedprop 38 ....................... <game.career>
+  [ 33] pushsymb 26 ............................. <#stages>
+  [ 35] pushsymb 343 ............................ <#diner>
+  [ 38] pusharglist 3 ........................... <game.career, #stages, #diner>
+  [ 40] objcall 344 ............................. <game.career.stages[#diner]>
+  [ 43] getobjprop 213 .......................... <game.career.stages[#diner].levels>
+  [ 45] pusharglistnoret 1 ...................... <game.career.stages[#diner].levels>
+  [ 47] extcall 53 .............................. return game.career.stages[#diner].levels
+  [ 49] ret
+end
