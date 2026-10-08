@@ -1,0 +1,108 @@
+{
+  "entrySize": 12,
+  "entrySize2": 12,
+  "entryCount": 20,
+  "usedCount": 7,
+  "entries": [
+    {
+      "sectionID": 314,
+      "castID": 10,
+      "fourCC": "Thum"
+    },
+    {
+      "sectionID": 313,
+      "castID": 10,
+      "fourCC": "XMED"
+    },
+    {
+      "sectionID": 274,
+      "castID": 1024,
+      "fourCC": "CAS*"
+    },
+    {
+      "sectionID": 298,
+      "castID": 1024,
+      "fourCC": "Cinf"
+    },
+    {
+      "sectionID": 292,
+      "castID": 1024,
+      "fourCC": "DRCF"
+    },
+    {
+      "sectionID": 290,
+      "castID": 1024,
+      "fourCC": "LctX"
+    },
+    {
+      "sectionID": 299,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 299,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 299,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 288,
+      "castID": 1024,
+      "fourCC": "ccl "
+    },
+    {
+      "sectionID": 299,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 299,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 299,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 299,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 299,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 299,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 299,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 299,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 297,
+      "castID": 1024,
+      "fourCC": "ccl "
+    },
+    {
+      "sectionID": 0,
+      "castID": 0,
+      "fourCC": "\x00\x00\x00\x00"
+    }
+  ]
+}

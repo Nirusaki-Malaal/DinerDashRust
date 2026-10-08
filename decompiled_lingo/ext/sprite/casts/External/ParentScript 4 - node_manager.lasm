@@ -1,0 +1,515 @@
+property ROOT, zdirty, sprite_mgr, nodescript, mode, testnode, tn2, testmouse
+
+on new me
+  [  0] getparam 0 .............................. <me>
+  [  2] pusharglistnoret 1 ...................... <me>
+  [  4] extcall 19 .............................. return me
+  [  6] ret
+end
+
+on init me
+  [  0] pushsymb 0 .............................. <#new>
+  [  2] setprop 21 .............................. mode = #new
+  [  4] getprop 21 .............................. <mode>
+  [  6] pushsymb 22 ............................. <#hardware>
+  [  8] eq ...................................... <mode = #hardware>
+  [  9] jmpifz [ 23] ............................ if mode = #hardware then / else
+  [ 12] pushcons 0 .............................. <"node3d">
+  [ 14] pusharglist 1 ........................... <"node3d">
+  [ 16] extcall 24 .............................. <script("node3d")>
+  [ 18] setprop 23 .............................. nodescript = script("node3d")
+  [ 20] jmp [ 31]
+  [ 23] pushcons 1 .............................. <"node2d">
+  [ 25] pusharglist 1 ........................... <"node2d">
+  [ 27] extcall 24 .............................. <script("node2d")>
+  [ 29] setprop 23 .............................. nodescript = script("node2d")
+  [ 31] getprop 23 .............................. <nodescript>
+  [ 33] getprop 26 .............................. <sprite_mgr>
+  [ 35] pushsymb 27 ............................. <#nodeID>
+  [ 37] pushcons 2 .............................. <"world">
+  [ 39] pushsymb 28 ............................. <#type>
+  [ 41] pushsymb 29 ............................. <#Branch>
+  [ 43] pushsymb 30 ............................. <#frames>
+  [ 45] pushsymb 31 ............................. <#loc>
+  [ 47] pushzero ................................ <0>
+  [ 48] pushzero ................................ <0>
+  [ 49] pusharglist 2 ........................... <0, 0>
+  [ 51] extcall 32 .............................. <point(0, 0)>
+  [ 53] pushsymb 33 ............................. <#z>
+  [ 55] pushzero ................................ <0>
+  [ 56] pusharglist 4 ........................... <[#loc: point(0, 0), #z: 0]>
+  [ 58] pushproplist ............................ <[#loc: point(0, 0), #z: 0]>
+  [ 59] pusharglist 1 ........................... <[[#loc: point(0, 0), #z: 0]]>
+  [ 61] pushlist ................................ <[[#loc: point(0, 0), #z: 0]]>
+  [ 62] pushsymb 34 ............................. <#children>
+  [ 64] pusharglist 0 ........................... <[]>
+  [ 66] pushlist ................................ <[]>
+  [ 67] pusharglist 8 ........................... <[#nodeID: "world", #type: #Branch, #frames: [[#loc: point(0, 0), #z: 0]], #children: []]>
+  [ 69] pushproplist ............................ <[#nodeID: "world", #type: #Branch, #frames: [[#loc: point(0, 0), #z: 0]], #children: []]>
+  [ 70] pusharglist 3 ........................... <nodescript, sprite_mgr, [#nodeID: "world", #type: #Branch, #frames: [[#loc: point(0, 0), #z: 0]], #children: []]>
+  [ 72] objcall 0 ............................... <nodescript.new(sprite_mgr, [#nodeID: "world", #type: #Branch, #frames: [[#loc: point(0, 0), #z: 0]], #children: []])>
+  [ 74] setprop 25 .............................. ROOT = nodescript.new(sprite_mgr, [#nodeID: "world", #type: #Branch, #frames: [[#loc: point(0, 0), #z: 0]], #children: []])
+  [ 76] getprop 25 .............................. <ROOT>
+  [ 78] pusharglistnoret 1 ...................... <ROOT>
+  [ 80] objcall 35 .............................. ROOT.setZDirty()
+  [ 82] getprop 25 .............................. <ROOT>
+  [ 84] pusharglistnoret 1 ...................... <ROOT>
+  [ 86] objcall 36 .............................. ROOT.updateLocZ()
+  [ 88] getprop 21 .............................. <mode>
+  [ 90] pushsymb 0 .............................. <#new>
+  [ 92] eq ...................................... <mode = #new>
+  [ 93] jmpifz [106] ............................ if mode = #new then
+  [ 96] getparam 0 .............................. <me>
+  [ 98] pushsymb 2 .............................. <#exitFrame>
+  [100] pushcons 3 .............................. <"node">
+  [102] pusharglistnoret 3 ...................... <me, #exitFrame, "node">
+  [104] extcall 37 .............................. subscribe(me, #exitFrame, "node")
+  [106] ret
+end
+
+on exitFrame me
+  [  0] getprop 25 .............................. <ROOT>
+  [  2] pusharglistnoret 1 ...................... <ROOT>
+  [  4] objcall 36 .............................. ROOT.updateLocZ()
+  [  6] ret
+end
+
+on newButton me, Args
+  [  0] getprop 21 .............................. <mode>
+  [  2] pushsymb 22 ............................. <#hardware>
+  [  4] eq ...................................... <mode = #hardware>
+  [  5] jmpifz [ 27] ............................ if mode = #hardware then / else
+  [  8] pushcons 4 .............................. <"node3d_button">
+  [ 10] pusharglist 1 ........................... <"node3d_button">
+  [ 12] extcall 24 .............................. <script("node3d_button")>
+  [ 14] getparam 1 .............................. <Args>
+  [ 16] pusharglist 2 ........................... <script("node3d_button"), Args>
+  [ 18] objcall 0 ............................... <script("node3d_button").new(Args)>
+  [ 20] pusharglistnoret 1 ...................... <script("node3d_button").new(Args)>
+  [ 22] extcall 19 .............................. return script("node3d_button").new(Args)
+  [ 24] jmp [ 43]
+  [ 27] pushcons 5 .............................. <"node2d_button">
+  [ 29] pusharglist 1 ........................... <"node2d_button">
+  [ 31] extcall 24 .............................. <script("node2d_button")>
+  [ 33] getparam 1 .............................. <Args>
+  [ 35] pusharglist 2 ........................... <script("node2d_button"), Args>
+  [ 37] objcall 0 ............................... <script("node2d_button").new(Args)>
+  [ 39] pusharglistnoret 1 ...................... <script("node2d_button").new(Args)>
+  [ 41] extcall 19 .............................. return script("node2d_button").new(Args)
+  [ 43] ret
+end
+
+on newMouseListener me, Args
+  [  0] getprop 21 .............................. <mode>
+  [  2] pushsymb 22 ............................. <#hardware>
+  [  4] eq ...................................... <mode = #hardware>
+  [  5] jmpifz [ 27] ............................ if mode = #hardware then / else
+  [  8] pushcons 6 .............................. <"node3d_mouselistener">
+  [ 10] pusharglist 1 ........................... <"node3d_mouselistener">
+  [ 12] extcall 24 .............................. <script("node3d_mouselistener")>
+  [ 14] getparam 1 .............................. <Args>
+  [ 16] pusharglist 2 ........................... <script("node3d_mouselistener"), Args>
+  [ 18] objcall 0 ............................... <script("node3d_mouselistener").new(Args)>
+  [ 20] pusharglistnoret 1 ...................... <script("node3d_mouselistener").new(Args)>
+  [ 22] extcall 19 .............................. return script("node3d_mouselistener").new(Args)
+  [ 24] jmp [ 43]
+  [ 27] pushcons 7 .............................. <"node2d_mouselistener">
+  [ 29] pusharglist 1 ........................... <"node2d_mouselistener">
+  [ 31] extcall 24 .............................. <script("node2d_mouselistener")>
+  [ 33] getparam 1 .............................. <Args>
+  [ 35] pusharglist 2 ........................... <script("node2d_mouselistener"), Args>
+  [ 37] objcall 0 ............................... <script("node2d_mouselistener").new(Args)>
+  [ 39] pusharglistnoret 1 ...................... <script("node2d_mouselistener").new(Args)>
+  [ 41] extcall 19 .............................. return script("node2d_mouselistener").new(Args)
+  [ 43] ret
+end
+
+on destroy me
+  [  0] getparam 0 .............................. <me>
+  [  2] pushsymb 2 .............................. <#exitFrame>
+  [  4] pushcons 3 .............................. <"node">
+  [  6] pusharglistnoret 3 ...................... <me, #exitFrame, "node">
+  [  8] extcall 39 .............................. unsubscribe(me, #exitFrame, "node")
+  [ 10] pusharglist 0 ........................... <>
+  [ 12] extcall 40 .............................. <VOID>
+  [ 14] setprop 26 .............................. sprite_mgr = VOID
+  [ 16] getprop 25 .............................. <ROOT>
+  [ 18] pusharglist 1 ........................... <ROOT>
+  [ 20] extcall 41 .............................. <voidp(ROOT)>
+  [ 22] not ..................................... <not voidp(ROOT)>
+  [ 23] jmpifz [ 32] ............................ if not voidp(ROOT) then
+  [ 26] getprop 25 .............................. <ROOT>
+  [ 28] pusharglistnoret 1 ...................... <ROOT>
+  [ 30] objcall 5 ............................... ROOT.destroy()
+  [ 32] pusharglist 0 ........................... <>
+  [ 34] extcall 40 .............................. <VOID>
+  [ 36] setprop 25 .............................. ROOT = VOID
+  [ 38] pusharglist 0 ........................... <>
+  [ 40] extcall 40 .............................. <VOID>
+  [ 42] setlocal 0 .............................. glob = VOID
+  [ 44] ret
+end
+
+on setSpriteManager me, sm
+  [  0] getparam 1 .............................. <sm>
+  [  2] setprop 26 .............................. sprite_mgr = sm
+  [  4] ret
+end
+
+on getRoot
+  [  0] getprop 25 .............................. <ROOT>
+  [  2] pusharglistnoret 1 ...................... <ROOT>
+  [  4] extcall 19 .............................. return ROOT
+  [  6] ret
+end
+
+on getGroup me, str
+  [  0] getprop 25 .............................. <ROOT>
+  [  2] getparam 1 .............................. <str>
+  [  4] pusharglist 2 ........................... <ROOT, str>
+  [  6] objcall 44 .............................. <ROOT[str]>
+  [  8] setlocal 0 .............................. c = ROOT[str]
+  [ 10] getlocal 0 .............................. <c>
+  [ 12] pusharglist 1 ........................... <c>
+  [ 14] extcall 41 .............................. <voidp(c)>
+  [ 16] not ..................................... <not voidp(c)>
+  [ 17] jmpifz [ 26] ............................ if not voidp(c) then
+  [ 20] getlocal 0 .............................. <c>
+  [ 22] pusharglistnoret 1 ...................... <c>
+  [ 24] extcall 19 .............................. return c
+  [ 26] getparam 0 .............................. <me>
+  [ 28] getprop 25 .............................. <ROOT>
+  [ 30] pushsymb 27 ............................. <#nodeID>
+  [ 32] getparam 1 .............................. <str>
+  [ 34] pusharglist 2 ........................... <[#nodeID: str]>
+  [ 36] pushproplist ............................ <[#nodeID: str]>
+  [ 37] pusharglist 3 ........................... <me, ROOT, [#nodeID: str]>
+  [ 39] objcall 9 ............................... <me.newNode(ROOT, [#nodeID: str])>
+  [ 41] setlocal 0 .............................. c = me.newNode(ROOT, [#nodeID: str])
+  [ 43] getprop 25 .............................. <ROOT>
+  [ 45] getlocal 0 .............................. <c>
+  [ 47] pusharglistnoret 2 ...................... <ROOT, c>
+  [ 49] objcall 45 .............................. ROOT.addChild(c)
+  [ 51] getlocal 0 .............................. <c>
+  [ 53] pusharglistnoret 1 ...................... <c>
+  [ 55] extcall 19 .............................. return c
+  [ 57] ret
+end
+
+on newNode me, par, layerinfo
+  [  0] getprop 23 .............................. <nodescript>
+  [  2] getprop 26 .............................. <sprite_mgr>
+  [  4] getparam 2 .............................. <layerinfo>
+  [  6] pusharglist 3 ........................... <nodescript, sprite_mgr, layerinfo>
+  [  8] objcall 0 ............................... <nodescript.new(sprite_mgr, layerinfo)>
+  [ 10] setlocal 0 .............................. node = nodescript.new(sprite_mgr, layerinfo)
+  [ 12] getparam 1 .............................. <par>
+  [ 14] pusharglist 1 ........................... <par>
+  [ 16] extcall 41 .............................. <voidp(par)>
+  [ 18] jmpifz [ 25] ............................ if voidp(par) then
+  [ 21] getprop 25 .............................. <ROOT>
+  [ 23] setparam 1 .............................. par = ROOT
+  [ 25] getparam 1 .............................. <par>
+  [ 27] getlocal 0 .............................. <node>
+  [ 29] pusharglistnoret 2 ...................... <par, node>
+  [ 31] objcall 45 .............................. par.addChild(node)
+  [ 33] getparam 2 .............................. <layerinfo>
+  [ 35] pusharglist 1 ........................... <layerinfo>
+  [ 37] extcall 41 .............................. <voidp(layerinfo)>
+  [ 39] not ..................................... <not voidp(layerinfo)>
+  [ 40] jmpifz [112] ............................ if not voidp(layerinfo) then
+  [ 43] getparam 2 .............................. <layerinfo>
+  [ 45] pushsymb 34 ............................. <#children>
+  [ 47] pusharglist 2 ........................... <layerinfo, #children>
+  [ 49] objcall 44 .............................. <layerinfo[#children]>
+  [ 51] pusharglist 1 ........................... <layerinfo[#children]>
+  [ 53] extcall 41 .............................. <voidp(layerinfo[#children])>
+  [ 55] not ..................................... <not voidp(layerinfo[#children])>
+  [ 56] jmpifz [112] ............................ if not voidp(layerinfo[#children]) then
+  [ 59] getparam 2 .............................. <layerinfo>
+  [ 61] getobjprop 34 ........................... <layerinfo.children>
+  [ 63] peek 0
+  [ 65] pusharglist 1
+  [ 67] extcall 48
+  [ 69] pushint8 1
+  [ 71] peek 0
+  [ 73] peek 2
+  [ 75] lteq
+  [ 76] jmpifz [110] ............................ repeat with i in layerinfo.children
+  [ 79] peek 2
+  [ 81] peek 1
+  [ 83] pusharglist 2
+  [ 85] extcall 44
+  [ 87] setlocal 1
+  [ 89] getlocal 0 .............................. <node>
+  [ 91] getparam 0 .............................. <me>
+  [ 93] getparam 1 .............................. <par>
+  [ 95] getlocal 1 .............................. <i>
+  [ 97] pusharglist 3 ........................... <me, par, i>
+  [ 99] objcall 9 ............................... <me.newNode(par, i)>
+  [101] pusharglistnoret 2 ...................... <node, me.newNode(par, i)>
+  [103] objcall 45 .............................. node.addChild(me.newNode(par, i))
+  [105] pushint8 1
+  [107] add
+  [108] endrepeat [ 71]
+  [110] pop 3
+  [112] getlocal 0 .............................. <node>
+  [114] pusharglistnoret 1 ...................... <node>
+  [116] extcall 19 .............................. return node
+  [118] ret
+end
+
+on moveToFront me, nd
+  [  0] getprop 25 .............................. <ROOT>
+  [  2] pushint8 1 .............................. <1>
+  [  4] pusharglist 2 ........................... <ROOT, 1>
+  [  6] objcall 44 .............................. <ROOT[1]>
+  [  8] setlocal 0 .............................. fr = ROOT[1]
+  [ 10] getlocal 0 .............................. <fr>
+  [ 12] getparam 1 .............................. <nd>
+  [ 14] eq ...................................... <fr = nd>
+  [ 15] jmpifz [ 22] ............................ if fr = nd then
+  [ 18] pusharglistnoret 0 ...................... <>
+  [ 20] extcall 19 .............................. return 
+  [ 22] getparam 1 .............................. <nd>
+  [ 24] getlocal 0 .............................. <fr>
+  [ 26] pusharglistnoret 2 ...................... <nd, fr>
+  [ 28] objcall 12 .............................. nd.putInFrontOf(fr)
+  [ 30] ret
+end
+
+on moveToBack me, nd
+  [  0] getprop 25 .............................. <ROOT>
+  [  2] getprop 25 .............................. <ROOT>
+  [  4] pushsymb 55 ............................. <#child>
+  [  6] pusharglist 2 ........................... <ROOT, #child>
+  [  8] objcall 48 .............................. <ROOT.child.count>
+  [ 10] pusharglist 2 ........................... <ROOT, ROOT.child.count>
+  [ 12] objcall 44 .............................. <ROOT[ROOT.child.count]>
+  [ 14] setlocal 0 .............................. bk = ROOT[ROOT.child.count]
+  [ 16] getlocal 0 .............................. <bk>
+  [ 18] getparam 1 .............................. <nd>
+  [ 20] eq ...................................... <bk = nd>
+  [ 21] jmpifz [ 28] ............................ if bk = nd then
+  [ 24] pusharglistnoret 0 ...................... <>
+  [ 26] extcall 19 .............................. return 
+  [ 28] getparam 1 .............................. <nd>
+  [ 30] getlocal 0 .............................. <bk>
+  [ 32] pusharglistnoret 2 ...................... <nd, bk>
+  [ 34] objcall 13 .............................. nd.putInBackOf(bk)
+  [ 36] ret
+end
+
+on putInFrontOf me, fr, bk
+  [  0] getprop 25 .............................. <ROOT>
+  [  2] getparam 1 .............................. <fr>
+  [  4] getparam 2 .............................. <bk>
+  [  6] pusharglistnoret 3 ...................... <ROOT, fr, bk>
+  [  8] objcall 12 .............................. ROOT.putInFrontOf(fr, bk)
+  [ 10] ret
+end
+
+on putInBackOf me, bk, fr
+  [  0] getprop 25 .............................. <ROOT>
+  [  2] getparam 1 .............................. <bk>
+  [  4] getparam 2 .............................. <fr>
+  [  6] pusharglistnoret 3 ...................... <ROOT, bk, fr>
+  [  8] objcall 13 .............................. ROOT.putInBackOf(bk, fr)
+  [ 10] ret
+end
+
+on testnode me
+  [  0] getparam 0 .............................. <me>
+  [  2] getprop 25 .............................. <ROOT>
+  [  4] pushcons 8 .............................. <"room">
+  [  6] pusharglist 1 ........................... <"room">
+  [  8] extcall 57 .............................. <getNodeData("room")>
+  [ 10] pusharglist 3 ........................... <me, ROOT, getNodeData("room")>
+  [ 12] objcall 9 ............................... <me.newNode(ROOT, getNodeData("room"))>
+  [ 14] setprop 14 .............................. testnode = me.newNode(ROOT, getNodeData("room"))
+  [ 16] getprop 14 .............................. <testnode>
+  [ 18] pushzero ................................ <0>
+  [ 19] pushzero ................................ <0>
+  [ 20] pusharglist 2 ........................... <0, 0>
+  [ 22] extcall 32 .............................. <point(0, 0)>
+  [ 24] pusharglistnoret 2 ...................... <testnode, point(0, 0)>
+  [ 26] objcall 58 .............................. testnode.setLoc(point(0, 0))
+  [ 28] getprop 14 .............................. <testnode>
+  [ 30] pushint8 1 .............................. <1>
+  [ 32] pusharglistnoret 2 ...................... <testnode, 1>
+  [ 34] objcall 59 .............................. testnode.setVisible(1)
+  [ 36] getprop 14 .............................. <testnode>
+  [ 38] pushcons 9 .............................. <"texttext">
+  [ 40] pusharglist 2 ........................... <testnode, "texttext">
+  [ 42] objcall 44 .............................. <testnode["texttext"]>
+  [ 44] pushcons 10 ............................. <"hahahaha">
+  [ 46] pusharglistnoret 2 ...................... <testnode["texttext"], "hahahaha">
+  [ 48] objcall 60 .............................. testnode["texttext"].setText("hahahaha")
+  [ 50] ret
+end
+
+on testmouse me
+  [  0] getprop 14 .............................. <testnode>
+  [  2] pushcons 11 ............................. <"table1">
+  [  4] pusharglist 2 ........................... <testnode, "table1">
+  [  6] objcall 44 .............................. <testnode["table1"]>
+  [  8] setlocal 0 .............................. n = testnode["table1"]
+  [ 10] pusharglist 0 ........................... <>
+  [ 12] localcall 4 ............................. <newMouseListener()>
+  [ 14] setprop 15 .............................. testmouse = newMouseListener()
+  [ 16] getprop 15 .............................. <testmouse>
+  [ 18] getlocal 0 .............................. <n>
+  [ 20] pushint8 1 .............................. <1>
+  [ 22] pusharglistnoret 3 ...................... <testmouse, n, 1>
+  [ 24] objcall 61 .............................. testmouse.addNode(n, 1)
+  [ 26] getlocal 0 .............................. <n>
+  [ 28] pusharglist 1 ........................... <n>
+  [ 30] objcall 62 .............................. <n.getRotation()>
+  [ 32] setlocal 1 .............................. rot = n.getRotation()
+  [ 34] getprop 15 .............................. <testmouse>
+  [ 36] pushsymb 63 ............................. <#mouseEnter>
+  [ 38] pushsymb 64 ............................. <#handler>
+  [ 40] pushsymb 65 ............................. <#setAlpha>
+  [ 42] pushsymb 66 ............................. <#target>
+  [ 44] getlocal 0 .............................. <n>
+  [ 46] pushsymb 38 ............................. <#Args>
+  [ 48] pushint8 50 ............................. <50>
+  [ 50] pusharglist 6 ........................... <[#handler: #setAlpha, #target: n, #Args: 50]>
+  [ 52] pushproplist ............................ <[#handler: #setAlpha, #target: n, #Args: 50]>
+  [ 53] pusharglistnoret 3 ...................... <testmouse, #mouseEnter, [#handler: #setAlpha, #target: n, #Args: 50]>
+  [ 55] objcall 67 .............................. testmouse.setCallback(#mouseEnter, [#handler: #setAlpha, #target: n, #Args: 50])
+  [ 57] getprop 15 .............................. <testmouse>
+  [ 59] pushsymb 68 ............................. <#mouseLeave>
+  [ 61] pushsymb 64 ............................. <#handler>
+  [ 63] pushsymb 65 ............................. <#setAlpha>
+  [ 65] pushsymb 66 ............................. <#target>
+  [ 67] getlocal 0 .............................. <n>
+  [ 69] pushsymb 38 ............................. <#Args>
+  [ 71] pushint8 100 ............................ <100>
+  [ 73] pusharglist 6 ........................... <[#handler: #setAlpha, #target: n, #Args: 100]>
+  [ 75] pushproplist ............................ <[#handler: #setAlpha, #target: n, #Args: 100]>
+  [ 76] pusharglistnoret 3 ...................... <testmouse, #mouseLeave, [#handler: #setAlpha, #target: n, #Args: 100]>
+  [ 78] objcall 67 .............................. testmouse.setCallback(#mouseLeave, [#handler: #setAlpha, #target: n, #Args: 100])
+  [ 80] getprop 15 .............................. <testmouse>
+  [ 82] pushsymb 69 ............................. <#mouseDown>
+  [ 84] pushsymb 64 ............................. <#handler>
+  [ 86] pushsymb 70 ............................. <#setRotation>
+  [ 88] pushsymb 66 ............................. <#target>
+  [ 90] getlocal 0 .............................. <n>
+  [ 92] pushsymb 38 ............................. <#Args>
+  [ 94] getlocal 1 .............................. <rot>
+  [ 96] pushint8 45 ............................. <45>
+  [ 98] add ..................................... <rot + 45>
+  [ 99] pusharglist 6 ........................... <[#handler: #setRotation, #target: n, #Args: rot + 45]>
+  [101] pushproplist ............................ <[#handler: #setRotation, #target: n, #Args: rot + 45]>
+  [102] pusharglistnoret 3 ...................... <testmouse, #mouseDown, [#handler: #setRotation, #target: n, #Args: rot + 45]>
+  [104] objcall 67 .............................. testmouse.setCallback(#mouseDown, [#handler: #setRotation, #target: n, #Args: rot + 45])
+  [106] getprop 15 .............................. <testmouse>
+  [108] pushsymb 71 ............................. <#mouseUp>
+  [110] pushsymb 64 ............................. <#handler>
+  [112] pushsymb 70 ............................. <#setRotation>
+  [114] pushsymb 66 ............................. <#target>
+  [116] getlocal 0 .............................. <n>
+  [118] pushsymb 38 ............................. <#Args>
+  [120] getlocal 1 .............................. <rot>
+  [122] pusharglist 6 ........................... <[#handler: #setRotation, #target: n, #Args: rot]>
+  [124] pushproplist ............................ <[#handler: #setRotation, #target: n, #Args: rot]>
+  [125] pusharglistnoret 3 ...................... <testmouse, #mouseUp, [#handler: #setRotation, #target: n, #Args: rot]>
+  [127] objcall 67 .............................. testmouse.setCallback(#mouseUp, [#handler: #setRotation, #target: n, #Args: rot])
+  [129] getprop 15 .............................. <testmouse>
+  [131] pushsymb 72 ............................. <#mouseUpOutSide>
+  [133] pushsymb 64 ............................. <#handler>
+  [135] pushsymb 70 ............................. <#setRotation>
+  [137] pushsymb 66 ............................. <#target>
+  [139] getlocal 0 .............................. <n>
+  [141] pushsymb 38 ............................. <#Args>
+  [143] getlocal 1 .............................. <rot>
+  [145] pusharglist 6 ........................... <[#handler: #setRotation, #target: n, #Args: rot]>
+  [147] pushproplist ............................ <[#handler: #setRotation, #target: n, #Args: rot]>
+  [148] pusharglistnoret 3 ...................... <testmouse, #mouseUpOutSide, [#handler: #setRotation, #target: n, #Args: rot]>
+  [150] objcall 67 .............................. testmouse.setCallback(#mouseUpOutSide, [#handler: #setRotation, #target: n, #Args: rot])
+  [152] ret
+end
+
+on cleanupTests me
+  [  0] getprop 15 .............................. <testmouse>
+  [  2] pusharglist 1 ........................... <testmouse>
+  [  4] extcall 41 .............................. <voidp(testmouse)>
+  [  6] not ..................................... <not voidp(testmouse)>
+  [  7] jmpifz [ 16] ............................ if not voidp(testmouse) then
+  [ 10] getprop 15 .............................. <testmouse>
+  [ 12] pusharglistnoret 1 ...................... <testmouse>
+  [ 14] objcall 5 ............................... testmouse.destroy()
+  [ 16] pusharglist 0 ........................... <>
+  [ 18] extcall 40 .............................. <VOID>
+  [ 20] setprop 15 .............................. testmouse = VOID
+  [ 22] getprop 14 .............................. <testnode>
+  [ 24] pusharglistnoret 1 ...................... <testnode>
+  [ 26] objcall 5 ............................... testnode.destroy()
+  [ 28] pusharglist 0 ........................... <>
+  [ 30] extcall 40 .............................. <VOID>
+  [ 32] setprop 14 .............................. testnode = VOID
+  [ 34] ret
+end
+
+on testLocs me
+  [  0] getprop 14 .............................. <testnode>
+  [  2] pushcons 11 ............................. <"table1">
+  [  4] pusharglist 2 ........................... <testnode, "table1">
+  [  6] objcall 44 .............................. <testnode["table1"]>
+  [  8] setlocal 0 .............................. n = testnode["table1"]
+  [ 10] getprop 14 .............................. <testnode>
+  [ 12] pushcons 12 ............................. <"floor">
+  [ 14] pusharglist 2 ........................... <testnode, "floor">
+  [ 16] objcall 44 .............................. <testnode["floor"]>
+  [ 18] pushsymb 34 ............................. <#children>
+  [ 20] pushint8 1 .............................. <1>
+  [ 22] pusharglist 3 ........................... <testnode["floor"], #children, 1>
+  [ 24] objcall 75 .............................. <testnode["floor"].children[1]>
+  [ 26] setlocal 1 .............................. t = testnode["floor"].children[1]
+  [ 28] getlocal 0 .............................. <n>
+  [ 30] pushzero ................................ <0>
+  [ 31] pushzero ................................ <0>
+  [ 32] pusharglist 2 ........................... <0, 0>
+  [ 34] extcall 32 .............................. <point(0, 0)>
+  [ 36] getlocal 1 .............................. <t>
+  [ 38] pusharglistnoret 3 ...................... <n, point(0, 0), t>
+  [ 40] objcall 76 .............................. n.setLocRel(point(0, 0), t)
+  [ 42] getlocal 1 .............................. <t>
+  [ 44] pushzero ................................ <0>
+  [ 45] pushzero ................................ <0>
+  [ 46] pusharglist 2 ........................... <0, 0>
+  [ 48] extcall 32 .............................. <point(0, 0)>
+  [ 50] pusharglistnoret 2 ...................... <t, point(0, 0)>
+  [ 52] objcall 58 .............................. t.setLoc(point(0, 0))
+  [ 54] getparam 0 .............................. <me>
+  [ 56] pusharglist 1 ........................... <me>
+  [ 58] objcall 9 ............................... <me.newNode()>
+  [ 60] setprop 77 .............................. tn2 = me.newNode()
+  [ 62] getprop 25 .............................. <ROOT>
+  [ 64] getprop 77 .............................. <tn2>
+  [ 66] pusharglistnoret 2 ...................... <ROOT, tn2>
+  [ 68] objcall 45 .............................. ROOT.addChild(tn2)
+  [ 70] getprop 77 .............................. <tn2>
+  [ 72] pusharglistnoret 1 ...................... <tn2>
+  [ 74] objcall 78 .............................. tn2.updateTransform()
+  [ 76] getprop 77 .............................. <tn2>
+  [ 78] getlocal 0 .............................. <n>
+  [ 80] pusharglistnoret 2 ...................... <tn2, n>
+  [ 82] objcall 45 .............................. tn2.addChild(n)
+  [ 84] getprop 77 .............................. <tn2>
+  [ 86] getlocal 1 .............................. <t>
+  [ 88] pusharglistnoret 2 ...................... <tn2, t>
+  [ 90] objcall 45 .............................. tn2.addChild(t)
+  [ 92] pushcons 13 ............................. <EMPTY>
+  [ 94] pusharglistnoret 1 ...................... <EMPTY>
+  [ 96] extcall 79 .............................. put EMPTY
+  [ 98] ret
+end
+
+on testMousePrint me
+  [  0] pushcons 14 ............................. <"asfasdfasfd">
+  [  2] pusharglistnoret 1 ...................... <"asfasdfasfd">
+  [  4] extcall 79 .............................. put "asfasdfasfd"
+  [  6] ret
+end

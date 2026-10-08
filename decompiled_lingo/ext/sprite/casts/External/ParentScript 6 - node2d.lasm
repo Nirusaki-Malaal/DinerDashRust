@@ -1,0 +1,46 @@
+on new me, sm, dat
+  [  0] getparam 2 .............................. <dat>
+  [  2] pusharglist 1 ........................... <dat>
+  [  4] extcall 41 .............................. <voidp(dat)>
+  [  6] not ..................................... <not voidp(dat)>
+  [  7] jmpifz [ 65] ............................ if not voidp(dat) then
+  [ 10] getparam 2 .............................. <dat>
+  [ 12] pushsymb 92 ............................. <#noSprite>
+  [ 14] pusharglist 2 ........................... <dat, #noSprite>
+  [ 16] objcall 44 .............................. <dat[#noSprite]>
+  [ 18] not ..................................... <not dat[#noSprite]>
+  [ 19] getparam 2 .............................. <dat>
+  [ 21] pushsymb 99 ............................. <#member>
+  [ 23] pusharglist 2 ........................... <dat, #member>
+  [ 25] objcall 44 .............................. <dat[#member]>
+  [ 27] pusharglist 1 ........................... <dat[#member]>
+  [ 29] extcall 41 .............................. <voidp(dat[#member])>
+  [ 31] or ...................................... <not dat[#noSprite] or voidp(dat[#member])>
+  [ 32] getparam 2 .............................. <dat>
+  [ 34] pushsymb 28 ............................. <#type>
+  [ 36] pusharglist 2 ........................... <dat, #type>
+  [ 38] objcall 44 .............................. <dat[#type]>
+  [ 40] pushsymb 29 ............................. <#Branch>
+  [ 42] eq ...................................... <dat[#type] = #Branch>
+  [ 43] or ...................................... <not dat[#noSprite] or voidp(dat[#member]) or (dat[#type] = #Branch)>
+  [ 44] jmpifz [ 65] ............................ if not dat[#noSprite] or voidp(dat[#member]) or (dat[#type] = #Branch) then
+  [ 47] pushcons 0 .............................. <"node2d_branch">
+  [ 49] pusharglist 1 ........................... <"node2d_branch">
+  [ 51] extcall 24 .............................. <script("node2d_branch")>
+  [ 53] getparam 1 .............................. <sm>
+  [ 55] getparam 2 .............................. <dat>
+  [ 57] pusharglist 3 ........................... <script("node2d_branch"), sm, dat>
+  [ 59] objcall 0 ............................... <script("node2d_branch").new(sm, dat)>
+  [ 61] pusharglistnoret 1 ...................... <script("node2d_branch").new(sm, dat)>
+  [ 63] extcall 19 .............................. return script("node2d_branch").new(sm, dat)
+  [ 65] pushcons 1 .............................. <"node2d_leaf">
+  [ 67] pusharglist 1 ........................... <"node2d_leaf">
+  [ 69] extcall 24 .............................. <script("node2d_leaf")>
+  [ 71] getparam 1 .............................. <sm>
+  [ 73] getparam 2 .............................. <dat>
+  [ 75] pusharglist 3 ........................... <script("node2d_leaf"), sm, dat>
+  [ 77] objcall 0 ............................... <script("node2d_leaf").new(sm, dat)>
+  [ 79] pusharglistnoret 1 ...................... <script("node2d_leaf").new(sm, dat)>
+  [ 81] extcall 19 .............................. return script("node2d_leaf").new(sm, dat)
+  [ 83] ret
+end
