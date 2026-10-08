@@ -1,0 +1,183 @@
+property mgr, name, node_mgr, game_mgr, screen, node, grp, page, initialized, arrow
+
+on new me, m
+  [  0] getparam 1 .............................. <m>
+  [  2] setprop 52 .............................. mgr = m
+  [  4] getparam 1 .............................. <m>
+  [  6] getchainedprop 4 ........................ <m.glob>
+  [  8] getchainedprop 6 ........................ <m.glob.managers>
+  [ 10] getobjprop 54 ........................... <m.glob.managers.node>
+  [ 12] setprop 53 .............................. node_mgr = m.glob.managers.node
+  [ 14] getparam 1 .............................. <m>
+  [ 16] getchainedprop 4 ........................ <m.glob>
+  [ 18] getchainedprop 6 ........................ <m.glob.managers>
+  [ 20] getobjprop 7 ............................ <m.glob.managers.game>
+  [ 22] setprop 5 ............................... game_mgr = m.glob.managers.game
+  [ 24] getprop 53 .............................. <node_mgr>
+  [ 26] pushcons 0 .............................. <"titles">
+  [ 28] pusharglist 2 ........................... <node_mgr, "titles">
+  [ 30] objcall 65 .............................. <node_mgr.getGroup("titles")>
+  [ 32] setprop 83 .............................. grp = node_mgr.getGroup("titles")
+  [ 34] pushsymb 12 ............................. <#comic>
+  [ 36] setprop 63 .............................. name = #comic
+  [ 38] getparam 0 .............................. <me>
+  [ 40] pusharglistnoret 1 ...................... <me>
+  [ 42] extcall 9 ............................... return me
+  [ 44] ret
+end
+
+on init me
+  [  0] getprop 64 .............................. <initialized>
+  [  2] jmpifz [  9] ............................ if initialized then
+  [  5] pusharglistnoret 0 ...................... <>
+  [  7] extcall 9 ............................... return 
+  [  9] pushint8 1 .............................. <1>
+  [ 11] setprop 64 .............................. initialized = 1
+  [ 13] getprop 83 .............................. <grp>
+  [ 15] pushcons 1 .............................. <"comic">
+  [ 17] pusharglist 1 ........................... <"comic">
+  [ 19] extcall 66 .............................. <getNodeData("comic")>
+  [ 21] pusharglist 2 ........................... <grp, getNodeData("comic")>
+  [ 23] objcall 67 .............................. <grp.newNode(getNodeData("comic"))>
+  [ 25] setprop 54 .............................. node = grp.newNode(getNodeData("comic"))
+  [ 27] getprop 54 .............................. <node>
+  [ 29] pushzero ................................ <0>
+  [ 30] pusharglistnoret 2 ...................... <node, 0>
+  [ 32] objcall 95 .............................. node.setVisible(0)
+  [ 34] pushsymb 54 ............................. <#node>
+  [ 36] getprop 54 .............................. <node>
+  [ 38] pushcons 2 .............................. <"arrow">
+  [ 40] pusharglist 2 ........................... <node, "arrow">
+  [ 42] objcall 31 .............................. <node["arrow"]>
+  [ 44] pushsymb 77 ............................. <#members>
+  [ 46] pushsymb 72 ............................. <#rollover>
+  [ 48] pushcons 3 .............................. <"help_arrow">
+  [ 50] pusharglist 1 ........................... <"help_arrow">
+  [ 52] extcall 75 .............................. <member("help_arrow")>
+  [ 54] pusharglist 2 ........................... <[#rollover: member("help_arrow")]>
+  [ 56] pushproplist ............................ <[#rollover: member("help_arrow")]>
+  [ 57] pushsymb 181 ............................ <#callback>
+  [ 59] pushsymb 59 ............................. <#target>
+  [ 61] getparam 0 .............................. <me>
+  [ 63] pushsymb 60 ............................. <#handler>
+  [ 65] pushsymb 298 ............................ <#mousePress>
+  [ 68] pusharglist 4 ........................... <[#target: me, #handler: #mousePress]>
+  [ 70] pushproplist ............................ <[#target: me, #handler: #mousePress]>
+  [ 71] pusharglist 6 ........................... <[#node: node["arrow"], #members: [#rollover: member("help_arrow")], #callback: [#target: me, #handler: #mousePress]]>
+  [ 73] pushproplist ............................ <[#node: node["arrow"], #members: [#rollover: member("help_arrow")], #callback: [#target: me, #handler: #mousePress]]>
+  [ 74] pusharglist 1 ........................... <[#node: node["arrow"], #members: [#rollover: member("help_arrow")], #callback: [#target: me, #handler: #mousePress]]>
+  [ 76] extcall 76 .............................. <newButton([#node: node["arrow"], #members: [#rollover: member("help_arrow")], #callback: [#target: me, #handler: #mousePress]])>
+  [ 78] setprop 299 ............................. arrow = newButton([#node: node["arrow"], #members: [#rollover: member("help_arrow")], #callback: [#target: me, #handler: #mousePress]])
+  [ 81] ret
+end
+
+on destroy me
+  [  0] getprop 64 .............................. <initialized>
+  [  2] jmpifz [ 18] ............................ if initialized then
+  [  5] getprop 54 .............................. <node>
+  [  7] pusharglistnoret 1 ...................... <node>
+  [  9] objcall 2 ............................... node.destroy()
+  [ 11] getprop 299 ............................. <arrow>
+  [ 14] pusharglistnoret 1 ...................... <arrow>
+  [ 16] objcall 2 ............................... arrow.destroy()
+  [ 18] getparam 0 .............................. <me>
+  [ 20] pusharglistnoret 1 ...................... <me>
+  [ 22] extcall 84 .............................. voidRefs(me)
+  [ 24] ret
+end
+
+on enterMode me, previousMode
+  [  0] getprop 64 .............................. <initialized>
+  [  2] not ..................................... <not initialized>
+  [  3] jmpifz [ 15] ............................ if not initialized then / else
+  [  6] getparam 0 .............................. <me>
+  [  8] pusharglistnoret 1 ...................... <me>
+  [ 10] objcall 1 ............................... me.init()
+  [ 12] jmp [ 21]
+  [ 15] getprop 54 .............................. <node>
+  [ 17] pusharglistnoret 1 ...................... <node>
+  [ 19] objcall 96 .............................. node.embody()
+  [ 21] getprop 54 .............................. <node>
+  [ 23] pusharglistnoret 1 ...................... <node>
+  [ 25] objcall 97 .............................. node.updateLocZ()
+  [ 27] pushint8 1 .............................. <1>
+  [ 29] setprop 300 ............................. page = 1
+  [ 32] getprop 83 .............................. <grp>
+  [ 34] pushint8 1 .............................. <1>
+  [ 36] pusharglistnoret 2 ...................... <grp, 1>
+  [ 38] objcall 95 .............................. grp.setVisible(1)
+  [ 40] getprop 54 .............................. <node>
+  [ 42] pushcons 4 .............................. <"page_">
+  [ 44] getprop 300 ............................. <page>
+  [ 47] joinstr ................................. <"page_" & page>
+  [ 48] pusharglistnoret 2 ...................... <node, "page_" & page>
+  [ 50] objcall 90 .............................. node.setAnimation("page_" & page)
+  [ 52] getprop 54 .............................. <node>
+  [ 54] pushint8 1 .............................. <1>
+  [ 56] pusharglistnoret 2 ...................... <node, 1>
+  [ 58] objcall 95 .............................. node.setVisible(1)
+  [ 60] ret
+end
+
+on mousePress me
+  [  0] getprop 300 ............................. <page>
+  [  3] pushint8 3 .............................. <3>
+  [  5] eq ...................................... <page = 3>
+  [  6] jmpifz [ 58] ............................ if page = 3 then
+  [  9] getprop 5 ............................... <game_mgr>
+  [ 11] pushsymb 19 ............................. <#career>
+  [ 13] pusharglistnoret 2 ...................... <game_mgr, #career>
+  [ 15] objcall 133 ............................. game_mgr.setPlayMode(#career)
+  [ 17] getprop 5 ............................... <game_mgr>
+  [ 19] pushsymb 140 ............................ <#stage>
+  [ 21] pushint8 1 .............................. <1>
+  [ 23] pushsymb 231 ............................ <#level>
+  [ 25] pushint8 1 .............................. <1>
+  [ 27] pusharglist 4 ........................... <[#stage: 1, #level: 1]>
+  [ 29] pushproplist ............................ <[#stage: 1, #level: 1]>
+  [ 30] pusharglistnoret 2 ...................... <game_mgr, [#stage: 1, #level: 1]>
+  [ 32] objcall 143 ............................. game_mgr.newGame([#stage: 1, #level: 1])
+  [ 34] getparam 0 .............................. <me>
+  [ 36] pusharglistnoret 1 ...................... <me>
+  [ 38] objcall 42 .............................. me.leaveMode()
+  [ 40] getprop 5 ............................... <game_mgr>
+  [ 42] pusharglistnoret 1 ...................... <game_mgr>
+  [ 44] objcall 144 ............................. game_mgr.loadLevel()
+  [ 46] getprop 52 .............................. <mgr>
+  [ 48] pushsymb 22 ............................. <#startLevel>
+  [ 50] pusharglistnoret 2 ...................... <mgr, #startLevel>
+  [ 52] objcall 3 ............................... mgr.setMode(#startLevel)
+  [ 54] pusharglistnoret 0 ...................... <>
+  [ 56] extcall 9 ............................... return 
+  [ 58] getprop 300 ............................. <page>
+  [ 61] pushint8 1 .............................. <1>
+  [ 63] add ..................................... <page + 1>
+  [ 64] setprop 300 ............................. page = page + 1
+  [ 67] getprop 54 .............................. <node>
+  [ 69] pushcons 4 .............................. <"page_">
+  [ 71] getprop 300 ............................. <page>
+  [ 74] joinstr ................................. <"page_" & page>
+  [ 75] pusharglistnoret 2 ...................... <node, "page_" & page>
+  [ 77] objcall 90 .............................. node.setAnimation("page_" & page)
+  [ 79] ret
+end
+
+on event me, sym
+  [  0] ret
+end
+
+on leaveMode me, nextMode
+  [  0] getprop 54 .............................. <node>
+  [  2] pusharglistnoret 1 ...................... <node>
+  [  4] objcall 108 ............................. node.disembody()
+  [  6] getprop 54 .............................. <node>
+  [  8] pushzero ................................ <0>
+  [  9] pusharglistnoret 2 ...................... <node, 0>
+  [ 11] objcall 95 .............................. node.setVisible(0)
+  [ 13] getparam 0 .............................. <me>
+  [ 15] pushsymb 298 ............................ <#mousePress>
+  [ 18] pushcons 0 .............................. <"titles">
+  [ 20] pusharglistnoret 3 ...................... <me, #mousePress, "titles">
+  [ 22] extcall 301 ............................. unsubscribe(me, #mousePress, "titles")
+  [ 25] ret
+end

@@ -1,0 +1,391 @@
+{
+  "totalLength": 2538,
+  "totalLength2": 2538,
+  "headerLength": 92,
+  "scriptNumber": 1,
+  "unk20": 28,
+  "parentNumber": -1,
+  "scriptFlags": 0,
+  "unk42": 0,
+  "castID": 1703938,
+  "factoryNameID": -1,
+  "handlerVectorsCount": 16,
+  "handlerVectorsOffset": 2506,
+  "handlerVectorsSize": 32783,
+  "propertiesCount": 6,
+  "propertiesOffset": 92,
+  "globalsCount": 1,
+  "globalsOffset": 104,
+  "handlersCount": 13,
+  "handlersOffset": 106,
+  "literalsCount": 26,
+  "literalsOffset": 1898,
+  "literalsDataCount": 400,
+  "literalsDataOffset": 2106,
+  "propertyNameIDs": [
+    18,
+    34,
+    47,
+    82,
+    79,
+    38
+  ],
+  "globalNameIDs": [
+    16
+  ],
+  "handlers": [
+    {
+      "nameID": 4,
+      "vectorPos": 65535,
+      "compiledLen": 281,
+      "compiledOffset": 704,
+      "argumentCount": 1,
+      "argumentOffset": 986,
+      "localsCount": 0,
+      "localsOffset": 988,
+      "globalsCount": 0,
+      "globalsOffset": 104,
+      "unknown1": 136,
+      "unknown2": 12,
+      "lineCount": 36,
+      "lineOffset": 988,
+      "stackHeight": 5
+    },
+    {
+      "nameID": 5,
+      "vectorPos": 65535,
+      "compiledLen": 212,
+      "compiledOffset": 1024,
+      "argumentCount": 1,
+      "argumentOffset": 1236,
+      "localsCount": 6,
+      "localsOffset": 1238,
+      "globalsCount": 0,
+      "globalsOffset": 104,
+      "unknown1": 1131,
+      "unknown2": 51,
+      "lineCount": 39,
+      "lineOffset": 1250,
+      "stackHeight": 7
+    },
+    {
+      "nameID": 6,
+      "vectorPos": 65535,
+      "compiledLen": 47,
+      "compiledOffset": 1290,
+      "argumentCount": 1,
+      "argumentOffset": 1338,
+      "localsCount": 0,
+      "localsOffset": 1340,
+      "globalsCount": 0,
+      "globalsOffset": 104,
+      "unknown1": 1891,
+      "unknown2": 96,
+      "lineCount": 10,
+      "lineOffset": 1340,
+      "stackHeight": 3
+    },
+    {
+      "nameID": 7,
+      "vectorPos": 65535,
+      "compiledLen": 66,
+      "compiledOffset": 1350,
+      "argumentCount": 1,
+      "argumentOffset": 1416,
+      "localsCount": 3,
+      "localsOffset": 1418,
+      "globalsCount": 0,
+      "globalsOffset": 104,
+      "unknown1": 2096,
+      "unknown2": 110,
+      "lineCount": 8,
+      "lineOffset": 1424,
+      "stackHeight": 5
+    },
+    {
+      "nameID": 8,
+      "vectorPos": 65535,
+      "compiledLen": 106,
+      "compiledOffset": 1432,
+      "argumentCount": 2,
+      "argumentOffset": 1538,
+      "localsCount": 2,
+      "localsOffset": 1542,
+      "globalsCount": 0,
+      "globalsOffset": 104,
+      "unknown1": 2290,
+      "unknown2": 125,
+      "lineCount": 14,
+      "lineOffset": 1546,
+      "stackHeight": 4
+    },
+    {
+      "nameID": 9,
+      "vectorPos": 65535,
+      "compiledLen": 167,
+      "compiledOffset": 1560,
+      "argumentCount": 2,
+      "argumentOffset": 1728,
+      "localsCount": 2,
+      "localsOffset": 1732,
+      "globalsCount": 0,
+      "globalsOffset": 104,
+      "unknown1": 2572,
+      "unknown2": 142,
+      "lineCount": 20,
+      "lineOffset": 1736,
+      "stackHeight": 6
+    },
+    {
+      "nameID": 10,
+      "vectorPos": 65535,
+      "compiledLen": 17,
+      "compiledOffset": 1756,
+      "argumentCount": 1,
+      "argumentOffset": 1774,
+      "localsCount": 0,
+      "localsOffset": 1776,
+      "globalsCount": 0,
+      "globalsOffset": 104,
+      "unknown1": 2983,
+      "unknown2": 169,
+      "lineCount": 3,
+      "lineOffset": 1776,
+      "stackHeight": 2
+    },
+    {
+      "nameID": 11,
+      "vectorPos": 0,
+      "compiledLen": 9,
+      "compiledOffset": 1780,
+      "argumentCount": 1,
+      "argumentOffset": 1790,
+      "localsCount": 0,
+      "localsOffset": 1792,
+      "globalsCount": 0,
+      "globalsOffset": 104,
+      "unknown1": 3045,
+      "unknown2": 175,
+      "lineCount": 1,
+      "lineOffset": 1792,
+      "stackHeight": 2
+    },
+    {
+      "nameID": 12,
+      "vectorPos": 1,
+      "compiledLen": 9,
+      "compiledOffset": 1794,
+      "argumentCount": 1,
+      "argumentOffset": 1804,
+      "localsCount": 0,
+      "localsOffset": 1806,
+      "globalsCount": 0,
+      "globalsOffset": 104,
+      "unknown1": 3093,
+      "unknown2": 179,
+      "lineCount": 1,
+      "lineOffset": 1806,
+      "stackHeight": 2
+    },
+    {
+      "nameID": 13,
+      "vectorPos": 2,
+      "compiledLen": 22,
+      "compiledOffset": 1808,
+      "argumentCount": 2,
+      "argumentOffset": 1830,
+      "localsCount": 0,
+      "localsOffset": 1834,
+      "globalsCount": 0,
+      "globalsOffset": 104,
+      "unknown1": 3139,
+      "unknown2": 183,
+      "lineCount": 2,
+      "lineOffset": 1834,
+      "stackHeight": 4
+    },
+    {
+      "nameID": 14,
+      "vectorPos": 3,
+      "compiledLen": 1,
+      "compiledOffset": 1836,
+      "argumentCount": 1,
+      "argumentOffset": 1838,
+      "localsCount": 0,
+      "localsOffset": 1840,
+      "globalsCount": 0,
+      "globalsOffset": 104,
+      "unknown1": 3233,
+      "unknown2": 188,
+      "lineCount": 1,
+      "lineOffset": 1840,
+      "stackHeight": 0
+    },
+    {
+      "nameID": 0,
+      "vectorPos": 15,
+      "compiledLen": 28,
+      "compiledOffset": 1842,
+      "argumentCount": 1,
+      "argumentOffset": 1870,
+      "localsCount": 0,
+      "localsOffset": 1872,
+      "globalsCount": 0,
+      "globalsOffset": 104,
+      "unknown1": 3258,
+      "unknown2": 193,
+      "lineCount": 6,
+      "lineOffset": 1872,
+      "stackHeight": 2
+    },
+    {
+      "nameID": 15,
+      "vectorPos": 65535,
+      "compiledLen": 11,
+      "compiledOffset": 1878,
+      "argumentCount": 3,
+      "argumentOffset": 1890,
+      "localsCount": 0,
+      "localsOffset": 1896,
+      "globalsCount": 0,
+      "globalsOffset": 104,
+      "unknown1": 3398,
+      "unknown2": 202,
+      "lineCount": 1,
+      "lineOffset": 1896,
+      "stackHeight": 3
+    }
+  ],
+  "literals": [
+    {
+      "type": 1,
+      "offset": 0,
+      "value": "config_manager"
+    },
+    {
+      "type": 1,
+      "offset": 20,
+      "value": "time_manager"
+    },
+    {
+      "type": 1,
+      "offset": 38,
+      "value": "sprite2d_manager"
+    },
+    {
+      "type": 1,
+      "offset": 60,
+      "value": "node_manager"
+    },
+    {
+      "type": 1,
+      "offset": 78,
+      "value": "mouse_manager"
+    },
+    {
+      "type": 1,
+      "offset": 96,
+      "value": "game_manager"
+    },
+    {
+      "type": 1,
+      "offset": 114,
+      "value": "mode_manager"
+    },
+    {
+      "type": 1,
+      "offset": 132,
+      "value": "savegame_manager"
+    },
+    {
+      "type": 1,
+      "offset": 154,
+      "value": "dnd_manager"
+    },
+    {
+      "type": 1,
+      "offset": 170,
+      "value": "view_manager"
+    },
+    {
+      "type": 1,
+      "offset": 188,
+      "value": "event_manager"
+    },
+    {
+      "type": 1,
+      "offset": 206,
+      "value": "init "
+    },
+    {
+      "type": 1,
+      "offset": 216,
+      "value": " manager took "
+    },
+    {
+      "type": 1,
+      "offset": 236,
+      "value": "init managers took "
+    },
+    {
+      "type": 1,
+      "offset": 260,
+      "value": "game"
+    },
+    {
+      "type": 1,
+      "offset": 270,
+      "value": "titles"
+    },
+    {
+      "type": 1,
+      "offset": 282,
+      "value": "play"
+    },
+    {
+      "type": 1,
+      "offset": 292,
+      "value": "timeout"
+    },
+    {
+      "type": 1,
+      "offset": 304,
+      "value": "SoundCode"
+    },
+    {
+      "type": 1,
+      "offset": 318,
+      "value": "sfx"
+    },
+    {
+      "type": 1,
+      "offset": 326,
+      "value": "sound"
+    },
+    {
+      "type": 1,
+      "offset": 336,
+      "value": "layout_list"
+    },
+    {
+      "type": 1,
+      "offset": 352,
+      "value": "scripts.layout"
+    },
+    {
+      "type": 1,
+      "offset": 372,
+      "value": "_layout"
+    },
+    {
+      "type": 1,
+      "offset": 384,
+      "value": ""
+    },
+    {
+      "type": 1,
+      "offset": 390,
+      "value": "load"
+    }
+  ]
+}

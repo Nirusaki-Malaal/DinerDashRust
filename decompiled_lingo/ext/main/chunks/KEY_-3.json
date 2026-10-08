@@ -1,0 +1,233 @@
+{
+  "entrySize": 12,
+  "entrySize2": 12,
+  "entryCount": 45,
+  "usedCount": 13,
+  "entries": [
+    {
+      "sectionID": 89,
+      "castID": 7,
+      "fourCC": "XMED"
+    },
+    {
+      "sectionID": 92,
+      "castID": 8,
+      "fourCC": "Thum"
+    },
+    {
+      "sectionID": 91,
+      "castID": 8,
+      "fourCC": "XMED"
+    },
+    {
+      "sectionID": 94,
+      "castID": 10,
+      "fourCC": "XMED"
+    },
+    {
+      "sectionID": 96,
+      "castID": 11,
+      "fourCC": "XMED"
+    },
+    {
+      "sectionID": 102,
+      "castID": 16,
+      "fourCC": "XMED"
+    },
+    {
+      "sectionID": 106,
+      "castID": 24,
+      "fourCC": "CLUT"
+    },
+    {
+      "sectionID": 104,
+      "castID": 66,
+      "fourCC": "XMED"
+    },
+    {
+      "sectionID": 34,
+      "castID": 1024,
+      "fourCC": "CAS*"
+    },
+    {
+      "sectionID": 73,
+      "castID": 1024,
+      "fourCC": "Cinf"
+    },
+    {
+      "sectionID": 67,
+      "castID": 1024,
+      "fourCC": "DRCF"
+    },
+    {
+      "sectionID": 51,
+      "castID": 1024,
+      "fourCC": "LctX"
+    },
+    {
+      "sectionID": 74,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 74,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 74,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 54,
+      "castID": 1024,
+      "fourCC": "ccl "
+    },
+    {
+      "sectionID": 74,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 55,
+      "castID": 1024,
+      "fourCC": "ccl "
+    },
+    {
+      "sectionID": 74,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 74,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 74,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 74,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 74,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 74,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 74,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 74,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 74,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 74,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 74,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 74,
+      "castID": 1024,
+      "fourCC": "VERS"
+    },
+    {
+      "sectionID": 72,
+      "castID": 1024,
+      "fourCC": "ccl "
+    },
+    {
+      "sectionID": 0,
+      "castID": 0,
+      "fourCC": "\x00\x00\x00\x00"
+    },
+    {
+      "sectionID": 0,
+      "castID": 0,
+      "fourCC": "\x00\x00\x00\x00"
+    },
+    {
+      "sectionID": 0,
+      "castID": 0,
+      "fourCC": "\x00\x00\x00\x00"
+    },
+    {
+      "sectionID": 0,
+      "castID": 0,
+      "fourCC": "\x00\x00\x00\x00"
+    },
+    {
+      "sectionID": 0,
+      "castID": 0,
+      "fourCC": "\x00\x00\x00\x00"
+    },
+    {
+      "sectionID": 0,
+      "castID": 0,
+      "fourCC": "\x00\x00\x00\x00"
+    },
+    {
+      "sectionID": 0,
+      "castID": 0,
+      "fourCC": "\x00\x00\x00\x00"
+    },
+    {
+      "sectionID": 0,
+      "castID": 0,
+      "fourCC": "\x00\x00\x00\x00"
+    },
+    {
+      "sectionID": 0,
+      "castID": 0,
+      "fourCC": "\x00\x00\x00\x00"
+    },
+    {
+      "sectionID": 0,
+      "castID": 0,
+      "fourCC": "\x00\x00\x00\x00"
+    },
+    {
+      "sectionID": 0,
+      "castID": 0,
+      "fourCC": "\x00\x00\x00\x00"
+    },
+    {
+      "sectionID": 0,
+      "castID": 0,
+      "fourCC": "\x00\x00\x00\x00"
+    },
+    {
+      "sectionID": 0,
+      "castID": 0,
+      "fourCC": "\x00\x00\x00\x00"
+    },
+    {
+      "sectionID": 0,
+      "castID": 0,
+      "fourCC": "\x00\x00\x00\x00"
+    }
+  ]
+}

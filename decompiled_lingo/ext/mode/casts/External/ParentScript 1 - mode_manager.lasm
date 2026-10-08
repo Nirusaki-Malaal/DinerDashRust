@@ -1,0 +1,140 @@
+property glob, currentMode, modes, game_mgr
+
+on new me, g
+  [  0] getparam 1 .............................. <g>
+  [  2] setprop 4 ............................... glob = g
+  [  4] getprop 4 ............................... <glob>
+  [  6] getchainedprop 6 ........................ <glob.managers>
+  [  8] getobjprop 7 ............................ <glob.managers.game>
+  [ 10] setprop 5 ............................... game_mgr = glob.managers.game
+  [ 12] pusharglist 0 ........................... <[:]>
+  [ 14] pushproplist ............................ <[:]>
+  [ 15] setprop 8 ............................... modes = [:]
+  [ 17] getparam 0 .............................. <me>
+  [ 19] pusharglistnoret 1 ...................... <me>
+  [ 21] extcall 9 ............................... return me
+  [ 23] ret
+end
+
+on init me
+  [  0] pushsymb 12 ............................. <#comic>
+  [  2] pushsymb 13 ............................. <#menu>
+  [  4] pushsymb 14 ............................. <#transform_comic>
+  [  6] pushsymb 15 ............................. <#end_comic>
+  [  8] pushsymb 16 ............................. <#endless>
+  [ 10] pushsymb 17 ............................. <#login>
+  [ 12] pushsymb 18 ............................. <#endless_shop>
+  [ 14] pushsymb 19 ............................. <#career>
+  [ 16] pushsymb 20 ............................. <#hiscore>
+  [ 18] pushsymb 21 ............................. <#startstage>
+  [ 20] pushsymb 22 ............................. <#startLevel>
+  [ 22] pushsymb 23 ............................. <#play>
+  [ 24] pushsymb 24 ............................. <#endlevel>
+  [ 26] pushsymb 25 ............................. <#quit>
+  [ 28] pushsymb 26 ............................. <#pause>
+  [ 30] pushsymb 27 ............................. <#pre_hiscore>
+  [ 32] pushsymb 28 ............................. <#help>
+  [ 34] pushsymb 29 ............................. <#options>
+  [ 36] pusharglist 18 .......................... <[#comic, #menu, #transform_comic, #end_comic, #endless, #login, #endless_shop, #career, #hiscore, #startstage, #startLevel, #play, #endlevel, #quit, #pause, #pre_hiscore, #help, #options]>
+  [ 38] pushlist ................................ <[#comic, #menu, #transform_comic, #end_comic, #endless, #login, #endless_shop, #career, #hiscore, #startstage, #startLevel, #play, #endlevel, #quit, #pause, #pre_hiscore, #help, #options]>
+  [ 39] peek 0
+  [ 41] pusharglist 1
+  [ 43] extcall 30
+  [ 45] pushint8 1
+  [ 47] peek 0
+  [ 49] peek 2
+  [ 51] lteq
+  [ 52] jmpifz [ 99] ............................ repeat with i in [#comic, #menu, #transform_comic, #end_comic, #endless, #login, #endless_shop, #career, #hiscore, #startstage, #startLevel, #play, #endlevel, #quit, #pause, #pre_hiscore, #help, #options]
+  [ 55] peek 2
+  [ 57] peek 1
+  [ 59] pusharglist 2
+  [ 61] extcall 31
+  [ 63] setlocal 0
+  [ 65] getprop 8 ............................... <modes>
+  [ 67] getlocal 0 .............................. <i>
+  [ 69] pushcons 0 .............................. <"mode.">
+  [ 71] getlocal 0 .............................. <i>
+  [ 73] pusharglist 1 ........................... <i>
+  [ 75] extcall 33 .............................. <string(i)>
+  [ 77] joinstr ................................. <"mode." & string(i)>
+  [ 78] pushcons 1 .............................. <"scripts.mode">
+  [ 80] pusharglist 2 ........................... <"mode." & string(i), "scripts.mode">
+  [ 82] extcall 32 .............................. <script("mode." & string(i), "scripts.mode")>
+  [ 84] getparam 0 .............................. <me>
+  [ 86] pusharglist 2 ........................... <script("mode." & string(i), "scripts.mode"), me>
+  [ 88] objcall 0 ............................... <script("mode." & string(i), "scripts.mode").new(me)>
+  [ 90] pusharglistnoret 3 ...................... <modes, i, script("mode." & string(i), "scripts.mode").new(me)>
+  [ 92] objcall 34 .............................. modes[i] = script("mode." & string(i), "scripts.mode").new(me)
+  [ 94] pushint8 1
+  [ 96] add
+  [ 97] endrepeat [ 47]
+  [ 99] pop 3
+  [101] ret
+end
+
+on destroy me
+  [  0] pushsymb 2 .............................. <#destroy>
+  [  2] getprop 8 ............................... <modes>
+  [  4] pusharglistnoret 2 ...................... <#destroy, modes>
+  [  6] extcall 36 .............................. call(#destroy, modes)
+  [  8] getprop 8 ............................... <modes>
+  [ 10] pusharglistnoret 1 ...................... <modes>
+  [ 12] objcall 37 .............................. modes.deleteAll()
+  [ 14] pusharglist 0 ........................... <>
+  [ 16] extcall 38 .............................. <VOID>
+  [ 18] setprop 4 ............................... glob = VOID
+  [ 20] ret
+end
+
+on setMode me, sym, data, revert
+  [  0] getprop 8 ............................... <modes>
+  [  2] getparam 1 .............................. <sym>
+  [  4] pusharglist 2 ........................... <modes, sym>
+  [  6] objcall 31 .............................. <modes[sym]>
+  [  8] setlocal 0 .............................. m = modes[sym]
+  [ 10] getlocal 0 .............................. <m>
+  [ 12] pusharglist 1 ........................... <m>
+  [ 14] extcall 39 .............................. <voidp(m)>
+  [ 16] jmpifz [ 32] ............................ if voidp(m) then
+  [ 19] pushcons 2 .............................. <"no mode called ">
+  [ 21] getparam 1 .............................. <sym>
+  [ 23] joinstr ................................. <"no mode called " & sym>
+  [ 24] pusharglistnoret 1 ...................... <"no mode called " & sym>
+  [ 26] extcall 40 .............................. complain("no mode called " & sym)
+  [ 28] pusharglistnoret 0 ...................... <>
+  [ 30] extcall 9 ............................... return 
+  [ 32] getprop 41 .............................. <currentMode>
+  [ 34] getlocal 0 .............................. <m>
+  [ 36] eq ...................................... <currentMode = m>
+  [ 37] jmpifz [ 44] ............................ if currentMode = m then
+  [ 40] pusharglistnoret 0 ...................... <>
+  [ 42] extcall 9 ............................... return 
+  [ 44] getprop 41 .............................. <currentMode>
+  [ 46] pusharglist 1 ........................... <currentMode>
+  [ 48] extcall 39 .............................. <voidp(currentMode)>
+  [ 50] not ..................................... <not voidp(currentMode)>
+  [ 51] getparam 1 .............................. <sym>
+  [ 53] pushsymb 25 ............................. <#quit>
+  [ 55] nteq .................................... <sym <> #quit>
+  [ 56] and ..................................... <not voidp(currentMode) and (sym <> #quit)>
+  [ 57] getparam 1 .............................. <sym>
+  [ 59] pushsymb 26 ............................. <#pause>
+  [ 61] nteq .................................... <sym <> #pause>
+  [ 62] and ..................................... <not voidp(currentMode) and (sym <> #quit) and (sym <> #pause)>
+  [ 63] jmpifz [ 74] ............................ if not voidp(currentMode) and (sym <> #quit) and (sym <> #pause) then
+  [ 66] getprop 41 .............................. <currentMode>
+  [ 68] getlocal 0 .............................. <m>
+  [ 70] pusharglistnoret 2 ...................... <currentMode, m>
+  [ 72] objcall 42 .............................. currentMode.leaveMode(m)
+  [ 74] getparam 3 .............................. <revert>
+  [ 76] not ..................................... <not revert>
+  [ 77] jmpifz [ 90] ............................ if not revert then
+  [ 80] getlocal 0 .............................. <m>
+  [ 82] getprop 41 .............................. <currentMode>
+  [ 84] getparam 2 .............................. <data>
+  [ 86] pusharglistnoret 3 ...................... <m, currentMode, data>
+  [ 88] objcall 43 .............................. m.enterMode(currentMode, data)
+  [ 90] getlocal 0 .............................. <m>
+  [ 92] setprop 41 .............................. currentMode = m
+  [ 94] ret
+end
