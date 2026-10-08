@@ -1,0 +1,85 @@
+{
+  "totalLength": 604,
+  "totalLength2": 604,
+  "headerLength": 92,
+  "scriptNumber": 1,
+  "unk20": 31,
+  "parentNumber": -1,
+  "scriptFlags": 0,
+  "unk42": 0,
+  "castID": 1507333,
+  "factoryNameID": -1,
+  "handlerVectorsCount": 0,
+  "handlerVectorsOffset": 604,
+  "handlerVectorsSize": 0,
+  "propertiesCount": 1,
+  "propertiesOffset": 92,
+  "globalsCount": 0,
+  "globalsOffset": 94,
+  "handlersCount": 1,
+  "handlersOffset": 94,
+  "literalsCount": 7,
+  "literalsOffset": 428,
+  "literalsDataCount": 120,
+  "literalsDataOffset": 484,
+  "propertyNameIDs": [
+    27
+  ],
+  "globalNameIDs": [],
+  "handlers": [
+    {
+      "nameID": 82,
+      "vectorPos": 65535,
+      "compiledLen": 239,
+      "compiledOffset": 140,
+      "argumentCount": 1,
+      "argumentOffset": 380,
+      "localsCount": 6,
+      "localsOffset": 382,
+      "globalsCount": 0,
+      "globalsOffset": 94,
+      "unknown1": 196,
+      "unknown2": 6,
+      "lineCount": 33,
+      "lineOffset": 394,
+      "stackHeight": 13
+    }
+  ],
+  "literals": [
+    {
+      "type": 1,
+      "offset": 0,
+      "value": "node ID"
+    },
+    {
+      "type": 1,
+      "offset": 12,
+      "value": ""
+    },
+    {
+      "type": 1,
+      "offset": 18,
+      "value": "this is a dummy of:"
+    },
+    {
+      "type": 1,
+      "offset": 42,
+      "value": "this is a frame of animation:"
+    },
+    {
+      "type": 1,
+      "offset": 76,
+      "value": "dynamic text?"
+    },
+    {
+      "type": 1,
+      "offset": 94,
+      "value": "no sprite"
+    },
+    {
+      "type": 1,
+      "offset": 108,
+      "value": "exclude"
+    }
+  ]
+}

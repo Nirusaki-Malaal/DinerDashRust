@@ -1,0 +1,58 @@
+{
+  "totalLength": 292,
+  "totalLength2": 292,
+  "headerLength": 92,
+  "scriptNumber": 2,
+  "unk20": 31,
+  "parentNumber": -1,
+  "scriptFlags": 0,
+  "unk42": 0,
+  "castID": 1507334,
+  "factoryNameID": -1,
+  "handlerVectorsCount": 0,
+  "handlerVectorsOffset": 292,
+  "handlerVectorsSize": 0,
+  "propertiesCount": 0,
+  "propertiesOffset": 92,
+  "globalsCount": 0,
+  "globalsOffset": 92,
+  "handlersCount": 1,
+  "handlersOffset": 92,
+  "literalsCount": 2,
+  "literalsOffset": 242,
+  "literalsDataCount": 34,
+  "literalsDataOffset": 258,
+  "propertyNameIDs": [],
+  "globalNameIDs": [],
+  "handlers": [
+    {
+      "nameID": 0,
+      "vectorPos": 65535,
+      "compiledLen": 84,
+      "compiledOffset": 138,
+      "argumentCount": 3,
+      "argumentOffset": 222,
+      "localsCount": 0,
+      "localsOffset": 228,
+      "globalsCount": 0,
+      "globalsOffset": 92,
+      "unknown1": 56,
+      "unknown2": 4,
+      "lineCount": 13,
+      "lineOffset": 228,
+      "stackHeight": 4
+    }
+  ],
+  "literals": [
+    {
+      "type": 1,
+      "offset": 0,
+      "value": "node2d_branch"
+    },
+    {
+      "type": 1,
+      "offset": 18,
+      "value": "node2d_leaf"
+    }
+  ]
+}

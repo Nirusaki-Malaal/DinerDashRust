@@ -1,0 +1,163 @@
+{
+  "totalLength": 970,
+  "totalLength2": 970,
+  "headerLength": 92,
+  "scriptNumber": 5,
+  "unk20": 31,
+  "parentNumber": -1,
+  "scriptFlags": 0,
+  "unk42": 0,
+  "castID": 1507339,
+  "factoryNameID": -1,
+  "handlerVectorsCount": 0,
+  "handlerVectorsOffset": 970,
+  "handlerVectorsSize": 0,
+  "propertiesCount": 4,
+  "propertiesOffset": 92,
+  "globalsCount": 4,
+  "globalsOffset": 100,
+  "handlersCount": 6,
+  "handlersOffset": 108,
+  "literalsCount": 4,
+  "literalsOffset": 816,
+  "literalsDataCount": 122,
+  "literalsDataOffset": 848,
+  "propertyNameIDs": [
+    42,
+    126,
+    125,
+    124
+  ],
+  "globalNameIDs": [
+    147,
+    148,
+    145,
+    146
+  ],
+  "handlers": [
+    {
+      "nameID": 0,
+      "vectorPos": 65535,
+      "compiledLen": 46,
+      "compiledOffset": 384,
+      "argumentCount": 2,
+      "argumentOffset": 430,
+      "localsCount": 0,
+      "localsOffset": 434,
+      "globalsCount": 0,
+      "globalsOffset": 100,
+      "unknown1": 121,
+      "unknown2": 11,
+      "lineCount": 6,
+      "lineOffset": 434,
+      "stackHeight": 3
+    },
+    {
+      "nameID": 121,
+      "vectorPos": 65535,
+      "compiledLen": 60,
+      "compiledOffset": 440,
+      "argumentCount": 1,
+      "argumentOffset": 500,
+      "localsCount": 3,
+      "localsOffset": 502,
+      "globalsCount": 0,
+      "globalsOffset": 100,
+      "unknown1": 258,
+      "unknown2": 20,
+      "lineCount": 7,
+      "lineOffset": 508,
+      "stackHeight": 4
+    },
+    {
+      "nameID": 122,
+      "vectorPos": 65535,
+      "compiledLen": 100,
+      "compiledOffset": 516,
+      "argumentCount": 1,
+      "argumentOffset": 616,
+      "localsCount": 1,
+      "localsOffset": 618,
+      "globalsCount": 0,
+      "globalsOffset": 100,
+      "unknown1": 471,
+      "unknown2": 32,
+      "lineCount": 13,
+      "lineOffset": 620,
+      "stackHeight": 5
+    },
+    {
+      "nameID": 123,
+      "vectorPos": 65535,
+      "compiledLen": 127,
+      "compiledOffset": 634,
+      "argumentCount": 2,
+      "argumentOffset": 762,
+      "localsCount": 0,
+      "localsOffset": 766,
+      "globalsCount": 0,
+      "globalsOffset": 100,
+      "unknown1": 762,
+      "unknown2": 49,
+      "lineCount": 23,
+      "lineOffset": 766,
+      "stackHeight": 5
+    },
+    {
+      "nameID": 1,
+      "vectorPos": 65535,
+      "compiledLen": 1,
+      "compiledOffset": 790,
+      "argumentCount": 1,
+      "argumentOffset": 792,
+      "localsCount": 0,
+      "localsOffset": 794,
+      "globalsCount": 0,
+      "globalsOffset": 100,
+      "unknown1": 1347,
+      "unknown2": 76,
+      "lineCount": 1,
+      "lineOffset": 794,
+      "stackHeight": 0
+    },
+    {
+      "nameID": 5,
+      "vectorPos": 65535,
+      "compiledLen": 7,
+      "compiledOffset": 796,
+      "argumentCount": 1,
+      "argumentOffset": 804,
+      "localsCount": 0,
+      "localsOffset": 806,
+      "globalsCount": 0,
+      "globalsOffset": 100,
+      "unknown1": 1370,
+      "unknown2": 81,
+      "lineCount": 10,
+      "lineOffset": 806,
+      "stackHeight": 2
+    }
+  ],
+  "literals": [
+    {
+      "type": 1,
+      "offset": 0,
+      "value": "out of sprites"
+    },
+    {
+      "type": 1,
+      "offset": 20,
+      "value": "tried to return something not a sprite"
+    },
+    {
+      "type": 1,
+      "offset": 64,
+      "value": "tried to return a sprite already in pool"
+    },
+    {
+      "type": 1,
+      "offset": 110,
+      "value": "bar_bg"
+    }
+  ]
+}

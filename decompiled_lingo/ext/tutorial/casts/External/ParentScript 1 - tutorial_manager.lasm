@@ -1,0 +1,287 @@
+property grp, node, arrow, mousetraps, steps, stepNum, currentStep, room_mgr, game_mgr, running, timer, stepnames, initialized
+global glob
+
+on init me
+  [  0] getglobal 8 ............................. <glob>
+  [  2] getchainedprop 9 ........................ <glob.managers>
+  [  4] getchainedprop 10 ....................... <glob.managers.game>
+  [  6] getobjprop 11 ........................... <glob.managers.game.room>
+  [  8] setprop 7 ............................... room_mgr = glob.managers.game.room
+  [ 10] getglobal 8 ............................. <glob>
+  [ 12] getchainedprop 9 ........................ <glob.managers>
+  [ 14] getobjprop 10 ........................... <glob.managers.game>
+  [ 16] setprop 12 .............................. game_mgr = glob.managers.game
+  [ 18] pusharglist 0 ........................... <[]>
+  [ 20] pushlist ................................ <[]>
+  [ 21] setprop 13 .............................. steps = []
+  [ 23] pushint8 1 .............................. <1>
+  [ 25] setlocal 0
+  [ 27] getlocal 0
+  [ 29] pushint8 24 ............................. <24>
+  [ 31] lteq
+  [ 32] jmpifz [ 75] ............................ repeat with i = 1 to 24
+  [ 35] pushcons 0 .............................. <"tutorial_">
+  [ 37] getlocal 0 .............................. <i>
+  [ 39] joinstr ................................. <"tutorial_" & i>
+  [ 40] pushcons 1 .............................. <"scripts.tutorial">
+  [ 42] pusharglist 2 ........................... <"tutorial_" & i, "scripts.tutorial">
+  [ 44] extcall 14 .............................. <script("tutorial_" & i, "scripts.tutorial")>
+  [ 46] pusharglist 1 ........................... <script("tutorial_" & i, "scripts.tutorial")>
+  [ 48] objcall 15 .............................. <script("tutorial_" & i, "scripts.tutorial").new()>
+  [ 50] setlocal 1 .............................. s = script("tutorial_" & i, "scripts.tutorial").new()
+  [ 52] getlocal 1 .............................. <s>
+  [ 54] pusharglistnoret 1 ...................... <s>
+  [ 56] extcall 16 .............................. voidRefs(s)
+  [ 58] getprop 13 .............................. <steps>
+  [ 60] getlocal 1 .............................. <s>
+  [ 62] pusharglistnoret 2 ...................... <steps, s>
+  [ 64] objcall 17 .............................. steps.add(s)
+  [ 66] pushint8 1
+  [ 68] getlocal 0
+  [ 70] add
+  [ 71] setlocal 0
+  [ 73] endrepeat [ 27]
+  [ 75] pushcons 2 .............................. <"game">
+  [ 77] pusharglist 1 ........................... <"game">
+  [ 79] extcall 19 .............................. <getNodeGroup("game")>
+  [ 81] setprop 18 .............................. grp = getNodeGroup("game")
+  [ 83] getprop 18 .............................. <grp>
+  [ 85] pushcons 3 .............................. <"tutorial">
+  [ 87] pusharglist 1 ........................... <"tutorial">
+  [ 89] extcall 21 .............................. <getNodeData("tutorial")>
+  [ 91] pusharglist 2 ........................... <grp, getNodeData("tutorial")>
+  [ 93] objcall 22 .............................. <grp.newNode(getNodeData("tutorial"))>
+  [ 95] setprop 20 .............................. node = grp.newNode(getNodeData("tutorial"))
+  [ 97] getprop 20 .............................. <node>
+  [ 99] pusharglistnoret 1 ...................... <node>
+  [101] objcall 23 .............................. node.moveToFront()
+  [103] pusharglist 0 ........................... <[]>
+  [105] pushlist ................................ <[]>
+  [106] setprop 24 .............................. mousetraps = []
+  [108] pushint8 1 .............................. <1>
+  [110] setlocal 0
+  [112] getlocal 0
+  [114] pushint8 3 .............................. <3>
+  [116] lteq
+  [117] jmpifz [167] ............................ repeat with i = 1 to 3
+  [120] getprop 20 .............................. <node>
+  [122] pushcons 4 .............................. <"mousehole_">
+  [124] getlocal 0 .............................. <i>
+  [126] joinstr ................................. <"mousehole_" & i>
+  [127] pusharglist 2 ........................... <node, "mousehole_" & i>
+  [129] objcall 25 .............................. <node["mousehole_" & i]>
+  [131] setlocal 2 .............................. n = node["mousehole_" & i]
+  [133] getlocal 2 .............................. <n>
+  [135] pusharglist 1 ........................... <n>
+  [137] extcall 26 .............................. <voidp(n)>
+  [139] not ..................................... <not voidp(n)>
+  [140] jmpifz [158] ............................ if not voidp(n) then
+  [143] getprop 24 .............................. <mousetraps>
+  [145] getlocal 2 .............................. <n>
+  [147] pusharglistnoret 2 ...................... <mousetraps, n>
+  [149] objcall 17 .............................. mousetraps.add(n)
+  [151] getlocal 2 .............................. <n>
+  [153] pushzero ................................ <0>
+  [154] pusharglistnoret 2 ...................... <n, 0>
+  [156] objcall 27 .............................. n.setAlpha(0)
+  [158] pushint8 1
+  [160] getlocal 0
+  [162] add
+  [163] setlocal 0
+  [165] endrepeat [112]
+  [167] pushcons 5 .............................. <"timeout">
+  [169] pusharglist 1 ........................... <"timeout">
+  [171] extcall 14 .............................. <script("timeout")>
+  [173] pusharglist 1 ........................... <script("timeout")>
+  [175] objcall 15 .............................. <script("timeout").new()>
+  [177] setprop 28 .............................. timer = script("timeout").new()
+  [179] getprop 28 .............................. <timer>
+  [181] pushint16 500 ........................... <500>
+  [184] pusharglistnoret 2 ...................... <timer, 500>
+  [186] objcall 29 .............................. timer.setPeriod(500)
+  [188] getprop 28 .............................. <timer>
+  [190] pushsymb 30 ............................. <#target>
+  [192] getparam 0 .............................. <me>
+  [194] pushsymb 31 ............................. <#handler>
+  [196] pushsymb 4 .............................. <#checkStepDone>
+  [198] pusharglist 4 ........................... <[#target: me, #handler: #checkStepDone]>
+  [200] pushproplist ............................ <[#target: me, #handler: #checkStepDone]>
+  [201] pusharglistnoret 2 ...................... <timer, [#target: me, #handler: #checkStepDone]>
+  [203] objcall 32 .............................. timer.setCallback([#target: me, #handler: #checkStepDone])
+  [205] getprop 20 .............................. <node>
+  [207] pushint32 999999 ........................ <999999>
+  [212] pusharglistnoret 2 ...................... <node, 999999>
+  [214] objcall 33 .............................. node.setZOffset(999999)
+  [216] pushint8 1 .............................. <1>
+  [218] setprop 34 .............................. initialized = 1
+  [220] ret
+end
+
+on start me
+  [  0] getprop 34 .............................. <initialized>
+  [  2] not ..................................... <not initialized>
+  [  3] jmpifz [ 12] ............................ if not initialized then
+  [  6] getparam 0 .............................. <me>
+  [  8] pusharglistnoret 1 ...................... <me>
+  [ 10] objcall 0 ............................... me.init()
+  [ 12] pushsymb 40 ............................. <#addMouseListener>
+  [ 14] getprop 24 .............................. <mousetraps>
+  [ 16] getparam 0 .............................. <me>
+  [ 18] pusharglistnoret 3 ...................... <#addMouseListener, mousetraps, me>
+  [ 20] extcall 39 .............................. call(#addMouseListener, mousetraps, me)
+  [ 22] pushint8 1 .............................. <1>
+  [ 24] setprop 41 .............................. stepNum = 1
+  [ 26] getparam 0 .............................. <me>
+  [ 28] pusharglistnoret 1 ...................... <me>
+  [ 30] objcall 3 ............................... me.startStep()
+  [ 32] ret
+end
+
+on mouseUp me
+  [  0] pushsymb 43 ............................. <#mouseRelease>
+  [  2] pusharglistnoret 1 ...................... <#mouseRelease>
+  [  4] extcall 42 .............................. sendEvent(#mouseRelease)
+  [  6] ret
+end
+
+on startStep me
+  [  0] getprop 41 .............................. <stepNum>
+  [  2] pushint8 1 .............................. <1>
+  [  4] lt ...................................... <stepNum < 1>
+  [  5] getprop 41 .............................. <stepNum>
+  [  7] pushint8 24 ............................. <24>
+  [  9] gt ...................................... <stepNum > 24>
+  [ 10] or ...................................... <(stepNum < 1) or (stepNum > 24)>
+  [ 11] jmpifz [ 18] ............................ if (stepNum < 1) or (stepNum > 24) then
+  [ 14] pusharglistnoret 0 ...................... <>
+  [ 16] extcall 44 .............................. return 
+  [ 18] getprop 13 .............................. <steps>
+  [ 20] getprop 41 .............................. <stepNum>
+  [ 22] pusharglist 2 ........................... <steps, stepNum>
+  [ 24] objcall 25 .............................. <steps[stepNum]>
+  [ 26] setprop 45 .............................. currentStep = steps[stepNum]
+  [ 28] getprop 45 .............................. <currentStep>
+  [ 30] pusharglist 1 ........................... <currentStep>
+  [ 32] objcall 3 ............................... <currentStep.startStep()>
+  [ 34] not ..................................... <not currentStep.startStep()>
+  [ 35] jmpifz [ 42] ............................ if not currentStep.startStep() then
+  [ 38] pusharglistnoret 0 ...................... <>
+  [ 40] extcall 44 .............................. return 
+  [ 42] getprop 20 .............................. <node>
+  [ 44] pushint8 1 .............................. <1>
+  [ 46] pusharglistnoret 2 ...................... <node, 1>
+  [ 48] objcall 46 .............................. node.setVisible(1)
+  [ 50] getprop 20 .............................. <node>
+  [ 52] getprop 41 .............................. <stepNum>
+  [ 54] pusharglist 1 ........................... <stepNum>
+  [ 56] extcall 47 .............................. <string(stepNum)>
+  [ 58] pushsymb 48 ............................. <#loopCount>
+  [ 60] pushint8 1 .............................. <1>
+  [ 62] pushsymb 49 ............................. <#animProps>
+  [ 64] pushsymb 50 ............................. <#member>
+  [ 66] pushsymb 51 ............................. <#loc>
+  [ 68] pushsymb 52 ............................. <#scale>
+  [ 70] pushsymb 53 ............................. <#rotation>
+  [ 72] pushsymb 54 ............................. <#xflip>
+  [ 74] pushsymb 55 ............................. <#yflip>
+  [ 76] pusharglist 6 ........................... <[#member, #loc, #scale, #rotation, #xflip, #yflip]>
+  [ 78] pushlist ................................ <[#member, #loc, #scale, #rotation, #xflip, #yflip]>
+  [ 79] pusharglist 4 ........................... <[#loopCount: 1, #animProps: [#member, #loc, #scale, #rotation, #xflip, #yflip]]>
+  [ 81] pushproplist ............................ <[#loopCount: 1, #animProps: [#member, #loc, #scale, #rotation, #xflip, #yflip]]>
+  [ 82] pusharglistnoret 3 ...................... <node, string(stepNum), [#loopCount: 1, #animProps: [#member, #loc, #scale, #rotation, #xflip, #yflip]]>
+  [ 84] objcall 56 .............................. node.setAnimation(string(stepNum), [#loopCount: 1, #animProps: [#member, #loc, #scale, #rotation, #xflip, #yflip]])
+  [ 86] getprop 28 .............................. <timer>
+  [ 88] pusharglistnoret 1 ...................... <timer>
+  [ 90] objcall 1 ............................... timer.start()
+  [ 92] pushint8 1 .............................. <1>
+  [ 94] pusharglistnoret 1 ...................... <1>
+  [ 96] extcall 44 .............................. return 1
+  [ 98] ret
+end
+
+on checkStepDone me
+  [  0] getprop 45 .............................. <currentStep>
+  [  2] pusharglist 1 ........................... <currentStep>
+  [  4] objcall 57 .............................. <currentStep.checkDone()>
+  [  6] not ..................................... <not currentStep.checkDone()>
+  [  7] jmpifz [ 14] ............................ if not currentStep.checkDone() then
+  [ 10] pusharglistnoret 0 ...................... <>
+  [ 12] extcall 44 .............................. return 
+  [ 14] getprop 28 .............................. <timer>
+  [ 16] pusharglistnoret 1 ...................... <timer>
+  [ 18] objcall 58 .............................. timer.stop()
+  [ 20] getprop 20 .............................. <node>
+  [ 22] pushzero ................................ <0>
+  [ 23] pusharglistnoret 2 ...................... <node, 0>
+  [ 25] objcall 46 .............................. node.setVisible(0)
+  [ 27] pushzero ................................ <0>
+  [ 28] setlocal 0 .............................. Ok = 0
+  [ 30] getlocal 0 .............................. <Ok>
+  [ 32] not ..................................... <not Ok>
+  [ 33] jmpifz [ 73] ............................ repeat while not Ok
+  [ 36] getprop 41 .............................. <stepNum>
+  [ 38] pushint8 1 .............................. <1>
+  [ 40] add ..................................... <stepNum + 1>
+  [ 41] setprop 41 .............................. stepNum = stepNum + 1
+  [ 43] getprop 41 .............................. <stepNum>
+  [ 45] getprop 13 .............................. <steps>
+  [ 47] getobjprop 59 ........................... <steps.count>
+  [ 49] gt ...................................... <stepNum > steps.count>
+  [ 50] jmpifz [ 63] ............................ if stepNum > steps.count then
+  [ 53] getparam 0 .............................. <me>
+  [ 55] pusharglistnoret 1 ...................... <me>
+  [ 57] objcall 5 ............................... me.end()
+  [ 59] pusharglistnoret 0 ...................... <>
+  [ 61] extcall 44 .............................. return 
+  [ 63] getparam 0 .............................. <me>
+  [ 65] pusharglist 1 ........................... <me>
+  [ 67] objcall 3 ............................... <me.startStep()>
+  [ 69] setlocal 0 .............................. Ok = me.startStep()
+  [ 71] endrepeat [ 30]
+  [ 73] ret
+end
+
+on end me
+  [  0] getprop 12 .............................. <game_mgr>
+  [  2] pusharglistnoret 1 ...................... <game_mgr>
+  [  4] objcall 61 .............................. game_mgr.closingTime()
+  [  6] getparam 0 .............................. <me>
+  [  8] pusharglistnoret 1 ...................... <me>
+  [ 10] objcall 6 ............................... me.destroy()
+  [ 12] ret
+end
+
+on destroy me
+  [  0] getprop 20 .............................. <node>
+  [  2] pusharglist 1 ........................... <node>
+  [  4] extcall 26 .............................. <voidp(node)>
+  [  6] not ..................................... <not voidp(node)>
+  [  7] jmpifz [ 16] ............................ if not voidp(node) then
+  [ 10] getprop 20 .............................. <node>
+  [ 12] pusharglistnoret 1 ...................... <node>
+  [ 14] objcall 6 ............................... node.destroy()
+  [ 16] getprop 28 .............................. <timer>
+  [ 18] pusharglist 1 ........................... <timer>
+  [ 20] extcall 26 .............................. <voidp(timer)>
+  [ 22] not ..................................... <not voidp(timer)>
+  [ 23] jmpifz [ 38] ............................ if not voidp(timer) then
+  [ 26] getprop 28 .............................. <timer>
+  [ 28] pusharglistnoret 1 ...................... <timer>
+  [ 30] objcall 6 ............................... timer.destroy()
+  [ 32] pusharglist 0 ........................... <>
+  [ 34] extcall 62 .............................. <VOID>
+  [ 36] setprop 28 .............................. timer = VOID
+  [ 38] getprop 13 .............................. <steps>
+  [ 40] pusharglist 1 ........................... <steps>
+  [ 42] extcall 26 .............................. <voidp(steps)>
+  [ 44] not ..................................... <not voidp(steps)>
+  [ 45] jmpifz [ 56] ............................ if not voidp(steps) then
+  [ 48] pushsymb 6 .............................. <#destroy>
+  [ 50] getprop 13 .............................. <steps>
+  [ 52] pusharglistnoret 2 ...................... <#destroy, steps>
+  [ 54] extcall 39 .............................. call(#destroy, steps)
+  [ 56] getparam 0 .............................. <me>
+  [ 58] pusharglistnoret 1 ...................... <me>
+  [ 60] extcall 16 .............................. voidRefs(me)
+  [ 62] ret
+end

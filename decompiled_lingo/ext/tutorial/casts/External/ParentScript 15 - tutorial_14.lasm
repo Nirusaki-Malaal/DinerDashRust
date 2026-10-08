@@ -1,0 +1,44 @@
+property done, waitingline, ms
+global glob
+
+on startStep me
+  [  0] pushzero ................................ <0>
+  [  1] setprop 66 .............................. done = 0
+  [  3] getglobal 8 ............................. <glob>
+  [  5] getchainedprop 9 ........................ <glob.managers>
+  [  7] getchainedprop 10 ....................... <glob.managers.game>
+  [  9] getobjprop 94 ........................... <glob.managers.game.waitingGroups>
+  [ 11] setprop 93 .............................. waitingline = glob.managers.game.waitingGroups
+  [ 13] getmovieprop 90 ......................... <the milliSeconds>
+  [ 15] pushint16 2000 .......................... <2000>
+  [ 18] add ..................................... <the milliSeconds + 2000>
+  [ 19] setprop 89 .............................. ms = the milliSeconds + 2000
+  [ 21] pushint8 1 .............................. <1>
+  [ 23] pusharglistnoret 1 ...................... <1>
+  [ 25] extcall 44 .............................. return 1
+  [ 27] ret
+end
+
+on checkDone me
+  [  0] getprop 66 .............................. <done>
+  [  2] getprop 93 .............................. <waitingline>
+  [  4] pusharglist 1 ........................... <waitingline>
+  [  6] extcall 26 .............................. <voidp(waitingline)>
+  [  8] or ...................................... <done or voidp(waitingline)>
+  [  9] jmpifz [ 16] ............................ if done or voidp(waitingline) then
+  [ 12] pusharglistnoret 0 ...................... <>
+  [ 14] extcall 44 .............................. return 
+  [ 16] getmovieprop 90 ......................... <the milliSeconds>
+  [ 18] getprop 89 .............................. <ms>
+  [ 20] gt ...................................... <the milliSeconds > ms>
+  [ 21] getprop 93 .............................. <waitingline>
+  [ 23] getobjprop 59 ........................... <waitingline.count>
+  [ 25] pushint8 2 .............................. <2>
+  [ 27] eq ...................................... <waitingline.count = 2>
+  [ 28] and ..................................... <(the milliSeconds > ms) and (waitingline.count = 2)>
+  [ 29] setprop 66 .............................. done = (the milliSeconds > ms) and (waitingline.count = 2)
+  [ 31] getprop 66 .............................. <done>
+  [ 33] pusharglistnoret 1 ...................... <done>
+  [ 35] extcall 44 .............................. return done
+  [ 37] ret
+end

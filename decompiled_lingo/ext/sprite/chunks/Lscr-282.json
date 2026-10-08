@@ -1,0 +1,85 @@
+{
+  "totalLength": 578,
+  "totalLength2": 578,
+  "headerLength": 92,
+  "scriptNumber": 4,
+  "unk20": 31,
+  "parentNumber": -1,
+  "scriptFlags": 0,
+  "unk42": 0,
+  "castID": 1507337,
+  "factoryNameID": -1,
+  "handlerVectorsCount": 0,
+  "handlerVectorsOffset": 578,
+  "handlerVectorsSize": 0,
+  "propertiesCount": 1,
+  "propertiesOffset": 92,
+  "globalsCount": 0,
+  "globalsOffset": 94,
+  "handlersCount": 1,
+  "handlersOffset": 94,
+  "literalsCount": 7,
+  "literalsOffset": 424,
+  "literalsDataCount": 98,
+  "literalsDataOffset": 480,
+  "propertyNameIDs": [
+    27
+  ],
+  "globalNameIDs": [],
+  "handlers": [
+    {
+      "nameID": 82,
+      "vectorPos": 65535,
+      "compiledLen": 237,
+      "compiledOffset": 140,
+      "argumentCount": 1,
+      "argumentOffset": 378,
+      "localsCount": 5,
+      "localsOffset": 380,
+      "globalsCount": 0,
+      "globalsOffset": 94,
+      "unknown1": 47,
+      "unknown2": 4,
+      "lineCount": 34,
+      "lineOffset": 390,
+      "stackHeight": 13
+    }
+  ],
+  "literals": [
+    {
+      "type": 1,
+      "offset": 0,
+      "value": "this is a frame of animation:"
+    },
+    {
+      "type": 1,
+      "offset": 34,
+      "value": ""
+    },
+    {
+      "type": 1,
+      "offset": 40,
+      "value": "regpoint"
+    },
+    {
+      "type": 1,
+      "offset": 54,
+      "value": "member"
+    },
+    {
+      "type": 1,
+      "offset": 66,
+      "value": "loc"
+    },
+    {
+      "type": 1,
+      "offset": 74,
+      "value": "rotation"
+    },
+    {
+      "type": 1,
+      "offset": 88,
+      "value": "flip"
+    }
+  ]
+}
