@@ -1,0 +1,41 @@
+property done, kitchenTimers
+global glob
+
+on startStep me
+  [  0] pushzero ................................ <0>
+  [  1] setprop 66 .............................. done = 0
+  [  3] getglobal 8 ............................. <glob>
+  [  5] getchainedprop 9 ........................ <glob.managers>
+  [  7] getchainedprop 10 ....................... <glob.managers.game>
+  [  9] getchainedprop 11 ....................... <glob.managers.game.room>
+  [ 11] getchainedprop 83 ....................... <glob.managers.game.room.kitchen>
+  [ 13] getobjprop 84 ........................... <glob.managers.game.room.kitchen.timers>
+  [ 15] setprop 82 .............................. kitchenTimers = glob.managers.game.room.kitchen.timers
+  [ 17] getprop 82 .............................. <kitchenTimers>
+  [ 19] getobjprop 59 ........................... <kitchenTimers.count>
+  [ 21] pushzero ................................ <0>
+  [ 22] gt ...................................... <kitchenTimers.count > 0>
+  [ 23] pusharglistnoret 1 ...................... <kitchenTimers.count > 0>
+  [ 25] extcall 44 .............................. return kitchenTimers.count > 0
+  [ 27] ret
+end
+
+on checkDone me
+  [  0] getprop 66 .............................. <done>
+  [  2] getprop 82 .............................. <kitchenTimers>
+  [  4] pusharglist 1 ........................... <kitchenTimers>
+  [  6] extcall 26 .............................. <voidp(kitchenTimers)>
+  [  8] or ...................................... <done or voidp(kitchenTimers)>
+  [  9] jmpifz [ 16] ............................ if done or voidp(kitchenTimers) then
+  [ 12] pusharglistnoret 0 ...................... <>
+  [ 14] extcall 44 .............................. return 
+  [ 16] getprop 82 .............................. <kitchenTimers>
+  [ 18] getobjprop 59 ........................... <kitchenTimers.count>
+  [ 20] pushzero ................................ <0>
+  [ 21] eq ...................................... <kitchenTimers.count = 0>
+  [ 22] setprop 66 .............................. done = kitchenTimers.count = 0
+  [ 24] getprop 66 .............................. <done>
+  [ 26] pusharglistnoret 1 ...................... <done>
+  [ 28] extcall 44 .............................. return done
+  [ 30] ret
+end

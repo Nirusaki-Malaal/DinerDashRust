@@ -1,0 +1,38 @@
+property done, flo
+global glob
+
+on startStep me
+  [  0] pushzero ................................ <0>
+  [  1] setprop 66 .............................. done = 0
+  [  3] getglobal 8 ............................. <glob>
+  [  5] getchainedprop 9 ........................ <glob.managers>
+  [  7] getchainedprop 10 ....................... <glob.managers.game>
+  [  9] getchainedprop 11 ....................... <glob.managers.game.room>
+  [ 11] getobjprop 79 ........................... <glob.managers.game.room.waiter>
+  [ 13] setprop 78 .............................. flo = glob.managers.game.room.waiter
+  [ 15] pushint8 1 .............................. <1>
+  [ 17] pusharglistnoret 1 ...................... <1>
+  [ 19] extcall 44 .............................. return 1
+  [ 21] ret
+end
+
+on checkDone me
+  [  0] getprop 66 .............................. <done>
+  [  2] getprop 78 .............................. <flo>
+  [  4] pusharglist 1 ........................... <flo>
+  [  6] extcall 26 .............................. <voidp(flo)>
+  [  8] or ...................................... <done or voidp(flo)>
+  [  9] jmpifz [ 16] ............................ if done or voidp(flo) then
+  [ 12] pusharglistnoret 0 ...................... <>
+  [ 14] extcall 44 .............................. return 
+  [ 16] getprop 78 .............................. <flo>
+  [ 18] pushsymb 80 ............................. <#ticket>
+  [ 20] pusharglist 2 ........................... <flo, #ticket>
+  [ 22] objcall 81 .............................. <flo.hasPayloadType(#ticket)>
+  [ 24] not ..................................... <not flo.hasPayloadType(#ticket)>
+  [ 25] setprop 66 .............................. done = not flo.hasPayloadType(#ticket)
+  [ 27] getprop 66 .............................. <done>
+  [ 29] pusharglistnoret 1 ...................... <done>
+  [ 31] extcall 44 .............................. return done
+  [ 33] ret
+end

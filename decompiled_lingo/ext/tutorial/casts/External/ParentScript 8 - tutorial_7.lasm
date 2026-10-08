@@ -1,0 +1,38 @@
+property done, flo
+global glob
+
+on startStep me
+  [  0] pushzero ................................ <0>
+  [  1] setprop 66 .............................. done = 0
+  [  3] getglobal 8 ............................. <glob>
+  [  5] getchainedprop 9 ........................ <glob.managers>
+  [  7] getchainedprop 10 ....................... <glob.managers.game>
+  [  9] getchainedprop 11 ....................... <glob.managers.game.room>
+  [ 11] getobjprop 79 ........................... <glob.managers.game.room.waiter>
+  [ 13] setprop 78 .............................. flo = glob.managers.game.room.waiter
+  [ 15] getprop 78 .............................. <flo>
+  [ 17] pushsymb 85 ............................. <#payload>
+  [ 19] pusharglist 2 ........................... <flo, #payload>
+  [ 21] objcall 59 .............................. <flo.payload.count>
+  [ 23] pushzero ................................ <0>
+  [ 24] eq ...................................... <flo.payload.count = 0>
+  [ 25] pusharglistnoret 1 ...................... <flo.payload.count = 0>
+  [ 27] extcall 44 .............................. return flo.payload.count = 0
+  [ 29] ret
+end
+
+on checkDone me
+  [  0] getprop 66 .............................. <done>
+  [  2] jmpifz [  9] ............................ if done then
+  [  5] pusharglistnoret 0 ...................... <>
+  [  7] extcall 44 .............................. return 
+  [  9] getprop 78 .............................. <flo>
+  [ 11] pushsymb 86 ............................. <#food>
+  [ 13] pusharglist 2 ........................... <flo, #food>
+  [ 15] objcall 81 .............................. <flo.hasPayloadType(#food)>
+  [ 17] setprop 66 .............................. done = flo.hasPayloadType(#food)
+  [ 19] getprop 66 .............................. <done>
+  [ 21] pusharglistnoret 1 ...................... <done>
+  [ 23] extcall 44 .............................. return done
+  [ 25] ret
+end

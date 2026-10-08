@@ -1,0 +1,51 @@
+property table, done
+global glob
+
+on startStep me
+  [  0] pushzero ................................ <0>
+  [  1] setprop 66 .............................. done = 0
+  [  3] getglobal 8 ............................. <glob>
+  [  5] getchainedprop 9 ........................ <glob.managers>
+  [  7] getchainedprop 10 ....................... <glob.managers.game>
+  [  9] getchainedprop 11 ....................... <glob.managers.game.room>
+  [ 11] getobjprop 70 ........................... <glob.managers.game.room.tables>
+  [ 13] setlocal 0 .............................. t = glob.managers.game.room.tables
+  [ 15] getlocal 0 .............................. <t>
+  [ 17] getobjprop 59 ........................... <t.count>
+  [ 19] pushint8 2 .............................. <2>
+  [ 21] nteq .................................... <t.count <> 2>
+  [ 22] jmpifz [ 35] ............................ if t.count <> 2 then
+  [ 25] pusharglist 0 ........................... <>
+  [ 27] extcall 62 .............................. <VOID>
+  [ 29] setprop 71 .............................. table = VOID
+  [ 31] pusharglistnoret 0 ...................... <>
+  [ 33] extcall 44 .............................. return 
+  [ 35] getlocal 0 .............................. <t>
+  [ 37] pushint8 2 .............................. <2>
+  [ 39] pusharglist 2 ........................... <t, 2>
+  [ 41] objcall 25 .............................. <t[2]>
+  [ 43] setprop 71 .............................. table = t[2]
+  [ 45] pushint8 1 .............................. <1>
+  [ 47] pusharglistnoret 1 ...................... <1>
+  [ 49] extcall 44 .............................. return 1
+  [ 51] ret
+end
+
+on checkDone me
+  [  0] getprop 66 .............................. <done>
+  [  2] getprop 71 .............................. <table>
+  [  4] pusharglist 1 ........................... <table>
+  [  6] extcall 26 .............................. <voidp(table)>
+  [  8] or ...................................... <done or voidp(table)>
+  [  9] jmpifz [ 16] ............................ if done or voidp(table) then
+  [ 12] pusharglistnoret 0 ...................... <>
+  [ 14] extcall 44 .............................. return 
+  [ 16] getprop 71 .............................. <table>
+  [ 18] getobjprop 73 ........................... <table.sitterGroup>
+  [ 20] pusharglist 1 ........................... <table.sitterGroup>
+  [ 22] extcall 26 .............................. <voidp(table.sitterGroup)>
+  [ 24] not ..................................... <not voidp(table.sitterGroup)>
+  [ 25] pusharglistnoret 1 ...................... <not voidp(table.sitterGroup)>
+  [ 27] extcall 44 .............................. return not voidp(table.sitterGroup)
+  [ 29] ret
+end

@@ -1,0 +1,59 @@
+property done, sitterGroup
+global glob
+
+on startStep me
+  [  0] pushint8 1 .............................. <1>
+  [  2] setprop 66 .............................. done = 1
+  [  4] getglobal 8 ............................. <glob>
+  [  6] getchainedprop 9 ........................ <glob.managers>
+  [  8] getchainedprop 10 ....................... <glob.managers.game>
+  [ 10] getchainedprop 11 ....................... <glob.managers.game.room>
+  [ 12] getobjprop 70 ........................... <glob.managers.game.room.tables>
+  [ 14] setlocal 0 .............................. t = glob.managers.game.room.tables
+  [ 16] getlocal 0 .............................. <t>
+  [ 18] getobjprop 59 ........................... <t.count>
+  [ 20] pushint8 2 .............................. <2>
+  [ 22] nteq .................................... <t.count <> 2>
+  [ 23] jmpifz [ 30] ............................ if t.count <> 2 then
+  [ 26] pusharglistnoret 0 ...................... <>
+  [ 28] extcall 44 .............................. return 
+  [ 30] getlocal 0 .............................. <t>
+  [ 32] pushint8 2 .............................. <2>
+  [ 34] pusharglist 2 ........................... <t, 2>
+  [ 36] objcall 25 .............................. <t[2]>
+  [ 38] getobjprop 73 ........................... <t[2].sitterGroup>
+  [ 40] setprop 73 .............................. sitterGroup = t[2].sitterGroup
+  [ 42] getprop 73 .............................. <sitterGroup>
+  [ 44] pusharglist 1 ........................... <sitterGroup>
+  [ 46] extcall 26 .............................. <voidp(sitterGroup)>
+  [ 48] jmpifz [ 55] ............................ if voidp(sitterGroup) then
+  [ 51] pusharglistnoret 0 ...................... <>
+  [ 53] extcall 44 .............................. return 
+  [ 55] pushzero ................................ <0>
+  [ 56] setprop 66 .............................. done = 0
+  [ 58] pushint8 1 .............................. <1>
+  [ 60] pusharglistnoret 1 ...................... <1>
+  [ 62] extcall 44 .............................. return 1
+  [ 64] ret
+end
+
+on checkDone me
+  [  0] getprop 66 .............................. <done>
+  [  2] getprop 73 .............................. <sitterGroup>
+  [  4] pusharglist 1 ........................... <sitterGroup>
+  [  6] extcall 26 .............................. <voidp(sitterGroup)>
+  [  8] or ...................................... <done or voidp(sitterGroup)>
+  [  9] jmpifz [ 16] ............................ if done or voidp(sitterGroup) then
+  [ 12] pusharglistnoret 0 ...................... <>
+  [ 14] extcall 44 .............................. return 
+  [ 16] getprop 73 .............................. <sitterGroup>
+  [ 18] getchainedprop 74 ....................... <sitterGroup.state>
+  [ 20] getobjprop 75 ........................... <sitterGroup.state.name>
+  [ 22] pushsymb 77 ............................. <#ordered>
+  [ 24] eq ...................................... <sitterGroup.state.name = #ordered>
+  [ 25] setprop 66 .............................. done = sitterGroup.state.name = #ordered
+  [ 27] getprop 66 .............................. <done>
+  [ 29] pusharglistnoret 1 ...................... <done>
+  [ 31] extcall 44 .............................. return done
+  [ 33] ret
+end
