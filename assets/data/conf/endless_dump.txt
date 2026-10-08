@@ -1,0 +1,1 @@
+[#stages: [#diner: [#id: "diner", #name: "Flo's Diner", #numStars: 4, #numLevels: 3], #family: [#id: "family", #name: "Flo's Family Restaurant", #numLevels: 3], #finedining: [#id: "finedining", #name: "Flo's Fine Dining", #numLevels: 3], #chezflos: [#id: "chezflos", #name: "Chez Flo's", #numLevels: 3], #goddess: [#id: "goddess", #name: "goddess", #numLevels: 3]], #numStages: 5]
