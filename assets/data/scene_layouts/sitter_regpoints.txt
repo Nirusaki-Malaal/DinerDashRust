@@ -1,0 +1,1 @@
+["old_male": point(23, 81), "business_female": point(42, 96), "young_female": point(25, 85), "boy": point(36, 87), "man": point(46, 86), "critic": point(29, 88)]
