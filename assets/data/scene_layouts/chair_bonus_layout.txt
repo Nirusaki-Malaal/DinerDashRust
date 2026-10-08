@@ -1,0 +1,1 @@
+[#nodeID: "chair_bonus", #loc: point(0, 0), #z: 0, #children: ["": [#scripts: [], #nodeID: "", #frames: [[#regPoint: point(0, 0), #rect: rect(400, 300, 488, 327), #blend: 100, #xflip: 0, #yflip: 0, #rotation: 0.0000, #scale: point(1.0000, 1.0000), #z: 8, #loc: point(0, 0), #member: "chairbonus_txt", #cast: "gfx.room", #ink: 36, #backColor: 0, #foreColor: 255]], #children: []]]]
