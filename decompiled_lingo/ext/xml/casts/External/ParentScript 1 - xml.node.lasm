@@ -1,0 +1,641 @@
+property name, type, text, child, count, attributeName, attributeValue, isEmpty
+
+on new me, _name, _type, _data
+  [  0] getparam 0 .............................. <me>
+  [  2] getparam 1 .............................. <_name>
+  [  4] setobjprop 10 ........................... me.name = _name
+  [  6] getparam 0 .............................. <me>
+  [  8] getparam 2 .............................. <_type>
+  [ 10] setobjprop 11 ........................... me.type = _type
+  [ 12] getparam 0 .............................. <me>
+  [ 14] getparam 3 .............................. <_data>
+  [ 16] setobjprop 12 ........................... me.text = _data
+  [ 18] getparam 0 .............................. <me>
+  [ 20] pusharglist 0 ........................... <[]>
+  [ 22] pushlist ................................ <[]>
+  [ 23] setobjprop 13 ........................... me.child = []
+  [ 25] getparam 0 .............................. <me>
+  [ 27] pusharglist 0 ........................... <[]>
+  [ 29] pushlist ................................ <[]>
+  [ 30] setobjprop 14 ........................... me.attributeName = []
+  [ 32] getparam 0 .............................. <me>
+  [ 34] pusharglist 0 ........................... <[:]>
+  [ 36] pushproplist ............................ <[:]>
+  [ 37] setobjprop 15 ........................... me.attributeValue = [:]
+  [ 39] getparam 0 .............................. <me>
+  [ 41] pusharglistnoret 1 ...................... <me>
+  [ 43] extcall 16 .............................. return me
+  [ 45] ret
+end
+
+on makeSublist me
+  [  0] getparam 0 .............................. <me>
+  [  2] getobjprop 11 ........................... <me.type>
+  [  4] peek 0 .................................. case me.type of
+  [  6] pushsymb 21 ............................. <#element>
+  [  8] eq
+  [  9] jmpifz [ 36] ............................ (case) #element:
+  [ 12] pusharglist 0 ........................... <[:]>
+  [ 14] pushproplist ............................ <[:]>
+  [ 15] setlocal 0 .............................. xmlList = [:]
+  [ 17] getlocal 0 .............................. <xmlList>
+  [ 19] getparam 0 .............................. <me>
+  [ 21] getobjprop 10 ........................... <me.name>
+  [ 23] getparam 0 .............................. <me>
+  [ 25] pusharglist 1 ........................... <me>
+  [ 27] objcall 6 ............................... <me.toList()>
+  [ 29] pusharglistnoret 3 ...................... <xmlList, me.name, me.toList()>
+  [ 31] objcall 22 .............................. xmlList.addProp(me.name, me.toList())
+  [ 33] jmp [ 93]
+  [ 36] peek 0
+  [ 38] pushsymb 23 ............................. <#procinst>
+  [ 40] eq
+  [ 41] jmpifz [ 66] ............................ (case) #procinst:
+  [ 44] pusharglist 0 ........................... <[:]>
+  [ 46] pushproplist ............................ <[:]>
+  [ 47] setlocal 0 .............................. xmlList = [:]
+  [ 49] getlocal 0 .............................. <xmlList>
+  [ 51] pushcons 0 .............................. <"!PROCINST">
+  [ 53] getparam 0 .............................. <me>
+  [ 55] pusharglist 1 ........................... <me>
+  [ 57] objcall 6 ............................... <me.toList()>
+  [ 59] pusharglistnoret 3 ...................... <xmlList, "!PROCINST", me.toList()>
+  [ 61] objcall 22 .............................. xmlList.addProp("!PROCINST", me.toList())
+  [ 63] jmp [ 93]
+  [ 66] peek 0
+  [ 68] pushsymb 24 ............................. <#chardata>
+  [ 70] eq
+  [ 71] jmpifz [ 93] ............................ (case) #chardata:
+  [ 74] pusharglist 0 ........................... <[:]>
+  [ 76] pushproplist ............................ <[:]>
+  [ 77] setlocal 0 .............................. xmlList = [:]
+  [ 79] getlocal 0 .............................. <xmlList>
+  [ 81] pushcons 1 .............................. <"!CHARDATA">
+  [ 83] getparam 0 .............................. <me>
+  [ 85] pusharglist 1 ........................... <me>
+  [ 87] objcall 6 ............................... <me.toList()>
+  [ 89] pusharglistnoret 3 ...................... <xmlList, "!CHARDATA", me.toList()>
+  [ 91] objcall 22 .............................. xmlList.addProp("!CHARDATA", me.toList())
+  [ 93] pop 1 ................................... end case
+  [ 95] getlocal 0 .............................. <xmlList>
+  [ 97] pusharglistnoret 1 ...................... <xmlList>
+  [ 99] extcall 16 .............................. return xmlList
+  [101] ret
+end
+
+on getAt me, index
+  [  0] getparam 1 .............................. <index>
+  [  2] getobjprop 26 ........................... <index.ilk>
+  [  4] pushsymb 27 ............................. <#integer>
+  [  6] eq ...................................... <index.ilk = #integer>
+  [  7] jmpifz [ 27] ............................ if index.ilk = #integer then / else
+  [ 10] getparam 0 .............................. <me>
+  [ 12] pushsymb 13 ............................. <#child>
+  [ 14] getparam 1 .............................. <index>
+  [ 16] pusharglist 3 ........................... <me, #child, index>
+  [ 18] objcall 28 .............................. <me.child[index]>
+  [ 20] pusharglistnoret 1 ...................... <me.child[index]>
+  [ 22] extcall 16 .............................. return me.child[index]
+  [ 24] jmp [ 88]
+  [ 27] getparam 1 .............................. <index>
+  [ 29] pusharglist 1 ........................... <index>
+  [ 31] extcall 29 .............................. <string(index)>
+  [ 33] setparam 1 .............................. index = string(index)
+  [ 35] getparam 0 .............................. <me>
+  [ 37] getobjprop 13 ........................... <me.child>
+  [ 39] peek 0
+  [ 41] pusharglist 1
+  [ 43] extcall 3
+  [ 45] pushint8 1
+  [ 47] peek 0
+  [ 49] peek 2
+  [ 51] lteq
+  [ 52] jmpifz [ 86] ............................ repeat with node in me.child
+  [ 55] peek 2
+  [ 57] peek 1
+  [ 59] pusharglist 2
+  [ 61] extcall 2
+  [ 63] setlocal 0
+  [ 65] getlocal 0 .............................. <node>
+  [ 67] getobjprop 10 ........................... <node.name>
+  [ 69] getparam 1 .............................. <index>
+  [ 71] eq ...................................... <node.name = index>
+  [ 72] jmpifz [ 81] ............................ if node.name = index then
+  [ 75] getlocal 0 .............................. <node>
+  [ 77] pusharglistnoret 1 ...................... <node>
+  [ 79] extcall 16 .............................. return node
+  [ 81] pushint8 1
+  [ 83] add
+  [ 84] endrepeat [ 47]
+  [ 86] pop 3
+  [ 88] ret
+end
+
+on count me
+  [  0] getparam 0 .............................. <me>
+  [  2] getobjprop 13 ........................... <me.child>
+  [  4] pusharglist 1 ........................... <me.child>
+  [  6] localcall 3 ............................. <count(me.child)>
+  [  8] pusharglistnoret 1 ...................... <count(me.child)>
+  [ 10] extcall 16 .............................. return count(me.child)
+  [ 12] ret
+end
+
+on getElementByName me, TagName, nodeList
+  [  0] getparam 2 .............................. <nodeList>
+  [  2] getobjprop 26 ........................... <nodeList.ilk>
+  [  4] pushsymb 32 ............................. <#void>
+  [  6] eq ...................................... <nodeList.ilk = #void>
+  [  7] jmpifz [ 15] ............................ if nodeList.ilk = #void then
+  [ 10] pusharglist 0 ........................... <[]>
+  [ 12] pushlist ................................ <[]>
+  [ 13] setparam 2 .............................. nodeList = []
+  [ 15] getparam 0 .............................. <me>
+  [ 17] getobjprop 13 ........................... <me.child>
+  [ 19] peek 0
+  [ 21] pusharglist 1
+  [ 23] extcall 3
+  [ 25] pushint8 1
+  [ 27] peek 0
+  [ 29] peek 2
+  [ 31] lteq
+  [ 32] jmpifz [ 88] ............................ repeat with node in me.child
+  [ 35] peek 2
+  [ 37] peek 1
+  [ 39] pusharglist 2
+  [ 41] extcall 2
+  [ 43] setlocal 0
+  [ 45] getlocal 0 .............................. <node>
+  [ 47] getobjprop 11 ........................... <node.type>
+  [ 49] pushsymb 21 ............................. <#element>
+  [ 51] eq ...................................... <node.type = #element>
+  [ 52] jmpifz [ 83] ............................ if node.type = #element then
+  [ 55] getlocal 0 .............................. <node>
+  [ 57] getobjprop 10 ........................... <node.name>
+  [ 59] getparam 1 .............................. <TagName>
+  [ 61] eq ...................................... <node.name = TagName>
+  [ 62] jmpifz [ 73] ............................ if node.name = TagName then
+  [ 65] getparam 2 .............................. <nodeList>
+  [ 67] getlocal 0 .............................. <node>
+  [ 69] pusharglistnoret 2 ...................... <nodeList, node>
+  [ 71] objcall 33 .............................. nodeList.add(node)
+  [ 73] getlocal 0 .............................. <node>
+  [ 75] getparam 1 .............................. <TagName>
+  [ 77] getparam 2 .............................. <nodeList>
+  [ 79] pusharglistnoret 3 ...................... <node, TagName, nodeList>
+  [ 81] objcall 4 ............................... node.getElementByName(TagName, nodeList)
+  [ 83] pushint8 1
+  [ 85] add
+  [ 86] endrepeat [ 27]
+  [ 88] pop 3
+  [ 90] getparam 2 .............................. <nodeList>
+  [ 92] getobjprop 3 ............................ <nodeList.count>
+  [ 94] pushint8 1 .............................. <1>
+  [ 96] eq ...................................... <nodeList.count = 1>
+  [ 97] jmpifz [115] ............................ if nodeList.count = 1 then / else
+  [100] getparam 2 .............................. <nodeList>
+  [102] pushint8 1 .............................. <1>
+  [104] pusharglist 2 ........................... <nodeList, 1>
+  [106] objcall 2 ............................... <nodeList[1]>
+  [108] pusharglistnoret 1 ...................... <nodeList[1]>
+  [110] extcall 16 .............................. return nodeList[1]
+  [112] jmp [121]
+  [115] getparam 2 .............................. <nodeList>
+  [117] pusharglistnoret 1 ...................... <nodeList>
+  [119] extcall 16 .............................. return nodeList
+  [121] ret
+end
+
+on getText me
+  [  0] getparam 0 .............................. <me>
+  [  2] getobjprop 11 ........................... <me.type>
+  [  4] peek 0 .................................. case me.type of
+  [  6] pushsymb 24 ............................. <#chardata>
+  [  8] eq
+  [  9] jmpifz [ 25] ............................ (case) #chardata:
+  [ 12] pop 1
+  [ 14] getparam 0 .............................. <me>
+  [ 16] getobjprop 12 ........................... <me.text>
+  [ 18] pusharglistnoret 1 ...................... <me.text>
+  [ 20] extcall 16 .............................. return me.text
+  [ 22] jmp [114]
+  [ 25] peek 0
+  [ 27] pushsymb 21 ............................. <#element>
+  [ 29] eq
+  [ 30] jmpifz [ 96] ............................ (case) #element:
+  [ 33] pushcons 2 .............................. <EMPTY>
+  [ 35] setlocal 0 .............................. str = EMPTY
+  [ 37] getparam 0 .............................. <me>
+  [ 39] getobjprop 13 ........................... <me.child>
+  [ 41] peek 0
+  [ 43] pusharglist 1
+  [ 45] extcall 3
+  [ 47] pushint8 1
+  [ 49] peek 0
+  [ 51] peek 2
+  [ 53] lteq
+  [ 54] jmpifz [ 83] ............................ repeat with node in me.child
+  [ 57] peek 2
+  [ 59] peek 1
+  [ 61] pusharglist 2
+  [ 63] extcall 2
+  [ 65] setlocal 1
+  [ 67] getlocal 0 .............................. <str>
+  [ 69] getlocal 1 .............................. <node>
+  [ 71] pusharglist 1 ........................... <node>
+  [ 73] objcall 5 ............................... <node.getText()>
+  [ 75] joinstr ................................. <str & node.getText()>
+  [ 76] setlocal 0 .............................. str = str & node.getText()
+  [ 78] pushint8 1
+  [ 80] add
+  [ 81] endrepeat [ 49]
+  [ 83] pop 3
+  [ 85] pop 1
+  [ 87] getlocal 0 .............................. <str>
+  [ 89] pusharglistnoret 1 ...................... <str>
+  [ 91] extcall 16 .............................. return str
+  [ 93] jmp [114]
+  [ 96] peek 0
+  [ 98] pushsymb 23 ............................. <#procinst>
+  [100] eq
+  [101] jmpifz [114] ............................ (case) #procinst:
+  [104] pop 1
+  [106] getparam 0 .............................. <me>
+  [108] getobjprop 12 ........................... <me.text>
+  [110] pusharglistnoret 1 ...................... <me.text>
+  [112] extcall 16 .............................. return me.text
+  [114] pop 1 ................................... end case
+  [116] ret
+end
+
+on toList me
+  [  0] getparam 0 .............................. <me>
+  [  2] getobjprop 11 ........................... <me.type>
+  [  4] peek 0 .................................. case me.type of
+  [  6] pushsymb 21 ............................. <#element>
+  [  8] eq
+  [  9] jmpifz [161] ............................ (case) #element:
+  [ 12] pusharglist 0 ........................... <[:]>
+  [ 14] pushproplist ............................ <[:]>
+  [ 15] setlocal 0 .............................. elemList = [:]
+  [ 17] getprop 15 .............................. <attributeValue>
+  [ 19] pusharglist 1 ........................... <attributeValue>
+  [ 21] extcall 37 .............................. <duplicate(attributeValue)>
+  [ 23] setlocal 1 .............................. attrList = duplicate(attributeValue)
+  [ 25] getlocal 0 .............................. <elemList>
+  [ 27] pushcons 3 .............................. <"!ATTRIBUTES">
+  [ 29] getlocal 1 .............................. <attrList>
+  [ 31] pusharglistnoret 3 ...................... <elemList, "!ATTRIBUTES", attrList>
+  [ 33] objcall 22 .............................. elemList.addProp("!ATTRIBUTES", attrList)
+  [ 35] getprop 13 .............................. <child>
+  [ 37] peek 0
+  [ 39] pusharglist 1
+  [ 41] extcall 3
+  [ 43] pushint8 1
+  [ 45] peek 0
+  [ 47] peek 2
+  [ 49] lteq
+  [ 50] jmpifz [148] ............................ repeat with i in child
+  [ 53] peek 2
+  [ 55] peek 1
+  [ 57] pusharglist 2
+  [ 59] extcall 2
+  [ 61] setlocal 2
+  [ 63] getlocal 2 .............................. <i>
+  [ 65] getobjprop 11 ........................... <i.type>
+  [ 67] peek 0 .................................. case i.type of
+  [ 69] pushsymb 21 ............................. <#element>
+  [ 71] eq
+  [ 72] jmpifz [ 94] ............................ (case) #element:
+  [ 75] getlocal 0 .............................. <elemList>
+  [ 77] getlocal 2 .............................. <i>
+  [ 79] getobjprop 10 ........................... <i.name>
+  [ 81] getlocal 2 .............................. <i>
+  [ 83] pusharglist 1 ........................... <i>
+  [ 85] objcall 6 ............................... <i.toList()>
+  [ 87] pusharglistnoret 3 ...................... <elemList, i.name, i.toList()>
+  [ 89] objcall 22 .............................. elemList.addProp(i.name, i.toList())
+  [ 91] jmp [141]
+  [ 94] peek 0
+  [ 96] pushsymb 24 ............................. <#chardata>
+  [ 98] eq
+  [ 99] jmpifz [119] ............................ (case) #chardata:
+  [102] getlocal 0 .............................. <elemList>
+  [104] pushcons 1 .............................. <"!CHARDATA">
+  [106] getlocal 2 .............................. <i>
+  [108] pusharglist 1 ........................... <i>
+  [110] objcall 6 ............................... <i.toList()>
+  [112] pusharglistnoret 3 ...................... <elemList, "!CHARDATA", i.toList()>
+  [114] objcall 22 .............................. elemList.addProp("!CHARDATA", i.toList())
+  [116] jmp [141]
+  [119] peek 0
+  [121] pushsymb 23 ............................. <#procinst>
+  [123] eq
+  [124] jmpifz [141] ............................ (case) #procinst:
+  [127] getlocal 0 .............................. <elemList>
+  [129] pushcons 0 .............................. <"!PROCINST">
+  [131] getlocal 2 .............................. <i>
+  [133] pusharglist 1 ........................... <i>
+  [135] objcall 6 ............................... <i.toList()>
+  [137] pusharglistnoret 3 ...................... <elemList, "!PROCINST", i.toList()>
+  [139] objcall 22 .............................. elemList.addProp("!PROCINST", i.toList())
+  [141] pop 1 ................................... end case
+  [143] pushint8 1
+  [145] add
+  [146] endrepeat [ 45]
+  [148] pop 3
+  [150] pop 1
+  [152] getlocal 0 .............................. <elemList>
+  [154] pusharglistnoret 1 ...................... <elemList>
+  [156] extcall 16 .............................. return elemList
+  [158] jmp [227]
+  [161] peek 0
+  [163] pushsymb 24 ............................. <#chardata>
+  [165] eq
+  [166] jmpifz [182] ............................ (case) #chardata:
+  [169] pop 1
+  [171] getparam 0 .............................. <me>
+  [173] getobjprop 12 ........................... <me.text>
+  [175] pusharglistnoret 1 ...................... <me.text>
+  [177] extcall 16 .............................. return me.text
+  [179] jmp [227]
+  [182] peek 0
+  [184] pushsymb 23 ............................. <#procinst>
+  [186] eq
+  [187] jmpifz [227] ............................ (case) #procinst:
+  [190] pusharglist 0 ........................... <[:]>
+  [192] pushproplist ............................ <[:]>
+  [193] setlocal 3 .............................. piList = [:]
+  [195] getlocal 3 .............................. <piList>
+  [197] pushcons 4 .............................. <"NAME">
+  [199] getparam 0 .............................. <me>
+  [201] getobjprop 10 ........................... <me.name>
+  [203] pusharglistnoret 3 ...................... <piList, "NAME", me.name>
+  [205] objcall 22 .............................. piList.addProp("NAME", me.name)
+  [207] getlocal 3 .............................. <piList>
+  [209] pushcons 5 .............................. <"TEXT">
+  [211] getparam 0 .............................. <me>
+  [213] getobjprop 12 ........................... <me.text>
+  [215] pusharglistnoret 3 ...................... <piList, "TEXT", me.text>
+  [217] objcall 22 .............................. piList.addProp("TEXT", me.text)
+  [219] pop 1
+  [221] getlocal 3 .............................. <piList>
+  [223] pusharglistnoret 1 ...................... <piList>
+  [225] extcall 16 .............................. return piList
+  [227] pop 1 ................................... end case
+  [229] ret
+end
+
+on toString me
+  [  0] getparam 0 .............................. <me>
+  [  2] getobjprop 11 ........................... <me.type>
+  [  4] peek 0 .................................. case me.type of
+  [  6] pushsymb 21 ............................. <#element>
+  [  8] eq
+  [  9] jmpifz [134] ............................ (case) #element:
+  [ 12] getparam 0 .............................. <me>
+  [ 14] getobjprop 42 ........................... <me.isEmpty>
+  [ 16] jmpifz [ 41] ............................ if me.isEmpty then / else
+  [ 19] pushcons 6 .............................. <"<">
+  [ 21] getparam 0 .............................. <me>
+  [ 23] getobjprop 10 ........................... <me.name>
+  [ 25] joinstr ................................. <"<" & me.name>
+  [ 26] getparam 0 .............................. <me>
+  [ 28] pusharglist 1 ........................... <me>
+  [ 30] objcall 8 ............................... <me.attrString()>
+  [ 32] joinstr ................................. <"<" & me.name & me.attrString()>
+  [ 33] pushcons 7 .............................. <"/>">
+  [ 35] joinstr ................................. <"<" & me.name & me.attrString() & "/>">
+  [ 36] setlocal 0 .............................. tag = "<" & me.name & me.attrString() & "/>"
+  [ 38] jmp [123]
+  [ 41] pushcons 6 .............................. <"<">
+  [ 43] getparam 0 .............................. <me>
+  [ 45] getobjprop 10 ........................... <me.name>
+  [ 47] joinstr ................................. <"<" & me.name>
+  [ 48] getparam 0 .............................. <me>
+  [ 50] pusharglist 1 ........................... <me>
+  [ 52] objcall 8 ............................... <me.attrString()>
+  [ 54] joinstr ................................. <"<" & me.name & me.attrString()>
+  [ 55] pushcons 8 .............................. <">">
+  [ 57] joinstr ................................. <"<" & me.name & me.attrString() & ">">
+  [ 58] setlocal 0 .............................. tag = "<" & me.name & me.attrString() & ">"
+  [ 60] getparam 0 .............................. <me>
+  [ 62] getobjprop 13 ........................... <me.child>
+  [ 64] peek 0
+  [ 66] pusharglist 1
+  [ 68] extcall 3
+  [ 70] pushint8 1
+  [ 72] peek 0
+  [ 74] peek 2
+  [ 76] lteq
+  [ 77] jmpifz [106] ............................ repeat with node in me.child
+  [ 80] peek 2
+  [ 82] peek 1
+  [ 84] pusharglist 2
+  [ 86] extcall 2
+  [ 88] setlocal 1
+  [ 90] getlocal 0 .............................. <tag>
+  [ 92] getlocal 1 .............................. <node>
+  [ 94] pusharglist 1 ........................... <node>
+  [ 96] objcall 7 ............................... <node.toString()>
+  [ 98] joinstr ................................. <tag & node.toString()>
+  [ 99] setlocal 0 .............................. tag = tag & node.toString()
+  [101] pushint8 1
+  [103] add
+  [104] endrepeat [ 72]
+  [106] pop 3
+  [108] getlocal 0 .............................. <tag>
+  [110] pushcons 9 .............................. <"</">
+  [112] joinstr ................................. <tag & "</">
+  [113] getparam 0 .............................. <me>
+  [115] getobjprop 10 ........................... <me.name>
+  [117] joinstr ................................. <tag & "</" & me.name>
+  [118] pushcons 8 .............................. <">">
+  [120] joinstr ................................. <tag & "</" & me.name & ">">
+  [121] setlocal 0 .............................. tag = tag & "</" & me.name & ">"
+  [123] pop 1
+  [125] getlocal 0 .............................. <tag>
+  [127] pusharglistnoret 1 ...................... <tag>
+  [129] extcall 16 .............................. return tag
+  [131] jmp [190]
+  [134] peek 0
+  [136] pushsymb 24 ............................. <#chardata>
+  [138] eq
+  [139] jmpifz [161] ............................ (case) #chardata:
+  [142] pop 1
+  [144] getparam 0 .............................. <me>
+  [146] getparam 0 .............................. <me>
+  [148] getobjprop 12 ........................... <me.text>
+  [150] pusharglist 2 ........................... <me, me.text>
+  [152] objcall 9 ............................... <me.encodeString(me.text)>
+  [154] pusharglistnoret 1 ...................... <me.encodeString(me.text)>
+  [156] extcall 16 .............................. return me.encodeString(me.text)
+  [158] jmp [190]
+  [161] peek 0
+  [163] pushsymb 23 ............................. <#procinst>
+  [165] eq
+  [166] jmpifz [190] ............................ (case) #procinst:
+  [169] pop 1
+  [171] pushcons 10 ............................. <"<?">
+  [173] getparam 0 .............................. <me>
+  [175] getobjprop 10 ........................... <me.name>
+  [177] joinstr ................................. <"<?" & me.name>
+  [178] getparam 0 .............................. <me>
+  [180] getobjprop 12 ........................... <me.text>
+  [182] joinpadstr .............................. <"<?" & me.name && me.text>
+  [183] pushcons 11 ............................. <"?>">
+  [185] joinstr ................................. <"<?" & me.name && me.text & "?>">
+  [186] pusharglistnoret 1 ...................... <"<?" & me.name && me.text & "?>">
+  [188] extcall 16 .............................. return "<?" & me.name && me.text & "?>"
+  [190] pop 1 ................................... end case
+  [192] ret
+end
+
+on attrString me
+  [  0] getparam 0 .............................. <me>
+  [  2] getobjprop 15 ........................... <me.attributeValue>
+  [  4] pusharglist 1 ........................... <me.attributeValue>
+  [  6] localcall 3 ............................. <count(me.attributeValue)>
+  [  8] setlocal 0 .............................. numAttr = count(me.attributeValue)
+  [ 10] pushcons 2 .............................. <EMPTY>
+  [ 12] setlocal 1 .............................. attrStr = EMPTY
+  [ 14] getlocal 0 .............................. <numAttr>
+  [ 16] jmpifz [ 85] ............................ if numAttr then
+  [ 19] pushint8 1 .............................. <1>
+  [ 21] setlocal 2
+  [ 23] getlocal 2
+  [ 25] getlocal 0 .............................. <numAttr>
+  [ 27] lteq
+  [ 28] jmpifz [ 85] ............................ repeat with i = 1 to numAttr
+  [ 31] getprop 15 .............................. <attributeValue>
+  [ 33] getlocal 2 .............................. <i>
+  [ 35] pusharglist 2 ........................... <attributeValue, i>
+  [ 37] objcall 44 .............................. <attributeValue.getPropAt(i)>
+  [ 39] setlocal 3 .............................. attrName = attributeValue.getPropAt(i)
+  [ 41] getparam 0 .............................. <me>
+  [ 43] getprop 15 .............................. <attributeValue>
+  [ 45] getlocal 2 .............................. <i>
+  [ 47] pusharglist 2 ........................... <attributeValue, i>
+  [ 49] objcall 2 ............................... <attributeValue[i]>
+  [ 51] pusharglist 2 ........................... <me, attributeValue[i]>
+  [ 53] objcall 9 ............................... <me.encodeString(attributeValue[i])>
+  [ 55] setlocal 4 .............................. attrValue = me.encodeString(attributeValue[i])
+  [ 57] getlocal 1 .............................. <attrStr>
+  [ 59] getlocal 3 .............................. <attrName>
+  [ 61] joinpadstr .............................. <attrStr && attrName>
+  [ 62] pushcons 12 ............................. <"=">
+  [ 64] joinstr ................................. <attrStr && attrName & "=">
+  [ 65] pushcons 13 ............................. <QUOTE>
+  [ 67] joinstr ................................. <attrStr && attrName & "=" & QUOTE>
+  [ 68] getlocal 4 .............................. <attrValue>
+  [ 70] joinstr ................................. <attrStr && attrName & "=" & QUOTE & attrValue>
+  [ 71] pushcons 13 ............................. <QUOTE>
+  [ 73] joinstr ................................. <attrStr && attrName & "=" & QUOTE & attrValue & QUOTE>
+  [ 74] setlocal 1 .............................. attrStr = attrStr && attrName & "=" & QUOTE & attrValue & QUOTE
+  [ 76] pushint8 1
+  [ 78] getlocal 2
+  [ 80] add
+  [ 81] setlocal 2
+  [ 83] endrepeat [ 23]
+  [ 85] getlocal 1 .............................. <attrStr>
+  [ 87] pusharglistnoret 1 ...................... <attrStr>
+  [ 89] extcall 16 .............................. return attrStr
+  [ 91] ret
+end
+
+on encodeString me, str
+  [  0] pushcons 2 .............................. <EMPTY>
+  [  2] setlocal 0 .............................. encodedStr = EMPTY
+  [  4] getparam 1 .............................. <str>
+  [  6] getobjprop 49 ........................... <str.length>
+  [  8] setlocal 1 .............................. numChars = str.length
+  [ 10] pushint8 1 .............................. <1>
+  [ 12] setlocal 2
+  [ 14] getlocal 2
+  [ 16] getlocal 1 .............................. <numChars>
+  [ 18] lteq
+  [ 19] jmpifz [176] ............................ repeat with i = 1 to numChars
+  [ 22] getparam 1 .............................. <str>
+  [ 24] pushsymb 50 ............................. <#char>
+  [ 26] getlocal 2 .............................. <i>
+  [ 28] pusharglist 3 ........................... <str, #char, i>
+  [ 30] objcall 28 .............................. <str.char[i]>
+  [ 32] setlocal 3 .............................. currChar = str.char[i]
+  [ 34] getlocal 3 .............................. <currChar>
+  [ 36] peek 0 .................................. case currChar of
+  [ 38] pushcons 6 .............................. <"<">
+  [ 40] eq
+  [ 41] jmpifz [ 54] ............................ (case) "<":
+  [ 44] getlocal 0 .............................. <encodedStr>
+  [ 46] pushcons 14 ............................. <"&lt;">
+  [ 48] joinstr ................................. <encodedStr & "&lt;">
+  [ 49] setlocal 0 .............................. encodedStr = encodedStr & "&lt;"
+  [ 51] jmp [165]
+  [ 54] peek 0
+  [ 56] pushcons 8 .............................. <">">
+  [ 58] eq
+  [ 59] jmpifz [ 72] ............................ (case) ">":
+  [ 62] getlocal 0 .............................. <encodedStr>
+  [ 64] pushcons 15 ............................. <"&gt;">
+  [ 66] joinstr ................................. <encodedStr & "&gt;">
+  [ 67] setlocal 0 .............................. encodedStr = encodedStr & "&gt;"
+  [ 69] jmp [165]
+  [ 72] peek 0
+  [ 74] pushcons 16 ............................. <"'">
+  [ 76] eq
+  [ 77] jmpifz [ 90] ............................ (case) "'":
+  [ 80] getlocal 0 .............................. <encodedStr>
+  [ 82] pushcons 17 ............................. <"&apos;">
+  [ 84] joinstr ................................. <encodedStr & "&apos;">
+  [ 85] setlocal 0 .............................. encodedStr = encodedStr & "&apos;"
+  [ 87] jmp [165]
+  [ 90] peek 0
+  [ 92] pushcons 13 ............................. <QUOTE>
+  [ 94] eq
+  [ 95] jmpifz [108] ............................ (case) QUOTE:
+  [ 98] getlocal 0 .............................. <encodedStr>
+  [100] pushcons 18 ............................. <"&quot;">
+  [102] joinstr ................................. <encodedStr & "&quot;">
+  [103] setlocal 0 .............................. encodedStr = encodedStr & "&quot;"
+  [105] jmp [165]
+  [108] peek 0
+  [110] pushcons 19 ............................. <"&">
+  [112] eq
+  [113] jmpifz [126] ............................ (case) "&":
+  [116] getlocal 0 .............................. <encodedStr>
+  [118] pushcons 20 ............................. <"&amp;">
+  [120] joinstr ................................. <encodedStr & "&amp;">
+  [121] setlocal 0 .............................. encodedStr = encodedStr & "&amp;"
+  [123] jmp [165] ............................... (case) otherwise:
+  [126] getlocal 3 .............................. <currChar>
+  [128] pusharglist 1 ........................... <currChar>
+  [130] extcall 51 .............................. <charToNum(currChar)>
+  [132] setlocal 4 .............................. charNum = charToNum(currChar)
+  [134] getlocal 4 .............................. <charNum>
+  [136] pushint8 127 ............................ <127>
+  [138] gt ...................................... <charNum > 127>
+  [139] jmpifz [158] ............................ if charNum > 127 then / else
+  [142] getlocal 0 .............................. <encodedStr>
+  [144] pushcons 21 ............................. <"&#">
+  [146] joinstr ................................. <encodedStr & "&#">
+  [147] getlocal 4 .............................. <charNum>
+  [149] joinstr ................................. <encodedStr & "&#" & charNum>
+  [150] pushcons 22 ............................. <";">
+  [152] joinstr ................................. <encodedStr & "&#" & charNum & ";">
+  [153] setlocal 0 .............................. encodedStr = encodedStr & "&#" & charNum & ";"
+  [155] jmp [165]
+  [158] getlocal 0 .............................. <encodedStr>
+  [160] getlocal 3 .............................. <currChar>
+  [162] joinstr ................................. <encodedStr & currChar>
+  [163] setlocal 0 .............................. encodedStr = encodedStr & currChar
+  [165] pop 1 ................................... end case
+  [167] pushint8 1
+  [169] getlocal 2
+  [171] add
+  [172] setlocal 2
+  [174] endrepeat [ 14]
+  [176] getlocal 0 .............................. <encodedStr>
+  [178] pusharglistnoret 1 ...................... <encodedStr>
+  [180] extcall 16 .............................. return encodedStr
+  [182] ret
+end

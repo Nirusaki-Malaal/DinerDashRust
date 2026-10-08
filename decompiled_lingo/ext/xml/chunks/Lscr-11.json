@@ -1,0 +1,122 @@
+{
+  "totalLength": 888,
+  "totalLength2": 888,
+  "headerLength": 92,
+  "scriptNumber": 2,
+  "unk20": 26,
+  "parentNumber": -1,
+  "scriptFlags": 0,
+  "unk42": 0,
+  "castID": 1835011,
+  "factoryNameID": -1,
+  "handlerVectorsCount": 0,
+  "handlerVectorsOffset": 888,
+  "handlerVectorsSize": 0,
+  "propertiesCount": 2,
+  "propertiesOffset": 92,
+  "globalsCount": 0,
+  "globalsOffset": 96,
+  "handlersCount": 4,
+  "handlersOffset": 96,
+  "literalsCount": 4,
+  "literalsOffset": 832,
+  "literalsDataCount": 24,
+  "literalsDataOffset": 864,
+  "propertyNameIDs": [
+    146,
+    148
+  ],
+  "globalNameIDs": [],
+  "handlers": [
+    {
+      "nameID": 0,
+      "vectorPos": 65535,
+      "compiledLen": 300,
+      "compiledOffset": 280,
+      "argumentCount": 4,
+      "argumentOffset": 580,
+      "localsCount": 8,
+      "localsOffset": 588,
+      "globalsCount": 0,
+      "globalsOffset": 96,
+      "unknown1": 537,
+      "unknown2": 24,
+      "lineCount": 82,
+      "lineOffset": 604,
+      "stackHeight": 6
+    },
+    {
+      "nameID": 144,
+      "vectorPos": 65535,
+      "compiledLen": 13,
+      "compiledOffset": 686,
+      "argumentCount": 1,
+      "argumentOffset": 700,
+      "localsCount": 0,
+      "localsOffset": 702,
+      "globalsCount": 0,
+      "globalsOffset": 96,
+      "unknown1": 2350,
+      "unknown2": 112,
+      "lineCount": 5,
+      "lineOffset": 702,
+      "stackHeight": 3
+    },
+    {
+      "nameID": 91,
+      "vectorPos": 65535,
+      "compiledLen": 31,
+      "compiledOffset": 708,
+      "argumentCount": 1,
+      "argumentOffset": 740,
+      "localsCount": 0,
+      "localsOffset": 742,
+      "globalsCount": 0,
+      "globalsOffset": 96,
+      "unknown1": 2469,
+      "unknown2": 121,
+      "lineCount": 10,
+      "lineOffset": 742,
+      "stackHeight": 4
+    },
+    {
+      "nameID": 92,
+      "vectorPos": 65535,
+      "compiledLen": 59,
+      "compiledOffset": 752,
+      "argumentCount": 1,
+      "argumentOffset": 812,
+      "localsCount": 1,
+      "localsOffset": 814,
+      "globalsCount": 0,
+      "globalsOffset": 96,
+      "unknown1": 2683,
+      "unknown2": 135,
+      "lineCount": 15,
+      "lineOffset": 816,
+      "stackHeight": 4
+    }
+  ],
+  "literals": [
+    {
+      "type": 1,
+      "offset": 0,
+      "value": " "
+    },
+    {
+      "type": 1,
+      "offset": 6,
+      "value": "\t"
+    },
+    {
+      "type": 1,
+      "offset": 12,
+      "value": "\r"
+    },
+    {
+      "type": 1,
+      "offset": 18,
+      "value": ""
+    }
+  ]
+}

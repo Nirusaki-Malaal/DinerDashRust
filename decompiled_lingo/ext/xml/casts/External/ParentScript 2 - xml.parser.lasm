@@ -1,0 +1,1312 @@
+property child, count, _ignoreWhiteSpace, _doneParsing, _cbMethod, _cbObject, _netID, _whiteSpace, _entityList, _docType, _errorStr, _idList, _tagList
+
+on new me
+  [  0] getparam 0 .............................. <me>
+  [  2] pusharglist 0 ........................... <[]>
+  [  4] pushlist ................................ <[]>
+  [  5] setobjprop 13 ........................... me.child = []
+  [  7] getparam 0 .............................. <me>
+  [  9] pushint8 1 .............................. <1>
+  [ 11] setobjprop 73 ........................... me._ignoreWhiteSpace = 1
+  [ 13] getparam 0 .............................. <me>
+  [ 15] pushint8 1 .............................. <1>
+  [ 17] setobjprop 74 ........................... me._doneParsing = 1
+  [ 19] getparam 0 .............................. <me>
+  [ 21] pushcons 0 .............................. <EMPTY>
+  [ 23] setobjprop 75 ........................... me._errorStr = EMPTY
+  [ 25] getparam 0 .............................. <me>
+  [ 27] pusharglist 0 ........................... <>
+  [ 29] extcall 76 .............................. <SPACE>
+  [ 31] pushcons 1 .............................. <RETURN>
+  [ 33] joinstr ................................. <SPACE & RETURN>
+  [ 34] pushcons 2 .............................. <TAB>
+  [ 36] joinstr ................................. <SPACE & RETURN & TAB>
+  [ 37] pushint8 10 ............................. <10>
+  [ 39] pusharglist 1 ........................... <10>
+  [ 41] extcall 77 .............................. <numToChar(10)>
+  [ 43] joinstr ................................. <SPACE & RETURN & TAB & numToChar(10)>
+  [ 44] setobjprop 78 ........................... me._whiteSpace = SPACE & RETURN & TAB & numToChar(10)
+  [ 46] getparam 0 .............................. <me>
+  [ 48] pusharglistnoret 1 ...................... <me>
+  [ 50] extcall 16 .............................. return me
+  [ 52] ret
+end
+
+on parseUrl me, url, cbMethod, cbObject
+  [  0] getparam 0 .............................. <me>
+  [  2] getparam 2 .............................. <cbMethod>
+  [  4] setobjprop 79 ........................... me._cbMethod = cbMethod
+  [  6] getparam 0 .............................. <me>
+  [  8] getparam 3 .............................. <cbObject>
+  [ 10] setobjprop 80 ........................... me._cbObject = cbObject
+  [ 12] getparam 0 .............................. <me>
+  [ 14] getparam 1 .............................. <url>
+  [ 16] pusharglist 1 ........................... <url>
+  [ 18] extcall 81 .............................. <getNetText(url)>
+  [ 20] setobjprop 82 ........................... me._netID = getNetText(url)
+  [ 22] getparam 0 .............................. <me>
+  [ 24] pushzero ................................ <0>
+  [ 25] setobjprop 74 ........................... me._doneParsing = 0
+  [ 27] getmovieprop 83 ......................... <the actorList>
+  [ 29] getparam 0 .............................. <me>
+  [ 31] pusharglistnoret 2 ...................... <the actorList, me>
+  [ 33] objcall 33 .............................. (the actorList).add(me)
+  [ 35] ret
+end
+
+on parseString me, xmlString
+  [  0] getparam 0 .............................. <me>
+  [  2] pusharglist 0 ........................... <[]>
+  [  4] pushlist ................................ <[]>
+  [  5] setobjprop 13 ........................... me.child = []
+  [  7] getparam 0 .............................. <me>
+  [  9] pusharglist 0 ........................... <[:]>
+  [ 11] pushproplist ............................ <[:]>
+  [ 12] setobjprop 87 ........................... me._idList = [:]
+  [ 14] getparam 0 .............................. <me>
+  [ 16] pusharglist 0 ........................... <[:]>
+  [ 18] pushproplist ............................ <[:]>
+  [ 19] setobjprop 88 ........................... me._tagList = [:]
+  [ 21] getparam 0 .............................. <me>
+  [ 23] pusharglist 0 ........................... <[:]>
+  [ 25] pushproplist ............................ <[:]>
+  [ 26] setobjprop 89 ........................... me._entityList = [:]
+  [ 28] getparam 0 .............................. <me>
+  [ 30] getchainedprop 89 ....................... <me._entityList>
+  [ 32] pushcons 3 .............................. <"lt">
+  [ 34] pushcons 4 .............................. <"<">
+  [ 36] pusharglistnoret 3 ...................... <me._entityList, "lt", "<">
+  [ 38] objcall 22 .............................. me._entityList.addProp("lt", "<")
+  [ 40] getparam 0 .............................. <me>
+  [ 42] getchainedprop 89 ....................... <me._entityList>
+  [ 44] pushcons 5 .............................. <"gt">
+  [ 46] pushcons 6 .............................. <">">
+  [ 48] pusharglistnoret 3 ...................... <me._entityList, "gt", ">">
+  [ 50] objcall 22 .............................. me._entityList.addProp("gt", ">")
+  [ 52] getparam 0 .............................. <me>
+  [ 54] getchainedprop 89 ....................... <me._entityList>
+  [ 56] pushcons 7 .............................. <"amp">
+  [ 58] pushcons 8 .............................. <"&">
+  [ 60] pusharglistnoret 3 ...................... <me._entityList, "amp", "&">
+  [ 62] objcall 22 .............................. me._entityList.addProp("amp", "&")
+  [ 64] getparam 0 .............................. <me>
+  [ 66] getchainedprop 89 ....................... <me._entityList>
+  [ 68] pushcons 9 .............................. <"apos">
+  [ 70] pushcons 10 ............................. <"'">
+  [ 72] pusharglistnoret 3 ...................... <me._entityList, "apos", "'">
+  [ 74] objcall 22 .............................. me._entityList.addProp("apos", "'")
+  [ 76] getparam 0 .............................. <me>
+  [ 78] getchainedprop 89 ....................... <me._entityList>
+  [ 80] pushcons 11 ............................. <"quot">
+  [ 82] pushcons 12 ............................. <QUOTE>
+  [ 84] pusharglistnoret 3 ...................... <me._entityList, "quot", QUOTE>
+  [ 86] objcall 22 .............................. me._entityList.addProp("quot", QUOTE)
+  [ 88] getparam 0 .............................. <me>
+  [ 90] setlocal 0 .............................. currentNode = me
+  [ 92] getparam 0 .............................. <me>
+  [ 94] pushzero ................................ <0>
+  [ 95] setobjprop 3 ............................ me.count = 0
+  [ 97] pusharglist 0 ........................... <[]>
+  [ 99] pushlist ................................ <[]>
+  [100] setlocal 1 .............................. elementStack = []
+  [102] pushcons 13 ............................. <"xml.tokenizer">
+  [104] pusharglist 1 ........................... <"xml.tokenizer">
+  [106] extcall 90 .............................. <script("xml.tokenizer")>
+  [108] getparam 1 .............................. <xmlString>
+  [110] pushcons 14 ............................. <"<>">
+  [112] pushint8 1 .............................. <1>
+  [114] pusharglist 4 ........................... <script("xml.tokenizer"), xmlString, "<>", 1>
+  [116] extcall 0 ............................... <new(script("xml.tokenizer"), xmlString, "<>", 1)>
+  [118] setlocal 2 .............................. xmlTokens = new(script("xml.tokenizer"), xmlString, "<>", 1)
+  [120] getlocal 2 .............................. <xmlTokens>
+  [122] pusharglist 1 ........................... <xmlTokens>
+  [124] objcall 91 .............................. <xmlTokens.hasMoreTokens()>
+  [126] jmpifz [706] ............................ repeat while xmlTokens.hasMoreTokens()
+  [129] getlocal 2 .............................. <xmlTokens>
+  [131] pusharglist 1 ........................... <xmlTokens>
+  [133] objcall 92 .............................. <xmlTokens.nextToken()>
+  [135] setlocal 3 .............................. token = xmlTokens.nextToken()
+  [137] getlocal 3 .............................. <token>
+  [139] pushcons 4 .............................. <"<">
+  [141] eq ...................................... <token = "<">
+  [142] jmpifz [654] ............................ if token = "<" then
+  [145] getlocal 2 .............................. <xmlTokens>
+  [147] pusharglist 1 ........................... <xmlTokens>
+  [149] objcall 92 .............................. <xmlTokens.nextToken()>
+  [151] setlocal 3 .............................. token = xmlTokens.nextToken()
+  [153] getlocal 3 .............................. <token>
+  [155] pushsymb 50 ............................. <#char>
+  [157] pushint8 1 .............................. <1>
+  [159] pusharglist 3 ........................... <token, #char, 1>
+  [161] objcall 28 .............................. <token.char[1]>
+  [163] peek 0 .................................. case token.char[1] of
+  [165] pushcons 15 ............................. <"?">
+  [167] eq
+  [168] jmpifz [208] ............................ (case) "?":
+  [171] getlocal 3 .............................. <token>
+  [173] pushsymb 50 ............................. <#char>
+  [175] pushint8 2 .............................. <2>
+  [177] pushint8 4 .............................. <4>
+  [179] pusharglist 4 ........................... <token, #char, 2, 4>
+  [181] objcall 28 .............................. <token.char[2..4]>
+  [183] pushcons 16 ............................. <"xml">
+  [185] nteq .................................... <token.char[2..4] <> "xml">
+  [186] jmpifz [205] ............................ if token.char[2..4] <> "xml" then
+  [189] getlocal 0 .............................. <currentNode>
+  [191] getchainedprop 13 ....................... <currentNode.child>
+  [193] getparam 0 .............................. <me>
+  [195] getlocal 3 .............................. <token>
+  [197] pusharglist 2 ........................... <me, token>
+  [199] objcall 65 .............................. <me.parseProcInst(token)>
+  [201] pusharglistnoret 2 ...................... <currentNode.child, me.parseProcInst(token)>
+  [203] objcall 93 .............................. currentNode.child.append(me.parseProcInst(token))
+  [205] jmp [649]
+  [208] peek 0
+  [210] pushcons 17 ............................. <"!">
+  [212] eq
+  [213] jmpifz [490] ............................ (case) "!":
+  [216] getlocal 3 .............................. <token>
+  [218] pushsymb 50 ............................. <#char>
+  [220] pushint8 1 .............................. <1>
+  [222] pushint8 3 .............................. <3>
+  [224] pusharglist 4 ........................... <token, #char, 1, 3>
+  [226] objcall 28 .............................. <token.char[1..3]>
+  [228] peek 0 .................................. case token.char[1..3] of
+  [230] pushcons 18 ............................. <"!DO">
+  [232] eq
+  [233] jmpifz [315] ............................ (case) "!DO":
+  [236] getparam 0 .............................. <me>
+  [238] getlocal 3 .............................. <token>
+  [240] pusharglistnoret 2 ...................... <me, token>
+  [242] objcall 66 .............................. me.parseDocType(token)
+  [244] getlocal 3 .............................. <token>
+  [246] pushcons 19 ............................. <"[">
+  [248] containsstr ............................. <token contains "[">
+  [249] jmpifz [312] ............................ if token contains "[" then
+  [252] getlocal 2 .............................. <xmlTokens>
+  [254] pusharglist 1 ........................... <xmlTokens>
+  [256] objcall 91 .............................. <xmlTokens.hasMoreTokens()>
+  [258] jmpifz [312] ............................ repeat while xmlTokens.hasMoreTokens()
+  [261] getlocal 2 .............................. <xmlTokens>
+  [263] pusharglist 1 ........................... <xmlTokens>
+  [265] objcall 92 .............................. <xmlTokens.nextToken()>
+  [267] setlocal 3 .............................. token = xmlTokens.nextToken()
+  [269] getlocal 3 .............................. <token>
+  [271] pushcons 20 ............................. <"]">
+  [273] containsstr ............................. <token contains "]">
+  [274] jmpifz [280] ............................ if token contains "]" then
+  [277] jmp [312] ............................... exit repeat
+  [280] getlocal 3 .............................. <token>
+  [282] pushsymb 50 ............................. <#char>
+  [284] pushint8 1 .............................. <1>
+  [286] pushint8 3 .............................. <3>
+  [288] pusharglist 4 ........................... <token, #char, 1, 3>
+  [290] objcall 28 .............................. <token.char[1..3]>
+  [292] peek 0 .................................. case token.char[1..3] of
+  [294] pushcons 21 ............................. <"!EN">
+  [296] eq
+  [297] jmpifz [308] ............................ (case) "!EN":
+  [300] getparam 0 .............................. <me>
+  [302] getlocal 3 .............................. <token>
+  [304] pusharglistnoret 2 ...................... <me, token>
+  [306] objcall 67 .............................. me.parseEntity(token)
+  [308] pop 1
+  [310] endrepeat [252]
+  [312] jmp [485]
+  [315] peek 0
+  [317] pushcons 22 ............................. <"!--">
+  [319] eq
+  [320] jmpifz [385] ............................ (case) "!--":
+  [323] getlocal 2 .............................. <xmlTokens>
+  [325] pusharglist 1 ........................... <xmlTokens>
+  [327] objcall 91 .............................. <xmlTokens.hasMoreTokens()>
+  [329] jmpifz [382] ............................ repeat while xmlTokens.hasMoreTokens()
+  [332] getlocal 2 .............................. <xmlTokens>
+  [334] pusharglist 1 ........................... <xmlTokens>
+  [336] objcall 92 .............................. <xmlTokens.nextToken()>
+  [338] setlocal 4 .............................. newToken = xmlTokens.nextToken()
+  [340] getlocal 4 .............................. <newToken>
+  [342] pushcons 6 .............................. <">">
+  [344] eq ...................................... <newToken = ">">
+  [345] jmpifz [376] ............................ if newToken = ">" then
+  [348] getlocal 3 .............................. <token>
+  [350] pushsymb 50 ............................. <#char>
+  [352] getlocal 3 .............................. <token>
+  [354] getobjprop 49 ........................... <token.length>
+  [356] pushint8 1 .............................. <1>
+  [358] sub ..................................... <token.length - 1>
+  [359] getlocal 3 .............................. <token>
+  [361] getobjprop 49 ........................... <token.length>
+  [363] pusharglist 4 ........................... <token, #char, token.length - 1, token.length>
+  [365] objcall 28 .............................. <token.char[token.length - 1..token.length]>
+  [367] pushcons 23 ............................. <"--">
+  [369] eq ...................................... <token.char[token.length - 1..token.length] = "--">
+  [370] jmpifz [376] ............................ if token.char[token.length - 1..token.length] = "--" then
+  [373] jmp [382] ............................... exit repeat
+  [376] getlocal 4 .............................. <newToken>
+  [378] setlocal 3 .............................. token = newToken
+  [380] endrepeat [323]
+  [382] jmp [485]
+  [385] peek 0
+  [387] pushcons 24 ............................. <"![C">
+  [389] eq
+  [390] jmpifz [485] ............................ (case) "![C":
+  [393] getlocal 2 .............................. <xmlTokens>
+  [395] pusharglist 1 ........................... <xmlTokens>
+  [397] objcall 91 .............................. <xmlTokens.hasMoreTokens()>
+  [399] jmpifz [485] ............................ repeat while xmlTokens.hasMoreTokens()
+  [402] getlocal 2 .............................. <xmlTokens>
+  [404] pusharglist 1 ........................... <xmlTokens>
+  [406] objcall 92 .............................. <xmlTokens.nextToken()>
+  [408] setlocal 4 .............................. newToken = xmlTokens.nextToken()
+  [410] getlocal 4 .............................. <newToken>
+  [412] pushcons 6 .............................. <">">
+  [414] eq ...................................... <newToken = ">">
+  [415] jmpifz [476] ............................ if newToken = ">" then
+  [418] getlocal 3 .............................. <token>
+  [420] pushsymb 50 ............................. <#char>
+  [422] getlocal 3 .............................. <token>
+  [424] getobjprop 49 ........................... <token.length>
+  [426] pushint8 1 .............................. <1>
+  [428] sub ..................................... <token.length - 1>
+  [429] getlocal 3 .............................. <token>
+  [431] getobjprop 49 ........................... <token.length>
+  [433] pusharglist 4 ........................... <token, #char, token.length - 1, token.length>
+  [435] objcall 28 .............................. <token.char[token.length - 1..token.length]>
+  [437] pushcons 25 ............................. <"]]">
+  [439] eq ...................................... <token.char[token.length - 1..token.length] = "]]">
+  [440] jmpifz [476] ............................ if token.char[token.length - 1..token.length] = "]]" then
+  [443] getparam 0 .............................. <me>
+  [445] getlocal 3 .............................. <token>
+  [447] pusharglist 2 ........................... <me, token>
+  [449] objcall 68 .............................. <me.parseCDATA(token)>
+  [451] setlocal 5 .............................. textNode = me.parseCDATA(token)
+  [453] getlocal 5 .............................. <textNode>
+  [455] getobjprop 26 ........................... <textNode.ilk>
+  [457] pushsymb 94 ............................. <#instance>
+  [459] eq ...................................... <textNode.ilk = #instance>
+  [460] jmpifz [473] ............................ if textNode.ilk = #instance then
+  [463] getlocal 0 .............................. <currentNode>
+  [465] getchainedprop 13 ....................... <currentNode.child>
+  [467] getlocal 5 .............................. <textNode>
+  [469] pusharglistnoret 2 ...................... <currentNode.child, textNode>
+  [471] objcall 93 .............................. currentNode.child.append(textNode)
+  [473] jmp [485] ............................... exit repeat
+  [476] getlocal 3 .............................. <token>
+  [478] getlocal 4 .............................. <newToken>
+  [480] joinstr ................................. <token & newToken>
+  [481] setlocal 3 .............................. token = token & newToken
+  [483] endrepeat [393]
+  [485] pop 1 ................................... end case
+  [487] jmp [649]
+  [490] peek 0
+  [492] pushcons 26 ............................. <"/">
+  [494] eq
+  [495] jmpifz [537] ............................ (case) "/":
+  [498] getlocal 1 .............................. <elementStack>
+  [500] getobjprop 3 ............................ <elementStack.count>
+  [502] jmpifz [534] ............................ if elementStack.count then
+  [505] getlocal 1 .............................. <elementStack>
+  [507] pushint8 1 .............................. <1>
+  [509] pusharglist 2 ........................... <elementStack, 1>
+  [511] objcall 2 ............................... <elementStack[1]>
+  [513] setlocal 0 .............................. currentNode = elementStack[1]
+  [515] getlocal 1 .............................. <elementStack>
+  [517] pushint8 1 .............................. <1>
+  [519] pusharglistnoret 2 ...................... <elementStack, 1>
+  [521] objcall 95 .............................. elementStack.deleteAt(1)
+  [523] getlocal 0 .............................. <currentNode>
+  [525] getlocal 0 .............................. <currentNode>
+  [527] getobjprop 3 ............................ <currentNode.count>
+  [529] pushint8 1 .............................. <1>
+  [531] add ..................................... <currentNode.count + 1>
+  [532] setobjprop 3 ............................ currentNode.count = currentNode.count + 1
+  [534] jmp [649] ............................... (case) otherwise:
+  [537] getlocal 3 .............................. <token>
+  [539] pushsymb 50 ............................. <#char>
+  [541] getlocal 3 .............................. <token>
+  [543] getobjprop 49 ........................... <token.length>
+  [545] pusharglist 3 ........................... <token, #char, token.length>
+  [547] objcall 28 .............................. <token.char[token.length]>
+  [549] pushcons 26 ............................. <"/">
+  [551] eq ...................................... <token.char[token.length] = "/">
+  [552] jmpifz [609] ............................ if token.char[token.length] = "/" then / else
+  [555] pushint8 3 .............................. <3>
+  [557] pushchunkvarref 5 ....................... <token>
+  [559] pushsymb 50 ............................. <#char>
+  [561] getlocal 3 .............................. <token>
+  [563] getobjprop 49 ........................... <token.length>
+  [565] pusharglist 3 ........................... <token, #char, token.length>
+  [567] objcall 96 .............................. <token.char[token.length]>
+  [569] pusharglistnoret 1 ...................... <token.char[token.length]>
+  [571] objcall 97 .............................. delete token.char[token.length]
+  [573] getparam 0 .............................. <me>
+  [575] getlocal 3 .............................. <token>
+  [577] pushint8 1 .............................. <1>
+  [579] pusharglist 3 ........................... <me, token, 1>
+  [581] objcall 69 .............................. <me.parseElement(token, 1)>
+  [583] setlocal 6 .............................. newNode = me.parseElement(token, 1)
+  [585] getlocal 0 .............................. <currentNode>
+  [587] getchainedprop 13 ....................... <currentNode.child>
+  [589] getlocal 6 .............................. <newNode>
+  [591] pusharglistnoret 2 ...................... <currentNode.child, newNode>
+  [593] objcall 93 .............................. currentNode.child.append(newNode)
+  [595] getlocal 0 .............................. <currentNode>
+  [597] getlocal 0 .............................. <currentNode>
+  [599] getobjprop 3 ............................ <currentNode.count>
+  [601] pushint8 1 .............................. <1>
+  [603] add ..................................... <currentNode.count + 1>
+  [604] setobjprop 3 ............................ currentNode.count = currentNode.count + 1
+  [606] jmp [649]
+  [609] getlocal 1 .............................. <elementStack>
+  [611] pushint8 1 .............................. <1>
+  [613] getlocal 0 .............................. <currentNode>
+  [615] pusharglistnoret 3 ...................... <elementStack, 1, currentNode>
+  [617] objcall 98 .............................. elementStack.addAt(1, currentNode)
+  [619] getparam 0 .............................. <me>
+  [621] getlocal 3 .............................. <token>
+  [623] pushzero ................................ <0>
+  [624] pusharglist 3 ........................... <me, token, 0>
+  [626] objcall 69 .............................. <me.parseElement(token, 0)>
+  [628] setlocal 6 .............................. newNode = me.parseElement(token, 0)
+  [630] getlocal 0 .............................. <currentNode>
+  [632] getchainedprop 13 ....................... <currentNode.child>
+  [634] getlocal 6 .............................. <newNode>
+  [636] pusharglistnoret 2 ...................... <currentNode.child, newNode>
+  [638] objcall 93 .............................. currentNode.child.append(newNode)
+  [640] getlocal 6 .............................. <newNode>
+  [642] setlocal 0 .............................. currentNode = newNode
+  [644] getlocal 0 .............................. <currentNode>
+  [646] pushzero ................................ <0>
+  [647] setobjprop 3 ............................ currentNode.count = 0
+  [649] pop 1 ................................... end case
+  [651] jmp [703] ............................... next repeat
+  [654] getlocal 3 .............................. <token>
+  [656] pushcons 6 .............................. <">">
+  [658] eq ...................................... <token = ">">
+  [659] jmpifz [665] ............................ if token = ">" then
+  [662] jmp [703] ............................... next repeat
+  [665] getlocal 0 .............................. <currentNode>
+  [667] getparam 0 .............................. <me>
+  [669] nteq .................................... <currentNode <> me>
+  [670] jmpifz [703] ............................ if currentNode <> me then
+  [673] getparam 0 .............................. <me>
+  [675] getlocal 3 .............................. <token>
+  [677] pusharglist 2 ........................... <me, token>
+  [679] objcall 71 .............................. <me.parseText(token)>
+  [681] setlocal 5 .............................. textNode = me.parseText(token)
+  [683] getlocal 5 .............................. <textNode>
+  [685] getobjprop 26 ........................... <textNode.ilk>
+  [687] pushsymb 94 ............................. <#instance>
+  [689] eq ...................................... <textNode.ilk = #instance>
+  [690] jmpifz [703] ............................ if textNode.ilk = #instance then
+  [693] getlocal 0 .............................. <currentNode>
+  [695] getchainedprop 13 ....................... <currentNode.child>
+  [697] getlocal 5 .............................. <textNode>
+  [699] pusharglistnoret 2 ...................... <currentNode.child, textNode>
+  [701] objcall 93 .............................. currentNode.child.append(textNode)
+  [703] endrepeat [120]
+  [706] ret
+end
+
+on ignoreWhitespace me, ignore
+  [  0] getparam 0 .............................. <me>
+  [  2] getparam 1 .............................. <ignore>
+  [  4] setobjprop 73 ........................... me._ignoreWhiteSpace = ignore
+  [  6] ret
+end
+
+on doneParsing me
+  [  0] getparam 0 .............................. <me>
+  [  2] getobjprop 74 ........................... <me._doneParsing>
+  [  4] pusharglistnoret 1 ...................... <me._doneParsing>
+  [  6] extcall 16 .............................. return me._doneParsing
+  [  8] ret
+end
+
+on makeList me
+  [  0] pusharglist 0 ........................... <[:]>
+  [  2] pushproplist ............................ <[:]>
+  [  3] setlocal 0 .............................. docList = [:]
+  [  5] pushcons 27 ............................. <"!ATTRIBUTES">
+  [  7] pusharglist 0 ........................... <[:]>
+  [  9] pushproplist ............................ <[:]>
+  [ 10] pusharglist 2 ........................... <["!ATTRIBUTES": [:]]>
+  [ 12] pushproplist ............................ <["!ATTRIBUTES": [:]]>
+  [ 13] setlocal 1 .............................. childList = ["!ATTRIBUTES": [:]]
+  [ 15] getparam 0 .............................. <me>
+  [ 17] getobjprop 13 ........................... <me.child>
+  [ 19] peek 0
+  [ 21] pusharglist 1
+  [ 23] extcall 3
+  [ 25] pushint8 1
+  [ 27] peek 0
+  [ 29] peek 2
+  [ 31] lteq
+  [ 32] jmpifz [130] ............................ repeat with node in me.child
+  [ 35] peek 2
+  [ 37] peek 1
+  [ 39] pusharglist 2
+  [ 41] extcall 2
+  [ 43] setlocal 2
+  [ 45] getlocal 2 .............................. <node>
+  [ 47] getobjprop 11 ........................... <node.type>
+  [ 49] peek 0 .................................. case node.type of
+  [ 51] pushsymb 21 ............................. <#element>
+  [ 53] eq
+  [ 54] jmpifz [ 76] ............................ (case) #element:
+  [ 57] getlocal 1 .............................. <childList>
+  [ 59] getlocal 2 .............................. <node>
+  [ 61] getobjprop 10 ........................... <node.name>
+  [ 63] getlocal 2 .............................. <node>
+  [ 65] pusharglist 1 ........................... <node>
+  [ 67] objcall 6 ............................... <node.toList()>
+  [ 69] pusharglistnoret 3 ...................... <childList, node.name, node.toList()>
+  [ 71] objcall 22 .............................. childList.addProp(node.name, node.toList())
+  [ 73] jmp [123]
+  [ 76] peek 0
+  [ 78] pushsymb 23 ............................. <#procinst>
+  [ 80] eq
+  [ 81] jmpifz [101] ............................ (case) #procinst:
+  [ 84] getlocal 1 .............................. <childList>
+  [ 86] pushcons 28 ............................. <"!PROCINST">
+  [ 88] getlocal 2 .............................. <node>
+  [ 90] pusharglist 1 ........................... <node>
+  [ 92] objcall 6 ............................... <node.toList()>
+  [ 94] pusharglistnoret 3 ...................... <childList, "!PROCINST", node.toList()>
+  [ 96] objcall 22 .............................. childList.addProp("!PROCINST", node.toList())
+  [ 98] jmp [123]
+  [101] peek 0
+  [103] pushsymb 24 ............................. <#chardata>
+  [105] eq
+  [106] jmpifz [123] ............................ (case) #chardata:
+  [109] getlocal 1 .............................. <childList>
+  [111] pushcons 29 ............................. <"!CHARDATA">
+  [113] getlocal 2 .............................. <node>
+  [115] pusharglist 1 ........................... <node>
+  [117] objcall 6 ............................... <node.toList()>
+  [119] pusharglistnoret 3 ...................... <childList, "!CHARDATA", node.toList()>
+  [121] objcall 22 .............................. childList.addProp("!CHARDATA", node.toList())
+  [123] pop 1 ................................... end case
+  [125] pushint8 1
+  [127] add
+  [128] endrepeat [ 27]
+  [130] pop 3
+  [132] getparam 0 .............................. <me>
+  [134] getobjprop 13 ........................... <me.child>
+  [136] pusharglist 1 ........................... <me.child>
+  [138] localcall 8 ............................. <count(me.child)>
+  [140] jmpifz [153] ............................ if count(me.child) then
+  [143] getlocal 0 .............................. <docList>
+  [145] pushcons 30 ............................. <"ROOT OF XML DOCUMENT">
+  [147] getlocal 1 .............................. <childList>
+  [149] pusharglistnoret 3 ...................... <docList, "ROOT OF XML DOCUMENT", childList>
+  [151] objcall 22 .............................. docList.addProp("ROOT OF XML DOCUMENT", childList)
+  [153] getlocal 0 .............................. <docList>
+  [155] pusharglistnoret 1 ...................... <docList>
+  [157] extcall 16 .............................. return docList
+  [159] ret
+end
+
+on getError me
+  [  0] getparam 0 .............................. <me>
+  [  2] getobjprop 75 ........................... <me._errorStr>
+  [  4] pusharglistnoret 1 ...................... <me._errorStr>
+  [  6] extcall 16 .............................. return me._errorStr
+  [  8] ret
+end
+
+on getAt me, index
+  [  0] getparam 1 .............................. <index>
+  [  2] getobjprop 26 ........................... <index.ilk>
+  [  4] pushsymb 27 ............................. <#integer>
+  [  6] eq ...................................... <index.ilk = #integer>
+  [  7] jmpifz [ 27] ............................ if index.ilk = #integer then / else
+  [ 10] getparam 0 .............................. <me>
+  [ 12] pushsymb 13 ............................. <#child>
+  [ 14] getparam 1 .............................. <index>
+  [ 16] pusharglist 3 ........................... <me, #child, index>
+  [ 18] objcall 28 .............................. <me.child[index]>
+  [ 20] pusharglistnoret 1 ...................... <me.child[index]>
+  [ 22] extcall 16 .............................. return me.child[index]
+  [ 24] jmp [ 88]
+  [ 27] getparam 1 .............................. <index>
+  [ 29] pusharglist 1 ........................... <index>
+  [ 31] extcall 29 .............................. <string(index)>
+  [ 33] setparam 1 .............................. index = string(index)
+  [ 35] getparam 0 .............................. <me>
+  [ 37] getobjprop 13 ........................... <me.child>
+  [ 39] peek 0
+  [ 41] pusharglist 1
+  [ 43] extcall 3
+  [ 45] pushint8 1
+  [ 47] peek 0
+  [ 49] peek 2
+  [ 51] lteq
+  [ 52] jmpifz [ 86] ............................ repeat with node in me.child
+  [ 55] peek 2
+  [ 57] peek 1
+  [ 59] pusharglist 2
+  [ 61] extcall 2
+  [ 63] setlocal 0
+  [ 65] getlocal 0 .............................. <node>
+  [ 67] getobjprop 10 ........................... <node.name>
+  [ 69] getparam 1 .............................. <index>
+  [ 71] eq ...................................... <node.name = index>
+  [ 72] jmpifz [ 81] ............................ if node.name = index then
+  [ 75] getlocal 0 .............................. <node>
+  [ 77] pusharglistnoret 1 ...................... <node>
+  [ 79] extcall 16 .............................. return node
+  [ 81] pushint8 1
+  [ 83] add
+  [ 84] endrepeat [ 47]
+  [ 86] pop 3
+  [ 88] ret
+end
+
+on count me
+  [  0] getparam 0 .............................. <me>
+  [  2] getobjprop 13 ........................... <me.child>
+  [  4] pusharglist 1 ........................... <me.child>
+  [  6] localcall 8 ............................. <count(me.child)>
+  [  8] pusharglistnoret 1 ...................... <count(me.child)>
+  [ 10] extcall 16 .............................. return count(me.child)
+  [ 12] ret
+end
+
+on getElementByID me, id
+  [  0] getparam 0 .............................. <me>
+  [  2] pushsymb 87 ............................. <#_idList>
+  [  4] getparam 1 .............................. <id>
+  [  6] pusharglist 3 ........................... <me, #_idList, id>
+  [  8] objcall 28 .............................. <me._idList[id]>
+  [ 10] pusharglistnoret 1 ...................... <me._idList[id]>
+  [ 12] extcall 16 .............................. return me._idList[id]
+  [ 14] ret
+end
+
+on getElementByName me, TagName
+  [  0] getparam 1 .............................. <TagName>
+  [  2] pushcons 31 ............................. <"*">
+  [  4] eq ...................................... <TagName = "*">
+  [  5] jmpifz [ 19] ............................ if TagName = "*" then / else
+  [  8] getparam 0 .............................. <me>
+  [ 10] getobjprop 88 ........................... <me._tagList>
+  [ 12] pusharglistnoret 1 ...................... <me._tagList>
+  [ 14] extcall 16 .............................. return me._tagList
+  [ 16] jmp [ 62]
+  [ 19] getparam 0 .............................. <me>
+  [ 21] pushsymb 88 ............................. <#_tagList>
+  [ 23] getparam 1 .............................. <TagName>
+  [ 25] pusharglist 3 ........................... <me, #_tagList, TagName>
+  [ 27] objcall 28 .............................. <me._tagList[TagName]>
+  [ 29] setlocal 0 .............................. elemList = me._tagList[TagName]
+  [ 31] getlocal 0 .............................. <elemList>
+  [ 33] getobjprop 3 ............................ <elemList.count>
+  [ 35] pushint8 1 .............................. <1>
+  [ 37] gt ...................................... <elemList.count > 1>
+  [ 38] jmpifz [ 50] ............................ if elemList.count > 1 then / else
+  [ 41] getlocal 0 .............................. <elemList>
+  [ 43] pusharglistnoret 1 ...................... <elemList>
+  [ 45] extcall 16 .............................. return elemList
+  [ 47] jmp [ 62]
+  [ 50] getlocal 0 .............................. <elemList>
+  [ 52] pushint8 1 .............................. <1>
+  [ 54] pusharglist 2 ........................... <elemList, 1>
+  [ 56] objcall 2 ............................... <elemList[1]>
+  [ 58] pusharglistnoret 1 ...................... <elemList[1]>
+  [ 60] extcall 16 .............................. return elemList[1]
+  [ 62] ret
+end
+
+on getText me
+  [  0] pushcons 0 .............................. <EMPTY>
+  [  2] setlocal 0 .............................. str = EMPTY
+  [  4] getparam 0 .............................. <me>
+  [  6] getobjprop 13 ........................... <me.child>
+  [  8] peek 0
+  [ 10] pusharglist 1
+  [ 12] extcall 3
+  [ 14] pushint8 1
+  [ 16] peek 0
+  [ 18] peek 2
+  [ 20] lteq
+  [ 21] jmpifz [ 50] ............................ repeat with node in me.child
+  [ 24] peek 2
+  [ 26] peek 1
+  [ 28] pusharglist 2
+  [ 30] extcall 2
+  [ 32] setlocal 1
+  [ 34] getlocal 0 .............................. <str>
+  [ 36] getlocal 1 .............................. <node>
+  [ 38] pusharglist 1 ........................... <node>
+  [ 40] objcall 5 ............................... <node.getText()>
+  [ 42] joinstr ................................. <str & node.getText()>
+  [ 43] setlocal 0 .............................. str = str & node.getText()
+  [ 45] pushint8 1
+  [ 47] add
+  [ 48] endrepeat [ 16]
+  [ 50] pop 3
+  [ 52] getlocal 0 .............................. <str>
+  [ 54] pusharglistnoret 1 ...................... <str>
+  [ 56] extcall 16 .............................. return str
+  [ 58] ret
+end
+
+on makeDocument me
+  [  0] pushcons 32 ............................. <"<?xml version=">
+  [  2] pushcons 12 ............................. <QUOTE>
+  [  4] joinstr ................................. <"<?xml version=" & QUOTE>
+  [  5] pushcons 33 ............................. <"1.0">
+  [  7] joinstr ................................. <"<?xml version=" & QUOTE & "1.0">
+  [  8] pushcons 12 ............................. <QUOTE>
+  [ 10] joinstr ................................. <"<?xml version=" & QUOTE & "1.0" & QUOTE>
+  [ 11] pushcons 34 ............................. <"?>">
+  [ 13] joinstr ................................. <"<?xml version=" & QUOTE & "1.0" & QUOTE & "?>">
+  [ 14] pushcons 1 .............................. <RETURN>
+  [ 16] joinstr ................................. <"<?xml version=" & QUOTE & "1.0" & QUOTE & "?>" & RETURN>
+  [ 17] setlocal 0 .............................. xmlDoc = "<?xml version=" & QUOTE & "1.0" & QUOTE & "?>" & RETURN
+  [ 19] getparam 0 .............................. <me>
+  [ 21] getobjprop 13 ........................... <me.child>
+  [ 23] peek 0
+  [ 25] pusharglist 1
+  [ 27] extcall 3
+  [ 29] pushint8 1
+  [ 31] peek 0
+  [ 33] peek 2
+  [ 35] lteq
+  [ 36] jmpifz [ 68] ............................ repeat with node in me.child
+  [ 39] peek 2
+  [ 41] peek 1
+  [ 43] pusharglist 2
+  [ 45] extcall 2
+  [ 47] setlocal 1
+  [ 49] getlocal 0 .............................. <xmlDoc>
+  [ 51] getlocal 1 .............................. <node>
+  [ 53] pusharglist 1 ........................... <node>
+  [ 55] objcall 7 ............................... <node.toString()>
+  [ 57] joinstr ................................. <xmlDoc & node.toString()>
+  [ 58] pushcons 1 .............................. <RETURN>
+  [ 60] joinstr ................................. <xmlDoc & node.toString() & RETURN>
+  [ 61] setlocal 0 .............................. xmlDoc = xmlDoc & node.toString() & RETURN
+  [ 63] pushint8 1
+  [ 65] add
+  [ 66] endrepeat [ 31]
+  [ 68] pop 3
+  [ 70] getlocal 0 .............................. <xmlDoc>
+  [ 72] pusharglistnoret 1 ...................... <xmlDoc>
+  [ 74] extcall 16 .............................. return xmlDoc
+  [ 76] ret
+end
+
+on stepFrame me
+  [  0] getparam 0 .............................. <me>
+  [  2] getobjprop 82 ........................... <me._netID>
+  [  4] pusharglist 1 ........................... <me._netID>
+  [  6] extcall 112 ............................. <netDone(me._netID)>
+  [  8] jmpifz [119] ............................ if netDone(me._netID) then
+  [ 11] getparam 0 .............................. <me>
+  [ 13] getobjprop 82 ........................... <me._netID>
+  [ 15] pusharglist 1 ........................... <me._netID>
+  [ 17] extcall 113 ............................. <netError(me._netID)>
+  [ 19] pushcons 35 ............................. <"OK">
+  [ 21] eq ...................................... <netError(me._netID) = "OK">
+  [ 22] jmpifz [ 46] ............................ if netError(me._netID) = "OK" then / else
+  [ 25] getparam 0 .............................. <me>
+  [ 27] getobjprop 82 ........................... <me._netID>
+  [ 29] pusharglist 1 ........................... <me._netID>
+  [ 31] extcall 114 ............................. <netTextResult(me._netID)>
+  [ 33] setlocal 0 .............................. xmlDoc = netTextResult(me._netID)
+  [ 35] getparam 0 .............................. <me>
+  [ 37] getlocal 0 .............................. <xmlDoc>
+  [ 39] pusharglistnoret 2 ...................... <me, xmlDoc>
+  [ 41] objcall 57 .............................. me.parseString(xmlDoc)
+  [ 43] jmp [ 61]
+  [ 46] getparam 0 .............................. <me>
+  [ 48] pushcons 36 ............................. <"net error:">
+  [ 50] getparam 0 .............................. <me>
+  [ 52] getobjprop 82 ........................... <me._netID>
+  [ 54] pusharglist 1 ........................... <me._netID>
+  [ 56] extcall 113 ............................. <netError(me._netID)>
+  [ 58] joinpadstr .............................. <"net error:" && netError(me._netID)>
+  [ 59] setobjprop 75 ........................... me._errorStr = "net error:" && netError(me._netID)
+  [ 61] getparam 0 .............................. <me>
+  [ 63] pushint8 1 .............................. <1>
+  [ 65] setobjprop 74 ........................... me._doneParsing = 1
+  [ 67] getparam 0 .............................. <me>
+  [ 69] getchainedprop 79 ....................... <me._cbMethod>
+  [ 71] getobjprop 26 ........................... <me._cbMethod.ilk>
+  [ 73] pushsymb 32 ............................. <#void>
+  [ 75] nteq .................................... <me._cbMethod.ilk <> #void>
+  [ 76] jmpifz [119] ............................ if me._cbMethod.ilk <> #void then
+  [ 79] getparam 0 .............................. <me>
+  [ 81] getchainedprop 80 ....................... <me._cbObject>
+  [ 83] getobjprop 26 ........................... <me._cbObject.ilk>
+  [ 85] pushsymb 32 ............................. <#void>
+  [ 87] eq ...................................... <me._cbObject.ilk = #void>
+  [ 88] jmpifz [105] ............................ if me._cbObject.ilk = #void then / else
+  [ 91] getparam 0 .............................. <me>
+  [ 93] getobjprop 79 ........................... <me._cbMethod>
+  [ 95] pushcons 37 ............................. <"me">
+  [ 97] joinpadstr .............................. <me._cbMethod && "me">
+  [ 98] pusharglistnoret 1 ...................... <me._cbMethod && "me">
+  [100] extcall 115 ............................. do(me._cbMethod && "me")
+  [102] jmp [119]
+  [105] getparam 0 .............................. <me>
+  [107] getobjprop 79 ........................... <me._cbMethod>
+  [109] getparam 0 .............................. <me>
+  [111] getobjprop 80 ........................... <me._cbObject>
+  [113] getparam 0 .............................. <me>
+  [115] pusharglistnoret 3 ...................... <me._cbMethod, me._cbObject, me>
+  [117] extcall 116 ............................. call(me._cbMethod, me._cbObject, me)
+  [119] ret
+end
+
+on parseProcInst me, tokenStr
+  [  0] pushint8 1 .............................. <1>
+  [  2] pushchunkvarref 4 ....................... <tokenStr>
+  [  4] pushsymb 50 ............................. <#char>
+  [  6] getparam 1 .............................. <tokenStr>
+  [  8] getobjprop 49 ........................... <tokenStr.length>
+  [ 10] pusharglist 3 ........................... <tokenStr, #char, tokenStr.length>
+  [ 12] objcall 96 .............................. <tokenStr.char[tokenStr.length]>
+  [ 14] pusharglistnoret 1 ...................... <tokenStr.char[tokenStr.length]>
+  [ 16] objcall 97 .............................. delete tokenStr.char[tokenStr.length]
+  [ 18] pushint8 1 .............................. <1>
+  [ 20] pushchunkvarref 4 ....................... <tokenStr>
+  [ 22] pushsymb 50 ............................. <#char>
+  [ 24] pushint8 1 .............................. <1>
+  [ 26] pusharglist 3 ........................... <tokenStr, #char, 1>
+  [ 28] objcall 96 .............................. <tokenStr.char[1]>
+  [ 30] pusharglistnoret 1 ...................... <tokenStr.char[1]>
+  [ 32] objcall 97 .............................. delete tokenStr.char[1]
+  [ 34] getparam 1 .............................. <tokenStr>
+  [ 36] pushsymb 117 ............................ <#word>
+  [ 38] pushint8 1 .............................. <1>
+  [ 40] pusharglist 3 ........................... <tokenStr, #word, 1>
+  [ 42] objcall 28 .............................. <tokenStr.word[1]>
+  [ 44] setlocal 0 .............................. piName = tokenStr.word[1]
+  [ 46] getparam 1 .............................. <tokenStr>
+  [ 48] pushsymb 117 ............................ <#word>
+  [ 50] pushint8 2 .............................. <2>
+  [ 52] getparam 1 .............................. <tokenStr>
+  [ 54] pushsymb 117 ............................ <#word>
+  [ 56] pusharglist 2 ........................... <tokenStr, #word>
+  [ 58] objcall 3 ............................... <tokenStr.word.count>
+  [ 60] pusharglist 4 ........................... <tokenStr, #word, 2, tokenStr.word.count>
+  [ 62] objcall 28 .............................. <tokenStr.word[2..tokenStr.word.count]>
+  [ 64] setlocal 1 .............................. piData = tokenStr.word[2..tokenStr.word.count]
+  [ 66] pushcons 38 ............................. <"xml.node">
+  [ 68] pusharglist 1 ........................... <"xml.node">
+  [ 70] extcall 90 .............................. <script("xml.node")>
+  [ 72] getlocal 0 .............................. <piName>
+  [ 74] pushsymb 23 ............................. <#procinst>
+  [ 76] getlocal 1 .............................. <piData>
+  [ 78] pusharglist 4 ........................... <script("xml.node"), piName, #procinst, piData>
+  [ 80] extcall 0 ............................... <new(script("xml.node"), piName, #procinst, piData)>
+  [ 82] setlocal 2 .............................. piNode = new(script("xml.node"), piName, #procinst, piData)
+  [ 84] getlocal 2 .............................. <piNode>
+  [ 86] pusharglistnoret 1 ...................... <piNode>
+  [ 88] extcall 16 .............................. return piNode
+  [ 90] ret
+end
+
+on parseDocType me, tokenStr
+  [  0] getparam 0 .............................. <me>
+  [  2] getparam 1 .............................. <tokenStr>
+  [  4] pushsymb 117 ............................ <#word>
+  [  6] pushint8 2 .............................. <2>
+  [  8] pusharglist 3 ........................... <tokenStr, #word, 2>
+  [ 10] objcall 28 .............................. <tokenStr.word[2]>
+  [ 12] setobjprop 122 .......................... me._docType = tokenStr.word[2]
+  [ 14] ret
+end
+
+on parseEntity me, tokenStr
+  [  0] getparam 1 .............................. <tokenStr>
+  [  2] pushsymb 117 ............................ <#word>
+  [  4] pushint8 2 .............................. <2>
+  [  6] pusharglist 3 ........................... <tokenStr, #word, 2>
+  [  8] objcall 28 .............................. <tokenStr.word[2]>
+  [ 10] setlocal 0 .............................. entityName = tokenStr.word[2]
+  [ 12] getlocal 0 .............................. <entityName>
+  [ 14] pushcons 39 ............................. <"%">
+  [ 16] nteq .................................... <entityName <> "%">
+  [ 17] jmpifz [110] ............................ if entityName <> "%" then
+  [ 20] getparam 1 .............................. <tokenStr>
+  [ 22] pushsymb 117 ............................ <#word>
+  [ 24] pushint8 3 .............................. <3>
+  [ 26] getparam 1 .............................. <tokenStr>
+  [ 28] pushsymb 117 ............................ <#word>
+  [ 30] pusharglist 2 ........................... <tokenStr, #word>
+  [ 32] objcall 3 ............................... <tokenStr.word.count>
+  [ 34] pusharglist 4 ........................... <tokenStr, #word, 3, tokenStr.word.count>
+  [ 36] objcall 28 .............................. <tokenStr.word[3..tokenStr.word.count]>
+  [ 38] setlocal 1 .............................. entityValue = tokenStr.word[3..tokenStr.word.count]
+  [ 40] pushint8 1 .............................. <1>
+  [ 42] pushchunkvarref 5 ....................... <entityValue>
+  [ 44] pushsymb 50 ............................. <#char>
+  [ 46] getlocal 1 .............................. <entityValue>
+  [ 48] getobjprop 49 ........................... <entityValue.length>
+  [ 50] pusharglist 3 ........................... <entityValue, #char, entityValue.length>
+  [ 52] objcall 96 .............................. <entityValue.char[entityValue.length]>
+  [ 54] pusharglistnoret 1 ...................... <entityValue.char[entityValue.length]>
+  [ 56] objcall 97 .............................. delete entityValue.char[entityValue.length]
+  [ 58] pushint8 1 .............................. <1>
+  [ 60] pushchunkvarref 5 ....................... <entityValue>
+  [ 62] pushsymb 50 ............................. <#char>
+  [ 64] pushint8 1 .............................. <1>
+  [ 66] pusharglist 3 ........................... <entityValue, #char, 1>
+  [ 68] objcall 96 .............................. <entityValue.char[1]>
+  [ 70] pusharglistnoret 1 ...................... <entityValue.char[1]>
+  [ 72] objcall 97 .............................. delete entityValue.char[1]
+  [ 74] getparam 0 .............................. <me>
+  [ 76] getlocal 1 .............................. <entityValue>
+  [ 78] pusharglist 2 ........................... <me, entityValue>
+  [ 80] objcall 72 .............................. <me.decodeEntities(entityValue)>
+  [ 82] setlocal 1 .............................. entityValue = me.decodeEntities(entityValue)
+  [ 84] getparam 0 .............................. <me>
+  [ 86] getchainedprop 89 ....................... <me._entityList>
+  [ 88] getlocal 0 .............................. <entityName>
+  [ 90] pusharglist 2 ........................... <me._entityList, entityName>
+  [ 92] objcall 123 ............................. <me._entityList.findPos(entityName)>
+  [ 94] not ..................................... <not me._entityList.findPos(entityName)>
+  [ 95] jmpifz [110] ............................ if not me._entityList.findPos(entityName) then
+  [ 98] getparam 0 .............................. <me>
+  [100] getchainedprop 89 ....................... <me._entityList>
+  [102] getlocal 0 .............................. <entityName>
+  [104] getlocal 1 .............................. <entityValue>
+  [106] pusharglistnoret 3 ...................... <me._entityList, entityName, entityValue>
+  [108] objcall 22 .............................. me._entityList.addProp(entityName, entityValue)
+  [110] ret
+end
+
+on parseCDATA me, tokenStr
+  [  0] pushint8 1 .............................. <1>
+  [  2] pushchunkvarref 4 ....................... <tokenStr>
+  [  4] pushsymb 50 ............................. <#char>
+  [  6] getparam 1 .............................. <tokenStr>
+  [  8] getobjprop 49 ........................... <tokenStr.length>
+  [ 10] pushint8 1 .............................. <1>
+  [ 12] sub ..................................... <tokenStr.length - 1>
+  [ 13] getparam 1 .............................. <tokenStr>
+  [ 15] getobjprop 49 ........................... <tokenStr.length>
+  [ 17] pusharglist 4 ........................... <tokenStr, #char, tokenStr.length - 1, tokenStr.length>
+  [ 19] objcall 96 .............................. <tokenStr.char[tokenStr.length - 1..tokenStr.length]>
+  [ 21] pusharglistnoret 1 ...................... <tokenStr.char[tokenStr.length - 1..tokenStr.length]>
+  [ 23] objcall 97 .............................. delete tokenStr.char[tokenStr.length - 1..tokenStr.length]
+  [ 25] pushint8 1 .............................. <1>
+  [ 27] pushchunkvarref 4 ....................... <tokenStr>
+  [ 29] pushsymb 50 ............................. <#char>
+  [ 31] pushint8 1 .............................. <1>
+  [ 33] pushint8 8 .............................. <8>
+  [ 35] pusharglist 4 ........................... <tokenStr, #char, 1, 8>
+  [ 37] objcall 96 .............................. <tokenStr.char[1..8]>
+  [ 39] pusharglistnoret 1 ...................... <tokenStr.char[1..8]>
+  [ 41] objcall 97 .............................. delete tokenStr.char[1..8]
+  [ 43] getparam 1 .............................. <tokenStr>
+  [ 45] getobjprop 49 ........................... <tokenStr.length>
+  [ 47] jmpifz [ 75] ............................ if tokenStr.length then / else
+  [ 50] pushcons 38 ............................. <"xml.node">
+  [ 52] pusharglist 1 ........................... <"xml.node">
+  [ 54] extcall 90 .............................. <script("xml.node")>
+  [ 56] pusharglist 0 ........................... <>
+  [ 58] extcall 32 .............................. <VOID>
+  [ 60] pushsymb 24 ............................. <#chardata>
+  [ 62] getparam 1 .............................. <tokenStr>
+  [ 64] pusharglist 4 ........................... <script("xml.node"), VOID, #chardata, tokenStr>
+  [ 66] extcall 0 ............................... <new(script("xml.node"), VOID, #chardata, tokenStr)>
+  [ 68] pusharglistnoret 1 ...................... <new(script("xml.node"), VOID, #chardata, tokenStr)>
+  [ 70] extcall 16 .............................. return new(script("xml.node"), VOID, #chardata, tokenStr)
+  [ 72] jmp [ 83]
+  [ 75] pusharglist 0 ........................... <>
+  [ 77] extcall 32 .............................. <VOID>
+  [ 79] pusharglistnoret 1 ...................... <VOID>
+  [ 81] extcall 16 .............................. return VOID
+  [ 83] ret
+end
+
+on parseElement me, tokenStr, isEmpty
+  [  0] getparam 1 .............................. <tokenStr>
+  [  2] pushsymb 117 ............................ <#word>
+  [  4] pushint8 1 .............................. <1>
+  [  6] pusharglist 3 ........................... <tokenStr, #word, 1>
+  [  8] objcall 28 .............................. <tokenStr.word[1]>
+  [ 10] setlocal 0 .............................. elementName = tokenStr.word[1]
+  [ 12] pushcons 38 ............................. <"xml.node">
+  [ 14] pusharglist 1 ........................... <"xml.node">
+  [ 16] extcall 90 .............................. <script("xml.node")>
+  [ 18] getlocal 0 .............................. <elementName>
+  [ 20] pushsymb 21 ............................. <#element>
+  [ 22] pusharglist 0 ........................... <>
+  [ 24] extcall 32 .............................. <VOID>
+  [ 26] pusharglist 4 ........................... <script("xml.node"), elementName, #element, VOID>
+  [ 28] extcall 0 ............................... <new(script("xml.node"), elementName, #element, VOID)>
+  [ 30] setlocal 1 .............................. elementNode = new(script("xml.node"), elementName, #element, VOID)
+  [ 32] getlocal 1 .............................. <elementNode>
+  [ 34] getparam 2 .............................. <isEmpty>
+  [ 36] setobjprop 42 ........................... elementNode.isEmpty = isEmpty
+  [ 38] pushcons 40 ............................. <"=">
+  [ 40] getparam 1 .............................. <tokenStr>
+  [ 42] pusharglist 2 ........................... <"=", tokenStr>
+  [ 44] extcall 126 ............................. <offset("=", tokenStr)>
+  [ 46] jmpifz [157] ............................ if offset("=", tokenStr) then
+  [ 49] getparam 1 .............................. <tokenStr>
+  [ 51] pushsymb 117 ............................ <#word>
+  [ 53] pushint8 2 .............................. <2>
+  [ 55] getparam 1 .............................. <tokenStr>
+  [ 57] pushsymb 117 ............................ <#word>
+  [ 59] pusharglist 2 ........................... <tokenStr, #word>
+  [ 61] objcall 3 ............................... <tokenStr.word.count>
+  [ 63] pusharglist 4 ........................... <tokenStr, #word, 2, tokenStr.word.count>
+  [ 65] objcall 28 .............................. <tokenStr.word[2..tokenStr.word.count]>
+  [ 67] setlocal 2 .............................. attributeStr = tokenStr.word[2..tokenStr.word.count]
+  [ 69] getparam 0 .............................. <me>
+  [ 71] getlocal 2 .............................. <attributeStr>
+  [ 73] pusharglist 2 ........................... <me, attributeStr>
+  [ 75] objcall 70 .............................. <me.parseAttributes(attributeStr)>
+  [ 77] setlocal 3 .............................. attributeList = me.parseAttributes(attributeStr)
+  [ 79] getlocal 1 .............................. <elementNode>
+  [ 81] getlocal 3 .............................. <attributeList>
+  [ 83] setobjprop 15 ........................... elementNode.attributeValue = attributeList
+  [ 85] getlocal 3 .............................. <attributeList>
+  [ 87] getobjprop 3 ............................ <attributeList.count>
+  [ 89] setlocal 4 .............................. numAttributes = attributeList.count
+  [ 91] pushint8 1 .............................. <1>
+  [ 93] setlocal 5
+  [ 95] getlocal 5
+  [ 97] getlocal 4 .............................. <numAttributes>
+  [ 99] lteq
+  [100] jmpifz [128] ............................ repeat with i = 1 to numAttributes
+  [103] getlocal 1 .............................. <elementNode>
+  [105] getchainedprop 14 ....................... <elementNode.attributeName>
+  [107] getlocal 3 .............................. <attributeList>
+  [109] getlocal 5 .............................. <i>
+  [111] pusharglist 2 ........................... <attributeList, i>
+  [113] objcall 44 .............................. <attributeList.getPropAt(i)>
+  [115] pusharglistnoret 2 ...................... <elementNode.attributeName, attributeList.getPropAt(i)>
+  [117] objcall 93 .............................. elementNode.attributeName.append(attributeList.getPropAt(i))
+  [119] pushint8 1
+  [121] getlocal 5
+  [123] add
+  [124] setlocal 5
+  [126] endrepeat [ 95]
+  [128] getlocal 3 .............................. <attributeList>
+  [130] pushcons 41 ............................. <"id">
+  [132] pusharglist 2 ........................... <attributeList, "id">
+  [134] objcall 123 ............................. <attributeList.findPos("id")>
+  [136] jmpifz [157] ............................ if attributeList.findPos("id") then
+  [139] getparam 0 .............................. <me>
+  [141] getchainedprop 87 ....................... <me._idList>
+  [143] getlocal 3 .............................. <attributeList>
+  [145] pushcons 41 ............................. <"id">
+  [147] pusharglist 2 ........................... <attributeList, "id">
+  [149] objcall 2 ............................... <attributeList["id"]>
+  [151] getlocal 1 .............................. <elementNode>
+  [153] pusharglistnoret 3 ...................... <me._idList, attributeList["id"], elementNode>
+  [155] objcall 127 ............................. me._idList.setaProp(attributeList["id"], elementNode)
+  [157] getparam 0 .............................. <me>
+  [159] getchainedprop 88 ....................... <me._tagList>
+  [161] getlocal 0 .............................. <elementName>
+  [163] pusharglist 2 ........................... <me._tagList, elementName>
+  [165] objcall 123 ............................. <me._tagList.findPos(elementName)>
+  [167] not ..................................... <not me._tagList.findPos(elementName)>
+  [168] jmpifz [189] ............................ if not me._tagList.findPos(elementName) then / else
+  [171] getparam 0 .............................. <me>
+  [173] getchainedprop 88 ....................... <me._tagList>
+  [175] getlocal 0 .............................. <elementName>
+  [177] getlocal 1 .............................. <elementNode>
+  [179] pusharglist 1 ........................... <[elementNode]>
+  [181] pushlist ................................ <[elementNode]>
+  [182] pusharglistnoret 3 ...................... <me._tagList, elementName, [elementNode]>
+  [184] objcall 22 .............................. me._tagList.addProp(elementName, [elementNode])
+  [186] jmp [209]
+  [189] getparam 0 .............................. <me>
+  [191] pushsymb 88 ............................. <#_tagList>
+  [193] getlocal 0 .............................. <elementName>
+  [195] pusharglist 3 ........................... <me, #_tagList, elementName>
+  [197] objcall 28 .............................. <me._tagList[elementName]>
+  [199] setlocal 6 .............................. tagList = me._tagList[elementName]
+  [201] getlocal 6 .............................. <tagList>
+  [203] getlocal 1 .............................. <elementNode>
+  [205] pusharglistnoret 2 ...................... <tagList, elementNode>
+  [207] objcall 93 .............................. tagList.append(elementNode)
+  [209] getlocal 1 .............................. <elementNode>
+  [211] pusharglistnoret 1 ...................... <elementNode>
+  [213] extcall 16 .............................. return elementNode
+  [215] ret
+end
+
+on parseAttributes me, attrStr
+  [  0] pusharglist 0 ........................... <[:]>
+  [  2] pushproplist ............................ <[:]>
+  [  3] setlocal 0 .............................. attrList = [:]
+  [  5] pushcons 13 ............................. <"xml.tokenizer">
+  [  7] pusharglist 1 ........................... <"xml.tokenizer">
+  [  9] extcall 90 .............................. <script("xml.tokenizer")>
+  [ 11] getparam 1 .............................. <attrStr>
+  [ 13] pushcons 12 ............................. <QUOTE>
+  [ 15] pushcons 42 ............................. <"'=">
+  [ 17] joinstr ................................. <QUOTE & "'=">
+  [ 18] getparam 0 .............................. <me>
+  [ 20] getobjprop 78 ........................... <me._whiteSpace>
+  [ 22] joinstr ................................. <QUOTE & "'=" & me._whiteSpace>
+  [ 23] pushint8 1 .............................. <1>
+  [ 25] pusharglist 4 ........................... <script("xml.tokenizer"), attrStr, QUOTE & "'=" & me._whiteSpace, 1>
+  [ 27] extcall 0 ............................... <new(script("xml.tokenizer"), attrStr, QUOTE & "'=" & me._whiteSpace, 1)>
+  [ 29] setlocal 1 .............................. attrTokens = new(script("xml.tokenizer"), attrStr, QUOTE & "'=" & me._whiteSpace, 1)
+  [ 31] getlocal 1 .............................. <attrTokens>
+  [ 33] pusharglist 1 ........................... <attrTokens>
+  [ 35] objcall 91 .............................. <attrTokens.hasMoreTokens()>
+  [ 37] jmpifz [181] ............................ repeat while attrTokens.hasMoreTokens()
+  [ 40] getlocal 1 .............................. <attrTokens>
+  [ 42] pusharglist 1 ........................... <attrTokens>
+  [ 44] objcall 92 .............................. <attrTokens.nextToken()>
+  [ 46] setlocal 2 .............................. token = attrTokens.nextToken()
+  [ 48] getparam 0 .............................. <me>
+  [ 50] getobjprop 78 ........................... <me._whiteSpace>
+  [ 52] getlocal 2 .............................. <token>
+  [ 54] containsstr ............................. <me._whiteSpace contains token>
+  [ 55] jmpifz [ 68] ............................ repeat while me._whiteSpace contains token
+  [ 58] getlocal 1 .............................. <attrTokens>
+  [ 60] pusharglist 1 ........................... <attrTokens>
+  [ 62] objcall 92 .............................. <attrTokens.nextToken()>
+  [ 64] setlocal 2 .............................. token = attrTokens.nextToken()
+  [ 66] endrepeat [ 48]
+  [ 68] getlocal 2 .............................. <token>
+  [ 70] setlocal 3 .............................. attrName = token
+  [ 72] getlocal 2 .............................. <token>
+  [ 74] pushcons 40 ............................. <"=">
+  [ 76] nteq .................................... <token <> "=">
+  [ 77] jmpifz [ 90] ............................ repeat while token <> "="
+  [ 80] getlocal 1 .............................. <attrTokens>
+  [ 82] pusharglist 1 ........................... <attrTokens>
+  [ 84] objcall 92 .............................. <attrTokens.nextToken()>
+  [ 86] setlocal 2 .............................. token = attrTokens.nextToken()
+  [ 88] endrepeat [ 72]
+  [ 90] getlocal 1 .............................. <attrTokens>
+  [ 92] pusharglist 1 ........................... <attrTokens>
+  [ 94] objcall 92 .............................. <attrTokens.nextToken()>
+  [ 96] setlocal 4 .............................. quoteType = attrTokens.nextToken()
+  [ 98] getlocal 4 .............................. <quoteType>
+  [100] pushcons 10 ............................. <"'">
+  [102] nteq .................................... <quoteType <> "'">
+  [103] getlocal 4 .............................. <quoteType>
+  [105] pushcons 12 ............................. <QUOTE>
+  [107] nteq .................................... <quoteType <> QUOTE>
+  [108] and ..................................... <(quoteType <> "'") and (quoteType <> QUOTE)>
+  [109] jmpifz [122] ............................ repeat while (quoteType <> "'") and (quoteType <> QUOTE)
+  [112] getlocal 1 .............................. <attrTokens>
+  [114] pusharglist 1 ........................... <attrTokens>
+  [116] objcall 92 .............................. <attrTokens.nextToken()>
+  [118] setlocal 4 .............................. quoteType = attrTokens.nextToken()
+  [120] endrepeat [ 98]
+  [122] getlocal 1 .............................. <attrTokens>
+  [124] pusharglist 1 ........................... <attrTokens>
+  [126] objcall 92 .............................. <attrTokens.nextToken()>
+  [128] setlocal 2 .............................. token = attrTokens.nextToken()
+  [130] pushcons 0 .............................. <EMPTY>
+  [132] setlocal 5 .............................. attrValue = EMPTY
+  [134] getlocal 2 .............................. <token>
+  [136] getlocal 4 .............................. <quoteType>
+  [138] nteq .................................... <token <> quoteType>
+  [139] jmpifz [159] ............................ repeat while token <> quoteType
+  [142] getlocal 5 .............................. <attrValue>
+  [144] getlocal 2 .............................. <token>
+  [146] joinstr ................................. <attrValue & token>
+  [147] setlocal 5 .............................. attrValue = attrValue & token
+  [149] getlocal 1 .............................. <attrTokens>
+  [151] pusharglist 1 ........................... <attrTokens>
+  [153] objcall 92 .............................. <attrTokens.nextToken()>
+  [155] setlocal 2 .............................. token = attrTokens.nextToken()
+  [157] endrepeat [134]
+  [159] getparam 0 .............................. <me>
+  [161] getlocal 5 .............................. <attrValue>
+  [163] pusharglist 2 ........................... <me, attrValue>
+  [165] objcall 72 .............................. <me.decodeEntities(attrValue)>
+  [167] setlocal 5 .............................. attrValue = me.decodeEntities(attrValue)
+  [169] getlocal 0 .............................. <attrList>
+  [171] getlocal 3 .............................. <attrName>
+  [173] getlocal 5 .............................. <attrValue>
+  [175] pusharglistnoret 3 ...................... <attrList, attrName, attrValue>
+  [177] objcall 22 .............................. attrList.addProp(attrName, attrValue)
+  [179] endrepeat [ 31]
+  [181] getlocal 0 .............................. <attrList>
+  [183] pusharglistnoret 1 ...................... <attrList>
+  [185] extcall 16 .............................. return attrList
+  [187] ret
+end
+
+on parseText me, tokenStr
+  [  0] pushcons 0 .............................. <EMPTY>
+  [  2] setlocal 0 .............................. textStr = EMPTY
+  [  4] getparam 0 .............................. <me>
+  [  6] getobjprop 73 ........................... <me._ignoreWhiteSpace>
+  [  8] jmpifz [ 87] ............................ if me._ignoreWhiteSpace then / else
+  [ 11] pushcons 13 ............................. <"xml.tokenizer">
+  [ 13] pusharglist 1 ........................... <"xml.tokenizer">
+  [ 15] extcall 90 .............................. <script("xml.tokenizer")>
+  [ 17] getparam 1 .............................. <tokenStr>
+  [ 19] getparam 0 .............................. <me>
+  [ 21] getobjprop 78 ........................... <me._whiteSpace>
+  [ 23] pusharglist 3 ........................... <script("xml.tokenizer"), tokenStr, me._whiteSpace>
+  [ 25] extcall 0 ............................... <new(script("xml.tokenizer"), tokenStr, me._whiteSpace)>
+  [ 27] setlocal 1 .............................. tokens = new(script("xml.tokenizer"), tokenStr, me._whiteSpace)
+  [ 29] getlocal 1 .............................. <tokens>
+  [ 31] pusharglist 1 ........................... <tokens>
+  [ 33] objcall 91 .............................. <tokens.hasMoreTokens()>
+  [ 35] jmpifz [ 52] ............................ if tokens.hasMoreTokens() then
+  [ 38] getparam 0 .............................. <me>
+  [ 40] getlocal 1 .............................. <tokens>
+  [ 42] pusharglist 1 ........................... <tokens>
+  [ 44] objcall 92 .............................. <tokens.nextToken()>
+  [ 46] pusharglist 2 ........................... <me, tokens.nextToken()>
+  [ 48] objcall 72 .............................. <me.decodeEntities(tokens.nextToken())>
+  [ 50] setlocal 0 .............................. textStr = me.decodeEntities(tokens.nextToken())
+  [ 52] getlocal 1 .............................. <tokens>
+  [ 54] pusharglist 1 ........................... <tokens>
+  [ 56] objcall 91 .............................. <tokens.hasMoreTokens()>
+  [ 58] jmpifz [ 84] ............................ repeat while tokens.hasMoreTokens()
+  [ 61] getlocal 1 .............................. <tokens>
+  [ 63] pusharglist 1 ........................... <tokens>
+  [ 65] objcall 92 .............................. <tokens.nextToken()>
+  [ 67] setlocal 2 .............................. textToken = tokens.nextToken()
+  [ 69] getlocal 0 .............................. <textStr>
+  [ 71] getparam 0 .............................. <me>
+  [ 73] getlocal 2 .............................. <textToken>
+  [ 75] pusharglist 2 ........................... <me, textToken>
+  [ 77] objcall 72 .............................. <me.decodeEntities(textToken)>
+  [ 79] joinpadstr .............................. <textStr && me.decodeEntities(textToken)>
+  [ 80] setlocal 0 .............................. textStr = textStr && me.decodeEntities(textToken)
+  [ 82] endrepeat [ 52]
+  [ 84] jmp [ 97]
+  [ 87] getparam 0 .............................. <me>
+  [ 89] getparam 1 .............................. <tokenStr>
+  [ 91] pusharglist 2 ........................... <me, tokenStr>
+  [ 93] objcall 72 .............................. <me.decodeEntities(tokenStr)>
+  [ 95] setlocal 0 .............................. textStr = me.decodeEntities(tokenStr)
+  [ 97] getlocal 0 .............................. <textStr>
+  [ 99] getobjprop 49 ........................... <textStr.length>
+  [101] jmpifz [129] ............................ if textStr.length then / else
+  [104] pushcons 38 ............................. <"xml.node">
+  [106] pusharglist 1 ........................... <"xml.node">
+  [108] extcall 90 .............................. <script("xml.node")>
+  [110] pusharglist 0 ........................... <>
+  [112] extcall 32 .............................. <VOID>
+  [114] pushsymb 24 ............................. <#chardata>
+  [116] getlocal 0 .............................. <textStr>
+  [118] pusharglist 4 ........................... <script("xml.node"), VOID, #chardata, textStr>
+  [120] extcall 0 ............................... <new(script("xml.node"), VOID, #chardata, textStr)>
+  [122] pusharglistnoret 1 ...................... <new(script("xml.node"), VOID, #chardata, textStr)>
+  [124] extcall 16 .............................. return new(script("xml.node"), VOID, #chardata, textStr)
+  [126] jmp [137]
+  [129] pusharglist 0 ........................... <>
+  [131] extcall 32 .............................. <VOID>
+  [133] pusharglistnoret 1 ...................... <VOID>
+  [135] extcall 16 .............................. return VOID
+  [137] ret
+end
+
+on decodeEntities me, str
+  [  0] pushcons 8 .............................. <"&">
+  [  2] getparam 1 .............................. <str>
+  [  4] pusharglist 2 ........................... <"&", str>
+  [  6] extcall 126 ............................. <offset("&", str)>
+  [  8] pushcons 43 ............................. <";">
+  [ 10] getparam 1 .............................. <str>
+  [ 12] pusharglist 2 ........................... <";", str>
+  [ 14] extcall 126 ............................. <offset(";", str)>
+  [ 16] and ..................................... <offset("&", str) and offset(";", str)>
+  [ 17] jmpifz [196] ............................ if offset("&", str) and offset(";", str) then / else
+  [ 20] pushcons 13 ............................. <"xml.tokenizer">
+  [ 22] pusharglist 1 ........................... <"xml.tokenizer">
+  [ 24] extcall 90 .............................. <script("xml.tokenizer")>
+  [ 26] getparam 1 .............................. <str>
+  [ 28] pushcons 44 ............................. <"&;">
+  [ 30] pushint8 1 .............................. <1>
+  [ 32] pusharglist 4 ........................... <script("xml.tokenizer"), str, "&;", 1>
+  [ 34] extcall 0 ............................... <new(script("xml.tokenizer"), str, "&;", 1)>
+  [ 36] setlocal 0 .............................. tokens = new(script("xml.tokenizer"), str, "&;", 1)
+  [ 38] pushcons 0 .............................. <EMPTY>
+  [ 40] setlocal 1 .............................. decodedStr = EMPTY
+  [ 42] getlocal 0 .............................. <tokens>
+  [ 44] pusharglist 1 ........................... <tokens>
+  [ 46] objcall 91 .............................. <tokens.hasMoreTokens()>
+  [ 48] jmpifz [187] ............................ repeat while tokens.hasMoreTokens()
+  [ 51] getlocal 0 .............................. <tokens>
+  [ 53] pusharglist 1 ........................... <tokens>
+  [ 55] objcall 92 .............................. <tokens.nextToken()>
+  [ 57] setlocal 2 .............................. token = tokens.nextToken()
+  [ 59] getlocal 2 .............................. <token>
+  [ 61] pushcons 8 .............................. <"&">
+  [ 63] eq ...................................... <token = "&">
+  [ 64] jmpifz [178] ............................ if token = "&" then
+  [ 67] getlocal 0 .............................. <tokens>
+  [ 69] pusharglist 1 ........................... <tokens>
+  [ 71] objcall 92 .............................. <tokens.nextToken()>
+  [ 73] setlocal 3 .............................. entityName = tokens.nextToken()
+  [ 75] getlocal 3 .............................. <entityName>
+  [ 77] pushsymb 50 ............................. <#char>
+  [ 79] pushint8 1 .............................. <1>
+  [ 81] pusharglist 3 ........................... <entityName, #char, 1>
+  [ 83] objcall 28 .............................. <entityName.char[1]>
+  [ 85] pushcons 45 ............................. <"#">
+  [ 87] eq ...................................... <entityName.char[1] = "#">
+  [ 88] jmpifz [150] ............................ if entityName.char[1] = "#" then / else
+  [ 91] getlocal 3 .............................. <entityName>
+  [ 93] pushsymb 50 ............................. <#char>
+  [ 95] pushint8 2 .............................. <2>
+  [ 97] pusharglist 3 ........................... <entityName, #char, 2>
+  [ 99] objcall 28 .............................. <entityName.char[2]>
+  [101] pushcons 46 ............................. <"x">
+  [103] eq ...................................... <entityName.char[2] = "x">
+  [104] jmpifz [137] ............................ if entityName.char[2] = "x" then / else
+  [107] getlocal 3 .............................. <entityName>
+  [109] pushsymb 50 ............................. <#char>
+  [111] pushint8 3 .............................. <3>
+  [113] pushint8 4 .............................. <4>
+  [115] pusharglist 4 ........................... <entityName, #char, 3, 4>
+  [117] objcall 28 .............................. <entityName.char[3..4]>
+  [119] pushcons 47 ............................. <"FFFF">
+  [121] joinstr ................................. <entityName.char[3..4] & "FFFF">
+  [122] pusharglist 1 ........................... <entityName.char[3..4] & "FFFF">
+  [124] extcall 139 ............................. <rgb(entityName.char[3..4] & "FFFF")>
+  [126] getobjprop 140 .......................... <rgb(entityName.char[3..4] & "FFFF").red>
+  [128] pusharglist 1 ........................... <rgb(entityName.char[3..4] & "FFFF").red>
+  [130] extcall 77 .............................. <numToChar(rgb(entityName.char[3..4] & "FFFF").red)>
+  [132] setlocal 4 .............................. entityValue = numToChar(rgb(entityName.char[3..4] & "FFFF").red)
+  [134] jmp [147]
+  [137] getlocal 3 .............................. <entityName>
+  [139] getobjprop 141 .......................... <entityName.value>
+  [141] pusharglist 1 ........................... <entityName.value>
+  [143] extcall 77 .............................. <numToChar(entityName.value)>
+  [145] setlocal 4 .............................. entityValue = numToChar(entityName.value)
+  [147] jmp [162]
+  [150] getparam 0 .............................. <me>
+  [152] getchainedprop 89 ....................... <me._entityList>
+  [154] getlocal 3 .............................. <entityName>
+  [156] pusharglist 2 ........................... <me._entityList, entityName>
+  [158] objcall 142 ............................. <me._entityList.getaProp(entityName)>
+  [160] setlocal 4 .............................. entityValue = me._entityList.getaProp(entityName)
+  [162] getlocal 1 .............................. <decodedStr>
+  [164] getlocal 4 .............................. <entityValue>
+  [166] joinstr ................................. <decodedStr & entityValue>
+  [167] setlocal 1 .............................. decodedStr = decodedStr & entityValue
+  [169] getlocal 0 .............................. <tokens>
+  [171] pusharglistnoret 1 ...................... <tokens>
+  [173] objcall 92 .............................. tokens.nextToken()
+  [175] jmp [185] ............................... next repeat
+  [178] getlocal 1 .............................. <decodedStr>
+  [180] getlocal 2 .............................. <token>
+  [182] joinstr ................................. <decodedStr & token>
+  [183] setlocal 1 .............................. decodedStr = decodedStr & token
+  [185] endrepeat [ 42]
+  [187] getlocal 1 .............................. <decodedStr>
+  [189] pusharglistnoret 1 ...................... <decodedStr>
+  [191] extcall 16 .............................. return decodedStr
+  [193] jmp [202]
+  [196] getparam 1 .............................. <str>
+  [198] pusharglistnoret 1 ...................... <str>
+  [200] extcall 16 .............................. return str
+  [202] ret
+end

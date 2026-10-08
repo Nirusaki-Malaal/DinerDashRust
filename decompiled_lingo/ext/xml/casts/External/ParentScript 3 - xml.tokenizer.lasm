@@ -1,0 +1,218 @@
+property _tokenList, _currPos
+
+on new me, str, delims, returnTokens
+  [  0] pusharglist 0 ........................... <>
+  [  2] thebuiltin 145 .......................... <the paramCount>
+  [  4] peek 0 .................................. case the paramCount of
+  [  6] pushint8 2 .............................. <2>
+  [  8] eq
+  [  9] jmpifz [ 28] ............................ (case) 2:
+  [ 12] pushcons 0 .............................. <" ">
+  [ 14] pushcons 1 .............................. <TAB>
+  [ 16] joinstr ................................. <" " & TAB>
+  [ 17] pushcons 2 .............................. <RETURN>
+  [ 19] joinstr ................................. <" " & TAB & RETURN>
+  [ 20] setparam 2 .............................. delims = " " & TAB & RETURN
+  [ 22] pushzero ................................ <0>
+  [ 23] setparam 3 .............................. returnTokens = 0
+  [ 25] jmp [ 39]
+  [ 28] peek 0
+  [ 30] pushint8 3 .............................. <3>
+  [ 32] eq
+  [ 33] jmpifz [ 39] ............................ (case) 3:
+  [ 36] pushzero ................................ <0>
+  [ 37] setparam 3 .............................. returnTokens = 0
+  [ 39] pop 1 ................................... end case
+  [ 41] getparam 0 .............................. <me>
+  [ 43] pusharglist 0 ........................... <[]>
+  [ 45] pushlist ................................ <[]>
+  [ 46] setobjprop 146 .......................... me._tokenList = []
+  [ 48] getparam 2 .............................. <delims>
+  [ 50] getobjprop 49 ........................... <delims.length>
+  [ 52] setlocal 0 .............................. numDelims = delims.length
+  [ 54] pusharglist 0 ........................... <[]>
+  [ 56] pushlist ................................ <[]>
+  [ 57] setlocal 1 .............................. delimList = []
+  [ 59] pushint8 1 .............................. <1>
+  [ 61] setlocal 2
+  [ 63] getlocal 2
+  [ 65] getlocal 0 .............................. <numDelims>
+  [ 67] lteq
+  [ 68] jmpifz [111] ............................ repeat with i = 1 to numDelims
+  [ 71] getparam 2 .............................. <delims>
+  [ 73] pushsymb 50 ............................. <#char>
+  [ 75] getlocal 2 .............................. <i>
+  [ 77] pusharglist 3 ........................... <delims, #char, i>
+  [ 79] objcall 28 .............................. <delims.char[i]>
+  [ 81] setlocal 3 .............................. delimChar = delims.char[i]
+  [ 83] getlocal 3 .............................. <delimChar>
+  [ 85] getparam 1 .............................. <str>
+  [ 87] pusharglist 2 ........................... <delimChar, str>
+  [ 89] extcall 126 ............................. <offset(delimChar, str)>
+  [ 91] jmpifz [102] ............................ if offset(delimChar, str) then
+  [ 94] getlocal 1 .............................. <delimList>
+  [ 96] getlocal 3 .............................. <delimChar>
+  [ 98] pusharglistnoret 2 ...................... <delimList, delimChar>
+  [100] objcall 33 .............................. delimList.add(delimChar)
+  [102] pushint8 1
+  [104] getlocal 2
+  [106] add
+  [107] setlocal 2
+  [109] endrepeat [ 63]
+  [111] getparam 1 .............................. <str>
+  [113] getobjprop 49 ........................... <str.length>
+  [115] jmpifz [287] ............................ repeat while str.length
+  [118] pusharglist 0 ........................... <[]>
+  [120] pushlist ................................ <[]>
+  [121] setlocal 4 .............................. offsetList = []
+  [123] getlocal 1 .............................. <delimList>
+  [125] peek 0
+  [127] pusharglist 1
+  [129] extcall 3
+  [131] pushint8 1
+  [133] peek 0
+  [135] peek 2
+  [137] lteq
+  [138] jmpifz [179] ............................ repeat with j in delimList
+  [141] peek 2
+  [143] peek 1
+  [145] pusharglist 2
+  [147] extcall 2
+  [149] setlocal 5
+  [151] getlocal 5 .............................. <j>
+  [153] getparam 1 .............................. <str>
+  [155] pusharglist 2 ........................... <j, str>
+  [157] extcall 126 ............................. <offset(j, str)>
+  [159] setlocal 6 .............................. charOffset = offset(j, str)
+  [161] getlocal 6 .............................. <charOffset>
+  [163] jmpifz [174] ............................ if charOffset then
+  [166] getlocal 4 .............................. <offsetList>
+  [168] getlocal 6 .............................. <charOffset>
+  [170] pusharglistnoret 2 ...................... <offsetList, charOffset>
+  [172] objcall 33 .............................. offsetList.add(charOffset)
+  [174] pushint8 1
+  [176] add
+  [177] endrepeat [133]
+  [179] pop 3
+  [181] getlocal 4 .............................. <offsetList>
+  [183] getobjprop 3 ............................ <offsetList.count>
+  [185] jmpifz [271] ............................ if offsetList.count then
+  [188] getlocal 4 .............................. <offsetList>
+  [190] pusharglist 1 ........................... <offsetList>
+  [192] extcall 147 ............................. <min(offsetList)>
+  [194] setlocal 7 .............................. tokenOffset = min(offsetList)
+  [196] getlocal 7 .............................. <tokenOffset>
+  [198] pushint8 1 .............................. <1>
+  [200] gt ...................................... <tokenOffset > 1>
+  [201] jmpifz [227] ............................ if tokenOffset > 1 then
+  [204] getparam 0 .............................. <me>
+  [206] getchainedprop 146 ...................... <me._tokenList>
+  [208] getparam 1 .............................. <str>
+  [210] pushsymb 50 ............................. <#char>
+  [212] pushint8 1 .............................. <1>
+  [214] getlocal 7 .............................. <tokenOffset>
+  [216] pushint8 1 .............................. <1>
+  [218] sub ..................................... <tokenOffset - 1>
+  [219] pusharglist 4 ........................... <str, #char, 1, tokenOffset - 1>
+  [221] objcall 28 .............................. <str.char[1..tokenOffset - 1]>
+  [223] pusharglistnoret 2 ...................... <me._tokenList, str.char[1..tokenOffset - 1]>
+  [225] objcall 33 .............................. me._tokenList.add(str.char[1..tokenOffset - 1])
+  [227] getparam 3 .............................. <returnTokens>
+  [229] jmpifz [250] ............................ if returnTokens then
+  [232] getparam 0 .............................. <me>
+  [234] getchainedprop 146 ...................... <me._tokenList>
+  [236] getparam 1 .............................. <str>
+  [238] pushsymb 50 ............................. <#char>
+  [240] getlocal 7 .............................. <tokenOffset>
+  [242] pusharglist 3 ........................... <str, #char, tokenOffset>
+  [244] objcall 28 .............................. <str.char[tokenOffset]>
+  [246] pusharglistnoret 2 ...................... <me._tokenList, str.char[tokenOffset]>
+  [248] objcall 33 .............................. me._tokenList.add(str.char[tokenOffset])
+  [250] pushint8 1 .............................. <1>
+  [252] pushchunkvarref 4 ....................... <str>
+  [254] pushsymb 50 ............................. <#char>
+  [256] pushint8 1 .............................. <1>
+  [258] getlocal 7 .............................. <tokenOffset>
+  [260] pusharglist 4 ........................... <str, #char, 1, tokenOffset>
+  [262] objcall 96 .............................. <str.char[1..tokenOffset]>
+  [264] pusharglistnoret 1 ...................... <str.char[1..tokenOffset]>
+  [266] objcall 97 .............................. delete str.char[1..tokenOffset]
+  [268] jmp [285] ............................... next repeat
+  [271] getparam 0 .............................. <me>
+  [273] getchainedprop 146 ...................... <me._tokenList>
+  [275] getparam 1 .............................. <str>
+  [277] pusharglistnoret 2 ...................... <me._tokenList, str>
+  [279] objcall 33 .............................. me._tokenList.add(str)
+  [281] pushcons 3 .............................. <EMPTY>
+  [283] setparam 1 .............................. str = EMPTY
+  [285] endrepeat [111]
+  [287] getparam 0 .............................. <me>
+  [289] pushint8 1 .............................. <1>
+  [291] setobjprop 148 .......................... me._currPos = 1
+  [293] getparam 0 .............................. <me>
+  [295] pusharglistnoret 1 ...................... <me>
+  [297] extcall 16 .............................. return me
+  [299] ret
+end
+
+on countTokens me
+  [  0] getparam 0 .............................. <me>
+  [  2] pushsymb 146 ............................ <#_tokenList>
+  [  4] pusharglist 2 ........................... <me, #_tokenList>
+  [  6] objcall 3 ............................... <me._tokenList.count>
+  [  8] pusharglistnoret 1 ...................... <me._tokenList.count>
+  [ 10] extcall 16 .............................. return me._tokenList.count
+  [ 12] ret
+end
+
+on hasMoreTokens me
+  [  0] getparam 0 .............................. <me>
+  [  2] getobjprop 148 .......................... <me._currPos>
+  [  4] getparam 0 .............................. <me>
+  [  6] pushsymb 146 ............................ <#_tokenList>
+  [  8] pusharglist 2 ........................... <me, #_tokenList>
+  [ 10] objcall 3 ............................... <me._tokenList.count>
+  [ 12] lteq .................................... <me._currPos <= me._tokenList.count>
+  [ 13] jmpifz [ 25] ............................ if me._currPos <= me._tokenList.count then / else
+  [ 16] pushint8 1 .............................. <1>
+  [ 18] pusharglistnoret 1 ...................... <1>
+  [ 20] extcall 16 .............................. return 1
+  [ 22] jmp [ 30]
+  [ 25] pushzero ................................ <0>
+  [ 26] pusharglistnoret 1 ...................... <0>
+  [ 28] extcall 16 .............................. return 0
+  [ 30] ret
+end
+
+on nextToken me
+  [  0] getparam 0 .............................. <me>
+  [  2] getobjprop 148 .......................... <me._currPos>
+  [  4] getparam 0 .............................. <me>
+  [  6] pushsymb 146 ............................ <#_tokenList>
+  [  8] pusharglist 2 ........................... <me, #_tokenList>
+  [ 10] objcall 3 ............................... <me._tokenList.count>
+  [ 12] lteq .................................... <me._currPos <= me._tokenList.count>
+  [ 13] jmpifz [ 50] ............................ if me._currPos <= me._tokenList.count then / else
+  [ 16] getparam 0 .............................. <me>
+  [ 18] pushsymb 146 ............................ <#_tokenList>
+  [ 20] getparam 0 .............................. <me>
+  [ 22] getobjprop 148 .......................... <me._currPos>
+  [ 24] pusharglist 3 ........................... <me, #_tokenList, me._currPos>
+  [ 26] objcall 28 .............................. <me._tokenList[me._currPos]>
+  [ 28] setlocal 0 .............................. token = me._tokenList[me._currPos]
+  [ 30] getparam 0 .............................. <me>
+  [ 32] getparam 0 .............................. <me>
+  [ 34] getobjprop 148 .......................... <me._currPos>
+  [ 36] pushint8 1 .............................. <1>
+  [ 38] add ..................................... <me._currPos + 1>
+  [ 39] setobjprop 148 .......................... me._currPos = me._currPos + 1
+  [ 41] getlocal 0 .............................. <token>
+  [ 43] pusharglistnoret 1 ...................... <token>
+  [ 45] extcall 16 .............................. return token
+  [ 47] jmp [ 58]
+  [ 50] pusharglist 0 ........................... <>
+  [ 52] extcall 32 .............................. <VOID>
+  [ 54] pusharglistnoret 1 ...................... <VOID>
+  [ 56] extcall 16 .............................. return VOID
+  [ 58] ret
+end
