@@ -1,0 +1,543 @@
+property managers, nodeData, soundTimer, closeRequested, escPressed, initialized
+global glob
+
+on new me
+  [  0] getparam 0 .............................. <me>
+  [  2] setglobal 16 ............................ glob = me
+  [  4] pusharglistnoret 0 ...................... <>
+  [  6] extcall 17 .............................. initSound()
+  [  8] pusharglist 0 ........................... <[:]>
+  [ 10] pushproplist ............................ <[:]>
+  [ 11] setprop 18 .............................. managers = [:]
+  [ 13] getprop 18 .............................. <managers>
+  [ 15] pushsymb 19 ............................. <#config>
+  [ 17] pushcons 0 .............................. <"config_manager">
+  [ 19] pusharglist 1 ........................... <"config_manager">
+  [ 21] extcall 20 .............................. <script("config_manager")>
+  [ 23] getparam 0 .............................. <me>
+  [ 25] pusharglist 2 ........................... <script("config_manager"), me>
+  [ 27] objcall 4 ............................... <script("config_manager").new(me)>
+  [ 29] pusharglistnoret 3 ...................... <managers, #config, script("config_manager").new(me)>
+  [ 31] objcall 21 .............................. managers[#config] = script("config_manager").new(me)
+  [ 33] getprop 18 .............................. <managers>
+  [ 35] pushsymb 22 ............................. <#time>
+  [ 37] pushcons 1 .............................. <"time_manager">
+  [ 39] pusharglist 1 ........................... <"time_manager">
+  [ 41] extcall 20 .............................. <script("time_manager")>
+  [ 43] getparam 0 .............................. <me>
+  [ 45] pusharglist 2 ........................... <script("time_manager"), me>
+  [ 47] objcall 4 ............................... <script("time_manager").new(me)>
+  [ 49] pusharglistnoret 3 ...................... <managers, #time, script("time_manager").new(me)>
+  [ 51] objcall 21 .............................. managers[#time] = script("time_manager").new(me)
+  [ 53] getprop 18 .............................. <managers>
+  [ 55] pushsymb 23 ............................. <#sprite>
+  [ 57] pushcons 2 .............................. <"sprite2d_manager">
+  [ 59] pusharglist 1 ........................... <"sprite2d_manager">
+  [ 61] extcall 20 .............................. <script("sprite2d_manager")>
+  [ 63] getparam 0 .............................. <me>
+  [ 65] pusharglist 2 ........................... <script("sprite2d_manager"), me>
+  [ 67] objcall 4 ............................... <script("sprite2d_manager").new(me)>
+  [ 69] pusharglistnoret 3 ...................... <managers, #sprite, script("sprite2d_manager").new(me)>
+  [ 71] objcall 21 .............................. managers[#sprite] = script("sprite2d_manager").new(me)
+  [ 73] getprop 18 .............................. <managers>
+  [ 75] pushsymb 24 ............................. <#node>
+  [ 77] pushcons 3 .............................. <"node_manager">
+  [ 79] pusharglist 1 ........................... <"node_manager">
+  [ 81] extcall 20 .............................. <script("node_manager")>
+  [ 83] getparam 0 .............................. <me>
+  [ 85] pusharglist 2 ........................... <script("node_manager"), me>
+  [ 87] objcall 4 ............................... <script("node_manager").new(me)>
+  [ 89] pusharglistnoret 3 ...................... <managers, #node, script("node_manager").new(me)>
+  [ 91] objcall 21 .............................. managers[#node] = script("node_manager").new(me)
+  [ 93] getprop 18 .............................. <managers>
+  [ 95] getchainedprop 24 ....................... <managers.node>
+  [ 97] getprop 18 .............................. <managers>
+  [ 99] getobjprop 23 ........................... <managers.sprite>
+  [101] pusharglistnoret 2 ...................... <managers.node, managers.sprite>
+  [103] objcall 25 .............................. managers.node.setSpriteManager(managers.sprite)
+  [105] getprop 18 .............................. <managers>
+  [107] pushsymb 26 ............................. <#mouse>
+  [109] pushcons 4 .............................. <"mouse_manager">
+  [111] pusharglist 1 ........................... <"mouse_manager">
+  [113] extcall 20 .............................. <script("mouse_manager")>
+  [115] getparam 0 .............................. <me>
+  [117] pusharglist 2 ........................... <script("mouse_manager"), me>
+  [119] objcall 4 ............................... <script("mouse_manager").new(me)>
+  [121] pusharglistnoret 3 ...................... <managers, #mouse, script("mouse_manager").new(me)>
+  [123] objcall 21 .............................. managers[#mouse] = script("mouse_manager").new(me)
+  [125] getprop 18 .............................. <managers>
+  [127] pushsymb 27 ............................. <#game>
+  [129] pushcons 5 .............................. <"game_manager">
+  [131] pusharglist 1 ........................... <"game_manager">
+  [133] extcall 20 .............................. <script("game_manager")>
+  [135] getparam 0 .............................. <me>
+  [137] pusharglist 2 ........................... <script("game_manager"), me>
+  [139] objcall 4 ............................... <script("game_manager").new(me)>
+  [141] pusharglistnoret 3 ...................... <managers, #game, script("game_manager").new(me)>
+  [143] objcall 21 .............................. managers[#game] = script("game_manager").new(me)
+  [145] getprop 18 .............................. <managers>
+  [147] pushsymb 28 ............................. <#mode>
+  [149] pushcons 6 .............................. <"mode_manager">
+  [151] pusharglist 1 ........................... <"mode_manager">
+  [153] extcall 20 .............................. <script("mode_manager")>
+  [155] getparam 0 .............................. <me>
+  [157] pusharglist 2 ........................... <script("mode_manager"), me>
+  [159] objcall 4 ............................... <script("mode_manager").new(me)>
+  [161] pusharglistnoret 3 ...................... <managers, #mode, script("mode_manager").new(me)>
+  [163] objcall 21 .............................. managers[#mode] = script("mode_manager").new(me)
+  [165] getprop 18 .............................. <managers>
+  [167] pushsymb 29 ............................. <#savegame>
+  [169] pushcons 7 .............................. <"savegame_manager">
+  [171] pusharglist 1 ........................... <"savegame_manager">
+  [173] extcall 20 .............................. <script("savegame_manager")>
+  [175] getparam 0 .............................. <me>
+  [177] pusharglist 2 ........................... <script("savegame_manager"), me>
+  [179] objcall 4 ............................... <script("savegame_manager").new(me)>
+  [181] pusharglistnoret 3 ...................... <managers, #savegame, script("savegame_manager").new(me)>
+  [183] objcall 21 .............................. managers[#savegame] = script("savegame_manager").new(me)
+  [185] getprop 18 .............................. <managers>
+  [187] pushsymb 30 ............................. <#dnd>
+  [189] pushcons 8 .............................. <"dnd_manager">
+  [191] pusharglist 1 ........................... <"dnd_manager">
+  [193] extcall 20 .............................. <script("dnd_manager")>
+  [195] getparam 0 .............................. <me>
+  [197] pusharglist 2 ........................... <script("dnd_manager"), me>
+  [199] objcall 4 ............................... <script("dnd_manager").new(me)>
+  [201] pusharglistnoret 3 ...................... <managers, #dnd, script("dnd_manager").new(me)>
+  [203] objcall 21 .............................. managers[#dnd] = script("dnd_manager").new(me)
+  [205] getprop 18 .............................. <managers>
+  [207] pushsymb 31 ............................. <#view>
+  [209] pushcons 9 .............................. <"view_manager">
+  [211] pusharglist 1 ........................... <"view_manager">
+  [213] extcall 20 .............................. <script("view_manager")>
+  [215] getparam 0 .............................. <me>
+  [217] pusharglist 2 ........................... <script("view_manager"), me>
+  [219] objcall 4 ............................... <script("view_manager").new(me)>
+  [221] pusharglistnoret 3 ...................... <managers, #view, script("view_manager").new(me)>
+  [223] objcall 21 .............................. managers[#view] = script("view_manager").new(me)
+  [225] getprop 18 .............................. <managers>
+  [227] pushsymb 32 ............................. <#event>
+  [229] pushcons 10 ............................. <"event_manager">
+  [231] pusharglist 1 ........................... <"event_manager">
+  [233] extcall 20 .............................. <script("event_manager")>
+  [235] getparam 0 .............................. <me>
+  [237] pusharglist 2 ........................... <script("event_manager"), me>
+  [239] objcall 4 ............................... <script("event_manager").new(me)>
+  [241] pusharglistnoret 3 ...................... <managers, #event, script("event_manager").new(me)>
+  [243] objcall 21 .............................. managers[#event] = script("event_manager").new(me)
+  [245] getprop 18 .............................. <managers>
+  [247] pushsymb 19 ............................. <#config>
+  [249] pusharglist 2 ........................... <managers, #config>
+  [251] objcall 33 .............................. <managers[#config]>
+  [253] pusharglistnoret 1 ...................... <managers[#config]>
+  [255] objcall 5 ............................... managers[#config].init()
+  [257] getprop 18 .............................. <managers>
+  [259] pushsymb 29 ............................. <#savegame>
+  [261] pusharglist 2 ........................... <managers, #savegame>
+  [263] objcall 33 .............................. <managers[#savegame]>
+  [265] pusharglistnoret 1 ...................... <managers[#savegame]>
+  [267] objcall 5 ............................... managers[#savegame].init()
+  [269] pusharglist 0 ........................... <[:]>
+  [271] pushproplist ............................ <[:]>
+  [272] setprop 34 .............................. nodeData = [:]
+  [274] getparam 0 .............................. <me>
+  [276] pusharglistnoret 1 ...................... <me>
+  [278] extcall 35 .............................. return me
+  [280] ret
+end
+
+on init me
+  [  0] pusharglistnoret 0 ...................... <>
+  [  2] extcall 36 .............................. updateStage()
+  [  4] getprop 18 .............................. <managers>
+  [  6] getchainedprop 29 ....................... <managers.savegame>
+  [  8] getobjprop 37 ........................... <managers.savegame.expired>
+  [ 10] jmpifz [ 17] ............................ if managers.savegame.expired then
+  [ 13] pusharglistnoret 0 ...................... <>
+  [ 15] extcall 35 .............................. return 
+  [ 17] pushint8 1 .............................. <1>
+  [ 19] setprop 38 .............................. initialized = 1
+  [ 21] getparam 0 .............................. <me>
+  [ 23] pusharglistnoret 1 ...................... <me>
+  [ 25] objcall 7 ............................... me.loadNodeData()
+  [ 27] getmovieprop 39 ......................... <the milliSeconds>
+  [ 29] setlocal 0 .............................. m = the milliSeconds
+  [ 31] getprop 18 .............................. <managers>
+  [ 33] pusharglist 1 ........................... <managers>
+  [ 35] extcall 40 .............................. <Keys(managers)>
+  [ 37] peek 0
+  [ 39] pusharglist 1
+  [ 41] extcall 41
+  [ 43] pushint8 1
+  [ 45] peek 0
+  [ 47] peek 2
+  [ 49] lteq
+  [ 50] jmpifz [110] ............................ repeat with i in Keys(managers)
+  [ 53] peek 2
+  [ 55] peek 1
+  [ 57] pusharglist 2
+  [ 59] extcall 33
+  [ 61] setlocal 1
+  [ 63] getmovieprop 39 ......................... <the milliSeconds>
+  [ 65] setlocal 2 .............................. m1 = the milliSeconds
+  [ 67] getprop 18 .............................. <managers>
+  [ 69] getlocal 1 .............................. <i>
+  [ 71] pusharglist 2 ........................... <managers, i>
+  [ 73] objcall 33 .............................. <managers[i]>
+  [ 75] pusharglistnoret 1 ...................... <managers[i]>
+  [ 77] objcall 5 ............................... managers[i].init()
+  [ 79] pusharglist 0 ........................... <>
+  [ 81] thebuiltin 1 ............................ <the frame>
+  [ 83] pusharglistnoret 1 ...................... <the frame>
+  [ 85] extcall 2 ............................... go(the frame)
+  [ 87] pushcons 11 ............................. <"init ">
+  [ 89] getlocal 1 .............................. <i>
+  [ 91] joinstr ................................. <"init " & i>
+  [ 92] pushcons 12 ............................. <" manager took ">
+  [ 94] joinstr ................................. <"init " & i & " manager took ">
+  [ 95] getmovieprop 39 ......................... <the milliSeconds>
+  [ 97] getlocal 2 .............................. <m1>
+  [ 99] sub ..................................... <the milliSeconds - m1>
+  [100] joinstr ................................. <"init " & i & " manager took " & the milliSeconds - m1>
+  [101] pusharglistnoret 1 ...................... <"init " & i & " manager took " & the milliSeconds - m1>
+  [103] extcall 42 .............................. put "init " & i & " manager took " & the milliSeconds - m1
+  [105] pushint8 1
+  [107] add
+  [108] endrepeat [ 45]
+  [110] pop 3
+  [112] pushcons 13 ............................. <"init managers took ">
+  [114] getmovieprop 39 ......................... <the milliSeconds>
+  [116] getlocal 0 .............................. <m>
+  [118] sub ..................................... <the milliSeconds - m>
+  [119] joinstr ................................. <"init managers took " & the milliSeconds - m>
+  [120] pusharglistnoret 1 ...................... <"init managers took " & the milliSeconds - m>
+  [122] extcall 42 .............................. put "init managers took " & the milliSeconds - m
+  [124] getprop 18 .............................. <managers>
+  [126] getobjprop 24 ........................... <managers.node>
+  [128] setlocal 3 .............................. n = managers.node
+  [130] getlocal 3 .............................. <n>
+  [132] pushcons 14 ............................. <"game">
+  [134] pusharglist 2 ........................... <n, "game">
+  [136] objcall 43 .............................. <n.getGroup("game")>
+  [138] setlocal 4 .............................. g = n.getGroup("game")
+  [140] getlocal 3 .............................. <n>
+  [142] pushcons 15 ............................. <"titles">
+  [144] pusharglist 2 ........................... <n, "titles">
+  [146] objcall 43 .............................. <n.getGroup("titles")>
+  [148] setlocal 5 .............................. t = n.getGroup("titles")
+  [150] getlocal 5 .............................. <t>
+  [152] pusharglistnoret 1 ...................... <t>
+  [154] objcall 44 .............................. t.moveToFront()
+  [156] getprop 18 .............................. <managers>
+  [158] getchainedprop 22 ....................... <managers.time>
+  [160] pushcons 16 ............................. <"play">
+  [162] pusharglistnoret 2 ...................... <managers.time, "play">
+  [164] objcall 45 .............................. managers.time.goFrame("play")
+  [166] getprop 18 .............................. <managers>
+  [168] getchainedprop 28 ....................... <managers.mode>
+  [170] pushsymb 46 ............................. <#menu>
+  [172] pusharglistnoret 2 ...................... <managers.mode, #menu>
+  [174] objcall 15 .............................. managers.mode.setMode(#menu)
+  [176] pushcons 17 ............................. <"timeout">
+  [178] pusharglist 1 ........................... <"timeout">
+  [180] extcall 20 .............................. <script("timeout")>
+  [182] pushint16 250 ........................... <250>
+  [185] pushsymb 48 ............................. <#target>
+  [187] pushcons 18 ............................. <"SoundCode">
+  [189] pushcons 19 ............................. <"sfx">
+  [191] pusharglist 2 ........................... <"SoundCode", "sfx">
+  [193] extcall 20 .............................. <script("SoundCode", "sfx")>
+  [195] pushsymb 49 ............................. <#handler>
+  [197] pushsymb 50 ............................. <#SndCheckPlaylist>
+  [199] pusharglist 4 ........................... <[#target: script("SoundCode", "sfx"), #handler: #SndCheckPlaylist]>
+  [201] pushproplist ............................ <[#target: script("SoundCode", "sfx"), #handler: #SndCheckPlaylist]>
+  [202] pushzero ................................ <0>
+  [203] pushcons 20 ............................. <"sound">
+  [205] pusharglist 5 ........................... <script("timeout"), 250, [#target: script("SoundCode", "sfx"), #handler: #SndCheckPlaylist], 0, "sound">
+  [207] objcall 4 ............................... <script("timeout").new(250, [#target: script("SoundCode", "sfx"), #handler: #SndCheckPlaylist], 0, "sound")>
+  [209] setprop 47 .............................. soundTimer = script("timeout").new(250, [#target: script("SoundCode", "sfx"), #handler: #SndCheckPlaylist], 0, "sound")
+  [211] ret
+end
+
+on destroy me
+  [  0] getprop 38 .............................. <initialized>
+  [  2] not ..................................... <not initialized>
+  [  3] jmpifz [ 10] ............................ if not initialized then
+  [  6] pusharglistnoret 0 ...................... <>
+  [  8] extcall 35 .............................. return 
+  [ 10] getprop 47 .............................. <soundTimer>
+  [ 12] pusharglist 1 ........................... <soundTimer>
+  [ 14] extcall 57 .............................. <voidp(soundTimer)>
+  [ 16] not ..................................... <not voidp(soundTimer)>
+  [ 17] jmpifz [ 32] ............................ if not voidp(soundTimer) then
+  [ 20] getprop 47 .............................. <soundTimer>
+  [ 22] pusharglistnoret 1 ...................... <soundTimer>
+  [ 24] objcall 6 ............................... soundTimer.destroy()
+  [ 26] pusharglist 0 ........................... <>
+  [ 28] extcall 58 .............................. <VOID>
+  [ 30] setprop 47 .............................. soundTimer = VOID
+  [ 32] pushsymb 6 .............................. <#destroy>
+  [ 34] getprop 18 .............................. <managers>
+  [ 36] pusharglistnoret 2 ...................... <#destroy, managers>
+  [ 38] extcall 59 .............................. call(#destroy, managers)
+  [ 40] getprop 18 .............................. <managers>
+  [ 42] pusharglistnoret 1 ...................... <managers>
+  [ 44] objcall 60 .............................. managers.deleteAll()
+  [ 46] ret
+end
+
+on loadNodeData me
+  [  0] pushcons 21 ............................. <"layout_list">
+  [  2] pushcons 22 ............................. <"scripts.layout">
+  [  4] pusharglist 2 ........................... <"layout_list", "scripts.layout">
+  [  6] extcall 61 .............................. <member("layout_list", "scripts.layout")>
+  [  8] setlocal 0 .............................. txt = member("layout_list", "scripts.layout")
+  [ 10] pushint8 1 .............................. <1>
+  [ 12] setlocal 1
+  [ 14] getlocal 1
+  [ 16] getlocal 0 .............................. <txt>
+  [ 18] pushsymb 62 ............................. <#line>
+  [ 20] pusharglist 2 ........................... <txt, #line>
+  [ 22] objcall 41 .............................. <txt.line.count>
+  [ 24] lteq
+  [ 25] jmpifz [ 65] ............................ repeat with i = 1 to txt.line.count
+  [ 28] getlocal 0 .............................. <txt>
+  [ 30] pushsymb 62 ............................. <#line>
+  [ 32] getlocal 1 .............................. <i>
+  [ 34] pusharglist 3 ........................... <txt, #line, i>
+  [ 36] objcall 63 .............................. <txt.line[i]>
+  [ 38] setlocal 2 .............................. fr = txt.line[i]
+  [ 40] getprop 34 .............................. <nodeData>
+  [ 42] getlocal 2 .............................. <fr>
+  [ 44] getparam 0 .............................. <me>
+  [ 46] getlocal 2 .............................. <fr>
+  [ 48] pusharglist 2 ........................... <me, fr>
+  [ 50] objcall 8 ............................... <me.getNodeData(fr)>
+  [ 52] pusharglistnoret 3 ...................... <nodeData, fr, me.getNodeData(fr)>
+  [ 54] objcall 21 .............................. nodeData[fr] = me.getNodeData(fr)
+  [ 56] pushint8 1
+  [ 58] getlocal 1
+  [ 60] add
+  [ 61] setlocal 1
+  [ 63] endrepeat [ 14]
+  [ 65] ret
+end
+
+on getNodeData me, nm
+  [  0] getprop 34 .............................. <nodeData>
+  [  2] pusharglist 1 ........................... <nodeData>
+  [  4] extcall 57 .............................. <voidp(nodeData)>
+  [  6] jmpifz [ 13] ............................ if voidp(nodeData) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 35 .............................. return 
+  [ 13] getprop 34 .............................. <nodeData>
+  [ 15] getparam 1 .............................. <nm>
+  [ 17] pusharglist 2 ........................... <nodeData, nm>
+  [ 19] objcall 33 .............................. <nodeData[nm]>
+  [ 21] setlocal 0 .............................. r = nodeData[nm]
+  [ 23] getlocal 0 .............................. <r>
+  [ 25] pusharglist 1 ........................... <r>
+  [ 27] extcall 57 .............................. <voidp(r)>
+  [ 29] not ..................................... <not voidp(r)>
+  [ 30] jmpifz [ 39] ............................ if not voidp(r) then
+  [ 33] getlocal 0 .............................. <r>
+  [ 35] pusharglistnoret 1 ...................... <r>
+  [ 37] extcall 35 .............................. return r
+  [ 39] getparam 1 .............................. <nm>
+  [ 41] pushcons 23 ............................. <"_layout">
+  [ 43] joinstr ................................. <nm & "_layout">
+  [ 44] pushcons 22 ............................. <"scripts.layout">
+  [ 46] pusharglist 2 ........................... <nm & "_layout", "scripts.layout">
+  [ 48] extcall 61 .............................. <member(nm & "_layout", "scripts.layout")>
+  [ 50] setlocal 1 .............................. m = member(nm & "_layout", "scripts.layout")
+  [ 52] getlocal 1 .............................. <m>
+  [ 54] getobjprop 66 ........................... <m.number>
+  [ 56] pushint8 1 .............................. <1>
+  [ 58] inv ..................................... <-1>
+  [ 59] eq ...................................... <m.number = -1>
+  [ 60] jmpifz [ 67] ............................ if m.number = -1 then
+  [ 63] pusharglistnoret 0 ...................... <>
+  [ 65] extcall 35 .............................. return 
+  [ 67] getlocal 1 .............................. <m>
+  [ 69] getobjprop 69 ........................... <m.text>
+  [ 71] pusharglist 1 ........................... <m.text>
+  [ 73] extcall 68 .............................. <devoid(m.text)>
+  [ 75] pusharglist 1 ........................... <devoid(m.text)>
+  [ 77] extcall 67 .............................. <value(devoid(m.text))>
+  [ 79] setlocal 0 .............................. r = value(devoid(m.text))
+  [ 81] getparam 0 .............................. <me>
+  [ 83] getlocal 0 .............................. <r>
+  [ 85] pusharglistnoret 2 ...................... <me, r>
+  [ 87] objcall 9 ............................... me.fillDummies(r)
+  [ 89] getprop 34 .............................. <nodeData>
+  [ 91] getparam 1 .............................. <nm>
+  [ 93] getlocal 0 .............................. <r>
+  [ 95] pusharglistnoret 3 ...................... <nodeData, nm, r>
+  [ 97] objcall 21 .............................. nodeData[nm] = r
+  [ 99] getlocal 0 .............................. <r>
+  [101] pusharglistnoret 1 ...................... <r>
+  [103] extcall 35 .............................. return r
+  [105] ret
+end
+
+on fillDummies me, nd
+  [  0] getparam 1 .............................. <nd>
+  [  2] pusharglist 1 ........................... <nd>
+  [  4] extcall 57 .............................. <voidp(nd)>
+  [  6] jmpifz [ 13] ............................ if voidp(nd) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 35 .............................. return 
+  [ 13] getparam 1 .............................. <nd>
+  [ 15] pushsymb 72 ............................. <#dummyID>
+  [ 17] pusharglist 2 ........................... <nd, #dummyID>
+  [ 19] objcall 33 .............................. <nd[#dummyID]>
+  [ 21] pusharglist 1 ........................... <nd[#dummyID]>
+  [ 23] extcall 57 .............................. <voidp(nd[#dummyID])>
+  [ 25] not ..................................... <not voidp(nd[#dummyID])>
+  [ 26] getparam 1 .............................. <nd>
+  [ 28] pushsymb 72 ............................. <#dummyID>
+  [ 30] pusharglist 2 ........................... <nd, #dummyID>
+  [ 32] objcall 33 .............................. <nd[#dummyID]>
+  [ 34] pushcons 24 ............................. <EMPTY>
+  [ 36] nteq .................................... <nd[#dummyID] <> EMPTY>
+  [ 37] and ..................................... <not voidp(nd[#dummyID]) and (nd[#dummyID] <> EMPTY)>
+  [ 38] jmpifz [102] ............................ if not voidp(nd[#dummyID]) and (nd[#dummyID] <> EMPTY) then
+  [ 41] getparam 0 .............................. <me>
+  [ 43] getparam 1 .............................. <nd>
+  [ 45] getobjprop 72 ........................... <nd.dummyID>
+  [ 47] pusharglist 2 ........................... <me, nd.dummyID>
+  [ 49] objcall 8 ............................... <me.getNodeData(nd.dummyID)>
+  [ 51] setlocal 0 .............................. d = me.getNodeData(nd.dummyID)
+  [ 53] getlocal 0 .............................. <d>
+  [ 55] pusharglist 1 ........................... <d>
+  [ 57] extcall 57 .............................. <voidp(d)>
+  [ 59] not ..................................... <not voidp(d)>
+  [ 60] jmpifz [ 74] ............................ if not voidp(d) then / else
+  [ 63] getparam 1 .............................. <nd>
+  [ 65] getlocal 0 .............................. <d>
+  [ 67] getobjprop 73 ........................... <d.children>
+  [ 69] setobjprop 73 ........................... nd.children = d.children
+  [ 71] jmp [ 78]
+  [ 74] pusharglistnoret 0 ...................... <>
+  [ 76] extcall 74 .............................. nothing()
+  [ 78] getparam 1 .............................. <nd>
+  [ 80] pushsymb 72 ............................. <#dummyID>
+  [ 82] pusharglist 0 ........................... <>
+  [ 84] extcall 58 .............................. <VOID>
+  [ 86] pusharglistnoret 3 ...................... <nd, #dummyID, VOID>
+  [ 88] objcall 21 .............................. nd[#dummyID] = VOID
+  [ 90] getparam 1 .............................. <nd>
+  [ 92] pushsymb 61 ............................. <#member>
+  [ 94] pusharglist 0 ........................... <>
+  [ 96] extcall 58 .............................. <VOID>
+  [ 98] pusharglistnoret 3 ...................... <nd, #member, VOID>
+  [100] objcall 21 .............................. nd[#member] = VOID
+  [102] getparam 1 .............................. <nd>
+  [104] pushsymb 73 ............................. <#children>
+  [106] pusharglist 2 ........................... <nd, #children>
+  [108] objcall 33 .............................. <nd[#children]>
+  [110] pusharglist 1 ........................... <nd[#children]>
+  [112] extcall 57 .............................. <voidp(nd[#children])>
+  [114] jmpifz [121] ............................ if voidp(nd[#children]) then
+  [117] pusharglistnoret 0 ...................... <>
+  [119] extcall 35 .............................. return 
+  [121] getparam 1 .............................. <nd>
+  [123] getobjprop 73 ........................... <nd.children>
+  [125] peek 0
+  [127] pusharglist 1
+  [129] extcall 41
+  [131] pushint8 1
+  [133] peek 0
+  [135] peek 2
+  [137] lteq
+  [138] jmpifz [164] ............................ repeat with i in nd.children
+  [141] peek 2
+  [143] peek 1
+  [145] pusharglist 2
+  [147] extcall 33
+  [149] setlocal 1
+  [151] getparam 0 .............................. <me>
+  [153] getlocal 1 .............................. <i>
+  [155] pusharglistnoret 2 ...................... <me, i>
+  [157] objcall 9 ............................... me.fillDummies(i)
+  [159] pushint8 1
+  [161] add
+  [162] endrepeat [133]
+  [164] pop 3
+  [166] ret
+end
+
+on start me
+  [  0] pushcons 25 ............................. <"load">
+  [  2] pusharglist 1 ........................... <"load">
+  [  4] extcall 77 .............................. <marker("load")>
+  [  6] pusharglistnoret 1 ...................... <marker("load")>
+  [  8] extcall 2 ............................... go(marker("load"))
+  [ 10] getparam 0 .............................. <me>
+  [ 12] pusharglistnoret 1 ...................... <me>
+  [ 14] objcall 5 ............................... me.init()
+  [ 16] ret
+end
+
+on mouseDown me
+  [  0] getprop 18 .............................. <managers>
+  [  2] getchainedprop 26 ....................... <managers.mouse>
+  [  4] pusharglistnoret 1 ...................... <managers.mouse>
+  [  6] objcall 11 .............................. managers.mouse.mouseDown()
+  [  8] ret
+end
+
+on mouseUp me
+  [  0] getprop 18 .............................. <managers>
+  [  2] getchainedprop 26 ....................... <managers.mouse>
+  [  4] pusharglistnoret 1 ...................... <managers.mouse>
+  [  6] objcall 12 .............................. managers.mouse.mouseUp()
+  [  8] ret
+end
+
+on keyDown me, k
+  [  0] getprop 18 .............................. <managers>
+  [  2] getchainedprop 32 ....................... <managers.event>
+  [  4] pushsymb 13 ............................. <#keyDown>
+  [  6] getparam 1 .............................. <k>
+  [  8] pusharglistnoret 3 ...................... <managers.event, #keyDown, k>
+  [ 10] objcall 78 .............................. managers.event.sendEvent(#keyDown, k)
+  [ 12] pusharglist 0 ........................... <>
+  [ 14] thebuiltin 80 ........................... <the keyCode>
+  [ 16] pushint8 53 ............................. <53>
+  [ 18] eq ...................................... <the keyCode = 53>
+  [ 19] setprop 79 .............................. escPressed = the keyCode = 53
+  [ 21] ret
+end
+
+on keyUp me
+  [  0] ret
+end
+
+on exitFrame me
+  [  0] getprop 18 .............................. <managers>
+  [  2] getchainedprop 22 ....................... <managers.time>
+  [  4] pusharglistnoret 1 ...................... <managers.time>
+  [  6] objcall 0 ............................... managers.time.exitFrame()
+  [  8] getprop 82 .............................. <closeRequested>
+  [ 10] getprop 79 .............................. <escPressed>
+  [ 12] not ..................................... <not escPressed>
+  [ 13] and ..................................... <closeRequested and not escPressed>
+  [ 14] jmpifz [ 21] ............................ if closeRequested and not escPressed then
+  [ 17] pusharglistnoret 0 ...................... <>
+  [ 19] extcall 83 .............................. halt()
+  [ 21] pushzero ................................ <0>
+  [ 22] setprop 82 .............................. closeRequested = 0
+  [ 24] pushzero ................................ <0>
+  [ 25] setprop 79 .............................. escPressed = 0
+  [ 27] ret
+end
+
+on setMode me, m, data
+  [  0] getprop 18 .............................. <managers>
+  [  2] getchainedprop 28 ....................... <managers.mode>
+  [  4] getparam 1 .............................. <m>
+  [  6] pusharglistnoret 2 ...................... <managers.mode, m>
+  [  8] objcall 15 .............................. managers.mode.setMode(m)
+  [ 10] ret
+end

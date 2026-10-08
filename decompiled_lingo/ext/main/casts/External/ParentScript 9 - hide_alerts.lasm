@@ -1,0 +1,8 @@
+on alertHook
+  [  0] pushcons 0 .............................. <"hi">
+  [  2] pusharglistnoret 1 ...................... <"hi">
+  [  4] extcall 42 .............................. put "hi"
+  [  6] pusharglistnoret 0 ...................... <>
+  [  8] extcall 270 ............................. pass()
+  [ 11] ret
+end

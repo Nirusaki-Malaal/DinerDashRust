@@ -1,0 +1,6 @@
+on alertHook
+  [  0] pushzero ................................ <0>
+  [  1] pusharglistnoret 1 ...................... <0>
+  [  3] extcall 35 .............................. return 0
+  [  5] ret
+end
