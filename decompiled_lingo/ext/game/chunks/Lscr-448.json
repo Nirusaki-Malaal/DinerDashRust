@@ -1,0 +1,65 @@
+{
+  "totalLength": 528,
+  "totalLength2": 528,
+  "headerLength": 92,
+  "scriptNumber": 58,
+  "unk20": 24,
+  "parentNumber": -1,
+  "scriptFlags": 0,
+  "unk42": 0,
+  "castID": 1966142,
+  "factoryNameID": -1,
+  "handlerVectorsCount": 0,
+  "handlerVectorsOffset": 528,
+  "handlerVectorsSize": 0,
+  "propertiesCount": 0,
+  "propertiesOffset": 92,
+  "globalsCount": 1,
+  "globalsOffset": 92,
+  "handlersCount": 1,
+  "handlersOffset": 94,
+  "literalsCount": 3,
+  "literalsOffset": 454,
+  "literalsDataCount": 50,
+  "literalsDataOffset": 478,
+  "propertyNameIDs": [],
+  "globalNameIDs": [
+    1
+  ],
+  "handlers": [
+    {
+      "nameID": 4,
+      "vectorPos": 65535,
+      "compiledLen": 225,
+      "compiledOffset": 140,
+      "argumentCount": 4,
+      "argumentOffset": 366,
+      "localsCount": 14,
+      "localsOffset": 374,
+      "globalsCount": 0,
+      "globalsOffset": 92,
+      "unknown1": 22,
+      "unknown2": 6,
+      "lineCount": 51,
+      "lineOffset": 402,
+      "stackHeight": 23
+    }
+  ],
+  "literals": [
+    {
+      "type": 1,
+      "offset": 0,
+      "value": "bar_tablestuff"
+    },
+    {
+      "type": 1,
+      "offset": 20,
+      "value": "heartrow"
+    },
+    {
+      "type": 1,
+      "offset": 34,
+      "value": "table_view"
+    }
+  ]
+}

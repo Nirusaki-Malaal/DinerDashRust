@@ -1,0 +1,224 @@
+{
+  "totalLength": 1672,
+  "totalLength2": 1672,
+  "headerLength": 92,
+  "scriptNumber": 64,
+  "unk20": 24,
+  "parentNumber": -1,
+  "scriptFlags": 0,
+  "unk42": 0,
+  "castID": 1966149,
+  "factoryNameID": -1,
+  "handlerVectorsCount": 16,
+  "handlerVectorsOffset": 1640,
+  "handlerVectorsSize": 32768,
+  "propertiesCount": 16,
+  "propertiesOffset": 92,
+  "globalsCount": 1,
+  "globalsOffset": 124,
+  "handlersCount": 7,
+  "handlersOffset": 126,
+  "literalsCount": 11,
+  "literalsOffset": 1418,
+  "literalsDataCount": 134,
+  "literalsDataOffset": 1506,
+  "propertyNameIDs": [
+    868,
+    1268,
+    283,
+    1276,
+    1275,
+    1274,
+    1277,
+    45,
+    962,
+    958,
+    824,
+    415,
+    558,
+    960,
+    594,
+    137
+  ],
+  "globalNameIDs": [
+    1
+  ],
+  "handlers": [
+    {
+      "nameID": 4,
+      "vectorPos": 65535,
+      "compiledLen": 344,
+      "compiledOffset": 448,
+      "argumentCount": 1,
+      "argumentOffset": 792,
+      "localsCount": 4,
+      "localsOffset": 794,
+      "globalsCount": 0,
+      "globalsOffset": 124,
+      "unknown1": 232,
+      "unknown2": 19,
+      "lineCount": 49,
+      "lineOffset": 802,
+      "stackHeight": 7
+    },
+    {
+      "nameID": 956,
+      "vectorPos": 65535,
+      "compiledLen": 321,
+      "compiledOffset": 852,
+      "argumentCount": 2,
+      "argumentOffset": 1174,
+      "localsCount": 8,
+      "localsOffset": 1178,
+      "globalsCount": 0,
+      "globalsOffset": 124,
+      "unknown1": 1182,
+      "unknown2": 72,
+      "lineCount": 49,
+      "lineOffset": 1194,
+      "stackHeight": 6
+    },
+    {
+      "nameID": 863,
+      "vectorPos": 65535,
+      "compiledLen": 28,
+      "compiledOffset": 1244,
+      "argumentCount": 1,
+      "argumentOffset": 1272,
+      "localsCount": 0,
+      "localsOffset": 1274,
+      "globalsCount": 0,
+      "globalsOffset": 124,
+      "unknown1": 2111,
+      "unknown2": 126,
+      "lineCount": 3,
+      "lineOffset": 1274,
+      "stackHeight": 4
+    },
+    {
+      "nameID": 485,
+      "vectorPos": 65535,
+      "compiledLen": 1,
+      "compiledOffset": 1278,
+      "argumentCount": 1,
+      "argumentOffset": 1280,
+      "localsCount": 0,
+      "localsOffset": 1282,
+      "globalsCount": 0,
+      "globalsOffset": 124,
+      "unknown1": 2218,
+      "unknown2": 132,
+      "lineCount": 0,
+      "lineOffset": 1282,
+      "stackHeight": 0
+    },
+    {
+      "nameID": 75,
+      "vectorPos": 65535,
+      "compiledLen": 1,
+      "compiledOffset": 1282,
+      "argumentCount": 1,
+      "argumentOffset": 1284,
+      "localsCount": 0,
+      "localsOffset": 1286,
+      "globalsCount": 0,
+      "globalsOffset": 124,
+      "unknown1": 2242,
+      "unknown2": 135,
+      "lineCount": 0,
+      "lineOffset": 1286,
+      "stackHeight": 0
+    },
+    {
+      "nameID": 117,
+      "vectorPos": 15,
+      "compiledLen": 52,
+      "compiledOffset": 1286,
+      "argumentCount": 2,
+      "argumentOffset": 1338,
+      "localsCount": 0,
+      "localsOffset": 1342,
+      "globalsCount": 0,
+      "globalsOffset": 124,
+      "unknown1": 2265,
+      "unknown2": 140,
+      "lineCount": 11,
+      "lineOffset": 1342,
+      "stackHeight": 3
+    },
+    {
+      "nameID": 5,
+      "vectorPos": 65535,
+      "compiledLen": 47,
+      "compiledOffset": 1354,
+      "argumentCount": 1,
+      "argumentOffset": 1402,
+      "localsCount": 2,
+      "localsOffset": 1404,
+      "globalsCount": 0,
+      "globalsOffset": 124,
+      "unknown1": 2487,
+      "unknown2": 156,
+      "lineCount": 9,
+      "lineOffset": 1408,
+      "stackHeight": 3
+    }
+  ],
+  "literals": [
+    {
+      "type": 1,
+      "offset": 0,
+      "value": "multbonus"
+    },
+    {
+      "type": 1,
+      "offset": 14,
+      "value": "chain"
+    },
+    {
+      "type": 1,
+      "offset": 24,
+      "value": "plus"
+    },
+    {
+      "type": 1,
+      "offset": 34,
+      "value": "number_"
+    },
+    {
+      "type": 1,
+      "offset": 46,
+      "value": "multiplier"
+    },
+    {
+      "type": 1,
+      "offset": 62,
+      "value": "tip."
+    },
+    {
+      "type": 1,
+      "offset": 72,
+      "value": "gfx.numbers"
+    },
+    {
+      "type": 1,
+      "offset": 88,
+      "value": "chain.x"
+    },
+    {
+      "type": 1,
+      "offset": 100,
+      "value": "chain."
+    },
+    {
+      "type": 1,
+      "offset": 112,
+      "value": "score"
+    },
+    {
+      "type": 9,
+      "offset": 122,
+      "value": 0.001
+    }
+  ]
+}

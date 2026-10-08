@@ -1,0 +1,199 @@
+{
+  "totalLength": 1272,
+  "totalLength2": 1272,
+  "headerLength": 92,
+  "scriptNumber": 65,
+  "unk20": 24,
+  "parentNumber": -1,
+  "scriptFlags": 0,
+  "unk42": 0,
+  "castID": 1966150,
+  "factoryNameID": -1,
+  "handlerVectorsCount": 16,
+  "handlerVectorsOffset": 1240,
+  "handlerVectorsSize": 32768,
+  "propertiesCount": 11,
+  "propertiesOffset": 92,
+  "globalsCount": 1,
+  "globalsOffset": 114,
+  "handlersCount": 7,
+  "handlersOffset": 116,
+  "literalsCount": 7,
+  "literalsOffset": 1094,
+  "literalsDataCount": 90,
+  "literalsDataOffset": 1150,
+  "propertyNameIDs": [
+    1268,
+    713,
+    45,
+    962,
+    958,
+    824,
+    415,
+    558,
+    960,
+    594,
+    137
+  ],
+  "globalNameIDs": [
+    1
+  ],
+  "handlers": [
+    {
+      "nameID": 4,
+      "vectorPos": 65535,
+      "compiledLen": 202,
+      "compiledOffset": 438,
+      "argumentCount": 1,
+      "argumentOffset": 640,
+      "localsCount": 2,
+      "localsOffset": 642,
+      "globalsCount": 0,
+      "globalsOffset": 114,
+      "unknown1": 181,
+      "unknown2": 17,
+      "lineCount": 33,
+      "lineOffset": 646,
+      "stackHeight": 4
+    },
+    {
+      "nameID": 956,
+      "vectorPos": 65535,
+      "compiledLen": 164,
+      "compiledOffset": 680,
+      "argumentCount": 2,
+      "argumentOffset": 844,
+      "localsCount": 4,
+      "localsOffset": 848,
+      "globalsCount": 0,
+      "globalsOffset": 114,
+      "unknown1": 798,
+      "unknown2": 54,
+      "lineCount": 27,
+      "lineOffset": 856,
+      "stackHeight": 6
+    },
+    {
+      "nameID": 863,
+      "vectorPos": 65535,
+      "compiledLen": 28,
+      "compiledOffset": 884,
+      "argumentCount": 1,
+      "argumentOffset": 912,
+      "localsCount": 0,
+      "localsOffset": 914,
+      "globalsCount": 0,
+      "globalsOffset": 114,
+      "unknown1": 1260,
+      "unknown2": 86,
+      "lineCount": 3,
+      "lineOffset": 914,
+      "stackHeight": 4
+    },
+    {
+      "nameID": 485,
+      "vectorPos": 65535,
+      "compiledLen": 1,
+      "compiledOffset": 918,
+      "argumentCount": 1,
+      "argumentOffset": 920,
+      "localsCount": 0,
+      "localsOffset": 922,
+      "globalsCount": 0,
+      "globalsOffset": 114,
+      "unknown1": 1367,
+      "unknown2": 92,
+      "lineCount": 0,
+      "lineOffset": 922,
+      "stackHeight": 0
+    },
+    {
+      "nameID": 75,
+      "vectorPos": 65535,
+      "compiledLen": 1,
+      "compiledOffset": 922,
+      "argumentCount": 1,
+      "argumentOffset": 924,
+      "localsCount": 0,
+      "localsOffset": 926,
+      "globalsCount": 0,
+      "globalsOffset": 114,
+      "unknown1": 1391,
+      "unknown2": 95,
+      "lineCount": 0,
+      "lineOffset": 926,
+      "stackHeight": 0
+    },
+    {
+      "nameID": 117,
+      "vectorPos": 15,
+      "compiledLen": 52,
+      "compiledOffset": 926,
+      "argumentCount": 2,
+      "argumentOffset": 978,
+      "localsCount": 0,
+      "localsOffset": 982,
+      "globalsCount": 0,
+      "globalsOffset": 114,
+      "unknown1": 1414,
+      "unknown2": 100,
+      "lineCount": 11,
+      "lineOffset": 982,
+      "stackHeight": 3
+    },
+    {
+      "nameID": 5,
+      "vectorPos": 65535,
+      "compiledLen": 77,
+      "compiledOffset": 994,
+      "argumentCount": 1,
+      "argumentOffset": 1072,
+      "localsCount": 4,
+      "localsOffset": 1074,
+      "globalsCount": 0,
+      "globalsOffset": 114,
+      "unknown1": 1636,
+      "unknown2": 116,
+      "lineCount": 12,
+      "lineOffset": 1082,
+      "stackHeight": 4
+    }
+  ],
+  "literals": [
+    {
+      "type": 1,
+      "offset": 0,
+      "value": "penalty"
+    },
+    {
+      "type": 1,
+      "offset": 12,
+      "value": "number_"
+    },
+    {
+      "type": 1,
+      "offset": 24,
+      "value": "negative."
+    },
+    {
+      "type": 1,
+      "offset": 38,
+      "value": "gfx.numbers"
+    },
+    {
+      "type": 1,
+      "offset": 54,
+      "value": "number_3"
+    },
+    {
+      "type": 1,
+      "offset": 68,
+      "value": "score"
+    },
+    {
+      "type": 9,
+      "offset": 78,
+      "value": 0.001
+    }
+  ]
+}
