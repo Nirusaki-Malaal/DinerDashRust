@@ -1,0 +1,141 @@
+{
+  "totalLength": 1944,
+  "totalLength2": 1944,
+  "headerLength": 92,
+  "scriptNumber": 19,
+  "unk20": 24,
+  "parentNumber": -1,
+  "scriptFlags": 2,
+  "unk42": 0,
+  "castID": 1966100,
+  "factoryNameID": -1,
+  "handlerVectorsCount": 0,
+  "handlerVectorsOffset": 1944,
+  "handlerVectorsSize": 0,
+  "propertiesCount": 0,
+  "propertiesOffset": 92,
+  "globalsCount": 0,
+  "globalsOffset": 92,
+  "handlersCount": 5,
+  "handlersOffset": 92,
+  "literalsCount": 5,
+  "literalsOffset": 1834,
+  "literalsDataCount": 70,
+  "literalsDataOffset": 1874,
+  "propertyNameIDs": [],
+  "globalNameIDs": [],
+  "handlers": [
+    {
+      "nameID": 623,
+      "vectorPos": 65535,
+      "compiledLen": 770,
+      "compiledOffset": 322,
+      "argumentCount": 4,
+      "argumentOffset": 1092,
+      "localsCount": 18,
+      "localsOffset": 1100,
+      "globalsCount": 0,
+      "globalsOffset": 92,
+      "unknown1": 844,
+      "unknown2": 20,
+      "lineCount": 116,
+      "lineOffset": 1136,
+      "stackHeight": 14
+    },
+    {
+      "nameID": 624,
+      "vectorPos": 65535,
+      "compiledLen": 23,
+      "compiledOffset": 1252,
+      "argumentCount": 2,
+      "argumentOffset": 1276,
+      "localsCount": 1,
+      "localsOffset": 1280,
+      "globalsCount": 0,
+      "globalsOffset": 92,
+      "unknown1": 4765,
+      "unknown2": 139,
+      "lineCount": 3,
+      "lineOffset": 1282,
+      "stackHeight": 4
+    },
+    {
+      "nameID": 625,
+      "vectorPos": 65535,
+      "compiledLen": 53,
+      "compiledOffset": 1286,
+      "argumentCount": 1,
+      "argumentOffset": 1340,
+      "localsCount": 1,
+      "localsOffset": 1342,
+      "globalsCount": 0,
+      "globalsOffset": 92,
+      "unknown1": 4898,
+      "unknown2": 145,
+      "lineCount": 6,
+      "lineOffset": 1344,
+      "stackHeight": 4
+    },
+    {
+      "nameID": 626,
+      "vectorPos": 65535,
+      "compiledLen": 50,
+      "compiledOffset": 1350,
+      "argumentCount": 2,
+      "argumentOffset": 1400,
+      "localsCount": 0,
+      "localsOffset": 1404,
+      "globalsCount": 0,
+      "globalsOffset": 92,
+      "unknown1": 5103,
+      "unknown2": 157,
+      "lineCount": 1,
+      "lineOffset": 1404,
+      "stackHeight": 5
+    },
+    {
+      "nameID": 627,
+      "vectorPos": 65535,
+      "compiledLen": 368,
+      "compiledOffset": 1406,
+      "argumentCount": 0,
+      "argumentOffset": 1774,
+      "localsCount": 11,
+      "localsOffset": 1774,
+      "globalsCount": 0,
+      "globalsOffset": 92,
+      "unknown1": 5176,
+      "unknown2": 161,
+      "lineCount": 38,
+      "lineOffset": 1796,
+      "stackHeight": 6
+    }
+  ],
+  "literals": [
+    {
+      "type": 9,
+      "offset": 0,
+      "value": 0.90000000000000002
+    },
+    {
+      "type": 1,
+      "offset": 12,
+      "value": "mapdisplay.findpath: Timed out!"
+    },
+    {
+      "type": 1,
+      "offset": 48,
+      "value": "room"
+    },
+    {
+      "type": 1,
+      "offset": 58,
+      "value": ""
+    },
+    {
+      "type": 1,
+      "offset": 64,
+      "value": "x"
+    }
+  ]
+}
