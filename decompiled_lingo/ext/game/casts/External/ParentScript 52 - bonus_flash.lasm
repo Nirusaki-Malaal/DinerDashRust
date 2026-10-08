@@ -1,0 +1,118 @@
+property node, kids, showing, flashMS, numflashes, flashcount, flashtimer, visible
+
+on new me, n
+  [  0] getparam 1 .............................. <n>
+  [  2] setprop 45 .............................. node = n
+  [  4] getprop 45 .............................. <node>
+  [  6] getchainedprop 49 ....................... <node.children>
+  [  8] pusharglist 1 ........................... <node.children>
+  [ 10] objcall 405 ............................. <node.children.duplicate()>
+  [ 13] setprop 957 ............................. kids = node.children.duplicate()
+  [ 16] getprop 45 .............................. <node>
+  [ 18] pushint32 1000000 ....................... <1000000>
+  [ 23] pusharglistnoret 2 ...................... <node, 1000000>
+  [ 25] objcall 122 ............................. node.setZOffset(1000000)
+  [ 27] getparam 1 .............................. <n>
+  [ 29] pushzero ................................ <0>
+  [ 30] pusharglistnoret 2 ...................... <n, 0>
+  [ 32] objcall 57 .............................. n.setVisible(0)
+  [ 34] pushzero ................................ <0>
+  [ 35] setprop 1101 ............................ visible = 0
+  [ 38] pushint8 100 ............................ <100>
+  [ 40] setprop 1102 ............................ flashMS = 100
+  [ 43] pushint8 10 ............................. <10>
+  [ 45] setprop 174 ............................. numflashes = 10
+  [ 47] pushzero ................................ <0>
+  [ 48] setprop 176 ............................. flashcount = 0
+  [ 50] pushcons 0 .............................. <"timeout">
+  [ 52] pusharglist 1 ........................... <"timeout">
+  [ 54] extcall 55 .............................. <script("timeout")>
+  [ 56] pusharglist 1 ........................... <script("timeout")>
+  [ 58] objcall 4 ............................... <script("timeout").new()>
+  [ 60] setprop 178 ............................. flashtimer = script("timeout").new()
+  [ 62] getprop 178 ............................. <flashtimer>
+  [ 64] pushsymb 34 ............................. <#target>
+  [ 66] getparam 0 .............................. <me>
+  [ 68] pushsymb 33 ............................. <#handler>
+  [ 70] pushsymb 179 ............................ <#flash>
+  [ 72] pusharglist 4 ........................... <[#target: me, #handler: #flash]>
+  [ 74] pushproplist ............................ <[#target: me, #handler: #flash]>
+  [ 75] pusharglistnoret 2 ...................... <flashtimer, [#target: me, #handler: #flash]>
+  [ 77] objcall 15 .............................. flashtimer.setCallback([#target: me, #handler: #flash])
+  [ 79] getprop 178 ............................. <flashtimer>
+  [ 81] getprop 1102 ............................ <flashMS>
+  [ 84] pusharglistnoret 2 ...................... <flashtimer, flashMS>
+  [ 86] objcall 1103 ............................ flashtimer.setPeriod(flashMS)
+  [ 89] getparam 0 .............................. <me>
+  [ 91] pusharglistnoret 1 ...................... <me>
+  [ 93] extcall 9 ............................... return me
+  [ 95] ret
+end
+
+on flash me
+  [  0] getprop 176 ............................. <flashcount>
+  [  2] getprop 1101 ............................ <visible>
+  [  5] sub ..................................... <flashcount - visible>
+  [  6] setprop 176 ............................. flashcount = flashcount - visible
+  [  8] getprop 1101 ............................ <visible>
+  [ 11] not ..................................... <not visible>
+  [ 12] setprop 1101 ............................ visible = not visible
+  [ 15] getprop 45 .............................. <node>
+  [ 17] getprop 1101 ............................ <visible>
+  [ 20] pusharglistnoret 2 ...................... <node, visible>
+  [ 22] objcall 57 .............................. node.setVisible(visible)
+  [ 24] getprop 176 ............................. <flashcount>
+  [ 26] pushzero ................................ <0>
+  [ 27] eq ...................................... <flashcount = 0>
+  [ 28] jmpifz [ 37] ............................ if flashcount = 0 then
+  [ 31] getprop 178 ............................. <flashtimer>
+  [ 33] pusharglistnoret 1 ...................... <flashtimer>
+  [ 35] objcall 208 ............................. flashtimer.stop()
+  [ 37] ret
+end
+
+on show me, str
+  [  0] pushsymb 773 ............................ <#setText>
+  [  3] getprop 957 ............................. <kids>
+  [  6] getparam 1 .............................. <str>
+  [  8] pusharglist 1 ........................... <str>
+  [ 10] extcall 59 .............................. <string(str)>
+  [ 12] pusharglistnoret 3 ...................... <#setText, kids, string(str)>
+  [ 14] extcall 32 .............................. call(#setText, kids, string(str))
+  [ 16] getprop 174 ............................. <numflashes>
+  [ 18] setprop 176 ............................. flashcount = numflashes
+  [ 20] getprop 178 ............................. <flashtimer>
+  [ 22] pusharglistnoret 1 ...................... <flashtimer>
+  [ 24] objcall 253 ............................. flashtimer.start()
+  [ 26] getparam 0 .............................. <me>
+  [ 28] pusharglistnoret 1 ...................... <me>
+  [ 30] objcall 179 ............................. me.flash()
+  [ 32] ret
+end
+
+on hide me
+  [  0] getprop 45 .............................. <node>
+  [  2] pushzero ................................ <0>
+  [  3] pusharglistnoret 2 ...................... <node, 0>
+  [  5] objcall 57 .............................. node.setVisible(0)
+  [  7] getprop 178 ............................. <flashtimer>
+  [  9] pusharglistnoret 1 ...................... <flashtimer>
+  [ 11] objcall 208 ............................. flashtimer.stop()
+  [ 13] ret
+end
+
+on destroy me
+  [  0] getprop 178 ............................. <flashtimer>
+  [  2] pusharglistnoret 1 ...................... <flashtimer>
+  [  4] objcall 5 ............................... flashtimer.destroy()
+  [  6] pusharglist 0 ........................... <>
+  [  8] extcall 65 .............................. <VOID>
+  [ 10] setprop 178 ............................. flashtimer = VOID
+  [ 12] pusharglist 0 ........................... <>
+  [ 14] extcall 65 .............................. <VOID>
+  [ 16] setprop 45 .............................. node = VOID
+  [ 18] getprop 957 ............................. <kids>
+  [ 21] pusharglistnoret 1 ...................... <kids>
+  [ 23] objcall 10 .............................. kids.deleteAll()
+  [ 25] ret
+end

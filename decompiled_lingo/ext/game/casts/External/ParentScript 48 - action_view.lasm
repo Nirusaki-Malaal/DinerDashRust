@@ -1,0 +1,169 @@
+property node, text, num, num_bg, names
+
+on new me, n
+  [  0] getparam 1 .............................. <n>
+  [  2] setprop 45 .............................. node = n
+  [  4] getparam 1 .............................. <n>
+  [  6] pushcons 0 .............................. <"action_txt">
+  [  8] pusharglist 2 ........................... <n, "action_txt">
+  [ 10] objcall 36 .............................. <n["action_txt"]>
+  [ 12] setprop 785 ............................. text = n["action_txt"]
+  [ 15] getparam 1 .............................. <n>
+  [ 17] pushcons 1 .............................. <"tablenum">
+  [ 19] pusharglist 2 ........................... <n, "tablenum">
+  [ 21] objcall 36 .............................. <n["tablenum"]>
+  [ 23] setprop 243 ............................. num = n["tablenum"]
+  [ 25] getparam 1 .............................. <n>
+  [ 27] pushcons 2 .............................. <"tablenum_bg">
+  [ 29] pusharglist 2 ........................... <n, "tablenum_bg">
+  [ 31] objcall 36 .............................. <n["tablenum_bg"]>
+  [ 33] setprop 1048 ............................ num_bg = n["tablenum_bg"]
+  [ 36] getprop 45 .............................. <node>
+  [ 38] pushzero ................................ <0>
+  [ 39] pusharglistnoret 2 ...................... <node, 0>
+  [ 41] objcall 57 .............................. node.setVisible(0)
+  [ 43] pusharglist 0 ........................... <[:]>
+  [ 45] pushproplist ............................ <[:]>
+  [ 46] setprop 1047 ............................ names = [:]
+  [ 49] getprop 1047 ............................ <names>
+  [ 52] pushsymb 400 ............................ <#drinkspot>
+  [ 55] pushcons 3 .............................. <"GET DRINKS">
+  [ 57] pusharglistnoret 3 ...................... <names, #drinkspot, "GET DRINKS">
+  [ 59] objcall 25 .............................. names[#drinkspot] = "GET DRINKS"
+  [ 61] getprop 1047 ............................ <names>
+  [ 64] pushsymb 1003 ........................... <#foodspot>
+  [ 67] pushcons 4 .............................. <"PICK UP FOOD">
+  [ 69] pusharglistnoret 3 ...................... <names, #foodspot, "PICK UP FOOD">
+  [ 71] objcall 25 .............................. names[#foodspot] = "PICK UP FOOD"
+  [ 73] getprop 1047 ............................ <names>
+  [ 76] pushsymb 130 ............................ <#table>
+  [ 78] pushcons 5 .............................. <"GO TO TABLE">
+  [ 80] pusharglistnoret 3 ...................... <names, #table, "GO TO TABLE">
+  [ 82] objcall 25 .............................. names[#table] = "GO TO TABLE"
+  [ 84] getprop 1047 ............................ <names>
+  [ 87] pushsymb 426 ............................ <#ticketspot>
+  [ 90] pushcons 6 .............................. <"TICKET">
+  [ 92] pusharglistnoret 3 ...................... <names, #ticketspot, "TICKET">
+  [ 94] objcall 25 .............................. names[#ticketspot] = "TICKET"
+  [ 96] getprop 1047 ............................ <names>
+  [ 99] pushsymb 427 ............................ <#busspot>
+  [102] pushcons 7 .............................. <"BUS DISHES">
+  [104] pusharglistnoret 3 ...................... <names, #busspot, "BUS DISHES">
+  [106] objcall 25 .............................. names[#busspot] = "BUS DISHES"
+  [108] getprop 1047 ............................ <names>
+  [111] pushsymb 194 ............................ <#check>
+  [113] pushcons 8 .............................. <"GIVE CHECK">
+  [115] pusharglistnoret 3 ...................... <names, #check, "GIVE CHECK">
+  [117] objcall 25 .............................. names[#check] = "GIVE CHECK"
+  [119] getparam 0 .............................. <me>
+  [121] pusharglistnoret 1 ...................... <me>
+  [123] extcall 9 ............................... return me
+  [125] ret
+end
+
+on setVisible me, v
+  [  0] getprop 45 .............................. <node>
+  [  2] getparam 1 .............................. <v>
+  [  4] pusharglistnoret 2 ...................... <node, v>
+  [  6] objcall 57 .............................. node.setVisible(v)
+  [  8] ret
+end
+
+on destroy me
+  [  0] pusharglist 0 ........................... <>
+  [  2] extcall 65 .............................. <VOID>
+  [  4] setprop 45 .............................. node = VOID
+  [  6] pusharglist 0 ........................... <>
+  [  8] extcall 65 .............................. <VOID>
+  [ 10] setprop 243 ............................. num = VOID
+  [ 12] pusharglist 0 ........................... <>
+  [ 14] extcall 65 .............................. <VOID>
+  [ 16] setprop 1048 ............................ num_bg = VOID
+  [ 19] ret
+end
+
+on showDest me, d, arg
+  [  0] getparam 1 .............................. <d>
+  [  2] pusharglist 1 ........................... <d>
+  [  4] extcall 31 .............................. <voidp(d)>
+  [  6] jmpifz [ 20] ............................ if voidp(d) then
+  [  9] getprop 45 .............................. <node>
+  [ 11] pushzero ................................ <0>
+  [ 12] pusharglistnoret 2 ...................... <node, 0>
+  [ 14] objcall 57 .............................. node.setVisible(0)
+  [ 16] pusharglistnoret 0 ...................... <>
+  [ 18] extcall 9 ............................... return 
+  [ 20] getprop 45 .............................. <node>
+  [ 22] pushint8 1 .............................. <1>
+  [ 24] pusharglistnoret 2 ...................... <node, 1>
+  [ 26] objcall 57 .............................. node.setVisible(1)
+  [ 28] getparam 2 .............................. <arg>
+  [ 30] pusharglist 1 ........................... <arg>
+  [ 32] extcall 31 .............................. <voidp(arg)>
+  [ 34] not ..................................... <not voidp(arg)>
+  [ 35] jmpifz [ 45] ............................ if not voidp(arg) then / else
+  [ 38] getparam 2 .............................. <arg>
+  [ 40] setlocal 0 .............................. typ = arg
+  [ 42] jmp [ 51]
+  [ 45] getparam 1 .............................. <d>
+  [ 47] getobjprop 137 .......................... <d.type>
+  [ 49] setlocal 0 .............................. typ = d.type
+  [ 51] getprop 785 ............................. <text>
+  [ 54] getprop 1047 ............................ <names>
+  [ 57] getlocal 0 .............................. <typ>
+  [ 59] pusharglist 2 ........................... <names, typ>
+  [ 61] objcall 36 .............................. <names[typ]>
+  [ 63] pusharglistnoret 2 ...................... <text, names[typ]>
+  [ 65] objcall 773 ............................. text.setText(names[typ])
+  [ 68] pusharglist 0 ........................... <>
+  [ 70] extcall 65 .............................. <VOID>
+  [ 72] setlocal 1 .............................. tbl = VOID
+  [ 74] getlocal 0 .............................. <typ>
+  [ 76] pushsymb 1003 ........................... <#foodspot>
+  [ 79] eq ...................................... <typ = #foodspot>
+  [ 80] jmpifz [ 93] ............................ if typ = #foodspot then / else
+  [ 83] getparam 1 .............................. <d>
+  [ 85] getobjprop 937 .......................... <d.food>
+  [ 88] setlocal 1 .............................. tbl = d.food
+  [ 90] jmp [111]
+  [ 93] getlocal 0 .............................. <typ>
+  [ 95] pushsymb 130 ............................ <#table>
+  [ 97] eq ...................................... <typ = #table>
+  [ 98] getlocal 0 .............................. <typ>
+  [100] pushsymb 194 ............................ <#check>
+  [102] eq ...................................... <typ = #check>
+  [103] or ...................................... <(typ = #table) or (typ = #check)>
+  [104] jmpifz [111] ............................ if (typ = #table) or (typ = #check) then
+  [107] getparam 1 .............................. <d>
+  [109] setlocal 1 .............................. tbl = d
+  [111] getlocal 1 .............................. <tbl>
+  [113] pusharglist 1 ........................... <tbl>
+  [115] extcall 31 .............................. <voidp(tbl)>
+  [117] not ..................................... <not voidp(tbl)>
+  [118] jmpifz [157] ............................ if not voidp(tbl) then / else
+  [121] getprop 243 ............................. <num>
+  [123] getlocal 1 .............................. <tbl>
+  [125] getobjprop 386 .......................... <tbl.tablenum>
+  [128] pusharglist 1 ........................... <tbl.tablenum>
+  [130] extcall 59 .............................. <string(tbl.tablenum)>
+  [132] pusharglistnoret 2 ...................... <num, string(tbl.tablenum)>
+  [134] objcall 773 ............................. num.setText(string(tbl.tablenum))
+  [137] getprop 243 ............................. <num>
+  [139] pushint8 1 .............................. <1>
+  [141] pusharglistnoret 2 ...................... <num, 1>
+  [143] objcall 57 .............................. num.setVisible(1)
+  [145] getprop 1048 ............................ <num_bg>
+  [148] pushint8 1 .............................. <1>
+  [150] pusharglistnoret 2 ...................... <num_bg, 1>
+  [152] objcall 57 .............................. num_bg.setVisible(1)
+  [154] jmp [172]
+  [157] getprop 243 ............................. <num>
+  [159] pushzero ................................ <0>
+  [160] pusharglistnoret 2 ...................... <num, 0>
+  [162] objcall 57 .............................. num.setVisible(0)
+  [164] getprop 1048 ............................ <num_bg>
+  [167] pushzero ................................ <0>
+  [168] pusharglistnoret 2 ...................... <num_bg, 0>
+  [170] objcall 57 .............................. num_bg.setVisible(0)
+  [172] ret
+end

@@ -1,0 +1,270 @@
+property origmem, pMember, alph, heartimg, heartwidth, heartheight, spacing, node, sitterGroup, width
+
+on new me, n
+  [  0] getparam 1 .............................. <n>
+  [  2] setprop 45 .............................. node = n
+  [  4] getprop 45 .............................. <node>
+  [  6] pusharglist 1 ........................... <node>
+  [  8] extcall 31 .............................. <voidp(node)>
+  [ 10] not ..................................... <not voidp(node)>
+  [ 11] jmpifz [ 23] ............................ if not voidp(node) then
+  [ 14] getprop 45 .............................. <node>
+  [ 16] pusharglist 1 ........................... <node>
+  [ 18] objcall 1123 ............................ <node.getMember()>
+  [ 21] setlocal 0 .............................. m = node.getMember()
+  [ 23] getlocal 0 .............................. <m>
+  [ 25] setprop 1124 ............................ origmem = m
+  [ 28] pushcons 0 .............................. <"heartrow">
+  [ 30] pushcons 1 .............................. <"gfx.people">
+  [ 32] pusharglist 2 ........................... <"heartrow", "gfx.people">
+  [ 34] extcall 81 .............................. <member("heartrow", "gfx.people")>
+  [ 36] setlocal 0 .............................. m = member("heartrow", "gfx.people")
+  [ 38] pushcons 2 .............................. <"heart">
+  [ 40] pushcons 1 .............................. <"gfx.people">
+  [ 42] pusharglist 2 ........................... <"heart", "gfx.people">
+  [ 44] extcall 81 .............................. <member("heart", "gfx.people")>
+  [ 46] getobjprop 1126 ......................... <member("heart", "gfx.people").image>
+  [ 49] setprop 1125 ............................ heartimg = member("heart", "gfx.people").image
+  [ 52] getprop 1125 ............................ <heartimg>
+  [ 55] getobjprop 572 .......................... <heartimg.width>
+  [ 58] setprop 1127 ............................ heartwidth = heartimg.width
+  [ 61] getprop 1125 ............................ <heartimg>
+  [ 64] getobjprop 415 .......................... <heartimg.height>
+  [ 67] setprop 1128 ............................ heartheight = heartimg.height
+  [ 70] getprop 1127 ............................ <heartwidth>
+  [ 73] pushint8 2 .............................. <2>
+  [ 75] sub ..................................... <heartwidth - 2>
+  [ 76] setprop 1129 ............................ spacing = heartwidth - 2
+  [ 79] pushsymb 1131 ........................... <#bitmap>
+  [ 82] pushcons 3 .............................. <"dynamic">
+  [ 84] pusharglist 1 ........................... <"dynamic">
+  [ 86] extcall 1132 ............................ <castLib("dynamic")>
+  [ 89] pusharglist 2 ........................... <#bitmap, castLib("dynamic")>
+  [ 91] extcall 4 ............................... <new(#bitmap, castLib("dynamic"))>
+  [ 93] setprop 1130 ............................ pMember = new(#bitmap, castLib("dynamic"))
+  [ 96] getlocal 0 .............................. <m>
+  [ 98] getchainedprop 1133 ..................... <m.rect>
+  [101] getobjprop 572 .......................... <m.rect.width>
+  [104] setprop 572 ............................. width = m.rect.width
+  [107] getprop 572 ............................. <width>
+  [110] getlocal 0 .............................. <m>
+  [112] getchainedprop 1133 ..................... <m.rect>
+  [115] getobjprop 415 .......................... <m.rect.height>
+  [118] pushint8 32 ............................. <32>
+  [120] pusharglist 3 ........................... <width, m.rect.height, 32>
+  [122] extcall 1126 ............................ <image(width, m.rect.height, 32)>
+  [125] setlocal 1 .............................. image = image(width, m.rect.height, 32)
+  [127] getlocal 1 .............................. <image>
+  [129] getchainedprop 1133 ..................... <image.rect>
+  [132] getobjprop 572 .......................... <image.rect.width>
+  [135] getlocal 1 .............................. <image>
+  [137] getchainedprop 1133 ..................... <image.rect>
+  [140] getobjprop 415 .......................... <image.rect.height>
+  [143] pushint8 8 .............................. <8>
+  [145] pusharglist 3 ........................... <image.rect.width, image.rect.height, 8>
+  [147] extcall 1126 ............................ <image(image.rect.width, image.rect.height, 8)>
+  [150] setprop 1134 ............................ alph = image(image.rect.width, image.rect.height, 8)
+  [153] getprop 1134 ............................ <alph>
+  [156] getprop 1134 ............................ <alph>
+  [159] getobjprop 1133 ......................... <alph.rect>
+  [162] pushint16 255 ........................... <255>
+  [165] pushint16 255 ........................... <255>
+  [168] pushint16 255 ........................... <255>
+  [171] pusharglist 3 ........................... <255, 255, 255>
+  [173] extcall 708 ............................. <rgb(255, 255, 255)>
+  [176] pusharglistnoret 3 ...................... <alph, alph.rect, rgb(255, 255, 255)>
+  [178] objcall 1135 ............................ alph.fill(alph.rect, rgb(255, 255, 255))
+  [181] getlocal 1 .............................. <image>
+  [183] getprop 1134 ............................ <alph>
+  [186] pusharglistnoret 2 ...................... <image, alph>
+  [188] objcall 571 ............................. image.setAlpha(alph)
+  [191] getprop 1130 ............................ <pMember>
+  [194] getlocal 1 .............................. <image>
+  [196] setobjprop 1126 ......................... pMember.image = image
+  [199] getprop 1130 ............................ <pMember>
+  [202] pushint8 1 .............................. <1>
+  [204] setobjprop 1136 ......................... pMember.useAlpha = 1
+  [207] getprop 45 .............................. <node>
+  [209] pusharglist 1 ........................... <node>
+  [211] extcall 31 .............................. <voidp(node)>
+  [213] not ..................................... <not voidp(node)>
+  [214] jmpifz [226] ............................ if not voidp(node) then
+  [217] getprop 45 .............................. <node>
+  [219] getprop 1130 ............................ <pMember>
+  [222] pusharglistnoret 2 ...................... <node, pMember>
+  [224] objcall 213 ............................. node.setMember(pMember)
+  [226] getparam 0 .............................. <me>
+  [228] pusharglistnoret 1 ...................... <me>
+  [230] extcall 9 ............................... return me
+  [232] ret
+end
+
+on setHearts me, num
+  [  0] pushzero ................................ <0>
+  [  1] getparam 1 .............................. <num>
+  [  3] pushint8 10 ............................. <10>
+  [  5] pusharglist 2 ........................... <num, 10>
+  [  7] extcall 154 ............................. <min(num, 10)>
+  [  9] pusharglist 2 ........................... <0, min(num, 10)>
+  [ 11] extcall 153 ............................. <max(0, min(num, 10))>
+  [ 13] setparam 1 .............................. num = max(0, min(num, 10))
+  [ 15] pushzero ................................ <0>
+  [ 16] setlocal 0 .............................. left = 0
+  [ 18] getprop 1130 ............................ <pMember>
+  [ 21] getchainedprop 1126 ..................... <pMember.image>
+  [ 24] getprop 1134 ............................ <alph>
+  [ 27] pusharglistnoret 2 ...................... <pMember.image, alph>
+  [ 29] objcall 571 ............................. pMember.image.setAlpha(alph)
+  [ 32] getparam 1 .............................. <num>
+  [ 34] setlocal 1
+  [ 36] getlocal 1
+  [ 38] pushint8 1 .............................. <1>
+  [ 40] gteq
+  [ 41] jmpifz [117] ............................ repeat with i = num down to 1
+  [ 44] getprop 1125 ............................ <heartimg>
+  [ 47] getobjprop 1133 ......................... <heartimg.rect>
+  [ 50] setlocal 2 .............................. r = heartimg.rect
+  [ 52] getprop 572 ............................. <width>
+  [ 55] getlocal 1 .............................. <i>
+  [ 57] getprop 1129 ............................ <spacing>
+  [ 60] mul ..................................... <i * spacing>
+  [ 61] sub ..................................... <width - (i * spacing)>
+  [ 62] pushint8 2 .............................. <2>
+  [ 64] sub ..................................... <width - (i * spacing) - 2>
+  [ 65] setlocal 0 .............................. left = width - (i * spacing) - 2
+  [ 67] getprop 1130 ............................ <pMember>
+  [ 70] getchainedprop 1126 ..................... <pMember.image>
+  [ 73] getprop 1125 ............................ <heartimg>
+  [ 76] getlocal 0 .............................. <left>
+  [ 78] pushzero ................................ <0>
+  [ 79] getlocal 0 .............................. <left>
+  [ 81] getprop 1127 ............................ <heartwidth>
+  [ 84] add ..................................... <left + heartwidth>
+  [ 85] getprop 1128 ............................ <heartheight>
+  [ 88] pusharglist 4 ........................... <left, 0, left + heartwidth, heartheight>
+  [ 90] extcall 1133 ............................ <rect(left, 0, left + heartwidth, heartheight)>
+  [ 93] getlocal 2 .............................. <r>
+  [ 95] pushsymb 1137 ........................... <#ink>
+  [ 98] pushint8 36 ............................. <36>
+  [100] pusharglist 2 ........................... <[#ink: 36]>
+  [102] pushproplist ............................ <[#ink: 36]>
+  [103] pusharglistnoret 5 ...................... <pMember.image, heartimg, rect(left, 0, left + heartwidth, heartheight), r, [#ink: 36]>
+  [105] objcall 1138 ............................ pMember.image.copyPixels(heartimg, rect(left, 0, left + heartwidth, heartheight), r, [#ink: 36])
+  [108] pushint8 -1
+  [110] getlocal 1
+  [112] add
+  [113] setlocal 1
+  [115] endrepeat [ 36]
+  [117] getprop 45 .............................. <node>
+  [119] pusharglist 1 ........................... <node>
+  [121] extcall 31 .............................. <voidp(node)>
+  [123] not ..................................... <not voidp(node)>
+  [124] jmpifz [136] ............................ if not voidp(node) then
+  [127] getprop 45 .............................. <node>
+  [129] getprop 1130 ............................ <pMember>
+  [132] pusharglistnoret 2 ...................... <node, pMember>
+  [134] objcall 213 ............................. node.setMember(pMember)
+  [136] ret
+end
+
+on setObject me, obj
+  [  0] getparam 1 .............................. <obj>
+  [  2] getprop 92 .............................. <sitterGroup>
+  [  4] eq ...................................... <obj = sitterGroup>
+  [  5] jmpifz [ 12] ............................ if obj = sitterGroup then
+  [  8] pusharglistnoret 0 ...................... <>
+  [ 10] extcall 9 ............................... return 
+  [ 12] getprop 92 .............................. <sitterGroup>
+  [ 14] pusharglist 1 ........................... <sitterGroup>
+  [ 16] extcall 31 .............................. <voidp(sitterGroup)>
+  [ 18] not ..................................... <not voidp(sitterGroup)>
+  [ 19] jmpifz [ 30] ............................ if not voidp(sitterGroup) then
+  [ 22] getprop 92 .............................. <sitterGroup>
+  [ 24] getparam 0 .............................. <me>
+  [ 26] pusharglistnoret 2 ...................... <sitterGroup, me>
+  [ 28] objcall 110 ............................. sitterGroup.removeView(me)
+  [ 30] getparam 1 .............................. <obj>
+  [ 32] setprop 92 .............................. sitterGroup = obj
+  [ 34] getparam 1 .............................. <obj>
+  [ 36] pusharglist 1 ........................... <obj>
+  [ 38] extcall 31 .............................. <voidp(obj)>
+  [ 40] jmpifz [ 54] ............................ if voidp(obj) then
+  [ 43] getprop 45 .............................. <node>
+  [ 45] pushzero ................................ <0>
+  [ 46] pusharglistnoret 2 ...................... <node, 0>
+  [ 48] objcall 57 .............................. node.setVisible(0)
+  [ 50] pusharglistnoret 0 ...................... <>
+  [ 52] extcall 9 ............................... return 
+  [ 54] getprop 92 .............................. <sitterGroup>
+  [ 56] getparam 0 .............................. <me>
+  [ 58] pusharglistnoret 2 ...................... <sitterGroup, me>
+  [ 60] objcall 112 ............................. sitterGroup.addView(me)
+  [ 62] getprop 45 .............................. <node>
+  [ 64] pushint8 1 .............................. <1>
+  [ 66] pusharglistnoret 2 ...................... <node, 1>
+  [ 68] objcall 57 .............................. node.setVisible(1)
+  [ 70] getparam 0 .............................. <me>
+  [ 72] pusharglistnoret 1 ...................... <me>
+  [ 74] objcall 39 .............................. me.update()
+  [ 76] ret
+end
+
+on update me
+  [  0] getprop 92 .............................. <sitterGroup>
+  [  2] pusharglist 1 ........................... <sitterGroup>
+  [  4] extcall 31 .............................. <voidp(sitterGroup)>
+  [  6] jmpifz [ 13] ............................ if voidp(sitterGroup) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 9 ............................... return 
+  [ 13] getparam 0 .............................. <me>
+  [ 15] getprop 92 .............................. <sitterGroup>
+  [ 17] getobjprop 98 ........................... <sitterGroup.mood>
+  [ 19] pusharglistnoret 2 ...................... <me, sitterGroup.mood>
+  [ 21] objcall 99 .............................. me.setHearts(sitterGroup.mood)
+  [ 23] ret
+end
+
+on removeObject me, obj
+  [  0] getprop 92 .............................. <sitterGroup>
+  [  2] getparam 1 .............................. <obj>
+  [  4] eq ...................................... <sitterGroup = obj>
+  [  5] jmpifz [ 19] ............................ if sitterGroup = obj then
+  [  8] getparam 0 .............................. <me>
+  [ 10] pusharglist 0 ........................... <>
+  [ 12] extcall 65 .............................. <VOID>
+  [ 14] pusharglistnoret 2 ...................... <me, VOID>
+  [ 16] objcall 485 ............................. me.setObject(VOID)
+  [ 19] ret
+end
+
+on destroy me
+  [  0] getprop 1130 ............................ <pMember>
+  [  3] pusharglist 1 ........................... <pMember>
+  [  5] extcall 31 .............................. <voidp(pMember)>
+  [  7] not ..................................... <not voidp(pMember)>
+  [  8] jmpifz [ 19] ............................ if not voidp(pMember) then
+  [ 11] getprop 1130 ............................ <pMember>
+  [ 14] pusharglistnoret 1 ...................... <pMember>
+  [ 16] extcall 1139 ............................ erase(pMember)
+  [ 19] getprop 92 .............................. <sitterGroup>
+  [ 21] pusharglist 1 ........................... <sitterGroup>
+  [ 23] extcall 31 .............................. <voidp(sitterGroup)>
+  [ 25] not ..................................... <not voidp(sitterGroup)>
+  [ 26] jmpifz [ 37] ............................ if not voidp(sitterGroup) then
+  [ 29] getprop 92 .............................. <sitterGroup>
+  [ 31] getparam 0 .............................. <me>
+  [ 33] pusharglistnoret 2 ...................... <sitterGroup, me>
+  [ 35] objcall 110 ............................. sitterGroup.removeView(me)
+  [ 37] pusharglist 0 ........................... <>
+  [ 39] extcall 65 .............................. <VOID>
+  [ 41] setprop 1130 ............................ pMember = VOID
+  [ 44] getprop 45 .............................. <node>
+  [ 46] pusharglist 1 ........................... <node>
+  [ 48] extcall 31 .............................. <voidp(node)>
+  [ 50] not ..................................... <not voidp(node)>
+  [ 51] jmpifz [ 60] ............................ if not voidp(node) then
+  [ 54] pusharglist 0 ........................... <>
+  [ 56] extcall 65 .............................. <VOID>
+  [ 58] setprop 45 .............................. node = VOID
+  [ 60] ret
+end

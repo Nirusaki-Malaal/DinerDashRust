@@ -1,0 +1,110 @@
+property node, num, checknodes, bonus
+
+on new me, n
+  [  0] getparam 1 .............................. <n>
+  [  2] setprop 45 .............................. node = n
+  [  4] getprop 45 .............................. <node>
+  [  6] pushcons 0 .............................. <"num">
+  [  8] pusharglist 2 ........................... <node, "num">
+  [ 10] objcall 36 .............................. <node["num"]>
+  [ 12] setprop 243 ............................. num = node["num"]
+  [ 14] getprop 243 ............................. <num>
+  [ 16] getprop 45 .............................. <node>
+  [ 18] pushcons 1 .............................. <"check">
+  [ 20] pusharglist 2 ........................... <node, "check">
+  [ 22] objcall 36 .............................. <node["check"]>
+  [ 24] getprop 45 .............................. <node>
+  [ 26] pushcons 2 .............................. <"bg">
+  [ 28] pusharglist 2 ........................... <node, "bg">
+  [ 30] objcall 36 .............................. <node["bg"]>
+  [ 32] pusharglist 3 ........................... <[num, node["check"], node["bg"]]>
+  [ 34] pushlist ................................ <[num, node["check"], node["bg"]]>
+  [ 35] setprop 1105 ............................ checknodes = [num, node["check"], node["bg"]]
+  [ 38] pushsymb 57 ............................. <#setVisible>
+  [ 40] getprop 1105 ............................ <checknodes>
+  [ 43] pushzero ................................ <0>
+  [ 44] pusharglistnoret 3 ...................... <#setVisible, checknodes, 0>
+  [ 46] extcall 32 .............................. call(#setVisible, checknodes, 0)
+  [ 48] getprop 45 .............................. <node>
+  [ 50] pushint8 1 .............................. <1>
+  [ 52] pusharglistnoret 2 ...................... <node, 1>
+  [ 54] objcall 57 .............................. node.setVisible(1)
+  [ 56] pushcons 3 .............................. <"bonus_flash">
+  [ 58] pusharglist 1 ........................... <"bonus_flash">
+  [ 60] extcall 55 .............................. <script("bonus_flash")>
+  [ 62] getprop 45 .............................. <node>
+  [ 64] pushcons 4 .............................. <"bonus">
+  [ 66] pusharglist 2 ........................... <node, "bonus">
+  [ 68] objcall 36 .............................. <node["bonus"]>
+  [ 70] pusharglist 2 ........................... <script("bonus_flash"), node["bonus"]>
+  [ 72] objcall 4 ............................... <script("bonus_flash").new(node["bonus"])>
+  [ 74] setprop 610 ............................. bonus = script("bonus_flash").new(node["bonus"])
+  [ 77] getparam 0 .............................. <me>
+  [ 79] pusharglistnoret 1 ...................... <me>
+  [ 81] extcall 9 ............................... return me
+  [ 83] ret
+end
+
+on destroy me
+  [  0] getprop 610 ............................. <bonus>
+  [  3] pusharglistnoret 1 ...................... <bonus>
+  [  5] objcall 5 ............................... bonus.destroy()
+  [  7] pusharglist 0 ........................... <>
+  [  9] extcall 65 .............................. <VOID>
+  [ 11] setprop 610 ............................. bonus = VOID
+  [ 14] getprop 1105 ............................ <checknodes>
+  [ 17] pusharglistnoret 1 ...................... <checknodes>
+  [ 19] objcall 10 .............................. checknodes.deleteAll()
+  [ 21] pusharglist 0 ........................... <>
+  [ 23] extcall 65 .............................. <VOID>
+  [ 25] setprop 243 ............................. num = VOID
+  [ 27] pusharglist 0 ........................... <>
+  [ 29] extcall 65 .............................. <VOID>
+  [ 31] setprop 45 .............................. node = VOID
+  [ 33] ret
+end
+
+on setChain me, numchecks
+  [  0] getparam 1 .............................. <numchecks>
+  [  2] pushint8 2 .............................. <2>
+  [  4] lt ...................................... <numchecks < 2>
+  [  5] jmpifz [ 21] ............................ if numchecks < 2 then / else
+  [  8] pushsymb 57 ............................. <#setVisible>
+  [ 10] getprop 1105 ............................ <checknodes>
+  [ 13] pushzero ................................ <0>
+  [ 14] pusharglistnoret 3 ...................... <#setVisible, checknodes, 0>
+  [ 16] extcall 32 .............................. call(#setVisible, checknodes, 0)
+  [ 18] jmp [ 48]
+  [ 21] getprop 243 ............................. <num>
+  [ 23] pushcons 5 .............................. <"x">
+  [ 25] getparam 1 .............................. <numchecks>
+  [ 27] pusharglist 1 ........................... <numchecks>
+  [ 29] extcall 59 .............................. <string(numchecks)>
+  [ 31] joinstr ................................. <"x" & string(numchecks)>
+  [ 32] pusharglistnoret 2 ...................... <num, "x" & string(numchecks)>
+  [ 34] objcall 773 ............................. num.setText("x" & string(numchecks))
+  [ 37] pushsymb 57 ............................. <#setVisible>
+  [ 39] getprop 1105 ............................ <checknodes>
+  [ 42] pushint8 1 .............................. <1>
+  [ 44] pusharglistnoret 3 ...................... <#setVisible, checknodes, 1>
+  [ 46] extcall 32 .............................. call(#setVisible, checknodes, 1)
+  [ 48] ret
+end
+
+on showBonus me, bnum
+  [  0] getprop 610 ............................. <bonus>
+  [  3] pushcons 6 .............................. <"+">
+  [  5] getparam 1 .............................. <bnum>
+  [  7] joinstr ................................. <"+" & bnum>
+  [  8] pusharglistnoret 2 ...................... <bonus, "+" & bnum>
+  [ 10] objcall 956 ............................. bonus.show("+" & bnum)
+  [ 13] ret
+end
+
+on hide me
+  [  0] getprop 45 .............................. <node>
+  [  2] pushzero ................................ <0>
+  [  3] pusharglistnoret 2 ...................... <node, 0>
+  [  5] objcall 57 .............................. node.setVisible(0)
+  [  7] ret
+end

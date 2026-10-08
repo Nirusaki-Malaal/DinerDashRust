@@ -1,0 +1,454 @@
+property node, heart, chargeMS, delayms, activeMS, moodPoints, hearts, game_mgr, room_mgr, check, floHere, ready, Tile, destTile, type, timer, shapeinfo
+global glob
+
+on new me, Args
+  [  0] pushsymb 368 ............................ <#podium>
+  [  3] setprop 137 ............................. type = #podium
+  [  5] getparam 1 .............................. <Args>
+  [  7] getobjprop 45 ........................... <Args.node>
+  [  9] setprop 45 .............................. node = Args.node
+  [ 11] getprop 45 .............................. <node>
+  [ 13] pushint8 1 .............................. <1>
+  [ 15] pusharglistnoret 2 ...................... <node, 1>
+  [ 17] objcall 57 .............................. node.setVisible(1)
+  [ 19] getparam 0 .............................. <me>
+  [ 21] pusharglist 1 ........................... <[me]>
+  [ 23] pushlist ................................ <[me]>
+  [ 24] pusharglist 1 ........................... <[[me]]>
+  [ 26] pushlist ................................ <[[me]]>
+  [ 27] setprop 261 ............................. shapeinfo = [[me]]
+  [ 30] getparam 1 .............................. <Args>
+  [ 32] getobjprop 43 ........................... <Args.game_mgr>
+  [ 34] setprop 43 .............................. game_mgr = Args.game_mgr
+  [ 36] getparam 1 .............................. <Args>
+  [ 38] getobjprop 41 ........................... <Args.room_mgr>
+  [ 40] setprop 41 .............................. room_mgr = Args.room_mgr
+  [ 42] getparam 1 .............................. <Args>
+  [ 44] pushsymb 315 ............................ <#config>
+  [ 47] pusharglist 2 ........................... <Args, #config>
+  [ 49] objcall 36 .............................. <Args[#config]>
+  [ 51] pushsymb 1112 ........................... <#propList>
+  [ 54] pusharglist 2 ........................... <Args[#config], #propList>
+  [ 56] extcall 1097 ............................ <ilk(Args[#config], #propList)>
+  [ 59] jmpifz [ 74] ............................ if ilk(Args[#config], #propList) then
+  [ 62] getparam 0 .............................. <me>
+  [ 64] getparam 1 .............................. <Args>
+  [ 66] getobjprop 315 .......................... <Args.config>
+  [ 69] pusharglistnoret 2 ...................... <me, Args.config>
+  [ 71] objcall 395 ............................. me.setConfig(Args.config)
+  [ 74] getparam 1 .............................. <Args>
+  [ 76] getobjprop 45 ........................... <Args.node>
+  [ 78] setprop 45 .............................. node = Args.node
+  [ 80] getprop 45 .............................. <node>
+  [ 82] getparam 0 .............................. <me>
+  [ 84] pusharglistnoret 2 ...................... <node, me>
+  [ 86] objcall 1022 ............................ node.addMouseListener(me)
+  [ 89] getprop 45 .............................. <node>
+  [ 91] pushcons 0 .............................. <"podium_heart">
+  [ 93] pusharglist 2 ........................... <node, "podium_heart">
+  [ 95] objcall 36 .............................. <node["podium_heart"]>
+  [ 97] setprop 1113 ............................ heart = node["podium_heart"]
+  [100] getprop 1113 ............................ <heart>
+  [103] pushzero ................................ <0>
+  [104] pusharglistnoret 2 ...................... <heart, 0>
+  [106] objcall 57 .............................. heart.setVisible(0)
+  [108] getprop 45 .............................. <node>
+  [110] pushcons 1 .............................. <"check">
+  [112] pusharglist 2 ........................... <node, "check">
+  [114] objcall 36 .............................. <node["check"]>
+  [116] setprop 194 ............................. check = node["check"]
+  [118] getprop 194 ............................. <check>
+  [120] pushzero ................................ <0>
+  [121] pusharglistnoret 2 ...................... <check, 0>
+  [123] objcall 57 .............................. check.setVisible(0)
+  [125] pushcons 0 .............................. <"podium_heart">
+  [127] pushcons 2 .............................. <"scripts.game">
+  [129] pusharglist 2 ........................... <"podium_heart", "scripts.game">
+  [131] extcall 55 .............................. <script("podium_heart", "scripts.game")>
+  [133] setlocal 0 .............................. pscript = script("podium_heart", "scripts.game")
+  [135] pusharglist 0 ........................... <[]>
+  [137] pushlist ................................ <[]>
+  [138] setprop 1114 ............................ hearts = []
+  [141] pushint8 1 .............................. <1>
+  [143] setlocal 1
+  [145] getlocal 1
+  [147] pushint8 10 ............................. <10>
+  [149] lteq
+  [150] jmpifz [186] ............................ repeat with i = 1 to 10
+  [153] getprop 1114 ............................ <hearts>
+  [156] getlocal 0 .............................. <pscript>
+  [158] getprop 45 .............................. <node>
+  [160] pushcons 3 .............................. <"heart_">
+  [162] getlocal 1 .............................. <i>
+  [164] joinstr ................................. <"heart_" & i>
+  [165] pusharglist 2 ........................... <node, "heart_" & i>
+  [167] objcall 36 .............................. <node["heart_" & i]>
+  [169] pusharglist 2 ........................... <pscript, node["heart_" & i]>
+  [171] objcall 4 ............................... <pscript.new(node["heart_" & i])>
+  [173] pusharglistnoret 2 ...................... <hearts, pscript.new(node["heart_" & i])>
+  [175] objcall 6 ............................... hearts.add(pscript.new(node["heart_" & i]))
+  [177] pushint8 1
+  [179] getlocal 1
+  [181] add
+  [182] setlocal 1
+  [184] endrepeat [145]
+  [186] pushint8 1 .............................. <1>
+  [188] setprop 188 ............................. ready = 1
+  [190] getparam 0 .............................. <me>
+  [192] pusharglistnoret 1 ...................... <me>
+  [194] extcall 9 ............................... return me
+  [196] ret
+end
+
+on setConfig me, cfg
+  [  0] pushint8 1 .............................. <1>
+  [  2] setlocal 0
+  [  4] getlocal 0
+  [  6] getparam 1 .............................. <cfg>
+  [  8] getobjprop 12 ........................... <cfg.count>
+  [ 10] lteq
+  [ 11] jmpifz [ 50] ............................ repeat with i = 1 to cfg.count
+  [ 14] getparam 1 .............................. <cfg>
+  [ 16] getlocal 0 .............................. <i>
+  [ 18] pusharglist 2 ........................... <cfg, i>
+  [ 20] objcall 891 ............................. <cfg.getPropAt(i)>
+  [ 23] setlocal 1 .............................. k = cfg.getPropAt(i)
+  [ 25] getparam 0 .............................. <me>
+  [ 27] getlocal 1 .............................. <k>
+  [ 29] getparam 1 .............................. <cfg>
+  [ 31] getlocal 0 .............................. <i>
+  [ 33] pusharglist 2 ........................... <cfg, i>
+  [ 35] objcall 36 .............................. <cfg[i]>
+  [ 37] pusharglistnoret 3 ...................... <me, k, cfg[i]>
+  [ 39] objcall 28 .............................. me.setProp(k, cfg[i])
+  [ 41] pushint8 1
+  [ 43] getlocal 0
+  [ 45] add
+  [ 46] setlocal 0
+  [ 48] endrepeat [  4]
+  [ 50] ret
+end
+
+on clearTimer me
+  [  0] getprop 870 ............................. <timer>
+  [  3] pusharglist 1 ........................... <timer>
+  [  5] extcall 31 .............................. <voidp(timer)>
+  [  7] not ..................................... <not voidp(timer)>
+  [  8] jmpifz [ 25] ............................ if not voidp(timer) then
+  [ 11] getprop 870 ............................. <timer>
+  [ 14] pusharglistnoret 1 ...................... <timer>
+  [ 16] objcall 5 ............................... timer.destroy()
+  [ 18] pusharglist 0 ........................... <>
+  [ 20] extcall 65 .............................. <VOID>
+  [ 22] setprop 870 ............................. timer = VOID
+  [ 25] ret
+end
+
+on setTile me, t
+  [  0] getparam 1 .............................. <t>
+  [  2] setprop 262 ............................. Tile = t
+  [  5] ret
+end
+
+on setDestTile me, t
+  [  0] getparam 1 .............................. <t>
+  [  2] setprop 392 ............................. destTile = t
+  [  5] ret
+end
+
+on getTile me
+  [  0] getprop 392 ............................. <destTile>
+  [  3] pusharglist 1 ........................... <destTile>
+  [  5] extcall 31 .............................. <voidp(destTile)>
+  [  7] not ..................................... <not voidp(destTile)>
+  [  8] jmpifz [ 18] ............................ if not voidp(destTile) then
+  [ 11] getprop 392 ............................. <destTile>
+  [ 14] pusharglistnoret 1 ...................... <destTile>
+  [ 16] extcall 9 ............................... return destTile
+  [ 18] getprop 262 ............................. <Tile>
+  [ 21] pusharglistnoret 1 ...................... <Tile>
+  [ 23] extcall 9 ............................... return Tile
+  [ 25] ret
+end
+
+on doFloAction me, flo
+  [  0] getprop 1116 ............................ <floHere>
+  [  3] jmpifz [ 10] ............................ if floHere then
+  [  6] pusharglistnoret 0 ...................... <>
+  [  8] extcall 9 ............................... return 
+  [ 10] pushint8 1 .............................. <1>
+  [ 12] setprop 1116 ............................ floHere = 1
+  [ 15] getprop 188 ............................. <ready>
+  [ 17] not ..................................... <not ready>
+  [ 18] jmpifz [ 25] ............................ if not ready then
+  [ 21] pusharglistnoret 0 ...................... <>
+  [ 23] extcall 9 ............................... return 
+  [ 25] getparam 1 .............................. <flo>
+  [ 27] pusharglistnoret 1 ...................... <flo>
+  [ 29] objcall 1057 ............................ flo.clearChain()
+  [ 32] getparam 0 .............................. <me>
+  [ 34] pusharglistnoret 1 ...................... <me>
+  [ 36] objcall 1109 ............................ me.startCharging()
+  [ 39] pushsymb 527 ............................ <#Ok>
+  [ 42] pusharglistnoret 1 ...................... <#Ok>
+  [ 44] extcall 9 ............................... return #Ok
+  [ 46] ret
+end
+
+on setReady me, r
+  [  0] getprop 1113 ............................ <heart>
+  [  3] pusharglist 1 ........................... <heart>
+  [  5] extcall 31 .............................. <voidp(heart)>
+  [  7] jmpifz [ 14] ............................ if voidp(heart) then
+  [ 10] pusharglistnoret 0 ...................... <>
+  [ 12] extcall 9 ............................... return 
+  [ 14] getparam 1 .............................. <r>
+  [ 16] setprop 188 ............................. ready = r
+  [ 18] pushsymb 57 ............................. <#setVisible>
+  [ 20] getprop 1114 ............................ <hearts>
+  [ 23] getparam 1 .............................. <r>
+  [ 25] pusharglistnoret 3 ...................... <#setVisible, hearts, r>
+  [ 27] extcall 32 .............................. call(#setVisible, hearts, r)
+  [ 29] getprop 188 ............................. <ready>
+  [ 31] getprop 1116 ............................ <floHere>
+  [ 34] and ..................................... <ready and floHere>
+  [ 35] jmpifz [ 45] ............................ if ready and floHere then
+  [ 38] getparam 0 .............................. <me>
+  [ 40] pusharglistnoret 1 ...................... <me>
+  [ 42] objcall 1109 ............................ me.startCharging()
+  [ 45] ret
+end
+
+on startCharging me
+  [  0] getprop 188 ............................. <ready>
+  [  2] not ..................................... <not ready>
+  [  3] jmpifz [ 10] ............................ if not ready then
+  [  6] pusharglistnoret 0 ...................... <>
+  [  8] extcall 9 ............................... return 
+  [ 10] getprop 1116 ............................ <floHere>
+  [ 13] not ..................................... <not floHere>
+  [ 14] jmpifz [ 27] ............................ if not floHere then
+  [ 17] getparam 0 .............................. <me>
+  [ 19] pusharglistnoret 1 ...................... <me>
+  [ 21] objcall 208 ............................. me.stop()
+  [ 23] pusharglistnoret 0 ...................... <>
+  [ 25] extcall 9 ............................... return 
+  [ 27] pushsymb 1117 ........................... <#startPodium>
+  [ 30] getprop 41 .............................. <room_mgr>
+  [ 32] getchainedprop 323 ...................... <room_mgr.waiter>
+  [ 35] getobjprop 276 .......................... <room_mgr.waiter.views>
+  [ 38] pusharglistnoret 2 ...................... <#startPodium, room_mgr.waiter.views>
+  [ 40] extcall 32 .............................. call(#startPodium, room_mgr.waiter.views)
+  [ 42] getprop 1113 ............................ <heart>
+  [ 45] pushint8 1 .............................. <1>
+  [ 47] pusharglistnoret 2 ...................... <heart, 1>
+  [ 49] objcall 57 .............................. heart.setVisible(1)
+  [ 51] getprop 1113 ............................ <heart>
+  [ 54] pushcons 4 .............................. <"grow">
+  [ 56] pushsymb 185 ............................ <#frameMS>
+  [ 58] getprop 1118 ............................ <chargeMS>
+  [ 61] pushint8 3 .............................. <3>
+  [ 63] div ..................................... <chargeMS / 3>
+  [ 64] pushsymb 184 ............................ <#loopCount>
+  [ 66] pushint8 1 .............................. <1>
+  [ 68] pushsymb 186 ............................ <#callback>
+  [ 70] pushsymb 34 ............................. <#target>
+  [ 72] getparam 0 .............................. <me>
+  [ 74] pushsymb 33 ............................. <#handler>
+  [ 76] pushsymb 1110 ........................... <#Activate>
+  [ 79] pusharglist 4 ........................... <[#target: me, #handler: #Activate]>
+  [ 81] pushproplist ............................ <[#target: me, #handler: #Activate]>
+  [ 82] pusharglist 6 ........................... <[#frameMS: chargeMS / 3, #loopCount: 1, #callback: [#target: me, #handler: #Activate]]>
+  [ 84] pushproplist ............................ <[#frameMS: chargeMS / 3, #loopCount: 1, #callback: [#target: me, #handler: #Activate]]>
+  [ 85] pusharglistnoret 3 ...................... <heart, "grow", [#frameMS: chargeMS / 3, #loopCount: 1, #callback: [#target: me, #handler: #Activate]]>
+  [ 87] objcall 209 ............................. heart.setAnimation("grow", [#frameMS: chargeMS / 3, #loopCount: 1, #callback: [#target: me, #handler: #Activate]])
+  [ 89] ret
+end
+
+on Activate me
+  [  0] getprop 1113 ............................ <heart>
+  [  3] pusharglist 1 ........................... <heart>
+  [  5] extcall 31 .............................. <voidp(heart)>
+  [  7] jmpifz [ 14] ............................ if voidp(heart) then
+  [ 10] pusharglistnoret 0 ...................... <>
+  [ 12] extcall 9 ............................... return 
+  [ 14] pushsymb 1119 ........................... <#fire>
+  [ 17] getprop 1114 ............................ <hearts>
+  [ 20] pusharglistnoret 2 ...................... <#fire, hearts>
+  [ 22] extcall 32 .............................. call(#fire, hearts)
+  [ 24] getprop 1113 ............................ <heart>
+  [ 27] pushcons 5 .............................. <"grow_full">
+  [ 29] pusharglistnoret 2 ...................... <heart, "grow_full">
+  [ 31] objcall 209 ............................. heart.setAnimation("grow_full")
+  [ 33] pushzero ................................ <0>
+  [ 34] setprop 188 ............................. ready = 0
+  [ 36] getparam 0 .............................. <me>
+  [ 38] pusharglistnoret 1 ...................... <me>
+  [ 40] objcall 1108 ............................ me.clearTimer()
+  [ 43] getprop 1120 ............................ <activeMS>
+  [ 46] pushsymb 34 ............................. <#target>
+  [ 48] getparam 0 .............................. <me>
+  [ 50] pushsymb 33 ............................. <#handler>
+  [ 52] pushsymb 1111 ........................... <#recharge>
+  [ 55] pusharglist 4 ........................... <[#target: me, #handler: #recharge]>
+  [ 57] pushproplist ............................ <[#target: me, #handler: #recharge]>
+  [ 58] pusharglist 2 ........................... <activeMS, [#target: me, #handler: #recharge]>
+  [ 60] extcall 252 ............................. <timedCall(activeMS, [#target: me, #handler: #recharge])>
+  [ 62] setprop 870 ............................. timer = timedCall(activeMS, [#target: me, #handler: #recharge])
+  [ 65] getprop 43 .............................. <game_mgr>
+  [ 67] getprop 1038 ............................ <moodPoints>
+  [ 70] pusharglistnoret 2 ...................... <game_mgr, moodPoints>
+  [ 72] objcall 37 .............................. game_mgr.activatePodium(moodPoints)
+  [ 74] pushsymb 1121 ........................... <#finishPodium>
+  [ 77] getprop 41 .............................. <room_mgr>
+  [ 79] getchainedprop 323 ...................... <room_mgr.waiter>
+  [ 82] getobjprop 276 .......................... <room_mgr.waiter.views>
+  [ 85] pusharglistnoret 2 ...................... <#finishPodium, room_mgr.waiter.views>
+  [ 87] extcall 32 .............................. call(#finishPodium, room_mgr.waiter.views)
+  [ 89] ret
+end
+
+on recharge me
+  [  0] getprop 1113 ............................ <heart>
+  [  3] pusharglist 1 ........................... <heart>
+  [  5] extcall 31 .............................. <voidp(heart)>
+  [  7] jmpifz [ 14] ............................ if voidp(heart) then
+  [ 10] pusharglistnoret 0 ...................... <>
+  [ 12] extcall 9 ............................... return 
+  [ 14] pushsymb 208 ............................ <#stop>
+  [ 16] getprop 1114 ............................ <hearts>
+  [ 19] pusharglistnoret 2 ...................... <#stop, hearts>
+  [ 21] extcall 32 .............................. call(#stop, hearts)
+  [ 23] pushsymb 57 ............................. <#setVisible>
+  [ 25] getprop 1114 ............................ <hearts>
+  [ 28] pushzero ................................ <0>
+  [ 29] pusharglistnoret 3 ...................... <#setVisible, hearts, 0>
+  [ 31] extcall 32 .............................. call(#setVisible, hearts, 0)
+  [ 33] getprop 1113 ............................ <heart>
+  [ 36] pushzero ................................ <0>
+  [ 37] pusharglistnoret 2 ...................... <heart, 0>
+  [ 39] objcall 57 .............................. heart.setVisible(0)
+  [ 41] getparam 0 .............................. <me>
+  [ 43] pusharglistnoret 1 ...................... <me>
+  [ 45] objcall 1108 ............................ me.clearTimer()
+  [ 48] getprop 781 ............................. <delayms>
+  [ 51] pushsymb 34 ............................. <#target>
+  [ 53] getparam 0 .............................. <me>
+  [ 55] pushsymb 33 ............................. <#handler>
+  [ 57] pushsymb 393 ............................ <#setReady>
+  [ 60] pushsymb 35 ............................. <#Args>
+  [ 62] pushint8 1 .............................. <1>
+  [ 64] pusharglist 6 ........................... <[#target: me, #handler: #setReady, #Args: 1]>
+  [ 66] pushproplist ............................ <[#target: me, #handler: #setReady, #Args: 1]>
+  [ 67] pusharglist 2 ........................... <delayms, [#target: me, #handler: #setReady, #Args: 1]>
+  [ 69] extcall 252 ............................. <timedCall(delayms, [#target: me, #handler: #setReady, #Args: 1])>
+  [ 71] setprop 870 ............................. timer = timedCall(delayms, [#target: me, #handler: #setReady, #Args: 1])
+  [ 74] ret
+end
+
+on stop me
+  [  0] getprop 1113 ............................ <heart>
+  [  3] pusharglist 1 ........................... <heart>
+  [  5] extcall 31 .............................. <voidp(heart)>
+  [  7] jmpifz [ 14] ............................ if voidp(heart) then
+  [ 10] pusharglistnoret 0 ...................... <>
+  [ 12] extcall 9 ............................... return 
+  [ 14] pushzero ................................ <0>
+  [ 15] setprop 1116 ............................ floHere = 0
+  [ 18] pushsymb 208 ............................ <#stop>
+  [ 20] getprop 1114 ............................ <hearts>
+  [ 23] pusharglistnoret 2 ...................... <#stop, hearts>
+  [ 25] extcall 32 .............................. call(#stop, hearts)
+  [ 27] pushsymb 57 ............................. <#setVisible>
+  [ 29] getprop 1114 ............................ <hearts>
+  [ 32] getprop 188 ............................. <ready>
+  [ 34] pusharglistnoret 3 ...................... <#setVisible, hearts, ready>
+  [ 36] extcall 32 .............................. call(#setVisible, hearts, ready)
+  [ 38] getprop 1113 ............................ <heart>
+  [ 41] pushzero ................................ <0>
+  [ 42] pusharglistnoret 2 ...................... <heart, 0>
+  [ 44] objcall 57 .............................. heart.setVisible(0)
+  [ 46] getprop 1113 ............................ <heart>
+  [ 49] getchainedprop 207 ...................... <heart.animator>
+  [ 51] pusharglistnoret 1 ...................... <heart.animator>
+  [ 53] objcall 208 ............................. heart.animator.stop()
+  [ 55] ret
+end
+
+on setSelected me, s
+  [  0] getprop 194 ............................. <check>
+  [  2] getparam 1 .............................. <s>
+  [  4] pusharglistnoret 2 ...................... <check, s>
+  [  6] objcall 57 .............................. check.setVisible(s)
+  [  8] ret
+end
+
+on mouseEnter me
+  [  0] pushsymb 490 ............................ <#finger_up>
+  [  3] pusharglistnoret 1 ...................... <#finger_up>
+  [  5] extcall 94 .............................. setcursor(#finger_up)
+  [  7] ret
+end
+
+on mouseLeave me
+  [  0] pushsymb 104 ............................ <#arrow>
+  [  2] pusharglistnoret 1 ...................... <#arrow>
+  [  4] extcall 94 .............................. setcursor(#arrow)
+  [  6] ret
+end
+
+on mouseDown me
+  [  0] pushsymb 491 ............................ <#finger_down>
+  [  3] pusharglistnoret 1 ...................... <#finger_down>
+  [  5] extcall 94 .............................. setcursor(#finger_down)
+  [  7] getprop 1116 ............................ <floHere>
+  [ 10] not ..................................... <not floHere>
+  [ 11] jmpifz [ 23] ............................ if not floHere then
+  [ 14] getprop 41 .............................. <room_mgr>
+  [ 16] getparam 0 .............................. <me>
+  [ 18] pusharglistnoret 2 ...................... <room_mgr, me>
+  [ 20] objcall 301 ............................. room_mgr.selectDest(me)
+  [ 23] ret
+end
+
+on mouseUp me
+  [  0] pushsymb 490 ............................ <#finger_up>
+  [  3] pusharglistnoret 1 ...................... <#finger_up>
+  [  5] extcall 94 .............................. setcursor(#finger_up)
+  [  7] ret
+end
+
+on destroy me
+  [  0] getparam 0 .............................. <me>
+  [  2] pusharglistnoret 1 ...................... <me>
+  [  4] objcall 1108 ............................ me.clearTimer()
+  [  7] pushzero ................................ <0>
+  [  8] setprop 1116 ............................ floHere = 0
+  [ 11] pusharglist 0 ........................... <>
+  [ 13] extcall 65 .............................. <VOID>
+  [ 15] setprop 43 .............................. game_mgr = VOID
+  [ 17] pushsymb 5 .............................. <#destroy>
+  [ 19] getprop 1114 ............................ <hearts>
+  [ 22] pusharglistnoret 2 ...................... <#destroy, hearts>
+  [ 24] extcall 32 .............................. call(#destroy, hearts)
+  [ 26] getprop 1114 ............................ <hearts>
+  [ 29] pusharglistnoret 1 ...................... <hearts>
+  [ 31] objcall 10 .............................. hearts.deleteAll()
+  [ 33] getprop 45 .............................. <node>
+  [ 35] getparam 0 .............................. <me>
+  [ 37] pusharglistnoret 2 ...................... <node, me>
+  [ 39] objcall 1024 ............................ node.removeMouseListener(me)
+  [ 42] pusharglist 0 ........................... <>
+  [ 44] extcall 65 .............................. <VOID>
+  [ 46] setprop 45 .............................. node = VOID
+  [ 48] pusharglist 0 ........................... <>
+  [ 50] extcall 65 .............................. <VOID>
+  [ 52] setprop 1113 ............................ heart = VOID
+  [ 55] pusharglist 0 ........................... <>
+  [ 57] extcall 65 .............................. <VOID>
+  [ 59] setlocal 0 .............................. faketile = VOID
+  [ 61] pusharglist 0 ........................... <>
+  [ 63] extcall 65 .............................. <VOID>
+  [ 65] setprop 194 ............................. check = VOID
+  [ 67] ret
+end

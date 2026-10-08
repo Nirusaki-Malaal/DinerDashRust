@@ -1,0 +1,128 @@
+property waiter, actions, names, currentaction
+
+on new me, Args
+  [  0] getparam 1 .............................. <Args>
+  [  2] getobjprop 323 .......................... <Args.waiter>
+  [  5] setprop 323 ............................. waiter = Args.waiter
+  [  8] pusharglist 0 ........................... <[]>
+  [ 10] pushlist ................................ <[]>
+  [ 11] setprop 1050 ............................ actions = []
+  [ 14] getparam 1 .............................. <Args>
+  [ 16] getchainedprop 173 ...................... <Args.room>
+  [ 18] pushsymb 45 ............................. <#node>
+  [ 20] pushcons 0 .............................. <"actionlist">
+  [ 22] pusharglist 3 ........................... <Args.room, #node, "actionlist">
+  [ 24] objcall 30 .............................. <Args.room.node["actionlist"]>
+  [ 26] setlocal 0 .............................. n = Args.room.node["actionlist"]
+  [ 28] pushint8 2 .............................. <2>
+  [ 30] setlocal 1
+  [ 32] getlocal 1
+  [ 34] pushint8 5 .............................. <5>
+  [ 36] lteq
+  [ 37] jmpifz [ 77] ............................ repeat with i = 2 to 5
+  [ 40] getprop 1050 ............................ <actions>
+  [ 43] pushcons 1 .............................. <"action_view">
+  [ 45] pusharglist 1 ........................... <"action_view">
+  [ 47] extcall 55 .............................. <script("action_view")>
+  [ 49] getlocal 0 .............................. <n>
+  [ 51] pushcons 2 .............................. <"action_">
+  [ 53] getlocal 1 .............................. <i>
+  [ 55] joinstr ................................. <"action_" & i>
+  [ 56] pusharglist 2 ........................... <n, "action_" & i>
+  [ 58] objcall 36 .............................. <n["action_" & i]>
+  [ 60] pusharglist 2 ........................... <script("action_view"), n["action_" & i]>
+  [ 62] objcall 4 ............................... <script("action_view").new(n["action_" & i])>
+  [ 64] pusharglistnoret 2 ...................... <actions, script("action_view").new(n["action_" & i])>
+  [ 66] objcall 6 ............................... actions.add(script("action_view").new(n["action_" & i]))
+  [ 68] pushint8 1
+  [ 70] getlocal 1
+  [ 72] add
+  [ 73] setlocal 1
+  [ 75] endrepeat [ 32]
+  [ 77] pushcons 1 .............................. <"action_view">
+  [ 79] pusharglist 1 ........................... <"action_view">
+  [ 81] extcall 55 .............................. <script("action_view")>
+  [ 83] getlocal 0 .............................. <n>
+  [ 85] pushcons 3 .............................. <"action_1">
+  [ 87] pusharglist 2 ........................... <n, "action_1">
+  [ 89] objcall 36 .............................. <n["action_1"]>
+  [ 91] pusharglist 2 ........................... <script("action_view"), n["action_1"]>
+  [ 93] objcall 4 ............................... <script("action_view").new(n["action_1"])>
+  [ 95] setprop 1051 ............................ currentaction = script("action_view").new(n["action_1"])
+  [ 98] getparam 0 .............................. <me>
+  [100] pusharglistnoret 1 ...................... <me>
+  [102] objcall 1049 ............................ me.updateQueue()
+  [105] getparam 0 .............................. <me>
+  [107] pusharglistnoret 1 ...................... <me>
+  [109] extcall 9 ............................... return me
+  [111] ret
+end
+
+on updateQueue me
+  [  0] getprop 1051 ............................ <currentaction>
+  [  3] getprop 323 ............................. <waiter>
+  [  6] getobjprop 1052 ......................... <waiter.currentDest>
+  [  9] pusharglistnoret 2 ...................... <currentaction, waiter.currentDest>
+  [ 11] objcall 1045 ............................ currentaction.showDest(waiter.currentDest)
+  [ 14] getprop 323 ............................. <waiter>
+  [ 17] getobjprop 1053 ......................... <waiter.destqueue>
+  [ 20] setlocal 0 .............................. q = waiter.destqueue
+  [ 22] getlocal 0 .............................. <q>
+  [ 24] getobjprop 12 ........................... <q.count>
+  [ 26] setlocal 1 .............................. ct = q.count
+  [ 28] pushint8 1 .............................. <1>
+  [ 30] setlocal 2
+  [ 32] getlocal 2
+  [ 34] pushint8 4 .............................. <4>
+  [ 36] lteq
+  [ 37] jmpifz [ 96] ............................ repeat with i = 1 to 4
+  [ 40] getlocal 2 .............................. <i>
+  [ 42] getlocal 1 .............................. <ct>
+  [ 44] lteq .................................... <i <= ct>
+  [ 45] jmpifz [ 73] ............................ if i <= ct then
+  [ 48] getprop 1050 ............................ <actions>
+  [ 51] getlocal 2 .............................. <i>
+  [ 53] pusharglist 2 ........................... <actions, i>
+  [ 55] objcall 36 .............................. <actions[i]>
+  [ 57] getlocal 0 .............................. <q>
+  [ 59] getlocal 2 .............................. <i>
+  [ 61] pusharglist 2 ........................... <q, i>
+  [ 63] objcall 36 .............................. <q[i]>
+  [ 65] pusharglistnoret 2 ...................... <actions[i], q[i]>
+  [ 67] objcall 1045 ............................ actions[i].showDest(q[i])
+  [ 70] jmp [ 87] ............................... next repeat
+  [ 73] getprop 1050 ............................ <actions>
+  [ 76] getlocal 2 .............................. <i>
+  [ 78] pusharglist 2 ........................... <actions, i>
+  [ 80] objcall 36 .............................. <actions[i]>
+  [ 82] pushzero ................................ <0>
+  [ 83] pusharglistnoret 2 ...................... <actions[i], 0>
+  [ 85] objcall 57 .............................. actions[i].setVisible(0)
+  [ 87] pushint8 1
+  [ 89] getlocal 2
+  [ 91] add
+  [ 92] setlocal 2
+  [ 94] endrepeat [ 32]
+  [ 96] ret
+end
+
+on updateAll me
+  [  0] getparam 0 .............................. <me>
+  [  2] pusharglistnoret 1 ...................... <me>
+  [  4] objcall 1049 ............................ me.updateQueue()
+  [  7] ret
+end
+
+on destroy me
+  [  0] pushsymb 5 .............................. <#destroy>
+  [  2] getprop 1050 ............................ <actions>
+  [  5] pusharglistnoret 2 ...................... <#destroy, actions>
+  [  7] extcall 32 .............................. call(#destroy, actions)
+  [  9] getprop 1050 ............................ <actions>
+  [ 12] pusharglistnoret 1 ...................... <actions>
+  [ 14] objcall 10 .............................. actions.deleteAll()
+  [ 16] pusharglist 0 ........................... <>
+  [ 18] extcall 65 .............................. <VOID>
+  [ 20] setprop 323 ............................. waiter = VOID
+  [ 23] ret
+end

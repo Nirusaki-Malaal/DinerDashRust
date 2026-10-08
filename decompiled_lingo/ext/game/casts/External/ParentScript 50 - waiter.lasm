@@ -1,0 +1,1514 @@
+property room_mgr, game_mgr, destqueue, currentDest, maxQueue, chain, minChain, pickupChains, dropChains, chainMode, maxChain, dropPoints, pickupPoints, payload, payloadTypes, tilePath, currentTile, destTile, maxPayload, views, speed, moveTimer, room, currentObj, pickupSounds, dropSounds, snackTypes, stageID
+
+on new me, Args
+  [  0] pusharglist 0 ........................... <>
+  [  2] extcall 272 ............................. <getConfigData()>
+  [  5] setlocal 0 .............................. cfg = getConfigData()
+  [  7] getlocal 0 .............................. <cfg>
+  [  9] getobjprop 1063 ......................... <cfg.minChain>
+  [ 12] setprop 1063 ............................ minChain = cfg.minChain
+  [ 15] pusharglist 0 ........................... <[]>
+  [ 17] pushlist ................................ <[]>
+  [ 18] setprop 1053 ............................ destqueue = []
+  [ 21] pushint8 5 .............................. <5>
+  [ 23] setprop 1064 ............................ maxQueue = 5
+  [ 26] pusharglist 0 ........................... <[]>
+  [ 28] pushlist ................................ <[]>
+  [ 29] setlocal 1 .............................. checkchain = []
+  [ 31] pushint8 8 .............................. <8>
+  [ 33] setlocal 2 .............................. maxChecks = 8
+  [ 35] getlocal 0 .............................. <cfg>
+  [ 37] getobjprop 892 .......................... <cfg.actionPoints>
+  [ 40] setlocal 3 .............................. actionPoints = cfg.actionPoints
+  [ 42] pusharglist 0 ........................... <[]>
+  [ 44] pushlist ................................ <[]>
+  [ 45] setprop 868 ............................. chain = []
+  [ 48] pushsymb 934 ............................ <#ticket>
+  [ 51] pushsymb 525 ............................ <#dishes>
+  [ 54] pusharglist 2 ........................... <[#ticket, #dishes]>
+  [ 56] pushlist ................................ <[#ticket, #dishes]>
+  [ 57] setprop 1065 ............................ pickupChains = [#ticket, #dishes]
+  [ 60] pushsymb 937 ............................ <#food>
+  [ 63] pushsymb 194 ............................ <#check>
+  [ 65] pusharglist 2 ........................... <[#food, #check]>
+  [ 67] pushlist ................................ <[#food, #check]>
+  [ 68] setprop 1066 ............................ dropChains = [#food, #check]
+  [ 71] pusharglist 0 ........................... <[:]>
+  [ 73] pushproplist ............................ <[:]>
+  [ 74] setprop 1067 ............................ pickupPoints = [:]
+  [ 77] pusharglist 0 ........................... <[:]>
+  [ 79] pushproplist ............................ <[:]>
+  [ 80] setprop 1068 ............................ dropPoints = [:]
+  [ 83] pushsymb 934 ............................ <#ticket>
+  [ 86] pushsymb 525 ............................ <#dishes>
+  [ 89] pusharglist 2 ........................... <[#ticket, #dishes]>
+  [ 91] pushlist ................................ <[#ticket, #dishes]>
+  [ 92] peek 0
+  [ 94] pusharglist 1
+  [ 96] extcall 12
+  [ 98] pushint8 1
+  [100] peek 0
+  [102] peek 2
+  [104] lteq
+  [105] jmpifz [140] ............................ repeat with i in [#ticket, #dishes]
+  [108] peek 2
+  [110] peek 1
+  [112] pusharglist 2
+  [114] extcall 36
+  [116] setlocal 4
+  [118] getprop 1067 ............................ <pickupPoints>
+  [121] getlocal 4 .............................. <i>
+  [123] getlocal 3 .............................. <actionPoints>
+  [125] getlocal 4 .............................. <i>
+  [127] pusharglist 2 ........................... <actionPoints, i>
+  [129] objcall 36 .............................. <actionPoints[i]>
+  [131] pusharglistnoret 3 ...................... <pickupPoints, i, actionPoints[i]>
+  [133] objcall 25 .............................. pickupPoints[i] = actionPoints[i]
+  [135] pushint8 1
+  [137] add
+  [138] endrepeat [100]
+  [140] pop 3
+  [142] pushsymb 937 ............................ <#food>
+  [145] pushsymb 194 ............................ <#check>
+  [147] pushsymb 425 ............................ <#drinks>
+  [150] pushsymb 1028 ........................... <#somosa>
+  [153] pushsymb 1030 ........................... <#papadom>
+  [156] pushsymb 1029 ........................... <#bread>
+  [159] pushsymb 1027 ........................... <#crab>
+  [162] pusharglist 7 ........................... <[#food, #check, #drinks, #somosa, #papadom, #bread, #crab]>
+  [164] pushlist ................................ <[#food, #check, #drinks, #somosa, #papadom, #bread, #crab]>
+  [165] peek 0
+  [167] pusharglist 1
+  [169] extcall 12
+  [171] pushint8 1
+  [173] peek 0
+  [175] peek 2
+  [177] lteq
+  [178] jmpifz [213] ............................ repeat with i in [#food, #check, #drinks, #somosa, #papadom, #bread, #crab]
+  [181] peek 2
+  [183] peek 1
+  [185] pusharglist 2
+  [187] extcall 36
+  [189] setlocal 4
+  [191] getprop 1068 ............................ <dropPoints>
+  [194] getlocal 4 .............................. <i>
+  [196] getlocal 3 .............................. <actionPoints>
+  [198] getlocal 4 .............................. <i>
+  [200] pusharglist 2 ........................... <actionPoints, i>
+  [202] objcall 36 .............................. <actionPoints[i]>
+  [204] pusharglistnoret 3 ...................... <dropPoints, i, actionPoints[i]>
+  [206] objcall 25 .............................. dropPoints[i] = actionPoints[i]
+  [208] pushint8 1
+  [210] add
+  [211] endrepeat [173]
+  [213] pop 3
+  [215] pushint8 12 ............................. <12>
+  [217] setprop 1069 ............................ maxChain = 12
+  [220] pusharglist 0 ........................... <[]>
+  [222] pushlist ................................ <[]>
+  [223] setprop 1070 ............................ tilePath = []
+  [226] getparam 1 .............................. <Args>
+  [228] getobjprop 42 ........................... <Args.room_manager>
+  [230] setprop 173 ............................. room = Args.room_manager
+  [232] getparam 1 .............................. <Args>
+  [234] getobjprop 44 ........................... <Args.game_manager>
+  [236] setprop 43 .............................. game_mgr = Args.game_manager
+  [238] pusharglist 0 ........................... <[:]>
+  [240] pushproplist ............................ <[:]>
+  [241] setprop 1071 ............................ pickupSounds = [:]
+  [244] getprop 1071 ............................ <pickupSounds>
+  [247] pushsymb 425 ............................ <#drinks>
+  [250] pushcons 0 .............................. <"sfx_get_drinks_2">
+  [252] pusharglistnoret 3 ...................... <pickupSounds, #drinks, "sfx_get_drinks_2">
+  [254] objcall 25 .............................. pickupSounds[#drinks] = "sfx_get_drinks_2"
+  [256] getprop 1071 ............................ <pickupSounds>
+  [259] pushsymb 937 ............................ <#food>
+  [262] pushcons 1 .............................. <"sfx_pickup_food_1">
+  [264] pusharglistnoret 3 ...................... <pickupSounds, #food, "sfx_pickup_food_1">
+  [266] objcall 25 .............................. pickupSounds[#food] = "sfx_pickup_food_1"
+  [268] getprop 1071 ............................ <pickupSounds>
+  [271] pushsymb 525 ............................ <#dishes>
+  [274] pushcons 2 .............................. <"sfx_clear_dishes_1">
+  [276] pusharglistnoret 3 ...................... <pickupSounds, #dishes, "sfx_clear_dishes_1">
+  [278] objcall 25 .............................. pickupSounds[#dishes] = "sfx_clear_dishes_1"
+  [280] getprop 1071 ............................ <pickupSounds>
+  [283] pushsymb 934 ............................ <#ticket>
+  [286] pushcons 3 .............................. <"sfx_take_order_1">
+  [288] pusharglistnoret 3 ...................... <pickupSounds, #ticket, "sfx_take_order_1">
+  [290] objcall 25 .............................. pickupSounds[#ticket] = "sfx_take_order_1"
+  [292] pusharglist 0 ........................... <[:]>
+  [294] pushproplist ............................ <[:]>
+  [295] setprop 1072 ............................ dropSounds = [:]
+  [298] getprop 1072 ............................ <dropSounds>
+  [301] pushsymb 425 ............................ <#drinks>
+  [304] pushcons 4 .............................. <"sfx_dropoff_drinks_1">
+  [306] pusharglistnoret 3 ...................... <dropSounds, #drinks, "sfx_dropoff_drinks_1">
+  [308] objcall 25 .............................. dropSounds[#drinks] = "sfx_dropoff_drinks_1"
+  [310] getprop 1072 ............................ <dropSounds>
+  [313] pushsymb 937 ............................ <#food>
+  [316] pushcons 5 .............................. <"sfx_deliver_food_2">
+  [318] pusharglistnoret 3 ...................... <dropSounds, #food, "sfx_deliver_food_2">
+  [320] objcall 25 .............................. dropSounds[#food] = "sfx_deliver_food_2"
+  [322] getprop 1072 ............................ <dropSounds>
+  [325] pushsymb 525 ............................ <#dishes>
+  [328] pushcons 6 .............................. <"sfx_dish_dropoff_2">
+  [330] pusharglistnoret 3 ...................... <dropSounds, #dishes, "sfx_dish_dropoff_2">
+  [332] objcall 25 .............................. dropSounds[#dishes] = "sfx_dish_dropoff_2"
+  [334] getprop 1072 ............................ <dropSounds>
+  [337] pushsymb 934 ............................ <#ticket>
+  [340] pushcons 7 .............................. <"sfx_deliver_order_1">
+  [342] pusharglistnoret 3 ...................... <dropSounds, #ticket, "sfx_deliver_order_1">
+  [344] objcall 25 .............................. dropSounds[#ticket] = "sfx_deliver_order_1"
+  [346] getprop 1072 ............................ <dropSounds>
+  [349] pushsymb 194 ............................ <#check>
+  [351] pushcons 8 .............................. <"sfx_menu_down_2">
+  [353] pusharglistnoret 3 ...................... <dropSounds, #check, "sfx_menu_down_2">
+  [355] objcall 25 .............................. dropSounds[#check] = "sfx_menu_down_2"
+  [357] pushsymb 1027 ........................... <#crab>
+  [360] pushsymb 1028 ........................... <#somosa>
+  [363] pushsymb 1030 ........................... <#papadom>
+  [366] pushsymb 1029 ........................... <#bread>
+  [369] pusharglist 4 ........................... <[#crab, #somosa, #papadom, #bread]>
+  [371] pushlist ................................ <[#crab, #somosa, #papadom, #bread]>
+  [372] setprop 1073 ............................ snackTypes = [#crab, #somosa, #papadom, #bread]
+  [375] pusharglist 0 ........................... <[]>
+  [377] pushlist ................................ <[]>
+  [378] setprop 1074 ............................ payload = []
+  [381] pusharglist 0 ........................... <[]>
+  [383] pushlist ................................ <[]>
+  [384] setprop 1075 ............................ payloadTypes = []
+  [387] pushint8 2 .............................. <2>
+  [389] setprop 1076 ............................ maxPayload = 2
+  [392] pusharglist 0 ........................... <[]>
+  [394] pushlist ................................ <[]>
+  [395] setprop 276 ............................. views = []
+  [398] getprop 276 ............................. <views>
+  [401] pushcons 9 .............................. <"waiter_view">
+  [403] pusharglist 1 ........................... <"waiter_view">
+  [405] extcall 55 .............................. <script("waiter_view")>
+  [407] pushsymb 323 ............................ <#waiter>
+  [410] getparam 0 .............................. <me>
+  [412] pushsymb 173 ............................ <#room>
+  [414] getparam 1 .............................. <Args>
+  [416] getobjprop 42 ........................... <Args.room_manager>
+  [418] pusharglist 4 ........................... <[#waiter: me, #room: Args.room_manager]>
+  [420] pushproplist ............................ <[#waiter: me, #room: Args.room_manager]>
+  [421] pusharglist 2 ........................... <script("waiter_view"), [#waiter: me, #room: Args.room_manager]>
+  [423] objcall 4 ............................... <script("waiter_view").new([#waiter: me, #room: Args.room_manager])>
+  [425] pusharglistnoret 2 ...................... <views, script("waiter_view").new([#waiter: me, #room: Args.room_manager])>
+  [427] objcall 6 ............................... views.add(script("waiter_view").new([#waiter: me, #room: Args.room_manager]))
+  [429] pusharglist 0 ........................... <>
+  [431] extcall 272 ............................. <getConfigData()>
+  [434] getobjprop 1077 ......................... <getConfigData().waiterSpeedMS>
+  [437] setprop 824 ............................. speed = getConfigData().waiterSpeedMS
+  [440] getparam 0 .............................. <me>
+  [442] pushsymb 1060 ........................... <#keyDown>
+  [445] pusharglistnoret 2 ...................... <me, #keyDown>
+  [447] extcall 100 ............................. subscribe(me, #keyDown)
+  [449] getparam 0 .............................. <me>
+  [451] pusharglistnoret 1 ...................... <me>
+  [453] extcall 9 ............................... return me
+  [455] ret
+end
+
+on resetSpeed me
+  [  0] pusharglist 0 ........................... <>
+  [  2] extcall 272 ............................. <getConfigData()>
+  [  5] getobjprop 1077 ......................... <getConfigData().waiterSpeedMS>
+  [  8] setprop 824 ............................. speed = getConfigData().waiterSpeedMS
+  [ 11] ret
+end
+
+on destroy me
+  [  0] pushsymb 5 .............................. <#destroy>
+  [  2] getprop 276 ............................. <views>
+  [  5] pusharglistnoret 2 ...................... <#destroy, views>
+  [  7] extcall 32 .............................. call(#destroy, views)
+  [  9] getprop 276 ............................. <views>
+  [ 12] pusharglistnoret 1 ...................... <views>
+  [ 14] objcall 10 .............................. views.deleteAll()
+  [ 16] getprop 1079 ............................ <moveTimer>
+  [ 19] pusharglist 1 ........................... <moveTimer>
+  [ 21] extcall 31 .............................. <voidp(moveTimer)>
+  [ 23] not ..................................... <not voidp(moveTimer)>
+  [ 24] jmpifz [ 41] ............................ if not voidp(moveTimer) then
+  [ 27] getprop 1079 ............................ <moveTimer>
+  [ 30] pusharglistnoret 1 ...................... <moveTimer>
+  [ 32] objcall 5 ............................... moveTimer.destroy()
+  [ 34] pusharglist 0 ........................... <>
+  [ 36] extcall 65 .............................. <VOID>
+  [ 38] setprop 1079 ............................ moveTimer = VOID
+  [ 41] getparam 0 .............................. <me>
+  [ 43] pushsymb 1060 ........................... <#keyDown>
+  [ 46] pusharglistnoret 2 ...................... <me, #keyDown>
+  [ 48] extcall 105 ............................. unsubscribe(me, #keyDown)
+  [ 50] pusharglist 0 ........................... <>
+  [ 52] extcall 65 .............................. <VOID>
+  [ 54] setprop 41 .............................. room_mgr = VOID
+  [ 56] pusharglist 0 ........................... <>
+  [ 58] extcall 65 .............................. <VOID>
+  [ 60] setprop 43 .............................. game_mgr = VOID
+  [ 62] pushsymb 5 .............................. <#destroy>
+  [ 64] getprop 1053 ............................ <destqueue>
+  [ 67] pusharglistnoret 2 ...................... <#destroy, destqueue>
+  [ 69] extcall 32 .............................. call(#destroy, destqueue)
+  [ 71] getprop 1053 ............................ <destqueue>
+  [ 74] pusharglistnoret 1 ...................... <destqueue>
+  [ 76] objcall 10 .............................. destqueue.deleteAll()
+  [ 78] ret
+end
+
+on queueDest me, dest
+  [  0] getprop 1053 ............................ <destqueue>
+  [  3] getobjprop 12 ........................... <destqueue.count>
+  [  5] getprop 1064 ............................ <maxQueue>
+  [  8] gteq .................................... <destqueue.count >= maxQueue>
+  [  9] jmpifz [ 16] ............................ if destqueue.count >= maxQueue then
+  [ 12] pusharglistnoret 0 ...................... <>
+  [ 14] extcall 9 ............................... return 
+  [ 16] getparam 1 .............................. <dest>
+  [ 18] pushint8 1 .............................. <1>
+  [ 20] pusharglistnoret 2 ...................... <dest, 1>
+  [ 22] objcall 453 ............................. dest.setSelected(1)
+  [ 25] getprop 1053 ............................ <destqueue>
+  [ 28] getobjprop 12 ........................... <destqueue.count>
+  [ 30] pushzero ................................ <0>
+  [ 31] eq ...................................... <destqueue.count = 0>
+  [ 32] getprop 1052 ............................ <currentDest>
+  [ 35] pusharglist 1 ........................... <currentDest>
+  [ 37] extcall 31 .............................. <voidp(currentDest)>
+  [ 39] and ..................................... <(destqueue.count = 0) and voidp(currentDest)>
+  [ 40] jmpifz [ 66] ............................ if (destqueue.count = 0) and voidp(currentDest) then
+  [ 43] getparam 0 .............................. <me>
+  [ 45] getparam 1 .............................. <dest>
+  [ 47] pusharglistnoret 2 ...................... <me, dest>
+  [ 49] objcall 1056 ............................ me.setDest(dest)
+  [ 52] pushsymb 1049 ........................... <#updateQueue>
+  [ 55] getprop 276 ............................. <views>
+  [ 58] pusharglistnoret 2 ...................... <#updateQueue, views>
+  [ 60] extcall 32 .............................. call(#updateQueue, views)
+  [ 62] pusharglistnoret 0 ...................... <>
+  [ 64] extcall 9 ............................... return 
+  [ 66] getprop 1053 ............................ <destqueue>
+  [ 69] getparam 1 .............................. <dest>
+  [ 71] pusharglistnoret 2 ...................... <destqueue, dest>
+  [ 73] objcall 6 ............................... destqueue.add(dest)
+  [ 75] pushsymb 1049 ........................... <#updateQueue>
+  [ 78] getprop 276 ............................. <views>
+  [ 81] pusharglistnoret 2 ...................... <#updateQueue, views>
+  [ 83] extcall 32 .............................. call(#updateQueue, views)
+  [ 85] ret
+end
+
+on reachDest me
+  [  0] getprop 1052 ............................ <currentDest>
+  [  3] pusharglist 1 ........................... <currentDest>
+  [  5] extcall 31 .............................. <voidp(currentDest)>
+  [  7] jmpifz [ 14] ............................ if voidp(currentDest) then
+  [ 10] pusharglistnoret 0 ...................... <>
+  [ 12] extcall 9 ............................... return 
+  [ 14] getprop 1052 ............................ <currentDest>
+  [ 17] pusharglist 1 ........................... <currentDest>
+  [ 19] objcall 265 ............................. <currentDest.getTile()>
+  [ 22] setlocal 0 .............................. t = currentDest.getTile()
+  [ 24] getprop 1081 ............................ <currentTile>
+  [ 27] getobjprop 383 .......................... <currentTile.pos>
+  [ 30] getlocal 0 .............................. <t>
+  [ 32] getobjprop 383 .......................... <t.pos>
+  [ 35] sub ..................................... <currentTile.pos - t.pos>
+  [ 36] setlocal 1 .............................. diff = currentTile.pos - t.pos
+  [ 38] getlocal 1 .............................. <diff>
+  [ 40] pushint8 1 .............................. <1>
+  [ 42] pusharglist 2 ........................... <diff, 1>
+  [ 44] objcall 36 .............................. <diff[1]>
+  [ 46] pushzero ................................ <0>
+  [ 47] gt ...................................... <diff[1] > 0>
+  [ 48] jmpifz [ 58] ............................ if diff[1] > 0 then / else
+  [ 51] pushcons 10 ............................. <"left">
+  [ 53] setlocal 2 .............................. Dir = "left"
+  [ 55] jmp [102]
+  [ 58] getlocal 1 .............................. <diff>
+  [ 60] pushint8 1 .............................. <1>
+  [ 62] pusharglist 2 ........................... <diff, 1>
+  [ 64] objcall 36 .............................. <diff[1]>
+  [ 66] pushzero ................................ <0>
+  [ 67] lt ...................................... <diff[1] < 0>
+  [ 68] jmpifz [ 78] ............................ if diff[1] < 0 then / else
+  [ 71] pushcons 11 ............................. <"right">
+  [ 73] setlocal 2 .............................. Dir = "right"
+  [ 75] jmp [102]
+  [ 78] getlocal 1 .............................. <diff>
+  [ 80] pushint8 2 .............................. <2>
+  [ 82] pusharglist 2 ........................... <diff, 2>
+  [ 84] objcall 36 .............................. <diff[2]>
+  [ 86] pushzero ................................ <0>
+  [ 87] gt ...................................... <diff[2] > 0>
+  [ 88] jmpifz [ 98] ............................ if diff[2] > 0 then / else
+  [ 91] pushcons 12 ............................. <"up">
+  [ 93] setlocal 2 .............................. Dir = "up"
+  [ 95] jmp [102]
+  [ 98] pushcons 13 ............................. <"down">
+  [100] setlocal 2 .............................. Dir = "down"
+  [102] pushsymb 434 ............................ <#setDirection>
+  [105] getprop 276 ............................. <views>
+  [108] getlocal 2 .............................. <Dir>
+  [110] pusharglistnoret 3 ...................... <#setDirection, views, Dir>
+  [112] extcall 32 .............................. call(#setDirection, views, Dir)
+  [114] getprop 1052 ............................ <currentDest>
+  [117] getparam 0 .............................. <me>
+  [119] pusharglist 2 ........................... <currentDest, me>
+  [121] objcall 478 ............................. <currentDest.doFloAction(me)>
+  [124] setlocal 3 .............................. err = currentDest.doFloAction(me)
+  [126] getprop 1052 ............................ <currentDest>
+  [129] pushzero ................................ <0>
+  [130] pusharglistnoret 2 ...................... <currentDest, 0>
+  [132] objcall 453 ............................. currentDest.setSelected(0)
+  [135] getprop 1052 ............................ <currentDest>
+  [138] setprop 1082 ............................ currentObj = currentDest
+  [141] pusharglist 0 ........................... <>
+  [143] extcall 65 .............................. <VOID>
+  [145] setprop 1052 ............................ currentDest = VOID
+  [148] getlocal 3 .............................. <err>
+  [150] pushzero ................................ <0>
+  [151] eq ...................................... <err = 0>
+  [152] jmpifz [160] ............................ if err = 0 then
+  [155] pushsymb 529 ............................ <#nothing_to_do>
+  [158] setlocal 3 .............................. err = #nothing_to_do
+  [160] getlocal 3 .............................. <err>
+  [162] pushsymb 527 ............................ <#Ok>
+  [165] nteq .................................... <err <> #Ok>
+  [166] jmpifz [201] ............................ if err <> #Ok then / else
+  [169] getparam 0 .............................. <me>
+  [171] pusharglistnoret 1 ...................... <me>
+  [173] objcall 1058 ............................ me.clearQueue()
+  [176] pushsymb 1083 ........................... <#showError>
+  [179] getprop 276 ............................. <views>
+  [182] getlocal 3 .............................. <err>
+  [184] pusharglistnoret 3 ...................... <#showError, views, err>
+  [186] extcall 32 .............................. call(#showError, views, err)
+  [188] pushsymb 1049 ........................... <#updateQueue>
+  [191] getprop 276 ............................. <views>
+  [194] pusharglistnoret 2 ...................... <#updateQueue, views>
+  [196] extcall 32 .............................. call(#updateQueue, views)
+  [198] jmp [218]
+  [201] pushsymb 433 ............................ <#hideError>
+  [204] getprop 276 ............................. <views>
+  [207] pusharglistnoret 2 ...................... <#hideError, views>
+  [209] extcall 32 .............................. call(#hideError, views)
+  [211] getparam 0 .............................. <me>
+  [213] pusharglistnoret 1 ...................... <me>
+  [215] objcall 1055 ............................ me.nextDest()
+  [218] ret
+end
+
+on nextDest me
+  [  0] getprop 1053 ............................ <destqueue>
+  [  3] getobjprop 12 ........................... <destqueue.count>
+  [  5] jmpifz [ 38] ............................ if destqueue.count then
+  [  8] getprop 1053 ............................ <destqueue>
+  [ 11] pushint8 1 .............................. <1>
+  [ 13] pusharglist 2 ........................... <destqueue, 1>
+  [ 15] objcall 36 .............................. <destqueue[1]>
+  [ 17] setlocal 0 .............................. d = destqueue[1]
+  [ 19] getprop 1053 ............................ <destqueue>
+  [ 22] pushint8 1 .............................. <1>
+  [ 24] pusharglistnoret 2 ...................... <destqueue, 1>
+  [ 26] objcall 634 ............................. destqueue.deleteAt(1)
+  [ 29] getparam 0 .............................. <me>
+  [ 31] getlocal 0 .............................. <d>
+  [ 33] pusharglistnoret 2 ...................... <me, d>
+  [ 35] objcall 1056 ............................ me.setDest(d)
+  [ 38] pushsymb 1049 ........................... <#updateQueue>
+  [ 41] getprop 276 ............................. <views>
+  [ 44] pusharglistnoret 2 ...................... <#updateQueue, views>
+  [ 46] extcall 32 .............................. call(#updateQueue, views)
+  [ 48] ret
+end
+
+on setDest me, obj
+  [  0] getparam 1 .............................. <obj>
+  [  2] pusharglist 1 ........................... <obj>
+  [  4] extcall 31 .............................. <voidp(obj)>
+  [  6] jmpifz [ 13] ............................ if voidp(obj) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 9 ............................... return 
+  [ 13] getprop 1082 ............................ <currentObj>
+  [ 16] pusharglist 1 ........................... <currentObj>
+  [ 18] extcall 31 .............................. <voidp(currentObj)>
+  [ 20] not ..................................... <not voidp(currentObj)>
+  [ 21] jmpifz [ 47] ............................ if not voidp(currentObj) then
+  [ 24] getprop 1082 ............................ <currentObj>
+  [ 27] pushsymb 137 ............................ <#type>
+  [ 29] pusharglist 2 ........................... <currentObj, #type>
+  [ 31] objcall 36 .............................. <currentObj[#type]>
+  [ 33] pushsymb 368 ............................ <#podium>
+  [ 36] eq ...................................... <currentObj[#type] = #podium>
+  [ 37] jmpifz [ 47] ............................ if currentObj[#type] = #podium then
+  [ 40] getprop 1082 ............................ <currentObj>
+  [ 43] pusharglistnoret 1 ...................... <currentObj>
+  [ 45] objcall 208 ............................. currentObj.stop()
+  [ 47] getparam 1 .............................. <obj>
+  [ 49] setprop 1052 ............................ currentDest = obj
+  [ 52] getprop 1052 ............................ <currentDest>
+  [ 55] pusharglist 1 ........................... <currentDest>
+  [ 57] extcall 31 .............................. <voidp(currentDest)>
+  [ 59] not ..................................... <not voidp(currentDest)>
+  [ 60] jmpifz [ 89] ............................ if not voidp(currentDest) then
+  [ 63] getprop 1052 ............................ <currentDest>
+  [ 66] pusharglist 1 ........................... <currentDest>
+  [ 68] objcall 265 ............................. <currentDest.getTile()>
+  [ 71] getprop 1081 ............................ <currentTile>
+  [ 74] eq ...................................... <currentDest.getTile() = currentTile>
+  [ 75] jmpifz [ 89] ............................ if currentDest.getTile() = currentTile then
+  [ 78] getparam 0 .............................. <me>
+  [ 80] pusharglistnoret 1 ...................... <me>
+  [ 82] objcall 1054 ............................ me.reachDest()
+  [ 85] pusharglistnoret 0 ...................... <>
+  [ 87] extcall 9 ............................... return 
+  [ 89] getparam 1 .............................. <obj>
+  [ 91] pusharglist 1 ........................... <obj>
+  [ 93] objcall 265 ............................. <obj.getTile()>
+  [ 96] setlocal 0 .............................. dtile = obj.getTile()
+  [ 98] getprop 173 ............................. <room>
+  [100] getobjprop 337 .......................... <room.grid>
+  [103] getprop 1081 ............................ <currentTile>
+  [106] getobjprop 383 .......................... <currentTile.pos>
+  [109] getlocal 0 .............................. <dtile>
+  [111] getobjprop 383 .......................... <dtile.pos>
+  [114] pushsymb 1087 ........................... <#nextto>
+  [117] pushint8 1 .............................. <1>
+  [119] pusharglist 2 ........................... <[#nextto: 1]>
+  [121] pushproplist ............................ <[#nextto: 1]>
+  [122] pusharglist 4 ........................... <room.grid, currentTile.pos, dtile.pos, [#nextto: 1]>
+  [124] extcall 623 ............................. <findPath(room.grid, currentTile.pos, dtile.pos, [#nextto: 1])>
+  [127] setlocal 1 .............................. p = findPath(room.grid, currentTile.pos, dtile.pos, [#nextto: 1])
+  [129] getprop 1070 ............................ <tilePath>
+  [132] pusharglistnoret 1 ...................... <tilePath>
+  [134] objcall 10 .............................. tilePath.deleteAll()
+  [136] getlocal 1 .............................. <p>
+  [138] pusharglist 1 ........................... <p>
+  [140] extcall 31 .............................. <voidp(p)>
+  [142] jmpifz [156] ............................ if voidp(p) then
+  [145] getparam 0 .............................. <me>
+  [147] pusharglistnoret 1 ...................... <me>
+  [149] objcall 1058 ............................ me.clearQueue()
+  [152] pusharglistnoret 0 ...................... <>
+  [154] extcall 9 ............................... return 
+  [156] getlocal 1 .............................. <p>
+  [158] peek 0
+  [160] pusharglist 1
+  [162] extcall 12
+  [164] pushint8 1
+  [166] peek 0
+  [168] peek 2
+  [170] lteq
+  [171] jmpifz [220] ............................ repeat with i in p
+  [174] peek 2
+  [176] peek 1
+  [178] pusharglist 2
+  [180] extcall 36
+  [182] setlocal 2
+  [184] getlocal 2 .............................. <i>
+  [186] getprop 1081 ............................ <currentTile>
+  [189] getobjprop 383 .......................... <currentTile.pos>
+  [192] nteq .................................... <i <> currentTile.pos>
+  [193] jmpifz [215] ............................ if i <> currentTile.pos then
+  [196] getprop 1070 ............................ <tilePath>
+  [199] getprop 173 ............................. <room>
+  [201] getchainedprop 337 ...................... <room.grid>
+  [204] getlocal 2 .............................. <i>
+  [206] pusharglist 2 ........................... <room.grid, i>
+  [208] objcall 388 ............................. <room.grid.getTileAt(i)>
+  [211] pusharglistnoret 2 ...................... <tilePath, room.grid.getTileAt(i)>
+  [213] objcall 6 ............................... tilePath.add(room.grid.getTileAt(i))
+  [215] pushint8 1
+  [217] add
+  [218] endrepeat [166]
+  [220] pop 3
+  [222] pushsymb 433 ............................ <#hideError>
+  [225] getprop 276 ............................. <views>
+  [228] pusharglistnoret 2 ...................... <#hideError, views>
+  [230] extcall 32 .............................. call(#hideError, views)
+  [232] getprop 1070 ............................ <tilePath>
+  [235] getobjprop 12 ........................... <tilePath.count>
+  [237] jmpifz [259] ............................ if tilePath.count then / else
+  [240] getparam 0 .............................. <me>
+  [242] getprop 1070 ............................ <tilePath>
+  [245] pushint8 1 .............................. <1>
+  [247] pusharglist 2 ........................... <tilePath, 1>
+  [249] objcall 36 .............................. <tilePath[1]>
+  [251] pusharglistnoret 2 ...................... <me, tilePath[1]>
+  [253] objcall 1062 ............................ me.moveTo(tilePath[1])
+  [256] jmp [266]
+  [259] getparam 0 .............................. <me>
+  [261] pusharglistnoret 1 ...................... <me>
+  [263] objcall 1054 ............................ me.reachDest()
+  [266] ret
+end
+
+on reset me
+  [  0] getprop 1074 ............................ <payload>
+  [  3] pusharglistnoret 1 ...................... <payload>
+  [  5] objcall 10 .............................. payload.deleteAll()
+  [  7] getprop 868 ............................. <chain>
+  [ 10] pusharglistnoret 1 ...................... <chain>
+  [ 12] objcall 10 .............................. chain.deleteAll()
+  [ 14] getprop 1053 ............................ <destqueue>
+  [ 17] pusharglistnoret 1 ...................... <destqueue>
+  [ 19] objcall 10 .............................. destqueue.deleteAll()
+  [ 21] getprop 1070 ............................ <tilePath>
+  [ 24] pusharglistnoret 1 ...................... <tilePath>
+  [ 26] objcall 10 .............................. tilePath.deleteAll()
+  [ 28] pusharglist 0 ........................... <>
+  [ 30] extcall 65 .............................. <VOID>
+  [ 32] setprop 1052 ............................ currentDest = VOID
+  [ 35] pusharglist 0 ........................... <>
+  [ 37] extcall 65 .............................. <VOID>
+  [ 39] setprop 1081 ............................ currentTile = VOID
+  [ 42] getprop 1079 ............................ <moveTimer>
+  [ 45] pusharglist 1 ........................... <moveTimer>
+  [ 47] extcall 31 .............................. <voidp(moveTimer)>
+  [ 49] not ..................................... <not voidp(moveTimer)>
+  [ 50] jmpifz [ 60] ............................ if not voidp(moveTimer) then
+  [ 53] getprop 1079 ............................ <moveTimer>
+  [ 56] pusharglistnoret 1 ...................... <moveTimer>
+  [ 58] objcall 208 ............................. moveTimer.stop()
+  [ 60] pushsymb 1041 ........................... <#updateAll>
+  [ 63] getprop 276 ............................. <views>
+  [ 66] pusharglistnoret 2 ...................... <#updateAll, views>
+  [ 68] extcall 32 .............................. call(#updateAll, views)
+  [ 70] ret
+end
+
+on clearChain me
+  [  0] getprop 868 ............................. <chain>
+  [  3] pusharglistnoret 1 ...................... <chain>
+  [  5] objcall 10 .............................. chain.deleteAll()
+  [  7] ret
+end
+
+on clearQueue me
+  [  0] getprop 1052 ............................ <currentDest>
+  [  3] pusharglist 1 ........................... <currentDest>
+  [  5] extcall 31 .............................. <voidp(currentDest)>
+  [  7] not ..................................... <not voidp(currentDest)>
+  [  8] jmpifz [ 21] ............................ if not voidp(currentDest) then
+  [ 11] getprop 1053 ............................ <destqueue>
+  [ 14] getprop 1052 ............................ <currentDest>
+  [ 17] pusharglistnoret 2 ...................... <destqueue, currentDest>
+  [ 19] objcall 6 ............................... destqueue.add(currentDest)
+  [ 21] pushsymb 453 ............................ <#setSelected>
+  [ 24] getprop 1053 ............................ <destqueue>
+  [ 27] pushzero ................................ <0>
+  [ 28] pusharglistnoret 3 ...................... <#setSelected, destqueue, 0>
+  [ 30] extcall 32 .............................. call(#setSelected, destqueue, 0)
+  [ 32] getprop 1053 ............................ <destqueue>
+  [ 35] pusharglistnoret 1 ...................... <destqueue>
+  [ 37] objcall 10 .............................. destqueue.deleteAll()
+  [ 39] pushsymb 1049 ........................... <#updateQueue>
+  [ 42] getprop 276 ............................. <views>
+  [ 45] pusharglistnoret 2 ...................... <#updateQueue, views>
+  [ 47] extcall 32 .............................. call(#updateQueue, views)
+  [ 49] ret
+end
+
+on canPickUp me, typ
+  [  0] getprop 1074 ............................ <payload>
+  [  3] getobjprop 12 ........................... <payload.count>
+  [  5] getprop 1076 ............................ <maxPayload>
+  [  8] lt ...................................... <payload.count < maxPayload>
+  [  9] pusharglistnoret 1 ...................... <payload.count < maxPayload>
+  [ 11] extcall 9 ............................... return payload.count < maxPayload
+  [ 13] ret
+end
+
+on hasPayloadType me, typ
+  [  0] getprop 1075 ............................ <payloadTypes>
+  [  3] getparam 1 .............................. <typ>
+  [  5] pusharglist 2 ........................... <payloadTypes, typ>
+  [  7] objcall 11 .............................. <payloadTypes.getOne(typ)>
+  [  9] pushzero ................................ <0>
+  [ 10] nteq .................................... <payloadTypes.getOne(typ) <> 0>
+  [ 11] pusharglistnoret 1 ...................... <payloadTypes.getOne(typ) <> 0>
+  [ 13] extcall 9 ............................... return payloadTypes.getOne(typ) <> 0
+  [ 15] ret
+end
+
+on hasPayload me, typ, arg
+  [  0] getprop 1074 ............................ <payload>
+  [  3] peek 0
+  [  5] pusharglist 1
+  [  7] extcall 12
+  [  9] pushint8 1
+  [ 11] peek 0
+  [ 13] peek 2
+  [ 15] lteq
+  [ 16] jmpifz [ 78] ............................ repeat with i in payload
+  [ 19] peek 2
+  [ 21] peek 1
+  [ 23] pusharglist 2
+  [ 25] extcall 36
+  [ 27] setlocal 0
+  [ 29] getlocal 0 .............................. <i>
+  [ 31] getobjprop 137 .......................... <i.type>
+  [ 33] getparam 1 .............................. <typ>
+  [ 35] eq ...................................... <i.type = typ>
+  [ 36] jmpifz [ 73] ............................ if i.type = typ then
+  [ 39] getparam 1 .............................. <typ>
+  [ 41] pushsymb 425 ............................ <#drinks>
+  [ 44] eq ...................................... <typ = #drinks>
+  [ 45] getprop 1073 ............................ <snackTypes>
+  [ 48] getparam 1 .............................. <typ>
+  [ 50] pusharglist 2 ........................... <snackTypes, typ>
+  [ 52] objcall 11 .............................. <snackTypes.getOne(typ)>
+  [ 54] or ...................................... <(typ = #drinks) or snackTypes.getOne(typ)>
+  [ 55] getlocal 0 .............................. <i>
+  [ 57] getobjprop 1089 ......................... <i.object>
+  [ 60] getparam 2 .............................. <arg>
+  [ 62] eq ...................................... <i.object = arg>
+  [ 63] or ...................................... <(typ = #drinks) or snackTypes.getOne(typ) or (i.object = arg)>
+  [ 64] jmpifz [ 73] ............................ if (typ = #drinks) or snackTypes.getOne(typ) or (i.object = arg) then
+  [ 67] pushint8 1 .............................. <1>
+  [ 69] pusharglistnoret 1 ...................... <1>
+  [ 71] extcall 9 ............................... return 1
+  [ 73] pushint8 1
+  [ 75] add
+  [ 76] endrepeat [ 11]
+  [ 78] pop 3
+  [ 80] pushzero ................................ <0>
+  [ 81] pusharglistnoret 1 ...................... <0>
+  [ 83] extcall 9 ............................... return 0
+  [ 85] ret
+end
+
+on getPayload me, typ
+  [  0] pusharglist 0 ........................... <[]>
+  [  2] pushlist ................................ <[]>
+  [  3] setlocal 0 .............................. ls = []
+  [  5] getprop 1074 ............................ <payload>
+  [  8] peek 0
+  [ 10] pusharglist 1
+  [ 12] extcall 12
+  [ 14] pushint8 1
+  [ 16] peek 0
+  [ 18] peek 2
+  [ 20] lteq
+  [ 21] jmpifz [ 60] ............................ repeat with i in payload
+  [ 24] peek 2
+  [ 26] peek 1
+  [ 28] pusharglist 2
+  [ 30] extcall 36
+  [ 32] setlocal 1
+  [ 34] getlocal 1 .............................. <i>
+  [ 36] getobjprop 137 .......................... <i.type>
+  [ 38] getparam 1 .............................. <typ>
+  [ 40] eq ...................................... <i.type = typ>
+  [ 41] jmpifz [ 55] ............................ if i.type = typ then
+  [ 44] getlocal 0 .............................. <ls>
+  [ 46] getlocal 1 .............................. <i>
+  [ 48] getobjprop 1089 ......................... <i.object>
+  [ 51] pusharglistnoret 2 ...................... <ls, i.object>
+  [ 53] objcall 6 ............................... ls.add(i.object)
+  [ 55] pushint8 1
+  [ 57] add
+  [ 58] endrepeat [ 16]
+  [ 60] pop 3
+  [ 62] getlocal 0 .............................. <ls>
+  [ 64] pusharglistnoret 1 ...................... <ls>
+  [ 66] extcall 9 ............................... return ls
+  [ 68] ret
+end
+
+on refreshPayloadTypes me
+  [  0] getprop 1075 ............................ <payloadTypes>
+  [  3] pusharglistnoret 1 ...................... <payloadTypes>
+  [  5] objcall 10 .............................. payloadTypes.deleteAll()
+  [  7] getprop 1074 ............................ <payload>
+  [ 10] peek 0
+  [ 12] pusharglist 1
+  [ 14] extcall 12
+  [ 16] pushint8 1
+  [ 18] peek 0
+  [ 20] peek 2
+  [ 22] lteq
+  [ 23] jmpifz [ 70] ............................ repeat with i in payload
+  [ 26] peek 2
+  [ 28] peek 1
+  [ 30] pusharglist 2
+  [ 32] extcall 36
+  [ 34] setlocal 0
+  [ 36] getlocal 0 .............................. <i>
+  [ 38] getobjprop 137 .......................... <i.type>
+  [ 40] setlocal 1 .............................. t = i.type
+  [ 42] getprop 1075 ............................ <payloadTypes>
+  [ 45] getlocal 1 .............................. <t>
+  [ 47] pusharglist 2 ........................... <payloadTypes, t>
+  [ 49] objcall 11 .............................. <payloadTypes.getOne(t)>
+  [ 51] pushzero ................................ <0>
+  [ 52] eq ...................................... <payloadTypes.getOne(t) = 0>
+  [ 53] jmpifz [ 65] ............................ if payloadTypes.getOne(t) = 0 then
+  [ 56] getprop 1075 ............................ <payloadTypes>
+  [ 59] getlocal 1 .............................. <t>
+  [ 61] pusharglistnoret 2 ...................... <payloadTypes, t>
+  [ 63] objcall 6 ............................... payloadTypes.add(t)
+  [ 65] pushint8 1
+  [ 67] add
+  [ 68] endrepeat [ 18]
+  [ 70] pop 3
+  [ 72] ret
+end
+
+on setRestaurant me, stid
+  [  0] getprop 1090 ............................ <stageID>
+  [  3] pusharglist 1 ........................... <stageID>
+  [  5] extcall 59 .............................. <string(stageID)>
+  [  7] pushcons 14 ............................. <"goddess">
+  [  9] eq ...................................... <string(stageID) = "goddess">
+  [ 10] setlocal 0 .............................. was_g = string(stageID) = "goddess"
+  [ 12] getparam 1 .............................. <stid>
+  [ 14] pusharglist 1 ........................... <stid>
+  [ 16] extcall 59 .............................. <string(stid)>
+  [ 18] pushcons 14 ............................. <"goddess">
+  [ 20] eq ...................................... <string(stid) = "goddess">
+  [ 21] jmpifz [ 32] ............................ if string(stid) = "goddess" then / else
+  [ 24] pushint8 4 .............................. <4>
+  [ 26] setprop 1076 ............................ maxPayload = 4
+  [ 29] jmp [ 37]
+  [ 32] pushint8 2 .............................. <2>
+  [ 34] setprop 1076 ............................ maxPayload = 2
+  [ 37] getprop 1090 ............................ <stageID>
+  [ 40] pusharglist 1 ........................... <stageID>
+  [ 42] extcall 59 .............................. <string(stageID)>
+  [ 44] getparam 1 .............................. <stid>
+  [ 46] pusharglist 1 ........................... <stid>
+  [ 48] extcall 59 .............................. <string(stid)>
+  [ 50] eq ...................................... <string(stageID) = string(stid)>
+  [ 51] jmpifz [ 58] ............................ if string(stageID) = string(stid) then
+  [ 54] pusharglistnoret 0 ...................... <>
+  [ 56] extcall 9 ............................... return 
+  [ 58] getparam 1 .............................. <stid>
+  [ 60] setprop 1090 ............................ stageID = stid
+  [ 63] getlocal 0 .............................. <was_g>
+  [ 65] jmpifz [116] ............................ if was_g then / else
+  [ 68] pushsymb 5 .............................. <#destroy>
+  [ 70] getprop 276 ............................. <views>
+  [ 73] pusharglistnoret 2 ...................... <#destroy, views>
+  [ 75] extcall 32 .............................. call(#destroy, views)
+  [ 77] getprop 276 ............................. <views>
+  [ 80] pusharglistnoret 1 ...................... <views>
+  [ 82] objcall 10 .............................. views.deleteAll()
+  [ 84] getprop 276 ............................. <views>
+  [ 87] pushcons 9 .............................. <"waiter_view">
+  [ 89] pusharglist 1 ........................... <"waiter_view">
+  [ 91] extcall 55 .............................. <script("waiter_view")>
+  [ 93] pushsymb 323 ............................ <#waiter>
+  [ 96] getparam 0 .............................. <me>
+  [ 98] pushsymb 173 ............................ <#room>
+  [100] getprop 173 ............................. <room>
+  [102] pusharglist 4 ........................... <[#waiter: me, #room: room]>
+  [104] pushproplist ............................ <[#waiter: me, #room: room]>
+  [105] pusharglist 2 ........................... <script("waiter_view"), [#waiter: me, #room: room]>
+  [107] objcall 4 ............................... <script("waiter_view").new([#waiter: me, #room: room])>
+  [109] pusharglistnoret 2 ...................... <views, script("waiter_view").new([#waiter: me, #room: room])>
+  [111] objcall 6 ............................... views.add(script("waiter_view").new([#waiter: me, #room: room]))
+  [113] jmp [173]
+  [116] getparam 1 .............................. <stid>
+  [118] pusharglist 1 ........................... <stid>
+  [120] extcall 59 .............................. <string(stid)>
+  [122] pushcons 14 ............................. <"goddess">
+  [124] eq ...................................... <string(stid) = "goddess">
+  [125] jmpifz [173] ............................ if string(stid) = "goddess" then
+  [128] pushsymb 5 .............................. <#destroy>
+  [130] getprop 276 ............................. <views>
+  [133] pusharglistnoret 2 ...................... <#destroy, views>
+  [135] extcall 32 .............................. call(#destroy, views)
+  [137] getprop 276 ............................. <views>
+  [140] pusharglistnoret 1 ...................... <views>
+  [142] objcall 10 .............................. views.deleteAll()
+  [144] getprop 276 ............................. <views>
+  [147] pushcons 15 ............................. <"goddess_view">
+  [149] pusharglist 1 ........................... <"goddess_view">
+  [151] extcall 55 .............................. <script("goddess_view")>
+  [153] pushsymb 323 ............................ <#waiter>
+  [156] getparam 0 .............................. <me>
+  [158] pushsymb 173 ............................ <#room>
+  [160] getprop 173 ............................. <room>
+  [162] pusharglist 4 ........................... <[#waiter: me, #room: room]>
+  [164] pushproplist ............................ <[#waiter: me, #room: room]>
+  [165] pusharglist 2 ........................... <script("goddess_view"), [#waiter: me, #room: room]>
+  [167] objcall 4 ............................... <script("goddess_view").new([#waiter: me, #room: room])>
+  [169] pusharglistnoret 2 ...................... <views, script("goddess_view").new([#waiter: me, #room: room])>
+  [171] objcall 6 ............................... views.add(script("goddess_view").new([#waiter: me, #room: room]))
+  [173] pushsymb 350 ............................ <#setRestaurant>
+  [176] getprop 276 ............................. <views>
+  [179] getparam 1 .............................. <stid>
+  [181] pusharglistnoret 3 ...................... <#setRestaurant, views, stid>
+  [183] extcall 32 .............................. call(#setRestaurant, views, stid)
+  [185] ret
+end
+
+on pickUp me, typ, arg
+  [  0] pushsymb 1092 ........................... <#stopIdle>
+  [  3] getprop 276 ............................. <views>
+  [  6] pusharglistnoret 2 ...................... <#stopIdle, views>
+  [  8] extcall 32 .............................. call(#stopIdle, views)
+  [ 10] getprop 1074 ............................ <payload>
+  [ 13] getobjprop 12 ........................... <payload.count>
+  [ 15] getprop 1076 ............................ <maxPayload>
+  [ 18] lt ...................................... <payload.count < maxPayload>
+  [ 19] jmpifz [337] ............................ if payload.count < maxPayload then
+  [ 22] getparam 2 .............................. <arg>
+  [ 24] pusharglist 1 ........................... <arg>
+  [ 26] extcall 31 .............................. <voidp(arg)>
+  [ 28] not ..................................... <not voidp(arg)>
+  [ 29] getparam 0 .............................. <me>
+  [ 31] getparam 1 .............................. <typ>
+  [ 33] getparam 2 .............................. <arg>
+  [ 35] pusharglist 3 ........................... <me, typ, arg>
+  [ 37] objcall 929 ............................. <me.hasPayload(typ, arg)>
+  [ 40] and ..................................... <not voidp(arg) and me.hasPayload(typ, arg)>
+  [ 41] jmpifz [ 49] ............................ if not voidp(arg) and me.hasPayload(typ, arg) then
+  [ 44] pushzero ................................ <0>
+  [ 45] pusharglistnoret 1 ...................... <0>
+  [ 47] extcall 9 ............................... return 0
+  [ 49] getparam 2 .............................. <arg>
+  [ 51] pusharglist 1 ........................... <arg>
+  [ 53] extcall 31 .............................. <voidp(arg)>
+  [ 55] not ..................................... <not voidp(arg)>
+  [ 56] jmpifz [ 84] ............................ if not voidp(arg) then
+  [ 59] getparam 2 .............................. <arg>
+  [ 61] getobjprop 137 .......................... <arg.type>
+  [ 63] pushsymb 130 ............................ <#table>
+  [ 65] eq ...................................... <arg.type = #table>
+  [ 66] getparam 1 .............................. <typ>
+  [ 68] pushsymb 937 ............................ <#food>
+  [ 71] eq ...................................... <typ = #food>
+  [ 72] and ..................................... <(arg.type = #table) and (typ = #food)>
+  [ 73] jmpifz [ 84] ............................ if (arg.type = #table) and (typ = #food) then
+  [ 76] getparam 2 .............................. <arg>
+  [ 78] pushint8 1 .............................. <1>
+  [ 80] pusharglistnoret 2 ...................... <arg, 1>
+  [ 82] objcall 157 ............................. arg.setFoodPickedUp(1)
+  [ 84] pushsymb 984 ............................ <#hiliteAllDests>
+  [ 87] getparam 1 .............................. <typ>
+  [ 89] pusharglistnoret 2 ...................... <#hiliteAllDests, typ>
+  [ 91] extcall 1093 ............................ sendEvent(#hiliteAllDests, typ)
+  [ 94] getprop 1074 ............................ <payload>
+  [ 97] pushsymb 137 ............................ <#type>
+  [ 99] getparam 1 .............................. <typ>
+  [101] pushsymb 1089 ........................... <#object>
+  [104] getparam 2 .............................. <arg>
+  [106] pusharglist 4 ........................... <[#type: typ, #object: arg]>
+  [108] pushproplist ............................ <[#type: typ, #object: arg]>
+  [109] pusharglistnoret 2 ...................... <payload, [#type: typ, #object: arg]>
+  [111] objcall 6 ............................... payload.add([#type: typ, #object: arg])
+  [113] getprop 1075 ............................ <payloadTypes>
+  [116] getparam 1 .............................. <typ>
+  [118] pusharglist 2 ........................... <payloadTypes, typ>
+  [120] objcall 11 .............................. <payloadTypes.getOne(typ)>
+  [122] pushzero ................................ <0>
+  [123] eq ...................................... <payloadTypes.getOne(typ) = 0>
+  [124] jmpifz [136] ............................ if payloadTypes.getOne(typ) = 0 then
+  [127] getprop 1075 ............................ <payloadTypes>
+  [130] getparam 1 .............................. <typ>
+  [132] pusharglistnoret 2 ...................... <payloadTypes, typ>
+  [134] objcall 6 ............................... payloadTypes.add(typ)
+  [136] pushsymb 1094 ........................... <#updatePayload>
+  [139] getprop 276 ............................. <views>
+  [142] pusharglistnoret 2 ...................... <#updatePayload, views>
+  [144] extcall 32 .............................. call(#updatePayload, views)
+  [146] getparam 1 .............................. <typ>
+  [148] getprop 1095 ............................ <chainMode>
+  [151] nteq .................................... <typ <> chainMode>
+  [152] jmpifz [167] ............................ if typ <> chainMode then
+  [155] getparam 0 .............................. <me>
+  [157] pusharglistnoret 1 ...................... <me>
+  [159] objcall 1057 ............................ me.clearChain()
+  [162] getparam 1 .............................. <typ>
+  [164] setprop 1095 ............................ chainMode = typ
+  [167] getprop 1065 ............................ <pickupChains>
+  [170] getparam 1 .............................. <typ>
+  [172] pusharglist 2 ........................... <pickupChains, typ>
+  [174] objcall 11 .............................. <pickupChains.getOne(typ)>
+  [176] jmpifz [202] ............................ if pickupChains.getOne(typ) then
+  [179] getprop 868 ............................. <chain>
+  [182] getparam 2 .............................. <arg>
+  [184] pusharglist 2 ........................... <chain, arg>
+  [186] objcall 11 .............................. <chain.getOne(arg)>
+  [188] pushzero ................................ <0>
+  [189] eq ...................................... <chain.getOne(arg) = 0>
+  [190] jmpifz [202] ............................ if chain.getOne(arg) = 0 then
+  [193] getprop 868 ............................. <chain>
+  [196] getparam 2 .............................. <arg>
+  [198] pusharglistnoret 2 ...................... <chain, arg>
+  [200] objcall 6 ............................... chain.add(arg)
+  [202] getparam 2 .............................. <arg>
+  [204] pusharglist 1 ........................... <arg>
+  [206] extcall 31 .............................. <voidp(arg)>
+  [208] not ..................................... <not voidp(arg)>
+  [209] jmpifz [303] ............................ if not voidp(arg) then
+  [212] getprop 1067 ............................ <pickupPoints>
+  [215] getparam 1 .............................. <typ>
+  [217] pusharglist 2 ........................... <pickupPoints, typ>
+  [219] objcall 36 .............................. <pickupPoints[typ]>
+  [221] setlocal 0 .............................. pts = pickupPoints[typ]
+  [223] getlocal 0 .............................. <pts>
+  [225] pusharglist 1 ........................... <pts>
+  [227] extcall 31 .............................. <voidp(pts)>
+  [229] not ..................................... <not voidp(pts)>
+  [230] jmpifz [303] ............................ if not voidp(pts) then
+  [233] pusharglist 0 ........................... <[:]>
+  [235] pushproplist ............................ <[:]>
+  [236] setlocal 1 .............................. Args = [:]
+  [238] getprop 868 ............................. <chain>
+  [241] getobjprop 12 ........................... <chain.count>
+  [243] setlocal 2 .............................. ct = chain.count
+  [245] getlocal 2 .............................. <ct>
+  [247] getprop 1063 ............................ <minChain>
+  [250] gteq .................................... <ct >= minChain>
+  [251] jmpifz [283] ............................ if ct >= minChain then
+  [254] getlocal 1 .............................. <Args>
+  [256] pushsymb 283 ............................ <#multiplier>
+  [259] getlocal 2 .............................. <ct>
+  [261] pusharglistnoret 3 ...................... <Args, #multiplier, ct>
+  [263] objcall 25 .............................. Args[#multiplier] = ct
+  [265] getlocal 1 .............................. <Args>
+  [267] pushsymb 137 ............................ <#type>
+  [269] getprop 1095 ............................ <chainMode>
+  [272] pusharglistnoret 3 ...................... <Args, #type, chainMode>
+  [274] objcall 25 .............................. Args[#type] = chainMode
+  [276] getlocal 0 .............................. <pts>
+  [278] getlocal 2 .............................. <ct>
+  [280] mul ..................................... <pts * ct>
+  [281] setlocal 0 .............................. pts = pts * ct
+  [283] getlocal 1 .............................. <Args>
+  [285] pushsymb 282 ............................ <#score>
+  [288] getlocal 0 .............................. <pts>
+  [290] pusharglistnoret 3 ...................... <Args, #score, pts>
+  [292] objcall 25 .............................. Args[#score] = pts
+  [294] getparam 2 .............................. <arg>
+  [296] getlocal 1 .............................. <Args>
+  [298] pusharglistnoret 2 ...................... <arg, Args>
+  [300] objcall 460 ............................. arg.getBonus(Args)
+  [303] getprop 1071 ............................ <pickupSounds>
+  [306] getparam 1 .............................. <typ>
+  [308] pusharglist 2 ........................... <pickupSounds, typ>
+  [310] objcall 36 .............................. <pickupSounds[typ]>
+  [312] setlocal 3 .............................. sfx = pickupSounds[typ]
+  [314] getlocal 3 .............................. <sfx>
+  [316] pusharglist 1 ........................... <sfx>
+  [318] extcall 31 .............................. <voidp(sfx)>
+  [320] not ..................................... <not voidp(sfx)>
+  [321] jmpifz [331] ............................ if not voidp(sfx) then
+  [324] getlocal 3 .............................. <sfx>
+  [326] pusharglistnoret 1 ...................... <sfx>
+  [328] extcall 516 ............................. SndSFX(sfx)
+  [331] pushint8 1 .............................. <1>
+  [333] pusharglistnoret 1 ...................... <1>
+  [335] extcall 9 ............................... return 1
+  [337] ret
+end
+
+on dropCheck me, tbl
+  [  0] getprop 1095 ............................ <chainMode>
+  [  3] pushsymb 194 ............................ <#check>
+  [  5] nteq .................................... <chainMode <> #check>
+  [  6] jmpifz [ 21] ............................ if chainMode <> #check then
+  [  9] getparam 0 .............................. <me>
+  [ 11] pusharglistnoret 1 ...................... <me>
+  [ 13] objcall 1057 ............................ me.clearChain()
+  [ 16] pushsymb 194 ............................ <#check>
+  [ 18] setprop 1095 ............................ chainMode = #check
+  [ 21] getprop 868 ............................. <chain>
+  [ 24] getparam 1 .............................. <tbl>
+  [ 26] pusharglist 2 ........................... <chain, tbl>
+  [ 28] objcall 11 .............................. <chain.getOne(tbl)>
+  [ 30] pushzero ................................ <0>
+  [ 31] eq ...................................... <chain.getOne(tbl) = 0>
+  [ 32] jmpifz [ 44] ............................ if chain.getOne(tbl) = 0 then
+  [ 35] getprop 868 ............................. <chain>
+  [ 38] getparam 1 .............................. <tbl>
+  [ 40] pusharglistnoret 2 ...................... <chain, tbl>
+  [ 42] objcall 6 ............................... chain.add(tbl)
+  [ 44] getprop 1068 ............................ <dropPoints>
+  [ 47] getobjprop 194 .......................... <dropPoints.check>
+  [ 49] setlocal 0 .............................. pts = dropPoints.check
+  [ 51] pusharglist 0 ........................... <[:]>
+  [ 53] pushproplist ............................ <[:]>
+  [ 54] setlocal 1 .............................. Args = [:]
+  [ 56] getprop 868 ............................. <chain>
+  [ 59] getobjprop 12 ........................... <chain.count>
+  [ 61] setlocal 2 .............................. ct = chain.count
+  [ 63] getlocal 2 .............................. <ct>
+  [ 65] getprop 1063 ............................ <minChain>
+  [ 68] gteq .................................... <ct >= minChain>
+  [ 69] jmpifz [100] ............................ if ct >= minChain then
+  [ 72] getlocal 1 .............................. <Args>
+  [ 74] pushsymb 283 ............................ <#multiplier>
+  [ 77] getlocal 2 .............................. <ct>
+  [ 79] pusharglistnoret 3 ...................... <Args, #multiplier, ct>
+  [ 81] objcall 25 .............................. Args[#multiplier] = ct
+  [ 83] getlocal 1 .............................. <Args>
+  [ 85] pushsymb 137 ............................ <#type>
+  [ 87] pushsymb 194 ............................ <#check>
+  [ 89] pusharglistnoret 3 ...................... <Args, #type, #check>
+  [ 91] objcall 25 .............................. Args[#type] = #check
+  [ 93] getlocal 0 .............................. <pts>
+  [ 95] getlocal 2 .............................. <ct>
+  [ 97] mul ..................................... <pts * ct>
+  [ 98] setlocal 0 .............................. pts = pts * ct
+  [100] getlocal 1 .............................. <Args>
+  [102] pushsymb 282 ............................ <#score>
+  [105] getlocal 0 .............................. <pts>
+  [107] pusharglistnoret 3 ...................... <Args, #score, pts>
+  [109] objcall 25 .............................. Args[#score] = pts
+  [111] getparam 1 .............................. <tbl>
+  [113] getlocal 1 .............................. <Args>
+  [115] pusharglistnoret 2 ...................... <tbl, Args>
+  [117] objcall 460 ............................. tbl.getBonus(Args)
+  [120] getprop 1072 ............................ <dropSounds>
+  [123] pushsymb 194 ............................ <#check>
+  [125] pusharglist 2 ........................... <dropSounds, #check>
+  [127] objcall 36 .............................. <dropSounds[#check]>
+  [129] setlocal 3 .............................. sfx = dropSounds[#check]
+  [131] getlocal 3 .............................. <sfx>
+  [133] pusharglist 1 ........................... <sfx>
+  [135] extcall 31 .............................. <voidp(sfx)>
+  [137] not ..................................... <not voidp(sfx)>
+  [138] jmpifz [148] ............................ if not voidp(sfx) then
+  [141] getlocal 3 .............................. <sfx>
+  [143] pusharglistnoret 1 ...................... <sfx>
+  [145] extcall 516 ............................. SndSFX(sfx)
+  [148] ret
+end
+
+on setSpeed me, ms
+  [  0] pushsymb 825 ............................ <#setSpeed>
+  [  3] getprop 276 ............................. <views>
+  [  6] getparam 1 .............................. <ms>
+  [  8] pusharglistnoret 3 ...................... <#setSpeed, views, ms>
+  [ 10] extcall 32 .............................. call(#setSpeed, views, ms)
+  [ 12] getparam 1 .............................. <ms>
+  [ 14] setprop 824 ............................. speed = ms
+  [ 17] ret
+end
+
+on dropOff me, typ, arg
+  [  0] getparam 2 .............................. <arg>
+  [  2] setlocal 0 .............................. obj = arg
+  [  4] getparam 1 .............................. <typ>
+  [  6] pushsymb 425 ............................ <#drinks>
+  [  9] eq ...................................... <typ = #drinks>
+  [ 10] jmpifz [ 90] ............................ if typ = #drinks then / else
+  [ 13] pushint8 1 .............................. <1>
+  [ 15] setlocal 1
+  [ 17] getlocal 1
+  [ 19] getprop 1074 ............................ <payload>
+  [ 22] getobjprop 12 ........................... <payload.count>
+  [ 24] lteq
+  [ 25] jmpifz [ 87] ............................ repeat with i = 1 to payload.count
+  [ 28] getprop 1074 ............................ <payload>
+  [ 31] getlocal 1 .............................. <i>
+  [ 33] pusharglist 2 ........................... <payload, i>
+  [ 35] objcall 36 .............................. <payload[i]>
+  [ 37] setlocal 2 .............................. p = payload[i]
+  [ 39] getlocal 2 .............................. <p>
+  [ 41] getobjprop 137 .......................... <p.type>
+  [ 43] pushsymb 425 ............................ <#drinks>
+  [ 46] eq ...................................... <p.type = #drinks>
+  [ 47] jmpifz [ 78] ............................ if p.type = #drinks then
+  [ 50] getparam 2 .............................. <arg>
+  [ 52] getlocal 2 .............................. <p>
+  [ 54] getchainedprop 1089 ..................... <p.object>
+  [ 57] getobjprop 1038 ......................... <p.object.moodPoints>
+  [ 60] pusharglistnoret 2 ...................... <arg, p.object.moodPoints>
+  [ 62] objcall 473 ............................. arg.haveDrink(p.object.moodPoints)
+  [ 65] getprop 1074 ............................ <payload>
+  [ 68] getlocal 1 .............................. <i>
+  [ 70] pusharglistnoret 2 ...................... <payload, i>
+  [ 72] objcall 634 ............................. payload.deleteAt(i)
+  [ 75] jmp [ 87] ............................... exit repeat
+  [ 78] pushint8 1
+  [ 80] getlocal 1
+  [ 82] add
+  [ 83] setlocal 1
+  [ 85] endrepeat [ 17]
+  [ 87] jmp [215]
+  [ 90] getprop 1073 ............................ <snackTypes>
+  [ 93] getparam 1 .............................. <typ>
+  [ 95] pusharglist 2 ........................... <snackTypes, typ>
+  [ 97] objcall 11 .............................. <snackTypes.getOne(typ)>
+  [ 99] jmpifz [181] ............................ if snackTypes.getOne(typ) then / else
+  [102] pushzero ................................ <0>
+  [103] setlocal 3 .............................. succ = 0
+  [105] pushint8 1 .............................. <1>
+  [107] setlocal 1
+  [109] getlocal 1
+  [111] getprop 1074 ............................ <payload>
+  [114] getobjprop 12 ........................... <payload.count>
+  [116] lteq
+  [117] jmpifz [167] ............................ repeat with i = 1 to payload.count
+  [120] getprop 1074 ............................ <payload>
+  [123] getlocal 1 .............................. <i>
+  [125] pusharglist 2 ........................... <payload, i>
+  [127] objcall 36 .............................. <payload[i]>
+  [129] setlocal 2 .............................. p = payload[i]
+  [131] getlocal 2 .............................. <p>
+  [133] getobjprop 137 .......................... <p.type>
+  [135] getparam 1 .............................. <typ>
+  [137] eq ...................................... <p.type = typ>
+  [138] jmpifz [158] ............................ if p.type = typ then
+  [141] getprop 1074 ............................ <payload>
+  [144] getlocal 1 .............................. <i>
+  [146] pusharglistnoret 2 ...................... <payload, i>
+  [148] objcall 634 ............................. payload.deleteAt(i)
+  [151] pushint8 1 .............................. <1>
+  [153] setlocal 3 .............................. succ = 1
+  [155] jmp [167] ............................... exit repeat
+  [158] pushint8 1
+  [160] getlocal 1
+  [162] add
+  [163] setlocal 1
+  [165] endrepeat [109]
+  [167] getlocal 3 .............................. <succ>
+  [169] not ..................................... <not succ>
+  [170] jmpifz [178] ............................ if not succ then
+  [173] pushzero ................................ <0>
+  [174] pusharglistnoret 1 ...................... <0>
+  [176] extcall 9 ............................... return 0
+  [178] jmp [215]
+  [181] getprop 1074 ............................ <payload>
+  [184] pushsymb 137 ............................ <#type>
+  [186] getparam 1 .............................. <typ>
+  [188] pushsymb 1089 ........................... <#object>
+  [191] getlocal 0 .............................. <obj>
+  [193] pusharglist 4 ........................... <[#type: typ, #object: obj]>
+  [195] pushproplist ............................ <[#type: typ, #object: obj]>
+  [196] pusharglist 2 ........................... <payload, [#type: typ, #object: obj]>
+  [198] objcall 14 .............................. <payload.deleteOne([#type: typ, #object: obj])>
+  [200] not ..................................... <not payload.deleteOne([#type: typ, #object: obj])>
+  [201] getparam 1 .............................. <typ>
+  [203] pushsymb 194 ............................ <#check>
+  [205] nteq .................................... <typ <> #check>
+  [206] and ..................................... <not payload.deleteOne([#type: typ, #object: obj]) and (typ <> #check)>
+  [207] jmpifz [215] ............................ if not payload.deleteOne([#type: typ, #object: obj]) and (typ <> #check) then
+  [210] pushzero ................................ <0>
+  [211] pusharglistnoret 1 ...................... <0>
+  [213] extcall 9 ............................... return 0
+  [215] getparam 0 .............................. <me>
+  [217] pusharglistnoret 1 ...................... <me>
+  [219] objcall 1059 ............................ me.refreshPayloadTypes()
+  [222] getprop 1075 ............................ <payloadTypes>
+  [225] getparam 1 .............................. <typ>
+  [227] pusharglist 2 ........................... <payloadTypes, typ>
+  [229] objcall 11 .............................. <payloadTypes.getOne(typ)>
+  [231] pushzero ................................ <0>
+  [232] eq ...................................... <payloadTypes.getOne(typ) = 0>
+  [233] jmpifz [246] ............................ if payloadTypes.getOne(typ) = 0 then
+  [236] pushsymb 985 ............................ <#unhiliteAllDests>
+  [239] getparam 1 .............................. <typ>
+  [241] pusharglistnoret 2 ...................... <#unhiliteAllDests, typ>
+  [243] extcall 1093 ............................ sendEvent(#unhiliteAllDests, typ)
+  [246] pushsymb 1094 ........................... <#updatePayload>
+  [249] getprop 276 ............................. <views>
+  [252] pusharglistnoret 2 ...................... <#updatePayload, views>
+  [254] extcall 32 .............................. call(#updatePayload, views)
+  [256] getparam 1 .............................. <typ>
+  [258] getprop 1095 ............................ <chainMode>
+  [261] nteq .................................... <typ <> chainMode>
+  [262] jmpifz [277] ............................ if typ <> chainMode then
+  [265] getparam 0 .............................. <me>
+  [267] pusharglistnoret 1 ...................... <me>
+  [269] objcall 1057 ............................ me.clearChain()
+  [272] getparam 1 .............................. <typ>
+  [274] setprop 1095 ............................ chainMode = typ
+  [277] getprop 1066 ............................ <dropChains>
+  [280] getparam 1 .............................. <typ>
+  [282] pusharglist 2 ........................... <dropChains, typ>
+  [284] objcall 11 .............................. <dropChains.getOne(typ)>
+  [286] jmpifz [312] ............................ if dropChains.getOne(typ) then
+  [289] getprop 868 ............................. <chain>
+  [292] getparam 2 .............................. <arg>
+  [294] pusharglist 2 ........................... <chain, arg>
+  [296] objcall 11 .............................. <chain.getOne(arg)>
+  [298] pushzero ................................ <0>
+  [299] eq ...................................... <chain.getOne(arg) = 0>
+  [300] jmpifz [312] ............................ if chain.getOne(arg) = 0 then
+  [303] getprop 868 ............................. <chain>
+  [306] getparam 2 .............................. <arg>
+  [308] pusharglistnoret 2 ...................... <chain, arg>
+  [310] objcall 6 ............................... chain.add(arg)
+  [312] getparam 2 .............................. <arg>
+  [314] pusharglist 1 ........................... <arg>
+  [316] extcall 31 .............................. <voidp(arg)>
+  [318] not ..................................... <not voidp(arg)>
+  [319] jmpifz [438] ............................ if not voidp(arg) then
+  [322] getprop 1068 ............................ <dropPoints>
+  [325] getparam 1 .............................. <typ>
+  [327] pusharglist 2 ........................... <dropPoints, typ>
+  [329] objcall 36 .............................. <dropPoints[typ]>
+  [331] setlocal 4 .............................. pts = dropPoints[typ]
+  [333] getlocal 4 .............................. <pts>
+  [335] pusharglist 1 ........................... <pts>
+  [337] extcall 31 .............................. <voidp(pts)>
+  [339] not ..................................... <not voidp(pts)>
+  [340] jmpifz [438] ............................ if not voidp(pts) then
+  [343] pusharglist 0 ........................... <[:]>
+  [345] pushproplist ............................ <[:]>
+  [346] setlocal 5 .............................. Args = [:]
+  [348] getprop 868 ............................. <chain>
+  [351] getobjprop 12 ........................... <chain.count>
+  [353] setlocal 6 .............................. ct = chain.count
+  [355] getlocal 6 .............................. <ct>
+  [357] getprop 1063 ............................ <minChain>
+  [360] gteq .................................... <ct >= minChain>
+  [361] jmpifz [392] ............................ if ct >= minChain then
+  [364] getlocal 5 .............................. <Args>
+  [366] pushsymb 283 ............................ <#multiplier>
+  [369] getlocal 6 .............................. <ct>
+  [371] pusharglistnoret 3 ...................... <Args, #multiplier, ct>
+  [373] objcall 25 .............................. Args[#multiplier] = ct
+  [375] getlocal 5 .............................. <Args>
+  [377] pushsymb 137 ............................ <#type>
+  [379] getparam 1 .............................. <typ>
+  [381] pusharglistnoret 3 ...................... <Args, #type, typ>
+  [383] objcall 25 .............................. Args[#type] = typ
+  [385] getlocal 4 .............................. <pts>
+  [387] getlocal 6 .............................. <ct>
+  [389] mul ..................................... <pts * ct>
+  [390] setlocal 4 .............................. pts = pts * ct
+  [392] getlocal 5 .............................. <Args>
+  [394] pushsymb 282 ............................ <#score>
+  [397] getlocal 4 .............................. <pts>
+  [399] pusharglistnoret 3 ...................... <Args, #score, pts>
+  [401] objcall 25 .............................. Args[#score] = pts
+  [403] getparam 2 .............................. <arg>
+  [405] pusharglist 1 ........................... <arg>
+  [407] extcall 1097 ............................ <ilk(arg)>
+  [410] pushsymb 1098 ........................... <#instance>
+  [413] eq ...................................... <ilk(arg) = #instance>
+  [414] getparam 2 .............................. <arg>
+  [416] pushsymb 137 ............................ <#type>
+  [418] pusharglist 2 ........................... <arg, #type>
+  [420] objcall 36 .............................. <arg[#type]>
+  [422] pushsymb 130 ............................ <#table>
+  [424] eq ...................................... <arg[#type] = #table>
+  [425] and ..................................... <(ilk(arg) = #instance) and (arg[#type] = #table)>
+  [426] jmpifz [438] ............................ if (ilk(arg) = #instance) and (arg[#type] = #table) then
+  [429] getparam 2 .............................. <arg>
+  [431] getlocal 5 .............................. <Args>
+  [433] pusharglistnoret 2 ...................... <arg, Args>
+  [435] objcall 460 ............................. arg.getBonus(Args)
+  [438] getprop 1072 ............................ <dropSounds>
+  [441] getparam 1 .............................. <typ>
+  [443] pusharglist 2 ........................... <dropSounds, typ>
+  [445] objcall 36 .............................. <dropSounds[typ]>
+  [447] setlocal 7 .............................. sfx = dropSounds[typ]
+  [449] getlocal 7 .............................. <sfx>
+  [451] pusharglist 1 ........................... <sfx>
+  [453] extcall 31 .............................. <voidp(sfx)>
+  [455] not ..................................... <not voidp(sfx)>
+  [456] jmpifz [466] ............................ if not voidp(sfx) then
+  [459] getlocal 7 .............................. <sfx>
+  [461] pusharglistnoret 1 ...................... <sfx>
+  [463] extcall 516 ............................. SndSFX(sfx)
+  [466] pushint8 1 .............................. <1>
+  [468] pusharglistnoret 1 ...................... <1>
+  [470] extcall 9 ............................... return 1
+  [472] ret
+end
+
+on dropOffAll me, typ
+  [  0] getprop 1075 ............................ <payloadTypes>
+  [  3] getparam 1 .............................. <typ>
+  [  5] pusharglist 2 ........................... <payloadTypes, typ>
+  [  7] objcall 11 .............................. <payloadTypes.getOne(typ)>
+  [  9] pushzero ................................ <0>
+  [ 10] eq ...................................... <payloadTypes.getOne(typ) = 0>
+  [ 11] jmpifz [ 19] ............................ if payloadTypes.getOne(typ) = 0 then
+  [ 14] pushzero ................................ <0>
+  [ 15] pusharglistnoret 1 ...................... <0>
+  [ 17] extcall 9 ............................... return 0
+  [ 19] getprop 1074 ............................ <payload>
+  [ 22] pusharglist 1 ........................... <payload>
+  [ 24] objcall 405 ............................. <payload.duplicate()>
+  [ 27] peek 0
+  [ 29] pusharglist 1
+  [ 31] extcall 12
+  [ 33] pushint8 1
+  [ 35] peek 0
+  [ 37] peek 2
+  [ 39] lteq
+  [ 40] jmpifz [ 77] ............................ repeat with i in payload.duplicate()
+  [ 43] peek 2
+  [ 45] peek 1
+  [ 47] pusharglist 2
+  [ 49] extcall 36
+  [ 51] setlocal 0
+  [ 53] getlocal 0 .............................. <i>
+  [ 55] getobjprop 137 .......................... <i.type>
+  [ 57] getparam 1 .............................. <typ>
+  [ 59] eq ...................................... <i.type = typ>
+  [ 60] jmpifz [ 72] ............................ if i.type = typ then
+  [ 63] getprop 1074 ............................ <payload>
+  [ 66] getlocal 0 .............................. <i>
+  [ 68] pusharglistnoret 2 ...................... <payload, i>
+  [ 70] objcall 14 .............................. payload.deleteOne(i)
+  [ 72] pushint8 1
+  [ 74] add
+  [ 75] endrepeat [ 35]
+  [ 77] pop 3
+  [ 79] pushsymb 985 ............................ <#unhiliteAllDests>
+  [ 82] getparam 1 .............................. <typ>
+  [ 84] pusharglistnoret 2 ...................... <#unhiliteAllDests, typ>
+  [ 86] extcall 1093 ............................ sendEvent(#unhiliteAllDests, typ)
+  [ 89] getprop 1072 ............................ <dropSounds>
+  [ 92] getparam 1 .............................. <typ>
+  [ 94] pusharglist 2 ........................... <dropSounds, typ>
+  [ 96] objcall 36 .............................. <dropSounds[typ]>
+  [ 98] setlocal 1 .............................. sfx = dropSounds[typ]
+  [100] getlocal 1 .............................. <sfx>
+  [102] pusharglist 1 ........................... <sfx>
+  [104] extcall 31 .............................. <voidp(sfx)>
+  [106] not ..................................... <not voidp(sfx)>
+  [107] jmpifz [117] ............................ if not voidp(sfx) then
+  [110] getlocal 1 .............................. <sfx>
+  [112] pusharglistnoret 1 ...................... <sfx>
+  [114] extcall 516 ............................. SndSFX(sfx)
+  [117] pushsymb 1094 ........................... <#updatePayload>
+  [120] getprop 276 ............................. <views>
+  [123] pusharglistnoret 2 ...................... <#updatePayload, views>
+  [125] extcall 32 .............................. call(#updatePayload, views)
+  [127] getparam 0 .............................. <me>
+  [129] pusharglistnoret 1 ...................... <me>
+  [131] objcall 1059 ............................ me.refreshPayloadTypes()
+  [134] pushint8 1 .............................. <1>
+  [136] pusharglistnoret 1 ...................... <1>
+  [138] extcall 9 ............................... return 1
+  [140] ret
+end
+
+on arriveAtTile me, t
+  [  0] getparam 1 .............................. <t>
+  [  2] setprop 1081 ............................ currentTile = t
+  [  5] getprop 1070 ............................ <tilePath>
+  [  8] getobjprop 12 ........................... <tilePath.count>
+  [ 10] jmpifz [ 23] ............................ if tilePath.count then
+  [ 13] getprop 1070 ............................ <tilePath>
+  [ 16] pushint8 1 .............................. <1>
+  [ 18] pusharglistnoret 2 ...................... <tilePath, 1>
+  [ 20] objcall 634 ............................. tilePath.deleteAt(1)
+  [ 23] pushsymb 260 ............................ <#setTile>
+  [ 26] getprop 276 ............................. <views>
+  [ 29] getparam 1 .............................. <t>
+  [ 31] pusharglistnoret 3 ...................... <#setTile, views, t>
+  [ 33] extcall 32 .............................. call(#setTile, views, t)
+  [ 35] getprop 1070 ............................ <tilePath>
+  [ 38] getobjprop 12 ........................... <tilePath.count>
+  [ 40] jmpifz [ 62] ............................ if tilePath.count then / else
+  [ 43] getparam 0 .............................. <me>
+  [ 45] getprop 1070 ............................ <tilePath>
+  [ 48] pushint8 1 .............................. <1>
+  [ 50] pusharglist 2 ........................... <tilePath, 1>
+  [ 52] objcall 36 .............................. <tilePath[1]>
+  [ 54] pusharglistnoret 2 ...................... <me, tilePath[1]>
+  [ 56] objcall 1062 ............................ me.moveTo(tilePath[1])
+  [ 59] jmp [ 69]
+  [ 62] getparam 0 .............................. <me>
+  [ 64] pusharglistnoret 1 ...................... <me>
+  [ 66] objcall 1054 ............................ me.reachDest()
+  [ 69] ret
+end
+
+on keyDown me, k
+  [  0] getparam 1 .............................. <k>
+  [  2] pusharglist 0 ........................... <>
+  [  4] extcall 561 ............................. <SPACE>
+  [  7] eq ...................................... <k = SPACE>
+  [  8] jmpifz [ 18] ............................ if k = SPACE then
+  [ 11] getparam 0 .............................. <me>
+  [ 13] pusharglistnoret 1 ...................... <me>
+  [ 15] objcall 1061 ............................ me.stopMoving()
+  [ 18] ret
+end
+
+on stopMoving me
+  [  0] getprop 1079 ............................ <moveTimer>
+  [  3] pusharglist 1 ........................... <moveTimer>
+  [  5] extcall 31 .............................. <voidp(moveTimer)>
+  [  7] not ..................................... <not voidp(moveTimer)>
+  [  8] jmpifz [ 18] ............................ if not voidp(moveTimer) then
+  [ 11] getprop 1079 ............................ <moveTimer>
+  [ 14] pusharglistnoret 1 ...................... <moveTimer>
+  [ 16] objcall 208 ............................. moveTimer.stop()
+  [ 18] getparam 0 .............................. <me>
+  [ 20] pusharglistnoret 1 ...................... <me>
+  [ 22] objcall 1058 ............................ me.clearQueue()
+  [ 25] getprop 1052 ............................ <currentDest>
+  [ 28] pusharglist 1 ........................... <currentDest>
+  [ 30] extcall 31 .............................. <voidp(currentDest)>
+  [ 32] not ..................................... <not voidp(currentDest)>
+  [ 33] jmpifz [ 52] ............................ if not voidp(currentDest) then
+  [ 36] getprop 1052 ............................ <currentDest>
+  [ 39] pushzero ................................ <0>
+  [ 40] pusharglistnoret 2 ...................... <currentDest, 0>
+  [ 42] objcall 453 ............................. currentDest.setSelected(0)
+  [ 45] pusharglist 0 ........................... <>
+  [ 47] extcall 65 .............................. <VOID>
+  [ 49] setprop 1052 ............................ currentDest = VOID
+  [ 52] getprop 1070 ............................ <tilePath>
+  [ 55] pusharglistnoret 1 ...................... <tilePath>
+  [ 57] objcall 10 .............................. tilePath.deleteAll()
+  [ 59] ret
+end
+
+on killFood me, tbl
+  [  0] getprop 1075 ............................ <payloadTypes>
+  [  3] pushsymb 937 ............................ <#food>
+  [  6] pusharglist 2 ........................... <payloadTypes, #food>
+  [  8] objcall 11 .............................. <payloadTypes.getOne(#food)>
+  [ 10] pushzero ................................ <0>
+  [ 11] eq ...................................... <payloadTypes.getOne(#food) = 0>
+  [ 12] jmpifz [ 19] ............................ if payloadTypes.getOne(#food) = 0 then
+  [ 15] pusharglistnoret 0 ...................... <>
+  [ 17] extcall 9 ............................... return 
+  [ 19] getparam 0 .............................. <me>
+  [ 21] pushsymb 937 ............................ <#food>
+  [ 24] getparam 1 .............................. <tbl>
+  [ 26] pusharglistnoret 3 ...................... <me, #food, tbl>
+  [ 28] objcall 930 ............................. me.dropOff(#food, tbl)
+  [ 31] ret
+end
+
+on moveTo me, Tile
+  [  0] getparam 1 .............................. <Tile>
+  [  2] getprop 1081 ............................ <currentTile>
+  [  5] eq ...................................... <Tile = currentTile>
+  [  6] jmpifz [ 18] ............................ if Tile = currentTile then
+  [  9] getparam 0 .............................. <me>
+  [ 11] getparam 1 .............................. <Tile>
+  [ 13] pusharglistnoret 2 ...................... <me, Tile>
+  [ 15] objcall 432 ............................. me.arriveAtTile(Tile)
+  [ 18] getprop 824 ............................. <speed>
+  [ 21] pushsymb 34 ............................. <#target>
+  [ 23] getparam 0 .............................. <me>
+  [ 25] pushsymb 33 ............................. <#handler>
+  [ 27] pushsymb 432 ............................ <#arriveAtTile>
+  [ 30] pushsymb 35 ............................. <#Args>
+  [ 32] getparam 1 .............................. <Tile>
+  [ 34] pusharglist 6 ........................... <[#target: me, #handler: #arriveAtTile, #Args: Tile]>
+  [ 36] pushproplist ............................ <[#target: me, #handler: #arriveAtTile, #Args: Tile]>
+  [ 37] pusharglist 2 ........................... <speed, [#target: me, #handler: #arriveAtTile, #Args: Tile]>
+  [ 39] extcall 252 ............................. <timedCall(speed, [#target: me, #handler: #arriveAtTile, #Args: Tile])>
+  [ 41] setprop 1079 ............................ moveTimer = timedCall(speed, [#target: me, #handler: #arriveAtTile, #Args: Tile])
+  [ 44] pushsymb 1100 ........................... <#moveToTile>
+  [ 47] getprop 276 ............................. <views>
+  [ 50] getparam 1 .............................. <Tile>
+  [ 52] pusharglistnoret 3 ...................... <#moveToTile, views, Tile>
+  [ 54] extcall 32 .............................. call(#moveToTile, views, Tile)
+  [ 56] ret
+end
+
+on groupLeft me, g
+  [  0] ret
+end

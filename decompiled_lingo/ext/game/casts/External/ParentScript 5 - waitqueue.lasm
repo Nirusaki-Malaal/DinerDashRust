@@ -1,0 +1,246 @@
+property node, room_mgr, game_mgr, dragicon, wgnodes, size
+
+on new me, Args
+  [  0] pushint8 8 .............................. <8>
+  [  2] setprop 40 .............................. size = 8
+  [  4] getparam 1 .............................. <Args>
+  [  6] getobjprop 42 ........................... <Args.room_manager>
+  [  8] setprop 41 .............................. room_mgr = Args.room_manager
+  [ 10] getparam 1 .............................. <Args>
+  [ 12] getobjprop 44 ........................... <Args.game_manager>
+  [ 14] setprop 43 .............................. game_mgr = Args.game_manager
+  [ 16] getparam 1 .............................. <Args>
+  [ 18] pushsymb 45 ............................. <#node>
+  [ 20] pusharglist 2 ........................... <Args, #node>
+  [ 22] objcall 36 .............................. <Args[#node]>
+  [ 24] setprop 45 .............................. node = Args[#node]
+  [ 26] pushcons 0 .............................. <"dragndrop">
+  [ 28] pusharglist 1 ........................... <"dragndrop">
+  [ 30] extcall 46 .............................. <getNodeGroup("dragndrop")>
+  [ 32] setlocal 0 .............................. grp = getNodeGroup("dragndrop")
+  [ 34] getlocal 0 .............................. <grp>
+  [ 36] pushcons 1 .............................. <"waitgroup">
+  [ 38] pusharglist 1 ........................... <"waitgroup">
+  [ 40] extcall 47 .............................. <getNodeData("waitgroup")>
+  [ 42] pusharglist 2 ........................... <grp, getNodeData("waitgroup")>
+  [ 44] objcall 48 .............................. <grp.newNode(getNodeData("waitgroup"))>
+  [ 46] setlocal 1 .............................. dragnode = grp.newNode(getNodeData("waitgroup"))
+  [ 48] getlocal 1 .............................. <dragnode>
+  [ 50] getlocal 1 .............................. <dragnode>
+  [ 52] pushsymb 49 ............................. <#children>
+  [ 54] pushint8 1 .............................. <1>
+  [ 56] pusharglist 3 ........................... <dragnode, #children, 1>
+  [ 58] objcall 50 .............................. <dragnode.children[1]>
+  [ 60] pusharglist 1 ........................... <dragnode.children[1]>
+  [ 62] objcall 51 .............................. <dragnode.children[1].getLoc()>
+  [ 64] pusharglistnoret 2 ...................... <dragnode, dragnode.children[1].getLoc()>
+  [ 66] objcall 52 .............................. dragnode.setRegPoint(dragnode.children[1].getLoc())
+  [ 68] getlocal 1 .............................. <dragnode>
+  [ 70] pusharglistnoret 1 ...................... <dragnode>
+  [ 72] objcall 53 .............................. dragnode.moveToFront()
+  [ 74] pushcons 2 .............................. <"waitgroup_drag">
+  [ 76] pusharglist 1 ........................... <"waitgroup_drag">
+  [ 78] extcall 55 .............................. <script("waitgroup_drag")>
+  [ 80] pushsymb 45 ............................. <#node>
+  [ 82] getlocal 1 .............................. <dragnode>
+  [ 84] pushsymb 56 ............................. <#queue>
+  [ 86] getparam 0 .............................. <me>
+  [ 88] pusharglist 4 ........................... <[#node: dragnode, #queue: me]>
+  [ 90] pushproplist ............................ <[#node: dragnode, #queue: me]>
+  [ 91] pusharglist 2 ........................... <script("waitgroup_drag"), [#node: dragnode, #queue: me]>
+  [ 93] objcall 4 ............................... <script("waitgroup_drag").new([#node: dragnode, #queue: me])>
+  [ 95] setprop 54 .............................. dragicon = script("waitgroup_drag").new([#node: dragnode, #queue: me])
+  [ 97] getprop 54 .............................. <dragicon>
+  [ 99] pushzero ................................ <0>
+  [100] pusharglistnoret 2 ...................... <dragicon, 0>
+  [102] objcall 57 .............................. dragicon.setVisible(0)
+  [104] pusharglist 0 ........................... <[]>
+  [106] pushlist ................................ <[]>
+  [107] setprop 58 .............................. wgnodes = []
+  [109] pushint8 1 .............................. <1>
+  [111] setlocal 2
+  [113] getlocal 2
+  [115] getprop 40 .............................. <size>
+  [117] lteq
+  [118] jmpifz [196] ............................ repeat with i = 1 to size
+  [121] getprop 45 .............................. <node>
+  [123] pushcons 3 .............................. <"group_">
+  [125] getlocal 2 .............................. <i>
+  [127] pusharglist 1 ........................... <i>
+  [129] extcall 59 .............................. <string(i)>
+  [131] joinstr ................................. <"group_" & string(i)>
+  [132] pusharglist 2 ........................... <node, "group_" & string(i)>
+  [134] objcall 36 .............................. <node["group_" & string(i)]>
+  [136] setlocal 3 .............................. n = node["group_" & string(i)]
+  [138] getlocal 3 .............................. <n>
+  [140] pusharglist 1 ........................... <n>
+  [142] extcall 31 .............................. <voidp(n)>
+  [144] jmpifz [156] ............................ if voidp(n) then
+  [147] pushcons 4 .............................. <"missing waitgroup">
+  [149] pusharglistnoret 1 ...................... <"missing waitgroup">
+  [151] extcall 60 .............................. complain("missing waitgroup")
+  [153] jmp [187] ............................... next repeat
+  [156] getprop 58 .............................. <wgnodes>
+  [158] pushcons 5 .............................. <"waitgroup_view">
+  [160] pusharglist 1 ........................... <"waitgroup_view">
+  [162] extcall 55 .............................. <script("waitgroup_view")>
+  [164] pushsymb 45 ............................. <#node>
+  [166] getlocal 3 .............................. <n>
+  [168] pushsymb 54 ............................. <#dragicon>
+  [170] getprop 54 .............................. <dragicon>
+  [172] pushsymb 56 ............................. <#queue>
+  [174] getparam 0 .............................. <me>
+  [176] pusharglist 6 ........................... <[#node: n, #dragicon: dragicon, #queue: me]>
+  [178] pushproplist ............................ <[#node: n, #dragicon: dragicon, #queue: me]>
+  [179] pusharglist 2 ........................... <script("waitgroup_view"), [#node: n, #dragicon: dragicon, #queue: me]>
+  [181] objcall 4 ............................... <script("waitgroup_view").new([#node: n, #dragicon: dragicon, #queue: me])>
+  [183] pusharglistnoret 2 ...................... <wgnodes, script("waitgroup_view").new([#node: n, #dragicon: dragicon, #queue: me])>
+  [185] objcall 6 ............................... wgnodes.add(script("waitgroup_view").new([#node: n, #dragicon: dragicon, #queue: me]))
+  [187] pushint8 1
+  [189] getlocal 2
+  [191] add
+  [192] setlocal 2
+  [194] endrepeat [113]
+  [196] getparam 0 .............................. <me>
+  [198] pusharglistnoret 1 ...................... <me>
+  [200] extcall 9 ............................... return me
+  [202] ret
+end
+
+on destroy me
+  [  0] pusharglist 0 ........................... <>
+  [  2] extcall 65 .............................. <VOID>
+  [  4] setprop 41 .............................. room_mgr = VOID
+  [  6] pusharglist 0 ........................... <>
+  [  8] extcall 65 .............................. <VOID>
+  [ 10] setprop 43 .............................. game_mgr = VOID
+  [ 12] pusharglist 0 ........................... <>
+  [ 14] extcall 65 .............................. <VOID>
+  [ 16] setprop 45 .............................. node = VOID
+  [ 18] pushsymb 5 .............................. <#destroy>
+  [ 20] getprop 58 .............................. <wgnodes>
+  [ 22] pusharglistnoret 2 ...................... <#destroy, wgnodes>
+  [ 24] extcall 32 .............................. call(#destroy, wgnodes)
+  [ 26] getprop 58 .............................. <wgnodes>
+  [ 28] pusharglistnoret 1 ...................... <wgnodes>
+  [ 30] objcall 10 .............................. wgnodes.deleteAll()
+  [ 32] getprop 54 .............................. <dragicon>
+  [ 34] pusharglistnoret 1 ...................... <dragicon>
+  [ 36] objcall 5 ............................... dragicon.destroy()
+  [ 38] pusharglist 0 ........................... <>
+  [ 40] extcall 65 .............................. <VOID>
+  [ 42] setprop 54 .............................. dragicon = VOID
+  [ 44] ret
+end
+
+on activatePodium me
+  [  0] getprop 43 .............................. <game_mgr>
+  [  2] getobjprop 66 ........................... <game_mgr.waitingGroups>
+  [  4] setlocal 0 .............................. wgroups = game_mgr.waitingGroups
+  [  6] getlocal 0 .............................. <wgroups>
+  [  8] getobjprop 12 ........................... <wgroups.count>
+  [ 10] setlocal 1 .............................. ct = wgroups.count
+  [ 12] pushzero ................................ <0>
+  [ 13] setlocal 2 .............................. ms = 0
+  [ 15] pushint8 1 .............................. <1>
+  [ 17] setlocal 3
+  [ 19] getlocal 3
+  [ 21] getprop 58 .............................. <wgnodes>
+  [ 23] getobjprop 12 ........................... <wgnodes.count>
+  [ 25] lteq
+  [ 26] jmpifz [ 76] ............................ repeat with i = 1 to wgnodes.count
+  [ 29] getlocal 3 .............................. <i>
+  [ 31] getlocal 1 .............................. <ct>
+  [ 33] gt ...................................... <i > ct>
+  [ 34] jmpifz [ 41] ............................ if i > ct then
+  [ 37] pusharglistnoret 0 ...................... <>
+  [ 39] extcall 9 ............................... return 
+  [ 41] getprop 58 .............................. <wgnodes>
+  [ 43] getlocal 3 .............................. <i>
+  [ 45] pusharglist 2 ........................... <wgnodes, i>
+  [ 47] objcall 36 .............................. <wgnodes[i]>
+  [ 49] setlocal 4 .............................. n = wgnodes[i]
+  [ 51] getlocal 4 .............................. <n>
+  [ 53] getlocal 2 .............................. <ms>
+  [ 55] pusharglistnoret 2 ...................... <n, ms>
+  [ 57] objcall 67 .............................. n.startFlashing(ms)
+  [ 59] getlocal 2 .............................. <ms>
+  [ 61] pushint16 200 ........................... <200>
+  [ 64] add ..................................... <ms + 200>
+  [ 65] setlocal 2 .............................. ms = ms + 200
+  [ 67] pushint8 1
+  [ 69] getlocal 3
+  [ 71] add
+  [ 72] setlocal 3
+  [ 74] endrepeat [ 19]
+  [ 76] ret
+end
+
+on mouseRelease me
+  [  0] pushsymb 71 ............................. <#setDragging>
+  [  2] getprop 58 .............................. <wgnodes>
+  [  4] pushzero ................................ <0>
+  [  5] pusharglistnoret 3 ...................... <#setDragging, wgnodes, 0>
+  [  7] extcall 32 .............................. call(#setDragging, wgnodes, 0)
+  [  9] ret
+end
+
+on update me
+  [  0] getprop 43 .............................. <game_mgr>
+  [  2] getobjprop 66 ........................... <game_mgr.waitingGroups>
+  [  4] setlocal 0 .............................. wgroups = game_mgr.waitingGroups
+  [  6] getlocal 0 .............................. <wgroups>
+  [  8] getobjprop 12 ........................... <wgroups.count>
+  [ 10] setlocal 1 .............................. ct = wgroups.count
+  [ 12] getlocal 1 .............................. <ct>
+  [ 14] pushzero ................................ <0>
+  [ 15] eq ...................................... <ct = 0>
+  [ 16] jmpifz [ 35] ............................ if ct = 0 then
+  [ 19] pushsymb 72 ............................. <#setGroup>
+  [ 21] getprop 58 .............................. <wgnodes>
+  [ 23] pusharglist 0 ........................... <>
+  [ 25] extcall 65 .............................. <VOID>
+  [ 27] pusharglistnoret 3 ...................... <#setGroup, wgnodes, VOID>
+  [ 29] extcall 32 .............................. call(#setGroup, wgnodes, VOID)
+  [ 31] pusharglistnoret 0 ...................... <>
+  [ 33] extcall 9 ............................... return 
+  [ 35] pushint8 1 .............................. <1>
+  [ 37] setlocal 2
+  [ 39] getlocal 2
+  [ 41] getprop 58 .............................. <wgnodes>
+  [ 43] getobjprop 12 ........................... <wgnodes.count>
+  [ 45] lteq
+  [ 46] jmpifz [111] ............................ repeat with i = 1 to wgnodes.count
+  [ 49] getprop 58 .............................. <wgnodes>
+  [ 51] getlocal 2 .............................. <i>
+  [ 53] pusharglist 2 ........................... <wgnodes, i>
+  [ 55] objcall 36 .............................. <wgnodes[i]>
+  [ 57] setlocal 3 .............................. n = wgnodes[i]
+  [ 59] getlocal 3 .............................. <n>
+  [ 61] pushint8 1 .............................. <1>
+  [ 63] pusharglistnoret 2 ...................... <n, 1>
+  [ 65] objcall 73 .............................. n.setFirst(1)
+  [ 67] getlocal 2 .............................. <i>
+  [ 69] getlocal 1 .............................. <ct>
+  [ 71] gt ...................................... <i > ct>
+  [ 72] jmpifz [ 88] ............................ if i > ct then
+  [ 75] getlocal 3 .............................. <n>
+  [ 77] pusharglist 0 ........................... <>
+  [ 79] extcall 65 .............................. <VOID>
+  [ 81] pusharglistnoret 2 ...................... <n, VOID>
+  [ 83] objcall 72 .............................. n.setGroup(VOID)
+  [ 85] jmp [102] ............................... next repeat
+  [ 88] getlocal 3 .............................. <n>
+  [ 90] getlocal 0 .............................. <wgroups>
+  [ 92] getlocal 2 .............................. <i>
+  [ 94] pusharglist 2 ........................... <wgroups, i>
+  [ 96] objcall 36 .............................. <wgroups[i]>
+  [ 98] pusharglistnoret 2 ...................... <n, wgroups[i]>
+  [100] objcall 72 .............................. n.setGroup(wgroups[i])
+  [102] pushint8 1
+  [104] getlocal 2
+  [106] add
+  [107] setlocal 2
+  [109] endrepeat [ 39]
+  [111] ret
+end
