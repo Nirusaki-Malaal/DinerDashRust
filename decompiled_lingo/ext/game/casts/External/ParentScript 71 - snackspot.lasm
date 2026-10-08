@@ -1,0 +1,296 @@
+property type, node, foodnode, standnode, mouselistener, room_mgr, waiter, Tile, destTile, hilited, checkmarks, numSelects, foodMembers, snackType, standMembers, wantingGroups, floPayload, bgnode
+
+on new me, Args
+  [  0] pushsymb 1280 ........................... <#snackspot>
+  [  3] setprop 137 ............................. type = #snackspot
+  [  5] getparam 1 .............................. <Args>
+  [  7] getobjprop 45 ........................... <Args.node>
+  [  9] setprop 45 .............................. node = Args.node
+  [ 11] getprop 45 .............................. <node>
+  [ 13] getobjprop 101 .......................... <node.parent>
+  [ 15] setprop 422 ............................. bgnode = node.parent
+  [ 18] getprop 45 .............................. <node>
+  [ 20] pushint8 1 .............................. <1>
+  [ 22] pusharglistnoret 2 ...................... <node, 1>
+  [ 24] objcall 57 .............................. node.setVisible(1)
+  [ 26] getparam 1 .............................. <Args>
+  [ 28] getobjprop 137 .......................... <Args.type>
+  [ 30] setprop 1281 ............................ snackType = Args.type
+  [ 33] pusharglist 0 ........................... <[]>
+  [ 35] pushlist ................................ <[]>
+  [ 36] setprop 1282 ............................ wantingGroups = []
+  [ 39] getprop 1281 ............................ <snackType>
+  [ 42] pusharglist 1 ........................... <snackType>
+  [ 44] extcall 59 .............................. <string(snackType)>
+  [ 46] pushcons 0 .............................. <"gfx.room">
+  [ 48] pusharglist 2 ........................... <string(snackType), "gfx.room">
+  [ 50] extcall 81 .............................. <member(string(snackType), "gfx.room")>
+  [ 52] getprop 1281 ............................ <snackType>
+  [ 55] pushcons 1 .............................. <"_hilite">
+  [ 57] joinstr ................................. <snackType & "_hilite">
+  [ 58] pushcons 0 .............................. <"gfx.room">
+  [ 60] pusharglist 2 ........................... <snackType & "_hilite", "gfx.room">
+  [ 62] extcall 81 .............................. <member(snackType & "_hilite", "gfx.room")>
+  [ 64] pusharglist 2 ........................... <[member(string(snackType), "gfx.room"), member(snackType & "_hilite", "gfx.room")]>
+  [ 66] pushlist ................................ <[member(string(snackType), "gfx.room"), member(snackType & "_hilite", "gfx.room")]>
+  [ 67] setprop 1283 ............................ foodMembers = [member(string(snackType), "gfx.room"), member(snackType & "_hilite", "gfx.room")]
+  [ 70] getprop 45 .............................. <node>
+  [ 72] pushcons 2 .............................. <"food">
+  [ 74] pusharglist 2 ........................... <node, "food">
+  [ 76] objcall 36 .............................. <node["food"]>
+  [ 78] setprop 1019 ............................ foodnode = node["food"]
+  [ 81] getprop 1019 ............................ <foodnode>
+  [ 84] getprop 1283 ............................ <foodMembers>
+  [ 87] pushint8 1 .............................. <1>
+  [ 89] pusharglist 2 ........................... <foodMembers, 1>
+  [ 91] objcall 36 .............................. <foodMembers[1]>
+  [ 93] pusharglistnoret 2 ...................... <foodnode, foodMembers[1]>
+  [ 95] objcall 213 ............................. foodnode.setMember(foodMembers[1])
+  [ 97] getparam 1 .............................. <Args>
+  [ 99] getobjprop 41 ........................... <Args.room_mgr>
+  [101] setprop 41 .............................. room_mgr = Args.room_mgr
+  [103] getprop 41 .............................. <room_mgr>
+  [105] getobjprop 323 .......................... <room_mgr.waiter>
+  [108] setprop 323 ............................. waiter = room_mgr.waiter
+  [111] pushint8 10 ............................. <10>
+  [113] setlocal 0 .............................. alphaspeed = 10
+  [115] pushint8 1 .............................. <1>
+  [117] setlocal 1 .............................. alphadir = 1
+  [119] pushzero ................................ <0>
+  [120] setlocal 2 .............................. alphacount = 0
+  [122] pusharglist 0 ........................... <>
+  [124] extcall 272 ............................. <getConfigData()>
+  [127] getobjprop 913 .......................... <getConfigData().drinkMood>
+  [130] setlocal 3 .............................. moodPoints = getConfigData().drinkMood
+  [132] pushsymb 45 ............................. <#node>
+  [134] getprop 45 .............................. <node>
+  [136] pushsymb 34 ............................. <#target>
+  [138] getparam 0 .............................. <me>
+  [140] pushsymb 604 ............................ <#recursive>
+  [143] pushint8 1 .............................. <1>
+  [145] pusharglist 6 ........................... <[#node: node, #target: me, #recursive: 1]>
+  [147] pushproplist ............................ <[#node: node, #target: me, #recursive: 1]>
+  [148] pusharglist 1 ........................... <[#node: node, #target: me, #recursive: 1]>
+  [150] extcall 251 ............................. <newMouseListener([#node: node, #target: me, #recursive: 1])>
+  [152] setprop 250 ............................. mouselistener = newMouseListener([#node: node, #target: me, #recursive: 1])
+  [154] pusharglist 0 ........................... <[]>
+  [156] pushlist ................................ <[]>
+  [157] setprop 1014 ............................ checkmarks = []
+  [160] pushint8 1 .............................. <1>
+  [162] setlocal 4
+  [164] getlocal 4
+  [166] pushint8 3 .............................. <3>
+  [168] lteq
+  [169] jmpifz [199] ............................ repeat with i = 1 to 3
+  [172] getprop 1014 ............................ <checkmarks>
+  [175] getprop 45 .............................. <node>
+  [177] pushcons 3 .............................. <"checkmark_">
+  [179] getlocal 4 .............................. <i>
+  [181] joinstr ................................. <"checkmark_" & i>
+  [182] pusharglist 2 ........................... <node, "checkmark_" & i>
+  [184] objcall 36 .............................. <node["checkmark_" & i]>
+  [186] pusharglistnoret 2 ...................... <checkmarks, node["checkmark_" & i]>
+  [188] objcall 6 ............................... checkmarks.add(node["checkmark_" & i])
+  [190] pushint8 1
+  [192] getlocal 4
+  [194] add
+  [195] setlocal 4
+  [197] endrepeat [164]
+  [199] getparam 0 .............................. <me>
+  [201] pushzero ................................ <0>
+  [202] pusharglistnoret 2 ...................... <me, 0>
+  [204] objcall 469 ............................. me.setHilite(0)
+  [207] getparam 0 .............................. <me>
+  [209] pushzero ................................ <0>
+  [210] pusharglistnoret 2 ...................... <me, 0>
+  [212] objcall 453 ............................. me.setSelected(0)
+  [215] getparam 0 .............................. <me>
+  [217] pusharglistnoret 1 ...................... <me>
+  [219] extcall 9 ............................... return me
+  [221] ret
+end
+
+on mouseEnter me
+  [  0] pushsymb 490 ............................ <#finger_up>
+  [  3] pusharglistnoret 1 ...................... <#finger_up>
+  [  5] extcall 94 .............................. setcursor(#finger_up)
+  [  7] ret
+end
+
+on mouseLeave me
+  [  0] pushsymb 104 ............................ <#arrow>
+  [  2] pusharglistnoret 1 ...................... <#arrow>
+  [  4] extcall 94 .............................. setcursor(#arrow)
+  [  6] ret
+end
+
+on mouseDown me
+  [  0] getprop 41 .............................. <room_mgr>
+  [  2] getparam 0 .............................. <me>
+  [  4] pusharglistnoret 2 ...................... <room_mgr, me>
+  [  6] objcall 301 ............................. room_mgr.selectDest(me)
+  [  9] pushsymb 491 ............................ <#finger_down>
+  [ 12] pusharglistnoret 1 ...................... <#finger_down>
+  [ 14] extcall 94 .............................. setcursor(#finger_down)
+  [ 16] ret
+end
+
+on mouseUp me
+  [  0] pushsymb 490 ............................ <#finger_up>
+  [  3] pusharglistnoret 1 ...................... <#finger_up>
+  [  5] extcall 94 .............................. setcursor(#finger_up)
+  [  7] ret
+end
+
+on setHilite me, h
+  [  0] getprop 1019 ............................ <foodnode>
+  [  3] getprop 1283 ............................ <foodMembers>
+  [  6] getparam 1 .............................. <h>
+  [  8] pushint8 1 .............................. <1>
+  [ 10] add ..................................... <h + 1>
+  [ 11] pusharglist 2 ........................... <foodMembers, h + 1>
+  [ 13] objcall 36 .............................. <foodMembers[h + 1]>
+  [ 15] pusharglistnoret 2 ...................... <foodnode, foodMembers[h + 1]>
+  [ 17] objcall 213 ............................. foodnode.setMember(foodMembers[h + 1])
+  [ 19] ret
+end
+
+on setSelected me, s
+  [  0] getparam 1 .............................. <s>
+  [  2] jmpifz [ 39] ............................ if s then / else
+  [  5] pushint8 3 .............................. <3>
+  [  7] getprop 1016 ............................ <numSelects>
+  [ 10] pushint8 1 .............................. <1>
+  [ 12] add ..................................... <numSelects + 1>
+  [ 13] pusharglist 2 ........................... <3, numSelects + 1>
+  [ 15] extcall 154 ............................. <min(3, numSelects + 1)>
+  [ 17] setprop 1016 ............................ numSelects = min(3, numSelects + 1)
+  [ 20] getprop 1014 ............................ <checkmarks>
+  [ 23] getprop 1016 ............................ <numSelects>
+  [ 26] pusharglist 2 ........................... <checkmarks, numSelects>
+  [ 28] objcall 36 .............................. <checkmarks[numSelects]>
+  [ 30] pushint8 1 .............................. <1>
+  [ 32] pusharglistnoret 2 ...................... <checkmarks[numSelects], 1>
+  [ 34] objcall 57 .............................. checkmarks[numSelects].setVisible(1)
+  [ 36] jmp [ 53]
+  [ 39] pushzero ................................ <0>
+  [ 40] setprop 1016 ............................ numSelects = 0
+  [ 43] pushsymb 57 ............................. <#setVisible>
+  [ 45] getprop 1014 ............................ <checkmarks>
+  [ 48] pushzero ................................ <0>
+  [ 49] pusharglistnoret 3 ...................... <#setVisible, checkmarks, 0>
+  [ 51] extcall 32 .............................. call(#setVisible, checkmarks, 0)
+  [ 53] ret
+end
+
+on setTile me, t
+  [  0] getparam 1 .............................. <t>
+  [  2] setprop 262 ............................. Tile = t
+  [  5] getprop 41 .............................. <room_mgr>
+  [  7] getobjprop 212 .......................... <room_mgr.currentStage>
+  [  9] pushsymb 417 ............................ <#finedining>
+  [ 12] nteq .................................... <room_mgr.currentStage <> #finedining>
+  [ 13] jmpifz [ 16] ............................ if room_mgr.currentStage <> #finedining then
+  [ 16] ret
+end
+
+on setDestTile me, t
+  [  0] getparam 1 .............................. <t>
+  [  2] setprop 392 ............................. destTile = t
+  [  5] ret
+end
+
+on getTile me
+  [  0] getprop 392 ............................. <destTile>
+  [  3] pusharglist 1 ........................... <destTile>
+  [  5] extcall 31 .............................. <voidp(destTile)>
+  [  7] not ..................................... <not voidp(destTile)>
+  [  8] jmpifz [ 18] ............................ if not voidp(destTile) then
+  [ 11] getprop 392 ............................. <destTile>
+  [ 14] pusharglistnoret 1 ...................... <destTile>
+  [ 16] extcall 9 ............................... return destTile
+  [ 18] getprop 262 ............................. <Tile>
+  [ 21] pusharglistnoret 1 ...................... <Tile>
+  [ 23] extcall 9 ............................... return Tile
+  [ 25] ret
+end
+
+on addGroup me, g
+  [  0] getprop 1282 ............................ <wantingGroups>
+  [  3] getparam 1 .............................. <g>
+  [  5] pusharglist 2 ........................... <wantingGroups, g>
+  [  7] objcall 11 .............................. <wantingGroups.getOne(g)>
+  [  9] pushzero ................................ <0>
+  [ 10] eq ...................................... <wantingGroups.getOne(g) = 0>
+  [ 11] jmpifz [ 30] ............................ if wantingGroups.getOne(g) = 0 then
+  [ 14] getprop 1282 ............................ <wantingGroups>
+  [ 17] getparam 1 .............................. <g>
+  [ 19] pusharglistnoret 2 ...................... <wantingGroups, g>
+  [ 21] objcall 6 ............................... wantingGroups.add(g)
+  [ 23] getparam 0 .............................. <me>
+  [ 25] pusharglistnoret 1 ...................... <me>
+  [ 27] objcall 1033 ............................ me.updateHilite()
+  [ 30] ret
+end
+
+on removeGroup me, g
+  [  0] getprop 1282 ............................ <wantingGroups>
+  [  3] getparam 1 .............................. <g>
+  [  5] pusharglist 2 ........................... <wantingGroups, g>
+  [  7] objcall 14 .............................. <wantingGroups.deleteOne(g)>
+  [  9] jmpifz [ 19] ............................ if wantingGroups.deleteOne(g) then
+  [ 12] getparam 0 .............................. <me>
+  [ 14] pusharglistnoret 1 ...................... <me>
+  [ 16] objcall 1033 ............................ me.updateHilite()
+  [ 19] ret
+end
+
+on updateHilite me
+  [  0] getparam 0 .............................. <me>
+  [  2] getprop 323 ............................. <waiter>
+  [  5] getprop 1281 ............................ <snackType>
+  [  8] pusharglist 2 ........................... <waiter, snackType>
+  [ 10] objcall 1018 ............................ <waiter.getPayload(snackType)>
+  [ 13] getobjprop 12 ........................... <waiter.getPayload(snackType).count>
+  [ 15] getprop 1282 ............................ <wantingGroups>
+  [ 18] getobjprop 12 ........................... <wantingGroups.count>
+  [ 20] lt ...................................... <waiter.getPayload(snackType).count < wantingGroups.count>
+  [ 21] pusharglistnoret 2 ...................... <me, waiter.getPayload(snackType).count < wantingGroups.count>
+  [ 23] objcall 469 ............................. me.setHilite(waiter.getPayload(snackType).count < wantingGroups.count)
+  [ 26] ret
+end
+
+on doFloAction me, flo
+  [  0] getparam 1 .............................. <flo>
+  [  2] getprop 1281 ............................ <snackType>
+  [  5] pusharglist 0 ........................... <>
+  [  7] extcall 65 .............................. <VOID>
+  [  9] pusharglist 3 ........................... <flo, snackType, VOID>
+  [ 11] objcall 526 ............................. <flo.pickUp(snackType, VOID)>
+  [ 14] jmpifz [ 31] ............................ if flo.pickUp(snackType, VOID) then
+  [ 17] getparam 0 .............................. <me>
+  [ 19] pusharglistnoret 1 ...................... <me>
+  [ 21] objcall 1033 ............................ me.updateHilite()
+  [ 24] pushsymb 527 ............................ <#Ok>
+  [ 27] pusharglistnoret 1 ...................... <#Ok>
+  [ 29] extcall 9 ............................... return #Ok
+  [ 31] pushsymb 528 ............................ <#hands_full>
+  [ 34] pusharglistnoret 1 ...................... <#hands_full>
+  [ 36] extcall 9 ............................... return #hands_full
+  [ 38] ret
+end
+
+on destroy me
+  [  0] getprop 250 ............................. <mouselistener>
+  [  2] pusharglist 1 ........................... <mouselistener>
+  [  4] extcall 31 .............................. <voidp(mouselistener)>
+  [  6] not ..................................... <not voidp(mouselistener)>
+  [  7] jmpifz [ 16] ............................ if not voidp(mouselistener) then
+  [ 10] getprop 250 ............................. <mouselistener>
+  [ 12] pusharglistnoret 1 ...................... <mouselistener>
+  [ 14] objcall 5 ............................... mouselistener.destroy()
+  [ 16] getparam 0 .............................. <me>
+  [ 18] pusharglistnoret 1 ...................... <me>
+  [ 20] extcall 338 ............................. voidRefs(me)
+  [ 23] ret
+end

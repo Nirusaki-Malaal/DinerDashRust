@@ -1,0 +1,179 @@
+property node, visible, tweener
+
+on new me
+  [  0] pushcons 0 .............................. <"node_tween">
+  [  2] pusharglist 1 ........................... <"node_tween">
+  [  4] extcall 55 .............................. <script("node_tween")>
+  [  6] pusharglist 1 ........................... <script("node_tween")>
+  [  8] objcall 4 ............................... <script("node_tween").new()>
+  [ 10] setprop 325 ............................. tweener = script("node_tween").new()
+  [ 13] getparam 0 .............................. <me>
+  [ 15] pusharglistnoret 1 ...................... <me>
+  [ 17] extcall 9 ............................... return me
+  [ 19] ret
+end
+
+on destroy me
+  [  0] getprop 325 ............................. <tweener>
+  [  3] pusharglistnoret 1 ...................... <tweener>
+  [  5] objcall 5 ............................... tweener.destroy()
+  [  7] getparam 0 .............................. <me>
+  [  9] pusharglistnoret 1 ...................... <me>
+  [ 11] extcall 338 ............................. voidRefs(me)
+  [ 14] ret
+end
+
+on setNode me, n
+  [  0] getprop 45 .............................. <node>
+  [  2] pusharglist 1 ........................... <node>
+  [  4] extcall 31 .............................. <voidp(node)>
+  [  6] not ..................................... <not voidp(node)>
+  [  7] jmpifz [ 18] ............................ if not voidp(node) then
+  [ 10] getprop 45 .............................. <node>
+  [ 12] pushcons 1 .............................. <EMPTY>
+  [ 14] pusharglistnoret 2 ...................... <node, EMPTY>
+  [ 16] objcall 209 ............................. node.setAnimation(EMPTY)
+  [ 18] getprop 325 ............................. <tweener>
+  [ 21] pusharglistnoret 1 ...................... <tweener>
+  [ 23] objcall 358 ............................. tweener.endTween()
+  [ 26] getparam 1 .............................. <n>
+  [ 28] setprop 45 .............................. node = n
+  [ 30] pushzero ................................ <0>
+  [ 31] setprop 1101 ............................ visible = 0
+  [ 34] getprop 45 .............................. <node>
+  [ 36] getobjprop 31 ........................... <node.voidp>
+  [ 38] jmpifz [ 45] ............................ if node.voidp then
+  [ 41] pusharglistnoret 0 ...................... <>
+  [ 43] extcall 9 ............................... return 
+  [ 45] getparam 1 .............................. <n>
+  [ 47] pushzero ................................ <0>
+  [ 48] pusharglistnoret 2 ...................... <n, 0>
+  [ 50] objcall 57 .............................. n.setVisible(0)
+  [ 52] getparam 1 .............................. <n>
+  [ 54] pushzero ................................ <0>
+  [ 55] pusharglistnoret 2 ...................... <n, 0>
+  [ 57] objcall 571 ............................. n.setAlpha(0)
+  [ 60] ret
+end
+
+on setVisible me, v
+  [  0] getprop 45 .............................. <node>
+  [  2] pusharglist 1 ........................... <node>
+  [  4] extcall 31 .............................. <voidp(node)>
+  [  6] jmpifz [ 13] ............................ if voidp(node) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 9 ............................... return 
+  [ 13] getprop 1101 ............................ <visible>
+  [ 16] getparam 1 .............................. <v>
+  [ 18] eq ...................................... <visible = v>
+  [ 19] jmpifz [ 26] ............................ if visible = v then
+  [ 22] pusharglistnoret 0 ...................... <>
+  [ 24] extcall 9 ............................... return 
+  [ 26] getparam 1 .............................. <v>
+  [ 28] setprop 1101 ............................ visible = v
+  [ 31] getparam 1 .............................. <v>
+  [ 33] jmpifz [ 94] ............................ if v then / else
+  [ 36] getprop 45 .............................. <node>
+  [ 38] pushint8 1 .............................. <1>
+  [ 40] pusharglistnoret 2 ...................... <node, 1>
+  [ 42] objcall 57 .............................. node.setVisible(1)
+  [ 44] getparam 0 .............................. <me>
+  [ 46] pusharglistnoret 1 ...................... <me>
+  [ 48] objcall 1289 ............................ me.startAnim()
+  [ 51] getprop 325 ............................. <tweener>
+  [ 54] pushsymb 45 ............................. <#node>
+  [ 56] getprop 45 .............................. <node>
+  [ 58] pushsymb 253 ............................ <#start>
+  [ 60] getprop 45 .............................. <node>
+  [ 62] pusharglist 1 ........................... <node>
+  [ 64] objcall 1291 ............................ <node.getAlpha()>
+  [ 67] pushsymb 374 ............................ <#end>
+  [ 70] pushint8 100 ............................ <100>
+  [ 72] pushsymb 375 ............................ <#setter>
+  [ 75] pushsymb 571 ............................ <#setAlpha>
+  [ 78] pushsymb 68 ............................. <#ms>
+  [ 80] pushint16 400 ........................... <400>
+  [ 83] pusharglist 10 .......................... <[#node: node, #start: node.getAlpha(), #end: 100, #setter: #setAlpha, #ms: 400]>
+  [ 85] pushproplist ............................ <[#node: node, #start: node.getAlpha(), #end: 100, #setter: #setAlpha, #ms: 400]>
+  [ 86] pusharglistnoret 2 ...................... <tweener, [#node: node, #start: node.getAlpha(), #end: 100, #setter: #setAlpha, #ms: 400]>
+  [ 88] objcall 376 ............................. tweener.startTween([#node: node, #start: node.getAlpha(), #end: 100, #setter: #setAlpha, #ms: 400])
+  [ 91] jmp [133]
+  [ 94] getprop 325 ............................. <tweener>
+  [ 97] pushsymb 45 ............................. <#node>
+  [ 99] getprop 45 .............................. <node>
+  [101] pushsymb 253 ............................ <#start>
+  [103] getprop 45 .............................. <node>
+  [105] pusharglist 1 ........................... <node>
+  [107] objcall 1291 ............................ <node.getAlpha()>
+  [110] pushsymb 374 ............................ <#end>
+  [113] pushzero ................................ <0>
+  [114] pushsymb 375 ............................ <#setter>
+  [117] pushsymb 571 ............................ <#setAlpha>
+  [120] pushsymb 68 ............................. <#ms>
+  [122] pushint16 750 ........................... <750>
+  [125] pusharglist 10 .......................... <[#node: node, #start: node.getAlpha(), #end: 0, #setter: #setAlpha, #ms: 750]>
+  [127] pushproplist ............................ <[#node: node, #start: node.getAlpha(), #end: 0, #setter: #setAlpha, #ms: 750]>
+  [128] pusharglistnoret 2 ...................... <tweener, [#node: node, #start: node.getAlpha(), #end: 0, #setter: #setAlpha, #ms: 750]>
+  [130] objcall 376 ............................. tweener.startTween([#node: node, #start: node.getAlpha(), #end: 0, #setter: #setAlpha, #ms: 750])
+  [133] ret
+end
+
+on startAnim me
+  [  0] getprop 45 .............................. <node>
+  [  2] pusharglist 1 ........................... <node>
+  [  4] extcall 31 .............................. <voidp(node)>
+  [  6] jmpifz [ 13] ............................ if voidp(node) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 9 ............................... return 
+  [ 13] getprop 45 .............................. <node>
+  [ 15] pushcons 2 .............................. <"chop">
+  [ 17] pushcons 3 .............................. <"fry">
+  [ 19] pusharglist 2 ........................... <["chop", "fry"]>
+  [ 21] pushlist ................................ <["chop", "fry"]>
+  [ 22] pushint8 2 .............................. <2>
+  [ 24] pusharglist 1 ........................... <2>
+  [ 26] extcall 639 ............................. <random(2)>
+  [ 29] pusharglist 2 ........................... <["chop", "fry"], random(2)>
+  [ 31] objcall 36 .............................. <["chop", "fry"][random(2)]>
+  [ 33] pushsymb 184 ............................ <#loopCount>
+  [ 35] pushint8 1 .............................. <1>
+  [ 37] pushint8 4 .............................. <4>
+  [ 39] pusharglist 1 ........................... <4>
+  [ 41] extcall 639 ............................. <random(4)>
+  [ 44] add ..................................... <1 + random(4)>
+  [ 45] pushsymb 186 ............................ <#callback>
+  [ 47] pushsymb 34 ............................. <#target>
+  [ 49] getparam 0 .............................. <me>
+  [ 51] pushsymb 33 ............................. <#handler>
+  [ 53] pushsymb 1290 ........................... <#animDone>
+  [ 56] pusharglist 4 ........................... <[#target: me, #handler: #animDone]>
+  [ 58] pushproplist ............................ <[#target: me, #handler: #animDone]>
+  [ 59] pushsymb 210 ............................ <#animProps>
+  [ 61] pushsymb 211 ............................ <#loc>
+  [ 63] pushsymb 81 ............................. <#member>
+  [ 65] pusharglist 2 ........................... <[#loc, #member]>
+  [ 67] pushlist ................................ <[#loc, #member]>
+  [ 68] pusharglist 6 ........................... <[#loopCount: 1 + random(4), #callback: [#target: me, #handler: #animDone], #animProps: [#loc, #member]]>
+  [ 70] pushproplist ............................ <[#loopCount: 1 + random(4), #callback: [#target: me, #handler: #animDone], #animProps: [#loc, #member]]>
+  [ 71] pusharglistnoret 3 ...................... <node, ["chop", "fry"][random(2)], [#loopCount: 1 + random(4), #callback: [#target: me, #handler: #animDone], #animProps: [#loc, #member]]>
+  [ 73] objcall 209 ............................. node.setAnimation(["chop", "fry"][random(2)], [#loopCount: 1 + random(4), #callback: [#target: me, #handler: #animDone], #animProps: [#loc, #member]])
+  [ 75] ret
+end
+
+on animDone me
+  [  0] getprop 45 .............................. <node>
+  [  2] pusharglist 1 ........................... <node>
+  [  4] extcall 31 .............................. <voidp(node)>
+  [  6] jmpifz [ 13] ............................ if voidp(node) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 9 ............................... return 
+  [ 13] getprop 1101 ............................ <visible>
+  [ 16] not ..................................... <not visible>
+  [ 17] jmpifz [ 24] ............................ if not visible then
+  [ 20] pusharglistnoret 0 ...................... <>
+  [ 22] extcall 9 ............................... return 
+  [ 24] getparam 0 .............................. <me>
+  [ 26] pusharglistnoret 1 ...................... <me>
+  [ 28] objcall 1289 ............................ me.startAnim()
+  [ 31] ret
+end

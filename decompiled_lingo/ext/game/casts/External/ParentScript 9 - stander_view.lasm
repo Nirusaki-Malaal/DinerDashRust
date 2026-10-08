@@ -1,0 +1,465 @@
+property sitter, node, home, facenum, oldface, flashtimer, flashstate, flashcount, numflashes, flashtime, color, type, mood, waitgroup_view, mouselistener, number, mouseinside
+
+on new me, Args
+  [  0] getparam 1 .............................. <Args>
+  [  2] getobjprop 45 ........................... <Args.node>
+  [  4] setprop 45 .............................. node = Args.node
+  [  6] getprop 45 .............................. <node>
+  [  8] pushzero ................................ <0>
+  [  9] pusharglistnoret 2 ...................... <node, 0>
+  [ 11] objcall 57 .............................. node.setVisible(0)
+  [ 13] getparam 1 .............................. <Args>
+  [ 15] pushsymb 85 ............................. <#waitgroup_view>
+  [ 17] pusharglist 2 ........................... <Args, #waitgroup_view>
+  [ 19] objcall 36 .............................. <Args[#waitgroup_view]>
+  [ 21] setprop 85 .............................. waitgroup_view = Args[#waitgroup_view]
+  [ 23] getparam 1 .............................. <Args>
+  [ 25] pushsymb 86 ............................. <#number>
+  [ 27] pusharglist 2 ........................... <Args, #number>
+  [ 29] objcall 36 .............................. <Args[#number]>
+  [ 31] setprop 86 .............................. number = Args[#number]
+  [ 33] getprop 85 .............................. <waitgroup_view>
+  [ 35] pusharglist 1 ........................... <waitgroup_view>
+  [ 37] extcall 31 .............................. <voidp(waitgroup_view)>
+  [ 39] not ..................................... <not voidp(waitgroup_view)>
+  [ 40] jmpifz [ 56] ............................ if not voidp(waitgroup_view) then
+  [ 43] pushsymb 45 ............................. <#node>
+  [ 45] getprop 45 .............................. <node>
+  [ 47] pusharglist 2 ........................... <[#node: node]>
+  [ 49] pushproplist ............................ <[#node: node]>
+  [ 50] pusharglist 1 ........................... <[#node: node]>
+  [ 52] extcall 251 ............................. <newMouseListener([#node: node])>
+  [ 54] setprop 250 ............................. mouselistener = newMouseListener([#node: node])
+  [ 56] pusharglist 0 ........................... <[]>
+  [ 58] pushlist ................................ <[]>
+  [ 59] setlocal 0 .............................. facemems = []
+  [ 61] pushint8 1 .............................. <1>
+  [ 63] setlocal 1
+  [ 65] getlocal 1
+  [ 67] pushint8 4 .............................. <4>
+  [ 69] lteq
+  [ 70] jmpifz [103] ............................ repeat with i = 1 to 4
+  [ 73] getlocal 0 .............................. <facemems>
+  [ 75] pushcons 0 .............................. <"miniface_">
+  [ 77] getlocal 1 .............................. <i>
+  [ 79] pusharglist 1 ........................... <i>
+  [ 81] extcall 59 .............................. <string(i)>
+  [ 83] joinstr ................................. <"miniface_" & string(i)>
+  [ 84] pushcons 1 .............................. <"gfx.people">
+  [ 86] pusharglist 2 ........................... <"miniface_" & string(i), "gfx.people">
+  [ 88] extcall 81 .............................. <member("miniface_" & string(i), "gfx.people")>
+  [ 90] pusharglistnoret 2 ...................... <facemems, member("miniface_" & string(i), "gfx.people")>
+  [ 92] objcall 6 ............................... facemems.add(member("miniface_" & string(i), "gfx.people"))
+  [ 94] pushint8 1
+  [ 96] getlocal 1
+  [ 98] add
+  [ 99] setlocal 1
+  [101] endrepeat [ 65]
+  [103] pushint8 1 .............................. <1>
+  [105] setprop 174 ............................. numflashes = 1
+  [107] pushint16 500 ........................... <500>
+  [110] setprop 175 ............................. flashtime = 500
+  [112] pushzero ................................ <0>
+  [113] setprop 176 ............................. flashcount = 0
+  [115] pushint8 1 .............................. <1>
+  [117] setprop 177 ............................. flashstate = 1
+  [119] pushcons 2 .............................. <"timeout">
+  [121] pusharglist 1 ........................... <"timeout">
+  [123] extcall 55 .............................. <script("timeout")>
+  [125] pusharglist 1 ........................... <script("timeout")>
+  [127] objcall 4 ............................... <script("timeout").new()>
+  [129] setprop 178 ............................. flashtimer = script("timeout").new()
+  [131] getprop 178 ............................. <flashtimer>
+  [133] pushsymb 34 ............................. <#target>
+  [135] getparam 0 .............................. <me>
+  [137] pushsymb 33 ............................. <#handler>
+  [139] pushsymb 179 ............................ <#flash>
+  [141] pusharglist 4 ........................... <[#target: me, #handler: #flash]>
+  [143] pushproplist ............................ <[#target: me, #handler: #flash]>
+  [144] pusharglistnoret 2 ...................... <flashtimer, [#target: me, #handler: #flash]>
+  [146] objcall 15 .............................. flashtimer.setCallback([#target: me, #handler: #flash])
+  [148] getprop 178 ............................. <flashtimer>
+  [150] getprop 175 ............................. <flashtime>
+  [152] setobjprop 180 .......................... flashtimer.period = flashtime
+  [154] getprop 45 .............................. <node>
+  [156] pusharglist 1 ........................... <node>
+  [158] objcall 51 .............................. <node.getLoc()>
+  [160] pushint8 2 .............................. <2>
+  [162] pusharglist 2 ........................... <node.getLoc(), 2>
+  [164] objcall 36 .............................. <node.getLoc()[2]>
+  [166] setprop 244 ............................. home = node.getLoc()[2]
+  [168] getparam 0 .............................. <me>
+  [170] pusharglistnoret 1 ...................... <me>
+  [172] extcall 9 ............................... return me
+  [174] ret
+end
+
+on startFlashing me, ms
+  [  0] pushzero ................................ <0>
+  [  1] setprop 176 ............................. flashcount = 0
+  [  3] getparam 1 .............................. <ms>
+  [  5] jmpifz [ 28] ............................ if ms then / else
+  [  8] getparam 1 .............................. <ms>
+  [ 10] pushsymb 34 ............................. <#target>
+  [ 12] getparam 0 .............................. <me>
+  [ 14] pushsymb 33 ............................. <#handler>
+  [ 16] pushsymb 67 ............................. <#startFlashing>
+  [ 18] pusharglist 4 ........................... <[#target: me, #handler: #startFlashing]>
+  [ 20] pushproplist ............................ <[#target: me, #handler: #startFlashing]>
+  [ 21] pusharglistnoret 2 ...................... <ms, [#target: me, #handler: #startFlashing]>
+  [ 23] extcall 252 ............................. timedCall(ms, [#target: me, #handler: #startFlashing])
+  [ 25] jmp [ 56]
+  [ 28] getprop 204 ............................. <sitter>
+  [ 30] pusharglist 1 ........................... <sitter>
+  [ 32] extcall 31 .............................. <voidp(sitter)>
+  [ 34] not ..................................... <not voidp(sitter)>
+  [ 35] jmpifz [ 56] ............................ if not voidp(sitter) then
+  [ 38] pushzero ................................ <0>
+  [ 39] setprop 176 ............................. flashcount = 0
+  [ 41] pushzero ................................ <0>
+  [ 42] setprop 177 ............................. flashstate = 0
+  [ 44] getprop 178 ............................. <flashtimer>
+  [ 46] pusharglistnoret 1 ...................... <flashtimer>
+  [ 48] objcall 253 ............................. flashtimer.start()
+  [ 50] getparam 0 .............................. <me>
+  [ 52] pusharglistnoret 1 ...................... <me>
+  [ 54] objcall 179 ............................. me.flash()
+  [ 56] ret
+end
+
+on flash me
+  [  0] getprop 204 ............................. <sitter>
+  [  2] pusharglist 1 ........................... <sitter>
+  [  4] extcall 31 .............................. <voidp(sitter)>
+  [  6] getprop 254 ............................. <mouseinside>
+  [  8] or ...................................... <voidp(sitter) or mouseinside>
+  [  9] jmpifz [ 16] ............................ if voidp(sitter) or mouseinside then
+  [ 12] pusharglistnoret 0 ...................... <>
+  [ 14] extcall 9 ............................... return 
+  [ 16] getprop 204 ............................. <sitter>
+  [ 18] getobjprop 92 ........................... <sitter.sitterGroup>
+  [ 20] pusharglist 1 ........................... <sitter.sitterGroup>
+  [ 22] extcall 31 .............................. <voidp(sitter.sitterGroup)>
+  [ 24] jmpifz [ 31] ............................ if voidp(sitter.sitterGroup) then
+  [ 27] pusharglistnoret 0 ...................... <>
+  [ 29] extcall 9 ............................... return 
+  [ 31] getprop 177 ............................. <flashstate>
+  [ 33] not ..................................... <not flashstate>
+  [ 34] setprop 177 ............................. flashstate = not flashstate
+  [ 36] getprop 177 ............................. <flashstate>
+  [ 38] jmpifz [ 73] ............................ if flashstate then / else
+  [ 41] getprop 45 .............................. <node>
+  [ 43] pushcons 3 .............................. <"standing_">
+  [ 45] getprop 204 ............................. <sitter>
+  [ 47] getchainedprop 92 ....................... <sitter.sitterGroup>
+  [ 49] getobjprop 232 .......................... <sitter.sitterGroup.graphicType>
+  [ 51] joinstr ................................. <"standing_" & sitter.sitterGroup.graphicType>
+  [ 52] pushcons 4 .............................. <"_4">
+  [ 54] joinstr ................................. <"standing_" & sitter.sitterGroup.graphicType & "_4">
+  [ 55] pushcons 5 .............................. <"gfx.people.">
+  [ 57] getprop 204 ............................. <sitter>
+  [ 59] getobjprop 230 .......................... <sitter.color>
+  [ 61] joinstr ................................. <"gfx.people." & sitter.color>
+  [ 62] pusharglist 2 ........................... <"standing_" & sitter.sitterGroup.graphicType & "_4", "gfx.people." & sitter.color>
+  [ 64] extcall 81 .............................. <member("standing_" & sitter.sitterGroup.graphicType & "_4", "gfx.people." & sitter.color)>
+  [ 66] pusharglistnoret 2 ...................... <node, member("standing_" & sitter.sitterGroup.graphicType & "_4", "gfx.people." & sitter.color)>
+  [ 68] objcall 213 ............................. node.setMember(member("standing_" & sitter.sitterGroup.graphicType & "_4", "gfx.people." & sitter.color))
+  [ 70] jmp [106]
+  [ 73] getparam 0 .............................. <me>
+  [ 75] pushint8 1 .............................. <1>
+  [ 77] pusharglistnoret 2 ...................... <me, 1>
+  [ 79] objcall 39 .............................. me.update(1)
+  [ 81] getprop 176 ............................. <flashcount>
+  [ 83] pushint8 1 .............................. <1>
+  [ 85] add ..................................... <flashcount + 1>
+  [ 86] setprop 176 ............................. flashcount = flashcount + 1
+  [ 88] getprop 176 ............................. <flashcount>
+  [ 90] getprop 174 ............................. <numflashes>
+  [ 92] gteq .................................... <flashcount >= numflashes>
+  [ 93] jmpifz [106] ............................ if flashcount >= numflashes then
+  [ 96] getparam 0 .............................. <me>
+  [ 98] pusharglistnoret 1 ...................... <me>
+  [100] objcall 246 ............................. me.stopFlashing()
+  [102] pusharglistnoret 0 ...................... <>
+  [104] extcall 9 ............................... return 
+  [106] ret
+end
+
+on stopFlashing me
+  [  0] getprop 178 ............................. <flashtimer>
+  [  2] pusharglistnoret 1 ...................... <flashtimer>
+  [  4] objcall 208 ............................. flashtimer.stop()
+  [  6] pushzero ................................ <0>
+  [  7] setprop 176 ............................. flashcount = 0
+  [  9] getparam 0 .............................. <me>
+  [ 11] pushint8 1 .............................. <1>
+  [ 13] pusharglistnoret 2 ...................... <me, 1>
+  [ 15] objcall 39 .............................. me.update(1)
+  [ 17] ret
+end
+
+on destroy me
+  [  0] pusharglist 0 ........................... <>
+  [  2] extcall 65 .............................. <VOID>
+  [  4] setprop 45 .............................. node = VOID
+  [  6] pusharglist 0 ........................... <>
+  [  8] extcall 65 .............................. <VOID>
+  [ 10] setlocal 0 .............................. facenode = VOID
+  [ 12] pusharglist 0 ........................... <>
+  [ 14] extcall 65 .............................. <VOID>
+  [ 16] setprop 85 .............................. waitgroup_view = VOID
+  [ 18] getprop 250 ............................. <mouselistener>
+  [ 20] pusharglist 1 ........................... <mouselistener>
+  [ 22] extcall 31 .............................. <voidp(mouselistener)>
+  [ 24] not ..................................... <not voidp(mouselistener)>
+  [ 25] jmpifz [ 40] ............................ if not voidp(mouselistener) then
+  [ 28] getprop 250 ............................. <mouselistener>
+  [ 30] pusharglistnoret 1 ...................... <mouselistener>
+  [ 32] objcall 5 ............................... mouselistener.destroy()
+  [ 34] pusharglist 0 ........................... <>
+  [ 36] extcall 65 .............................. <VOID>
+  [ 38] setprop 250 ............................. mouselistener = VOID
+  [ 40] getprop 204 ............................. <sitter>
+  [ 42] pusharglist 1 ........................... <sitter>
+  [ 44] extcall 31 .............................. <voidp(sitter)>
+  [ 46] not ..................................... <not voidp(sitter)>
+  [ 47] jmpifz [ 58] ............................ if not voidp(sitter) then
+  [ 50] getprop 204 ............................. <sitter>
+  [ 52] getparam 0 .............................. <me>
+  [ 54] pusharglistnoret 2 ...................... <sitter, me>
+  [ 56] objcall 110 ............................. sitter.removeView(me)
+  [ 58] ret
+end
+
+on update me, noflash
+  [  0] getprop 204 ............................. <sitter>
+  [  2] pusharglist 1 ........................... <sitter>
+  [  4] extcall 31 .............................. <voidp(sitter)>
+  [  6] jmpifz [ 13] ............................ if voidp(sitter) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 9 ............................... return 
+  [ 13] getprop 204 ............................. <sitter>
+  [ 15] getobjprop 92 ........................... <sitter.sitterGroup>
+  [ 17] pusharglist 1 ........................... <sitter.sitterGroup>
+  [ 19] extcall 31 .............................. <voidp(sitter.sitterGroup)>
+  [ 21] jmpifz [ 28] ............................ if voidp(sitter.sitterGroup) then
+  [ 24] pusharglistnoret 0 ...................... <>
+  [ 26] extcall 9 ............................... return 
+  [ 28] getprop 204 ............................. <sitter>
+  [ 30] getchainedprop 92 ....................... <sitter.sitterGroup>
+  [ 32] getobjprop 98 ........................... <sitter.sitterGroup.mood>
+  [ 34] setlocal 0 .............................. m = sitter.sitterGroup.mood
+  [ 36] getlocal 0 .............................. <m>
+  [ 38] pushzero ................................ <0>
+  [ 39] eq ...................................... <m = 0>
+  [ 40] jmpifz [ 47] ............................ if m = 0 then
+  [ 43] pusharglistnoret 0 ...................... <>
+  [ 45] extcall 9 ............................... return 
+  [ 47] getlocal 0 .............................. <m>
+  [ 49] getprop 231 ............................. <facenum>
+  [ 51] nteq .................................... <m <> facenum>
+  [ 52] getparam 1 .............................. <noflash>
+  [ 54] or ...................................... <(m <> facenum) or noflash>
+  [ 55] jmpifz [128] ............................ if (m <> facenum) or noflash then
+  [ 58] pushint8 1 .............................. <1>
+  [ 60] getlocal 0 .............................. <m>
+  [ 62] pushcons 6 .............................. <3.29999999999999982>
+  [ 64] div ..................................... <m / 3.29999999999999982>
+  [ 65] pusharglist 1 ........................... <m / 3.29999999999999982>
+  [ 67] extcall 216 ............................. <integer(m / 3.29999999999999982)>
+  [ 69] pushint8 1 .............................. <1>
+  [ 71] add ..................................... <integer(m / 3.29999999999999982) + 1>
+  [ 72] pushint8 3 .............................. <3>
+  [ 74] pusharglist 2 ........................... <integer(m / 3.29999999999999982) + 1, 3>
+  [ 76] extcall 154 ............................. <min(integer(m / 3.29999999999999982) + 1, 3)>
+  [ 78] pusharglist 2 ........................... <1, min(integer(m / 3.29999999999999982) + 1, 3)>
+  [ 80] extcall 153 ............................. <max(1, min(integer(m / 3.29999999999999982) + 1, 3))>
+  [ 82] setlocal 1 .............................. num = max(1, min(integer(m / 3.29999999999999982) + 1, 3))
+  [ 84] pushcons 5 .............................. <"gfx.people.">
+  [ 86] getprop 204 ............................. <sitter>
+  [ 88] getobjprop 230 .......................... <sitter.color>
+  [ 90] joinstr ................................. <"gfx.people." & sitter.color>
+  [ 91] setlocal 2 .............................. cst = "gfx.people." & sitter.color
+  [ 93] getprop 204 ............................. <sitter>
+  [ 95] getchainedprop 92 ....................... <sitter.sitterGroup>
+  [ 97] getobjprop 232 .......................... <sitter.sitterGroup.graphicType>
+  [ 99] setlocal 3 .............................. t = sitter.sitterGroup.graphicType
+  [101] getprop 45 .............................. <node>
+  [103] pushcons 3 .............................. <"standing_">
+  [105] getlocal 3 .............................. <t>
+  [107] joinstr ................................. <"standing_" & t>
+  [108] pushcons 7 .............................. <"_">
+  [110] joinstr ................................. <"standing_" & t & "_">
+  [111] getlocal 1 .............................. <num>
+  [113] joinstr ................................. <"standing_" & t & "_" & num>
+  [114] getlocal 2 .............................. <cst>
+  [116] pusharglist 2 ........................... <"standing_" & t & "_" & num, cst>
+  [118] extcall 81 .............................. <member("standing_" & t & "_" & num, cst)>
+  [120] pusharglistnoret 2 ...................... <node, member("standing_" & t & "_" & num, cst)>
+  [122] objcall 213 ............................. node.setMember(member("standing_" & t & "_" & num, cst))
+  [124] getlocal 0 .............................. <m>
+  [126] setprop 231 ............................. facenum = m
+  [128] ret
+end
+
+on setSitter me, s
+  [  0] getprop 204 ............................. <sitter>
+  [  2] pusharglist 1 ........................... <sitter>
+  [  4] extcall 31 .............................. <voidp(sitter)>
+  [  6] not ..................................... <not voidp(sitter)>
+  [  7] jmpifz [ 18] ............................ if not voidp(sitter) then
+  [ 10] getprop 204 ............................. <sitter>
+  [ 12] getparam 0 .............................. <me>
+  [ 14] pusharglistnoret 2 ...................... <sitter, me>
+  [ 16] objcall 110 ............................. sitter.removeView(me)
+  [ 18] getprop 178 ............................. <flashtimer>
+  [ 20] pusharglistnoret 1 ...................... <flashtimer>
+  [ 22] objcall 208 ............................. flashtimer.stop()
+  [ 24] pushzero ................................ <0>
+  [ 25] setprop 176 ............................. flashcount = 0
+  [ 27] getparam 1 .............................. <s>
+  [ 29] pusharglist 1 ........................... <s>
+  [ 31] extcall 31 .............................. <voidp(s)>
+  [ 33] jmpifz [ 47] ............................ if voidp(s) then
+  [ 36] getprop 45 .............................. <node>
+  [ 38] pushzero ................................ <0>
+  [ 39] pusharglistnoret 2 ...................... <node, 0>
+  [ 41] objcall 57 .............................. node.setVisible(0)
+  [ 43] pusharglistnoret 0 ...................... <>
+  [ 45] extcall 9 ............................... return 
+  [ 47] getparam 1 .............................. <s>
+  [ 49] setprop 204 ............................. sitter = s
+  [ 51] getprop 204 ............................. <sitter>
+  [ 53] getparam 0 .............................. <me>
+  [ 55] pusharglistnoret 2 ...................... <sitter, me>
+  [ 57] objcall 112 ............................. sitter.addView(me)
+  [ 59] getprop 204 ............................. <sitter>
+  [ 61] getchainedprop 92 ....................... <sitter.sitterGroup>
+  [ 63] getobjprop 232 .......................... <sitter.sitterGroup.graphicType>
+  [ 65] setlocal 0 .............................. t = sitter.sitterGroup.graphicType
+  [ 67] getlocal 0 .............................. <t>
+  [ 69] pushcons 8 .............................. <"1">
+  [ 71] eq ...................................... <t = "1">
+  [ 72] jmpifz [ 79] ............................ if t = "1" then
+  [ 75] pusharglistnoret 0 ...................... <>
+  [ 77] extcall 136 ............................. nothing()
+  [ 79] getprop 204 ............................. <sitter>
+  [ 81] getchainedprop 92 ....................... <sitter.sitterGroup>
+  [ 83] getobjprop 98 ........................... <sitter.sitterGroup.mood>
+  [ 85] setprop 231 ............................. facenum = sitter.sitterGroup.mood
+  [ 87] getprop 45 .............................. <node>
+  [ 89] pushint8 1 .............................. <1>
+  [ 91] pusharglistnoret 2 ...................... <node, 1>
+  [ 93] objcall 57 .............................. node.setVisible(1)
+  [ 95] getparam 0 .............................. <me>
+  [ 97] pushint8 1 .............................. <1>
+  [ 99] pusharglistnoret 2 ...................... <me, 1>
+  [101] objcall 39 .............................. me.update(1)
+  [103] ret
+end
+
+on setMouseListening me, ml
+  [  0] getprop 250 ............................. <mouselistener>
+  [  2] pusharglist 1 ........................... <mouselistener>
+  [  4] extcall 31 .............................. <voidp(mouselistener)>
+  [  6] jmpifz [ 13] ............................ if voidp(mouselistener) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 9 ............................... return 
+  [ 13] getparam 1 .............................. <ml>
+  [ 15] jmpifz [ 29] ............................ if ml then / else
+  [ 18] getprop 250 ............................. <mouselistener>
+  [ 20] getparam 0 .............................. <me>
+  [ 22] pusharglistnoret 2 ...................... <mouselistener, me>
+  [ 24] objcall 128 ............................. mouselistener.forwardEvents(me)
+  [ 26] jmp [ 36]
+  [ 29] getprop 250 ............................. <mouselistener>
+  [ 31] pusharglistnoret 1 ...................... <mouselistener>
+  [ 33] objcall 257 ............................. mouselistener.clearCallbacks()
+  [ 36] ret
+end
+
+on mouseEnter me
+  [  0] pushint8 1 .............................. <1>
+  [  2] setprop 254 ............................. mouseinside = 1
+  [  4] getprop 204 ............................. <sitter>
+  [  6] getobjprop 92 ........................... <sitter.sitterGroup>
+  [  8] pusharglist 0 ........................... <>
+  [ 10] extcall 65 .............................. <VOID>
+  [ 12] eq ...................................... <sitter.sitterGroup = VOID>
+  [ 13] jmpifz [ 30] ............................ if sitter.sitterGroup = VOID then
+  [ 16] getparam 0 .............................. <me>
+  [ 18] pusharglist 0 ........................... <>
+  [ 20] extcall 65 .............................. <VOID>
+  [ 22] pusharglistnoret 2 ...................... <me, VOID>
+  [ 24] objcall 111 ............................. me.setSitter(VOID)
+  [ 26] pusharglistnoret 0 ...................... <>
+  [ 28] extcall 9 ............................... return 
+  [ 30] getprop 45 .............................. <node>
+  [ 32] pushcons 3 .............................. <"standing_">
+  [ 34] getprop 204 ............................. <sitter>
+  [ 36] getchainedprop 92 ....................... <sitter.sitterGroup>
+  [ 38] getobjprop 232 .......................... <sitter.sitterGroup.graphicType>
+  [ 40] joinstr ................................. <"standing_" & sitter.sitterGroup.graphicType>
+  [ 41] pushcons 4 .............................. <"_4">
+  [ 43] joinstr ................................. <"standing_" & sitter.sitterGroup.graphicType & "_4">
+  [ 44] pushcons 5 .............................. <"gfx.people.">
+  [ 46] getprop 204 ............................. <sitter>
+  [ 48] getobjprop 230 .......................... <sitter.color>
+  [ 50] joinstr ................................. <"gfx.people." & sitter.color>
+  [ 51] pusharglist 2 ........................... <"standing_" & sitter.sitterGroup.graphicType & "_4", "gfx.people." & sitter.color>
+  [ 53] extcall 81 .............................. <member("standing_" & sitter.sitterGroup.graphicType & "_4", "gfx.people." & sitter.color)>
+  [ 55] pusharglistnoret 2 ...................... <node, member("standing_" & sitter.sitterGroup.graphicType & "_4", "gfx.people." & sitter.color)>
+  [ 57] objcall 213 ............................. node.setMember(member("standing_" & sitter.sitterGroup.graphicType & "_4", "gfx.people." & sitter.color))
+  [ 59] getprop 85 .............................. <waitgroup_view>
+  [ 61] getchainedprop 54 ....................... <waitgroup_view.dragicon>
+  [ 63] getobjprop 93 ........................... <waitgroup_view.dragicon.dragging>
+  [ 65] not ..................................... <not waitgroup_view.dragicon.dragging>
+  [ 66] jmpifz [ 75] ............................ if not waitgroup_view.dragicon.dragging then
+  [ 69] pushsymb 103 ............................ <#hand_open>
+  [ 71] pusharglistnoret 1 ...................... <#hand_open>
+  [ 73] extcall 94 .............................. setcursor(#hand_open)
+  [ 75] ret
+end
+
+on mouseDown me
+  [  0] getprop 85 .............................. <waitgroup_view>
+  [  2] pusharglist 1 ........................... <waitgroup_view>
+  [  4] extcall 31 .............................. <voidp(waitgroup_view)>
+  [  6] not ..................................... <not voidp(waitgroup_view)>
+  [  7] jmpifz [ 18] ............................ if not voidp(waitgroup_view) then
+  [ 10] getprop 85 .............................. <waitgroup_view>
+  [ 12] getprop 86 .............................. <number>
+  [ 14] pusharglistnoret 2 ...................... <waitgroup_view, number>
+  [ 16] objcall 74 .............................. waitgroup_view.clickCustomer(number)
+  [ 18] ret
+end
+
+on mouseUp me
+  [  0] getprop 85 .............................. <waitgroup_view>
+  [  2] pusharglist 1 ........................... <waitgroup_view>
+  [  4] extcall 31 .............................. <voidp(waitgroup_view)>
+  [  6] not ..................................... <not voidp(waitgroup_view)>
+  [  7] jmpifz [ 16] ............................ if not voidp(waitgroup_view) then
+  [ 10] getprop 85 .............................. <waitgroup_view>
+  [ 12] pusharglistnoret 1 ...................... <waitgroup_view>
+  [ 14] objcall 38 .............................. waitgroup_view.mouseRelease()
+  [ 16] ret
+end
+
+on mouseLeave me
+  [  0] pushzero ................................ <0>
+  [  1] setprop 254 ............................. mouseinside = 0
+  [  3] getparam 0 .............................. <me>
+  [  5] pushint8 1 .............................. <1>
+  [  7] pusharglistnoret 2 ...................... <me, 1>
+  [  9] objcall 39 .............................. me.update(1)
+  [ 11] getprop 85 .............................. <waitgroup_view>
+  [ 13] getchainedprop 54 ....................... <waitgroup_view.dragicon>
+  [ 15] getobjprop 93 ........................... <waitgroup_view.dragicon.dragging>
+  [ 17] not ..................................... <not waitgroup_view.dragicon.dragging>
+  [ 18] jmpifz [ 27] ............................ if not waitgroup_view.dragicon.dragging then
+  [ 21] pushsymb 104 ............................ <#arrow>
+  [ 23] pusharglistnoret 1 ...................... <#arrow>
+  [ 25] extcall 94 .............................. setcursor(#arrow)
+  [ 27] ret
+end

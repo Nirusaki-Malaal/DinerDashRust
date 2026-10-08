@@ -1,0 +1,631 @@
+property sitterGroup, node, sitterviews, standinglocs, dragging, dragsource, heartrow, table, tableNode, clickedIndex, rolledChair, queue
+global glob
+
+on new me, Args
+  [  0] getparam 1 .............................. <Args>
+  [  2] getobjprop 45 ........................... <Args.node>
+  [  4] setprop 45 .............................. node = Args.node
+  [  6] getprop 45 .............................. <node>
+  [  8] pushint32 1000000 ....................... <1000000>
+  [ 13] pusharglistnoret 2 ...................... <node, 1000000>
+  [ 15] objcall 122 ............................. node.setZOffset(1000000)
+  [ 17] getparam 1 .............................. <Args>
+  [ 19] getobjprop 56 ........................... <Args.queue>
+  [ 21] setprop 56 .............................. queue = Args.queue
+  [ 23] pusharglist 0 ........................... <[]>
+  [ 25] pushlist ................................ <[]>
+  [ 26] setprop 82 .............................. sitterviews = []
+  [ 28] pusharglist 0 ........................... <[]>
+  [ 30] pushlist ................................ <[]>
+  [ 31] setprop 123 ............................. standinglocs = []
+  [ 33] pushint8 1 .............................. <1>
+  [ 35] setlocal 0
+  [ 37] getlocal 0
+  [ 39] pushint8 6 .............................. <6>
+  [ 41] lteq
+  [ 42] jmpifz [125] ............................ repeat with i = 1 to 6
+  [ 45] getprop 45 .............................. <node>
+  [ 47] pushcons 0 .............................. <"body_">
+  [ 49] getlocal 0 .............................. <i>
+  [ 51] joinstr ................................. <"body_" & i>
+  [ 52] pusharglist 2 ........................... <node, "body_" & i>
+  [ 54] objcall 36 .............................. <node["body_" & i]>
+  [ 56] setlocal 1 .............................. n = node["body_" & i]
+  [ 58] getprop 45 .............................. <node>
+  [ 60] pushcons 1 .............................. <"face_">
+  [ 62] getlocal 0 .............................. <i>
+  [ 64] joinstr ................................. <"face_" & i>
+  [ 65] pusharglist 2 ........................... <node, "face_" & i>
+  [ 67] objcall 36 .............................. <node["face_" & i]>
+  [ 69] setlocal 2 .............................. f = node["face_" & i]
+  [ 71] getprop 123 ............................. <standinglocs>
+  [ 73] getlocal 1 .............................. <n>
+  [ 75] pusharglist 1 ........................... <n>
+  [ 77] objcall 51 .............................. <n.getLoc()>
+  [ 79] pusharglistnoret 2 ...................... <standinglocs, n.getLoc()>
+  [ 81] objcall 6 ............................... standinglocs.add(n.getLoc())
+  [ 83] getprop 82 .............................. <sitterviews>
+  [ 85] pushcons 2 .............................. <"stander_view">
+  [ 87] pushcons 3 .............................. <"scripts.game">
+  [ 89] pusharglist 2 ........................... <"stander_view", "scripts.game">
+  [ 91] extcall 55 .............................. <script("stander_view", "scripts.game")>
+  [ 93] pushsymb 45 ............................. <#node>
+  [ 95] getlocal 1 .............................. <n>
+  [ 97] pushsymb 84 ............................. <#facenode>
+  [ 99] getlocal 2 .............................. <f>
+  [101] pushsymb 124 ............................ <#drag>
+  [103] pushint8 1 .............................. <1>
+  [105] pusharglist 6 ........................... <[#node: n, #facenode: f, #drag: 1]>
+  [107] pushproplist ............................ <[#node: n, #facenode: f, #drag: 1]>
+  [108] pusharglist 2 ........................... <script("stander_view", "scripts.game"), [#node: n, #facenode: f, #drag: 1]>
+  [110] objcall 4 ............................... <script("stander_view", "scripts.game").new([#node: n, #facenode: f, #drag: 1])>
+  [112] pusharglistnoret 2 ...................... <sitterviews, script("stander_view", "scripts.game").new([#node: n, #facenode: f, #drag: 1])>
+  [114] objcall 6 ............................... sitterviews.add(script("stander_view", "scripts.game").new([#node: n, #facenode: f, #drag: 1]))
+  [116] pushint8 1
+  [118] getlocal 0
+  [120] add
+  [121] setlocal 0
+  [123] endrepeat [ 37]
+  [125] pushcons 4 .............................. <"game.tables">
+  [127] pusharglist 1 ........................... <"game.tables">
+  [129] extcall 125 ............................. <getDragGroup("game.tables")>
+  [131] setlocal 3 .............................. dragGroup = getDragGroup("game.tables")
+  [133] pushcons 5 .............................. <"drag_source">
+  [135] pusharglist 1 ........................... <"drag_source">
+  [137] extcall 55 .............................. <script("drag_source")>
+  [139] pushsymb 127 ............................ <#targetGroup>
+  [141] getlocal 3 .............................. <dragGroup>
+  [143] pusharglist 2 ........................... <[#targetGroup: dragGroup]>
+  [145] pushproplist ............................ <[#targetGroup: dragGroup]>
+  [146] pusharglist 2 ........................... <script("drag_source"), [#targetGroup: dragGroup]>
+  [148] objcall 4 ............................... <script("drag_source").new([#targetGroup: dragGroup])>
+  [150] setprop 126 ............................. dragsource = script("drag_source").new([#targetGroup: dragGroup])
+  [152] getprop 126 ............................. <dragsource>
+  [154] getparam 0 .............................. <me>
+  [156] pusharglistnoret 2 ...................... <dragsource, me>
+  [158] objcall 128 ............................. dragsource.forwardEvents(me)
+  [160] pushcons 6 .............................. <"heartrow_view">
+  [162] pusharglist 1 ........................... <"heartrow_view">
+  [164] extcall 55 .............................. <script("heartrow_view")>
+  [166] getprop 45 .............................. <node>
+  [168] pushcons 7 .............................. <"heartrow">
+  [170] pusharglist 2 ........................... <node, "heartrow">
+  [172] objcall 36 .............................. <node["heartrow"]>
+  [174] pusharglist 2 ........................... <script("heartrow_view"), node["heartrow"]>
+  [176] objcall 4 ............................... <script("heartrow_view").new(node["heartrow"])>
+  [178] setprop 87 .............................. heartrow = script("heartrow_view").new(node["heartrow"])
+  [180] getparam 0 .............................. <me>
+  [182] pusharglistnoret 1 ...................... <me>
+  [184] extcall 9 ............................... return me
+  [186] ret
+end
+
+on destroy me
+  [  0] pusharglist 0 ........................... <>
+  [  2] extcall 65 .............................. <VOID>
+  [  4] setprop 92 .............................. sitterGroup = VOID
+  [  6] pushsymb 5 .............................. <#destroy>
+  [  8] getprop 82 .............................. <sitterviews>
+  [ 10] pusharglistnoret 2 ...................... <#destroy, sitterviews>
+  [ 12] extcall 32 .............................. call(#destroy, sitterviews)
+  [ 14] getprop 82 .............................. <sitterviews>
+  [ 16] pusharglistnoret 1 ...................... <sitterviews>
+  [ 18] objcall 10 .............................. sitterviews.deleteAll()
+  [ 20] getprop 126 ............................. <dragsource>
+  [ 22] pusharglistnoret 1 ...................... <dragsource>
+  [ 24] objcall 5 ............................... dragsource.destroy()
+  [ 26] pusharglist 0 ........................... <>
+  [ 28] extcall 65 .............................. <VOID>
+  [ 30] setprop 126 ............................. dragsource = VOID
+  [ 32] getprop 87 .............................. <heartrow>
+  [ 34] pusharglistnoret 1 ...................... <heartrow>
+  [ 36] objcall 5 ............................... heartrow.destroy()
+  [ 38] pusharglist 0 ........................... <>
+  [ 40] extcall 65 .............................. <VOID>
+  [ 42] setprop 87 .............................. heartrow = VOID
+  [ 44] getprop 45 .............................. <node>
+  [ 46] pushzero ................................ <0>
+  [ 47] pusharglistnoret 2 ...................... <node, 0>
+  [ 49] objcall 57 .............................. node.setVisible(0)
+  [ 51] pusharglist 0 ........................... <>
+  [ 53] extcall 65 .............................. <VOID>
+  [ 55] setprop 130 ............................. table = VOID
+  [ 57] pusharglist 0 ........................... <>
+  [ 59] extcall 65 .............................. <VOID>
+  [ 61] setprop 131 ............................. tableNode = VOID
+  [ 63] pusharglist 0 ........................... <>
+  [ 65] extcall 65 .............................. <VOID>
+  [ 67] setprop 132 ............................. rolledChair = VOID
+  [ 69] pusharglist 0 ........................... <>
+  [ 71] extcall 65 .............................. <VOID>
+  [ 73] setprop 45 .............................. node = VOID
+  [ 75] ret
+end
+
+on exitFrame me
+  [  0] pusharglist 0 ........................... <>
+  [  2] thebuiltin 133 .......................... <the stillDown>
+  [  4] not ..................................... <not (the stillDown)>
+  [  5] jmpifz [ 18] ............................ if not (the stillDown) then
+  [  8] getparam 0 .............................. <me>
+  [ 10] pusharglistnoret 1 ...................... <me>
+  [ 12] objcall 121 ............................. me.dragRelease()
+  [ 14] pusharglistnoret 0 ...................... <>
+  [ 16] extcall 9 ............................... return 
+  [ 18] getprop 130 ............................. <table>
+  [ 20] pusharglist 1 ........................... <table>
+  [ 22] extcall 31 .............................. <voidp(table)>
+  [ 24] jmpifz [ 38] ............................ if voidp(table) then / else
+  [ 27] getprop 45 .............................. <node>
+  [ 29] getmovieprop 134 ........................ <the mouseLoc>
+  [ 31] pusharglistnoret 2 ...................... <node, the mouseLoc>
+  [ 33] objcall 135 ............................. node.setLoc(the mouseLoc)
+  [ 35] jmp [122]
+  [ 38] getprop 131 ............................. <tableNode>
+  [ 40] pusharglist 1 ........................... <tableNode>
+  [ 42] extcall 31 .............................. <voidp(tableNode)>
+  [ 44] not ..................................... <not voidp(tableNode)>
+  [ 45] jmpifz [ 62] ............................ if not voidp(tableNode) then
+  [ 48] getprop 131 ............................. <tableNode>
+  [ 50] pushint8 1 .............................. <1>
+  [ 52] pusharglist 2 ........................... <tableNode, 1>
+  [ 54] objcall 102 ............................. <tableNode.mouseWithin(1)>
+  [ 56] setlocal 0 .............................. mw = tableNode.mouseWithin(1)
+  [ 58] pusharglistnoret 0 ...................... <>
+  [ 60] extcall 136 ............................. nothing()
+  [ 62] getlocal 0 .............................. <mw>
+  [ 64] not ..................................... <not mw>
+  [ 65] jmpifz [122] ............................ if not mw then
+  [ 68] getprop 130 ............................. <table>
+  [ 70] getobjprop 137 .......................... <table.type>
+  [ 72] pushsymb 138 ............................ <#bar>
+  [ 74] eq ...................................... <table.type = #bar>
+  [ 75] jmpifz [ 78] ............................ if table.type = #bar then
+  [ 78] getprop 130 ............................. <table>
+  [ 80] pusharglist 0 ........................... <>
+  [ 82] extcall 65 .............................. <VOID>
+  [ 84] pusharglistnoret 2 ...................... <table, VOID>
+  [ 86] objcall 139 ............................. table.placeSitters(VOID)
+  [ 88] pusharglist 0 ........................... <>
+  [ 90] extcall 65 .............................. <VOID>
+  [ 92] setprop 130 ............................. table = VOID
+  [ 94] pusharglist 0 ........................... <>
+  [ 96] extcall 65 .............................. <VOID>
+  [ 98] setprop 131 ............................. tableNode = VOID
+  [100] pusharglist 0 ........................... <>
+  [102] extcall 65 .............................. <VOID>
+  [104] setprop 132 ............................. rolledChair = VOID
+  [106] getparam 0 .............................. <me>
+  [108] getprop 92 .............................. <sitterGroup>
+  [110] pusharglistnoret 2 ...................... <me, sitterGroup>
+  [112] objcall 72 .............................. me.setGroup(sitterGroup)
+  [114] getprop 45 .............................. <node>
+  [116] pushint8 1 .............................. <1>
+  [118] pusharglistnoret 2 ...................... <node, 1>
+  [120] objcall 57 .............................. node.setVisible(1)
+  [122] ret
+end
+
+on setVisible me, v
+  [  0] getprop 45 .............................. <node>
+  [  2] getparam 1 .............................. <v>
+  [  4] pusharglistnoret 2 ...................... <node, v>
+  [  6] objcall 57 .............................. node.setVisible(v)
+  [  8] ret
+end
+
+on setDragging me, b
+  [  0] getparam 1 .............................. <b>
+  [  2] setprop 93 .............................. dragging = b
+  [  4] getparam 1 .............................. <b>
+  [  6] jmpifz [ 69] ............................ if b then / else
+  [  9] getprop 92 .............................. <sitterGroup>
+  [ 11] pusharglist 1 ........................... <sitterGroup>
+  [ 13] extcall 31 .............................. <voidp(sitterGroup)>
+  [ 15] not ..................................... <not voidp(sitterGroup)>
+  [ 16] jmpifz [ 27] ............................ if not voidp(sitterGroup) then
+  [ 19] getprop 92 .............................. <sitterGroup>
+  [ 21] pushint8 1 .............................. <1>
+  [ 23] pusharglistnoret 2 ...................... <sitterGroup, 1>
+  [ 25] objcall 142 ............................. sitterGroup.setPickedUp(1)
+  [ 27] getparam 0 .............................. <me>
+  [ 29] pushsymb 117 ............................ <#exitFrame>
+  [ 31] pusharglist 1 ........................... <[#exitFrame]>
+  [ 33] pushlist ................................ <[#exitFrame]>
+  [ 34] pusharglistnoret 2 ...................... <me, [#exitFrame]>
+  [ 36] extcall 100 ............................. subscribe(me, [#exitFrame])
+  [ 38] getprop 126 ............................. <dragsource>
+  [ 40] pusharglistnoret 1 ...................... <dragsource>
+  [ 42] objcall 143 ............................. dragsource.startDragging()
+  [ 44] getprop 45 .............................. <node>
+  [ 46] pushint8 1 .............................. <1>
+  [ 48] pusharglistnoret 2 ...................... <node, 1>
+  [ 50] objcall 57 .............................. node.setVisible(1)
+  [ 52] getprop 45 .............................. <node>
+  [ 54] pushint8 1 .............................. <1>
+  [ 56] pusharglistnoret 2 ...................... <node, 1>
+  [ 58] objcall 57 .............................. node.setVisible(1)
+  [ 60] getparam 0 .............................. <me>
+  [ 62] pusharglistnoret 1 ...................... <me>
+  [ 64] objcall 117 ............................. me.exitFrame()
+  [ 66] jmp [121]
+  [ 69] getprop 92 .............................. <sitterGroup>
+  [ 71] pusharglist 1 ........................... <sitterGroup>
+  [ 73] extcall 31 .............................. <voidp(sitterGroup)>
+  [ 75] not ..................................... <not voidp(sitterGroup)>
+  [ 76] jmpifz [ 86] ............................ if not voidp(sitterGroup) then
+  [ 79] getprop 92 .............................. <sitterGroup>
+  [ 81] pushzero ................................ <0>
+  [ 82] pusharglistnoret 2 ...................... <sitterGroup, 0>
+  [ 84] objcall 142 ............................. sitterGroup.setPickedUp(0)
+  [ 86] pushsymb 71 ............................. <#setDragging>
+  [ 88] getprop 56 .............................. <queue>
+  [ 90] getobjprop 58 ........................... <queue.wgnodes>
+  [ 92] pushzero ................................ <0>
+  [ 93] pusharglistnoret 3 ...................... <#setDragging, queue.wgnodes, 0>
+  [ 95] extcall 32 .............................. call(#setDragging, queue.wgnodes, 0)
+  [ 97] getparam 0 .............................. <me>
+  [ 99] pushsymb 117 ............................ <#exitFrame>
+  [101] pusharglist 1 ........................... <[#exitFrame]>
+  [103] pushlist ................................ <[#exitFrame]>
+  [104] pusharglistnoret 2 ...................... <me, [#exitFrame]>
+  [106] extcall 105 ............................. unsubscribe(me, [#exitFrame])
+  [108] getprop 126 ............................. <dragsource>
+  [110] pusharglistnoret 1 ...................... <dragsource>
+  [112] objcall 144 ............................. dragsource.stopDragging()
+  [114] getprop 45 .............................. <node>
+  [116] pushzero ................................ <0>
+  [117] pusharglistnoret 2 ...................... <node, 0>
+  [119] objcall 57 .............................. node.setVisible(0)
+  [121] ret
+end
+
+on update me
+  [  0] getprop 92 .............................. <sitterGroup>
+  [  2] pusharglist 1 ........................... <sitterGroup>
+  [  4] extcall 31 .............................. <voidp(sitterGroup)>
+  [  6] jmpifz [ 13] ............................ if voidp(sitterGroup) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 9 ............................... return 
+  [ 13] getprop 92 .............................. <sitterGroup>
+  [ 15] getobjprop 98 ........................... <sitterGroup.mood>
+  [ 17] setlocal 0 .............................. m = sitterGroup.mood
+  [ 19] getprop 87 .............................. <heartrow>
+  [ 21] getlocal 0 .............................. <m>
+  [ 23] pusharglistnoret 2 ...................... <heartrow, m>
+  [ 25] objcall 99 .............................. heartrow.setHearts(m)
+  [ 27] ret
+end
+
+on setGroup me, sg, indx
+  [  0] getprop 45 .............................. <node>
+  [  2] pusharglist 1 ........................... <node>
+  [  4] extcall 31 .............................. <voidp(node)>
+  [  6] jmpifz [ 13] ............................ if voidp(node) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 9 ............................... return 
+  [ 13] getprop 92 .............................. <sitterGroup>
+  [ 15] pusharglist 1 ........................... <sitterGroup>
+  [ 17] extcall 31 .............................. <voidp(sitterGroup)>
+  [ 19] not ..................................... <not voidp(sitterGroup)>
+  [ 20] getparam 1 .............................. <sg>
+  [ 22] getprop 92 .............................. <sitterGroup>
+  [ 24] nteq .................................... <sg <> sitterGroup>
+  [ 25] and ..................................... <not voidp(sitterGroup) and (sg <> sitterGroup)>
+  [ 26] jmpifz [ 37] ............................ if not voidp(sitterGroup) and (sg <> sitterGroup) then
+  [ 29] getprop 92 .............................. <sitterGroup>
+  [ 31] getparam 0 .............................. <me>
+  [ 33] pusharglistnoret 2 ...................... <sitterGroup, me>
+  [ 35] objcall 110 ............................. sitterGroup.removeView(me)
+  [ 37] getparam 1 .............................. <sg>
+  [ 39] setprop 92 .............................. sitterGroup = sg
+  [ 41] getprop 92 .............................. <sitterGroup>
+  [ 43] pusharglist 1 ........................... <sitterGroup>
+  [ 45] extcall 31 .............................. <voidp(sitterGroup)>
+  [ 47] jmpifz [ 80] ............................ if voidp(sitterGroup) then
+  [ 50] getprop 45 .............................. <node>
+  [ 52] pushzero ................................ <0>
+  [ 53] pusharglistnoret 2 ...................... <node, 0>
+  [ 55] objcall 57 .............................. node.setVisible(0)
+  [ 57] pushsymb 111 ............................ <#setSitter>
+  [ 59] getprop 82 .............................. <sitterviews>
+  [ 61] pusharglist 0 ........................... <>
+  [ 63] extcall 65 .............................. <VOID>
+  [ 65] pusharglistnoret 3 ...................... <#setSitter, sitterviews, VOID>
+  [ 67] extcall 32 .............................. call(#setSitter, sitterviews, VOID)
+  [ 69] getparam 0 .............................. <me>
+  [ 71] pushzero ................................ <0>
+  [ 72] pusharglistnoret 2 ...................... <me, 0>
+  [ 74] objcall 71 .............................. me.setDragging(0)
+  [ 76] pusharglistnoret 0 ...................... <>
+  [ 78] extcall 9 ............................... return 
+  [ 80] getparam 2 .............................. <indx>
+  [ 82] pushint8 1 .............................. <1>
+  [ 84] lt ...................................... <indx < 1>
+  [ 85] getparam 2 .............................. <indx>
+  [ 87] getprop 92 .............................. <sitterGroup>
+  [ 89] pushsymb 113 ............................ <#sitters>
+  [ 91] pusharglist 2 ........................... <sitterGroup, #sitters>
+  [ 93] objcall 12 .............................. <sitterGroup.sitters.count>
+  [ 95] gt ...................................... <indx > sitterGroup.sitters.count>
+  [ 96] or ...................................... <(indx < 1) or (indx > sitterGroup.sitters.count)>
+  [ 97] jmpifz [104] ............................ if (indx < 1) or (indx > sitterGroup.sitters.count) then
+  [100] pushint8 1 .............................. <1>
+  [102] setparam 2 .............................. indx = 1
+  [104] getparam 2 .............................. <indx>
+  [106] setprop 96 .............................. clickedIndex = indx
+  [108] getprop 92 .............................. <sitterGroup>
+  [110] getparam 0 .............................. <me>
+  [112] pusharglistnoret 2 ...................... <sitterGroup, me>
+  [114] objcall 112 ............................. sitterGroup.addView(me)
+  [116] getprop 45 .............................. <node>
+  [118] getprop 123 ............................. <standinglocs>
+  [120] getparam 2 .............................. <indx>
+  [122] pusharglist 2 ........................... <standinglocs, indx>
+  [124] objcall 36 .............................. <standinglocs[indx]>
+  [126] pusharglistnoret 2 ...................... <node, standinglocs[indx]>
+  [128] objcall 52 .............................. node.setRegPoint(standinglocs[indx])
+  [130] getparam 0 .............................. <me>
+  [132] pusharglistnoret 1 ...................... <me>
+  [134] objcall 39 .............................. me.update()
+  [136] getprop 92 .............................. <sitterGroup>
+  [138] getobjprop 113 .......................... <sitterGroup.sitters>
+  [140] setlocal 0 .............................. ss = sitterGroup.sitters
+  [142] pushint8 1 .............................. <1>
+  [144] setlocal 1
+  [146] getlocal 1
+  [148] pushint8 6 .............................. <6>
+  [150] lteq
+  [151] jmpifz [214] ............................ repeat with i = 1 to 6
+  [154] getprop 82 .............................. <sitterviews>
+  [156] getlocal 1 .............................. <i>
+  [158] pusharglist 2 ........................... <sitterviews, i>
+  [160] objcall 36 .............................. <sitterviews[i]>
+  [162] setlocal 2 .............................. n = sitterviews[i]
+  [164] getlocal 1 .............................. <i>
+  [166] getlocal 0 .............................. <ss>
+  [168] getobjprop 12 ........................... <ss.count>
+  [170] gt ...................................... <i > ss.count>
+  [171] jmpifz [187] ............................ if i > ss.count then
+  [174] getlocal 2 .............................. <n>
+  [176] pusharglist 0 ........................... <>
+  [178] extcall 65 .............................. <VOID>
+  [180] pusharglistnoret 2 ...................... <n, VOID>
+  [182] objcall 111 ............................. n.setSitter(VOID)
+  [184] jmp [205] ............................... next repeat
+  [187] getlocal 0 .............................. <ss>
+  [189] getlocal 1 .............................. <i>
+  [191] pusharglist 2 ........................... <ss, i>
+  [193] objcall 36 .............................. <ss[i]>
+  [195] setlocal 3 .............................. s = ss[i]
+  [197] getlocal 2 .............................. <n>
+  [199] getlocal 3 .............................. <s>
+  [201] pusharglistnoret 2 ...................... <n, s>
+  [203] objcall 111 ............................. n.setSitter(s)
+  [205] pushint8 1
+  [207] getlocal 1
+  [209] add
+  [210] setlocal 1
+  [212] endrepeat [146]
+  [214] getprop 45 .............................. <node>
+  [216] pushint8 1 .............................. <1>
+  [218] pusharglistnoret 2 ...................... <node, 1>
+  [220] objcall 57 .............................. node.setVisible(1)
+  [222] getparam 0 .............................. <me>
+  [224] pushint8 1 .............................. <1>
+  [226] pusharglistnoret 2 ...................... <me, 1>
+  [228] objcall 71 .............................. me.setDragging(1)
+  [230] ret
+end
+
+on removeObject me, sg
+  [  0] getparam 0 .............................. <me>
+  [  2] pusharglist 0 ........................... <>
+  [  4] extcall 65 .............................. <VOID>
+  [  6] pusharglistnoret 2 ...................... <me, VOID>
+  [  8] objcall 72 .............................. me.setGroup(VOID)
+  [ 10] ret
+end
+
+on removeGroup me, sg
+  [  0] getparam 0 .............................. <me>
+  [  2] pusharglist 0 ........................... <>
+  [  4] extcall 65 .............................. <VOID>
+  [  6] pusharglistnoret 2 ...................... <me, VOID>
+  [  8] objcall 72 .............................. me.setGroup(VOID)
+  [ 10] ret
+end
+
+on dragDrop me, ls
+  [  0] getparam 1 .............................. <ls>
+  [  2] pusharglist 1 ........................... <ls>
+  [  4] extcall 31 .............................. <voidp(ls)>
+  [  6] jmpifz [ 35] ............................ if voidp(ls) then
+  [  9] getprop 130 ............................. <table>
+  [ 11] pusharglist 1 ........................... <table>
+  [ 13] extcall 31 .............................. <voidp(table)>
+  [ 15] jmpifz [ 22] ............................ if voidp(table) then
+  [ 18] pusharglistnoret 0 ...................... <>
+  [ 20] extcall 9 ............................... return 
+  [ 22] pushsymb 130 ............................ <#table>
+  [ 24] getprop 130 ............................. <table>
+  [ 26] pushsymb 147 ............................ <#chair>
+  [ 28] getprop 132 ............................. <rolledChair>
+  [ 30] pusharglist 4 ........................... <[#table: table, #chair: rolledChair]>
+  [ 32] pushproplist ............................ <[#table: table, #chair: rolledChair]>
+  [ 33] setparam 1 .............................. ls = [#table: table, #chair: rolledChair]
+  [ 35] getparam 1 .............................. <ls>
+  [ 37] getobjprop 130 .......................... <ls.table>
+  [ 39] setlocal 0 .............................. t = ls.table
+  [ 41] pusharglist 0 ........................... <>
+  [ 43] extcall 65 .............................. <VOID>
+  [ 45] setprop 130 ............................. table = VOID
+  [ 47] pusharglist 0 ........................... <>
+  [ 49] extcall 65 .............................. <VOID>
+  [ 51] setprop 131 ............................. tableNode = VOID
+  [ 53] pusharglist 0 ........................... <>
+  [ 55] extcall 65 .............................. <VOID>
+  [ 57] setprop 132 ............................. rolledChair = VOID
+  [ 59] getprop 92 .............................. <sitterGroup>
+  [ 61] pusharglist 1 ........................... <sitterGroup>
+  [ 63] extcall 31 .............................. <voidp(sitterGroup)>
+  [ 65] jmpifz [ 72] ............................ if voidp(sitterGroup) then
+  [ 68] pusharglistnoret 0 ...................... <>
+  [ 70] extcall 9 ............................... return 
+  [ 72] getlocal 0 .............................. <t>
+  [ 74] getprop 92 .............................. <sitterGroup>
+  [ 76] pusharglist 2 ........................... <t, sitterGroup>
+  [ 78] objcall 148 ............................. <t.canHold(sitterGroup)>
+  [ 80] jmpifz [101] ............................ if t.canHold(sitterGroup) then
+  [ 83] getprop 92 .............................. <sitterGroup>
+  [ 85] getlocal 0 .............................. <t>
+  [ 87] getparam 1 .............................. <ls>
+  [ 89] pushsymb 147 ............................ <#chair>
+  [ 91] pusharglist 2 ........................... <ls, #chair>
+  [ 93] objcall 36 .............................. <ls[#chair]>
+  [ 95] getprop 96 .............................. <clickedIndex>
+  [ 97] pusharglistnoret 4 ...................... <sitterGroup, t, ls[#chair], clickedIndex>
+  [ 99] objcall 149 ............................. sitterGroup.sitAtTable(t, ls[#chair], clickedIndex)
+  [101] ret
+end
+
+on dragEnter me, ls
+  [  0] getparam 1 .............................. <ls>
+  [  2] pusharglist 1 ........................... <ls>
+  [  4] extcall 31 .............................. <voidp(ls)>
+  [  6] jmpifz [ 13] ............................ if voidp(ls) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 9 ............................... return 
+  [ 13] getparam 1 .............................. <ls>
+  [ 15] getobjprop 130 .......................... <ls.table>
+  [ 17] setlocal 0 .............................. t = ls.table
+  [ 19] getlocal 0 .............................. <t>
+  [ 21] pushsymb 138 ............................ <#bar>
+  [ 23] pusharglist 2 ........................... <t, #bar>
+  [ 25] objcall 36 .............................. <t[#bar]>
+  [ 27] pusharglist 1 ........................... <t[#bar]>
+  [ 29] extcall 31 .............................. <voidp(t[#bar])>
+  [ 31] not ..................................... <not voidp(t[#bar])>
+  [ 32] jmpifz [ 47] ............................ if not voidp(t[#bar]) then
+  [ 35] getprop 130 ............................. <table>
+  [ 37] getlocal 0 .............................. <t>
+  [ 39] eq ...................................... <table = t>
+  [ 40] jmpifz [ 47] ............................ if table = t then
+  [ 43] pusharglistnoret 0 ...................... <>
+  [ 45] extcall 136 ............................. nothing()
+  [ 47] getprop 130 ............................. <table>
+  [ 49] pusharglist 1 ........................... <table>
+  [ 51] extcall 31 .............................. <voidp(table)>
+  [ 53] not ..................................... <not voidp(table)>
+  [ 54] getlocal 0 .............................. <t>
+  [ 56] getprop 130 ............................. <table>
+  [ 58] nteq .................................... <t <> table>
+  [ 59] and ..................................... <not voidp(table) and (t <> table)>
+  [ 60] jmpifz [ 73] ............................ if not voidp(table) and (t <> table) then
+  [ 63] getprop 130 ............................. <table>
+  [ 65] pusharglist 0 ........................... <>
+  [ 67] extcall 65 .............................. <VOID>
+  [ 69] pusharglistnoret 2 ...................... <table, VOID>
+  [ 71] objcall 139 ............................. table.placeSitters(VOID)
+  [ 73] getlocal 0 .............................. <t>
+  [ 75] getprop 92 .............................. <sitterGroup>
+  [ 77] pusharglist 2 ........................... <t, sitterGroup>
+  [ 79] objcall 148 ............................. <t.canHold(sitterGroup)>
+  [ 81] jmpifz [205] ............................ if t.canHold(sitterGroup) then / else
+  [ 84] getprop 45 .............................. <node>
+  [ 86] pushzero ................................ <0>
+  [ 87] pusharglistnoret 2 ...................... <node, 0>
+  [ 89] objcall 57 .............................. node.setVisible(0)
+  [ 91] getlocal 0 .............................. <t>
+  [ 93] setprop 130 ............................. table = t
+  [ 95] getparam 1 .............................. <ls>
+  [ 97] pushsymb 147 ............................ <#chair>
+  [ 99] pusharglist 2 ........................... <ls, #chair>
+  [101] objcall 36 .............................. <ls[#chair]>
+  [103] setprop 132 ............................. rolledChair = ls[#chair]
+  [105] getprop 130 ............................. <table>
+  [107] getchainedprop 152 ...................... <table.chairs>
+  [109] getparam 1 .............................. <ls>
+  [111] pushsymb 147 ............................ <#chair>
+  [113] pusharglist 2 ........................... <ls, #chair>
+  [115] objcall 36 .............................. <ls[#chair]>
+  [117] pusharglist 2 ........................... <table.chairs, ls[#chair]>
+  [119] objcall 11 .............................. <table.chairs.getOne(ls[#chair])>
+  [121] setlocal 1 .............................. chair_indx = table.chairs.getOne(ls[#chair])
+  [123] getlocal 0 .............................. <t>
+  [125] pushsymb 138 ............................ <#bar>
+  [127] pusharglist 2 ........................... <t, #bar>
+  [129] objcall 36 .............................. <t[#bar]>
+  [131] pusharglist 1 ........................... <t[#bar]>
+  [133] extcall 31 .............................. <voidp(t[#bar])>
+  [135] not ..................................... <not voidp(t[#bar])>
+  [136] jmpifz [166] ............................ if not voidp(t[#bar]) then / else
+  [139] pushint8 1 .............................. <1>
+  [141] getlocal 1 .............................. <chair_indx>
+  [143] getprop 96 .............................. <clickedIndex>
+  [145] sub ..................................... <chair_indx - clickedIndex>
+  [146] pushint8 1 .............................. <1>
+  [148] add ..................................... <chair_indx - clickedIndex + 1>
+  [149] getlocal 0 .............................. <t>
+  [151] getobjprop 155 .......................... <t.capacity>
+  [153] pusharglist 2 ........................... <chair_indx - clickedIndex + 1, t.capacity>
+  [155] extcall 154 ............................. <min(chair_indx - clickedIndex + 1, t.capacity)>
+  [157] pusharglist 2 ........................... <1, min(chair_indx - clickedIndex + 1, t.capacity)>
+  [159] extcall 153 ............................. <max(1, min(chair_indx - clickedIndex + 1, t.capacity))>
+  [161] setlocal 2 .............................. indx = max(1, min(chair_indx - clickedIndex + 1, t.capacity))
+  [163] jmp [186]
+  [166] getlocal 1 .............................. <chair_indx>
+  [168] getprop 96 .............................. <clickedIndex>
+  [170] sub ..................................... <chair_indx - clickedIndex>
+  [171] getlocal 0 .............................. <t>
+  [173] getobjprop 155 .......................... <t.capacity>
+  [175] add ..................................... <chair_indx - clickedIndex + t.capacity>
+  [176] getlocal 0 .............................. <t>
+  [178] getobjprop 155 .......................... <t.capacity>
+  [180] mod ..................................... <(chair_indx - clickedIndex + t.capacity) mod t.capacity>
+  [181] pushint8 1 .............................. <1>
+  [183] add ..................................... <((chair_indx - clickedIndex + t.capacity) mod t.capacity) + 1>
+  [184] setlocal 2 .............................. indx = ((chair_indx - clickedIndex + t.capacity) mod t.capacity) + 1
+  [186] getprop 130 ............................. <table>
+  [188] getprop 92 .............................. <sitterGroup>
+  [190] getlocal 2 .............................. <indx>
+  [192] pusharglistnoret 3 ...................... <table, sitterGroup, indx>
+  [194] objcall 139 ............................. table.placeSitters(sitterGroup, indx)
+  [196] getparam 1 .............................. <ls>
+  [198] getobjprop 131 .......................... <ls.tableNode>
+  [200] setprop 131 ............................. tableNode = ls.tableNode
+  [202] jmp [225]
+  [205] pusharglist 0 ........................... <>
+  [207] extcall 65 .............................. <VOID>
+  [209] setprop 130 ............................. table = VOID
+  [211] pusharglist 0 ........................... <>
+  [213] extcall 65 .............................. <VOID>
+  [215] setprop 131 ............................. tableNode = VOID
+  [217] getprop 45 .............................. <node>
+  [219] pushint8 1 .............................. <1>
+  [221] pusharglistnoret 2 ...................... <node, 1>
+  [223] objcall 57 .............................. node.setVisible(1)
+  [225] ret
+end
+
+on dragRelease me
+  [  0] getparam 0 .............................. <me>
+  [  2] pushzero ................................ <0>
+  [  3] pusharglistnoret 2 ...................... <me, 0>
+  [  5] objcall 71 .............................. me.setDragging(0)
+  [  7] getprop 130 ............................. <table>
+  [  9] pusharglist 1 ........................... <table>
+  [ 11] extcall 31 .............................. <voidp(table)>
+  [ 13] not ..................................... <not voidp(table)>
+  [ 14] jmpifz [ 34] ............................ if not voidp(table) then
+  [ 17] getparam 0 .............................. <me>
+  [ 19] pushsymb 130 ............................ <#table>
+  [ 21] getprop 130 ............................. <table>
+  [ 23] pushsymb 147 ............................ <#chair>
+  [ 25] getprop 132 ............................. <rolledChair>
+  [ 27] pusharglist 4 ........................... <[#table: table, #chair: rolledChair]>
+  [ 29] pushproplist ............................ <[#table: table, #chair: rolledChair]>
+  [ 30] pusharglistnoret 2 ...................... <me, [#table: table, #chair: rolledChair]>
+  [ 32] objcall 119 ............................. me.dragDrop([#table: table, #chair: rolledChair])
+  [ 34] ret
+end

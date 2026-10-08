@@ -1,0 +1,279 @@
+property numbers, members, node, showing, home_yreg, speed, height, y, alpha, view_mgr, type
+global glob
+
+on new me
+  [  0] getglobal 1 ............................. <glob>
+  [  2] getchainedprop 108 ...................... <glob.managers>
+  [  4] getchainedprop 172 ...................... <glob.managers.game>
+  [  6] getchainedprop 45 ....................... <glob.managers.game.node>
+  [  8] pushcons 0 .............................. <"penalty">
+  [ 10] pusharglist 1 ........................... <"penalty">
+  [ 12] extcall 47 .............................. <getNodeData("penalty")>
+  [ 14] pusharglist 2 ........................... <glob.managers.game.node, getNodeData("penalty")>
+  [ 16] objcall 48 .............................. <glob.managers.game.node.newNode(getNodeData("penalty"))>
+  [ 18] setprop 45 .............................. node = glob.managers.game.node.newNode(getNodeData("penalty"))
+  [ 20] getprop 45 .............................. <node>
+  [ 22] setlocal 0 .............................. n = node
+  [ 24] getglobal 1 ............................. <glob>
+  [ 26] getchainedprop 108 ...................... <glob.managers>
+  [ 28] getobjprop 109 .......................... <glob.managers.view>
+  [ 30] setprop 594 ............................. view_mgr = glob.managers.view
+  [ 33] pushcons 0 .............................. <"penalty">
+  [ 35] setprop 137 ............................. type = "penalty"
+  [ 37] pusharglist 0 ........................... <[]>
+  [ 39] pushlist ................................ <[]>
+  [ 40] setprop 1268 ............................ numbers = []
+  [ 43] pushint8 1 .............................. <1>
+  [ 45] setlocal 1
+  [ 47] getlocal 1
+  [ 49] pushint8 4 .............................. <4>
+  [ 51] lteq
+  [ 52] jmpifz [ 82] ............................ repeat with i = 1 to 4
+  [ 55] getprop 1268 ............................ <numbers>
+  [ 58] getprop 45 .............................. <node>
+  [ 60] pushcons 1 .............................. <"number_">
+  [ 62] getlocal 1 .............................. <i>
+  [ 64] joinstr ................................. <"number_" & i>
+  [ 65] pusharglist 2 ........................... <node, "number_" & i>
+  [ 67] objcall 36 .............................. <node["number_" & i]>
+  [ 69] pusharglistnoret 2 ...................... <numbers, node["number_" & i]>
+  [ 71] objcall 6 ............................... numbers.add(node["number_" & i])
+  [ 73] pushint8 1
+  [ 75] getlocal 1
+  [ 77] add
+  [ 78] setlocal 1
+  [ 80] endrepeat [ 47]
+  [ 82] pusharglist 0 ........................... <[]>
+  [ 84] pushlist ................................ <[]>
+  [ 85] setprop 713 ............................. members = []
+  [ 88] pushzero ................................ <0>
+  [ 89] setlocal 1
+  [ 91] getlocal 1
+  [ 93] pushint8 9 .............................. <9>
+  [ 95] lteq
+  [ 96] jmpifz [126] ............................ repeat with i = 0 to 9
+  [ 99] getprop 713 ............................. <members>
+  [102] pushcons 2 .............................. <"negative.">
+  [104] getlocal 1 .............................. <i>
+  [106] joinstr ................................. <"negative." & i>
+  [107] pushcons 3 .............................. <"gfx.numbers">
+  [109] pusharglist 2 ........................... <"negative." & i, "gfx.numbers">
+  [111] extcall 81 .............................. <member("negative." & i, "gfx.numbers")>
+  [113] pusharglistnoret 2 ...................... <members, member("negative." & i, "gfx.numbers")>
+  [115] objcall 6 ............................... members.add(member("negative." & i, "gfx.numbers"))
+  [117] pushint8 1
+  [119] getlocal 1
+  [121] add
+  [122] setlocal 1
+  [124] endrepeat [ 91]
+  [126] getprop 45 .............................. <node>
+  [128] pushint32 1000000 ....................... <1000000>
+  [133] pusharglistnoret 2 ...................... <node, 1000000>
+  [135] objcall 122 ............................. node.setZOffset(1000000)
+  [137] getprop 45 .............................. <node>
+  [139] getprop 45 .............................. <node>
+  [141] pushcons 4 .............................. <"number_3">
+  [143] pusharglist 2 ........................... <node, "number_3">
+  [145] objcall 36 .............................. <node["number_3"]>
+  [147] pusharglist 1 ........................... <node["number_3"]>
+  [149] objcall 51 .............................. <node["number_3"].getLoc()>
+  [151] pushint8 1 .............................. <1>
+  [153] pusharglist 2 ........................... <node["number_3"].getLoc(), 1>
+  [155] objcall 36 .............................. <node["number_3"].getLoc()[1]>
+  [157] pusharglistnoret 2 ...................... <node, node["number_3"].getLoc()[1]>
+  [159] objcall 1279 ............................ node.setXReg(node["number_3"].getLoc()[1])
+  [162] getprop 45 .............................. <node>
+  [164] pusharglist 1 ........................... <node>
+  [166] objcall 959 ............................. <node.getYReg()>
+  [169] setprop 958 ............................. home_yreg = node.getYReg()
+  [172] pushfloat32 50.0 ........................ <50.0>
+  [177] setprop 824 ............................. speed = 50.0
+  [180] pushfloat32 50.0 ........................ <50.0>
+  [185] setprop 415 ............................. height = 50.0
+  [188] getprop 45 .............................. <node>
+  [190] pushzero ................................ <0>
+  [191] pusharglistnoret 2 ...................... <node, 0>
+  [193] objcall 57 .............................. node.setVisible(0)
+  [195] getparam 0 .............................. <me>
+  [197] pusharglistnoret 1 ...................... <me>
+  [199] extcall 9 ............................... return me
+  [201] ret
+end
+
+on show me, num
+  [  0] getparam 1 .............................. <num>
+  [  2] pushint16 9999 .......................... <9999>
+  [  5] gt ...................................... <num > 9999>
+  [  6] getparam 1 .............................. <num>
+  [  8] pushzero ................................ <0>
+  [  9] lt ...................................... <num < 0>
+  [ 10] or ...................................... <(num > 9999) or (num < 0)>
+  [ 11] jmpifz [ 18] ............................ if (num > 9999) or (num < 0) then
+  [ 14] pusharglistnoret 0 ...................... <>
+  [ 16] extcall 9 ............................... return 
+  [ 18] getparam 1 .............................. <num>
+  [ 20] pusharglist 1 ........................... <num>
+  [ 22] extcall 59 .............................. <string(num)>
+  [ 24] setlocal 0 .............................. str = string(num)
+  [ 26] getlocal 0 .............................. <str>
+  [ 28] pushsymb 1273 ........................... <#char>
+  [ 31] pusharglist 2 ........................... <str, #char>
+  [ 33] objcall 12 .............................. <str.char.count>
+  [ 35] setlocal 1 .............................. ct = str.char.count
+  [ 37] pushint8 1 .............................. <1>
+  [ 39] setlocal 2
+  [ 41] getlocal 2
+  [ 43] pushint8 4 .............................. <4>
+  [ 45] lteq
+  [ 46] jmpifz [126] ............................ repeat with i = 1 to 4
+  [ 49] getprop 1268 ............................ <numbers>
+  [ 52] getlocal 2 .............................. <i>
+  [ 54] pusharglist 2 ........................... <numbers, i>
+  [ 56] objcall 36 .............................. <numbers[i]>
+  [ 58] setlocal 3 .............................. n = numbers[i]
+  [ 60] getlocal 2 .............................. <i>
+  [ 62] getlocal 1 .............................. <ct>
+  [ 64] gt ...................................... <i > ct>
+  [ 65] jmpifz [ 78] ............................ if i > ct then
+  [ 68] getlocal 3 .............................. <n>
+  [ 70] pushzero ................................ <0>
+  [ 71] pusharglistnoret 2 ...................... <n, 0>
+  [ 73] objcall 57 .............................. n.setVisible(0)
+  [ 75] jmp [117] ............................... next repeat
+  [ 78] getlocal 3 .............................. <n>
+  [ 80] getprop 713 ............................. <members>
+  [ 83] getlocal 0 .............................. <str>
+  [ 85] pushsymb 1273 ........................... <#char>
+  [ 88] getlocal 2 .............................. <i>
+  [ 90] pusharglist 3 ........................... <str, #char, i>
+  [ 92] objcall 30 .............................. <str.char[i]>
+  [ 94] pusharglist 1 ........................... <str.char[i]>
+  [ 96] extcall 216 ............................. <integer(str.char[i])>
+  [ 98] pushint8 1 .............................. <1>
+  [100] add ..................................... <integer(str.char[i]) + 1>
+  [101] pusharglist 2 ........................... <members, integer(str.char[i]) + 1>
+  [103] objcall 36 .............................. <members[integer(str.char[i]) + 1]>
+  [105] pusharglistnoret 2 ...................... <n, members[integer(str.char[i]) + 1]>
+  [107] objcall 213 ............................. n.setMember(members[integer(str.char[i]) + 1])
+  [109] getlocal 3 .............................. <n>
+  [111] pushint8 1 .............................. <1>
+  [113] pusharglistnoret 2 ...................... <n, 1>
+  [115] objcall 57 .............................. n.setVisible(1)
+  [117] pushint8 1
+  [119] getlocal 2
+  [121] add
+  [122] setlocal 2
+  [124] endrepeat [ 41]
+  [126] pushzero ................................ <0>
+  [127] setprop 558 ............................. y = 0
+  [130] pushint8 100 ............................ <100>
+  [132] setprop 960 ............................. alpha = 100
+  [135] getprop 45 .............................. <node>
+  [137] getprop 958 ............................. <home_yreg>
+  [140] pusharglistnoret 2 ...................... <node, home_yreg>
+  [142] objcall 961 ............................. node.setYReg(home_yreg)
+  [145] getprop 45 .............................. <node>
+  [147] pushint8 1 .............................. <1>
+  [149] pusharglistnoret 2 ...................... <node, 1>
+  [151] objcall 57 .............................. node.setVisible(1)
+  [153] getparam 0 .............................. <me>
+  [155] pushsymb 117 ............................ <#exitFrame>
+  [157] pushcons 5 .............................. <"score">
+  [159] pusharglistnoret 3 ...................... <me, #exitFrame, "score">
+  [161] extcall 100 ............................. subscribe(me, #exitFrame, "score")
+  [163] ret
+end
+
+on hide me
+  [  0] getprop 45 .............................. <node>
+  [  2] pushzero ................................ <0>
+  [  3] pusharglistnoret 2 ...................... <node, 0>
+  [  5] objcall 57 .............................. node.setVisible(0)
+  [  7] getparam 0 .............................. <me>
+  [  9] pushsymb 117 ............................ <#exitFrame>
+  [ 11] pushcons 5 .............................. <"score">
+  [ 13] pusharglistnoret 3 ...................... <me, #exitFrame, "score">
+  [ 15] extcall 105 ............................. unsubscribe(me, #exitFrame, "score")
+  [ 17] getprop 594 ............................. <view_mgr>
+  [ 20] getparam 0 .............................. <me>
+  [ 22] pusharglistnoret 2 ...................... <view_mgr, me>
+  [ 24] objcall 499 ............................. view_mgr.returnView(me)
+  [ 27] ret
+end
+
+on setObject me
+  [  0] ret
+end
+
+on removeObject me
+  [  0] ret
+end
+
+on exitFrame me, ms
+  [  0] getprop 558 ............................. <y>
+  [  3] getparam 1 .............................. <ms>
+  [  5] pushcons 6 .............................. <0.001>
+  [  7] mul ..................................... <ms * 0.001>
+  [  8] getprop 824 ............................. <speed>
+  [ 11] mul ..................................... <ms * 0.001 * speed>
+  [ 12] add ..................................... <y + (ms * 0.001 * speed)>
+  [ 13] setprop 558 ............................. y = y + (ms * 0.001 * speed)
+  [ 16] getprop 558 ............................. <y>
+  [ 19] getprop 415 ............................. <height>
+  [ 22] gt ...................................... <y > height>
+  [ 23] jmpifz [ 37] ............................ if y > height then
+  [ 26] getparam 0 .............................. <me>
+  [ 28] pusharglistnoret 1 ...................... <me>
+  [ 30] objcall 863 ............................. me.hide()
+  [ 33] pusharglistnoret 0 ...................... <>
+  [ 35] extcall 9 ............................... return 
+  [ 37] getprop 45 .............................. <node>
+  [ 39] getprop 958 ............................. <home_yreg>
+  [ 42] getprop 558 ............................. <y>
+  [ 45] add ..................................... <home_yreg + y>
+  [ 46] pusharglistnoret 2 ...................... <node, home_yreg + y>
+  [ 48] objcall 961 ............................. node.setYReg(home_yreg + y)
+  [ 51] ret
+end
+
+on destroy me
+  [  0] getprop 1268 ............................ <numbers>
+  [  3] pusharglistnoret 1 ...................... <numbers>
+  [  5] objcall 10 .............................. numbers.deleteAll()
+  [  7] pusharglist 0 ........................... <>
+  [  9] extcall 65 .............................. <VOID>
+  [ 11] setlocal 0 .............................. bonus = VOID
+  [ 13] pusharglist 0 ........................... <>
+  [ 15] extcall 65 .............................. <VOID>
+  [ 17] setlocal 1 .............................. color = VOID
+  [ 19] pusharglist 0 ........................... <>
+  [ 21] extcall 65 .............................. <VOID>
+  [ 23] setlocal 2 .............................. multiplier = VOID
+  [ 25] getprop 45 .............................. <node>
+  [ 27] pusharglistnoret 1 ...................... <node>
+  [ 29] objcall 5 ............................... node.destroy()
+  [ 31] pushint8 1 .............................. <1>
+  [ 33] setlocal 3
+  [ 35] getlocal 3
+  [ 37] getparam 0 .............................. <me>
+  [ 39] getobjprop 12 ........................... <me.count>
+  [ 41] lteq
+  [ 42] jmpifz [ 66] ............................ repeat with i = 1 to me.count
+  [ 45] getparam 0 .............................. <me>
+  [ 47] getlocal 3 .............................. <i>
+  [ 49] pusharglist 0 ........................... <>
+  [ 51] extcall 65 .............................. <VOID>
+  [ 53] pusharglistnoret 3 ...................... <me, i, VOID>
+  [ 55] objcall 25 .............................. me[i] = VOID
+  [ 57] pushint8 1
+  [ 59] getlocal 3
+  [ 61] add
+  [ 62] setlocal 3
+  [ 64] endrepeat [ 35]
+  [ 66] getparam 0 .............................. <me>
+  [ 68] pushsymb 117 ............................ <#exitFrame>
+  [ 70] pushcons 5 .............................. <"score">
+  [ 72] pusharglistnoret 3 ...................... <me, #exitFrame, "score">
+  [ 74] extcall 105 ............................. unsubscribe(me, #exitFrame, "score")
+  [ 76] ret
+end

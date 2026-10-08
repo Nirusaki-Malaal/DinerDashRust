@@ -1,0 +1,140 @@
+property node, timer
+
+on new me, Args
+  [  0] getparam 1 .............................. <Args>
+  [  2] getobjprop 45 ........................... <Args.node>
+  [  4] setprop 45 .............................. node = Args.node
+  [  6] getprop 45 .............................. <node>
+  [  8] pushint8 1 .............................. <1>
+  [ 10] pusharglistnoret 2 ...................... <node, 1>
+  [ 12] objcall 57 .............................. node.setVisible(1)
+  [ 14] getparam 0 .............................. <me>
+  [ 16] pusharglistnoret 1 ...................... <me>
+  [ 18] objcall 1289 ............................ me.startAnim()
+  [ 21] getparam 0 .............................. <me>
+  [ 23] pusharglistnoret 1 ...................... <me>
+  [ 25] extcall 9 ............................... return me
+  [ 27] ret
+end
+
+on destroy me
+  [  0] getprop 870 ............................. <timer>
+  [  3] pusharglist 1 ........................... <timer>
+  [  5] extcall 31 .............................. <voidp(timer)>
+  [  7] not ..................................... <not voidp(timer)>
+  [  8] jmpifz [ 18] ............................ if not voidp(timer) then
+  [ 11] getprop 870 ............................. <timer>
+  [ 14] pusharglistnoret 1 ...................... <timer>
+  [ 16] objcall 5 ............................... timer.destroy()
+  [ 18] getprop 45 .............................. <node>
+  [ 20] pusharglist 1 ........................... <node>
+  [ 22] extcall 31 .............................. <voidp(node)>
+  [ 24] not ..................................... <not voidp(node)>
+  [ 25] jmpifz [ 35] ............................ if not voidp(node) then
+  [ 28] getprop 45 .............................. <node>
+  [ 30] pushzero ................................ <0>
+  [ 31] pusharglistnoret 2 ...................... <node, 0>
+  [ 33] objcall 57 .............................. node.setVisible(0)
+  [ 35] getparam 0 .............................. <me>
+  [ 37] pusharglistnoret 1 ...................... <me>
+  [ 39] extcall 338 ............................. voidRefs(me)
+  [ 42] ret
+end
+
+on startAnim me
+  [  0] getprop 45 .............................. <node>
+  [  2] pusharglist 1 ........................... <node>
+  [  4] extcall 31 .............................. <voidp(node)>
+  [  6] jmpifz [ 13] ............................ if voidp(node) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 9 ............................... return 
+  [ 13] getprop 45 .............................. <node>
+  [ 15] pushcons 0 .............................. <"start">
+  [ 17] pushsymb 184 ............................ <#loopCount>
+  [ 19] pushint8 1 .............................. <1>
+  [ 21] pushsymb 185 ............................ <#frameMS>
+  [ 23] pushint8 75 ............................. <75>
+  [ 25] pushsymb 210 ............................ <#animProps>
+  [ 27] pushsymb 81 ............................. <#member>
+  [ 29] pushsymb 211 ............................ <#loc>
+  [ 31] pusharglist 2 ........................... <[#member, #loc]>
+  [ 33] pushlist ................................ <[#member, #loc]>
+  [ 34] pusharglist 6 ........................... <[#loopCount: 1, #frameMS: 75, #animProps: [#member, #loc]]>
+  [ 36] pushproplist ............................ <[#loopCount: 1, #frameMS: 75, #animProps: [#member, #loc]]>
+  [ 37] pusharglistnoret 3 ...................... <node, "start", [#loopCount: 1, #frameMS: 75, #animProps: [#member, #loc]]>
+  [ 39] objcall 209 ............................. node.setAnimation("start", [#loopCount: 1, #frameMS: 75, #animProps: [#member, #loc]])
+  [ 41] getprop 45 .............................. <node>
+  [ 43] pushcons 1 .............................. <"loop">
+  [ 45] pushsymb 184 ............................ <#loopCount>
+  [ 47] pushint8 4 .............................. <4>
+  [ 49] pushint8 10 ............................. <10>
+  [ 51] pusharglist 1 ........................... <10>
+  [ 53] extcall 639 ............................. <random(10)>
+  [ 56] add ..................................... <4 + random(10)>
+  [ 57] pushsymb 185 ............................ <#frameMS>
+  [ 59] pushint8 75 ............................. <75>
+  [ 61] pushsymb 210 ............................ <#animProps>
+  [ 63] pushsymb 81 ............................. <#member>
+  [ 65] pushsymb 211 ............................ <#loc>
+  [ 67] pusharglist 2 ........................... <[#member, #loc]>
+  [ 69] pushlist ................................ <[#member, #loc]>
+  [ 70] pusharglist 6 ........................... <[#loopCount: 4 + random(10), #frameMS: 75, #animProps: [#member, #loc]]>
+  [ 72] pushproplist ............................ <[#loopCount: 4 + random(10), #frameMS: 75, #animProps: [#member, #loc]]>
+  [ 73] pusharglistnoret 3 ...................... <node, "loop", [#loopCount: 4 + random(10), #frameMS: 75, #animProps: [#member, #loc]]>
+  [ 75] objcall 242 ............................. node.queueAnimation("loop", [#loopCount: 4 + random(10), #frameMS: 75, #animProps: [#member, #loc]])
+  [ 77] getprop 45 .............................. <node>
+  [ 79] pushcons 2 .............................. <"end">
+  [ 81] pushsymb 184 ............................ <#loopCount>
+  [ 83] pushint8 1 .............................. <1>
+  [ 85] pushsymb 185 ............................ <#frameMS>
+  [ 87] pushint8 75 ............................. <75>
+  [ 89] pushsymb 210 ............................ <#animProps>
+  [ 91] pushsymb 81 ............................. <#member>
+  [ 93] pushsymb 211 ............................ <#loc>
+  [ 95] pusharglist 2 ........................... <[#member, #loc]>
+  [ 97] pushlist ................................ <[#member, #loc]>
+  [ 98] pushsymb 186 ............................ <#callback>
+  [100] pushsymb 34 ............................. <#target>
+  [102] getparam 0 .............................. <me>
+  [104] pushsymb 33 ............................. <#handler>
+  [106] pushsymb 1308 ........................... <#endAnim>
+  [109] pusharglist 4 ........................... <[#target: me, #handler: #endAnim]>
+  [111] pushproplist ............................ <[#target: me, #handler: #endAnim]>
+  [112] pusharglist 8 ........................... <[#loopCount: 1, #frameMS: 75, #animProps: [#member, #loc], #callback: [#target: me, #handler: #endAnim]]>
+  [114] pushproplist ............................ <[#loopCount: 1, #frameMS: 75, #animProps: [#member, #loc], #callback: [#target: me, #handler: #endAnim]]>
+  [115] pusharglistnoret 3 ...................... <node, "end", [#loopCount: 1, #frameMS: 75, #animProps: [#member, #loc], #callback: [#target: me, #handler: #endAnim]]>
+  [117] objcall 242 ............................. node.queueAnimation("end", [#loopCount: 1, #frameMS: 75, #animProps: [#member, #loc], #callback: [#target: me, #handler: #endAnim]])
+  [119] ret
+end
+
+on endAnim me
+  [  0] getprop 870 ............................. <timer>
+  [  3] pusharglist 1 ........................... <timer>
+  [  5] extcall 31 .............................. <voidp(timer)>
+  [  7] not ..................................... <not voidp(timer)>
+  [  8] jmpifz [ 18] ............................ if not voidp(timer) then
+  [ 11] getprop 870 ............................. <timer>
+  [ 14] pusharglistnoret 1 ...................... <timer>
+  [ 16] objcall 5 ............................... timer.destroy()
+  [ 18] getprop 45 .............................. <node>
+  [ 20] pusharglist 1 ........................... <node>
+  [ 22] extcall 31 .............................. <voidp(node)>
+  [ 24] jmpifz [ 31] ............................ if voidp(node) then
+  [ 27] pusharglistnoret 0 ...................... <>
+  [ 29] extcall 9 ............................... return 
+  [ 31] pushint16 1000 .......................... <1000>
+  [ 34] pushint16 2000 .......................... <2000>
+  [ 37] pusharglist 1 ........................... <2000>
+  [ 39] extcall 639 ............................. <random(2000)>
+  [ 42] add ..................................... <1000 + random(2000)>
+  [ 43] pushsymb 34 ............................. <#target>
+  [ 45] getparam 0 .............................. <me>
+  [ 47] pushsymb 33 ............................. <#handler>
+  [ 49] pushsymb 1289 ........................... <#startAnim>
+  [ 52] pusharglist 4 ........................... <[#target: me, #handler: #startAnim]>
+  [ 54] pushproplist ............................ <[#target: me, #handler: #startAnim]>
+  [ 55] pusharglist 2 ........................... <1000 + random(2000), [#target: me, #handler: #startAnim]>
+  [ 57] extcall 252 ............................. <timedCall(1000 + random(2000), [#target: me, #handler: #startAnim])>
+  [ 59] setprop 870 ............................. timer = timedCall(1000 + random(2000), [#target: me, #handler: #startAnim])
+  [ 62] ret
+end
