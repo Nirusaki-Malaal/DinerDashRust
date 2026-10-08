@@ -1,0 +1,17 @@
+{
+  "type": 11,
+  "infoLen": 99,
+  "specificDataLen": 2,
+  "info": {
+    "dataOffset": 20,
+    "unk1": 0,
+    "unk2": 0,
+    "flags": 1,
+    "scriptId": 1,
+    "scriptSrcText": "",
+    "name": "msg_test"
+  },
+  "member": {
+    "scriptType": 7
+  }
+}
