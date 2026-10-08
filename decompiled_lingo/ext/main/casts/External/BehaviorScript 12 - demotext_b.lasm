@@ -1,0 +1,6 @@
+property editing, pMember
+global glob
+
+on beginSprite me
+  [  0] ret
+end

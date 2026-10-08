@@ -1,0 +1,289 @@
+global glob
+
+on setMode m, data
+  [  0] getglobal 16 ............................ <glob>
+  [  2] pusharglist 1 ........................... <glob>
+  [  4] extcall 57 .............................. <voidp(glob)>
+  [  6] jmpifz [ 13] ............................ if voidp(glob) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 35 .............................. return 
+  [ 13] getglobal 16 ............................ <glob>
+  [ 15] getchainedprop 18 ....................... <glob.managers>
+  [ 17] getchainedprop 28 ....................... <glob.managers.mode>
+  [ 19] getparam 0 .............................. <m>
+  [ 21] getparam 1 .............................. <data>
+  [ 23] pusharglistnoret 3 ...................... <glob.managers.mode, m, data>
+  [ 25] objcall 15 .............................. glob.managers.mode.setMode(m, data)
+  [ 27] ret
+end
+
+on getDragGroup str
+  [  0] getglobal 16 ............................ <glob>
+  [  2] pusharglist 1 ........................... <glob>
+  [  4] extcall 57 .............................. <voidp(glob)>
+  [  6] jmpifz [ 13] ............................ if voidp(glob) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 35 .............................. return 
+  [ 13] getglobal 16 ............................ <glob>
+  [ 15] getchainedprop 18 ....................... <glob.managers>
+  [ 17] getchainedprop 30 ....................... <glob.managers.dnd>
+  [ 19] getparam 0 .............................. <str>
+  [ 21] pusharglist 2 ........................... <glob.managers.dnd, str>
+  [ 23] objcall 43 .............................. <glob.managers.dnd.getGroup(str)>
+  [ 25] pusharglistnoret 1 ...................... <glob.managers.dnd.getGroup(str)>
+  [ 27] extcall 35 .............................. return glob.managers.dnd.getGroup(str)
+  [ 29] ret
+end
+
+on getGroupConfig str
+  [  0] getglobal 16 ............................ <glob>
+  [  2] pusharglist 1 ........................... <glob>
+  [  4] extcall 57 .............................. <voidp(glob)>
+  [  6] jmpifz [ 13] ............................ if voidp(glob) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 35 .............................. return 
+  [ 13] getglobal 16 ............................ <glob>
+  [ 15] getchainedprop 18 ....................... <glob.managers>
+  [ 17] getchainedprop 19 ....................... <glob.managers.config>
+  [ 19] getchainedprop 100 ...................... <glob.managers.config.group>
+  [ 21] pushsymb 101 ............................ <#types>
+  [ 23] getparam 0 .............................. <str>
+  [ 25] pusharglist 3 ........................... <glob.managers.config.group, #types, str>
+  [ 27] objcall 63 .............................. <glob.managers.config.group.types[str]>
+  [ 29] setlocal 0 .............................. c = glob.managers.config.group.types[str]
+  [ 31] getlocal 0 .............................. <c>
+  [ 33] pusharglist 1 ........................... <c>
+  [ 35] extcall 57 .............................. <voidp(c)>
+  [ 37] jmpifz [ 49] ............................ if voidp(c) then
+  [ 40] pushcons 0 .............................. <"no group type ">
+  [ 42] getparam 0 .............................. <str>
+  [ 44] joinstr ................................. <"no group type " & str>
+  [ 45] pusharglistnoret 1 ...................... <"no group type " & str>
+  [ 47] extcall 102 ............................. complain("no group type " & str)
+  [ 49] getlocal 0 .............................. <c>
+  [ 51] pusharglistnoret 1 ...................... <c>
+  [ 53] extcall 35 .............................. return c
+  [ 55] ret
+end
+
+on getNodeGroup str
+  [  0] getglobal 16 ............................ <glob>
+  [  2] pusharglist 1 ........................... <glob>
+  [  4] extcall 57 .............................. <voidp(glob)>
+  [  6] jmpifz [ 13] ............................ if voidp(glob) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 35 .............................. return 
+  [ 13] getglobal 16 ............................ <glob>
+  [ 15] getchainedprop 18 ....................... <glob.managers>
+  [ 17] getchainedprop 24 ....................... <glob.managers.node>
+  [ 19] getparam 0 .............................. <str>
+  [ 21] pusharglist 2 ........................... <glob.managers.node, str>
+  [ 23] objcall 43 .............................. <glob.managers.node.getGroup(str)>
+  [ 25] pusharglistnoret 1 ...................... <glob.managers.node.getGroup(str)>
+  [ 27] extcall 35 .............................. return glob.managers.node.getGroup(str)
+  [ 29] ret
+end
+
+on sendEvent sym, Args
+  [  0] getglobal 16 ............................ <glob>
+  [  2] pusharglist 1 ........................... <glob>
+  [  4] extcall 57 .............................. <voidp(glob)>
+  [  6] jmpifz [ 13] ............................ if voidp(glob) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 35 .............................. return 
+  [ 13] getglobal 16 ............................ <glob>
+  [ 15] getchainedprop 18 ....................... <glob.managers>
+  [ 17] getchainedprop 32 ....................... <glob.managers.event>
+  [ 19] getparam 0 .............................. <sym>
+  [ 21] getparam 1 .............................. <Args>
+  [ 23] pusharglistnoret 3 ...................... <glob.managers.event, sym, Args>
+  [ 25] objcall 78 .............................. glob.managers.event.sendEvent(sym, Args)
+  [ 27] ret
+end
+
+on subscribe obj, evt, grp
+  [  0] getglobal 16 ............................ <glob>
+  [  2] pusharglist 1 ........................... <glob>
+  [  4] extcall 57 .............................. <voidp(glob)>
+  [  6] jmpifz [ 13] ............................ if voidp(glob) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 35 .............................. return 
+  [ 13] getglobal 16 ............................ <glob>
+  [ 15] getchainedprop 18 ....................... <glob.managers>
+  [ 17] getchainedprop 32 ....................... <glob.managers.event>
+  [ 19] getparam 0 .............................. <obj>
+  [ 21] getparam 1 .............................. <evt>
+  [ 23] getparam 2 .............................. <grp>
+  [ 25] pusharglistnoret 4 ...................... <glob.managers.event, obj, evt, grp>
+  [ 27] objcall 88 .............................. glob.managers.event.subscribe(obj, evt, grp)
+  [ 29] ret
+end
+
+on unsubscribe obj, evt, grp
+  [  0] getglobal 16 ............................ <glob>
+  [  2] pusharglist 1 ........................... <glob>
+  [  4] extcall 57 .............................. <voidp(glob)>
+  [  6] jmpifz [ 13] ............................ if voidp(glob) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 35 .............................. return 
+  [ 13] getglobal 16 ............................ <glob>
+  [ 15] getchainedprop 18 ....................... <glob.managers>
+  [ 17] getchainedprop 32 ....................... <glob.managers.event>
+  [ 19] getparam 0 .............................. <obj>
+  [ 21] getparam 1 .............................. <evt>
+  [ 23] getparam 2 .............................. <grp>
+  [ 25] pusharglistnoret 4 ...................... <glob.managers.event, obj, evt, grp>
+  [ 27] objcall 89 .............................. glob.managers.event.unsubscribe(obj, evt, grp)
+  [ 29] ret
+end
+
+on setcursor c
+  [  0] getglobal 16 ............................ <glob>
+  [  2] pusharglist 1 ........................... <glob>
+  [  4] extcall 57 .............................. <voidp(glob)>
+  [  6] jmpifz [ 13] ............................ if voidp(glob) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 35 .............................. return 
+  [ 13] getglobal 16 ............................ <glob>
+  [ 15] getchainedprop 18 ....................... <glob.managers>
+  [ 17] getchainedprop 26 ....................... <glob.managers.mouse>
+  [ 19] getparam 0 .............................. <c>
+  [ 21] pusharglistnoret 2 ...................... <glob.managers.mouse, c>
+  [ 23] objcall 90 .............................. glob.managers.mouse.setcursor(c)
+  [ 25] ret
+end
+
+on winLevel me
+  [  0] getglobal 16 ............................ <glob>
+  [  2] getchainedprop 18 ....................... <glob.managers>
+  [  4] getchainedprop 27 ....................... <glob.managers.game>
+  [  6] pusharglistnoret 1 ...................... <glob.managers.game>
+  [  8] objcall 91 .............................. glob.managers.game.winLevel()
+  [ 10] ret
+end
+
+on loseLevel me
+  [  0] getglobal 16 ............................ <glob>
+  [  2] getchainedprop 18 ....................... <glob.managers>
+  [  4] getchainedprop 27 ....................... <glob.managers.game>
+  [  6] pusharglistnoret 1 ...................... <glob.managers.game>
+  [  8] objcall 92 .............................. glob.managers.game.loseLevel()
+  [ 10] ret
+end
+
+on loseGame me
+  [  0] getglobal 16 ............................ <glob>
+  [  2] getchainedprop 18 ....................... <glob.managers>
+  [  4] getchainedprop 27 ....................... <glob.managers.game>
+  [  6] pusharglistnoret 1 ...................... <glob.managers.game>
+  [  8] objcall 93 .............................. glob.managers.game.loseGame()
+  [ 10] ret
+end
+
+on endsub me
+  [  0] getglobal 16 ............................ <glob>
+  [  2] getchainedprop 18 ....................... <glob.managers>
+  [  4] getchainedprop 27 ....................... <glob.managers.game>
+  [  6] pusharglistnoret 1 ...................... <glob.managers.game>
+  [  8] objcall 109 ............................. glob.managers.game.endSubLevel()
+  [ 10] ret
+end
+
+on refreshConfigs me
+  [  0] pushcons 1 .............................. <"refreshing configs...">
+  [  2] pusharglistnoret 1 ...................... <"refreshing configs...">
+  [  4] extcall 42 .............................. put "refreshing configs..."
+  [  6] pushcons 2 .............................. <"global">
+  [  8] pushcons 3 .............................. <"career">
+  [ 10] pushcons 4 .............................. <"endless">
+  [ 12] pushcons 5 .............................. <"powerups">
+  [ 14] pushcons 6 .............................. <"customer">
+  [ 16] pusharglist 5 ........................... <["global", "career", "endless", "powerups", "customer"]>
+  [ 18] pushlist ................................ <["global", "career", "endless", "powerups", "customer"]>
+  [ 19] peek 0
+  [ 21] pusharglist 1
+  [ 23] extcall 41
+  [ 25] pushint8 1
+  [ 27] peek 0
+  [ 29] peek 2
+  [ 31] lteq
+  [ 32] jmpifz [105] ............................ repeat with i in ["global", "career", "endless", "powerups", "customer"]
+  [ 35] peek 2
+  [ 37] peek 1
+  [ 39] pusharglist 2
+  [ 41] extcall 33
+  [ 43] setlocal 0
+  [ 45] pushcons 7 .............................. <"_date">
+  [ 47] pushcons 8 .............................. <"_dump">
+  [ 49] pusharglist 2 ........................... <["_date", "_dump"]>
+  [ 51] pushlist ................................ <["_date", "_dump"]>
+  [ 52] peek 0
+  [ 54] pusharglist 1
+  [ 56] extcall 41
+  [ 58] pushint8 1
+  [ 60] peek 0
+  [ 62] peek 2
+  [ 64] lteq
+  [ 65] jmpifz [ 98] ............................ repeat with j in ["_date", "_dump"]
+  [ 68] peek 2
+  [ 70] peek 1
+  [ 72] pusharglist 2
+  [ 74] extcall 33
+  [ 76] setlocal 1
+  [ 78] getlocal 0 .............................. <i>
+  [ 80] getlocal 1 .............................. <j>
+  [ 82] joinstr ................................. <i & j>
+  [ 83] pushcons 9 .............................. <"scripts.config">
+  [ 85] pusharglist 2 ........................... <i & j, "scripts.config">
+  [ 87] extcall 61 .............................. <member(i & j, "scripts.config")>
+  [ 89] pushcons 10 ............................. <EMPTY>
+  [ 91] setobjprop 69 ........................... member(i & j, "scripts.config").text = EMPTY
+  [ 93] pushint8 1
+  [ 95] add
+  [ 96] endrepeat [ 60]
+  [ 98] pop 3
+  [100] pushint8 1
+  [102] add
+  [103] endrepeat [ 27]
+  [105] pop 3
+  [107] ret
+end
+
+on newButton Args
+  [  0] getglobal 16 ............................ <glob>
+  [  2] getchainedprop 18 ....................... <glob.managers>
+  [  4] getchainedprop 24 ....................... <glob.managers.node>
+  [  6] getparam 0 .............................. <Args>
+  [  8] pusharglist 2 ........................... <glob.managers.node, Args>
+  [ 10] objcall 96 .............................. <glob.managers.node.newButton(Args)>
+  [ 12] pusharglistnoret 1 ...................... <glob.managers.node.newButton(Args)>
+  [ 14] extcall 35 .............................. return glob.managers.node.newButton(Args)
+  [ 16] ret
+end
+
+on newMouseListener Args
+  [  0] getglobal 16 ............................ <glob>
+  [  2] getchainedprop 18 ....................... <glob.managers>
+  [  4] getchainedprop 24 ....................... <glob.managers.node>
+  [  6] getparam 0 .............................. <Args>
+  [  8] pusharglist 2 ........................... <glob.managers.node, Args>
+  [ 10] objcall 97 .............................. <glob.managers.node.newMouseListener(Args)>
+  [ 12] pusharglistnoret 1 ...................... <glob.managers.node.newMouseListener(Args)>
+  [ 14] extcall 35 .............................. return glob.managers.node.newMouseListener(Args)
+  [ 16] ret
+end
+
+on setalert bool
+  [  0] getparam 0 .............................. <bool>
+  [  2] jmpifz [ 16] ............................ if bool then / else
+  [  5] pushcons 11 ............................. <"show_alerts">
+  [  7] pusharglist 1 ........................... <"show_alerts">
+  [  9] extcall 20 .............................. <script("show_alerts")>
+  [ 11] setmovieprop 111 ........................ the alertHook = script("show_alerts")
+  [ 13] jmp [ 24]
+  [ 16] pushcons 12 ............................. <"hide_alerts">
+  [ 18] pusharglist 1 ........................... <"hide_alerts">
+  [ 20] extcall 20 .............................. <script("hide_alerts")>
+  [ 22] setmovieprop 111 ........................ the alertHook = script("hide_alerts")
+  [ 24] ret
+end

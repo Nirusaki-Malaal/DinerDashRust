@@ -1,0 +1,38 @@
+global fs_settings, gResXtra
+
+on setupResXtra
+  [  0] pusharglist 0 ........................... <[:]>
+  [  2] pushproplist ............................ <[:]>
+  [  3] setglobal 273 ........................... fs_settings = [:]
+  [  6] ret
+end
+
+on setFullscreen bool
+  [  0] getglobal 273 ........................... <fs_settings>
+  [  3] getobjprop 57 ........................... <fs_settings.voidp>
+  [  5] jmpifz [ 12] ............................ if fs_settings.voidp then
+  [  8] pusharglistnoret 0 ...................... <>
+  [ 10] extcall 35 .............................. return 
+  [ 12] getglobal 273 ........................... <fs_settings>
+  [ 15] pushsymb 274 ............................ <#fullscreen>
+  [ 18] pusharglist 2 ........................... <fs_settings, #fullscreen>
+  [ 20] objcall 33 .............................. <fs_settings[#fullscreen]>
+  [ 22] getparam 0 .............................. <bool>
+  [ 24] nteq .................................... <fs_settings[#fullscreen] <> bool>
+  [ 25] jmpifz [ 61] ............................ if fs_settings[#fullscreen] <> bool then
+  [ 28] getglobal 273 ........................... <fs_settings>
+  [ 31] pushsymb 274 ............................ <#fullscreen>
+  [ 34] getparam 0 .............................. <bool>
+  [ 36] pusharglistnoret 3 ...................... <fs_settings, #fullscreen, bool>
+  [ 38] objcall 21 .............................. fs_settings[#fullscreen] = bool
+  [ 40] getparam 0 .............................. <bool>
+  [ 42] jmpifz [ 55] ............................ if bool then / else
+  [ 45] pushint8 1 .............................. <1>
+  [ 47] pusharglistnoret 1 ...................... <1>
+  [ 49] extcall 275 ............................. pfSetFullscreen(1)
+  [ 52] jmp [ 61]
+  [ 55] pushzero ................................ <0>
+  [ 56] pusharglistnoret 1 ...................... <0>
+  [ 58] extcall 275 ............................. pfSetFullscreen(0)
+  [ 61] ret
+end

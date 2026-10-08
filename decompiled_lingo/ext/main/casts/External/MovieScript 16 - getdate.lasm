@@ -1,0 +1,56 @@
+on daysUntil m, d, y
+  [  0] pusharglist 0 ........................... <>
+  [  2] extcall 281 ............................. <date()>
+  [  5] setlocal 0 .............................. dstring = date()
+  [  7] getmovieprop 282 ........................ <the itemDelimiter>
+  [ 10] setlocal 1 .............................. i = the itemDelimiter
+  [ 12] pushcons 0 .............................. <"/">
+  [ 14] setmovieprop 282 ........................ the itemDelimiter = "/"
+  [ 17] getlocal 0 .............................. <dstring>
+  [ 19] pushsymb 283 ............................ <#item>
+  [ 22] pusharglist 2 ........................... <dstring, #item>
+  [ 24] objcall 41 .............................. <dstring.item.count>
+  [ 26] pushint8 3 .............................. <3>
+  [ 28] nteq .................................... <dstring.item.count <> 3>
+  [ 29] jmpifz [ 39] ............................ if dstring.item.count <> 3 then
+  [ 32] pushint8 1 .............................. <1>
+  [ 34] inv ..................................... <-1>
+  [ 35] pusharglistnoret 1 ...................... <-1>
+  [ 37] extcall 35 .............................. return -1
+  [ 39] getlocal 0 .............................. <dstring>
+  [ 41] pushsymb 283 ............................ <#item>
+  [ 44] pushint8 3 .............................. <3>
+  [ 46] pusharglist 3 ........................... <dstring, #item, 3>
+  [ 48] objcall 63 .............................. <dstring.item[3]>
+  [ 50] pusharglist 1 ........................... <dstring.item[3]>
+  [ 52] extcall 175 ............................. <integer(dstring.item[3])>
+  [ 54] getlocal 0 .............................. <dstring>
+  [ 56] pushsymb 283 ............................ <#item>
+  [ 59] pushint8 1 .............................. <1>
+  [ 61] pusharglist 3 ........................... <dstring, #item, 1>
+  [ 63] objcall 63 .............................. <dstring.item[1]>
+  [ 65] pusharglist 1 ........................... <dstring.item[1]>
+  [ 67] extcall 175 ............................. <integer(dstring.item[1])>
+  [ 69] getlocal 0 .............................. <dstring>
+  [ 71] pushsymb 283 ............................ <#item>
+  [ 74] pushint8 2 .............................. <2>
+  [ 76] pusharglist 3 ........................... <dstring, #item, 2>
+  [ 78] objcall 63 .............................. <dstring.item[2]>
+  [ 80] pusharglist 1 ........................... <dstring.item[2]>
+  [ 82] extcall 175 ............................. <integer(dstring.item[2])>
+  [ 84] pusharglist 3 ........................... <integer(dstring.item[3]), integer(dstring.item[1]), integer(dstring.item[2])>
+  [ 86] extcall 281 ............................. <date(integer(dstring.item[3]), integer(dstring.item[1]), integer(dstring.item[2]))>
+  [ 89] setlocal 2 .............................. today = date(integer(dstring.item[3]), integer(dstring.item[1]), integer(dstring.item[2]))
+  [ 91] getlocal 1 .............................. <i>
+  [ 93] setmovieprop 282 ........................ the itemDelimiter = i
+  [ 96] getparam 2 .............................. <y>
+  [ 98] getparam 0 .............................. <m>
+  [100] getparam 1 .............................. <d>
+  [102] pusharglist 3 ........................... <y, m, d>
+  [104] extcall 281 ............................. <date(y, m, d)>
+  [107] getlocal 2 .............................. <today>
+  [109] sub ..................................... <date(y, m, d) - today>
+  [110] pusharglistnoret 1 ...................... <date(y, m, d) - today>
+  [112] extcall 35 .............................. return date(y, m, d) - today
+  [114] ret
+end
