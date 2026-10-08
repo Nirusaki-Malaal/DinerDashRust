@@ -1,0 +1,617 @@
+on findPath grid, a, b, options
+  [  0] getparam 3 .............................. <options>
+  [  2] pusharglist 1 ........................... <options>
+  [  4] extcall 31 .............................. <voidp(options)>
+  [  6] jmpifz [ 14] ............................ if voidp(options) then
+  [  9] pusharglist 0 ........................... <[:]>
+  [ 11] pushproplist ............................ <[:]>
+  [ 12] setparam 3 .............................. options = [:]
+  [ 14] pushint8 1 .............................. <1>
+  [ 16] setlocal 0 .............................. biaspenalty = 1
+  [ 18] pusharglist 0 ........................... <[:]>
+  [ 20] pushproplist ............................ <[:]>
+  [ 21] setlocal 1 .............................. qopen = [:]
+  [ 23] pusharglist 0 ........................... <[]>
+  [ 25] pushlist ................................ <[]>
+  [ 26] setlocal 2 .............................. qopenSort = []
+  [ 28] pusharglist 0 ........................... <[:]>
+  [ 30] pushproplist ............................ <[:]>
+  [ 31] setlocal 3 .............................. qclosed = [:]
+  [ 33] getmovieprop 628 ........................ <the milliSeconds>
+  [ 36] pushint16 1000 .......................... <1000>
+  [ 39] add ..................................... <the milliSeconds + 1000>
+  [ 40] setlocal 4 .............................. giveupTime = the milliSeconds + 1000
+  [ 42] getlocal 2 .............................. <qopenSort>
+  [ 44] pusharglistnoret 1 ...................... <qopenSort>
+  [ 46] extcall 629 ............................. sort(qopenSort)
+  [ 49] pushsymb 630 ............................ <#totalCost>
+  [ 52] pushzero ................................ <0>
+  [ 53] pushsymb 631 ............................ <#costFromStart>
+  [ 56] pushzero ................................ <0>
+  [ 57] pushsymb 632 ............................ <#costToGoal>
+  [ 60] getparam 1 .............................. <a>
+  [ 62] getparam 2 .............................. <b>
+  [ 64] pusharglist 2 ........................... <a, b>
+  [ 66] localcall 1 ............................. <pathCostEstimate(a, b)>
+  [ 68] pushsymb 383 ............................ <#pos>
+  [ 71] getparam 1 .............................. <a>
+  [ 73] pushsymb 101 ............................ <#parent>
+  [ 75] pusharglist 0 ........................... <>
+  [ 77] extcall 65 .............................. <VOID>
+  [ 79] pusharglist 10 .......................... <[#totalCost: 0, #costFromStart: 0, #costToGoal: pathCostEstimate(a, b), #pos: a, #parent: VOID]>
+  [ 81] pushproplist ............................ <[#totalCost: 0, #costFromStart: 0, #costToGoal: pathCostEstimate(a, b), #pos: a, #parent: VOID]>
+  [ 82] setlocal 5 .............................. startNode = [#totalCost: 0, #costFromStart: 0, #costToGoal: pathCostEstimate(a, b), #pos: a, #parent: VOID]
+  [ 84] getlocal 5 .............................. <startNode>
+  [ 86] getlocal 5 .............................. <startNode>
+  [ 88] getobjprop 632 .......................... <startNode.costToGoal>
+  [ 91] setobjprop 630 .......................... startNode.totalCost = startNode.costToGoal
+  [ 94] getlocal 1 .............................. <qopen>
+  [ 96] getlocal 5 .............................. <startNode>
+  [ 98] getobjprop 383 .......................... <startNode.pos>
+  [101] getlocal 5 .............................. <startNode>
+  [103] pusharglistnoret 3 ...................... <qopen, startNode.pos, startNode>
+  [105] objcall 633 ............................. qopen.addProp(startNode.pos, startNode)
+  [108] getlocal 2 .............................. <qopenSort>
+  [110] getlocal 5 .............................. <startNode>
+  [112] pusharglistnoret 2 ...................... <qopenSort, startNode>
+  [114] objcall 6 ............................... qopenSort.add(startNode)
+  [116] getlocal 1 .............................. <qopen>
+  [118] getobjprop 12 ........................... <qopen.count>
+  [120] pushzero ................................ <0>
+  [121] gt ...................................... <qopen.count > 0>
+  [122] jmpifz [761] ............................ repeat while qopen.count > 0
+  [125] getlocal 2 .............................. <qopenSort>
+  [127] pushint8 1 .............................. <1>
+  [129] pusharglist 2 ........................... <qopenSort, 1>
+  [131] objcall 36 .............................. <qopenSort[1]>
+  [133] setlocal 6 .............................. node = qopenSort[1]
+  [135] getlocal 2 .............................. <qopenSort>
+  [137] pushint8 1 .............................. <1>
+  [139] pusharglistnoret 2 ...................... <qopenSort, 1>
+  [141] objcall 634 ............................. qopenSort.deleteAt(1)
+  [144] getlocal 1 .............................. <qopen>
+  [146] getlocal 6 .............................. <node>
+  [148] getobjprop 383 .......................... <node.pos>
+  [151] pusharglistnoret 2 ...................... <qopen, node.pos>
+  [153] objcall 635 ............................. qopen.deleteProp(node.pos)
+  [156] getlocal 6 .............................. <node>
+  [158] getobjprop 383 .......................... <node.pos>
+  [161] getparam 2 .............................. <b>
+  [163] eq ...................................... <node.pos = b>
+  [164] jmpifz [177] ............................ if node.pos = b then
+  [167] getlocal 6 .............................. <node>
+  [169] pusharglist 1 ........................... <node>
+  [171] localcall 2 ............................. <constructPath(node)>
+  [173] pusharglistnoret 1 ...................... <constructPath(node)>
+  [175] extcall 9 ............................... return constructPath(node)
+  [177] getparam 0 .............................. <grid>
+  [179] getlocal 6 .............................. <node>
+  [181] getobjprop 383 .......................... <node.pos>
+  [184] pushsymb 401 ............................ <#empty>
+  [187] pusharglist 3 ........................... <grid, node.pos, #empty>
+  [189] objcall 286 ............................. <grid.getNeighbors(node.pos, #empty)>
+  [192] peek 0
+  [194] pusharglist 1
+  [196] extcall 12
+  [198] pushint8 1
+  [200] peek 0
+  [202] peek 2
+  [204] lteq
+  [205] jmpifz [565] ............................ repeat with newTile in grid.getNeighbors(node.pos, #empty)
+  [208] peek 2
+  [210] peek 1
+  [212] pusharglist 2
+  [214] extcall 36
+  [216] setlocal 7
+  [218] getlocal 7 .............................. <newTile>
+  [220] getobjprop 383 .......................... <newTile.pos>
+  [223] setlocal 8 .............................. newNodePos = newTile.pos
+  [225] pushint8 1 .............................. <1>
+  [227] setlocal 9 .............................. traversecost = 1
+  [229] getlocal 8 .............................. <newNodePos>
+  [231] getlocal 6 .............................. <node>
+  [233] getobjprop 383 .......................... <node.pos>
+  [236] sub ..................................... <newNodePos - node.pos>
+  [237] setlocal 10 ............................. delta = newNodePos - node.pos
+  [239] getlocal 10 ............................. <delta>
+  [241] pushint8 1 .............................. <1>
+  [243] pusharglist 2 ........................... <delta, 1>
+  [245] objcall 36 .............................. <delta[1]>
+  [247] getparam 3 .............................. <options>
+  [249] pushsymb 636 ............................ <#bias>
+  [252] pusharglist 2 ........................... <options, #bias>
+  [254] objcall 36 .............................. <options[#bias]>
+  [256] pushsymb 637 ............................ <#vertical>
+  [259] eq ...................................... <options[#bias] = #vertical>
+  [260] and ..................................... <delta[1] and (options[#bias] = #vertical)>
+  [261] jmpifz [271] ............................ if delta[1] and (options[#bias] = #vertical) then
+  [264] getlocal 9 .............................. <traversecost>
+  [266] getlocal 0 .............................. <biaspenalty>
+  [268] add ..................................... <traversecost + biaspenalty>
+  [269] setlocal 9 .............................. traversecost = traversecost + biaspenalty
+  [271] getlocal 10 ............................. <delta>
+  [273] pushint8 2 .............................. <2>
+  [275] pusharglist 2 ........................... <delta, 2>
+  [277] objcall 36 .............................. <delta[2]>
+  [279] getparam 3 .............................. <options>
+  [281] pushsymb 636 ............................ <#bias>
+  [284] pusharglist 2 ........................... <options, #bias>
+  [286] objcall 36 .............................. <options[#bias]>
+  [288] pushsymb 638 ............................ <#horizontal>
+  [291] eq ...................................... <options[#bias] = #horizontal>
+  [292] and ..................................... <delta[2] and (options[#bias] = #horizontal)>
+  [293] jmpifz [303] ............................ if delta[2] and (options[#bias] = #horizontal) then
+  [296] getlocal 9 .............................. <traversecost>
+  [298] getlocal 0 .............................. <biaspenalty>
+  [300] add ..................................... <traversecost + biaspenalty>
+  [301] setlocal 9 .............................. traversecost = traversecost + biaspenalty
+  [303] getlocal 6 .............................. <node>
+  [305] getobjprop 631 .......................... <node.costFromStart>
+  [308] getlocal 9 .............................. <traversecost>
+  [310] add ..................................... <node.costFromStart + traversecost>
+  [311] setlocal 11 ............................. newCostFromStart = node.costFromStart + traversecost
+  [313] getlocal 1 .............................. <qopen>
+  [315] getlocal 8 .............................. <newNodePos>
+  [317] pusharglist 2 ........................... <qopen, newNodePos>
+  [319] objcall 36 .............................. <qopen[newNodePos]>
+  [321] setlocal 12 ............................. openNode = qopen[newNodePos]
+  [323] getlocal 3 .............................. <qclosed>
+  [325] getlocal 8 .............................. <newNodePos>
+  [327] pusharglist 2 ........................... <qclosed, newNodePos>
+  [329] objcall 36 .............................. <qclosed[newNodePos]>
+  [331] setlocal 13 ............................. closedNode = qclosed[newNodePos]
+  [333] getlocal 12 ............................. <openNode>
+  [335] pusharglist 1 ........................... <openNode>
+  [337] extcall 31 .............................. <voidp(openNode)>
+  [339] not ..................................... <not voidp(openNode)>
+  [340] jmpifz [406] ............................ if not voidp(openNode) then
+  [343] getlocal 11 ............................. <newCostFromStart>
+  [345] getlocal 12 ............................. <openNode>
+  [347] getobjprop 631 .......................... <openNode.costFromStart>
+  [350] lt ...................................... <newCostFromStart < openNode.costFromStart>
+  [351] getlocal 11 ............................. <newCostFromStart>
+  [353] getlocal 12 ............................. <openNode>
+  [355] getobjprop 631 .......................... <openNode.costFromStart>
+  [358] eq ...................................... <newCostFromStart = openNode.costFromStart>
+  [359] pushint8 2 .............................. <2>
+  [361] pusharglist 1 ........................... <2>
+  [363] extcall 639 ............................. <random(2)>
+  [366] pushint8 1 .............................. <1>
+  [368] eq ...................................... <random(2) = 1>
+  [369] and ..................................... <(newCostFromStart = openNode.costFromStart) and (random(2) = 1)>
+  [370] or ...................................... <(newCostFromStart < openNode.costFromStart) or ((newCostFromStart = openNode.costFromStart) and (random(2) = 1))>
+  [371] jmpifz [403] ............................ if (newCostFromStart < openNode.costFromStart) or ((newCostFromStart = openNode.costFromStart) and (random(2) = 1)) then
+  [374] getlocal 12 ............................. <openNode>
+  [376] getlocal 11 ............................. <newCostFromStart>
+  [378] setobjprop 631 .......................... openNode.costFromStart = newCostFromStart
+  [381] getlocal 12 ............................. <openNode>
+  [383] getlocal 12 ............................. <openNode>
+  [385] getobjprop 631 .......................... <openNode.costFromStart>
+  [388] getlocal 12 ............................. <openNode>
+  [390] getobjprop 632 .......................... <openNode.costToGoal>
+  [393] add ..................................... <openNode.costFromStart + openNode.costToGoal>
+  [394] setobjprop 630 .......................... openNode.totalCost = openNode.costFromStart + openNode.costToGoal
+  [397] getlocal 12 ............................. <openNode>
+  [399] getlocal 6 .............................. <node>
+  [401] setobjprop 101 .......................... openNode.parent = node
+  [403] jmp [559] ............................... next repeat
+  [406] getlocal 13 ............................. <closedNode>
+  [408] pusharglist 1 ........................... <closedNode>
+  [410] extcall 31 .............................. <voidp(closedNode)>
+  [412] not ..................................... <not voidp(closedNode)>
+  [413] jmpifz [487] ............................ if not voidp(closedNode) then
+  [416] getlocal 11 ............................. <newCostFromStart>
+  [418] getlocal 13 ............................. <closedNode>
+  [420] getobjprop 631 .......................... <closedNode.costFromStart>
+  [423] lt ...................................... <newCostFromStart < closedNode.costFromStart>
+  [424] jmpifz [484] ............................ if newCostFromStart < closedNode.costFromStart then
+  [427] getlocal 3 .............................. <qclosed>
+  [429] getlocal 8 .............................. <newNodePos>
+  [431] pusharglistnoret 2 ...................... <qclosed, newNodePos>
+  [433] objcall 635 ............................. qclosed.deleteProp(newNodePos)
+  [436] getlocal 1 .............................. <qopen>
+  [438] getlocal 8 .............................. <newNodePos>
+  [440] getlocal 13 ............................. <closedNode>
+  [442] pusharglistnoret 3 ...................... <qopen, newNodePos, closedNode>
+  [444] objcall 633 ............................. qopen.addProp(newNodePos, closedNode)
+  [447] getlocal 2 .............................. <qopenSort>
+  [449] getlocal 13 ............................. <closedNode>
+  [451] pusharglistnoret 2 ...................... <qopenSort, closedNode>
+  [453] objcall 6 ............................... qopenSort.add(closedNode)
+  [455] getlocal 13 ............................. <closedNode>
+  [457] getlocal 11 ............................. <newCostFromStart>
+  [459] setobjprop 631 .......................... closedNode.costFromStart = newCostFromStart
+  [462] getlocal 13 ............................. <closedNode>
+  [464] getlocal 13 ............................. <closedNode>
+  [466] getobjprop 631 .......................... <closedNode.costFromStart>
+  [469] getlocal 13 ............................. <closedNode>
+  [471] getobjprop 632 .......................... <closedNode.costToGoal>
+  [474] add ..................................... <closedNode.costFromStart + closedNode.costToGoal>
+  [475] setobjprop 630 .......................... closedNode.totalCost = closedNode.costFromStart + closedNode.costToGoal
+  [478] getlocal 13 ............................. <closedNode>
+  [480] getlocal 6 .............................. <node>
+  [482] setobjprop 101 .......................... closedNode.parent = node
+  [484] jmp [559] ............................... next repeat
+  [487] pushsymb 630 ............................ <#totalCost>
+  [490] pushzero ................................ <0>
+  [491] pushsymb 631 ............................ <#costFromStart>
+  [494] getlocal 11 ............................. <newCostFromStart>
+  [496] pushsymb 632 ............................ <#costToGoal>
+  [499] getlocal 8 .............................. <newNodePos>
+  [501] getparam 2 .............................. <b>
+  [503] pusharglist 2 ........................... <newNodePos, b>
+  [505] localcall 1 ............................. <pathCostEstimate(newNodePos, b)>
+  [507] pushsymb 383 ............................ <#pos>
+  [510] getlocal 8 .............................. <newNodePos>
+  [512] pushsymb 101 ............................ <#parent>
+  [514] getlocal 6 .............................. <node>
+  [516] pusharglist 10 .......................... <[#totalCost: 0, #costFromStart: newCostFromStart, #costToGoal: pathCostEstimate(newNodePos, b), #pos: newNodePos, #parent: node]>
+  [518] pushproplist ............................ <[#totalCost: 0, #costFromStart: newCostFromStart, #costToGoal: pathCostEstimate(newNodePos, b), #pos: newNodePos, #parent: node]>
+  [519] setlocal 14 ............................. newNode = [#totalCost: 0, #costFromStart: newCostFromStart, #costToGoal: pathCostEstimate(newNodePos, b), #pos: newNodePos, #parent: node]
+  [521] getlocal 14 ............................. <newNode>
+  [523] getlocal 14 ............................. <newNode>
+  [525] getobjprop 631 .......................... <newNode.costFromStart>
+  [528] getlocal 14 ............................. <newNode>
+  [530] getobjprop 632 .......................... <newNode.costToGoal>
+  [533] add ..................................... <newNode.costFromStart + newNode.costToGoal>
+  [534] setobjprop 630 .......................... newNode.totalCost = newNode.costFromStart + newNode.costToGoal
+  [537] getlocal 1 .............................. <qopen>
+  [539] getlocal 14 ............................. <newNode>
+  [541] getobjprop 383 .......................... <newNode.pos>
+  [544] getlocal 14 ............................. <newNode>
+  [546] pusharglistnoret 3 ...................... <qopen, newNode.pos, newNode>
+  [548] objcall 633 ............................. qopen.addProp(newNode.pos, newNode)
+  [551] getlocal 2 .............................. <qopenSort>
+  [553] getlocal 14 ............................. <newNode>
+  [555] pusharglistnoret 2 ...................... <qopenSort, newNode>
+  [557] objcall 6 ............................... qopenSort.add(newNode)
+  [559] pushint8 1
+  [561] add
+  [562] endrepeat [200]
+  [565] pop 3
+  [567] getlocal 0 .............................. <biaspenalty>
+  [569] pushcons 0 .............................. <0.90000000000000002>
+  [571] mul ..................................... <biaspenalty * 0.90000000000000002>
+  [572] setlocal 0 .............................. biaspenalty = biaspenalty * 0.90000000000000002
+  [574] getlocal 3 .............................. <qclosed>
+  [576] getlocal 6 .............................. <node>
+  [578] getobjprop 383 .......................... <node.pos>
+  [581] getlocal 6 .............................. <node>
+  [583] pusharglistnoret 3 ...................... <qclosed, node.pos, node>
+  [585] objcall 633 ............................. qclosed.addProp(node.pos, node)
+  [588] getmovieprop 628 ........................ <the milliSeconds>
+  [591] getlocal 4 .............................. <giveupTime>
+  [593] gt ...................................... <the milliSeconds > giveupTime>
+  [594] jmpifz [758] ............................ if the milliSeconds > giveupTime then
+  [597] pushint32 1000000 ....................... <1000000>
+  [602] setlocal 15 ............................. closest = 1000000
+  [604] pusharglist 0 ........................... <>
+  [606] extcall 65 .............................. <VOID>
+  [608] setlocal 16 ............................. closestNode = VOID
+  [610] getlocal 1 .............................. <qopen>
+  [612] peek 0
+  [614] pusharglist 1
+  [616] extcall 12
+  [618] pushint8 1
+  [620] peek 0
+  [622] peek 2
+  [624] lteq
+  [625] jmpifz [665] ............................ repeat with n in qopen
+  [628] peek 2
+  [630] peek 1
+  [632] pusharglist 2
+  [634] extcall 36
+  [636] setlocal 17
+  [638] getlocal 17 ............................. <n>
+  [640] getobjprop 632 .......................... <n.costToGoal>
+  [643] getlocal 15 ............................. <closest>
+  [645] lt ...................................... <n.costToGoal < closest>
+  [646] jmpifz [660] ............................ if n.costToGoal < closest then
+  [649] getlocal 17 ............................. <n>
+  [651] getobjprop 632 .......................... <n.costToGoal>
+  [654] setlocal 15 ............................. closest = n.costToGoal
+  [656] getlocal 17 ............................. <n>
+  [658] setlocal 16 ............................. closestNode = n
+  [660] pushint8 1
+  [662] add
+  [663] endrepeat [620]
+  [665] pop 3
+  [667] getlocal 3 .............................. <qclosed>
+  [669] peek 0
+  [671] pusharglist 1
+  [673] extcall 12
+  [675] pushint8 1
+  [677] peek 0
+  [679] peek 2
+  [681] lteq
+  [682] jmpifz [722] ............................ repeat with n in qclosed
+  [685] peek 2
+  [687] peek 1
+  [689] pusharglist 2
+  [691] extcall 36
+  [693] setlocal 17
+  [695] getlocal 17 ............................. <n>
+  [697] getobjprop 632 .......................... <n.costToGoal>
+  [700] getlocal 15 ............................. <closest>
+  [702] lt ...................................... <n.costToGoal < closest>
+  [703] jmpifz [717] ............................ if n.costToGoal < closest then
+  [706] getlocal 17 ............................. <n>
+  [708] getobjprop 632 .......................... <n.costToGoal>
+  [711] setlocal 15 ............................. closest = n.costToGoal
+  [713] getlocal 17 ............................. <n>
+  [715] setlocal 16 ............................. closestNode = n
+  [717] pushint8 1
+  [719] add
+  [720] endrepeat [677]
+  [722] pop 3
+  [724] pushcons 1 .............................. <"mapdisplay.findpath: Timed out!">
+  [726] pusharglistnoret 1 ...................... <"mapdisplay.findpath: Timed out!">
+  [728] extcall 562 ............................. put "mapdisplay.findpath: Timed out!"
+  [731] getlocal 16 ............................. <closestNode>
+  [733] pusharglist 1 ........................... <closestNode>
+  [735] extcall 31 .............................. <voidp(closestNode)>
+  [737] jmpifz [748] ............................ if voidp(closestNode) then
+  [740] pusharglist 0 ........................... <>
+  [742] extcall 65 .............................. <VOID>
+  [744] pusharglistnoret 1 ...................... <VOID>
+  [746] extcall 9 ............................... return VOID
+  [748] getlocal 16 ............................. <closestNode>
+  [750] pusharglist 1 ........................... <closestNode>
+  [752] localcall 2 ............................. <constructPath(closestNode)>
+  [754] pusharglistnoret 1 ...................... <constructPath(closestNode)>
+  [756] extcall 9 ............................... return constructPath(closestNode)
+  [758] endrepeat [116]
+  [761] pusharglist 0 ........................... <>
+  [763] extcall 65 .............................. <VOID>
+  [765] pusharglistnoret 1 ...................... <VOID>
+  [767] extcall 9 ............................... return VOID
+  [769] ret
+end
+
+on pathCostEstimate a, b
+  [  0] pushfloat32 1.5 ......................... <1.5>
+  [  5] setlocal 0 .............................. overestimate = 1.5
+  [  7] getlocal 0 .............................. <overestimate>
+  [  9] getparam 0 .............................. <a>
+  [ 11] getparam 1 .............................. <b>
+  [ 13] pusharglist 2 ........................... <a, b>
+  [ 15] localcall 3 ............................. <manhattan(a, b)>
+  [ 17] mul ..................................... <overestimate * manhattan(a, b)>
+  [ 18] pusharglistnoret 1 ...................... <overestimate * manhattan(a, b)>
+  [ 20] extcall 9 ............................... return overestimate * manhattan(a, b)
+  [ 22] ret
+end
+
+on constructPath node
+  [  0] getparam 0 .............................. <node>
+  [  2] getobjprop 383 .......................... <node.pos>
+  [  5] pusharglist 1 ........................... <[node.pos]>
+  [  7] pushlist ................................ <[node.pos]>
+  [  8] setlocal 0 .............................. path = [node.pos]
+  [ 10] getparam 0 .............................. <node>
+  [ 12] getobjprop 101 .......................... <node.parent>
+  [ 14] pusharglist 1 ........................... <node.parent>
+  [ 16] extcall 31 .............................. <voidp(node.parent)>
+  [ 18] not ..................................... <not voidp(node.parent)>
+  [ 19] jmpifz [ 46] ............................ repeat while not voidp(node.parent)
+  [ 22] getlocal 0 .............................. <path>
+  [ 24] pushint8 1 .............................. <1>
+  [ 26] getparam 0 .............................. <node>
+  [ 28] getchainedprop 101 ...................... <node.parent>
+  [ 30] getobjprop 383 .......................... <node.parent.pos>
+  [ 33] pusharglistnoret 3 ...................... <path, 1, node.parent.pos>
+  [ 35] objcall 658 ............................. path.addAt(1, node.parent.pos)
+  [ 38] getparam 0 .............................. <node>
+  [ 40] getobjprop 101 .......................... <node.parent>
+  [ 42] setparam 0 .............................. node = node.parent
+  [ 44] endrepeat [ 10]
+  [ 46] getlocal 0 .............................. <path>
+  [ 48] pusharglistnoret 1 ...................... <path>
+  [ 50] extcall 9 ............................... return path
+  [ 52] ret
+end
+
+on manhattan a, b
+  [  0] getparam 0 .............................. <a>
+  [  2] pushint8 1 .............................. <1>
+  [  4] pusharglist 2 ........................... <a, 1>
+  [  6] objcall 36 .............................. <a[1]>
+  [  8] getparam 1 .............................. <b>
+  [ 10] pushint8 1 .............................. <1>
+  [ 12] pusharglist 2 ........................... <b, 1>
+  [ 14] objcall 36 .............................. <b[1]>
+  [ 16] sub ..................................... <a[1] - b[1]>
+  [ 17] pusharglist 1 ........................... <a[1] - b[1]>
+  [ 19] extcall 590 ............................. <abs(a[1] - b[1])>
+  [ 22] getparam 0 .............................. <a>
+  [ 24] pushint8 2 .............................. <2>
+  [ 26] pusharglist 2 ........................... <a, 2>
+  [ 28] objcall 36 .............................. <a[2]>
+  [ 30] getparam 1 .............................. <b>
+  [ 32] pushint8 2 .............................. <2>
+  [ 34] pusharglist 2 ........................... <b, 2>
+  [ 36] objcall 36 .............................. <b[2]>
+  [ 38] sub ..................................... <a[2] - b[2]>
+  [ 39] pusharglist 1 ........................... <a[2] - b[2]>
+  [ 41] extcall 590 ............................. <abs(a[2] - b[2])>
+  [ 44] add ..................................... <abs(a[1] - b[1]) + abs(a[2] - b[2])>
+  [ 45] pusharglistnoret 1 ...................... <abs(a[1] - b[1]) + abs(a[2] - b[2])>
+  [ 47] extcall 9 ............................... return abs(a[1] - b[1]) + abs(a[2] - b[2])
+  [ 49] ret
+end
+
+on testPath
+  [  0] pushcons 2 .............................. <"room">
+  [  2] pusharglist 1 ........................... <"room">
+  [  4] extcall 55 .............................. <script("room")>
+  [  6] pusharglist 1 ........................... <script("room")>
+  [  8] objcall 4 ............................... <script("room").new()>
+  [ 10] setlocal 0 .............................. n = script("room").new()
+  [ 12] getlocal 0 .............................. <n>
+  [ 14] pushsymb 572 ............................ <#width>
+  [ 17] pushint8 10 ............................. <10>
+  [ 19] pushsymb 415 ............................ <#height>
+  [ 22] pushint8 10 ............................. <10>
+  [ 24] pusharglist 4 ........................... <[#width: 10, #height: 10]>
+  [ 26] pushproplist ............................ <[#width: 10, #height: 10]>
+  [ 27] pusharglistnoret 2 ...................... <n, [#width: 10, #height: 10]>
+  [ 29] objcall 311 ............................. n.loadLevel([#width: 10, #height: 10])
+  [ 32] pushint8 1 .............................. <1>
+  [ 34] setlocal 1
+  [ 36] getlocal 1
+  [ 38] pushint8 3 .............................. <3>
+  [ 40] lteq
+  [ 41] jmpifz [361] ............................ repeat with xxx = 1 to 3
+  [ 44] pushint8 1 .............................. <1>
+  [ 46] setlocal 2
+  [ 48] getlocal 2
+  [ 50] pushint8 15 ............................. <15>
+  [ 52] lteq
+  [ 53] jmpifz [103] ............................ repeat with yyy = 1 to 15
+  [ 56] getlocal 0 .............................. <n>
+  [ 58] pushsymb 337 ............................ <#grid>
+  [ 61] pushint8 10 ............................. <10>
+  [ 63] pusharglist 1 ........................... <10>
+  [ 65] extcall 639 ............................. <random(10)>
+  [ 68] pusharglist 3 ........................... <n, #grid, random(10)>
+  [ 70] objcall 50 .............................. <n.grid[random(10)]>
+  [ 72] pushint8 10 ............................. <10>
+  [ 74] pusharglist 1 ........................... <10>
+  [ 76] extcall 639 ............................. <random(10)>
+  [ 79] pusharglist 2 ........................... <n.grid[random(10)], random(10)>
+  [ 81] objcall 36 .............................. <n.grid[random(10)][random(10)]>
+  [ 83] pushsymb 137 ............................ <#type>
+  [ 85] pushsymb 402 ............................ <#Full>
+  [ 88] pusharglist 2 ........................... <[#type: #Full]>
+  [ 90] pushproplist ............................ <[#type: #Full]>
+  [ 91] setobjprop 287 .......................... n.grid[random(10)][random(10)].occupant = [#type: #Full]
+  [ 94] pushint8 1
+  [ 96] getlocal 2
+  [ 98] add
+  [ 99] setlocal 2
+  [101] endrepeat [ 48]
+  [103] pushint8 10 ............................. <10>
+  [105] pusharglist 1 ........................... <10>
+  [107] extcall 639 ............................. <random(10)>
+  [110] pushint8 10 ............................. <10>
+  [112] pusharglist 1 ........................... <10>
+  [114] extcall 639 ............................. <random(10)>
+  [117] pusharglist 2 ........................... <random(10), random(10)>
+  [119] extcall 361 ............................. <point(random(10), random(10))>
+  [122] setlocal 3 .............................. p1 = point(random(10), random(10))
+  [124] pushint8 10 ............................. <10>
+  [126] pusharglist 1 ........................... <10>
+  [128] extcall 639 ............................. <random(10)>
+  [131] pushint8 10 ............................. <10>
+  [133] pusharglist 1 ........................... <10>
+  [135] extcall 639 ............................. <random(10)>
+  [138] pusharglist 2 ........................... <random(10), random(10)>
+  [140] extcall 361 ............................. <point(random(10), random(10))>
+  [143] setlocal 4 .............................. p2 = point(random(10), random(10))
+  [145] getlocal 0 .............................. <n>
+  [147] getlocal 3 .............................. <p1>
+  [149] pusharglist 2 ........................... <n, p1>
+  [151] objcall 388 ............................. <n.getTileAt(p1)>
+  [154] pusharglist 0 ........................... <>
+  [156] extcall 65 .............................. <VOID>
+  [158] pusharglistnoret 2 ...................... <n.getTileAt(p1), VOID>
+  [160] objcall 290 ............................. n.getTileAt(p1).setOccupant(VOID)
+  [163] getlocal 0 .............................. <n>
+  [165] getlocal 4 .............................. <p2>
+  [167] pusharglist 2 ........................... <n, p2>
+  [169] objcall 388 ............................. <n.getTileAt(p2)>
+  [172] pusharglist 0 ........................... <>
+  [174] extcall 65 .............................. <VOID>
+  [176] pusharglistnoret 2 ...................... <n.getTileAt(p2), VOID>
+  [178] objcall 290 ............................. n.getTileAt(p2).setOccupant(VOID)
+  [181] getlocal 0 .............................. <n>
+  [183] getlocal 3 .............................. <p1>
+  [185] getlocal 4 .............................. <p2>
+  [187] pusharglist 3 ........................... <n, p1, p2>
+  [189] localcall 0 ............................. <findPath(n, p1, p2)>
+  [191] setlocal 5 .............................. pth = findPath(n, p1, p2)
+  [193] getlocal 5 .............................. <pth>
+  [195] pusharglist 1 ........................... <pth>
+  [197] extcall 31 .............................. <voidp(pth)>
+  [199] jmpifz [205] ............................ if voidp(pth) then
+  [202] jmp [351] ............................... next repeat
+  [205] pushint8 1 .............................. <1>
+  [207] setlocal 6
+  [209] getlocal 6
+  [211] getlocal 0 .............................. <n>
+  [213] pushsymb 660 ............................ <#gridsize>
+  [216] pushint8 2 .............................. <2>
+  [218] pusharglist 3 ........................... <n, #gridsize, 2>
+  [220] objcall 30 .............................. <n.gridsize[2]>
+  [222] lteq
+  [223] jmpifz [344] ............................ repeat with row = 1 to n.gridsize[2]
+  [226] pushcons 3 .............................. <EMPTY>
+  [228] setlocal 7 .............................. str = EMPTY
+  [230] pushint8 1 .............................. <1>
+  [232] setlocal 8
+  [234] getlocal 8
+  [236] getlocal 0 .............................. <n>
+  [238] pushsymb 660 ............................ <#gridsize>
+  [241] pushint8 1 .............................. <1>
+  [243] pusharglist 3 ........................... <n, #gridsize, 1>
+  [245] objcall 30 .............................. <n.gridsize[1]>
+  [247] lteq
+  [248] jmpifz [328] ............................ repeat with col = 1 to n.gridsize[1]
+  [251] getlocal 0 .............................. <n>
+  [253] pushsymb 337 ............................ <#grid>
+  [256] getlocal 6 .............................. <row>
+  [258] pusharglist 3 ........................... <n, #grid, row>
+  [260] objcall 50 .............................. <n.grid[row]>
+  [262] getlocal 8 .............................. <col>
+  [264] pusharglist 2 ........................... <n.grid[row], col>
+  [266] objcall 36 .............................. <n.grid[row][col]>
+  [268] setlocal 9 .............................. i = n.grid[row][col]
+  [270] getlocal 5 .............................. <pth>
+  [272] getlocal 8 .............................. <col>
+  [274] getlocal 6 .............................. <row>
+  [276] pusharglist 2 ........................... <col, row>
+  [278] extcall 361 ............................. <point(col, row)>
+  [281] pusharglist 2 ........................... <pth, point(col, row)>
+  [283] objcall 11 .............................. <pth.getOne(point(col, row))>
+  [285] jmpifz [295] ............................ if pth.getOne(point(col, row)) then / else
+  [288] pushcons 4 .............................. <"x">
+  [290] setlocal 10 ............................. ch = "x"
+  [292] jmp [312]
+  [295] getlocal 9 .............................. <i>
+  [297] getchainedprop 287 ...................... <i.occupant>
+  [300] getobjprop 137 .......................... <i.occupant.type>
+  [302] pushsymb 401 ............................ <#empty>
+  [305] nteq .................................... <i.occupant.type <> #empty>
+  [306] pusharglist 1 ........................... <i.occupant.type <> #empty>
+  [308] extcall 59 .............................. <string(i.occupant.type <> #empty)>
+  [310] setlocal 10 ............................. ch = string(i.occupant.type <> #empty)
+  [312] getlocal 7 .............................. <str>
+  [314] getlocal 10 ............................. <ch>
+  [316] joinstr ................................. <str & ch>
+  [317] setlocal 7 .............................. str = str & ch
+  [319] pushint8 1
+  [321] getlocal 8
+  [323] add
+  [324] setlocal 8
+  [326] endrepeat [234]
+  [328] getlocal 7 .............................. <str>
+  [330] pusharglistnoret 1 ...................... <str>
+  [332] extcall 562 ............................. put str
+  [335] pushint8 1
+  [337] getlocal 6
+  [339] add
+  [340] setlocal 6
+  [342] endrepeat [209]
+  [344] pushcons 3 .............................. <EMPTY>
+  [346] pusharglistnoret 1 ...................... <EMPTY>
+  [348] extcall 562 ............................. put EMPTY
+  [351] pushint8 1
+  [353] getlocal 1
+  [355] add
+  [356] setlocal 1
+  [358] endrepeat [ 36]
+  [361] getlocal 0 .............................. <n>
+  [363] pusharglistnoret 1 ...................... <n>
+  [365] objcall 5 ............................... n.destroy()
+  [367] ret
+end

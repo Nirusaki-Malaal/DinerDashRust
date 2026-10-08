@@ -1,0 +1,57 @@
+property Tile, node, type, shapeinfo
+
+on new me, Args
+  [  0] getparam 1 .............................. <Args>
+  [  2] getobjprop 137 .......................... <Args.type>
+  [  4] setprop 137 ............................. type = Args.type
+  [  6] getparam 1 .............................. <Args>
+  [  8] getobjprop 45 ........................... <Args.node>
+  [ 10] setprop 45 .............................. node = Args.node
+  [ 12] getparam 0 .............................. <me>
+  [ 14] pusharglist 1 ........................... <[me]>
+  [ 16] pushlist ................................ <[me]>
+  [ 17] pusharglist 1 ........................... <[[me]]>
+  [ 19] pushlist ................................ <[[me]]>
+  [ 20] setprop 261 ............................. shapeinfo = [[me]]
+  [ 23] getparam 0 .............................. <me>
+  [ 25] pusharglistnoret 1 ...................... <me>
+  [ 27] extcall 9 ............................... return me
+  [ 29] ret
+end
+
+on setTile me, t
+  [  0] getparam 1 .............................. <t>
+  [  2] setprop 262 ............................. Tile = t
+  [  5] getprop 262 ............................. <Tile>
+  [  8] getobjprop 45 ........................... <Tile.node>
+  [ 10] pusharglist 1 ........................... <Tile.node>
+  [ 12] extcall 31 .............................. <voidp(Tile.node)>
+  [ 14] jmpifz [ 21] ............................ if voidp(Tile.node) then
+  [ 17] pusharglistnoret 0 ...................... <>
+  [ 19] extcall 9 ............................... return 
+  [ 21] getprop 45 .............................. <node>
+  [ 23] getprop 262 ............................. <Tile>
+  [ 26] getobjprop 45 ........................... <Tile.node>
+  [ 28] pusharglistnoret 2 ...................... <node, Tile.node>
+  [ 30] objcall 263 ............................. node.setParent(Tile.node)
+  [ 33] ret
+end
+
+on destroy me
+  [  0] pusharglist 0 ........................... <>
+  [  2] extcall 65 .............................. <VOID>
+  [  4] setprop 45 .............................. node = VOID
+  [  6] getprop 262 ............................. <Tile>
+  [  9] pusharglist 1 ........................... <Tile>
+  [ 11] extcall 31 .............................. <voidp(Tile)>
+  [ 13] not ..................................... <not voidp(Tile)>
+  [ 14] jmpifz [ 34] ............................ if not voidp(Tile) then
+  [ 17] getprop 262 ............................. <Tile>
+  [ 20] getparam 0 .............................. <me>
+  [ 22] pusharglistnoret 2 ...................... <Tile, me>
+  [ 24] objcall 264 ............................. Tile.removeOccupant(me)
+  [ 27] pusharglist 0 ........................... <>
+  [ 29] extcall 65 .............................. <VOID>
+  [ 31] setprop 262 ............................. Tile = VOID
+  [ 34] ret
+end

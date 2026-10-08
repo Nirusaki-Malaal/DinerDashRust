@@ -1,0 +1,10 @@
+global glob
+
+on mouseDown me
+  [  0] getglobal 1 ............................. <glob>
+  [  2] pusharglistnoret 1 ...................... <glob>
+  [  4] objcall 0 ............................... glob.mouseDown()
+  [  6] pusharglistnoret 0 ...................... <>
+  [  8] extcall 2 ............................... pass()
+  [ 10] ret
+end

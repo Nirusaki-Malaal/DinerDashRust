@@ -1,0 +1,111 @@
+global glob
+
+on testRoomMgr
+  [  0] getglobal 1 ............................. <glob>
+  [  2] getchainedprop 108 ...................... <glob.managers>
+  [  4] getchainedprop 172 ...................... <glob.managers.game>
+  [  6] getobjprop 42 ........................... <glob.managers.game.room_manager>
+  [  8] setlocal 0 .............................. s = glob.managers.game.room_manager
+  [ 10] getlocal 0 .............................. <s>
+  [ 12] pusharglistnoret 1 ...................... <s>
+  [ 14] objcall 311 ............................. s.loadLevel()
+  [ 17] getlocal 0 .............................. <s>
+  [ 19] pushsymb 318 ............................ <#tables>
+  [ 22] pushint8 1 .............................. <1>
+  [ 24] pusharglist 3 ........................... <s, #tables, 1>
+  [ 26] objcall 30 .............................. <s.tables[1]>
+  [ 28] setlocal 1 .............................. t1 = s.tables[1]
+  [ 30] getlocal 0 .............................. <s>
+  [ 32] pushsymb 318 ............................ <#tables>
+  [ 35] pushint8 2 .............................. <2>
+  [ 37] pusharglist 3 ........................... <s, #tables, 2>
+  [ 39] objcall 30 .............................. <s.tables[2]>
+  [ 41] setlocal 2 .............................. t2 = s.tables[2]
+  [ 43] getlocal 0 .............................. <s>
+  [ 45] pushsymb 66 ............................. <#waitingGroups>
+  [ 47] pushint8 1 .............................. <1>
+  [ 49] pusharglist 3 ........................... <s, #waitingGroups, 1>
+  [ 51] objcall 30 .............................. <s.waitingGroups[1]>
+  [ 53] setlocal 3 .............................. g1 = s.waitingGroups[1]
+  [ 55] getlocal 0 .............................. <s>
+  [ 57] pushsymb 66 ............................. <#waitingGroups>
+  [ 59] pushint8 2 .............................. <2>
+  [ 61] pusharglist 3 ........................... <s, #waitingGroups, 2>
+  [ 63] objcall 30 .............................. <s.waitingGroups[2]>
+  [ 65] setlocal 4 .............................. g2 = s.waitingGroups[2]
+  [ 67] getlocal 1 .............................. <t1>
+  [ 69] getlocal 3 .............................. <g1>
+  [ 71] getlocal 1 .............................. <t1>
+  [ 73] pushsymb 152 ............................ <#chairs>
+  [ 75] pushint8 1 .............................. <1>
+  [ 77] pusharglist 3 ........................... <t1, #chairs, 1>
+  [ 79] objcall 30 .............................. <t1.chairs[1]>
+  [ 81] pusharglistnoret 3 ...................... <t1, g1, t1.chairs[1]>
+  [ 83] objcall 477 ............................. t1.seatGroup(g1, t1.chairs[1])
+  [ 86] getlocal 2 .............................. <t2>
+  [ 88] getlocal 4 .............................. <g2>
+  [ 90] getlocal 2 .............................. <t2>
+  [ 92] pushsymb 152 ............................ <#chairs>
+  [ 94] pushint8 2 .............................. <2>
+  [ 96] pusharglist 3 ........................... <t2, #chairs, 2>
+  [ 98] objcall 30 .............................. <t2.chairs[2]>
+  [100] pusharglistnoret 3 ...................... <t2, g2, t2.chairs[2]>
+  [102] objcall 477 ............................. t2.seatGroup(g2, t2.chairs[2])
+  [105] getlocal 0 .............................. <s>
+  [107] getchainedprop 337 ...................... <s.grid>
+  [110] pushsymb 337 ............................ <#grid>
+  [113] pushint8 3 .............................. <3>
+  [115] pusharglist 3 ........................... <s.grid, #grid, 3>
+  [117] objcall 30 .............................. <s.grid.grid[3]>
+  [119] setlocal 5 .............................. gr = s.grid.grid[3]
+  [121] getlocal 5 .............................. <gr>
+  [123] peek 0
+  [125] pusharglist 1
+  [127] extcall 12
+  [129] pushint8 1
+  [131] peek 0
+  [133] peek 2
+  [135] lteq
+  [136] jmpifz [166] ............................ repeat with i in gr
+  [139] peek 2
+  [141] peek 1
+  [143] pusharglist 2
+  [145] extcall 36
+  [147] setlocal 6
+  [149] getlocal 6 .............................. <i>
+  [151] getchainedprop 287 ...................... <i.occupant>
+  [154] getobjprop 137 .......................... <i.occupant.type>
+  [156] pusharglistnoret 1 ...................... <i.occupant.type>
+  [158] extcall 562 ............................. put i.occupant.type
+  [161] pushint8 1
+  [163] add
+  [164] endrepeat [131]
+  [166] pop 3
+  [168] pushcons 0 .............................. <"asdf">
+  [170] pusharglistnoret 1 ...................... <"asdf">
+  [172] extcall 562 ............................. put "asdf"
+  [175] getlocal 4 .............................. <g2>
+  [177] pusharglistnoret 1 ...................... <g2>
+  [179] objcall 618 ............................. g2.leaveTable()
+  [182] pushcons 0 .............................. <"asdf">
+  [184] pusharglistnoret 1 ...................... <"asdf">
+  [186] extcall 562 ............................. put "asdf"
+  [189] getlocal 0 .............................. <s>
+  [191] pusharglistnoret 1 ...................... <s>
+  [193] objcall 5 ............................... s.destroy()
+  [195] pusharglist 0 ........................... <>
+  [197] extcall 65 .............................. <VOID>
+  [199] setlocal 0 .............................. s = VOID
+  [201] ret
+end
+
+on putgridoccupants me
+  [  0] getglobal 1 ............................. <glob>
+  [  2] getchainedprop 108 ...................... <glob.managers>
+  [  4] getchainedprop 172 ...................... <glob.managers.game>
+  [  6] getchainedprop 173 ...................... <glob.managers.game.room>
+  [  8] getchainedprop 337 ...................... <glob.managers.game.room.grid>
+  [ 11] pusharglistnoret 1 ...................... <glob.managers.game.room.grid>
+  [ 13] objcall 540 ............................. glob.managers.game.room.grid.putOccupants()
+  [ 16] ret
+end

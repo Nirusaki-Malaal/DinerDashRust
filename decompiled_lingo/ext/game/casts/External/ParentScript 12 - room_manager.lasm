@@ -1,0 +1,2356 @@
+property glob, game_mgr, grid, currentLevel, tableChains, minTableChainCount, sitterGroups, waiter, kitchen, tables, bar, stations, node, stationNodes, foodnodes, podiumNode, snackNodes, snackStations, timeMultiplier, podium, bgconfig, levelLoaded, currentStage, obstacles, mime, mimeNode, bgnode, closingSign, closingHome, closingOffscreen, tweener, disappearNodes, appearNodes, previousItems, previousTables, previousSnacks, bgstate, tableLayer, waiterLayer, gridLayer
+
+on new me, g, n
+  [  0] getparam 1 .............................. <g>
+  [  2] setprop 1 ............................... glob = g
+  [  4] getprop 1 ............................... <glob>
+  [  6] getchainedprop 108 ...................... <glob.managers>
+  [  8] getobjprop 172 .......................... <glob.managers.game>
+  [ 10] setprop 43 .............................. game_mgr = glob.managers.game
+  [ 12] getparam 2 .............................. <n>
+  [ 14] setprop 45 .............................. node = n
+  [ 16] getparam 2 .............................. <n>
+  [ 18] pusharglist 1 ........................... <n>
+  [ 20] objcall 48 .............................. <n.newNode()>
+  [ 22] setprop 312 ............................. tableLayer = n.newNode()
+  [ 25] getparam 2 .............................. <n>
+  [ 27] getchainedprop 101 ...................... <n.parent>
+  [ 29] pusharglist 1 ........................... <n.parent>
+  [ 31] objcall 48 .............................. <n.parent.newNode()>
+  [ 33] setprop 313 ............................. waiterLayer = n.parent.newNode()
+  [ 36] getprop 1 ............................... <glob>
+  [ 38] getchainedprop 108 ...................... <glob.managers>
+  [ 40] getchainedprop 315 ...................... <glob.managers.config>
+  [ 43] getobjprop 316 .......................... <glob.managers.config.gfx>
+  [ 46] setprop 314 ............................. bgconfig = glob.managers.config.gfx
+  [ 49] pusharglist 0 ........................... <[]>
+  [ 51] pushlist ................................ <[]>
+  [ 52] setprop 317 ............................. sitterGroups = []
+  [ 55] pusharglist 0 ........................... <[]>
+  [ 57] pushlist ................................ <[]>
+  [ 58] setprop 318 ............................. tables = []
+  [ 61] pusharglist 0 ........................... <[]>
+  [ 63] pushlist ................................ <[]>
+  [ 64] setprop 319 ............................. tableChains = []
+  [ 67] pushint8 2 .............................. <2>
+  [ 69] setprop 320 ............................. minTableChainCount = 2
+  [ 72] pusharglist 0 ........................... <[]>
+  [ 74] pushlist ................................ <[]>
+  [ 75] setprop 321 ............................. obstacles = []
+  [ 78] pusharglist 0 ........................... <[:]>
+  [ 80] pushproplist ............................ <[:]>
+  [ 81] setprop 322 ............................. stations = [:]
+  [ 84] pushcons 0 .............................. <"waiter">
+  [ 86] pushcons 1 .............................. <"scripts.game">
+  [ 88] pusharglist 2 ........................... <"waiter", "scripts.game">
+  [ 90] extcall 55 .............................. <script("waiter", "scripts.game")>
+  [ 92] pushsymb 42 ............................. <#room_manager>
+  [ 94] getparam 0 .............................. <me>
+  [ 96] pushsymb 44 ............................. <#game_manager>
+  [ 98] getprop 43 .............................. <game_mgr>
+  [100] pusharglist 4 ........................... <[#room_manager: me, #game_manager: game_mgr]>
+  [102] pushproplist ............................ <[#room_manager: me, #game_manager: game_mgr]>
+  [103] pusharglist 2 ........................... <script("waiter", "scripts.game"), [#room_manager: me, #game_manager: game_mgr]>
+  [105] objcall 4 ............................... <script("waiter", "scripts.game").new([#room_manager: me, #game_manager: game_mgr])>
+  [107] setprop 323 ............................. waiter = script("waiter", "scripts.game").new([#room_manager: me, #game_manager: game_mgr])
+  [110] pusharglist 0 ........................... <[]>
+  [112] pushlist ................................ <[]>
+  [113] setprop 324 ............................. foodnodes = []
+  [116] pushcons 2 .............................. <"node_tween">
+  [118] pusharglist 1 ........................... <"node_tween">
+  [120] extcall 55 .............................. <script("node_tween")>
+  [122] pusharglist 1 ........................... <script("node_tween")>
+  [124] objcall 4 ............................... <script("node_tween").new()>
+  [126] setprop 325 ............................. tweener = script("node_tween").new()
+  [129] pusharglist 0 ........................... <[]>
+  [131] pushlist ................................ <[]>
+  [132] setprop 326 ............................. disappearNodes = []
+  [135] pusharglist 0 ........................... <[]>
+  [137] pushlist ................................ <[]>
+  [138] setprop 327 ............................. appearNodes = []
+  [141] pusharglist 0 ........................... <[]>
+  [143] pushlist ................................ <[]>
+  [144] setprop 328 ............................. previousItems = []
+  [147] pusharglist 0 ........................... <[]>
+  [149] pushlist ................................ <[]>
+  [150] setprop 329 ............................. previousTables = []
+  [153] pusharglist 0 ........................... <[]>
+  [155] pushlist ................................ <[]>
+  [156] setprop 330 ............................. previousSnacks = []
+  [159] pusharglist 0 ........................... <[:]>
+  [161] pushproplist ............................ <[:]>
+  [162] setprop 331 ............................. stationNodes = [:]
+  [165] pusharglist 0 ........................... <[]>
+  [167] pushlist ................................ <[]>
+  [168] setprop 332 ............................. snackNodes = []
+  [171] pusharglist 0 ........................... <[:]>
+  [173] pushproplist ............................ <[:]>
+  [174] setprop 333 ............................. snackStations = [:]
+  [177] pushfloat32 1.0 ......................... <1.0>
+  [182] setprop 334 ............................. timeMultiplier = 1.0
+  [185] pushcons 3 .............................. <"kitchen">
+  [187] pushcons 1 .............................. <"scripts.game">
+  [189] pusharglist 2 ........................... <"kitchen", "scripts.game">
+  [191] extcall 55 .............................. <script("kitchen", "scripts.game")>
+  [193] pushsymb 336 ............................ <#foodReadyMS>
+  [196] pusharglist 0 ........................... <>
+  [198] extcall 272 ............................. <getConfigData()>
+  [201] getobjprop 336 .......................... <getConfigData().foodReadyMS>
+  [204] pusharglist 2 ........................... <[#foodReadyMS: getConfigData().foodReadyMS]>
+  [206] pushproplist ............................ <[#foodReadyMS: getConfigData().foodReadyMS]>
+  [207] pusharglist 2 ........................... <script("kitchen", "scripts.game"), [#foodReadyMS: getConfigData().foodReadyMS]>
+  [209] objcall 4 ............................... <script("kitchen", "scripts.game").new([#foodReadyMS: getConfigData().foodReadyMS])>
+  [211] setprop 335 ............................. kitchen = script("kitchen", "scripts.game").new([#foodReadyMS: getConfigData().foodReadyMS])
+  [214] pushcons 4 .............................. <"grid_manager">
+  [216] pusharglist 1 ........................... <"grid_manager">
+  [218] extcall 55 .............................. <script("grid_manager")>
+  [220] pushsymb 42 ............................. <#room_manager>
+  [222] getparam 0 .............................. <me>
+  [224] pusharglist 2 ........................... <[#room_manager: me]>
+  [226] pushproplist ............................ <[#room_manager: me]>
+  [227] pusharglist 2 ........................... <script("grid_manager"), [#room_manager: me]>
+  [229] objcall 4 ............................... <script("grid_manager").new([#room_manager: me])>
+  [231] setprop 337 ............................. grid = script("grid_manager").new([#room_manager: me])
+  [234] getparam 0 .............................. <me>
+  [236] pusharglistnoret 1 ...................... <me>
+  [238] extcall 9 ............................... return me
+  [240] ret
+end
+
+on destroy me
+  [  0] getparam 0 .............................. <me>
+  [  2] pusharglistnoret 1 ...................... <me>
+  [  4] objcall 295 ............................. me.destroyLevel()
+  [  7] getprop 323 ............................. <waiter>
+  [ 10] pusharglist 1 ........................... <waiter>
+  [ 12] extcall 31 .............................. <voidp(waiter)>
+  [ 14] not ..................................... <not voidp(waiter)>
+  [ 15] jmpifz [ 32] ............................ if not voidp(waiter) then
+  [ 18] getprop 323 ............................. <waiter>
+  [ 21] pusharglistnoret 1 ...................... <waiter>
+  [ 23] objcall 5 ............................... waiter.destroy()
+  [ 25] pusharglist 0 ........................... <>
+  [ 27] extcall 65 .............................. <VOID>
+  [ 29] setprop 323 ............................. waiter = VOID
+  [ 32] getprop 335 ............................. <kitchen>
+  [ 35] pusharglist 1 ........................... <kitchen>
+  [ 37] extcall 31 .............................. <voidp(kitchen)>
+  [ 39] not ..................................... <not voidp(kitchen)>
+  [ 40] jmpifz [ 50] ............................ if not voidp(kitchen) then
+  [ 43] getprop 335 ............................. <kitchen>
+  [ 46] pusharglistnoret 1 ...................... <kitchen>
+  [ 48] objcall 5 ............................... kitchen.destroy()
+  [ 50] getprop 337 ............................. <grid>
+  [ 53] pusharglist 1 ........................... <grid>
+  [ 55] extcall 31 .............................. <voidp(grid)>
+  [ 57] not ..................................... <not voidp(grid)>
+  [ 58] jmpifz [ 68] ............................ if not voidp(grid) then
+  [ 61] getprop 337 ............................. <grid>
+  [ 64] pusharglistnoret 1 ...................... <grid>
+  [ 66] objcall 5 ............................... grid.destroy()
+  [ 68] getparam 0 .............................. <me>
+  [ 70] pusharglistnoret 1 ...................... <me>
+  [ 72] extcall 338 ............................. voidRefs(me)
+  [ 75] ret
+end
+
+on getMorePaying me
+  [  0] pushzero ................................ <0>
+  [  1] setlocal 0 .............................. ret = 0
+  [  3] getprop 317 ............................. <sitterGroups>
+  [  6] peek 0
+  [  8] pusharglist 1
+  [ 10] extcall 12
+  [ 12] pushint8 1
+  [ 14] peek 0
+  [ 16] peek 2
+  [ 18] lteq
+  [ 19] jmpifz [ 64] ............................ repeat with i in sitterGroups
+  [ 22] peek 2
+  [ 24] peek 1
+  [ 26] pusharglist 2
+  [ 28] extcall 36
+  [ 30] setlocal 1
+  [ 32] getlocal 1 .............................. <i>
+  [ 34] pusharglist 1 ........................... <i>
+  [ 36] objcall 339 ............................. <i.getState()>
+  [ 39] setlocal 2 .............................. s = i.getState()
+  [ 41] getlocal 2 .............................. <s>
+  [ 43] pushsymb 193 ............................ <#eating>
+  [ 45] eq ...................................... <s = #eating>
+  [ 46] getlocal 2 .............................. <s>
+  [ 48] pushsymb 194 ............................ <#check>
+  [ 50] eq ...................................... <s = #check>
+  [ 51] or ...................................... <(s = #eating) or (s = #check)>
+  [ 52] jmpifz [ 59] ............................ if (s = #eating) or (s = #check) then
+  [ 55] pushint8 1 .............................. <1>
+  [ 57] setlocal 0 .............................. ret = 1
+  [ 59] pushint8 1
+  [ 61] add
+  [ 62] endrepeat [ 14]
+  [ 64] pop 3
+  [ 66] getlocal 0 .............................. <ret>
+  [ 68] pusharglistnoret 1 ...................... <ret>
+  [ 70] extcall 9 ............................... return ret
+  [ 72] ret
+end
+
+on updateBGState me
+  [  0] getprop 314 ............................. <bgconfig>
+  [  3] getprop 212 ............................. <currentStage>
+  [  5] pusharglist 2 ........................... <bgconfig, currentStage>
+  [  7] objcall 36 .............................. <bgconfig[currentStage]>
+  [  9] setlocal 0 .............................. st = bgconfig[currentStage]
+  [ 11] getlocal 0 .............................. <st>
+  [ 13] pusharglist 1 ........................... <st>
+  [ 15] extcall 31 .............................. <voidp(st)>
+  [ 17] jmpifz [ 24] ............................ if voidp(st) then
+  [ 20] pusharglistnoret 0 ...................... <>
+  [ 22] extcall 9 ............................... return 
+  [ 24] getlocal 0 .............................. <st>
+  [ 26] pushsymb 341 ............................ <#states>
+  [ 29] pusharglist 2 ........................... <st, #states>
+  [ 31] objcall 12 .............................. <st.states.count>
+  [ 33] jmpifz [198] ............................ if st.states.count then
+  [ 36] getprop 43 .............................. <game_mgr>
+  [ 38] getobjprop 342 .......................... <game_mgr.playMode>
+  [ 41] pushsymb 343 ............................ <#endless>
+  [ 44] eq ...................................... <game_mgr.playMode = #endless>
+  [ 45] getprop 1 ............................... <glob>
+  [ 47] pushsymb 108 ............................ <#managers>
+  [ 49] pushsymb 344 ............................ <#savegame>
+  [ 52] pusharglist 3 ........................... <glob, #managers, #savegame>
+  [ 54] objcall 30 .............................. <glob.managers[#savegame]>
+  [ 56] pusharglist 1 ........................... <glob.managers[#savegame]>
+  [ 58] extcall 31 .............................. <voidp(glob.managers[#savegame])>
+  [ 60] not ..................................... <not voidp(glob.managers[#savegame])>
+  [ 61] and ..................................... <(game_mgr.playMode = #endless) and not voidp(glob.managers[#savegame])>
+  [ 62] jmpifz [ 93] ............................ if (game_mgr.playMode = #endless) and not voidp(glob.managers[#savegame]) then / else
+  [ 65] getlocal 0 .............................. <st>
+  [ 67] pushsymb 341 ............................ <#states>
+  [ 70] getprop 1 ............................... <glob>
+  [ 72] getchainedprop 108 ...................... <glob.managers>
+  [ 74] getchainedprop 344 ...................... <glob.managers.savegame>
+  [ 77] getprop 212 ............................. <currentStage>
+  [ 79] pusharglist 2 ........................... <glob.managers.savegame, currentStage>
+  [ 81] objcall 345 ............................. <glob.managers.savegame.getUnlockedBG(currentStage)>
+  [ 84] pusharglist 3 ........................... <st, #states, glob.managers.savegame.getUnlockedBG(currentStage)>
+  [ 86] objcall 30 .............................. <st.states[glob.managers.savegame.getUnlockedBG(currentStage)]>
+  [ 88] setlocal 1 .............................. bgs = st.states[glob.managers.savegame.getUnlockedBG(currentStage)]
+  [ 90] jmp [106]
+  [ 93] getlocal 0 .............................. <st>
+  [ 95] pushsymb 341 ............................ <#states>
+  [ 98] pushint8 1 .............................. <1>
+  [100] pusharglist 3 ........................... <st, #states, 1>
+  [102] objcall 30 .............................. <st.states[1]>
+  [104] setlocal 1 .............................. bgs = st.states[1]
+  [106] getlocal 1 .............................. <bgs>
+  [108] pusharglist 1 ........................... <bgs>
+  [110] extcall 346 ............................. <Keys(bgs)>
+  [113] peek 0
+  [115] pusharglist 1
+  [117] extcall 12
+  [119] pushint8 1
+  [121] peek 0
+  [123] peek 2
+  [125] lteq
+  [126] jmpifz [196] ............................ repeat with i in Keys(bgs)
+  [129] peek 2
+  [131] peek 1
+  [133] pusharglist 2
+  [135] extcall 36
+  [137] setlocal 2
+  [139] getprop 45 .............................. <node>
+  [141] pushcons 5 .............................. <"bg">
+  [143] pusharglist 2 ........................... <node, "bg">
+  [145] objcall 36 .............................. <node["bg"]>
+  [147] getlocal 2 .............................. <i>
+  [149] pusharglist 2 ........................... <node["bg"], i>
+  [151] objcall 36 .............................. <node["bg"][i]>
+  [153] setlocal 3 .............................. n = node["bg"][i]
+  [155] getlocal 3 .............................. <n>
+  [157] pusharglist 1 ........................... <n>
+  [159] extcall 31 .............................. <voidp(n)>
+  [161] not ..................................... <not voidp(n)>
+  [162] jmpifz [191] ............................ if not voidp(n) then
+  [165] getprop 45 .............................. <node>
+  [167] pushcons 5 .............................. <"bg">
+  [169] pusharglist 2 ........................... <node, "bg">
+  [171] objcall 36 .............................. <node["bg"]>
+  [173] getlocal 2 .............................. <i>
+  [175] pusharglist 2 ........................... <node["bg"], i>
+  [177] objcall 36 .............................. <node["bg"][i]>
+  [179] getlocal 1 .............................. <bgs>
+  [181] getlocal 2 .............................. <i>
+  [183] pusharglist 2 ........................... <bgs, i>
+  [185] objcall 36 .............................. <bgs[i]>
+  [187] pusharglistnoret 2 ...................... <node["bg"][i], bgs[i]>
+  [189] objcall 57 .............................. node["bg"][i].setVisible(bgs[i])
+  [191] pushint8 1
+  [193] add
+  [194] endrepeat [121]
+  [196] pop 3
+  [198] ret
+end
+
+on resetObjects me
+  [  0] getprop 323 ............................. <waiter>
+  [  3] pusharglistnoret 1 ...................... <waiter>
+  [  5] objcall 348 ............................. waiter.resetSpeed()
+  [  8] getprop 335 ............................. <kitchen>
+  [ 11] pusharglistnoret 1 ...................... <kitchen>
+  [ 13] objcall 348 ............................. kitchen.resetSpeed()
+  [ 16] ret
+end
+
+on loadStage me, stid
+  [  0] getprop 349 ............................. <levelLoaded>
+  [  3] jmpifz [ 16] ............................ if levelLoaded then
+  [  6] pushcons 6 .............................. <"loadStage must be called between destroyLevel and loadLevel">
+  [  8] pusharglistnoret 1 ...................... <"loadStage must be called between destroyLevel and loadLevel">
+  [ 10] extcall 60 .............................. complain("loadStage must be called between destroyLevel and loadLevel")
+  [ 12] pusharglistnoret 0 ...................... <>
+  [ 14] extcall 9 ............................... return 
+  [ 16] getparam 1 .............................. <stid>
+  [ 18] setprop 212 ............................. currentStage = stid
+  [ 20] getprop 323 ............................. <waiter>
+  [ 23] getparam 1 .............................. <stid>
+  [ 25] pusharglistnoret 2 ...................... <waiter, stid>
+  [ 27] objcall 350 ............................. waiter.setRestaurant(stid)
+  [ 30] getprop 314 ............................. <bgconfig>
+  [ 33] getparam 1 .............................. <stid>
+  [ 35] pusharglist 2 ........................... <bgconfig, stid>
+  [ 37] objcall 36 .............................. <bgconfig[stid]>
+  [ 39] setlocal 0 .............................. st = bgconfig[stid]
+  [ 41] getlocal 0 .............................. <st>
+  [ 43] pusharglist 1 ........................... <st>
+  [ 45] extcall 31 .............................. <voidp(st)>
+  [ 47] jmpifz [ 63] ............................ if voidp(st) then
+  [ 50] pushcons 7 .............................. <"no stage with id of">
+  [ 52] getlocal 0 .............................. <st>
+  [ 54] joinpadstr .............................. <"no stage with id of" && st>
+  [ 55] pusharglistnoret 1 ...................... <"no stage with id of" && st>
+  [ 57] extcall 60 .............................. complain("no stage with id of" && st)
+  [ 59] pusharglistnoret 0 ...................... <>
+  [ 61] extcall 9 ............................... return 
+  [ 63] getprop 45 .............................. <node>
+  [ 65] pushcons 5 .............................. <"bg">
+  [ 67] pusharglist 2 ........................... <node, "bg">
+  [ 69] objcall 36 .............................. <node["bg"]>
+  [ 71] setlocal 1 .............................. bg = node["bg"]
+  [ 73] getlocal 1 .............................. <bg>
+  [ 75] getlocal 0 .............................. <st>
+  [ 77] getobjprop 351 .......................... <st.nodeID>
+  [ 80] pusharglistnoret 2 ...................... <bg, st.nodeID>
+  [ 82] objcall 233 ............................. bg.setDummyID(st.nodeID)
+  [ 84] getprop 335 ............................. <kitchen>
+  [ 87] getchainedprop 352 ...................... <kitchen.chef>
+  [ 90] getlocal 1 .............................. <bg>
+  [ 92] pushcons 8 .............................. <"chef">
+  [ 94] pusharglist 2 ........................... <bg, "chef">
+  [ 96] objcall 36 .............................. <bg["chef"]>
+  [ 98] pusharglistnoret 2 ...................... <kitchen.chef, bg["chef"]>
+  [100] objcall 353 ............................. kitchen.chef.setNode(bg["chef"])
+  [103] getprop 45 .............................. <node>
+  [105] pusharglistnoret 1 ...................... <node>
+  [107] objcall 354 ............................. node.moveToBack()
+  [110] getprop 43 .............................. <game_mgr>
+  [112] getchainedprop 355 ...................... <game_mgr.interface_node>
+  [115] pusharglistnoret 1 ...................... <game_mgr.interface_node>
+  [117] objcall 53 .............................. game_mgr.interface_node.moveToFront()
+  [119] getlocal 1 .............................. <bg>
+  [121] pushcons 9 .............................. <"podium">
+  [123] pusharglist 2 ........................... <bg, "podium">
+  [125] objcall 36 .............................. <bg["podium"]>
+  [127] setprop 356 ............................. podiumNode = bg["podium"]
+  [130] getprop 356 ............................. <podiumNode>
+  [133] pusharglist 1 ........................... <podiumNode>
+  [135] extcall 31 .............................. <voidp(podiumNode)>
+  [137] not ..................................... <not voidp(podiumNode)>
+  [138] jmpifz [161] ............................ if not voidp(podiumNode) then
+  [141] getprop 356 ............................. <podiumNode>
+  [144] pushzero ................................ <0>
+  [145] pusharglistnoret 2 ...................... <podiumNode, 0>
+  [147] objcall 57 .............................. podiumNode.setVisible(0)
+  [149] getprop 356 ............................. <podiumNode>
+  [152] pushint32 400000 ........................ <400000>
+  [157] pusharglistnoret 2 ...................... <podiumNode, 400000>
+  [159] objcall 122 ............................. podiumNode.setZOffset(400000)
+  [161] getlocal 1 .............................. <bg>
+  [163] pushcons 10 ............................. <"mime">
+  [165] pusharglist 2 ........................... <bg, "mime">
+  [167] objcall 36 .............................. <bg["mime"]>
+  [169] setprop 357 ............................. mimeNode = bg["mime"]
+  [172] getprop 357 ............................. <mimeNode>
+  [175] pusharglist 1 ........................... <mimeNode>
+  [177] extcall 31 .............................. <voidp(mimeNode)>
+  [179] not ..................................... <not voidp(mimeNode)>
+  [180] jmpifz [210] ............................ if not voidp(mimeNode) then
+  [183] getprop 357 ............................. <mimeNode>
+  [186] pushzero ................................ <0>
+  [187] pusharglistnoret 2 ...................... <mimeNode, 0>
+  [189] objcall 57 .............................. mimeNode.setVisible(0)
+  [191] getprop 357 ............................. <mimeNode>
+  [194] pusharglistnoret 1 ...................... <mimeNode>
+  [196] objcall 53 .............................. mimeNode.moveToFront()
+  [198] getprop 357 ............................. <mimeNode>
+  [201] pushint32 400000 ........................ <400000>
+  [206] pusharglistnoret 2 ...................... <mimeNode, 400000>
+  [208] objcall 122 ............................. mimeNode.setZOffset(400000)
+  [210] getprop 325 ............................. <tweener>
+  [213] pusharglistnoret 1 ...................... <tweener>
+  [215] objcall 358 ............................. tweener.endTween()
+  [218] getlocal 1 .............................. <bg>
+  [220] pushcons 11 ............................. <"closing_sign">
+  [222] pusharglist 2 ........................... <bg, "closing_sign">
+  [224] objcall 36 .............................. <bg["closing_sign"]>
+  [226] setprop 359 ............................. closingSign = bg["closing_sign"]
+  [229] getprop 359 ............................. <closingSign>
+  [232] pusharglist 1 ........................... <closingSign>
+  [234] objcall 51 .............................. <closingSign.getLoc()>
+  [236] setprop 360 ............................. closingHome = closingSign.getLoc()
+  [239] getprop 359 ............................. <closingSign>
+  [242] getprop 360 ............................. <closingHome>
+  [245] pushint16 200 ........................... <200>
+  [248] inv ..................................... <-200>
+  [249] pushzero ................................ <0>
+  [250] pusharglist 2 ........................... <-200, 0>
+  [252] extcall 361 ............................. <point(-200, 0)>
+  [255] add ..................................... <closingHome + point(-200, 0)>
+  [256] pusharglistnoret 2 ...................... <closingSign, closingHome + point(-200, 0)>
+  [258] objcall 135 ............................. closingSign.setLoc(closingHome + point(-200, 0))
+  [260] getprop 324 ............................. <foodnodes>
+  [263] pusharglistnoret 1 ...................... <foodnodes>
+  [265] objcall 10 .............................. foodnodes.deleteAll()
+  [267] pushint8 1 .............................. <1>
+  [269] setlocal 2
+  [271] getlocal 2
+  [273] pushint8 5 .............................. <5>
+  [275] lteq
+  [276] jmpifz [322] ............................ repeat with i = 1 to 5
+  [279] getlocal 1 .............................. <bg>
+  [281] pushcons 12 ............................. <"food_">
+  [283] getlocal 2 .............................. <i>
+  [285] joinstr ................................. <"food_" & i>
+  [286] pusharglist 2 ........................... <bg, "food_" & i>
+  [288] objcall 36 .............................. <bg["food_" & i]>
+  [290] setlocal 3 .............................. fn = bg["food_" & i]
+  [292] getlocal 3 .............................. <fn>
+  [294] pusharglist 1 ........................... <fn>
+  [296] extcall 31 .............................. <voidp(fn)>
+  [298] jmpifz [304] ............................ if voidp(fn) then
+  [301] jmp [322] ............................... exit repeat
+  [304] getprop 324 ............................. <foodnodes>
+  [307] getlocal 3 .............................. <fn>
+  [309] pusharglistnoret 2 ...................... <foodnodes, fn>
+  [311] objcall 6 ............................... foodnodes.add(fn)
+  [313] pushint8 1
+  [315] getlocal 2
+  [317] add
+  [318] setlocal 2
+  [320] endrepeat [271]
+  [322] pushsymb 57 ............................. <#setVisible>
+  [324] getprop 324 ............................. <foodnodes>
+  [327] pushzero ................................ <0>
+  [328] pusharglistnoret 3 ...................... <#setVisible, foodnodes, 0>
+  [330] extcall 32 .............................. call(#setVisible, foodnodes, 0)
+  [332] pushsymb 5 .............................. <#destroy>
+  [334] getprop 332 ............................. <snackNodes>
+  [337] pusharglistnoret 2 ...................... <#destroy, snackNodes>
+  [339] extcall 32 .............................. call(#destroy, snackNodes)
+  [341] getprop 331 ............................. <stationNodes>
+  [344] pusharglistnoret 1 ...................... <stationNodes>
+  [346] objcall 10 .............................. stationNodes.deleteAll()
+  [348] pushcons 13 ............................. <"drinkspot">
+  [350] pushcons 14 ............................. <"busspot">
+  [352] pushcons 15 ............................. <"ticketspot">
+  [354] pusharglist 3 ........................... <["drinkspot", "busspot", "ticketspot"]>
+  [356] pushlist ................................ <["drinkspot", "busspot", "ticketspot"]>
+  [357] peek 0
+  [359] pusharglist 1
+  [361] extcall 12
+  [363] pushint8 1
+  [365] peek 0
+  [367] peek 2
+  [369] lteq
+  [370] jmpifz [426] ............................ repeat with i in ["drinkspot", "busspot", "ticketspot"]
+  [373] peek 2
+  [375] peek 1
+  [377] pusharglist 2
+  [379] extcall 36
+  [381] setlocal 2
+  [383] getlocal 1 .............................. <bg>
+  [385] getlocal 2 .............................. <i>
+  [387] pusharglist 2 ........................... <bg, i>
+  [389] objcall 36 .............................. <bg[i]>
+  [391] setlocal 4 .............................. n = bg[i]
+  [393] getlocal 2 .............................. <i>
+  [395] pusharglist 1 ........................... <i>
+  [397] extcall 31 .............................. <voidp(i)>
+  [399] jmpifz [405] ............................ if voidp(i) then
+  [402] jmp [421] ............................... next repeat
+  [405] getprop 331 ............................. <stationNodes>
+  [408] getlocal 2 .............................. <i>
+  [410] pusharglist 1 ........................... <i>
+  [412] extcall 362 ............................. <symbol(i)>
+  [415] getlocal 4 .............................. <n>
+  [417] pusharglistnoret 3 ...................... <stationNodes, symbol(i), n>
+  [419] objcall 25 .............................. stationNodes[symbol(i)] = n
+  [421] pushint8 1
+  [423] add
+  [424] endrepeat [365]
+  [426] pop 3
+  [428] pushsymb 57 ............................. <#setVisible>
+  [430] getprop 331 ............................. <stationNodes>
+  [433] pushzero ................................ <0>
+  [434] pusharglistnoret 3 ...................... <#setVisible, stationNodes, 0>
+  [436] extcall 32 .............................. call(#setVisible, stationNodes, 0)
+  [438] getprop 332 ............................. <snackNodes>
+  [441] pusharglistnoret 1 ...................... <snackNodes>
+  [443] objcall 10 .............................. snackNodes.deleteAll()
+  [445] pushint8 1 .............................. <1>
+  [447] setlocal 2
+  [449] getlocal 2
+  [451] pushint8 3 .............................. <3>
+  [453] lteq
+  [454] jmpifz [498] ............................ repeat with i = 1 to 3
+  [457] getlocal 1 .............................. <bg>
+  [459] pushcons 16 ............................. <"snacks_">
+  [461] getlocal 2 .............................. <i>
+  [463] joinstr ................................. <"snacks_" & i>
+  [464] pusharglist 2 ........................... <bg, "snacks_" & i>
+  [466] objcall 36 .............................. <bg["snacks_" & i]>
+  [468] setlocal 5 .............................. sn = bg["snacks_" & i]
+  [470] getlocal 5 .............................. <sn>
+  [472] pusharglist 1 ........................... <sn>
+  [474] extcall 31 .............................. <voidp(sn)>
+  [476] not ..................................... <not voidp(sn)>
+  [477] jmpifz [489] ............................ if not voidp(sn) then
+  [480] getprop 332 ............................. <snackNodes>
+  [483] getlocal 5 .............................. <sn>
+  [485] pusharglistnoret 2 ...................... <snackNodes, sn>
+  [487] objcall 6 ............................... snackNodes.add(sn)
+  [489] pushint8 1
+  [491] getlocal 2
+  [493] add
+  [494] setlocal 2
+  [496] endrepeat [449]
+  [498] pushsymb 57 ............................. <#setVisible>
+  [500] getprop 332 ............................. <snackNodes>
+  [503] pushzero ................................ <0>
+  [504] pusharglistnoret 3 ...................... <#setVisible, snackNodes, 0>
+  [506] extcall 32 .............................. call(#setVisible, snackNodes, 0)
+  [508] pushsymb 122 ............................ <#setZOffset>
+  [510] getprop 332 ............................. <snackNodes>
+  [513] pushint8 1 .............................. <1>
+  [515] pusharglistnoret 3 ...................... <#setZOffset, snackNodes, 1>
+  [517] extcall 32 .............................. call(#setZOffset, snackNodes, 1)
+  [519] ret
+end
+
+on destroyLevel me
+  [  0] pushsymb 5 .............................. <#destroy>
+  [  2] getprop 317 ............................. <sitterGroups>
+  [  5] pusharglistnoret 2 ...................... <#destroy, sitterGroups>
+  [  7] extcall 32 .............................. call(#destroy, sitterGroups)
+  [  9] getprop 317 ............................. <sitterGroups>
+  [ 12] pusharglistnoret 1 ...................... <sitterGroups>
+  [ 14] objcall 10 .............................. sitterGroups.deleteAll()
+  [ 16] getprop 323 ............................. <waiter>
+  [ 19] pusharglist 1 ........................... <waiter>
+  [ 21] extcall 31 .............................. <voidp(waiter)>
+  [ 23] not ..................................... <not voidp(waiter)>
+  [ 24] jmpifz [ 35] ............................ if not voidp(waiter) then
+  [ 27] getprop 323 ............................. <waiter>
+  [ 30] pusharglistnoret 1 ...................... <waiter>
+  [ 32] objcall 367 ............................. waiter.reset()
+  [ 35] getprop 325 ............................. <tweener>
+  [ 38] pusharglistnoret 1 ...................... <tweener>
+  [ 40] objcall 358 ............................. tweener.endTween()
+  [ 43] getprop 138 ............................. <bar>
+  [ 45] pusharglist 1 ........................... <bar>
+  [ 47] extcall 31 .............................. <voidp(bar)>
+  [ 49] not ..................................... <not voidp(bar)>
+  [ 50] jmpifz [ 65] ............................ if not voidp(bar) then
+  [ 53] getprop 138 ............................. <bar>
+  [ 55] pusharglistnoret 1 ...................... <bar>
+  [ 57] objcall 5 ............................... bar.destroy()
+  [ 59] pusharglist 0 ........................... <>
+  [ 61] extcall 65 .............................. <VOID>
+  [ 63] setprop 138 ............................. bar = VOID
+  [ 65] getprop 368 ............................. <podium>
+  [ 68] pusharglist 1 ........................... <podium>
+  [ 70] extcall 31 .............................. <voidp(podium)>
+  [ 72] not ..................................... <not voidp(podium)>
+  [ 73] jmpifz [ 90] ............................ if not voidp(podium) then
+  [ 76] getprop 368 ............................. <podium>
+  [ 79] pusharglistnoret 1 ...................... <podium>
+  [ 81] objcall 5 ............................... podium.destroy()
+  [ 83] pusharglist 0 ........................... <>
+  [ 85] extcall 65 .............................. <VOID>
+  [ 87] setprop 368 ............................. podium = VOID
+  [ 90] getprop 369 ............................. <mime>
+  [ 93] pusharglist 1 ........................... <mime>
+  [ 95] extcall 31 .............................. <voidp(mime)>
+  [ 97] not ..................................... <not voidp(mime)>
+  [ 98] jmpifz [115] ............................ if not voidp(mime) then
+  [101] getprop 369 ............................. <mime>
+  [104] pusharglistnoret 1 ...................... <mime>
+  [106] objcall 5 ............................... mime.destroy()
+  [108] pusharglist 0 ........................... <>
+  [110] extcall 65 .............................. <VOID>
+  [112] setprop 369 ............................. mime = VOID
+  [115] pushsymb 5 .............................. <#destroy>
+  [117] getprop 321 ............................. <obstacles>
+  [120] pusharglistnoret 2 ...................... <#destroy, obstacles>
+  [122] extcall 32 .............................. call(#destroy, obstacles)
+  [124] getprop 321 ............................. <obstacles>
+  [127] pusharglistnoret 1 ...................... <obstacles>
+  [129] objcall 10 .............................. obstacles.deleteAll()
+  [131] getprop 337 ............................. <grid>
+  [134] pusharglistnoret 1 ...................... <grid>
+  [136] objcall 370 ............................. grid.destroyGrid()
+  [139] getprop 335 ............................. <kitchen>
+  [142] pusharglist 1 ........................... <kitchen>
+  [144] extcall 31 .............................. <voidp(kitchen)>
+  [146] not ..................................... <not voidp(kitchen)>
+  [147] jmpifz [158] ............................ if not voidp(kitchen) then
+  [150] getprop 335 ............................. <kitchen>
+  [153] pusharglistnoret 1 ...................... <kitchen>
+  [155] objcall 371 ............................. kitchen.deleteSpots()
+  [158] pushsymb 5 .............................. <#destroy>
+  [160] getprop 318 ............................. <tables>
+  [163] pusharglistnoret 2 ...................... <#destroy, tables>
+  [165] extcall 32 .............................. call(#destroy, tables)
+  [167] getprop 318 ............................. <tables>
+  [170] pusharglistnoret 1 ...................... <tables>
+  [172] objcall 10 .............................. tables.deleteAll()
+  [174] getprop 322 ............................. <stations>
+  [177] peek 0
+  [179] pusharglist 1
+  [181] extcall 12
+  [183] pushint8 1
+  [185] peek 0
+  [187] peek 2
+  [189] lteq
+  [190] jmpifz [216] ............................ repeat with i in stations
+  [193] peek 2
+  [195] peek 1
+  [197] pusharglist 2
+  [199] extcall 36
+  [201] setlocal 0
+  [203] pushsymb 5 .............................. <#destroy>
+  [205] getlocal 0 .............................. <i>
+  [207] pusharglistnoret 2 ...................... <#destroy, i>
+  [209] extcall 32 .............................. call(#destroy, i)
+  [211] pushint8 1
+  [213] add
+  [214] endrepeat [185]
+  [216] pop 3
+  [218] getprop 322 ............................. <stations>
+  [221] pusharglistnoret 1 ...................... <stations>
+  [223] objcall 10 .............................. stations.deleteAll()
+  [225] pushzero ................................ <0>
+  [226] setprop 349 ............................. levelLoaded = 0
+  [229] ret
+end
+
+on setTimeMultiplier me, num
+  [  0] getparam 1 .............................. <num>
+  [  2] setprop 334 ............................. timeMultiplier = num
+  [  5] getprop 335 ............................. <kitchen>
+  [  8] getparam 1 .............................. <num>
+  [ 10] pusharglistnoret 2 ...................... <kitchen, num>
+  [ 12] objcall 296 ............................. kitchen.setTimeMultiplier(num)
+  [ 15] ret
+end
+
+on groupSeated me, sgroup, tbl
+  [  0] getprop 317 ............................. <sitterGroups>
+  [  3] getparam 1 .............................. <sgroup>
+  [  5] pusharglist 2 ........................... <sitterGroups, sgroup>
+  [  7] objcall 11 .............................. <sitterGroups.getOne(sgroup)>
+  [  9] pushzero ................................ <0>
+  [ 10] nteq .................................... <sitterGroups.getOne(sgroup) <> 0>
+  [ 11] jmpifz [ 24] ............................ if sitterGroups.getOne(sgroup) <> 0 then
+  [ 14] pushcons 17 ............................. <"tried to seat a group already sitting">
+  [ 16] pusharglistnoret 1 ...................... <"tried to seat a group already sitting">
+  [ 18] extcall 60 .............................. complain("tried to seat a group already sitting")
+  [ 20] pusharglistnoret 0 ...................... <>
+  [ 22] extcall 9 ............................... return 
+  [ 24] getprop 317 ............................. <sitterGroups>
+  [ 27] getparam 1 .............................. <sgroup>
+  [ 29] pusharglistnoret 2 ...................... <sitterGroups, sgroup>
+  [ 31] objcall 6 ............................... sitterGroups.add(sgroup)
+  [ 33] ret
+end
+
+on closingTime me
+  [  0] getprop 359 ............................. <closingSign>
+  [  3] pusharglist 1 ........................... <closingSign>
+  [  5] extcall 31 .............................. <voidp(closingSign)>
+  [  7] jmpifz [ 14] ............................ if voidp(closingSign) then
+  [ 10] pusharglistnoret 0 ...................... <>
+  [ 12] extcall 9 ............................... return 
+  [ 14] getprop 325 ............................. <tweener>
+  [ 17] pushsymb 45 ............................. <#node>
+  [ 19] getprop 359 ............................. <closingSign>
+  [ 22] pushsymb 253 ............................ <#start>
+  [ 24] getprop 359 ............................. <closingSign>
+  [ 27] pusharglist 1 ........................... <closingSign>
+  [ 29] objcall 51 .............................. <closingSign.getLoc()>
+  [ 31] pushsymb 374 ............................ <#end>
+  [ 34] getprop 360 ............................. <closingHome>
+  [ 37] pushsymb 375 ............................ <#setter>
+  [ 40] pushsymb 135 ............................ <#setLoc>
+  [ 42] pushsymb 68 ............................. <#ms>
+  [ 44] pushint16 750 ........................... <750>
+  [ 47] pusharglist 10 .......................... <[#node: closingSign, #start: closingSign.getLoc(), #end: closingHome, #setter: #setLoc, #ms: 750]>
+  [ 49] pushproplist ............................ <[#node: closingSign, #start: closingSign.getLoc(), #end: closingHome, #setter: #setLoc, #ms: 750]>
+  [ 50] pusharglistnoret 2 ...................... <tweener, [#node: closingSign, #start: closingSign.getLoc(), #end: closingHome, #setter: #setLoc, #ms: 750]>
+  [ 52] objcall 376 ............................. tweener.startTween([#node: closingSign, #start: closingSign.getLoc(), #end: closingHome, #setter: #setLoc, #ms: 750])
+  [ 55] ret
+end
+
+on numWantSnack me, typ
+  [  0] pushzero ................................ <0>
+  [  1] setlocal 0 .............................. num = 0
+  [  3] getprop 317 ............................. <sitterGroups>
+  [  6] peek 0
+  [  8] pusharglist 1
+  [ 10] extcall 12
+  [ 12] pushint8 1
+  [ 14] peek 0
+  [ 16] peek 2
+  [ 18] lteq
+  [ 19] jmpifz [ 50] ............................ repeat with i in sitterGroups
+  [ 22] peek 2
+  [ 24] peek 1
+  [ 26] pusharglist 2
+  [ 28] extcall 36
+  [ 30] setlocal 1
+  [ 32] getlocal 0 .............................. <num>
+  [ 34] getlocal 1 .............................. <i>
+  [ 36] getobjprop 377 .......................... <i.wantedSnack>
+  [ 39] getparam 1 .............................. <typ>
+  [ 41] eq ...................................... <i.wantedSnack = typ>
+  [ 42] add ..................................... <num + (i.wantedSnack = typ)>
+  [ 43] setlocal 0 .............................. num = num + (i.wantedSnack = typ)
+  [ 45] pushint8 1
+  [ 47] add
+  [ 48] endrepeat [ 14]
+  [ 50] pop 3
+  [ 52] ret
+end
+
+on groupLeft me, sg, tbl
+  [  0] getprop 317 ............................. <sitterGroups>
+  [  3] getparam 1 .............................. <sg>
+  [  5] pusharglist 2 ........................... <sitterGroups, sg>
+  [  7] objcall 11 .............................. <sitterGroups.getOne(sg)>
+  [  9] pushzero ................................ <0>
+  [ 10] eq ...................................... <sitterGroups.getOne(sg) = 0>
+  [ 11] jmpifz [ 24] ............................ if sitterGroups.getOne(sg) = 0 then
+  [ 14] pushcons 18 ............................. <"sitter group not seated tried to leave">
+  [ 16] pusharglistnoret 1 ...................... <"sitter group not seated tried to leave">
+  [ 18] extcall 60 .............................. complain("sitter group not seated tried to leave")
+  [ 20] pusharglistnoret 0 ...................... <>
+  [ 22] extcall 9 ............................... return 
+  [ 24] getprop 335 ............................. <kitchen>
+  [ 27] getparam 2 .............................. <tbl>
+  [ 29] pusharglistnoret 2 ...................... <kitchen, tbl>
+  [ 31] objcall 379 ............................. kitchen.killFood(tbl)
+  [ 34] getprop 323 ............................. <waiter>
+  [ 37] getparam 2 .............................. <tbl>
+  [ 39] pusharglistnoret 2 ...................... <waiter, tbl>
+  [ 41] objcall 379 ............................. waiter.killFood(tbl)
+  [ 44] getprop 317 ............................. <sitterGroups>
+  [ 47] getparam 1 .............................. <sg>
+  [ 49] pusharglistnoret 2 ...................... <sitterGroups, sg>
+  [ 51] objcall 14 .............................. sitterGroups.deleteOne(sg)
+  [ 53] getparam 1 .............................. <sg>
+  [ 55] pusharglistnoret 1 ...................... <sg>
+  [ 57] objcall 5 ............................... sg.destroy()
+  [ 59] getprop 43 .............................. <game_mgr>
+  [ 61] pusharglistnoret 1 ...................... <game_mgr>
+  [ 63] objcall 380 ............................. game_mgr.checkLevelDone()
+  [ 66] ret
+end
+
+on selectDest me, obj
+  [  0] getprop 323 ............................. <waiter>
+  [  3] getparam 1 .............................. <obj>
+  [  5] pusharglistnoret 2 ...................... <waiter, obj>
+  [  7] objcall 381 ............................. waiter.queueDest(obj)
+  [ 10] getparam 1 .............................. <obj>
+  [ 12] getobjprop 137 .......................... <obj.type>
+  [ 14] pushsymb 368 ............................ <#podium>
+  [ 17] nteq .................................... <obj.type <> #podium>
+  [ 18] getprop 368 ............................. <podium>
+  [ 21] pusharglist 1 ........................... <podium>
+  [ 23] extcall 31 .............................. <voidp(podium)>
+  [ 25] not ..................................... <not voidp(podium)>
+  [ 26] and ..................................... <(obj.type <> #podium) and not voidp(podium)>
+  [ 27] jmpifz [ 37] ............................ if (obj.type <> #podium) and not voidp(podium) then
+  [ 30] getprop 368 ............................. <podium>
+  [ 33] pusharglistnoret 1 ...................... <podium>
+  [ 35] objcall 208 ............................. podium.stop()
+  [ 37] ret
+end
+
+on removeGroup me, sg
+  [  0] getprop 317 ............................. <sitterGroups>
+  [  3] getparam 1 .............................. <sg>
+  [  5] pusharglist 2 ........................... <sitterGroups, sg>
+  [  7] objcall 11 .............................. <sitterGroups.getOne(sg)>
+  [  9] pushzero ................................ <0>
+  [ 10] nteq .................................... <sitterGroups.getOne(sg) <> 0>
+  [ 11] jmpifz [ 23] ............................ if sitterGroups.getOne(sg) <> 0 then
+  [ 14] getprop 317 ............................. <sitterGroups>
+  [ 17] getparam 1 .............................. <sg>
+  [ 19] pusharglistnoret 2 ...................... <sitterGroups, sg>
+  [ 21] objcall 14 .............................. sitterGroups.deleteOne(sg)
+  [ 23] ret
+end
+
+on setStereo me, dat
+  [  0] ret
+end
+
+on setOven me, dat
+  [  0] ret
+end
+
+on addTable me, tdata
+  [  0] getparam 1 .............................. <tdata>
+  [  2] pushsymb 152 ............................ <#chairs>
+  [  4] pushint8 1 .............................. <1>
+  [  6] pusharglist 3 ........................... <tdata, #chairs, 1>
+  [  8] objcall 50 .............................. <tdata.chairs[1]>
+  [ 10] getobjprop 383 .......................... <tdata.chairs[1].pos>
+  [ 13] setlocal 0 .............................. pos = tdata.chairs[1].pos
+  [ 15] pushcons 19 ............................. <"table">
+  [ 17] pushcons 1 .............................. <"scripts.game">
+  [ 19] pusharglist 2 ........................... <"table", "scripts.game">
+  [ 21] extcall 55 .............................. <script("table", "scripts.game")>
+  [ 23] pushsymb 42 ............................. <#room_manager>
+  [ 25] getparam 0 .............................. <me>
+  [ 27] pushsymb 155 ............................ <#capacity>
+  [ 29] getparam 1 .............................. <tdata>
+  [ 31] pushsymb 152 ............................ <#chairs>
+  [ 33] pusharglist 2 ........................... <tdata, #chairs>
+  [ 35] objcall 12 .............................. <tdata.chairs.count>
+  [ 37] pushsymb 384 ............................ <#parentNode>
+  [ 40] getprop 312 ............................. <tableLayer>
+  [ 43] pushsymb 385 ............................ <#stage>
+  [ 46] getprop 212 ............................. <currentStage>
+  [ 48] pushsymb 386 ............................ <#tablenum>
+  [ 51] getprop 318 ............................. <tables>
+  [ 54] getobjprop 12 ........................... <tables.count>
+  [ 56] pushint8 1 .............................. <1>
+  [ 58] add ..................................... <tables.count + 1>
+  [ 59] pushsymb 270 ............................ <#data>
+  [ 62] getparam 1 .............................. <tdata>
+  [ 64] pusharglist 12 .......................... <[#room_manager: me, #capacity: tdata.chairs.count, #parentNode: tableLayer, #stage: currentStage, #tablenum: tables.count + 1, #data: tdata]>
+  [ 66] pushproplist ............................ <[#room_manager: me, #capacity: tdata.chairs.count, #parentNode: tableLayer, #stage: currentStage, #tablenum: tables.count + 1, #data: tdata]>
+  [ 67] pusharglist 2 ........................... <script("table", "scripts.game"), [#room_manager: me, #capacity: tdata.chairs.count, #parentNode: tableLayer, #stage: currentStage, #tablenum: tables.count + 1, #data: tdata]>
+  [ 69] objcall 4 ............................... <script("table", "scripts.game").new([#room_manager: me, #capacity: tdata.chairs.count, #parentNode: tableLayer, #stage: currentStage, #tablenum: tables.count + 1, #data: tdata])>
+  [ 71] setlocal 1 .............................. t = script("table", "scripts.game").new([#room_manager: me, #capacity: tdata.chairs.count, #parentNode: tableLayer, #stage: currentStage, #tablenum: tables.count + 1, #data: tdata])
+  [ 73] getprop 337 ............................. <grid>
+  [ 76] getlocal 1 .............................. <t>
+  [ 78] getparam 1 .............................. <tdata>
+  [ 80] pushsymb 152 ............................ <#chairs>
+  [ 82] pushint8 1 .............................. <1>
+  [ 84] pusharglist 3 ........................... <tdata, #chairs, 1>
+  [ 86] objcall 50 .............................. <tdata.chairs[1]>
+  [ 88] getobjprop 383 .......................... <tdata.chairs[1].pos>
+  [ 91] pushzero ................................ <0>
+  [ 92] pushint8 1 .............................. <1>
+  [ 94] pusharglist 2 ........................... <[0, 1]>
+  [ 96] pushlist ................................ <[0, 1]>
+  [ 97] sub ..................................... <tdata.chairs[1].pos - [0, 1]>
+  [ 98] pusharglist 3 ........................... <grid, t, tdata.chairs[1].pos - [0, 1]>
+  [100] objcall 387 ............................. <grid.placeObject(t, tdata.chairs[1].pos - [0, 1])>
+  [103] jmpifz [167] ............................ if grid.placeObject(t, tdata.chairs[1].pos - [0, 1]) then / else
+  [106] getprop 318 ............................. <tables>
+  [109] getlocal 1 .............................. <t>
+  [111] pusharglistnoret 2 ...................... <tables, t>
+  [113] objcall 6 ............................... tables.add(t)
+  [115] getprop 337 ............................. <grid>
+  [118] getlocal 0 .............................. <pos>
+  [120] pushint8 1 .............................. <1>
+  [122] pusharglist 2 ........................... <pos, 1>
+  [124] objcall 36 .............................. <pos[1]>
+  [126] pushint8 2 .............................. <2>
+  [128] add ..................................... <pos[1] + 2>
+  [129] getlocal 0 .............................. <pos>
+  [131] pushint8 2 .............................. <2>
+  [133] pusharglist 2 ........................... <pos, 2>
+  [135] objcall 36 .............................. <pos[2]>
+  [137] pushint8 2 .............................. <2>
+  [139] sub ..................................... <pos[2] - 2>
+  [140] pusharglist 3 ........................... <grid, pos[1] + 2, pos[2] - 2>
+  [142] objcall 388 ............................. <grid.getTileAt(pos[1] + 2, pos[2] - 2)>
+  [145] setlocal 2 .............................. destTile = grid.getTileAt(pos[1] + 2, pos[2] - 2)
+  [147] getlocal 1 .............................. <t>
+  [149] getlocal 2 .............................. <destTile>
+  [151] pusharglistnoret 2 ...................... <t, destTile>
+  [153] objcall 389 ............................. t.setDestTile(destTile)
+  [156] getprop 337 ............................. <grid>
+  [159] pusharglistnoret 1 ...................... <grid>
+  [161] objcall 390 ............................. grid.updateLocZ()
+  [164] jmp [179]
+  [167] pushcons 20 ............................. <"couldn't place table">
+  [169] pusharglistnoret 1 ...................... <"couldn't place table">
+  [171] extcall 60 .............................. complain("couldn't place table")
+  [173] getlocal 1 .............................. <t>
+  [175] pusharglistnoret 1 ...................... <t>
+  [177] objcall 5 ............................... t.destroy()
+  [179] ret
+end
+
+on setPodiumProps me, p
+  [  0] getparam 1 .............................. <p>
+  [  2] pusharglist 1 ........................... <p>
+  [  4] extcall 31 .............................. <voidp(p)>
+  [  6] jmpifz [ 30] ............................ if voidp(p) then
+  [  9] getprop 356 ............................. <podiumNode>
+  [ 12] pushzero ................................ <0>
+  [ 13] pusharglistnoret 2 ...................... <podiumNode, 0>
+  [ 15] objcall 57 .............................. podiumNode.setVisible(0)
+  [ 17] getprop 368 ............................. <podium>
+  [ 20] pushzero ................................ <0>
+  [ 21] pusharglistnoret 2 ...................... <podium, 0>
+  [ 23] objcall 393 ............................. podium.setReady(0)
+  [ 26] pusharglistnoret 0 ...................... <>
+  [ 28] extcall 9 ............................... return 
+  [ 30] getprop 368 ............................. <podium>
+  [ 33] pusharglist 1 ........................... <podium>
+  [ 35] extcall 31 .............................. <voidp(podium)>
+  [ 37] jmpifz [166] ............................ if voidp(podium) then
+  [ 40] pushcons 9 .............................. <"podium">
+  [ 42] pushcons 1 .............................. <"scripts.game">
+  [ 44] pusharglist 2 ........................... <"podium", "scripts.game">
+  [ 46] extcall 55 .............................. <script("podium", "scripts.game")>
+  [ 48] pushsymb 45 ............................. <#node>
+  [ 50] getprop 356 ............................. <podiumNode>
+  [ 53] pushsymb 43 ............................. <#game_mgr>
+  [ 55] getprop 43 .............................. <game_mgr>
+  [ 57] pushsymb 41 ............................. <#room_mgr>
+  [ 59] getparam 0 .............................. <me>
+  [ 61] pusharglist 6 ........................... <[#node: podiumNode, #game_mgr: game_mgr, #room_mgr: me]>
+  [ 63] pushproplist ............................ <[#node: podiumNode, #game_mgr: game_mgr, #room_mgr: me]>
+  [ 64] pusharglist 2 ........................... <script("podium", "scripts.game"), [#node: podiumNode, #game_mgr: game_mgr, #room_mgr: me]>
+  [ 66] objcall 4 ............................... <script("podium", "scripts.game").new([#node: podiumNode, #game_mgr: game_mgr, #room_mgr: me])>
+  [ 68] setprop 368 ............................. podium = script("podium", "scripts.game").new([#node: podiumNode, #game_mgr: game_mgr, #room_mgr: me])
+  [ 71] getprop 337 ............................. <grid>
+  [ 74] getprop 356 ............................. <podiumNode>
+  [ 77] pusharglist 1 ........................... <podiumNode>
+  [ 79] objcall 51 .............................. <podiumNode.getLoc()>
+  [ 81] pusharglist 2 ........................... <grid, podiumNode.getLoc()>
+  [ 83] objcall 394 ............................. <grid.getTileNearest(podiumNode.getLoc())>
+  [ 86] setlocal 0 .............................. t = grid.getTileNearest(podiumNode.getLoc())
+  [ 88] getprop 337 ............................. <grid>
+  [ 91] getprop 368 ............................. <podium>
+  [ 94] getlocal 0 .............................. <t>
+  [ 96] getobjprop 383 .......................... <t.pos>
+  [ 99] pusharglist 3 ........................... <grid, podium, t.pos>
+  [101] objcall 387 ............................. <grid.placeObject(podium, t.pos)>
+  [104] not ..................................... <not grid.placeObject(podium, t.pos)>
+  [105] jmpifz [125] ............................ if not grid.placeObject(podium, t.pos) then
+  [108] pushcons 21 ............................. <"couldn't place podium">
+  [110] pusharglistnoret 1 ...................... <"couldn't place podium">
+  [112] extcall 60 .............................. complain("couldn't place podium")
+  [114] getprop 368 ............................. <podium>
+  [117] pusharglistnoret 1 ...................... <podium>
+  [119] objcall 5 ............................... podium.destroy()
+  [121] pusharglistnoret 0 ...................... <>
+  [123] extcall 9 ............................... return 
+  [125] getprop 368 ............................. <podium>
+  [128] getprop 337 ............................. <grid>
+  [131] getlocal 0 .............................. <t>
+  [133] pushsymb 383 ............................ <#pos>
+  [136] pushint8 1 .............................. <1>
+  [138] pusharglist 3 ........................... <t, #pos, 1>
+  [140] objcall 30 .............................. <t.pos[1]>
+  [142] getlocal 0 .............................. <t>
+  [144] pushsymb 383 ............................ <#pos>
+  [147] pushint8 2 .............................. <2>
+  [149] pusharglist 3 ........................... <t, #pos, 2>
+  [151] objcall 30 .............................. <t.pos[2]>
+  [153] pushint8 1 .............................. <1>
+  [155] sub ..................................... <t.pos[2] - 1>
+  [156] pusharglist 3 ........................... <grid, t.pos[1], t.pos[2] - 1>
+  [158] objcall 388 ............................. <grid.getTileAt(t.pos[1], t.pos[2] - 1)>
+  [161] pusharglistnoret 2 ...................... <podium, grid.getTileAt(t.pos[1], t.pos[2] - 1)>
+  [163] objcall 389 ............................. podium.setDestTile(grid.getTileAt(t.pos[1], t.pos[2] - 1))
+  [166] getprop 368 ............................. <podium>
+  [169] getparam 1 .............................. <p>
+  [171] pusharglistnoret 2 ...................... <podium, p>
+  [173] objcall 395 ............................. podium.setConfig(p)
+  [176] getprop 356 ............................. <podiumNode>
+  [179] pushint8 1 .............................. <1>
+  [181] pusharglistnoret 2 ...................... <podiumNode, 1>
+  [183] objcall 57 .............................. podiumNode.setVisible(1)
+  [185] getprop 368 ............................. <podium>
+  [188] pushint8 1 .............................. <1>
+  [190] pusharglistnoret 2 ...................... <podium, 1>
+  [192] objcall 393 ............................. podium.setReady(1)
+  [195] ret
+end
+
+on hasNewItems me
+  [  0] getprop 327 ............................. <appearNodes>
+  [  3] getobjprop 12 ........................... <appearNodes.count>
+  [  5] getprop 326 ............................. <disappearNodes>
+  [  8] getobjprop 12 ........................... <disappearNodes.count>
+  [ 10] or ...................................... <appearNodes.count or disappearNodes.count>
+  [ 11] pusharglistnoret 1 ...................... <appearNodes.count or disappearNodes.count>
+  [ 13] extcall 9 ............................... return appearNodes.count or disappearNodes.count
+  [ 15] ret
+end
+
+on flashItems me
+  [  0] pushsymb 57 ............................. <#setVisible>
+  [  2] getprop 327 ............................. <appearNodes>
+  [  5] pushzero ................................ <0>
+  [  6] pusharglistnoret 3 ...................... <#setVisible, appearNodes, 0>
+  [  8] extcall 32 .............................. call(#setVisible, appearNodes, 0)
+  [ 10] pushsymb 57 ............................. <#setVisible>
+  [ 12] getprop 326 ............................. <disappearNodes>
+  [ 15] pushint8 1 .............................. <1>
+  [ 17] pusharglistnoret 3 ...................... <#setVisible, disappearNodes, 1>
+  [ 19] extcall 32 .............................. call(#setVisible, disappearNodes, 1)
+  [ 21] getprop 327 ............................. <appearNodes>
+  [ 24] peek 0
+  [ 26] pusharglist 1
+  [ 28] extcall 12
+  [ 30] pushint8 1
+  [ 32] peek 0
+  [ 34] peek 2
+  [ 36] lteq
+  [ 37] jmpifz [ 81] ............................ repeat with i in appearNodes
+  [ 40] peek 2
+  [ 42] peek 1
+  [ 44] pusharglist 2
+  [ 46] extcall 36
+  [ 48] setlocal 0
+  [ 50] pushsymb 45 ............................. <#node>
+  [ 52] getlocal 0 .............................. <i>
+  [ 54] pushsymb 184 ............................ <#loopCount>
+  [ 56] pushint8 5 .............................. <5>
+  [ 58] pushsymb 68 ............................. <#ms>
+  [ 60] pushint16 200 ........................... <200>
+  [ 63] pushsymb 398 ............................ <#group>
+  [ 66] pushcons 22 ............................. <"room">
+  [ 68] pusharglist 8 ........................... <[#node: i, #loopCount: 5, #ms: 200, #group: "room"]>
+  [ 70] pushproplist ............................ <[#node: i, #loopCount: 5, #ms: 200, #group: "room"]>
+  [ 71] pusharglistnoret 1 ...................... <[#node: i, #loopCount: 5, #ms: 200, #group: "room"]>
+  [ 73] extcall 397 ............................. flashNode([#node: i, #loopCount: 5, #ms: 200, #group: "room"])
+  [ 76] pushint8 1
+  [ 78] add
+  [ 79] endrepeat [ 32]
+  [ 81] pop 3
+  [ 83] getprop 326 ............................. <disappearNodes>
+  [ 86] peek 0
+  [ 88] pusharglist 1
+  [ 90] extcall 12
+  [ 92] pushint8 1
+  [ 94] peek 0
+  [ 96] peek 2
+  [ 98] lteq
+  [ 99] jmpifz [148] ............................ repeat with i in disappearNodes
+  [102] peek 2
+  [104] peek 1
+  [106] pusharglist 2
+  [108] extcall 36
+  [110] setlocal 0
+  [112] pushsymb 45 ............................. <#node>
+  [114] getlocal 0 .............................. <i>
+  [116] pushsymb 184 ............................ <#loopCount>
+  [118] pushint8 5 .............................. <5>
+  [120] pushsymb 68 ............................. <#ms>
+  [122] pushint16 200 ........................... <200>
+  [125] pushsymb 398 ............................ <#group>
+  [128] pushcons 22 ............................. <"room">
+  [130] pushsymb 399 ............................ <#invert>
+  [133] pushint8 1 .............................. <1>
+  [135] pusharglist 10 .......................... <[#node: i, #loopCount: 5, #ms: 200, #group: "room", #invert: 1]>
+  [137] pushproplist ............................ <[#node: i, #loopCount: 5, #ms: 200, #group: "room", #invert: 1]>
+  [138] pusharglistnoret 1 ...................... <[#node: i, #loopCount: 5, #ms: 200, #group: "room", #invert: 1]>
+  [140] extcall 397 ............................. flashNode([#node: i, #loopCount: 5, #ms: 200, #group: "room", #invert: 1])
+  [143] pushint8 1
+  [145] add
+  [146] endrepeat [ 94]
+  [148] pop 3
+  [150] ret
+end
+
+on setDrinkProps me, p
+  [  0] getprop 322 ............................. <stations>
+  [  3] pushsymb 400 ............................ <#drinkspot>
+  [  6] pusharglist 2 ........................... <stations, #drinkspot>
+  [  8] objcall 36 .............................. <stations[#drinkspot]>
+  [ 10] pusharglist 1 ........................... <stations[#drinkspot]>
+  [ 12] extcall 31 .............................. <voidp(stations[#drinkspot])>
+  [ 14] jmpifz [215] ............................ if voidp(stations[#drinkspot]) then
+  [ 17] getprop 331 ............................. <stationNodes>
+  [ 20] pushsymb 400 ............................ <#drinkspot>
+  [ 23] pusharglist 2 ........................... <stationNodes, #drinkspot>
+  [ 25] objcall 36 .............................. <stationNodes[#drinkspot]>
+  [ 27] setlocal 0 .............................. n = stationNodes[#drinkspot]
+  [ 29] getprop 337 ............................. <grid>
+  [ 32] getlocal 0 .............................. <n>
+  [ 34] pusharglist 1 ........................... <n>
+  [ 36] objcall 51 .............................. <n.getLoc()>
+  [ 38] pusharglist 2 ........................... <grid, n.getLoc()>
+  [ 40] objcall 394 ............................. <grid.getTileNearest(n.getLoc())>
+  [ 43] setlocal 1 .............................. t = grid.getTileNearest(n.getLoc())
+  [ 45] getlocal 1 .............................. <t>
+  [ 47] getchainedprop 287 ...................... <t.occupant>
+  [ 50] getobjprop 137 .......................... <t.occupant.type>
+  [ 52] pushsymb 401 ............................ <#empty>
+  [ 55] eq ...................................... <t.occupant.type = #empty>
+  [ 56] getlocal 1 .............................. <t>
+  [ 58] getchainedprop 287 ...................... <t.occupant>
+  [ 61] getobjprop 137 .......................... <t.occupant.type>
+  [ 63] pushsymb 402 ............................ <#Full>
+  [ 66] eq ...................................... <t.occupant.type = #Full>
+  [ 67] or ...................................... <(t.occupant.type = #empty) or (t.occupant.type = #Full)>
+  [ 68] jmpifz [205] ............................ if (t.occupant.type = #empty) or (t.occupant.type = #Full) then / else
+  [ 71] pushcons 13 ............................. <"drinkspot">
+  [ 73] pusharglist 1 ........................... <"drinkspot">
+  [ 75] extcall 55 .............................. <script("drinkspot")>
+  [ 77] pushsymb 45 ............................. <#node>
+  [ 79] getlocal 0 .............................. <n>
+  [ 81] pushsymb 41 ............................. <#room_mgr>
+  [ 83] getparam 0 .............................. <me>
+  [ 85] pushsymb 334 ............................ <#timeMultiplier>
+  [ 88] getprop 334 ............................. <timeMultiplier>
+  [ 91] pushsymb 403 ............................ <#props>
+  [ 94] getparam 1 .............................. <p>
+  [ 96] pusharglist 8 ........................... <[#node: n, #room_mgr: me, #timeMultiplier: timeMultiplier, #props: p]>
+  [ 98] pushproplist ............................ <[#node: n, #room_mgr: me, #timeMultiplier: timeMultiplier, #props: p]>
+  [ 99] pusharglist 2 ........................... <script("drinkspot"), [#node: n, #room_mgr: me, #timeMultiplier: timeMultiplier, #props: p]>
+  [101] objcall 4 ............................... <script("drinkspot").new([#node: n, #room_mgr: me, #timeMultiplier: timeMultiplier, #props: p])>
+  [103] setlocal 2 .............................. obj = script("drinkspot").new([#node: n, #room_mgr: me, #timeMultiplier: timeMultiplier, #props: p])
+  [105] getprop 337 ............................. <grid>
+  [108] getlocal 2 .............................. <obj>
+  [110] getlocal 1 .............................. <t>
+  [112] getobjprop 383 .......................... <t.pos>
+  [115] pusharglist 3 ........................... <grid, obj, t.pos>
+  [117] objcall 387 ............................. <grid.placeObject(obj, t.pos)>
+  [120] not ..................................... <not grid.placeObject(obj, t.pos)>
+  [121] jmpifz [140] ............................ if not grid.placeObject(obj, t.pos) then
+  [124] pushcons 23 ............................. <"couldn't place drinks">
+  [126] pusharglistnoret 1 ...................... <"couldn't place drinks">
+  [128] extcall 60 .............................. complain("couldn't place drinks")
+  [130] getlocal 2 .............................. <obj>
+  [132] pusharglistnoret 1 ...................... <obj>
+  [134] objcall 5 ............................... obj.destroy()
+  [136] pusharglistnoret 0 ...................... <>
+  [138] extcall 9 ............................... return 
+  [140] getlocal 2 .............................. <obj>
+  [142] getprop 337 ............................. <grid>
+  [145] getlocal 1 .............................. <t>
+  [147] pushsymb 383 ............................ <#pos>
+  [150] pushint8 1 .............................. <1>
+  [152] pusharglist 3 ........................... <t, #pos, 1>
+  [154] objcall 30 .............................. <t.pos[1]>
+  [156] getlocal 1 .............................. <t>
+  [158] pushsymb 383 ............................ <#pos>
+  [161] pushint8 2 .............................. <2>
+  [163] pusharglist 3 ........................... <t, #pos, 2>
+  [165] objcall 30 .............................. <t.pos[2]>
+  [167] pushint8 2 .............................. <2>
+  [169] add ..................................... <t.pos[2] + 2>
+  [170] pusharglist 3 ........................... <grid, t.pos[1], t.pos[2] + 2>
+  [172] objcall 388 ............................. <grid.getTileAt(t.pos[1], t.pos[2] + 2)>
+  [175] pusharglistnoret 2 ...................... <obj, grid.getTileAt(t.pos[1], t.pos[2] + 2)>
+  [177] objcall 389 ............................. obj.setDestTile(grid.getTileAt(t.pos[1], t.pos[2] + 2))
+  [180] getprop 335 ............................. <kitchen>
+  [183] getlocal 2 .............................. <obj>
+  [185] pusharglistnoret 2 ...................... <kitchen, obj>
+  [187] objcall 404 ............................. kitchen.addSpot(obj)
+  [190] getprop 322 ............................. <stations>
+  [193] pushsymb 400 ............................ <#drinkspot>
+  [196] getlocal 2 .............................. <obj>
+  [198] pusharglistnoret 3 ...................... <stations, #drinkspot, obj>
+  [200] objcall 25 .............................. stations[#drinkspot] = obj
+  [202] jmp [215]
+  [205] pushcons 23 ............................. <"couldn't place drinks">
+  [207] pusharglistnoret 1 ...................... <"couldn't place drinks">
+  [209] extcall 60 .............................. complain("couldn't place drinks")
+  [211] pusharglistnoret 0 ...................... <>
+  [213] extcall 9 ............................... return 
+  [215] getparam 1 .............................. <p>
+  [217] pusharglist 1 ........................... <p>
+  [219] extcall 346 ............................. <Keys(p)>
+  [222] peek 0
+  [224] pusharglist 1
+  [226] extcall 12
+  [228] pushint8 1
+  [230] peek 0
+  [232] peek 2
+  [234] lteq
+  [235] jmpifz [273] ............................ repeat with i in Keys(p)
+  [238] peek 2
+  [240] peek 1
+  [242] pusharglist 2
+  [244] extcall 36
+  [246] setlocal 3
+  [248] getprop 322 ............................. <stations>
+  [251] pushsymb 400 ............................ <#drinkspot>
+  [254] getlocal 3 .............................. <i>
+  [256] getparam 1 .............................. <p>
+  [258] getlocal 3 .............................. <i>
+  [260] pusharglist 2 ........................... <p, i>
+  [262] objcall 36 .............................. <p[i]>
+  [264] pusharglistnoret 4 ...................... <stations, #drinkspot, i, p[i]>
+  [266] objcall 28 .............................. stations.drinkspot[i] = p[i]
+  [268] pushint8 1
+  [270] add
+  [271] endrepeat [230]
+  [273] pop 3
+  [275] ret
+end
+
+on setMimeProps me, props
+  [  0] getprop 369 ............................. <mime>
+  [  3] pusharglist 1 ........................... <mime>
+  [  5] extcall 31 .............................. <voidp(mime)>
+  [  7] not ..................................... <not voidp(mime)>
+  [  8] jmpifz [ 18] ............................ if not voidp(mime) then
+  [ 11] getprop 369 ............................. <mime>
+  [ 14] pusharglistnoret 1 ...................... <mime>
+  [ 16] objcall 5 ............................... mime.destroy()
+  [ 18] getprop 357 ............................. <mimeNode>
+  [ 21] pusharglist 1 ........................... <mimeNode>
+  [ 23] extcall 31 .............................. <voidp(mimeNode)>
+  [ 25] not ..................................... <not voidp(mimeNode)>
+  [ 26] jmpifz [ 69] ............................ if not voidp(mimeNode) then
+  [ 29] getparam 1 .............................. <props>
+  [ 31] pusharglist 1 ........................... <props>
+  [ 33] extcall 31 .............................. <voidp(props)>
+  [ 35] jmpifz [ 43] ............................ if voidp(props) then
+  [ 38] pusharglist 0 ........................... <[:]>
+  [ 40] pushproplist ............................ <[:]>
+  [ 41] setparam 1 .............................. props = [:]
+  [ 43] getparam 1 .............................. <props>
+  [ 45] pushsymb 45 ............................. <#node>
+  [ 47] getprop 357 ............................. <mimeNode>
+  [ 50] pusharglistnoret 3 ...................... <props, #node, mimeNode>
+  [ 52] objcall 25 .............................. props[#node] = mimeNode
+  [ 54] pushcons 10 ............................. <"mime">
+  [ 56] pusharglist 1 ........................... <"mime">
+  [ 58] extcall 55 .............................. <script("mime")>
+  [ 60] getparam 1 .............................. <props>
+  [ 62] pusharglist 2 ........................... <script("mime"), props>
+  [ 64] objcall 4 ............................... <script("mime").new(props)>
+  [ 66] setprop 369 ............................. mime = script("mime").new(props)
+  [ 69] ret
+end
+
+on setSnacks me, dat, pc
+  [  0] getprop 330 ............................. <previousSnacks>
+  [  3] pusharglist 1 ........................... <previousSnacks>
+  [  5] objcall 405 ............................. <previousSnacks.duplicate()>
+  [  8] setlocal 0 .............................. mySnacks = previousSnacks.duplicate()
+  [ 10] getprop 330 ............................. <previousSnacks>
+  [ 13] pusharglistnoret 1 ...................... <previousSnacks>
+  [ 15] objcall 10 .............................. previousSnacks.deleteAll()
+  [ 17] getparam 1 .............................. <dat>
+  [ 19] getobjprop 31 ........................... <dat.voidp>
+  [ 21] jmpifz [ 29] ............................ if dat.voidp then
+  [ 24] pusharglist 0 ........................... <[]>
+  [ 26] pushlist ................................ <[]>
+  [ 27] setparam 1 .............................. dat = []
+  [ 29] pushcons 24 ............................. <"snackspot">
+  [ 31] pushcons 1 .............................. <"scripts.game">
+  [ 33] pusharglist 2 ........................... <"snackspot", "scripts.game">
+  [ 35] extcall 55 .............................. <script("snackspot", "scripts.game")>
+  [ 37] setlocal 1 .............................. scr = script("snackspot", "scripts.game")
+  [ 39] pushsymb 5 .............................. <#destroy>
+  [ 41] getprop 333 ............................. <snackStations>
+  [ 44] pusharglistnoret 2 ...................... <#destroy, snackStations>
+  [ 46] extcall 32 .............................. call(#destroy, snackStations)
+  [ 48] getprop 333 ............................. <snackStations>
+  [ 51] pusharglistnoret 1 ...................... <snackStations>
+  [ 53] objcall 10 .............................. snackStations.deleteAll()
+  [ 55] pushint8 1 .............................. <1>
+  [ 57] setlocal 2
+  [ 59] getlocal 2
+  [ 61] getprop 332 ............................. <snackNodes>
+  [ 64] getobjprop 12 ........................... <snackNodes.count>
+  [ 66] lteq
+  [ 67] jmpifz [269] ............................ repeat with i = 1 to snackNodes.count
+  [ 70] getprop 332 ............................. <snackNodes>
+  [ 73] getlocal 2 .............................. <i>
+  [ 75] pusharglist 2 ........................... <snackNodes, i>
+  [ 77] objcall 36 .............................. <snackNodes[i]>
+  [ 79] setlocal 3 .............................. sn = snackNodes[i]
+  [ 81] getlocal 2 .............................. <i>
+  [ 83] getparam 1 .............................. <dat>
+  [ 85] getobjprop 12 ........................... <dat.count>
+  [ 87] gt ...................................... <i > dat.count>
+  [ 88] jmpifz [101] ............................ if i > dat.count then
+  [ 91] getlocal 3 .............................. <sn>
+  [ 93] pushzero ................................ <0>
+  [ 94] pusharglistnoret 2 ...................... <sn, 0>
+  [ 96] objcall 57 .............................. sn.setVisible(0)
+  [ 98] jmp [260] ............................... next repeat
+  [101] getparam 1 .............................. <dat>
+  [103] getlocal 2 .............................. <i>
+  [105] pusharglist 2 ........................... <dat, i>
+  [107] objcall 36 .............................. <dat[i]>
+  [109] setlocal 4 .............................. stype = dat[i]
+  [111] getprop 337 ............................. <grid>
+  [114] getlocal 3 .............................. <sn>
+  [116] pusharglist 1 ........................... <sn>
+  [118] objcall 406 ............................. <sn.getLocRel()>
+  [121] pusharglist 2 ........................... <grid, sn.getLocRel()>
+  [123] objcall 394 ............................. <grid.getTileNearest(sn.getLocRel())>
+  [126] setlocal 5 .............................. t = grid.getTileNearest(sn.getLocRel())
+  [128] getprop 337 ............................. <grid>
+  [131] getlocal 5 .............................. <t>
+  [133] pushsymb 383 ............................ <#pos>
+  [136] pushint8 1 .............................. <1>
+  [138] pusharglist 3 ........................... <t, #pos, 1>
+  [140] objcall 30 .............................. <t.pos[1]>
+  [142] getlocal 5 .............................. <t>
+  [144] pushsymb 383 ............................ <#pos>
+  [147] pushint8 2 .............................. <2>
+  [149] pusharglist 3 ........................... <t, #pos, 2>
+  [151] objcall 30 .............................. <t.pos[2]>
+  [153] pusharglist 3 ........................... <grid, t.pos[1], t.pos[2]>
+  [155] objcall 388 ............................. <grid.getTileAt(t.pos[1], t.pos[2])>
+  [158] setlocal 6 .............................. dt = grid.getTileAt(t.pos[1], t.pos[2])
+  [160] getlocal 5 .............................. <t>
+  [162] getchainedprop 287 ...................... <t.occupant>
+  [165] getobjprop 137 .......................... <t.occupant.type>
+  [167] pushsymb 401 ............................ <#empty>
+  [170] eq ...................................... <t.occupant.type = #empty>
+  [171] getlocal 5 .............................. <t>
+  [173] getchainedprop 287 ...................... <t.occupant>
+  [176] getobjprop 137 .......................... <t.occupant.type>
+  [178] pushsymb 402 ............................ <#Full>
+  [181] eq ...................................... <t.occupant.type = #Full>
+  [182] or ...................................... <(t.occupant.type = #empty) or (t.occupant.type = #Full)>
+  [183] jmpifz [260] ............................ if (t.occupant.type = #empty) or (t.occupant.type = #Full) then
+  [186] getlocal 1 .............................. <scr>
+  [188] pushsymb 45 ............................. <#node>
+  [190] getlocal 3 .............................. <sn>
+  [192] pushsymb 137 ............................ <#type>
+  [194] getlocal 4 .............................. <stype>
+  [196] pushsymb 41 ............................. <#room_mgr>
+  [198] getparam 0 .............................. <me>
+  [200] pusharglist 6 ........................... <[#node: sn, #type: stype, #room_mgr: me]>
+  [202] pushproplist ............................ <[#node: sn, #type: stype, #room_mgr: me]>
+  [203] pusharglist 2 ........................... <scr, [#node: sn, #type: stype, #room_mgr: me]>
+  [205] objcall 4 ............................... <scr.new([#node: sn, #type: stype, #room_mgr: me])>
+  [207] setlocal 7 .............................. obj = scr.new([#node: sn, #type: stype, #room_mgr: me])
+  [209] getlocal 0 .............................. <mySnacks>
+  [211] getlocal 4 .............................. <stype>
+  [213] pusharglist 2 ........................... <mySnacks, stype>
+  [215] objcall 11 .............................. <mySnacks.getOne(stype)>
+  [217] pushzero ................................ <0>
+  [218] eq ...................................... <mySnacks.getOne(stype) = 0>
+  [219] jmpifz [231] ............................ if mySnacks.getOne(stype) = 0 then
+  [222] getprop 327 ............................. <appearNodes>
+  [225] getlocal 3 .............................. <sn>
+  [227] pusharglistnoret 2 ...................... <appearNodes, sn>
+  [229] objcall 6 ............................... appearNodes.add(sn)
+  [231] getlocal 7 .............................. <obj>
+  [233] getlocal 6 .............................. <dt>
+  [235] pusharglistnoret 2 ...................... <obj, dt>
+  [237] objcall 389 ............................. obj.setDestTile(dt)
+  [240] getprop 330 ............................. <previousSnacks>
+  [243] getlocal 4 .............................. <stype>
+  [245] pusharglistnoret 2 ...................... <previousSnacks, stype>
+  [247] objcall 6 ............................... previousSnacks.add(stype)
+  [249] getprop 333 ............................. <snackStations>
+  [252] getlocal 4 .............................. <stype>
+  [254] getlocal 7 .............................. <obj>
+  [256] pusharglistnoret 3 ...................... <snackStations, stype, obj>
+  [258] objcall 25 .............................. snackStations[stype] = obj
+  [260] pushint8 1
+  [262] getlocal 2
+  [264] add
+  [265] setlocal 2
+  [267] endrepeat [ 59]
+  [269] pushsymb 310 ............................ <#setSnacks>
+  [272] getprop 317 ............................. <sitterGroups>
+  [275] getparam 1 .............................. <dat>
+  [277] getparam 2 .............................. <pc>
+  [279] pusharglistnoret 4 ...................... <#setSnacks, sitterGroups, dat, pc>
+  [281] extcall 32 .............................. call(#setSnacks, sitterGroups, dat, pc)
+  [283] ret
+end
+
+on loadLevel me, lvl_all
+  [  0] getprop 357 ............................. <mimeNode>
+  [  3] pusharglist 1 ........................... <mimeNode>
+  [  5] extcall 31 .............................. <voidp(mimeNode)>
+  [  7] not ..................................... <not voidp(mimeNode)>
+  [  8] jmpifz [ 19] ............................ if not voidp(mimeNode) then
+  [ 11] getprop 357 ............................. <mimeNode>
+  [ 14] pushzero ................................ <0>
+  [ 15] pusharglistnoret 2 ...................... <mimeNode, 0>
+  [ 17] objcall 57 .............................. mimeNode.setVisible(0)
+  [ 19] getprop 326 ............................. <disappearNodes>
+  [ 22] pusharglistnoret 1 ...................... <disappearNodes>
+  [ 24] objcall 10 .............................. disappearNodes.deleteAll()
+  [ 26] getprop 327 ............................. <appearNodes>
+  [ 29] pusharglistnoret 1 ...................... <appearNodes>
+  [ 31] objcall 10 .............................. appearNodes.deleteAll()
+  [ 33] getprop 328 ............................. <previousItems>
+  [ 36] pusharglist 1 ........................... <previousItems>
+  [ 38] objcall 405 ............................. <previousItems.duplicate()>
+  [ 41] setlocal 0 .............................. myItems = previousItems.duplicate()
+  [ 43] getprop 329 ............................. <previousTables>
+  [ 46] pusharglist 1 ........................... <previousTables>
+  [ 48] objcall 405 ............................. <previousTables.duplicate()>
+  [ 51] setlocal 1 .............................. myTables = previousTables.duplicate()
+  [ 53] getprop 329 ............................. <previousTables>
+  [ 56] pusharglistnoret 1 ...................... <previousTables>
+  [ 58] objcall 10 .............................. previousTables.deleteAll()
+  [ 60] getprop 328 ............................. <previousItems>
+  [ 63] pusharglistnoret 1 ...................... <previousItems>
+  [ 65] objcall 10 .............................. previousItems.deleteAll()
+  [ 67] getprop 325 ............................. <tweener>
+  [ 70] pusharglistnoret 1 ...................... <tweener>
+  [ 72] objcall 358 ............................. tweener.endTween()
+  [ 75] getprop 359 ............................. <closingSign>
+  [ 78] pusharglist 1 ........................... <closingSign>
+  [ 80] extcall 31 .............................. <voidp(closingSign)>
+  [ 82] not ..................................... <not voidp(closingSign)>
+  [ 83] jmpifz [106] ............................ if not voidp(closingSign) then
+  [ 86] getprop 359 ............................. <closingSign>
+  [ 89] getprop 360 ............................. <closingHome>
+  [ 92] pushint16 200 ........................... <200>
+  [ 95] pushzero ................................ <0>
+  [ 96] pusharglist 2 ........................... <200, 0>
+  [ 98] extcall 361 ............................. <point(200, 0)>
+  [101] sub ..................................... <closingHome - point(200, 0)>
+  [102] pusharglistnoret 2 ...................... <closingSign, closingHome - point(200, 0)>
+  [104] objcall 135 ............................. closingSign.setLoc(closingHome - point(200, 0))
+  [106] getparam 1 .............................. <lvl_all>
+  [108] pushsymb 412 ............................ <#layout>
+  [111] pusharglist 2 ........................... <lvl_all, #layout>
+  [113] objcall 36 .............................. <lvl_all[#layout]>
+  [115] setlocal 2 .............................. lvl = lvl_all[#layout]
+  [117] getlocal 2 .............................. <lvl>
+  [119] pusharglist 1 ........................... <lvl>
+  [121] extcall 31 .............................. <voidp(lvl)>
+  [123] jmpifz [133] ............................ if voidp(lvl) then
+  [126] pusharglist 0 ........................... <>
+  [128] extcall 413 ............................. <getLevelData()>
+  [131] setlocal 2 .............................. lvl = getLevelData()
+  [133] getparam 0 .............................. <me>
+  [135] pusharglistnoret 1 ...................... <me>
+  [137] objcall 295 ............................. me.destroyLevel()
+  [140] getlocal 2 .............................. <lvl>
+  [142] setprop 414 ............................. currentLevel = lvl
+  [145] getprop 337 ............................. <grid>
+  [148] pushint8 18 ............................. <18>
+  [150] getlocal 2 .............................. <lvl>
+  [152] getobjprop 415 .......................... <lvl.height>
+  [155] pusharglist 2 ........................... <[18, lvl.height]>
+  [157] pushlist ................................ <[18, lvl.height]>
+  [158] pusharglistnoret 2 ...................... <grid, [18, lvl.height]>
+  [160] objcall 416 ............................. grid.setSize([18, lvl.height])
+  [163] getprop 212 ............................. <currentStage>
+  [165] pushsymb 417 ............................ <#finedining>
+  [168] eq ...................................... <currentStage = #finedining>
+  [169] jmpifz [180] ............................ if currentStage = #finedining then
+  [172] getprop 337 ............................. <grid>
+  [175] pusharglistnoret 1 ...................... <grid>
+  [177] objcall 418 ............................. grid.blockColumn()
+  [180] getparam 1 .............................. <lvl_all>
+  [182] pushsymb 419 ............................ <#bgstate>
+  [185] pusharglist 2 ........................... <lvl_all, #bgstate>
+  [187] objcall 36 .............................. <lvl_all[#bgstate]>
+  [189] setlocal 3 .............................. bgstate_name = lvl_all[#bgstate]
+  [191] getlocal 3 .............................. <bgstate_name>
+  [193] pusharglist 1 ........................... <bgstate_name>
+  [195] extcall 31 .............................. <voidp(bgstate_name)>
+  [197] not ..................................... <not voidp(bgstate_name)>
+  [198] jmpifz [437] ............................ if not voidp(bgstate_name) then
+  [201] getprop 419 ............................. <bgstate>
+  [204] setlocal 4 .............................. old_bgstate = bgstate
+  [206] getprop 314 ............................. <bgconfig>
+  [209] getprop 212 ............................. <currentStage>
+  [211] pusharglist 2 ........................... <bgconfig, currentStage>
+  [213] objcall 36 .............................. <bgconfig[currentStage]>
+  [215] pushsymb 341 ............................ <#states>
+  [218] getlocal 3 .............................. <bgstate_name>
+  [220] pusharglist 3 ........................... <bgconfig[currentStage], #states, bgstate_name>
+  [222] objcall 30 .............................. <bgconfig[currentStage].states[bgstate_name]>
+  [224] setprop 419 ............................. bgstate = bgconfig[currentStage].states[bgstate_name]
+  [227] getprop 419 ............................. <bgstate>
+  [230] pusharglist 1 ........................... <bgstate>
+  [232] extcall 31 .............................. <voidp(bgstate)>
+  [234] not ..................................... <not voidp(bgstate)>
+  [235] jmpifz [437] ............................ if not voidp(bgstate) then
+  [238] getprop 314 ............................. <bgconfig>
+  [241] getprop 212 ............................. <currentStage>
+  [243] pusharglist 2 ........................... <bgconfig, currentStage>
+  [245] objcall 36 .............................. <bgconfig[currentStage]>
+  [247] getchainedprop 341 ...................... <bgconfig[currentStage].states>
+  [250] getlocal 3 .............................. <bgstate_name>
+  [252] pusharglist 2 ........................... <bgconfig[currentStage].states, bgstate_name>
+  [254] objcall 420 ............................. <bgconfig[currentStage].states.findPos(bgstate_name)>
+  [257] setlocal 5 .............................. num = bgconfig[currentStage].states.findPos(bgstate_name)
+  [259] getprop 1 ............................... <glob>
+  [261] getchainedprop 108 ...................... <glob.managers>
+  [263] getchainedprop 344 ...................... <glob.managers.savegame>
+  [266] getprop 212 ............................. <currentStage>
+  [268] getlocal 5 .............................. <num>
+  [270] pusharglistnoret 3 ...................... <glob.managers.savegame, currentStage, num>
+  [272] objcall 421 ............................. glob.managers.savegame.unlockBG(currentStage, num)
+  [275] getprop 45 .............................. <node>
+  [277] pushcons 5 .............................. <"bg">
+  [279] pusharglist 2 ........................... <node, "bg">
+  [281] objcall 36 .............................. <node["bg"]>
+  [283] setprop 422 ............................. bgnode = node["bg"]
+  [286] getprop 419 ............................. <bgstate>
+  [289] pusharglist 1 ........................... <bgstate>
+  [291] extcall 346 ............................. <Keys(bgstate)>
+  [294] setlocal 6 .............................. ks = Keys(bgstate)
+  [296] getlocal 6 .............................. <ks>
+  [298] peek 0
+  [300] pusharglist 1
+  [302] extcall 12
+  [304] pushint8 1
+  [306] peek 0
+  [308] peek 2
+  [310] lteq
+  [311] jmpifz [435] ............................ repeat with nid in ks
+  [314] peek 2
+  [316] peek 1
+  [318] pusharglist 2
+  [320] extcall 36
+  [322] setlocal 7
+  [324] getprop 422 ............................. <bgnode>
+  [327] getlocal 7 .............................. <nid>
+  [329] pusharglist 2 ........................... <bgnode, nid>
+  [331] objcall 36 .............................. <bgnode[nid]>
+  [333] setlocal 8 .............................. n = bgnode[nid]
+  [335] getlocal 8 .............................. <n>
+  [337] pusharglist 1 ........................... <n>
+  [339] extcall 31 .............................. <voidp(n)>
+  [341] not ..................................... <not voidp(n)>
+  [342] jmpifz [426] ............................ if not voidp(n) then
+  [345] getprop 419 ............................. <bgstate>
+  [348] getlocal 7 .............................. <nid>
+  [350] pusharglist 2 ........................... <bgstate, nid>
+  [352] objcall 36 .............................. <bgstate[nid]>
+  [354] setlocal 9 .............................. vis = bgstate[nid]
+  [356] getlocal 8 .............................. <n>
+  [358] getlocal 9 .............................. <vis>
+  [360] pusharglistnoret 2 ...................... <n, vis>
+  [362] objcall 57 .............................. n.setVisible(vis)
+  [364] getlocal 4 .............................. <old_bgstate>
+  [366] pusharglist 1 ........................... <old_bgstate>
+  [368] extcall 31 .............................. <voidp(old_bgstate)>
+  [370] not ..................................... <not voidp(old_bgstate)>
+  [371] jmpifz [423] ............................ if not voidp(old_bgstate) then
+  [374] getlocal 4 .............................. <old_bgstate>
+  [376] getlocal 7 .............................. <nid>
+  [378] pusharglist 2 ........................... <old_bgstate, nid>
+  [380] objcall 36 .............................. <old_bgstate[nid]>
+  [382] setlocal 10 ............................. old_vis = old_bgstate[nid]
+  [384] getlocal 10 ............................. <old_vis>
+  [386] getlocal 9 .............................. <vis>
+  [388] not ..................................... <not vis>
+  [389] and ..................................... <old_vis and not vis>
+  [390] jmpifz [405] ............................ if old_vis and not vis then / else
+  [393] getprop 326 ............................. <disappearNodes>
+  [396] getlocal 8 .............................. <n>
+  [398] pusharglistnoret 2 ...................... <disappearNodes, n>
+  [400] objcall 6 ............................... disappearNodes.add(n)
+  [402] jmp [423]
+  [405] getlocal 9 .............................. <vis>
+  [407] getlocal 10 ............................. <old_vis>
+  [409] not ..................................... <not old_vis>
+  [410] and ..................................... <vis and not old_vis>
+  [411] jmpifz [423] ............................ if vis and not old_vis then
+  [414] getprop 327 ............................. <appearNodes>
+  [417] getlocal 8 .............................. <n>
+  [419] pusharglistnoret 2 ...................... <appearNodes, n>
+  [421] objcall 6 ............................... appearNodes.add(n)
+  [423] jmp [430] ............................... next repeat
+  [426] pusharglistnoret 0 ...................... <>
+  [428] extcall 136 ............................. nothing()
+  [430] pushint8 1
+  [432] add
+  [433] endrepeat [306]
+  [435] pop 3
+  [437] getlocal 2 .............................. <lvl>
+  [439] pushsymb 138 ............................ <#bar>
+  [441] pusharglist 2 ........................... <lvl, #bar>
+  [443] objcall 36 .............................. <lvl[#bar]>
+  [445] setlocal 11 ............................. b = lvl[#bar]
+  [447] getlocal 11 ............................. <b>
+  [449] pusharglist 1 ........................... <b>
+  [451] extcall 31 .............................. <voidp(b)>
+  [453] not ..................................... <not voidp(b)>
+  [454] jmpifz [664] ............................ if not voidp(b) then
+  [457] getprop 138 ............................. <bar>
+  [459] pusharglist 1 ........................... <bar>
+  [461] extcall 31 .............................. <voidp(bar)>
+  [463] not ..................................... <not voidp(bar)>
+  [464] jmpifz [479] ............................ if not voidp(bar) then
+  [467] getprop 138 ............................. <bar>
+  [469] pusharglistnoret 1 ...................... <bar>
+  [471] objcall 5 ............................... bar.destroy()
+  [473] pusharglist 0 ........................... <>
+  [475] extcall 65 .............................. <VOID>
+  [477] setprop 138 ............................. bar = VOID
+  [479] getlocal 11 ............................. <b>
+  [481] pushsymb 152 ............................ <#chairs>
+  [483] pushint8 1 .............................. <1>
+  [485] pusharglist 3 ........................... <b, #chairs, 1>
+  [487] objcall 50 .............................. <b.chairs[1]>
+  [489] getobjprop 383 .......................... <b.chairs[1].pos>
+  [492] setlocal 12 ............................. pos = b.chairs[1].pos
+  [494] pushcons 25 ............................. <"bar_manager">
+  [496] pusharglist 1 ........................... <"bar_manager">
+  [498] extcall 55 .............................. <script("bar_manager")>
+  [500] pushsymb 41 ............................. <#room_mgr>
+  [502] getparam 0 .............................. <me>
+  [504] pushsymb 152 ............................ <#chairs>
+  [506] getlocal 11 ............................. <b>
+  [508] getobjprop 152 .......................... <b.chairs>
+  [510] pusharglist 4 ........................... <[#room_mgr: me, #chairs: b.chairs]>
+  [512] pushproplist ............................ <[#room_mgr: me, #chairs: b.chairs]>
+  [513] pusharglist 2 ........................... <script("bar_manager"), [#room_mgr: me, #chairs: b.chairs]>
+  [515] objcall 4 ............................... <script("bar_manager").new([#room_mgr: me, #chairs: b.chairs])>
+  [517] setprop 138 ............................. bar = script("bar_manager").new([#room_mgr: me, #chairs: b.chairs])
+  [519] getprop 337 ............................. <grid>
+  [522] getprop 138 ............................. <bar>
+  [524] getlocal 12 ............................. <pos>
+  [526] pusharglist 3 ........................... <grid, bar, pos>
+  [528] objcall 387 ............................. <grid.placeObject(bar, pos)>
+  [531] not ..................................... <not grid.placeObject(bar, pos)>
+  [532] jmpifz [544] ............................ if not grid.placeObject(bar, pos) then / else
+  [535] pushcons 26 ............................. <"couldn't place bar">
+  [537] pusharglistnoret 1 ...................... <"couldn't place bar">
+  [539] extcall 60 .............................. complain("couldn't place bar")
+  [541] jmp [664]
+  [544] pusharglist 0 ........................... <[]>
+  [546] pushlist ................................ <[]>
+  [547] setlocal 13 ............................. dt = []
+  [549] getlocal 12 ............................. <pos>
+  [551] pushint8 1 .............................. <1>
+  [553] pusharglist 2 ........................... <pos, 1>
+  [555] objcall 36 .............................. <pos[1]>
+  [557] pushint8 4 .............................. <4>
+  [559] add ..................................... <pos[1] + 4>
+  [560] setlocal 14 ............................. px = pos[1] + 4
+  [562] getlocal 12 ............................. <pos>
+  [564] pushint8 2 .............................. <2>
+  [566] pusharglist 2 ........................... <pos, 2>
+  [568] objcall 36 .............................. <pos[2]>
+  [570] setlocal 15 ............................. py = pos[2]
+  [572] pushzero ................................ <0>
+  [573] setlocal 16
+  [575] getlocal 16
+  [577] pushint8 7 .............................. <7>
+  [579] lteq
+  [580] jmpifz [613] ............................ repeat with i = 0 to 7
+  [583] getlocal 13 ............................. <dt>
+  [585] getprop 337 ............................. <grid>
+  [588] getlocal 14 ............................. <px>
+  [590] getlocal 15 ............................. <py>
+  [592] getlocal 16 ............................. <i>
+  [594] add ..................................... <py + i>
+  [595] pusharglist 3 ........................... <grid, px, py + i>
+  [597] objcall 388 ............................. <grid.getTileAt(px, py + i)>
+  [600] pusharglistnoret 2 ...................... <dt, grid.getTileAt(px, py + i)>
+  [602] objcall 6 ............................... dt.add(grid.getTileAt(px, py + i))
+  [604] pushint8 1
+  [606] getlocal 16
+  [608] add
+  [609] setlocal 16
+  [611] endrepeat [575]
+  [613] getprop 138 ............................. <bar>
+  [615] getlocal 13 ............................. <dt>
+  [617] pusharglistnoret 2 ...................... <bar, dt>
+  [619] objcall 423 ............................. bar.init(dt)
+  [622] getlocal 0 .............................. <myItems>
+  [624] pushsymb 138 ............................ <#bar>
+  [626] pusharglist 2 ........................... <myItems, #bar>
+  [628] objcall 11 .............................. <myItems.getOne(#bar)>
+  [630] pushzero ................................ <0>
+  [631] eq ...................................... <myItems.getOne(#bar) = 0>
+  [632] jmpifz [646] ............................ if myItems.getOne(#bar) = 0 then
+  [635] getprop 327 ............................. <appearNodes>
+  [638] getprop 138 ............................. <bar>
+  [640] getobjprop 45 ........................... <bar.node>
+  [642] pusharglistnoret 2 ...................... <appearNodes, bar.node>
+  [644] objcall 6 ............................... appearNodes.add(bar.node)
+  [646] getprop 328 ............................. <previousItems>
+  [649] pushsymb 138 ............................ <#bar>
+  [651] pusharglistnoret 2 ...................... <previousItems, #bar>
+  [653] objcall 6 ............................... previousItems.add(#bar)
+  [655] getprop 138 ............................. <bar>
+  [657] getprop 212 ............................. <currentStage>
+  [659] pusharglistnoret 2 ...................... <bar, currentStage>
+  [661] objcall 350 ............................. bar.setRestaurant(currentStage)
+  [664] getlocal 2 .............................. <lvl>
+  [666] getobjprop 318 .......................... <lvl.tables>
+  [669] peek 0
+  [671] pusharglist 1
+  [673] extcall 12
+  [675] pushint8 1
+  [677] peek 0
+  [679] peek 2
+  [681] lteq
+  [682] jmpifz [902] ............................ repeat with tdata in lvl.tables
+  [685] peek 2
+  [687] peek 1
+  [689] pusharglist 2
+  [691] extcall 36
+  [693] setlocal 17
+  [695] getlocal 17 ............................. <tdata>
+  [697] pushsymb 152 ............................ <#chairs>
+  [699] pushint8 1 .............................. <1>
+  [701] pusharglist 3 ........................... <tdata, #chairs, 1>
+  [703] objcall 50 .............................. <tdata.chairs[1]>
+  [705] getobjprop 383 .......................... <tdata.chairs[1].pos>
+  [708] setlocal 12 ............................. pos = tdata.chairs[1].pos
+  [710] pushcons 19 ............................. <"table">
+  [712] pushcons 1 .............................. <"scripts.game">
+  [714] pusharglist 2 ........................... <"table", "scripts.game">
+  [716] extcall 55 .............................. <script("table", "scripts.game")>
+  [718] pushsymb 42 ............................. <#room_manager>
+  [720] getparam 0 .............................. <me>
+  [722] pushsymb 155 ............................ <#capacity>
+  [724] getlocal 17 ............................. <tdata>
+  [726] pushsymb 152 ............................ <#chairs>
+  [728] pusharglist 2 ........................... <tdata, #chairs>
+  [730] objcall 12 .............................. <tdata.chairs.count>
+  [732] pushsymb 384 ............................ <#parentNode>
+  [735] getprop 312 ............................. <tableLayer>
+  [738] pushsymb 386 ............................ <#tablenum>
+  [741] getprop 318 ............................. <tables>
+  [744] getobjprop 12 ........................... <tables.count>
+  [746] pushint8 1 .............................. <1>
+  [748] add ..................................... <tables.count + 1>
+  [749] pushsymb 270 ............................ <#data>
+  [752] getlocal 17 ............................. <tdata>
+  [754] pushsymb 385 ............................ <#stage>
+  [757] getprop 212 ............................. <currentStage>
+  [759] pusharglist 12 .......................... <[#room_manager: me, #capacity: tdata.chairs.count, #parentNode: tableLayer, #tablenum: tables.count + 1, #data: tdata, #stage: currentStage]>
+  [761] pushproplist ............................ <[#room_manager: me, #capacity: tdata.chairs.count, #parentNode: tableLayer, #tablenum: tables.count + 1, #data: tdata, #stage: currentStage]>
+  [762] pusharglist 2 ........................... <script("table", "scripts.game"), [#room_manager: me, #capacity: tdata.chairs.count, #parentNode: tableLayer, #tablenum: tables.count + 1, #data: tdata, #stage: currentStage]>
+  [764] objcall 4 ............................... <script("table", "scripts.game").new([#room_manager: me, #capacity: tdata.chairs.count, #parentNode: tableLayer, #tablenum: tables.count + 1, #data: tdata, #stage: currentStage])>
+  [766] setlocal 18 ............................. t = script("table", "scripts.game").new([#room_manager: me, #capacity: tdata.chairs.count, #parentNode: tableLayer, #tablenum: tables.count + 1, #data: tdata, #stage: currentStage])
+  [768] getprop 337 ............................. <grid>
+  [771] getlocal 18 ............................. <t>
+  [773] getlocal 12 ............................. <pos>
+  [775] pushzero ................................ <0>
+  [776] pushint8 1 .............................. <1>
+  [778] pusharglist 2 ........................... <[0, 1]>
+  [780] pushlist ................................ <[0, 1]>
+  [781] sub ..................................... <pos - [0, 1]>
+  [782] pusharglist 3 ........................... <grid, t, pos - [0, 1]>
+  [784] objcall 387 ............................. <grid.placeObject(t, pos - [0, 1])>
+  [787] jmpifz [891] ............................ if grid.placeObject(t, pos - [0, 1]) then
+  [790] getprop 318 ............................. <tables>
+  [793] getlocal 18 ............................. <t>
+  [795] pusharglistnoret 2 ...................... <tables, t>
+  [797] objcall 6 ............................... tables.add(t)
+  [799] getprop 337 ............................. <grid>
+  [802] getlocal 12 ............................. <pos>
+  [804] pushint8 1 .............................. <1>
+  [806] pusharglist 2 ........................... <pos, 1>
+  [808] objcall 36 .............................. <pos[1]>
+  [810] pushint8 2 .............................. <2>
+  [812] add ..................................... <pos[1] + 2>
+  [813] getlocal 12 ............................. <pos>
+  [815] pushint8 2 .............................. <2>
+  [817] pusharglist 2 ........................... <pos, 2>
+  [819] objcall 36 .............................. <pos[2]>
+  [821] pushint8 2 .............................. <2>
+  [823] sub ..................................... <pos[2] - 2>
+  [824] pusharglist 3 ........................... <grid, pos[1] + 2, pos[2] - 2>
+  [826] objcall 388 ............................. <grid.getTileAt(pos[1] + 2, pos[2] - 2)>
+  [829] setlocal 19 ............................. destTile = grid.getTileAt(pos[1] + 2, pos[2] - 2)
+  [831] getlocal 18 ............................. <t>
+  [833] getlocal 19 ............................. <destTile>
+  [835] pusharglistnoret 2 ...................... <t, destTile>
+  [837] objcall 389 ............................. t.setDestTile(destTile)
+  [840] getlocal 1 .............................. <myTables>
+  [842] getlocal 17 ............................. <tdata>
+  [844] getobjprop 424 .......................... <tdata.tiles>
+  [847] pusharglist 2 ........................... <myTables, tdata.tiles>
+  [849] objcall 11 .............................. <myTables.getOne(tdata.tiles)>
+  [851] pushzero ................................ <0>
+  [852] eq ...................................... <myTables.getOne(tdata.tiles) = 0>
+  [853] jmpifz [876] ............................ if myTables.getOne(tdata.tiles) = 0 then
+  [856] getprop 327 ............................. <appearNodes>
+  [859] getlocal 18 ............................. <t>
+  [861] pushsymb 276 ............................ <#views>
+  [864] pushint8 1 .............................. <1>
+  [866] pusharglist 3 ........................... <t, #views, 1>
+  [868] objcall 50 .............................. <t.views[1]>
+  [870] getobjprop 45 ........................... <t.views[1].node>
+  [872] pusharglistnoret 2 ...................... <appearNodes, t.views[1].node>
+  [874] objcall 6 ............................... appearNodes.add(t.views[1].node)
+  [876] getprop 329 ............................. <previousTables>
+  [879] getlocal 17 ............................. <tdata>
+  [881] getobjprop 424 .......................... <tdata.tiles>
+  [884] pusharglistnoret 2 ...................... <previousTables, tdata.tiles>
+  [886] objcall 6 ............................... previousTables.add(tdata.tiles)
+  [888] jmp [897] ............................... next repeat
+  [891] pushcons 20 ............................. <"couldn't place table">
+  [893] pusharglistnoret 1 ...................... <"couldn't place table">
+  [895] extcall 60 .............................. complain("couldn't place table")
+  [897] pushint8 1
+  [899] add
+  [900] endrepeat [677]
+  [902] pop 3
+  [904] pushint8 1 .............................. <1>
+  [906] setlocal 16
+  [908] getlocal 16
+  [910] getprop 324 ............................. <foodnodes>
+  [913] getobjprop 12 ........................... <foodnodes.count>
+  [915] lteq
+  [916] jmpifz [1123] ........................... repeat with i = 1 to foodnodes.count
+  [919] getprop 324 ............................. <foodnodes>
+  [922] getlocal 16 ............................. <i>
+  [924] pusharglist 2 ........................... <foodnodes, i>
+  [926] objcall 36 .............................. <foodnodes[i]>
+  [928] setlocal 20 ............................. fn = foodnodes[i]
+  [930] getlocal 20 ............................. <fn>
+  [932] pusharglist 1 ........................... <fn>
+  [934] objcall 51 .............................. <fn.getLoc()>
+  [936] setlocal 21 ............................. fn_loc = fn.getLoc()
+  [938] getprop 337 ............................. <grid>
+  [941] getlocal 21 ............................. <fn_loc>
+  [943] pusharglist 2 ........................... <grid, fn_loc>
+  [945] objcall 394 ............................. <grid.getTileNearest(fn_loc)>
+  [948] setlocal 18 ............................. t = grid.getTileNearest(fn_loc)
+  [950] getlocal 18 ............................. <t>
+  [952] getchainedprop 287 ...................... <t.occupant>
+  [955] getobjprop 137 .......................... <t.occupant.type>
+  [957] pushsymb 401 ............................ <#empty>
+  [960] nteq .................................... <t.occupant.type <> #empty>
+  [961] getlocal 18 ............................. <t>
+  [963] getchainedprop 287 ...................... <t.occupant>
+  [966] getobjprop 137 .......................... <t.occupant.type>
+  [968] pushsymb 402 ............................ <#Full>
+  [971] nteq .................................... <t.occupant.type <> #Full>
+  [972] and ..................................... <(t.occupant.type <> #empty) and (t.occupant.type <> #Full)>
+  [973] jmpifz [979] ............................ if (t.occupant.type <> #empty) and (t.occupant.type <> #Full) then
+  [976] jmp [1114] .............................. next repeat
+  [979] pushcons 27 ............................. <"foodspot">
+  [981] pusharglist 1 ........................... <"foodspot">
+  [983] extcall 55 .............................. <script("foodspot")>
+  [985] pushsymb 45 ............................. <#node>
+  [987] getlocal 20 ............................. <fn>
+  [989] pushsymb 41 ............................. <#room_mgr>
+  [991] getparam 0 .............................. <me>
+  [993] pushsymb 334 ............................ <#timeMultiplier>
+  [996] getprop 334 ............................. <timeMultiplier>
+  [999] pusharglist 6 ........................... <[#node: fn, #room_mgr: me, #timeMultiplier: timeMultiplier]>
+  [1001] pushproplist ........................... <[#node: fn, #room_mgr: me, #timeMultiplier: timeMultiplier]>
+  [1002] pusharglist 2 .......................... <script("foodspot"), [#node: fn, #room_mgr: me, #timeMultiplier: timeMultiplier]>
+  [1004] objcall 4 .............................. <script("foodspot").new([#node: fn, #room_mgr: me, #timeMultiplier: timeMultiplier])>
+  [1006] setlocal 22 ............................ obj = script("foodspot").new([#node: fn, #room_mgr: me, #timeMultiplier: timeMultiplier])
+  [1008] getprop 337 ............................ <grid>
+  [1011] getlocal 22 ............................ <obj>
+  [1013] getlocal 18 ............................ <t>
+  [1015] getobjprop 383 ......................... <t.pos>
+  [1018] pushint8 1 ............................. <1>
+  [1020] pushzero ............................... <0>
+  [1021] pusharglist 2 .......................... <[1, 0]>
+  [1023] pushlist ............................... <[1, 0]>
+  [1024] sub .................................... <t.pos - [1, 0]>
+  [1025] pusharglist 3 .......................... <grid, obj, t.pos - [1, 0]>
+  [1027] objcall 387 ............................ <grid.placeObject(obj, t.pos - [1, 0])>
+  [1030] not .................................... <not grid.placeObject(obj, t.pos - [1, 0])>
+  [1031] jmpifz [1049] .......................... if not grid.placeObject(obj, t.pos - [1, 0]) then
+  [1034] pushcons 28 ............................ <"couldn't place foodspot">
+  [1036] pusharglistnoret 1 ..................... <"couldn't place foodspot">
+  [1038] extcall 60 ............................. complain("couldn't place foodspot")
+  [1040] getlocal 22 ............................ <obj>
+  [1042] pusharglistnoret 1 ..................... <obj>
+  [1044] objcall 5 .............................. obj.destroy()
+  [1046] jmp [1114] ............................. next repeat
+  [1049] getlocal 22 ............................ <obj>
+  [1051] getobjprop 262 ......................... <obj.Tile>
+  [1054] getlocal 18 ............................ <t>
+  [1056] nteq ................................... <obj.Tile <> t>
+  [1057] jmpifz [1064] .......................... if obj.Tile <> t then
+  [1060] pusharglistnoret 0 ..................... <>
+  [1062] extcall 136 ............................ nothing()
+  [1064] getlocal 22 ............................ <obj>
+  [1066] getprop 337 ............................ <grid>
+  [1069] getlocal 18 ............................ <t>
+  [1071] pushsymb 383 ........................... <#pos>
+  [1074] pushint8 1 ............................. <1>
+  [1076] pusharglist 3 .......................... <t, #pos, 1>
+  [1078] objcall 30 ............................. <t.pos[1]>
+  [1080] getlocal 18 ............................ <t>
+  [1082] pushsymb 383 ........................... <#pos>
+  [1085] pushint8 2 ............................. <2>
+  [1087] pusharglist 3 .......................... <t, #pos, 2>
+  [1089] objcall 30 ............................. <t.pos[2]>
+  [1091] pushint8 1 ............................. <1>
+  [1093] add .................................... <t.pos[2] + 1>
+  [1094] pusharglist 3 .......................... <grid, t.pos[1], t.pos[2] + 1>
+  [1096] objcall 388 ............................ <grid.getTileAt(t.pos[1], t.pos[2] + 1)>
+  [1099] pusharglistnoret 2 ..................... <obj, grid.getTileAt(t.pos[1], t.pos[2] + 1)>
+  [1101] objcall 389 ............................ obj.setDestTile(grid.getTileAt(t.pos[1], t.pos[2] + 1))
+  [1104] getprop 335 ............................ <kitchen>
+  [1107] getlocal 22 ............................ <obj>
+  [1109] pusharglistnoret 2 ..................... <kitchen, obj>
+  [1111] objcall 404 ............................ kitchen.addSpot(obj)
+  [1114] pushint8 1
+  [1116] getlocal 16
+  [1118] add
+  [1119] setlocal 16
+  [1121] endrepeat [908]
+  [1123] getprop 43 ............................. <game_mgr>
+  [1125] getobjprop 342 ......................... <game_mgr.playMode>
+  [1128] pushsymb 343 ........................... <#endless>
+  [1131] nteq ................................... <game_mgr.playMode <> #endless>
+  [1132] jmpifz [1391] .......................... if game_mgr.playMode <> #endless then
+  [1135] getlocal 2 ............................. <lvl>
+  [1137] pushsymb 400 ........................... <#drinkspot>
+  [1140] pusharglist 2 .......................... <lvl, #drinkspot>
+  [1142] objcall 12 ............................. <lvl.drinkspot.count>
+  [1144] jmpifz [1377] .......................... if lvl.drinkspot.count then / else
+  [1147] getprop 331 ............................ <stationNodes>
+  [1150] pushsymb 400 ........................... <#drinkspot>
+  [1153] pusharglist 2 .......................... <stationNodes, #drinkspot>
+  [1155] objcall 36 ............................. <stationNodes[#drinkspot]>
+  [1157] setlocal 8 ............................. n = stationNodes[#drinkspot]
+  [1159] getprop 337 ............................ <grid>
+  [1162] getlocal 8 ............................. <n>
+  [1164] pusharglist 1 .......................... <n>
+  [1166] objcall 51 ............................. <n.getLoc()>
+  [1168] pusharglist 2 .......................... <grid, n.getLoc()>
+  [1170] objcall 394 ............................ <grid.getTileNearest(n.getLoc())>
+  [1173] setlocal 18 ............................ t = grid.getTileNearest(n.getLoc())
+  [1175] getlocal 18 ............................ <t>
+  [1177] getchainedprop 287 ..................... <t.occupant>
+  [1180] getobjprop 137 ......................... <t.occupant.type>
+  [1182] pushsymb 401 ........................... <#empty>
+  [1185] eq ..................................... <t.occupant.type = #empty>
+  [1186] getlocal 18 ............................ <t>
+  [1188] getchainedprop 287 ..................... <t.occupant>
+  [1191] getobjprop 137 ......................... <t.occupant.type>
+  [1193] pushsymb 402 ........................... <#Full>
+  [1196] eq ..................................... <t.occupant.type = #Full>
+  [1197] or ..................................... <(t.occupant.type = #empty) or (t.occupant.type = #Full)>
+  [1198] jmpifz [1374] .......................... if (t.occupant.type = #empty) or (t.occupant.type = #Full) then
+  [1201] pushcons 13 ............................ <"drinkspot">
+  [1203] pusharglist 1 .......................... <"drinkspot">
+  [1205] extcall 55 ............................. <script("drinkspot")>
+  [1207] pushsymb 45 ............................ <#node>
+  [1209] getlocal 8 ............................. <n>
+  [1211] pushsymb 41 ............................ <#room_mgr>
+  [1213] getparam 0 ............................. <me>
+  [1215] pushsymb 334 ........................... <#timeMultiplier>
+  [1218] getprop 334 ............................ <timeMultiplier>
+  [1221] pusharglist 6 .......................... <[#node: n, #room_mgr: me, #timeMultiplier: timeMultiplier]>
+  [1223] pushproplist ........................... <[#node: n, #room_mgr: me, #timeMultiplier: timeMultiplier]>
+  [1224] pusharglist 2 .......................... <script("drinkspot"), [#node: n, #room_mgr: me, #timeMultiplier: timeMultiplier]>
+  [1226] objcall 4 .............................. <script("drinkspot").new([#node: n, #room_mgr: me, #timeMultiplier: timeMultiplier])>
+  [1228] setlocal 22 ............................ obj = script("drinkspot").new([#node: n, #room_mgr: me, #timeMultiplier: timeMultiplier])
+  [1230] getprop 337 ............................ <grid>
+  [1233] getlocal 22 ............................ <obj>
+  [1235] getlocal 18 ............................ <t>
+  [1237] getobjprop 383 ......................... <t.pos>
+  [1240] pusharglist 3 .......................... <grid, obj, t.pos>
+  [1242] objcall 387 ............................ <grid.placeObject(obj, t.pos)>
+  [1245] not .................................... <not grid.placeObject(obj, t.pos)>
+  [1246] jmpifz [1272] .......................... if not grid.placeObject(obj, t.pos) then / else
+  [1249] pushcons 23 ............................ <"couldn't place drinks">
+  [1251] pusharglistnoret 1 ..................... <"couldn't place drinks">
+  [1253] extcall 60 ............................. complain("couldn't place drinks")
+  [1255] getprop 331 ............................ <stationNodes>
+  [1258] pushcons 13 ............................ <"drinkspot">
+  [1260] pusharglist 2 .......................... <stationNodes, "drinkspot">
+  [1262] objcall 36 ............................. <stationNodes["drinkspot"]>
+  [1264] pushzero ............................... <0>
+  [1265] pusharglistnoret 2 ..................... <stationNodes["drinkspot"], 0>
+  [1267] objcall 57 ............................. stationNodes["drinkspot"].setVisible(0)
+  [1269] jmp [1322]
+  [1272] getprop 335 ............................ <kitchen>
+  [1275] getlocal 22 ............................ <obj>
+  [1277] pusharglistnoret 2 ..................... <kitchen, obj>
+  [1279] objcall 404 ............................ kitchen.addSpot(obj)
+  [1282] getlocal 0 ............................. <myItems>
+  [1284] pushsymb 425 ........................... <#drinks>
+  [1287] pusharglist 2 .......................... <myItems, #drinks>
+  [1289] objcall 11 ............................. <myItems.getOne(#drinks)>
+  [1291] pushzero ............................... <0>
+  [1292] eq ..................................... <myItems.getOne(#drinks) = 0>
+  [1293] jmpifz [1312] .......................... if myItems.getOne(#drinks) = 0 then
+  [1296] getprop 327 ............................ <appearNodes>
+  [1299] getprop 331 ............................ <stationNodes>
+  [1302] pushcons 13 ............................ <"drinkspot">
+  [1304] pusharglist 2 .......................... <stationNodes, "drinkspot">
+  [1306] objcall 36 ............................. <stationNodes["drinkspot"]>
+  [1308] pusharglistnoret 2 ..................... <appearNodes, stationNodes["drinkspot"]>
+  [1310] objcall 6 .............................. appearNodes.add(stationNodes["drinkspot"])
+  [1312] getprop 328 ............................ <previousItems>
+  [1315] pushsymb 425 ........................... <#drinks>
+  [1318] pusharglistnoret 2 ..................... <previousItems, #drinks>
+  [1320] objcall 6 .............................. previousItems.add(#drinks)
+  [1322] getlocal 22 ............................ <obj>
+  [1324] getprop 337 ............................ <grid>
+  [1327] getlocal 18 ............................ <t>
+  [1329] pushsymb 383 ........................... <#pos>
+  [1332] pushint8 1 ............................. <1>
+  [1334] pusharglist 3 .......................... <t, #pos, 1>
+  [1336] objcall 30 ............................. <t.pos[1]>
+  [1338] getlocal 18 ............................ <t>
+  [1340] pushsymb 383 ........................... <#pos>
+  [1343] pushint8 2 ............................. <2>
+  [1345] pusharglist 3 .......................... <t, #pos, 2>
+  [1347] objcall 30 ............................. <t.pos[2]>
+  [1349] pushint8 2 ............................. <2>
+  [1351] add .................................... <t.pos[2] + 2>
+  [1352] pusharglist 3 .......................... <grid, t.pos[1], t.pos[2] + 2>
+  [1354] objcall 388 ............................ <grid.getTileAt(t.pos[1], t.pos[2] + 2)>
+  [1357] pusharglistnoret 2 ..................... <obj, grid.getTileAt(t.pos[1], t.pos[2] + 2)>
+  [1359] objcall 389 ............................ obj.setDestTile(grid.getTileAt(t.pos[1], t.pos[2] + 2))
+  [1362] getprop 322 ............................ <stations>
+  [1365] pushsymb 425 ........................... <#drinks>
+  [1368] getlocal 22 ............................ <obj>
+  [1370] pusharglistnoret 3 ..................... <stations, #drinks, obj>
+  [1372] objcall 25 ............................. stations[#drinks] = obj
+  [1374] jmp [1391]
+  [1377] getprop 331 ............................ <stationNodes>
+  [1380] pushcons 13 ............................ <"drinkspot">
+  [1382] pusharglist 2 .......................... <stationNodes, "drinkspot">
+  [1384] objcall 36 ............................. <stationNodes["drinkspot"]>
+  [1386] pushzero ............................... <0>
+  [1387] pusharglistnoret 2 ..................... <stationNodes["drinkspot"], 0>
+  [1389] objcall 57 ............................. stationNodes["drinkspot"].setVisible(0)
+  [1391] pushsymb 426 ........................... <#ticketspot>
+  [1394] pushsymb 427 ........................... <#busspot>
+  [1397] pusharglist 2 .......................... <[#ticketspot, #busspot]>
+  [1399] pushlist ............................... <[#ticketspot, #busspot]>
+  [1400] peek 0
+  [1402] pusharglist 1
+  [1404] extcall 12
+  [1406] pushint8 1
+  [1408] peek 0
+  [1410] peek 2
+  [1412] lteq
+  [1413] jmpifz [1597] .......................... repeat with k in [#ticketspot, #busspot]
+  [1416] peek 2
+  [1418] peek 1
+  [1420] pusharglist 2
+  [1422] extcall 36
+  [1424] setlocal 23
+  [1426] getprop 331 ............................ <stationNodes>
+  [1429] getlocal 23 ............................ <k>
+  [1431] pusharglist 2 .......................... <stationNodes, k>
+  [1433] objcall 36 ............................. <stationNodes[k]>
+  [1435] setlocal 8 ............................. n = stationNodes[k]
+  [1437] getlocal 8 ............................. <n>
+  [1439] pusharglist 1 .......................... <n>
+  [1441] extcall 31 ............................. <voidp(n)>
+  [1443] jmpifz [1449] .......................... if voidp(n) then
+  [1446] jmp [1592] ............................. next repeat
+  [1449] getprop 337 ............................ <grid>
+  [1452] getlocal 8 ............................. <n>
+  [1454] pusharglist 1 .......................... <n>
+  [1456] objcall 51 ............................. <n.getLoc()>
+  [1458] pusharglist 2 .......................... <grid, n.getLoc()>
+  [1460] objcall 394 ............................ <grid.getTileNearest(n.getLoc())>
+  [1463] setlocal 18 ............................ t = grid.getTileNearest(n.getLoc())
+  [1465] getlocal 18 ............................ <t>
+  [1467] getchainedprop 287 ..................... <t.occupant>
+  [1470] getobjprop 137 ......................... <t.occupant.type>
+  [1472] pushsymb 401 ........................... <#empty>
+  [1475] nteq ................................... <t.occupant.type <> #empty>
+  [1476] getlocal 18 ............................ <t>
+  [1478] getchainedprop 287 ..................... <t.occupant>
+  [1481] getobjprop 137 ......................... <t.occupant.type>
+  [1483] pushsymb 402 ........................... <#Full>
+  [1486] nteq ................................... <t.occupant.type <> #Full>
+  [1487] and .................................... <(t.occupant.type <> #empty) and (t.occupant.type <> #Full)>
+  [1488] jmpifz [1494] .......................... if (t.occupant.type <> #empty) and (t.occupant.type <> #Full) then
+  [1491] jmp [1592] ............................. next repeat
+  [1494] getlocal 23 ............................ <k>
+  [1496] pusharglist 1 .......................... <k>
+  [1498] extcall 59 ............................. <string(k)>
+  [1500] pusharglist 1 .......................... <string(k)>
+  [1502] extcall 55 ............................. <script(string(k))>
+  [1504] pushsymb 45 ............................ <#node>
+  [1506] getlocal 8 ............................. <n>
+  [1508] pushsymb 41 ............................ <#room_mgr>
+  [1510] getparam 0 ............................. <me>
+  [1512] pushsymb 334 ........................... <#timeMultiplier>
+  [1515] getprop 334 ............................ <timeMultiplier>
+  [1518] pusharglist 6 .......................... <[#node: n, #room_mgr: me, #timeMultiplier: timeMultiplier]>
+  [1520] pushproplist ........................... <[#node: n, #room_mgr: me, #timeMultiplier: timeMultiplier]>
+  [1521] pusharglist 2 .......................... <script(string(k)), [#node: n, #room_mgr: me, #timeMultiplier: timeMultiplier]>
+  [1523] objcall 4 .............................. <script(string(k)).new([#node: n, #room_mgr: me, #timeMultiplier: timeMultiplier])>
+  [1525] setlocal 22 ............................ obj = script(string(k)).new([#node: n, #room_mgr: me, #timeMultiplier: timeMultiplier])
+  [1527] getlocal 22 ............................ <obj>
+  [1529] getprop 337 ............................ <grid>
+  [1532] getlocal 18 ............................ <t>
+  [1534] pushsymb 383 ........................... <#pos>
+  [1537] pushint8 1 ............................. <1>
+  [1539] pusharglist 3 .......................... <t, #pos, 1>
+  [1541] objcall 30 ............................. <t.pos[1]>
+  [1543] getlocal 18 ............................ <t>
+  [1545] pushsymb 383 ........................... <#pos>
+  [1548] pushint8 2 ............................. <2>
+  [1550] pusharglist 3 .......................... <t, #pos, 2>
+  [1552] objcall 30 ............................. <t.pos[2]>
+  [1554] getlocal 23 ............................ <k>
+  [1556] pushsymb 426 ........................... <#ticketspot>
+  [1559] eq ..................................... <k = #ticketspot>
+  [1560] add .................................... <t.pos[2] + (k = #ticketspot)>
+  [1561] pusharglist 3 .......................... <grid, t.pos[1], t.pos[2] + (k = #ticketspot)>
+  [1563] objcall 388 ............................ <grid.getTileAt(t.pos[1], t.pos[2] + (k = #ticketspot))>
+  [1566] pusharglistnoret 2 ..................... <obj, grid.getTileAt(t.pos[1], t.pos[2] + (k = #ticketspot))>
+  [1568] objcall 389 ............................ obj.setDestTile(grid.getTileAt(t.pos[1], t.pos[2] + (k = #ticketspot)))
+  [1571] getprop 322 ............................ <stations>
+  [1574] getlocal 23 ............................ <k>
+  [1576] getlocal 22 ............................ <obj>
+  [1578] pusharglistnoret 3 ..................... <stations, k, obj>
+  [1580] objcall 25 ............................. stations[k] = obj
+  [1582] getprop 335 ............................ <kitchen>
+  [1585] getlocal 22 ............................ <obj>
+  [1587] pusharglistnoret 2 ..................... <kitchen, obj>
+  [1589] objcall 404 ............................ kitchen.addSpot(obj)
+  [1592] pushint8 1
+  [1594] add
+  [1595] endrepeat [1408]
+  [1597] pop 3
+  [1599] getlocal 2 ............................. <lvl>
+  [1601] pushsymb 321 ........................... <#obstacles>
+  [1604] pusharglist 2 .......................... <lvl, #obstacles>
+  [1606] objcall 36 ............................. <lvl[#obstacles]>
+  [1608] pusharglist 1 .......................... <lvl[#obstacles]>
+  [1610] extcall 31 ............................. <voidp(lvl[#obstacles])>
+  [1612] not .................................... <not voidp(lvl[#obstacles])>
+  [1613] jmpifz [1714] .......................... if not voidp(lvl[#obstacles]) then
+  [1616] getlocal 2 ............................. <lvl>
+  [1618] getobjprop 321 ......................... <lvl.obstacles>
+  [1621] peek 0
+  [1623] pusharglist 1
+  [1625] extcall 12
+  [1627] pushint8 1
+  [1629] peek 0
+  [1631] peek 2
+  [1633] lteq
+  [1634] jmpifz [1712] .......................... repeat with i in lvl.obstacles
+  [1637] peek 2
+  [1639] peek 1
+  [1641] pusharglist 2
+  [1643] extcall 36
+  [1645] setlocal 16
+  [1647] pushcons 29 ............................ <"obstacle">
+  [1649] pusharglist 1 .......................... <"obstacle">
+  [1651] extcall 55 ............................. <script("obstacle")>
+  [1653] pushsymb 384 ........................... <#parentNode>
+  [1656] getprop 45 ............................. <node>
+  [1658] pusharglist 2 .......................... <[#parentNode: node]>
+  [1660] pushproplist ........................... <[#parentNode: node]>
+  [1661] pusharglist 2 .......................... <script("obstacle"), [#parentNode: node]>
+  [1663] objcall 4 .............................. <script("obstacle").new([#parentNode: node])>
+  [1665] setlocal 24 ............................ ob = script("obstacle").new([#parentNode: node])
+  [1667] getprop 337 ............................ <grid>
+  [1670] getlocal 24 ............................ <ob>
+  [1672] getlocal 16 ............................ <i>
+  [1674] pusharglist 3 .......................... <grid, ob, i>
+  [1676] objcall 387 ............................ <grid.placeObject(ob, i)>
+  [1679] not .................................... <not grid.placeObject(ob, i)>
+  [1680] jmpifz [1698] .......................... if not grid.placeObject(ob, i) then
+  [1683] pushcons 30 ............................ <"couldn't place obstacle">
+  [1685] pusharglistnoret 1 ..................... <"couldn't place obstacle">
+  [1687] extcall 60 ............................. complain("couldn't place obstacle")
+  [1689] getlocal 24 ............................ <ob>
+  [1691] pusharglistnoret 1 ..................... <ob>
+  [1693] objcall 5 .............................. ob.destroy()
+  [1695] jmp [1707] ............................. next repeat
+  [1698] getprop 321 ............................ <obstacles>
+  [1701] getlocal 24 ............................ <ob>
+  [1703] pusharglistnoret 2 ..................... <obstacles, ob>
+  [1705] objcall 6 .............................. obstacles.add(ob)
+  [1707] pushint8 1
+  [1709] add
+  [1710] endrepeat [1629]
+  [1712] pop 3
+  [1714] getparam 1 ............................. <lvl_all>
+  [1716] pushsymb 368 ........................... <#podium>
+  [1719] pusharglist 2 .......................... <lvl_all, #podium>
+  [1721] objcall 36 ............................. <lvl_all[#podium]>
+  [1723] pusharglist 1 .......................... <lvl_all[#podium]>
+  [1725] extcall 31 ............................. <voidp(lvl_all[#podium])>
+  [1727] not .................................... <not voidp(lvl_all[#podium])>
+  [1728] getprop 356 ............................ <podiumNode>
+  [1731] pusharglist 1 .......................... <podiumNode>
+  [1733] extcall 31 ............................. <voidp(podiumNode)>
+  [1735] not .................................... <not voidp(podiumNode)>
+  [1736] and .................................... <not voidp(lvl_all[#podium]) and not voidp(podiumNode)>
+  [1737] jmpifz [1941] .......................... if not voidp(lvl_all[#podium]) and not voidp(podiumNode) then
+  [1740] getprop 368 ............................ <podium>
+  [1743] pusharglist 1 .......................... <podium>
+  [1745] extcall 31 ............................. <voidp(podium)>
+  [1747] not .................................... <not voidp(podium)>
+  [1748] jmpifz [1765] .......................... if not voidp(podium) then
+  [1751] getprop 368 ............................ <podium>
+  [1754] pusharglistnoret 1 ..................... <podium>
+  [1756] objcall 5 .............................. podium.destroy()
+  [1758] pusharglist 0 .......................... <>
+  [1760] extcall 65 ............................. <VOID>
+  [1762] setprop 368 ............................ podium = VOID
+  [1765] pushcons 9 ............................. <"podium">
+  [1767] pushcons 1 ............................. <"scripts.game">
+  [1769] pusharglist 2 .......................... <"podium", "scripts.game">
+  [1771] extcall 55 ............................. <script("podium", "scripts.game")>
+  [1773] pushsymb 45 ............................ <#node>
+  [1775] getprop 356 ............................ <podiumNode>
+  [1778] pushsymb 43 ............................ <#game_mgr>
+  [1780] getprop 43 ............................. <game_mgr>
+  [1782] pushsymb 41 ............................ <#room_mgr>
+  [1784] getparam 0 ............................. <me>
+  [1786] pusharglist 6 .......................... <[#node: podiumNode, #game_mgr: game_mgr, #room_mgr: me]>
+  [1788] pushproplist ........................... <[#node: podiumNode, #game_mgr: game_mgr, #room_mgr: me]>
+  [1789] pusharglist 2 .......................... <script("podium", "scripts.game"), [#node: podiumNode, #game_mgr: game_mgr, #room_mgr: me]>
+  [1791] objcall 4 .............................. <script("podium", "scripts.game").new([#node: podiumNode, #game_mgr: game_mgr, #room_mgr: me])>
+  [1793] setprop 368 ............................ podium = script("podium", "scripts.game").new([#node: podiumNode, #game_mgr: game_mgr, #room_mgr: me])
+  [1796] getprop 337 ............................ <grid>
+  [1799] getprop 356 ............................ <podiumNode>
+  [1802] pusharglist 1 .......................... <podiumNode>
+  [1804] objcall 406 ............................ <podiumNode.getLocRel()>
+  [1807] pusharglist 2 .......................... <grid, podiumNode.getLocRel()>
+  [1809] objcall 394 ............................ <grid.getTileNearest(podiumNode.getLocRel())>
+  [1812] setlocal 18 ............................ t = grid.getTileNearest(podiumNode.getLocRel())
+  [1814] getprop 337 ............................ <grid>
+  [1817] getprop 368 ............................ <podium>
+  [1820] getlocal 18 ............................ <t>
+  [1822] getobjprop 383 ......................... <t.pos>
+  [1825] pusharglist 3 .......................... <grid, podium, t.pos>
+  [1827] objcall 387 ............................ <grid.placeObject(podium, t.pos)>
+  [1830] not .................................... <not grid.placeObject(podium, t.pos)>
+  [1831] jmpifz [1843] .......................... if not grid.placeObject(podium, t.pos) then / else
+  [1834] pushcons 21 ............................ <"couldn't place podium">
+  [1836] pusharglistnoret 1 ..................... <"couldn't place podium">
+  [1838] extcall 60 ............................. complain("couldn't place podium")
+  [1840] jmp [1941]
+  [1843] getprop 368 ............................ <podium>
+  [1846] getprop 337 ............................ <grid>
+  [1849] getlocal 18 ............................ <t>
+  [1851] pushsymb 383 ........................... <#pos>
+  [1854] pushint8 1 ............................. <1>
+  [1856] pusharglist 3 .......................... <t, #pos, 1>
+  [1858] objcall 30 ............................. <t.pos[1]>
+  [1860] getlocal 18 ............................ <t>
+  [1862] pushsymb 383 ........................... <#pos>
+  [1865] pushint8 2 ............................. <2>
+  [1867] pusharglist 3 .......................... <t, #pos, 2>
+  [1869] objcall 30 ............................. <t.pos[2]>
+  [1871] pushint8 1 ............................. <1>
+  [1873] sub .................................... <t.pos[2] - 1>
+  [1874] pusharglist 3 .......................... <grid, t.pos[1], t.pos[2] - 1>
+  [1876] objcall 388 ............................ <grid.getTileAt(t.pos[1], t.pos[2] - 1)>
+  [1879] pusharglistnoret 2 ..................... <podium, grid.getTileAt(t.pos[1], t.pos[2] - 1)>
+  [1881] objcall 389 ............................ podium.setDestTile(grid.getTileAt(t.pos[1], t.pos[2] - 1))
+  [1884] getprop 368 ............................ <podium>
+  [1887] getparam 1 ............................. <lvl_all>
+  [1889] getobjprop 368 ......................... <lvl_all.podium>
+  [1892] pusharglistnoret 2 ..................... <podium, lvl_all.podium>
+  [1894] objcall 395 ............................ podium.setConfig(lvl_all.podium)
+  [1897] getprop 368 ............................ <podium>
+  [1900] pushint8 1 ............................. <1>
+  [1902] pusharglistnoret 2 ..................... <podium, 1>
+  [1904] objcall 393 ............................ podium.setReady(1)
+  [1907] getlocal 0 ............................. <myItems>
+  [1909] pushsymb 368 ........................... <#podium>
+  [1912] pusharglist 2 .......................... <myItems, #podium>
+  [1914] objcall 11 ............................. <myItems.getOne(#podium)>
+  [1916] pushzero ............................... <0>
+  [1917] eq ..................................... <myItems.getOne(#podium) = 0>
+  [1918] jmpifz [1931] .......................... if myItems.getOne(#podium) = 0 then
+  [1921] getprop 327 ............................ <appearNodes>
+  [1924] getprop 356 ............................ <podiumNode>
+  [1927] pusharglistnoret 2 ..................... <appearNodes, podiumNode>
+  [1929] objcall 6 .............................. appearNodes.add(podiumNode)
+  [1931] getprop 328 ............................ <previousItems>
+  [1934] pushsymb 368 ........................... <#podium>
+  [1937] pusharglistnoret 2 ..................... <previousItems, #podium>
+  [1939] objcall 6 .............................. previousItems.add(#podium)
+  [1941] getparam 1 ............................. <lvl_all>
+  [1943] pushsymb 428 ........................... <#powerups>
+  [1946] pusharglist 2 .......................... <lvl_all, #powerups>
+  [1948] objcall 36 ............................. <lvl_all[#powerups]>
+  [1950] setlocal 25 ............................ pups = lvl_all[#powerups]
+  [1952] getlocal 25 ............................ <pups>
+  [1954] pusharglist 1 .......................... <pups>
+  [1956] extcall 31 ............................. <voidp(pups)>
+  [1958] not .................................... <not voidp(pups)>
+  [1959] jmpifz [2006] .......................... if not voidp(pups) then
+  [1962] getlocal 25 ............................ <pups>
+  [1964] peek 0
+  [1966] pusharglist 1
+  [1968] extcall 12
+  [1970] pushint8 1
+  [1972] peek 0
+  [1974] peek 2
+  [1976] lteq
+  [1977] jmpifz [2004] .......................... repeat with i in pups
+  [1980] peek 2
+  [1982] peek 1
+  [1984] pusharglist 2
+  [1986] extcall 36
+  [1988] setlocal 16
+  [1990] getprop 43 ............................. <game_mgr>
+  [1992] getlocal 16 ............................ <i>
+  [1994] pusharglistnoret 2 ..................... <game_mgr, i>
+  [1996] objcall 429 ............................ game_mgr.addInventoryItem(i)
+  [1999] pushint8 1
+  [2001] add
+  [2002] endrepeat [1972]
+  [2004] pop 3
+  [2006] getprop 43 ............................. <game_mgr>
+  [2008] getparam 1 ............................. <lvl_all>
+  [2010] pushsymb 430 ........................... <#snacks>
+  [2013] pusharglist 2 .......................... <lvl_all, #snacks>
+  [2015] objcall 36 ............................. <lvl_all[#snacks]>
+  [2017] getparam 1 ............................. <lvl_all>
+  [2019] pushsymb 431 ........................... <#snackPercent>
+  [2022] pusharglist 2 .......................... <lvl_all, #snackPercent>
+  [2024] objcall 36 ............................. <lvl_all[#snackPercent]>
+  [2026] pusharglistnoret 3 ..................... <game_mgr, lvl_all[#snacks], lvl_all[#snackPercent]>
+  [2028] objcall 310 ............................ game_mgr.setSnacks(lvl_all[#snacks], lvl_all[#snackPercent])
+  [2031] getprop 323 ............................ <waiter>
+  [2034] pusharglistnoret 1 ..................... <waiter>
+  [2036] objcall 367 ............................ waiter.reset()
+  [2039] getprop 323 ............................ <waiter>
+  [2042] getprop 322 ............................ <stations>
+  [2045] getchainedprop 426 ..................... <stations.ticketspot>
+  [2048] pusharglist 1 .......................... <stations.ticketspot>
+  [2050] objcall 265 ............................ <stations.ticketspot.getTile()>
+  [2053] pusharglistnoret 2 ..................... <waiter, stations.ticketspot.getTile()>
+  [2055] objcall 432 ............................ waiter.arriveAtTile(stations.ticketspot.getTile())
+  [2058] pushsymb 433 ........................... <#hideError>
+  [2061] getprop 323 ............................ <waiter>
+  [2064] getobjprop 276 ......................... <waiter.views>
+  [2067] pusharglistnoret 2 ..................... <#hideError, waiter.views>
+  [2069] extcall 32 ............................. call(#hideError, waiter.views)
+  [2071] pushsymb 434 ........................... <#setDirection>
+  [2074] getprop 323 ............................ <waiter>
+  [2077] getobjprop 276 ......................... <waiter.views>
+  [2080] pushcons 31 ............................ <"down">
+  [2082] pusharglistnoret 3 ..................... <#setDirection, waiter.views, "down">
+  [2084] extcall 32 ............................. call(#setDirection, waiter.views, "down")
+  [2086] getprop 337 ............................ <grid>
+  [2089] pusharglistnoret 1 ..................... <grid>
+  [2091] objcall 390 ............................ grid.updateLocZ()
+  [2094] ret
+end
