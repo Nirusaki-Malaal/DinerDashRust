@@ -1,0 +1,293 @@
+property gridobj, tileviews, node, width, height, tilenodes, podiumPath, tilesize, nodesize
+
+on new me, Args
+  [  0] getparam 1 .............................. <Args>
+  [  2] getobjprop 542 .......................... <Args.grid_manager>
+  [  5] setprop 570 ............................. gridobj = Args.grid_manager
+  [  8] getparam 1 .............................. <Args>
+  [ 10] pushsymb 384 ............................ <#parentNode>
+  [ 13] pushcons 0 .............................. <"floor">
+  [ 15] pusharglist 3 ........................... <Args, #parentNode, "floor">
+  [ 17] objcall 30 .............................. <Args.parentNode["floor"]>
+  [ 19] setprop 45 .............................. node = Args.parentNode["floor"]
+  [ 21] getprop 45 .............................. <node>
+  [ 23] pushint8 1 .............................. <1>
+  [ 25] pusharglistnoret 2 ...................... <node, 1>
+  [ 27] objcall 57 .............................. node.setVisible(1)
+  [ 29] getprop 45 .............................. <node>
+  [ 31] pushint8 100 ............................ <100>
+  [ 33] pusharglistnoret 2 ...................... <node, 100>
+  [ 35] objcall 571 ............................. node.setAlpha(100)
+  [ 38] pushint8 18 ............................. <18>
+  [ 40] setprop 572 ............................. width = 18
+  [ 43] pushint8 13 ............................. <13>
+  [ 45] setprop 415 ............................. height = 13
+  [ 48] pushint8 37 ............................. <37>
+  [ 50] pushint8 37 ............................. <37>
+  [ 52] pusharglist 2 ........................... <[37, 37]>
+  [ 54] pushlist ................................ <[37, 37]>
+  [ 55] setprop 573 ............................. tilesize = [37, 37]
+  [ 58] getprop 573 ............................. <tilesize>
+  [ 61] getprop 572 ............................. <width>
+  [ 64] getprop 415 ............................. <height>
+  [ 67] pusharglist 2 ........................... <[width, height]>
+  [ 69] pushlist ................................ <[width, height]>
+  [ 70] mul ..................................... <tilesize * [width, height]>
+  [ 71] setprop 574 ............................. nodesize = tilesize * [width, height]
+  [ 74] pusharglist 0 ........................... <[]>
+  [ 76] pushlist ................................ <[]>
+  [ 77] setprop 575 ............................. tilenodes = []
+  [ 80] pushzero ................................ <0>
+  [ 81] setlocal 0
+  [ 83] getlocal 0
+  [ 85] getprop 415 ............................. <height>
+  [ 88] pushint8 1 .............................. <1>
+  [ 90] sub ..................................... <height - 1>
+  [ 91] lteq
+  [ 92] jmpifz [163] ............................ repeat with i = 0 to height - 1
+  [ 95] pusharglist 0 ........................... <[]>
+  [ 97] pushlist ................................ <[]>
+  [ 98] setlocal 1 .............................. row = []
+  [100] pushint8 1 .............................. <1>
+  [102] setlocal 2
+  [104] getlocal 2
+  [106] getprop 572 ............................. <width>
+  [109] lteq
+  [110] jmpifz [145] ............................ repeat with j = 1 to width
+  [113] getlocal 1 .............................. <row>
+  [115] getprop 45 .............................. <node>
+  [117] pushsymb 49 ............................. <#children>
+  [119] getlocal 0 .............................. <i>
+  [121] getprop 572 ............................. <width>
+  [124] mul ..................................... <i * width>
+  [125] getlocal 2 .............................. <j>
+  [127] add ..................................... <(i * width) + j>
+  [128] pusharglist 3 ........................... <node, #children, (i * width) + j>
+  [130] objcall 30 .............................. <node.children[(i * width) + j]>
+  [132] pusharglistnoret 2 ...................... <row, node.children[(i * width) + j]>
+  [134] objcall 6 ............................... row.add(node.children[(i * width) + j])
+  [136] pushint8 1
+  [138] getlocal 2
+  [140] add
+  [141] setlocal 2
+  [143] endrepeat [104]
+  [145] getprop 575 ............................. <tilenodes>
+  [148] getlocal 1 .............................. <row>
+  [150] pusharglistnoret 2 ...................... <tilenodes, row>
+  [152] objcall 6 ............................... tilenodes.add(row)
+  [154] pushint8 1
+  [156] getlocal 0
+  [158] add
+  [159] setlocal 0
+  [161] endrepeat [ 83]
+  [163] getprop 45 .............................. <node>
+  [165] pushint8 1 .............................. <1>
+  [167] pusharglistnoret 2 ...................... <node, 1>
+  [169] objcall 57 .............................. node.setVisible(1)
+  [171] getprop 45 .............................. <node>
+  [173] pushsymb 49 ............................. <#children>
+  [175] pusharglist 2 ........................... <node, #children>
+  [177] objcall 12 .............................. <node.children.count>
+  [179] setlocal 3 .............................. ct = node.children.count
+  [181] pushsymb 57 ............................. <#setVisible>
+  [183] getprop 45 .............................. <node>
+  [185] getobjprop 49 ........................... <node.children>
+  [187] pushzero ................................ <0>
+  [188] pusharglistnoret 3 ...................... <#setVisible, node.children, 0>
+  [190] extcall 32 .............................. call(#setVisible, node.children, 0)
+  [192] pusharglist 0 ........................... <[]>
+  [194] pushlist ................................ <[]>
+  [195] setprop 576 ............................. tileviews = []
+  [198] getparam 0 .............................. <me>
+  [200] getprop 570 ............................. <gridobj>
+  [203] pusharglistnoret 2 ...................... <me, gridobj>
+  [205] objcall 569 ............................. me.setGrid(gridobj)
+  [208] getparam 0 .............................. <me>
+  [210] pusharglistnoret 1 ...................... <me>
+  [212] extcall 9 ............................... return me
+  [214] ret
+end
+
+on setGrid me, gr
+  [  0] getprop 570 ............................. <gridobj>
+  [  3] getparam 1 .............................. <gr>
+  [  5] eq ...................................... <gridobj = gr>
+  [  6] jmpifz [ 13] ............................ if gridobj = gr then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 9 ............................... return 
+  [ 13] getparam 1 .............................. <gr>
+  [ 15] setprop 570 ............................. gridobj = gr
+  [ 18] pushsymb 5 .............................. <#destroy>
+  [ 20] getprop 576 ............................. <tileviews>
+  [ 23] pusharglistnoret 2 ...................... <#destroy, tileviews>
+  [ 25] extcall 32 .............................. call(#destroy, tileviews)
+  [ 27] getprop 576 ............................. <tileviews>
+  [ 30] pusharglistnoret 1 ...................... <tileviews>
+  [ 32] objcall 10 .............................. tileviews.deleteAll()
+  [ 34] getprop 570 ............................. <gridobj>
+  [ 37] pusharglist 1 ........................... <gridobj>
+  [ 39] extcall 31 .............................. <voidp(gridobj)>
+  [ 41] jmpifz [ 48] ............................ if voidp(gridobj) then
+  [ 44] pusharglistnoret 0 ...................... <>
+  [ 46] extcall 9 ............................... return 
+  [ 48] getprop 570 ............................. <gridobj>
+  [ 51] getobjprop 337 .......................... <gridobj.grid>
+  [ 54] setlocal 0 .............................. g = gridobj.grid
+  [ 56] getparam 0 .............................. <me>
+  [ 58] pusharglistnoret 1 ...................... <me>
+  [ 60] objcall 39 .............................. me.update()
+  [ 62] ret
+end
+
+on getPosNearest me, pt
+  [  0] getprop 45 .............................. <node>
+  [  2] pusharglist 1 ........................... <node>
+  [  4] objcall 51 .............................. <node.getLoc()>
+  [  6] setlocal 0 .............................. myloc = node.getLoc()
+  [  8] getparam 1 .............................. <pt>
+  [ 10] getlocal 0 .............................. <myloc>
+  [ 12] sub ..................................... <pt - myloc>
+  [ 13] getprop 573 ............................. <tilesize>
+  [ 16] add ..................................... <pt - myloc + tilesize>
+  [ 17] getprop 573 ............................. <tilesize>
+  [ 20] div ..................................... <(pt - myloc + tilesize) / tilesize>
+  [ 21] setlocal 1 .............................. rel = (pt - myloc + tilesize) / tilesize
+  [ 23] pushint8 1 .............................. <1>
+  [ 25] getlocal 1 .............................. <rel>
+  [ 27] pushint8 1 .............................. <1>
+  [ 29] pusharglist 2 ........................... <rel, 1>
+  [ 31] objcall 36 .............................. <rel[1]>
+  [ 33] getprop 572 ............................. <width>
+  [ 36] pusharglist 2 ........................... <rel[1], width>
+  [ 38] extcall 154 ............................. <min(rel[1], width)>
+  [ 40] pusharglist 2 ........................... <1, min(rel[1], width)>
+  [ 42] extcall 153 ............................. <max(1, min(rel[1], width))>
+  [ 44] setlocal 2 .............................. x = max(1, min(rel[1], width))
+  [ 46] pushint8 1 .............................. <1>
+  [ 48] getlocal 1 .............................. <rel>
+  [ 50] pushint8 2 .............................. <2>
+  [ 52] pusharglist 2 ........................... <rel, 2>
+  [ 54] objcall 36 .............................. <rel[2]>
+  [ 56] getprop 415 ............................. <height>
+  [ 59] pusharglist 2 ........................... <rel[2], height>
+  [ 61] extcall 154 ............................. <min(rel[2], height)>
+  [ 63] pusharglist 2 ........................... <1, min(rel[2], height)>
+  [ 65] extcall 153 ............................. <max(1, min(rel[2], height))>
+  [ 67] setlocal 3 .............................. y = max(1, min(rel[2], height))
+  [ 69] getlocal 2 .............................. <x>
+  [ 71] getlocal 3 .............................. <y>
+  [ 73] pusharglist 2 ........................... <[x, y]>
+  [ 75] pushlist ................................ <[x, y]>
+  [ 76] pusharglistnoret 1 ...................... <[x, y]>
+  [ 78] extcall 9 ............................... return [x, y]
+  [ 80] ret
+end
+
+on destroy me
+  [  0] pushsymb 5 .............................. <#destroy>
+  [  2] getprop 576 ............................. <tileviews>
+  [  5] pusharglistnoret 2 ...................... <#destroy, tileviews>
+  [  7] extcall 32 .............................. call(#destroy, tileviews)
+  [  9] getprop 576 ............................. <tileviews>
+  [ 12] pusharglistnoret 1 ...................... <tileviews>
+  [ 14] objcall 10 .............................. tileviews.deleteAll()
+  [ 16] pusharglist 0 ........................... <>
+  [ 18] extcall 65 .............................. <VOID>
+  [ 20] setlocal 0 .............................. grid = VOID
+  [ 22] ret
+end
+
+on updateLocZ me
+  [  0] getprop 45 .............................. <node>
+  [  2] pusharglistnoret 1 ...................... <node>
+  [  4] objcall 390 ............................. node.updateLocZ()
+  [  7] ret
+end
+
+on update me
+  [  0] getprop 570 ............................. <gridobj>
+  [  3] pusharglist 1 ........................... <gridobj>
+  [  5] extcall 31 .............................. <voidp(gridobj)>
+  [  7] jmpifz [ 14] ............................ if voidp(gridobj) then
+  [ 10] pusharglistnoret 0 ...................... <>
+  [ 12] extcall 9 ............................... return 
+  [ 14] getprop 570 ............................. <gridobj>
+  [ 17] getobjprop 337 .......................... <gridobj.grid>
+  [ 20] setlocal 0 .............................. g = gridobj.grid
+  [ 22] getprop 570 ............................. <gridobj>
+  [ 25] pushsymb 40 ............................. <#size>
+  [ 27] pushint8 1 .............................. <1>
+  [ 29] pusharglist 3 ........................... <gridobj, #size, 1>
+  [ 31] objcall 30 .............................. <gridobj.size[1]>
+  [ 33] setlocal 1 .............................. w = gridobj.size[1]
+  [ 35] getprop 570 ............................. <gridobj>
+  [ 38] pushsymb 40 ............................. <#size>
+  [ 40] pushint8 2 .............................. <2>
+  [ 42] pusharglist 3 ........................... <gridobj, #size, 2>
+  [ 44] objcall 30 .............................. <gridobj.size[2]>
+  [ 46] setlocal 2 .............................. h = gridobj.size[2]
+  [ 48] pushint8 1 .............................. <1>
+  [ 50] setlocal 3
+  [ 52] getlocal 3
+  [ 54] getprop 415 ............................. <height>
+  [ 57] lteq
+  [ 58] jmpifz [179] ............................ repeat with r = 1 to height
+  [ 61] getprop 575 ............................. <tilenodes>
+  [ 64] getlocal 3 .............................. <r>
+  [ 66] pusharglist 2 ........................... <tilenodes, r>
+  [ 68] objcall 36 .............................. <tilenodes[r]>
+  [ 70] setlocal 4 .............................. tr = tilenodes[r]
+  [ 72] getlocal 3 .............................. <r>
+  [ 74] getlocal 2 .............................. <h>
+  [ 76] gt ...................................... <r > h>
+  [ 77] jmpifz [ 83] ............................ if r > h then
+  [ 80] jmp [170] ............................... next repeat
+  [ 83] pushint8 1 .............................. <1>
+  [ 85] setlocal 5
+  [ 87] getlocal 5
+  [ 89] getprop 572 ............................. <width>
+  [ 92] lteq
+  [ 93] jmpifz [170] ............................ repeat with c = 1 to width
+  [ 96] getlocal 4 .............................. <tr>
+  [ 98] getlocal 5 .............................. <c>
+  [100] pusharglist 2 ........................... <tr, c>
+  [102] objcall 36 .............................. <tr[c]>
+  [104] setlocal 6 .............................. n = tr[c]
+  [106] getlocal 5 .............................. <c>
+  [108] getlocal 1 .............................. <w>
+  [110] gt ...................................... <c > w>
+  [111] jmpifz [124] ............................ if c > w then
+  [114] getlocal 6 .............................. <n>
+  [116] pushzero ................................ <0>
+  [117] pusharglistnoret 2 ...................... <n, 0>
+  [119] objcall 57 .............................. n.setVisible(0)
+  [121] jmp [161] ............................... next repeat
+  [124] getlocal 6 .............................. <n>
+  [126] pushint8 1 .............................. <1>
+  [128] pusharglistnoret 2 ...................... <n, 1>
+  [130] objcall 57 .............................. n.setVisible(1)
+  [132] getprop 570 ............................. <gridobj>
+  [135] pushsymb 337 ............................ <#grid>
+  [138] getlocal 3 .............................. <r>
+  [140] pusharglist 3 ........................... <gridobj, #grid, r>
+  [142] objcall 50 .............................. <gridobj.grid[r]>
+  [144] getlocal 5 .............................. <c>
+  [146] pusharglist 2 ........................... <gridobj.grid[r], c>
+  [148] objcall 36 .............................. <gridobj.grid[r][c]>
+  [150] setlocal 7 .............................. Tile = gridobj.grid[r][c]
+  [152] getlocal 7 .............................. <Tile>
+  [154] getlocal 6 .............................. <n>
+  [156] pusharglistnoret 2 ...................... <Tile, n>
+  [158] objcall 353 ............................. Tile.setNode(n)
+  [161] pushint8 1
+  [163] getlocal 5
+  [165] add
+  [166] setlocal 5
+  [168] endrepeat [ 87]
+  [170] pushint8 1
+  [172] getlocal 3
+  [174] add
+  [175] setlocal 3
+  [177] endrepeat [ 52]
+  [179] ret
+end

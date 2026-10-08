@@ -1,0 +1,372 @@
+property tipinfo, bonuses, node, text, timer, extrastar, states, state
+
+on new me, n
+  [  0] getparam 1 .............................. <n>
+  [  2] setprop 45 .............................. node = n
+  [  4] getprop 45 .............................. <node>
+  [  6] pushcons 0 .............................. <"total">
+  [  8] pusharglist 2 ........................... <node, "total">
+  [ 10] objcall 36 .............................. <node["total"]>
+  [ 12] setprop 785 ............................. text = node["total"]
+  [ 15] pusharglist 0 ........................... <[:]>
+  [ 17] pushproplist ............................ <[:]>
+  [ 18] setprop 341 ............................. states = [:]
+  [ 21] getprop 341 ............................. <states>
+  [ 24] pushsymb 862 ............................ <#done>
+  [ 27] pushsymb 33 ............................. <#handler>
+  [ 29] pushsymb 862 ............................ <#done>
+  [ 32] pusharglist 2 ........................... <[#handler: #done]>
+  [ 34] pushproplist ............................ <[#handler: #done]>
+  [ 35] pusharglistnoret 3 ...................... <states, #done, [#handler: #done]>
+  [ 37] objcall 25 .............................. states[#done] = [#handler: #done]
+  [ 39] getprop 341 ............................. <states>
+  [ 42] pushsymb 864 ............................ <#base>
+  [ 45] pushsymb 33 ............................. <#handler>
+  [ 47] pushsymb 859 ............................ <#showBase>
+  [ 50] pushsymb 457 ............................ <#nextState>
+  [ 53] pushsymb 862 ............................ <#done>
+  [ 56] pushsymb 865 ............................ <#time>
+  [ 59] pushint16 2000 .......................... <2000>
+  [ 62] pusharglist 6 ........................... <[#handler: #showBase, #nextState: #done, #time: 2000]>
+  [ 64] pushproplist ............................ <[#handler: #showBase, #nextState: #done, #time: 2000]>
+  [ 65] pusharglistnoret 3 ...................... <states, #base, [#handler: #showBase, #nextState: #done, #time: 2000]>
+  [ 67] objcall 25 .............................. states[#base] = [#handler: #showBase, #nextState: #done, #time: 2000]
+  [ 69] getprop 341 ............................. <states>
+  [ 72] pushsymb 866 ............................ <#base_hide>
+  [ 75] pushsymb 33 ............................. <#handler>
+  [ 77] pushsymb 863 ............................ <#hide>
+  [ 80] pushsymb 457 ............................ <#nextState>
+  [ 83] pushsymb 98 ............................. <#mood>
+  [ 85] pushsymb 865 ............................ <#time>
+  [ 88] pushint16 500 ........................... <500>
+  [ 91] pusharglist 6 ........................... <[#handler: #hide, #nextState: #mood, #time: 500]>
+  [ 93] pushproplist ............................ <[#handler: #hide, #nextState: #mood, #time: 500]>
+  [ 94] pusharglistnoret 3 ...................... <states, #base_hide, [#handler: #hide, #nextState: #mood, #time: 500]>
+  [ 96] objcall 25 .............................. states[#base_hide] = [#handler: #hide, #nextState: #mood, #time: 500]
+  [ 98] getprop 341 ............................. <states>
+  [101] pushsymb 98 ............................. <#mood>
+  [103] pushsymb 33 ............................. <#handler>
+  [105] pushsymb 860 ............................ <#showMood>
+  [108] pushsymb 457 ............................ <#nextState>
+  [111] pushsymb 867 ............................ <#mood_hide>
+  [114] pushsymb 865 ............................ <#time>
+  [117] pushint16 2000 .......................... <2000>
+  [120] pusharglist 6 ........................... <[#handler: #showMood, #nextState: #mood_hide, #time: 2000]>
+  [122] pushproplist ............................ <[#handler: #showMood, #nextState: #mood_hide, #time: 2000]>
+  [123] pusharglistnoret 3 ...................... <states, #mood, [#handler: #showMood, #nextState: #mood_hide, #time: 2000]>
+  [125] objcall 25 .............................. states[#mood] = [#handler: #showMood, #nextState: #mood_hide, #time: 2000]
+  [127] getprop 341 ............................. <states>
+  [130] pushsymb 867 ............................ <#mood_hide>
+  [133] pushsymb 33 ............................. <#handler>
+  [135] pushsymb 863 ............................ <#hide>
+  [138] pushsymb 457 ............................ <#nextState>
+  [141] pushsymb 868 ............................ <#chain>
+  [144] pushsymb 865 ............................ <#time>
+  [147] pushint16 500 ........................... <500>
+  [150] pusharglist 6 ........................... <[#handler: #hide, #nextState: #chain, #time: 500]>
+  [152] pushproplist ............................ <[#handler: #hide, #nextState: #chain, #time: 500]>
+  [153] pusharglistnoret 3 ...................... <states, #mood_hide, [#handler: #hide, #nextState: #chain, #time: 500]>
+  [155] objcall 25 .............................. states[#mood_hide] = [#handler: #hide, #nextState: #chain, #time: 500]
+  [157] getprop 341 ............................. <states>
+  [160] pushsymb 868 ............................ <#chain>
+  [163] pushsymb 33 ............................. <#handler>
+  [165] pushsymb 861 ............................ <#showChain>
+  [168] pushsymb 457 ............................ <#nextState>
+  [171] pushsymb 862 ............................ <#done>
+  [174] pushsymb 865 ............................ <#time>
+  [177] pushint16 2000 .......................... <2000>
+  [180] pusharglist 6 ........................... <[#handler: #showChain, #nextState: #done, #time: 2000]>
+  [182] pushproplist ............................ <[#handler: #showChain, #nextState: #done, #time: 2000]>
+  [183] pusharglistnoret 3 ...................... <states, #chain, [#handler: #showChain, #nextState: #done, #time: 2000]>
+  [185] objcall 25 .............................. states[#chain] = [#handler: #showChain, #nextState: #done, #time: 2000]
+  [187] getprop 45 .............................. <node>
+  [189] pushcons 1 .............................. <"extrastar">
+  [191] pusharglist 2 ........................... <node, "extrastar">
+  [193] objcall 36 .............................. <node["extrastar"]>
+  [195] setprop 869 ............................. extrastar = node["extrastar"]
+  [198] getprop 341 ............................. <states>
+  [201] getobjprop 862 .......................... <states.done>
+  [204] setprop 205 ............................. state = states.done
+  [206] getparam 0 .............................. <me>
+  [208] pusharglistnoret 1 ...................... <me>
+  [210] extcall 9 ............................... return me
+  [212] ret
+end
+
+on setState me, sym
+  [  0] getprop 341 ............................. <states>
+  [  3] getparam 1 .............................. <sym>
+  [  5] pusharglist 2 ........................... <states, sym>
+  [  7] objcall 36 .............................. <states[sym]>
+  [  9] setlocal 0 .............................. s = states[sym]
+  [ 11] getlocal 0 .............................. <s>
+  [ 13] pusharglist 1 ........................... <s>
+  [ 15] extcall 31 .............................. <voidp(s)>
+  [ 17] getlocal 0 .............................. <s>
+  [ 19] getprop 205 ............................. <state>
+  [ 21] eq ...................................... <s = state>
+  [ 22] or ...................................... <voidp(s) or (s = state)>
+  [ 23] jmpifz [ 30] ............................ if voidp(s) or (s = state) then
+  [ 26] pusharglistnoret 0 ...................... <>
+  [ 28] extcall 9 ............................... return 
+  [ 30] getlocal 0 .............................. <s>
+  [ 32] setprop 205 ............................. state = s
+  [ 34] getlocal 0 .............................. <s>
+  [ 36] pushsymb 33 ............................. <#handler>
+  [ 38] pusharglist 2 ........................... <s, #handler>
+  [ 40] objcall 36 .............................. <s[#handler]>
+  [ 42] pusharglist 1 ........................... <s[#handler]>
+  [ 44] extcall 31 .............................. <voidp(s[#handler])>
+  [ 46] not ..................................... <not voidp(s[#handler])>
+  [ 47] jmpifz [ 68] ............................ if not voidp(s[#handler]) then
+  [ 50] getlocal 0 .............................. <s>
+  [ 52] getobjprop 33 ........................... <s.handler>
+  [ 54] getparam 0 .............................. <me>
+  [ 56] getlocal 0 .............................. <s>
+  [ 58] pushsymb 35 ............................. <#Args>
+  [ 60] pusharglist 2 ........................... <s, #Args>
+  [ 62] objcall 36 .............................. <s[#Args]>
+  [ 64] pusharglistnoret 3 ...................... <s.handler, me, s[#Args]>
+  [ 66] extcall 32 .............................. call(s.handler, me, s[#Args])
+  [ 68] getprop 870 ............................. <timer>
+  [ 71] pusharglist 1 ........................... <timer>
+  [ 73] extcall 31 .............................. <voidp(timer)>
+  [ 75] not ..................................... <not voidp(timer)>
+  [ 76] jmpifz [ 93] ............................ if not voidp(timer) then
+  [ 79] getprop 870 ............................. <timer>
+  [ 82] pusharglistnoret 1 ...................... <timer>
+  [ 84] objcall 5 ............................... timer.destroy()
+  [ 86] pusharglist 0 ........................... <>
+  [ 88] extcall 65 .............................. <VOID>
+  [ 90] setprop 870 ............................. timer = VOID
+  [ 93] getlocal 0 .............................. <s>
+  [ 95] pushsymb 457 ............................ <#nextState>
+  [ 98] pusharglist 2 ........................... <s, #nextState>
+  [100] objcall 36 .............................. <s[#nextState]>
+  [102] pusharglist 1 ........................... <s[#nextState]>
+  [104] extcall 31 .............................. <voidp(s[#nextState])>
+  [106] not ..................................... <not voidp(s[#nextState])>
+  [107] jmpifz [152] ............................ if not voidp(s[#nextState]) then
+  [110] getlocal 0 .............................. <s>
+  [112] pushsymb 865 ............................ <#time>
+  [115] pusharglist 2 ........................... <s, #time>
+  [117] objcall 36 .............................. <s[#time]>
+  [119] pusharglist 1 ........................... <s[#time]>
+  [121] extcall 216 ............................. <integer(s[#time])>
+  [123] setlocal 1 .............................. t = integer(s[#time])
+  [125] getlocal 1 .............................. <t>
+  [127] pushsymb 34 ............................. <#target>
+  [129] getparam 0 .............................. <me>
+  [131] pushsymb 33 ............................. <#handler>
+  [133] pushsymb 158 ............................ <#setState>
+  [135] pushsymb 35 ............................. <#Args>
+  [137] getlocal 0 .............................. <s>
+  [139] getobjprop 457 .......................... <s.nextState>
+  [142] pusharglist 6 ........................... <[#target: me, #handler: #setState, #Args: s.nextState]>
+  [144] pushproplist ............................ <[#target: me, #handler: #setState, #Args: s.nextState]>
+  [145] pusharglist 2 ........................... <t, [#target: me, #handler: #setState, #Args: s.nextState]>
+  [147] extcall 252 ............................. <timedCall(t, [#target: me, #handler: #setState, #Args: s.nextState])>
+  [149] setprop 870 ............................. timer = timedCall(t, [#target: me, #handler: #setState, #Args: s.nextState])
+  [152] ret
+end
+
+on nextState me
+  [  0] getprop 205 ............................. <state>
+  [  2] pushsymb 871 ............................ <#next>
+  [  5] pusharglist 2 ........................... <state, #next>
+  [  7] objcall 36 .............................. <state[#next]>
+  [  9] pusharglist 1 ........................... <state[#next]>
+  [ 11] extcall 31 .............................. <voidp(state[#next])>
+  [ 13] not ..................................... <not voidp(state[#next])>
+  [ 14] jmpifz [ 28] ............................ if not voidp(state[#next]) then
+  [ 17] getparam 0 .............................. <me>
+  [ 19] getprop 205 ............................. <state>
+  [ 21] getobjprop 871 .......................... <state.next>
+  [ 24] pusharglistnoret 2 ...................... <me, state.next>
+  [ 26] objcall 158 ............................. me.setState(state.next)
+  [ 28] ret
+end
+
+on showBase me
+  [  0] getprop 523 ............................. <tipinfo>
+  [  3] pusharglist 1 ........................... <tipinfo>
+  [  5] extcall 31 .............................. <voidp(tipinfo)>
+  [  7] jmpifz [ 14] ............................ if voidp(tipinfo) then
+  [ 10] pusharglistnoret 0 ...................... <>
+  [ 12] extcall 9 ............................... return 
+  [ 14] getprop 785 ............................. <text>
+  [ 17] pushcons 2 .............................. <"$">
+  [ 19] getprop 523 ............................. <tipinfo>
+  [ 22] getobjprop 767 .......................... <tipinfo.total>
+  [ 25] pusharglist 1 ........................... <tipinfo.total>
+  [ 27] extcall 59 .............................. <string(tipinfo.total)>
+  [ 29] joinstr ................................. <"$" & string(tipinfo.total)>
+  [ 30] pusharglistnoret 2 ...................... <text, "$" & string(tipinfo.total)>
+  [ 32] objcall 773 ............................. text.setText("$" & string(tipinfo.total))
+  [ 35] getprop 869 ............................. <extrastar>
+  [ 38] pusharglist 1 ........................... <extrastar>
+  [ 40] extcall 31 .............................. <voidp(extrastar)>
+  [ 42] not ..................................... <not voidp(extrastar)>
+  [ 43] jmpifz [ 67] ............................ if not voidp(extrastar) then
+  [ 46] getprop 869 ............................. <extrastar>
+  [ 49] getprop 523 ............................. <tipinfo>
+  [ 52] pushsymb 872 ............................ <#extra_star>
+  [ 55] pusharglist 2 ........................... <tipinfo, #extra_star>
+  [ 57] objcall 36 .............................. <tipinfo[#extra_star]>
+  [ 59] pusharglist 1 ........................... <tipinfo[#extra_star]>
+  [ 61] extcall 216 ............................. <integer(tipinfo[#extra_star])>
+  [ 63] pusharglistnoret 2 ...................... <extrastar, integer(tipinfo[#extra_star])>
+  [ 65] objcall 57 .............................. extrastar.setVisible(integer(tipinfo[#extra_star]))
+  [ 67] getprop 45 .............................. <node>
+  [ 69] pushint8 1 .............................. <1>
+  [ 71] pusharglistnoret 2 ...................... <node, 1>
+  [ 73] objcall 57 .............................. node.setVisible(1)
+  [ 75] ret
+end
+
+on showMood me
+  [  0] getprop 873 ............................. <bonuses>
+  [  3] pusharglist 1 ........................... <bonuses>
+  [  5] extcall 31 .............................. <voidp(bonuses)>
+  [  7] jmpifz [ 14] ............................ if voidp(bonuses) then
+  [ 10] pusharglistnoret 0 ...................... <>
+  [ 12] extcall 9 ............................... return 
+  [ 14] getprop 873 ............................. <bonuses>
+  [ 17] pushsymb 98 ............................. <#mood>
+  [ 19] pusharglist 2 ........................... <bonuses, #mood>
+  [ 21] objcall 36 .............................. <bonuses[#mood]>
+  [ 23] pusharglist 1 ........................... <bonuses[#mood]>
+  [ 25] extcall 31 .............................. <voidp(bonuses[#mood])>
+  [ 27] jmpifz [ 41] ............................ if voidp(bonuses[#mood]) then
+  [ 30] getparam 0 .............................. <me>
+  [ 32] pusharglistnoret 1 ...................... <me>
+  [ 34] objcall 457 ............................. me.nextState()
+  [ 37] pusharglistnoret 0 ...................... <>
+  [ 39] extcall 9 ............................... return 
+  [ 41] getprop 45 .............................. <node>
+  [ 43] pushint8 1 .............................. <1>
+  [ 45] pusharglistnoret 2 ...................... <node, 1>
+  [ 47] objcall 874 ............................. node.setVsisible(1)
+  [ 50] getprop 785 ............................. <text>
+  [ 53] pushcons 3 .............................. <"mood bonus = ">
+  [ 55] getprop 873 ............................. <bonuses>
+  [ 58] getobjprop 98 ........................... <bonuses.mood>
+  [ 60] pusharglist 1 ........................... <bonuses.mood>
+  [ 62] extcall 59 .............................. <string(bonuses.mood)>
+  [ 64] joinstr ................................. <"mood bonus = " & string(bonuses.mood)>
+  [ 65] pusharglistnoret 2 ...................... <text, "mood bonus = " & string(bonuses.mood)>
+  [ 67] objcall 773 ............................. text.setText("mood bonus = " & string(bonuses.mood))
+  [ 70] ret
+end
+
+on showChain me
+  [  0] getprop 873 ............................. <bonuses>
+  [  3] pusharglist 1 ........................... <bonuses>
+  [  5] extcall 31 .............................. <voidp(bonuses)>
+  [  7] jmpifz [ 14] ............................ if voidp(bonuses) then
+  [ 10] pusharglistnoret 0 ...................... <>
+  [ 12] extcall 9 ............................... return 
+  [ 14] getprop 873 ............................. <bonuses>
+  [ 17] pushsymb 500 ............................ <#tableChain>
+  [ 20] pusharglist 2 ........................... <bonuses, #tableChain>
+  [ 22] objcall 36 .............................. <bonuses[#tableChain]>
+  [ 24] pusharglist 1 ........................... <bonuses[#tableChain]>
+  [ 26] extcall 31 .............................. <voidp(bonuses[#tableChain])>
+  [ 28] jmpifz [ 42] ............................ if voidp(bonuses[#tableChain]) then
+  [ 31] getparam 0 .............................. <me>
+  [ 33] pusharglistnoret 1 ...................... <me>
+  [ 35] objcall 457 ............................. me.nextState()
+  [ 38] pusharglistnoret 0 ...................... <>
+  [ 40] extcall 9 ............................... return 
+  [ 42] getprop 45 .............................. <node>
+  [ 44] pushint8 1 .............................. <1>
+  [ 46] pusharglistnoret 2 ...................... <node, 1>
+  [ 48] objcall 57 .............................. node.setVisible(1)
+  [ 50] getprop 873 ............................. <bonuses>
+  [ 53] getobjprop 500 .......................... <bonuses.tableChain>
+  [ 56] setlocal 0 .............................. tc = bonuses.tableChain
+  [ 58] getprop 785 ............................. <text>
+  [ 61] pushcons 4 .............................. <"chain x">
+  [ 63] getlocal 0 .............................. <tc>
+  [ 65] pushint8 1 .............................. <1>
+  [ 67] pusharglist 2 ........................... <tc, 1>
+  [ 69] objcall 36 .............................. <tc[1]>
+  [ 71] pusharglist 1 ........................... <tc[1]>
+  [ 73] extcall 59 .............................. <string(tc[1])>
+  [ 75] joinstr ................................. <"chain x" & string(tc[1])>
+  [ 76] pushcons 5 .............................. <" = ">
+  [ 78] joinstr ................................. <"chain x" & string(tc[1]) & " = ">
+  [ 79] getlocal 0 .............................. <tc>
+  [ 81] pushint8 3 .............................. <3>
+  [ 83] pusharglist 2 ........................... <tc, 3>
+  [ 85] objcall 36 .............................. <tc[3]>
+  [ 87] pusharglist 1 ........................... <tc[3]>
+  [ 89] extcall 59 .............................. <string(tc[3])>
+  [ 91] joinstr ................................. <"chain x" & string(tc[1]) & " = " & string(tc[3])>
+  [ 92] pusharglistnoret 2 ...................... <text, "chain x" & string(tc[1]) & " = " & string(tc[3])>
+  [ 94] objcall 773 ............................. text.setText("chain x" & string(tc[1]) & " = " & string(tc[3]))
+  [ 97] ret
+end
+
+on done me
+  [  0] getparam 0 .............................. <me>
+  [  2] pusharglistnoret 1 ...................... <me>
+  [  4] objcall 863 ............................. me.hide()
+  [  7] pusharglist 0 ........................... <>
+  [  9] extcall 65 .............................. <VOID>
+  [ 11] setprop 523 ............................. tipinfo = VOID
+  [ 14] pusharglist 0 ........................... <>
+  [ 16] extcall 65 .............................. <VOID>
+  [ 18] setprop 873 ............................. bonuses = VOID
+  [ 21] getprop 870 ............................. <timer>
+  [ 24] pusharglist 1 ........................... <timer>
+  [ 26] extcall 31 .............................. <voidp(timer)>
+  [ 28] not ..................................... <not voidp(timer)>
+  [ 29] jmpifz [ 46] ............................ if not voidp(timer) then
+  [ 32] getprop 870 ............................. <timer>
+  [ 35] pusharglistnoret 1 ...................... <timer>
+  [ 37] objcall 5 ............................... timer.destroy()
+  [ 39] pusharglist 0 ........................... <>
+  [ 41] extcall 65 .............................. <VOID>
+  [ 43] setprop 870 ............................. timer = VOID
+  [ 46] ret
+end
+
+on hide me
+  [  0] getprop 45 .............................. <node>
+  [  2] pushzero ................................ <0>
+  [  3] pusharglistnoret 2 ...................... <node, 0>
+  [  5] objcall 57 .............................. node.setVisible(0)
+  [  7] ret
+end
+
+on showTip me, tp
+  [  0] getparam 1 .............................. <tp>
+  [  2] setprop 523 ............................. tipinfo = tp
+  [  5] getparam 0 .............................. <me>
+  [  7] pushsymb 864 ............................ <#base>
+  [ 10] pusharglistnoret 2 ...................... <me, #base>
+  [ 12] objcall 158 ............................. me.setState(#base)
+  [ 14] ret
+end
+
+on destroy me
+  [  0] pusharglist 0 ........................... <>
+  [  2] extcall 65 .............................. <VOID>
+  [  4] setprop 45 .............................. node = VOID
+  [  6] pusharglist 0 ........................... <>
+  [  8] extcall 65 .............................. <VOID>
+  [ 10] setprop 785 ............................. text = VOID
+  [ 13] getprop 870 ............................. <timer>
+  [ 16] pusharglist 1 ........................... <timer>
+  [ 18] extcall 31 .............................. <voidp(timer)>
+  [ 20] not ..................................... <not voidp(timer)>
+  [ 21] jmpifz [ 38] ............................ if not voidp(timer) then
+  [ 24] getprop 870 ............................. <timer>
+  [ 27] pusharglistnoret 1 ...................... <timer>
+  [ 29] objcall 5 ............................... timer.destroy()
+  [ 31] pusharglist 0 ........................... <>
+  [ 33] extcall 65 .............................. <VOID>
+  [ 35] setprop 870 ............................. timer = VOID
+  [ 38] ret
+end

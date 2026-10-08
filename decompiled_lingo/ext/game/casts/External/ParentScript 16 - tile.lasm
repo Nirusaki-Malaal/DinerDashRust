@@ -1,0 +1,358 @@
+property occupant, emptyOccupant, fullOccupant, pos, neighbors, doubleNeighbors, grid_mgr, node
+
+on new me, Args
+  [  0] getparam 1 .............................. <Args>
+  [  2] getobjprop 383 .......................... <Args.pos>
+  [  5] setprop 383 ............................. pos = Args.pos
+  [  8] pushsymb 137 ............................ <#type>
+  [ 10] pushsymb 401 ............................ <#empty>
+  [ 13] pusharglist 2 ........................... <[#type: #empty]>
+  [ 15] pushproplist ............................ <[#type: #empty]>
+  [ 16] setprop 586 ............................. emptyOccupant = [#type: #empty]
+  [ 19] pushsymb 137 ............................ <#type>
+  [ 21] pushsymb 402 ............................ <#Full>
+  [ 24] pusharglist 2 ........................... <[#type: #Full]>
+  [ 26] pushproplist ............................ <[#type: #Full]>
+  [ 27] setprop 587 ............................. fullOccupant = [#type: #Full]
+  [ 30] getprop 586 ............................. <emptyOccupant>
+  [ 33] setprop 287 ............................. occupant = emptyOccupant
+  [ 36] pusharglist 0 ........................... <[]>
+  [ 38] pushlist ................................ <[]>
+  [ 39] setprop 588 ............................. neighbors = []
+  [ 42] pusharglist 0 ........................... <[]>
+  [ 44] pushlist ................................ <[]>
+  [ 45] setprop 589 ............................. doubleNeighbors = []
+  [ 48] getparam 0 .............................. <me>
+  [ 50] pusharglistnoret 1 ...................... <me>
+  [ 52] extcall 9 ............................... return me
+  [ 54] ret
+end
+
+on setOccupant me, obj
+  [  0] getparam 1 .............................. <obj>
+  [  2] setprop 287 ............................. occupant = obj
+  [  5] getprop 287 ............................. <occupant>
+  [  8] pusharglist 1 ........................... <occupant>
+  [ 10] extcall 31 .............................. <voidp(occupant)>
+  [ 12] jmpifz [ 21] ............................ if voidp(occupant) then
+  [ 15] getprop 586 ............................. <emptyOccupant>
+  [ 18] setprop 287 ............................. occupant = emptyOccupant
+  [ 21] ret
+end
+
+on removeOccupant me, obj
+  [  0] getprop 287 ............................. <occupant>
+  [  3] getparam 1 .............................. <obj>
+  [  5] eq ...................................... <occupant = obj>
+  [  6] jmpifz [ 15] ............................ if occupant = obj then
+  [  9] getprop 586 ............................. <emptyOccupant>
+  [ 12] setprop 287 ............................. occupant = emptyOccupant
+  [ 15] ret
+end
+
+on addNeighbor me, obj
+  [  0] getprop 588 ............................. <neighbors>
+  [  3] getparam 1 .............................. <obj>
+  [  5] pusharglist 2 ........................... <neighbors, obj>
+  [  7] objcall 11 .............................. <neighbors.getOne(obj)>
+  [  9] pushzero ................................ <0>
+  [ 10] eq ...................................... <neighbors.getOne(obj) = 0>
+  [ 11] jmpifz [ 23] ............................ if neighbors.getOne(obj) = 0 then
+  [ 14] getprop 588 ............................. <neighbors>
+  [ 17] getparam 1 .............................. <obj>
+  [ 19] pusharglistnoret 2 ...................... <neighbors, obj>
+  [ 21] objcall 6 ............................... neighbors.add(obj)
+  [ 23] ret
+end
+
+on addDoubleNeighbor me, obj
+  [  0] getprop 589 ............................. <doubleNeighbors>
+  [  3] getparam 1 .............................. <obj>
+  [  5] pusharglist 2 ........................... <doubleNeighbors, obj>
+  [  7] objcall 11 .............................. <doubleNeighbors.getOne(obj)>
+  [  9] pushzero ................................ <0>
+  [ 10] eq ...................................... <doubleNeighbors.getOne(obj) = 0>
+  [ 11] jmpifz [ 23] ............................ if doubleNeighbors.getOne(obj) = 0 then
+  [ 14] getprop 589 ............................. <doubleNeighbors>
+  [ 17] getparam 1 .............................. <obj>
+  [ 19] pusharglistnoret 2 ...................... <doubleNeighbors, obj>
+  [ 21] objcall 6 ............................... doubleNeighbors.add(obj)
+  [ 23] ret
+end
+
+on getNeighbors me, tp
+  [  0] getparam 1 .............................. <tp>
+  [  2] pusharglist 1 ........................... <tp>
+  [  4] extcall 31 .............................. <voidp(tp)>
+  [  6] jmpifz [ 16] ............................ if voidp(tp) then
+  [  9] getprop 588 ............................. <neighbors>
+  [ 12] pusharglistnoret 1 ...................... <neighbors>
+  [ 14] extcall 9 ............................... return neighbors
+  [ 16] getparam 1 .............................. <tp>
+  [ 18] getobjprop 557 .......................... <tp.listp>
+  [ 21] not ..................................... <not tp.listp>
+  [ 22] jmpifz [ 32] ............................ if not tp.listp then
+  [ 25] getparam 1 .............................. <tp>
+  [ 27] pusharglist 1 ........................... <[tp]>
+  [ 29] pushlist ................................ <[tp]>
+  [ 30] setparam 1 .............................. tp = [tp]
+  [ 32] pusharglist 0 ........................... <[]>
+  [ 34] pushlist ................................ <[]>
+  [ 35] setlocal 0 .............................. ls = []
+  [ 37] getprop 588 ............................. <neighbors>
+  [ 40] peek 0
+  [ 42] pusharglist 1
+  [ 44] extcall 12
+  [ 46] pushint8 1
+  [ 48] peek 0
+  [ 50] peek 2
+  [ 52] lteq
+  [ 53] jmpifz [ 95] ............................ repeat with i in neighbors
+  [ 56] peek 2
+  [ 58] peek 1
+  [ 60] pusharglist 2
+  [ 62] extcall 36
+  [ 64] setlocal 1
+  [ 66] getparam 1 .............................. <tp>
+  [ 68] getlocal 1 .............................. <i>
+  [ 70] getchainedprop 287 ...................... <i.occupant>
+  [ 73] getobjprop 137 .......................... <i.occupant.type>
+  [ 75] pusharglist 2 ........................... <tp, i.occupant.type>
+  [ 77] objcall 11 .............................. <tp.getOne(i.occupant.type)>
+  [ 79] jmpifz [ 90] ............................ if tp.getOne(i.occupant.type) then
+  [ 82] getlocal 0 .............................. <ls>
+  [ 84] getlocal 1 .............................. <i>
+  [ 86] pusharglistnoret 2 ...................... <ls, i>
+  [ 88] objcall 6 ............................... ls.add(i)
+  [ 90] pushint8 1
+  [ 92] add
+  [ 93] endrepeat [ 48]
+  [ 95] pop 3
+  [ 97] getlocal 0 .............................. <ls>
+  [ 99] pusharglistnoret 1 ...................... <ls>
+  [101] extcall 9 ............................... return ls
+  [103] ret
+end
+
+on getDoubleNeighbors me, tp
+  [  0] getparam 1 .............................. <tp>
+  [  2] pusharglist 1 ........................... <tp>
+  [  4] extcall 31 .............................. <voidp(tp)>
+  [  6] jmpifz [ 16] ............................ if voidp(tp) then
+  [  9] getprop 589 ............................. <doubleNeighbors>
+  [ 12] pusharglistnoret 1 ...................... <doubleNeighbors>
+  [ 14] extcall 9 ............................... return doubleNeighbors
+  [ 16] getparam 1 .............................. <tp>
+  [ 18] getobjprop 557 .......................... <tp.listp>
+  [ 21] not ..................................... <not tp.listp>
+  [ 22] jmpifz [ 32] ............................ if not tp.listp then
+  [ 25] getparam 1 .............................. <tp>
+  [ 27] pusharglist 1 ........................... <[tp]>
+  [ 29] pushlist ................................ <[tp]>
+  [ 30] setparam 1 .............................. tp = [tp]
+  [ 32] pusharglist 0 ........................... <[]>
+  [ 34] pushlist ................................ <[]>
+  [ 35] setlocal 0 .............................. ls = []
+  [ 37] getprop 589 ............................. <doubleNeighbors>
+  [ 40] peek 0
+  [ 42] pusharglist 1
+  [ 44] extcall 12
+  [ 46] pushint8 1
+  [ 48] peek 0
+  [ 50] peek 2
+  [ 52] lteq
+  [ 53] jmpifz [ 95] ............................ repeat with i in doubleNeighbors
+  [ 56] peek 2
+  [ 58] peek 1
+  [ 60] pusharglist 2
+  [ 62] extcall 36
+  [ 64] setlocal 1
+  [ 66] getparam 1 .............................. <tp>
+  [ 68] getlocal 1 .............................. <i>
+  [ 70] getchainedprop 287 ...................... <i.occupant>
+  [ 73] getobjprop 137 .......................... <i.occupant.type>
+  [ 75] pusharglist 2 ........................... <tp, i.occupant.type>
+  [ 77] objcall 11 .............................. <tp.getOne(i.occupant.type)>
+  [ 79] jmpifz [ 90] ............................ if tp.getOne(i.occupant.type) then
+  [ 82] getlocal 0 .............................. <ls>
+  [ 84] getlocal 1 .............................. <i>
+  [ 86] pusharglistnoret 2 ...................... <ls, i>
+  [ 88] objcall 6 ............................... ls.add(i)
+  [ 90] pushint8 1
+  [ 92] add
+  [ 93] endrepeat [ 48]
+  [ 95] pop 3
+  [ 97] getlocal 0 .............................. <ls>
+  [ 99] pusharglistnoret 1 ...................... <ls>
+  [101] extcall 9 ............................... return ls
+  [103] ret
+end
+
+on setBlocked me
+  [  0] getprop 587 ............................. <fullOccupant>
+  [  3] setprop 287 ............................. occupant = fullOccupant
+  [  6] ret
+end
+
+on getNeighborOccupants me, tp
+  [  0] pusharglist 0 ........................... <[]>
+  [  2] pushlist ................................ <[]>
+  [  3] setlocal 0 .............................. ls = []
+  [  5] getprop 588 ............................. <neighbors>
+  [  8] peek 0
+  [ 10] pusharglist 1
+  [ 12] extcall 12
+  [ 14] pushint8 1
+  [ 16] peek 0
+  [ 18] peek 2
+  [ 20] lteq
+  [ 21] jmpifz [ 70] ............................ repeat with i in neighbors
+  [ 24] peek 2
+  [ 26] peek 1
+  [ 28] pusharglist 2
+  [ 30] extcall 36
+  [ 32] setlocal 1
+  [ 34] getparam 1 .............................. <tp>
+  [ 36] pusharglist 1 ........................... <tp>
+  [ 38] extcall 31 .............................. <voidp(tp)>
+  [ 40] getlocal 1 .............................. <i>
+  [ 42] getchainedprop 287 ...................... <i.occupant>
+  [ 45] getobjprop 137 .......................... <i.occupant.type>
+  [ 47] getparam 1 .............................. <tp>
+  [ 49] eq ...................................... <i.occupant.type = tp>
+  [ 50] or ...................................... <voidp(tp) or (i.occupant.type = tp)>
+  [ 51] jmpifz [ 65] ............................ if voidp(tp) or (i.occupant.type = tp) then
+  [ 54] getlocal 0 .............................. <ls>
+  [ 56] getlocal 1 .............................. <i>
+  [ 58] getobjprop 287 .......................... <i.occupant>
+  [ 61] pusharglistnoret 2 ...................... <ls, i.occupant>
+  [ 63] objcall 6 ............................... ls.add(i.occupant)
+  [ 65] pushint8 1
+  [ 67] add
+  [ 68] endrepeat [ 16]
+  [ 70] pop 3
+  [ 72] getlocal 0 .............................. <ls>
+  [ 74] pusharglistnoret 1 ...................... <ls>
+  [ 76] extcall 9 ............................... return ls
+  [ 78] ret
+end
+
+on getDoubleNeighborOccupants me, tp
+  [  0] pusharglist 0 ........................... <[]>
+  [  2] pushlist ................................ <[]>
+  [  3] setlocal 0 .............................. ls = []
+  [  5] getprop 589 ............................. <doubleNeighbors>
+  [  8] peek 0
+  [ 10] pusharglist 1
+  [ 12] extcall 12
+  [ 14] pushint8 1
+  [ 16] peek 0
+  [ 18] peek 2
+  [ 20] lteq
+  [ 21] jmpifz [ 70] ............................ repeat with i in doubleNeighbors
+  [ 24] peek 2
+  [ 26] peek 1
+  [ 28] pusharglist 2
+  [ 30] extcall 36
+  [ 32] setlocal 1
+  [ 34] getparam 1 .............................. <tp>
+  [ 36] pusharglist 1 ........................... <tp>
+  [ 38] extcall 31 .............................. <voidp(tp)>
+  [ 40] getlocal 1 .............................. <i>
+  [ 42] getchainedprop 287 ...................... <i.occupant>
+  [ 45] getobjprop 137 .......................... <i.occupant.type>
+  [ 47] getparam 1 .............................. <tp>
+  [ 49] eq ...................................... <i.occupant.type = tp>
+  [ 50] or ...................................... <voidp(tp) or (i.occupant.type = tp)>
+  [ 51] jmpifz [ 65] ............................ if voidp(tp) or (i.occupant.type = tp) then
+  [ 54] getlocal 0 .............................. <ls>
+  [ 56] getlocal 1 .............................. <i>
+  [ 58] getobjprop 287 .......................... <i.occupant>
+  [ 61] pusharglistnoret 2 ...................... <ls, i.occupant>
+  [ 63] objcall 6 ............................... ls.add(i.occupant)
+  [ 65] pushint8 1
+  [ 67] add
+  [ 68] endrepeat [ 16]
+  [ 70] pop 3
+  [ 72] getlocal 0 .............................. <ls>
+  [ 74] pusharglistnoret 1 ...................... <ls>
+  [ 76] extcall 9 ............................... return ls
+  [ 78] ret
+end
+
+on getDistanceTo me, n
+  [  0] getprop 383 ............................. <pos>
+  [  3] pushint8 1 .............................. <1>
+  [  5] pusharglist 2 ........................... <pos, 1>
+  [  7] objcall 36 .............................. <pos[1]>
+  [  9] getparam 1 .............................. <n>
+  [ 11] pushsymb 383 ............................ <#pos>
+  [ 14] pushint8 1 .............................. <1>
+  [ 16] pusharglist 3 ........................... <n, #pos, 1>
+  [ 18] objcall 30 .............................. <n.pos[1]>
+  [ 20] sub ..................................... <pos[1] - n.pos[1]>
+  [ 21] pusharglist 1 ........................... <pos[1] - n.pos[1]>
+  [ 23] extcall 590 ............................. <abs(pos[1] - n.pos[1])>
+  [ 26] getprop 383 ............................. <pos>
+  [ 29] pushint8 2 .............................. <2>
+  [ 31] pusharglist 2 ........................... <pos, 2>
+  [ 33] objcall 36 .............................. <pos[2]>
+  [ 35] getparam 1 .............................. <n>
+  [ 37] pushsymb 383 ............................ <#pos>
+  [ 40] pushint8 2 .............................. <2>
+  [ 42] pusharglist 3 ........................... <n, #pos, 2>
+  [ 44] objcall 30 .............................. <n.pos[2]>
+  [ 46] sub ..................................... <pos[2] - n.pos[2]>
+  [ 47] pusharglist 1 ........................... <pos[2] - n.pos[2]>
+  [ 49] extcall 590 ............................. <abs(pos[2] - n.pos[2])>
+  [ 52] add ..................................... <abs(pos[1] - n.pos[1]) + abs(pos[2] - n.pos[2])>
+  [ 53] pusharglistnoret 1 ...................... <abs(pos[1] - n.pos[1]) + abs(pos[2] - n.pos[2])>
+  [ 55] extcall 9 ............................... return abs(pos[1] - n.pos[1]) + abs(pos[2] - n.pos[2])
+  [ 57] ret
+end
+
+on destroy me
+  [  0] pusharglist 0 ........................... <>
+  [  2] extcall 65 .............................. <VOID>
+  [  4] setprop 591 ............................. grid_mgr = VOID
+  [  7] getprop 588 ............................. <neighbors>
+  [ 10] pusharglistnoret 1 ...................... <neighbors>
+  [ 12] objcall 10 .............................. neighbors.deleteAll()
+  [ 14] getprop 589 ............................. <doubleNeighbors>
+  [ 17] pusharglistnoret 1 ...................... <doubleNeighbors>
+  [ 19] objcall 10 .............................. doubleNeighbors.deleteAll()
+  [ 21] pusharglist 0 ........................... <>
+  [ 23] extcall 65 .............................. <VOID>
+  [ 25] setprop 287 ............................. occupant = VOID
+  [ 28] ret
+end
+
+on getAt me, indx
+  [  0] getparam 1 .............................. <indx>
+  [  2] pushint8 1 .............................. <1>
+  [  4] eq ...................................... <indx = 1>
+  [  5] jmpifz [ 21] ............................ if indx = 1 then
+  [  8] getprop 383 ............................. <pos>
+  [ 11] pushint8 1 .............................. <1>
+  [ 13] pusharglist 2 ........................... <pos, 1>
+  [ 15] objcall 36 .............................. <pos[1]>
+  [ 17] pusharglistnoret 1 ...................... <pos[1]>
+  [ 19] extcall 9 ............................... return pos[1]
+  [ 21] getparam 1 .............................. <indx>
+  [ 23] pushint8 2 .............................. <2>
+  [ 25] eq ...................................... <indx = 2>
+  [ 26] jmpifz [ 42] ............................ if indx = 2 then
+  [ 29] getprop 383 ............................. <pos>
+  [ 32] pushint8 2 .............................. <2>
+  [ 34] pusharglist 2 ........................... <pos, 2>
+  [ 36] objcall 36 .............................. <pos[2]>
+  [ 38] pusharglistnoret 1 ...................... <pos[2]>
+  [ 40] extcall 9 ............................... return pos[2]
+  [ 42] ret
+end
+
+on setNode me, n
+  [  0] getparam 1 .............................. <n>
+  [  2] setprop 45 .............................. node = n
+  [  4] ret
+end

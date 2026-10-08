@@ -1,0 +1,473 @@
+property view_mgr, node, numnode, flagmems, tableview, dragTarget, dragGroup, dragData, colormems, chairobj, bonusview, particle, position, mouserect, castname, chname
+global glob
+
+on new me, Args
+  [  0] getglobal 1 ............................. <glob>
+  [  2] getchainedprop 108 ...................... <glob.managers>
+  [  4] getobjprop 109 .......................... <glob.managers.view>
+  [  6] setprop 594 ............................. view_mgr = glob.managers.view
+  [  9] getparam 1 .............................. <Args>
+  [ 11] getobjprop 147 .......................... <Args.chair>
+  [ 13] setprop 45 .............................. node = Args.chair
+  [ 15] getparam 1 .............................. <Args>
+  [ 17] pushsymb 595 ............................ <#mouserect>
+  [ 20] pusharglist 2 ........................... <Args, #mouserect>
+  [ 22] objcall 36 .............................. <Args[#mouserect]>
+  [ 24] pusharglist 1 ........................... <Args[#mouserect]>
+  [ 26] extcall 31 .............................. <voidp(Args[#mouserect])>
+  [ 28] not ..................................... <not voidp(Args[#mouserect])>
+  [ 29] jmpifz [ 43] ............................ if not voidp(Args[#mouserect]) then / else
+  [ 32] getparam 1 .............................. <Args>
+  [ 34] getobjprop 595 .......................... <Args.mouserect>
+  [ 37] setprop 595 ............................. mouserect = Args.mouserect
+  [ 40] jmp [ 48]
+  [ 43] getprop 45 .............................. <node>
+  [ 45] setprop 595 ............................. mouserect = node
+  [ 48] getparam 1 .............................. <Args>
+  [ 50] getobjprop 86 ........................... <Args.number>
+  [ 52] setprop 596 ............................. numnode = Args.number
+  [ 55] getparam 1 .............................. <Args>
+  [ 57] getobjprop 383 .......................... <Args.pos>
+  [ 60] setprop 597 ............................. position = Args.pos
+  [ 63] getprop 597 ............................. <position>
+  [ 66] pushcons 0 .............................. <"bar">
+  [ 68] containsstr ............................. <position contains "bar">
+  [ 69] jmpifz [ 89] ............................ if position contains "bar" then / else
+  [ 72] pushcons 1 .............................. <"stool_">
+  [ 74] setprop 598 ............................. chname = "stool_"
+  [ 77] pushcons 2 .............................. <"gfx.room">
+  [ 79] setprop 599 ............................. castname = "gfx.room"
+  [ 82] pushint8 1 .............................. <1>
+  [ 84] setlocal 0 .............................. flip = 1
+  [ 86] jmp [127]
+  [ 89] pushcons 3 .............................. <"chair_">
+  [ 91] setprop 598 ............................. chname = "chair_"
+  [ 94] getparam 1 .............................. <Args>
+  [ 96] pushsymb 599 ............................ <#castname>
+  [ 99] pusharglist 2 ........................... <Args, #castname>
+  [101] objcall 36 .............................. <Args[#castname]>
+  [103] setprop 599 ............................. castname = Args[#castname]
+  [106] getprop 599 ............................. <castname>
+  [109] pusharglist 1 ........................... <castname>
+  [111] extcall 31 .............................. <voidp(castname)>
+  [113] jmpifz [121] ............................ if voidp(castname) then
+  [116] pushcons 4 .............................. <"gfx.diner">
+  [118] setprop 599 ............................. castname = "gfx.diner"
+  [121] getprop 45 .............................. <node>
+  [123] getobjprop 225 .......................... <node.xflip>
+  [125] setlocal 0 .............................. flip = node.xflip
+  [127] pusharglist 0 ........................... <[:]>
+  [129] pushproplist ............................ <[:]>
+  [130] setprop 88 .............................. colormems = [:]
+  [132] pushsymb 279 ............................ <#none>
+  [135] pushsymb 77 ............................. <#red>
+  [137] pushsymb 78 ............................. <#green>
+  [139] pushsymb 79 ............................. <#blue>
+  [141] pushsymb 80 ............................. <#purple>
+  [143] pushsymb 600 ............................ <#yellow>
+  [146] pushsymb 278 ............................ <#grey>
+  [149] pusharglist 7 ........................... <[#none, #red, #green, #blue, #purple, #yellow, #grey]>
+  [151] pushlist ................................ <[#none, #red, #green, #blue, #purple, #yellow, #grey]>
+  [152] peek 0
+  [154] pusharglist 1
+  [156] extcall 12
+  [158] pushint8 1
+  [160] peek 0
+  [162] peek 2
+  [164] lteq
+  [165] jmpifz [204] ............................ repeat with i in [#none, #red, #green, #blue, #purple, #yellow, #grey]
+  [168] peek 2
+  [170] peek 1
+  [172] pusharglist 2
+  [174] extcall 36
+  [176] setlocal 1
+  [178] getprop 88 .............................. <colormems>
+  [180] getlocal 1 .............................. <i>
+  [182] getprop 598 ............................. <chname>
+  [185] getlocal 1 .............................. <i>
+  [187] joinstr ................................. <chname & i>
+  [188] getprop 599 ............................. <castname>
+  [191] pusharglist 2 ........................... <chname & i, castname>
+  [193] extcall 81 .............................. <member(chname & i, castname)>
+  [195] pusharglistnoret 3 ...................... <colormems, i, member(chname & i, castname)>
+  [197] objcall 25 .............................. colormems[i] = member(chname & i, castname)
+  [199] pushint8 1
+  [201] add
+  [202] endrepeat [160]
+  [204] pop 3
+  [206] getlocal 0 .............................. <flip>
+  [208] jmpifz [218] ............................ if flip then / else
+  [211] pushcons 5 .............................. <"_flip">
+  [213] setlocal 2 .............................. str = "_flip"
+  [215] jmp [222]
+  [218] pushcons 6 .............................. <EMPTY>
+  [220] setlocal 2 .............................. str = EMPTY
+  [222] pusharglist 0 ........................... <[:]>
+  [224] pushproplist ............................ <[:]>
+  [225] setprop 601 ............................. flagmems = [:]
+  [228] pushsymb 77 ............................. <#red>
+  [230] pushsymb 78 ............................. <#green>
+  [232] pushsymb 79 ............................. <#blue>
+  [234] pushsymb 80 ............................. <#purple>
+  [236] pushsymb 600 ............................ <#yellow>
+  [239] pusharglist 5 ........................... <[#red, #green, #blue, #purple, #yellow]>
+  [241] pushlist ................................ <[#red, #green, #blue, #purple, #yellow]>
+  [242] peek 0
+  [244] pusharglist 1
+  [246] extcall 12
+  [248] pushint8 1
+  [250] peek 0
+  [252] peek 2
+  [254] lteq
+  [255] jmpifz [334] ............................ repeat with i in [#red, #green, #blue, #purple, #yellow]
+  [258] peek 2
+  [260] peek 1
+  [262] pusharglist 2
+  [264] extcall 36
+  [266] setlocal 1
+  [268] pusharglist 0 ........................... <[]>
+  [270] pushlist ................................ <[]>
+  [271] setlocal 3 .............................. ls = []
+  [273] pushint8 1 .............................. <1>
+  [275] setlocal 4
+  [277] getlocal 4
+  [279] pushint8 4 .............................. <4>
+  [281] lteq
+  [282] jmpifz [318] ............................ repeat with j = 1 to 4
+  [285] getlocal 3 .............................. <ls>
+  [287] getlocal 1 .............................. <i>
+  [289] pushcons 7 .............................. <"_">
+  [291] joinstr ................................. <i & "_">
+  [292] getlocal 4 .............................. <j>
+  [294] pushint8 1 .............................. <1>
+  [296] add ..................................... <j + 1>
+  [297] joinstr ................................. <i & "_" & j + 1>
+  [298] getlocal 2 .............................. <str>
+  [300] joinstr ................................. <i & "_" & j + 1 & str>
+  [301] pusharglist 1 ........................... <i & "_" & j + 1 & str>
+  [303] extcall 81 .............................. <member(i & "_" & j + 1 & str)>
+  [305] pusharglistnoret 2 ...................... <ls, member(i & "_" & j + 1 & str)>
+  [307] objcall 6 ............................... ls.add(member(i & "_" & j + 1 & str))
+  [309] pushint8 1
+  [311] getlocal 4
+  [313] add
+  [314] setlocal 4
+  [316] endrepeat [277]
+  [318] getprop 601 ............................. <flagmems>
+  [321] getlocal 1 .............................. <i>
+  [323] getlocal 3 .............................. <ls>
+  [325] pusharglistnoret 3 ...................... <flagmems, i, ls>
+  [327] objcall 25 .............................. flagmems[i] = ls
+  [329] pushint8 1
+  [331] add
+  [332] endrepeat [250]
+  [334] pop 3
+  [336] pushsymb 131 ............................ <#tableNode>
+  [338] getparam 1 .............................. <Args>
+  [340] getobjprop 131 .......................... <Args.tableNode>
+  [342] pusharglist 2 ........................... <[#tableNode: Args.tableNode]>
+  [344] pushproplist ............................ <[#tableNode: Args.tableNode]>
+  [345] setprop 602 ............................. dragData = [#tableNode: Args.tableNode]
+  [348] pushcons 8 .............................. <"drag_target">
+  [350] pusharglist 1 ........................... <"drag_target">
+  [352] extcall 55 .............................. <script("drag_target")>
+  [354] pushsymb 45 ............................. <#node>
+  [356] getprop 595 ............................. <mouserect>
+  [359] pushsymb 604 ............................ <#recursive>
+  [362] pushzero ................................ <0>
+  [363] pushsymb 270 ............................ <#data>
+  [366] getprop 602 ............................. <dragData>
+  [369] pusharglist 6 ........................... <[#node: mouserect, #recursive: 0, #data: dragData]>
+  [371] pushproplist ............................ <[#node: mouserect, #recursive: 0, #data: dragData]>
+  [372] pusharglist 2 ........................... <script("drag_target"), [#node: mouserect, #recursive: 0, #data: dragData]>
+  [374] objcall 4 ............................... <script("drag_target").new([#node: mouserect, #recursive: 0, #data: dragData])>
+  [376] setprop 603 ............................. dragTarget = script("drag_target").new([#node: mouserect, #recursive: 0, #data: dragData])
+  [379] pushcons 9 .............................. <"game.tables">
+  [381] pusharglist 1 ........................... <"game.tables">
+  [383] extcall 125 ............................. <getDragGroup("game.tables")>
+  [385] setprop 129 ............................. dragGroup = getDragGroup("game.tables")
+  [387] getparam 0 .............................. <me>
+  [389] pusharglistnoret 1 ...................... <me>
+  [391] extcall 9 ............................... return me
+  [393] ret
+end
+
+on setRestaurant me, rname
+  [  0] pushcons 10 ............................. <"gfx.">
+  [  2] getparam 1 .............................. <rname>
+  [  4] joinstr ................................. <"gfx." & rname>
+  [  5] setprop 599 ............................. castname = "gfx." & rname
+  [  8] pushsymb 279 ............................ <#none>
+  [ 11] pushsymb 77 ............................. <#red>
+  [ 13] pushsymb 78 ............................. <#green>
+  [ 15] pushsymb 79 ............................. <#blue>
+  [ 17] pushsymb 80 ............................. <#purple>
+  [ 19] pushsymb 600 ............................ <#yellow>
+  [ 22] pushsymb 278 ............................ <#grey>
+  [ 25] pusharglist 7 ........................... <[#none, #red, #green, #blue, #purple, #yellow, #grey]>
+  [ 27] pushlist ................................ <[#none, #red, #green, #blue, #purple, #yellow, #grey]>
+  [ 28] peek 0
+  [ 30] pusharglist 1
+  [ 32] extcall 12
+  [ 34] pushint8 1
+  [ 36] peek 0
+  [ 38] peek 2
+  [ 40] lteq
+  [ 41] jmpifz [ 80] ............................ repeat with i in [#none, #red, #green, #blue, #purple, #yellow, #grey]
+  [ 44] peek 2
+  [ 46] peek 1
+  [ 48] pusharglist 2
+  [ 50] extcall 36
+  [ 52] setlocal 0
+  [ 54] getprop 88 .............................. <colormems>
+  [ 56] getlocal 0 .............................. <i>
+  [ 58] getprop 598 ............................. <chname>
+  [ 61] getlocal 0 .............................. <i>
+  [ 63] joinstr ................................. <chname & i>
+  [ 64] getprop 599 ............................. <castname>
+  [ 67] pusharglist 2 ........................... <chname & i, castname>
+  [ 69] extcall 81 .............................. <member(chname & i, castname)>
+  [ 71] pusharglistnoret 3 ...................... <colormems, i, member(chname & i, castname)>
+  [ 73] objcall 25 .............................. colormems[i] = member(chname & i, castname)
+  [ 75] pushint8 1
+  [ 77] add
+  [ 78] endrepeat [ 36]
+  [ 80] pop 3
+  [ 82] ret
+end
+
+on setTableNode me, n
+  [  0] getparam 1 .............................. <n>
+  [  2] setlocal 0 .............................. tableNode = n
+  [  4] getprop 602 ............................. <dragData>
+  [  7] getparam 1 .............................. <n>
+  [  9] setobjprop 131 .......................... dragData.tableNode = n
+  [ 11] ret
+end
+
+on setTable me, t
+  [  0] getprop 602 ............................. <dragData>
+  [  3] pushsymb 130 ............................ <#table>
+  [  5] getparam 1 .............................. <t>
+  [  7] pusharglistnoret 3 ...................... <dragData, #table, t>
+  [  9] objcall 25 .............................. dragData[#table] = t
+  [ 11] ret
+end
+
+on setObject me, obj
+  [  0] getparam 1 .............................. <obj>
+  [  2] getprop 607 ............................. <chairobj>
+  [  5] eq ...................................... <obj = chairobj>
+  [  6] jmpifz [ 13] ............................ if obj = chairobj then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 9 ............................... return 
+  [ 13] getprop 607 ............................. <chairobj>
+  [ 16] pusharglist 1 ........................... <chairobj>
+  [ 18] extcall 31 .............................. <voidp(chairobj)>
+  [ 20] not ..................................... <not voidp(chairobj)>
+  [ 21] jmpifz [ 33] ............................ if not voidp(chairobj) then
+  [ 24] getprop 607 ............................. <chairobj>
+  [ 27] getparam 0 .............................. <me>
+  [ 29] pusharglistnoret 2 ...................... <chairobj, me>
+  [ 31] objcall 110 ............................. chairobj.removeView(me)
+  [ 33] getparam 1 .............................. <obj>
+  [ 35] setprop 607 ............................. chairobj = obj
+  [ 38] getprop 607 ............................. <chairobj>
+  [ 41] pusharglist 1 ........................... <chairobj>
+  [ 43] extcall 31 .............................. <voidp(chairobj)>
+  [ 45] not ..................................... <not voidp(chairobj)>
+  [ 46] jmpifz [110] ............................ if not voidp(chairobj) then / else
+  [ 49] getprop 603 ............................. <dragTarget>
+  [ 52] pushsymb 270 ............................ <#data>
+  [ 55] pushsymb 147 ............................ <#chair>
+  [ 57] getprop 607 ............................. <chairobj>
+  [ 60] pusharglistnoret 4 ...................... <dragTarget, #data, #chair, chairobj>
+  [ 62] objcall 28 .............................. dragTarget.data[#chair] = chairobj
+  [ 64] getprop 602 ............................. <dragData>
+  [ 67] pushsymb 147 ............................ <#chair>
+  [ 69] getparam 1 .............................. <obj>
+  [ 71] pusharglistnoret 3 ...................... <dragData, #chair, obj>
+  [ 73] objcall 25 .............................. dragData[#chair] = obj
+  [ 75] getprop 602 ............................. <dragData>
+  [ 78] pushsymb 130 ............................ <#table>
+  [ 80] getparam 1 .............................. <obj>
+  [ 82] getobjprop 130 .......................... <obj.table>
+  [ 84] pusharglistnoret 3 ...................... <dragData, #table, obj.table>
+  [ 86] objcall 25 .............................. dragData[#table] = obj.table
+  [ 88] getprop 129 ............................. <dragGroup>
+  [ 90] getprop 603 ............................. <dragTarget>
+  [ 93] pusharglistnoret 2 ...................... <dragGroup, dragTarget>
+  [ 95] objcall 608 ............................. dragGroup.addTarget(dragTarget)
+  [ 98] getprop 607 ............................. <chairobj>
+  [101] getparam 0 .............................. <me>
+  [103] pusharglistnoret 2 ...................... <chairobj, me>
+  [105] objcall 112 ............................. chairobj.addView(me)
+  [107] jmp [120]
+  [110] getprop 129 ............................. <dragGroup>
+  [112] getprop 603 ............................. <dragTarget>
+  [115] pusharglistnoret 2 ...................... <dragGroup, dragTarget>
+  [117] objcall 609 ............................. dragGroup.removeTarget(dragTarget)
+  [120] getparam 0 .............................. <me>
+  [122] pusharglistnoret 1 ...................... <me>
+  [124] objcall 39 .............................. me.update()
+  [126] ret
+end
+
+on removeObject me, obj
+  [  0] getparam 1 .............................. <obj>
+  [  2] getprop 607 ............................. <chairobj>
+  [  5] eq ...................................... <obj = chairobj>
+  [  6] jmpifz [ 20] ............................ if obj = chairobj then
+  [  9] getparam 0 .............................. <me>
+  [ 11] pusharglist 0 ........................... <>
+  [ 13] extcall 65 .............................. <VOID>
+  [ 15] pusharglistnoret 2 ...................... <me, VOID>
+  [ 17] objcall 485 ............................. me.setObject(VOID)
+  [ 20] ret
+end
+
+on showBonus me, pts
+  [  0] getprop 594 ............................. <view_mgr>
+  [  3] getprop 45 .............................. <node>
+  [  5] getparam 1 .............................. <pts>
+  [  7] pusharglistnoret 3 ...................... <view_mgr, node, pts>
+  [  9] objcall 285 ............................. view_mgr.showChairBonus(node, pts)
+  [ 12] ret
+end
+
+on update me
+  [  0] getprop 607 ............................. <chairobj>
+  [  3] pusharglist 1 ........................... <chairobj>
+  [  5] extcall 31 .............................. <voidp(chairobj)>
+  [  7] jmpifz [ 21] ............................ if voidp(chairobj) then
+  [ 10] getprop 45 .............................. <node>
+  [ 12] pushzero ................................ <0>
+  [ 13] pusharglistnoret 2 ...................... <node, 0>
+  [ 15] objcall 57 .............................. node.setVisible(0)
+  [ 17] pusharglistnoret 0 ...................... <>
+  [ 19] extcall 9 ............................... return 
+  [ 21] getprop 607 ............................. <chairobj>
+  [ 24] getobjprop 230 .......................... <chairobj.color>
+  [ 26] setlocal 0 .............................. c = chairobj.color
+  [ 28] getprop 88 .............................. <colormems>
+  [ 30] getprop 607 ............................. <chairobj>
+  [ 33] getobjprop 230 .......................... <chairobj.color>
+  [ 35] pusharglist 2 ........................... <colormems, chairobj.color>
+  [ 37] objcall 36 .............................. <colormems[chairobj.color]>
+  [ 39] setlocal 1 .............................. cm = colormems[chairobj.color]
+  [ 41] getlocal 1 .............................. <cm>
+  [ 43] pusharglist 1 ........................... <cm>
+  [ 45] extcall 31 .............................. <voidp(cm)>
+  [ 47] jmpifz [ 57] ............................ if voidp(cm) then
+  [ 50] getprop 88 .............................. <colormems>
+  [ 52] getobjprop 279 .......................... <colormems.none>
+  [ 55] setlocal 1 .............................. cm = colormems.none
+  [ 57] getprop 607 ............................. <chairobj>
+  [ 60] getobjprop 271 .......................... <chairobj.currentBonus>
+  [ 63] setlocal 2 .............................. bonus = chairobj.currentBonus
+  [ 65] getlocal 2 .............................. <bonus>
+  [ 67] pushint8 1 .............................. <1>
+  [ 69] gt ...................................... <bonus > 1>
+  [ 70] jmpifz [159] ............................ if bonus > 1 then / else
+  [ 73] getprop 601 ............................. <flagmems>
+  [ 76] getlocal 0 .............................. <c>
+  [ 78] pusharglist 2 ........................... <flagmems, c>
+  [ 80] objcall 36 .............................. <flagmems[c]>
+  [ 82] setlocal 3 .............................. fm = flagmems[c]
+  [ 84] getlocal 3 .............................. <fm>
+  [ 86] pusharglist 1 ........................... <fm>
+  [ 88] extcall 31 .............................. <voidp(fm)>
+  [ 90] not ..................................... <not voidp(fm)>
+  [ 91] jmpifz [156] ............................ if not voidp(fm) then
+  [ 94] getprop 596 ............................. <numnode>
+  [ 97] getlocal 3 .............................. <fm>
+  [ 99] pushint8 1 .............................. <1>
+  [101] getlocal 2 .............................. <bonus>
+  [103] pushint8 1 .............................. <1>
+  [105] sub ..................................... <bonus - 1>
+  [106] pushint8 4 .............................. <4>
+  [108] pusharglist 2 ........................... <bonus - 1, 4>
+  [110] extcall 154 ............................. <min(bonus - 1, 4)>
+  [112] pusharglist 2 ........................... <1, min(bonus - 1, 4)>
+  [114] extcall 153 ............................. <max(1, min(bonus - 1, 4))>
+  [116] pusharglist 2 ........................... <fm, max(1, min(bonus - 1, 4))>
+  [118] objcall 36 .............................. <fm[max(1, min(bonus - 1, 4))]>
+  [120] pusharglistnoret 2 ...................... <numnode, fm[max(1, min(bonus - 1, 4))]>
+  [122] objcall 213 ............................. numnode.setMember(fm[max(1, min(bonus - 1, 4))])
+  [124] getprop 607 ............................. <chairobj>
+  [127] getobjprop 204 .......................... <chairobj.sitter>
+  [129] pusharglist 1 ........................... <chairobj.sitter>
+  [131] extcall 31 .............................. <voidp(chairobj.sitter)>
+  [133] jmpifz [148] ............................ if voidp(chairobj.sitter) then / else
+  [136] getprop 596 ............................. <numnode>
+  [139] pushint8 1 .............................. <1>
+  [141] pusharglistnoret 2 ...................... <numnode, 1>
+  [143] objcall 57 .............................. numnode.setVisible(1)
+  [145] jmp [156]
+  [148] getprop 596 ............................. <numnode>
+  [151] pushzero ................................ <0>
+  [152] pusharglistnoret 2 ...................... <numnode, 0>
+  [154] objcall 57 .............................. numnode.setVisible(0)
+  [156] jmp [167]
+  [159] getprop 596 ............................. <numnode>
+  [162] pushzero ................................ <0>
+  [163] pusharglistnoret 2 ...................... <numnode, 0>
+  [165] objcall 57 .............................. numnode.setVisible(0)
+  [167] getprop 45 .............................. <node>
+  [169] getlocal 1 .............................. <cm>
+  [171] pusharglistnoret 2 ...................... <node, cm>
+  [173] objcall 213 ............................. node.setMember(cm)
+  [175] getprop 45 .............................. <node>
+  [177] pushint8 1 .............................. <1>
+  [179] pusharglistnoret 2 ...................... <node, 1>
+  [181] objcall 57 .............................. node.setVisible(1)
+  [183] ret
+end
+
+on hideFlag me
+  [  0] getprop 596 ............................. <numnode>
+  [  3] pushzero ................................ <0>
+  [  4] pusharglistnoret 2 ...................... <numnode, 0>
+  [  6] objcall 57 .............................. numnode.setVisible(0)
+  [  8] ret
+end
+
+on destroy me
+  [  0] getprop 607 ............................. <chairobj>
+  [  3] pusharglist 1 ........................... <chairobj>
+  [  5] extcall 31 .............................. <voidp(chairobj)>
+  [  7] not ..................................... <not voidp(chairobj)>
+  [  8] jmpifz [ 20] ............................ if not voidp(chairobj) then
+  [ 11] getprop 607 ............................. <chairobj>
+  [ 14] getparam 0 .............................. <me>
+  [ 16] pusharglistnoret 2 ...................... <chairobj, me>
+  [ 18] objcall 110 ............................. chairobj.removeView(me)
+  [ 20] pusharglist 0 ........................... <>
+  [ 22] extcall 65 .............................. <VOID>
+  [ 24] setprop 45 .............................. node = VOID
+  [ 26] pusharglist 0 ........................... <>
+  [ 28] extcall 65 .............................. <VOID>
+  [ 30] setprop 596 ............................. numnode = VOID
+  [ 33] pusharglist 0 ........................... <>
+  [ 35] extcall 65 .............................. <VOID>
+  [ 37] setprop 613 ............................. bonusview = VOID
+  [ 40] pusharglist 0 ........................... <>
+  [ 42] extcall 65 .............................. <VOID>
+  [ 44] setprop 607 ............................. chairobj = VOID
+  [ 47] getprop 603 ............................. <dragTarget>
+  [ 50] pusharglistnoret 1 ...................... <dragTarget>
+  [ 52] objcall 5 ............................... dragTarget.destroy()
+  [ 54] pusharglist 0 ........................... <>
+  [ 56] extcall 65 .............................. <VOID>
+  [ 58] setprop 603 ............................. dragTarget = VOID
+  [ 61] pusharglist 0 ........................... <>
+  [ 63] extcall 65 .............................. <VOID>
+  [ 65] setprop 129 ............................. dragGroup = VOID
+  [ 67] getprop 602 ............................. <dragData>
+  [ 70] pusharglistnoret 1 ...................... <dragData>
+  [ 72] objcall 10 .............................. dragData.deleteAll()
+  [ 74] pusharglist 0 ........................... <>
+  [ 76] extcall 65 .............................. <VOID>
+  [ 78] setprop 614 ............................. tableview = VOID
+  [ 81] ret
+end

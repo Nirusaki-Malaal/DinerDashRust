@@ -1,0 +1,34 @@
+property sg, name, events
+
+on new me, t
+  [  0] getparam 1 .............................. <t>
+  [  2] setprop 114 ............................. sg = t
+  [  4] pushsymb 4 .............................. <#new>
+  [  6] setprop 183 ............................. name = #new
+  [  8] pusharglist 0 ........................... <[]>
+  [ 10] pushlist ................................ <[]>
+  [ 11] setprop 917 ............................. events = []
+  [ 14] getparam 0 .............................. <me>
+  [ 16] pusharglistnoret 1 ...................... <me>
+  [ 18] extcall 9 ............................... return me
+  [ 20] ret
+end
+
+on destroy me
+  [  0] pusharglist 0 ........................... <>
+  [  2] extcall 65 .............................. <VOID>
+  [  4] setprop 114 ............................. sg = VOID
+  [  6] ret
+end
+
+on enterState me, previousState
+  [  0] ret
+end
+
+on event me, sym
+  [  0] ret
+end
+
+on leaveState me, nextState
+  [  0] ret
+end

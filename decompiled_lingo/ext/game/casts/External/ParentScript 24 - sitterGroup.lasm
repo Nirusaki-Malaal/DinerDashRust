@@ -1,0 +1,859 @@
+property table, sitters, mood, states, state, tableChain, sitterChains, linkedGroups, room_mgr, game_mgr, mood_timer, state_timer, baseTip, moodTip, slowness, patience, minMS, stateData, drinkMood, timeMood, colorMood, actionPoints, leavePenalty, heartsRequired, views, wantedSnack, customerConfig, pickedUp, delay, config, groupType, graphicType, type
+global glob
+
+on new me, Args
+  [  0] pusharglist 0 ........................... <[]>
+  [  2] pushlist ................................ <[]>
+  [  3] setprop 276 ............................. views = []
+  [  6] pusharglist 0 ........................... <[]>
+  [  8] pushlist ................................ <[]>
+  [  9] setprop 886 ............................. linkedGroups = []
+  [ 12] pusharglist 0 ........................... <[]>
+  [ 14] pushlist ................................ <[]>
+  [ 15] setprop 488 ............................. sitterChains = []
+  [ 18] getparam 1 .............................. <Args>
+  [ 20] getobjprop 42 ........................... <Args.room_manager>
+  [ 22] setprop 41 .............................. room_mgr = Args.room_manager
+  [ 24] getparam 1 .............................. <Args>
+  [ 26] getobjprop 44 ........................... <Args.game_manager>
+  [ 28] setprop 43 .............................. game_mgr = Args.game_manager
+  [ 30] getglobal 1 ............................. <glob>
+  [ 32] getchainedprop 108 ...................... <glob.managers>
+  [ 34] getchainedprop 315 ...................... <glob.managers.config>
+  [ 37] getobjprop 888 .......................... <glob.managers.config.customer>
+  [ 40] setprop 887 ............................. customerConfig = glob.managers.config.customer
+  [ 43] pushsymb 92 ............................. <#sitterGroup>
+  [ 45] setprop 137 ............................. type = #sitterGroup
+  [ 47] getparam 1 .............................. <Args>
+  [ 49] getobjprop 137 .......................... <Args.type>
+  [ 51] setprop 889 ............................. groupType = Args.type
+  [ 54] getglobal 1 ............................. <glob>
+  [ 56] getchainedprop 108 ...................... <glob.managers>
+  [ 58] getchainedprop 315 ...................... <glob.managers.config>
+  [ 61] getchainedprop 398 ...................... <glob.managers.config.group>
+  [ 64] pushsymb 890 ............................ <#types>
+  [ 67] getprop 889 ............................. <groupType>
+  [ 70] pusharglist 3 ........................... <glob.managers.config.group, #types, groupType>
+  [ 72] objcall 30 .............................. <glob.managers.config.group.types[groupType]>
+  [ 74] setlocal 0 .............................. tp = glob.managers.config.group.types[groupType]
+  [ 76] getlocal 0 .............................. <tp>
+  [ 78] pusharglist 1 ........................... <tp>
+  [ 80] extcall 31 .............................. <voidp(tp)>
+  [ 82] jmpifz [ 98] ............................ if voidp(tp) then
+  [ 85] pushcons 0 .............................. <"no groupType of ">
+  [ 87] getprop 889 ............................. <groupType>
+  [ 90] joinstr ................................. <"no groupType of " & groupType>
+  [ 91] pushcons 1 .............................. <" defined in config.xml">
+  [ 93] joinstr ................................. <"no groupType of " & groupType & " defined in config.xml">
+  [ 94] pusharglistnoret 1 ...................... <"no groupType of " & groupType & " defined in config.xml">
+  [ 96] extcall 60 .............................. complain("no groupType of " & groupType & " defined in config.xml")
+  [ 98] getglobal 1 ............................. <glob>
+  [100] getchainedprop 108 ...................... <glob.managers>
+  [102] getchainedprop 315 ...................... <glob.managers.config>
+  [105] getchainedprop 398 ...................... <glob.managers.config.group>
+  [108] pushsymb 890 ............................ <#types>
+  [111] getprop 889 ............................. <groupType>
+  [114] pusharglist 3 ........................... <glob.managers.config.group, #types, groupType>
+  [116] objcall 50 .............................. <glob.managers.config.group.types[groupType]>
+  [118] getobjprop 232 .......................... <glob.managers.config.group.types[groupType].graphicType>
+  [120] setprop 232 ............................. graphicType = glob.managers.config.group.types[groupType].graphicType
+  [122] pushcons 2 .............................. <"business_female">
+  [124] pushcons 3 .............................. <"old_male">
+  [126] pushcons 4 .............................. <"young_female">
+  [128] pushcons 5 .............................. <"boy">
+  [130] pushcons 6 .............................. <"man">
+  [132] pushcons 7 .............................. <"critic">
+  [134] pusharglist 6 ........................... <["business_female", "old_male", "young_female", "boy", "man", "critic"]>
+  [136] pushlist ................................ <["business_female", "old_male", "young_female", "boy", "man", "critic"]>
+  [137] getprop 232 ............................. <graphicType>
+  [139] pusharglist 2 ........................... <["business_female", "old_male", "young_female", "boy", "man", "critic"], graphicType>
+  [141] objcall 11 .............................. <["business_female", "old_male", "young_female", "boy", "man", "critic"].getOne(graphicType)>
+  [143] pushzero ................................ <0>
+  [144] eq ...................................... <["business_female", "old_male", "young_female", "boy", "man", "critic"].getOne(graphicType) = 0>
+  [145] jmpifz [152] ............................ if ["business_female", "old_male", "young_female", "boy", "man", "critic"].getOne(graphicType) = 0 then
+  [148] pushcons 4 .............................. <"young_female">
+  [150] setprop 232 ............................. graphicType = "young_female"
+  [152] getparam 1 .............................. <Args>
+  [154] getobjprop 315 .......................... <Args.config>
+  [157] setprop 315 ............................. config = Args.config
+  [160] pushint8 1 .............................. <1>
+  [162] setlocal 1
+  [164] getlocal 1
+  [166] getprop 315 ............................. <config>
+  [169] getobjprop 12 ........................... <config.count>
+  [171] lteq
+  [172] jmpifz [209] ............................ repeat with i = 1 to config.count
+  [175] getparam 0 .............................. <me>
+  [177] getprop 315 ............................. <config>
+  [180] getlocal 1 .............................. <i>
+  [182] pusharglist 2 ........................... <config, i>
+  [184] objcall 891 ............................. <config.getPropAt(i)>
+  [187] getprop 315 ............................. <config>
+  [190] getlocal 1 .............................. <i>
+  [192] pusharglist 2 ........................... <config, i>
+  [194] objcall 36 .............................. <config[i]>
+  [196] pusharglistnoret 3 ...................... <me, config.getPropAt(i), config[i]>
+  [198] objcall 28 .............................. me.setProp(config.getPropAt(i), config[i])
+  [200] pushint8 1
+  [202] getlocal 1
+  [204] add
+  [205] setlocal 1
+  [207] endrepeat [164]
+  [209] pusharglist 0 ........................... <>
+  [211] extcall 272 ............................. <getConfigData()>
+  [214] getobjprop 892 .......................... <getConfigData().actionPoints>
+  [217] setprop 892 ............................. actionPoints = getConfigData().actionPoints
+  [220] getparam 1 .............................. <Args>
+  [222] getobjprop 831 .......................... <Args.delay>
+  [225] setprop 831 ............................. delay = Args.delay
+  [228] pushcons 8 .............................. <"mood_timer">
+  [230] pushcons 9 .............................. <"scripts.game">
+  [232] pusharglist 2 ........................... <"mood_timer", "scripts.game">
+  [234] extcall 55 .............................. <script("mood_timer", "scripts.game")>
+  [236] pushsymb 894 ............................ <#minMS>
+  [239] getprop 894 ............................. <minMS>
+  [242] pushsymb 186 ............................ <#callback>
+  [244] pushsymb 34 ............................. <#target>
+  [246] getparam 0 .............................. <me>
+  [248] pushsymb 33 ............................. <#handler>
+  [250] pushsymb 858 ............................ <#changeMood>
+  [253] pushsymb 35 ............................. <#Args>
+  [255] pushint8 1 .............................. <1>
+  [257] inv ..................................... <-1>
+  [258] pusharglist 6 ........................... <[#target: me, #handler: #changeMood, #Args: -1]>
+  [260] pushproplist ............................ <[#target: me, #handler: #changeMood, #Args: -1]>
+  [261] pusharglist 4 ........................... <[#minMS: minMS, #callback: [#target: me, #handler: #changeMood, #Args: -1]]>
+  [263] pushproplist ............................ <[#minMS: minMS, #callback: [#target: me, #handler: #changeMood, #Args: -1]]>
+  [264] pusharglist 2 ........................... <script("mood_timer", "scripts.game"), [#minMS: minMS, #callback: [#target: me, #handler: #changeMood, #Args: -1]]>
+  [266] objcall 4 ............................... <script("mood_timer", "scripts.game").new([#minMS: minMS, #callback: [#target: me, #handler: #changeMood, #Args: -1]])>
+  [268] setprop 893 ............................. mood_timer = script("mood_timer", "scripts.game").new([#minMS: minMS, #callback: [#target: me, #handler: #changeMood, #Args: -1]])
+  [271] getparam 1 .............................. <Args>
+  [273] pushsymb 113 ............................ <#sitters>
+  [275] pusharglist 2 ........................... <Args, #sitters>
+  [277] objcall 36 .............................. <Args[#sitters]>
+  [279] setlocal 2 .............................. sit = Args[#sitters]
+  [281] pusharglist 0 ........................... <[]>
+  [283] pushlist ................................ <[]>
+  [284] setprop 113 ............................. sitters = []
+  [286] getlocal 2 .............................. <sit>
+  [288] peek 0
+  [290] pusharglist 1
+  [292] extcall 12
+  [294] pushint8 1
+  [296] peek 0
+  [298] peek 2
+  [300] lteq
+  [301] jmpifz [354] ............................ repeat with i in sit
+  [304] peek 2
+  [306] peek 1
+  [308] pusharglist 2
+  [310] extcall 36
+  [312] setlocal 1
+  [314] getprop 113 ............................. <sitters>
+  [316] pushcons 10 ............................. <"sitter">
+  [318] pusharglist 1 ........................... <"sitter">
+  [320] extcall 55 .............................. <script("sitter")>
+  [322] pushsymb 92 ............................. <#sitterGroup>
+  [324] getparam 0 .............................. <me>
+  [326] pushsymb 315 ............................ <#config>
+  [329] getprop 315 ............................. <config>
+  [332] pushsymb 230 ............................ <#color>
+  [334] getlocal 1 .............................. <i>
+  [336] getobjprop 230 .......................... <i.color>
+  [338] pusharglist 6 ........................... <[#sitterGroup: me, #config: config, #color: i.color]>
+  [340] pushproplist ............................ <[#sitterGroup: me, #config: config, #color: i.color]>
+  [341] pusharglist 2 ........................... <script("sitter"), [#sitterGroup: me, #config: config, #color: i.color]>
+  [343] objcall 4 ............................... <script("sitter").new([#sitterGroup: me, #config: config, #color: i.color])>
+  [345] pusharglistnoret 2 ...................... <sitters, script("sitter").new([#sitterGroup: me, #config: config, #color: i.color])>
+  [347] objcall 6 ............................... sitters.add(script("sitter").new([#sitterGroup: me, #config: config, #color: i.color]))
+  [349] pushint8 1
+  [351] add
+  [352] endrepeat [296]
+  [354] pop 3
+  [356] pushint8 6 .............................. <6>
+  [358] setprop 98 .............................. mood = 6
+  [360] getparam 0 .............................. <me>
+  [362] pusharglistnoret 1 ...................... <me>
+  [364] objcall 885 ............................. me.setupStates()
+  [367] getprop 341 ............................. <states>
+  [370] getobjprop 4 ............................ <states.new>
+  [372] setprop 205 ............................. state = states.new
+  [374] getparam 0 .............................. <me>
+  [376] pusharglistnoret 1 ...................... <me>
+  [378] extcall 9 ............................... return me
+  [380] ret
+end
+
+on setSnacks me, ls, pc
+  [  0] pushsymb 310 ............................ <#setSnacks>
+  [  3] getprop 341 ............................. <states>
+  [  6] getparam 1 .............................. <ls>
+  [  8] getparam 2 .............................. <pc>
+  [ 10] pusharglistnoret 4 ...................... <#setSnacks, states, ls, pc>
+  [ 12] extcall 32 .............................. call(#setSnacks, states, ls, pc)
+  [ 14] ret
+end
+
+on setWantedSnack me, sn
+  [  0] getparam 1 .............................. <sn>
+  [  2] getprop 377 ............................. <wantedSnack>
+  [  5] eq ...................................... <sn = wantedSnack>
+  [  6] jmpifz [ 13] ............................ if sn = wantedSnack then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 9 ............................... return 
+  [ 13] getprop 377 ............................. <wantedSnack>
+  [ 16] pusharglist 1 ........................... <wantedSnack>
+  [ 18] extcall 31 .............................. <voidp(wantedSnack)>
+  [ 20] not ..................................... <not voidp(wantedSnack)>
+  [ 21] jmpifz [ 56] ............................ if not voidp(wantedSnack) then
+  [ 24] getprop 41 .............................. <room_mgr>
+  [ 26] pushsymb 333 ............................ <#snackStations>
+  [ 29] getprop 377 ............................. <wantedSnack>
+  [ 32] pusharglist 3 ........................... <room_mgr, #snackStations, wantedSnack>
+  [ 34] objcall 30 .............................. <room_mgr.snackStations[wantedSnack]>
+  [ 36] setlocal 0 .............................. ss = room_mgr.snackStations[wantedSnack]
+  [ 38] getlocal 0 .............................. <ss>
+  [ 40] pusharglist 1 ........................... <ss>
+  [ 42] extcall 31 .............................. <voidp(ss)>
+  [ 44] not ..................................... <not voidp(ss)>
+  [ 45] jmpifz [ 56] ............................ if not voidp(ss) then
+  [ 48] getlocal 0 .............................. <ss>
+  [ 50] getparam 0 .............................. <me>
+  [ 52] pusharglistnoret 2 ...................... <ss, me>
+  [ 54] objcall 118 ............................. ss.removeGroup(me)
+  [ 56] getparam 1 .............................. <sn>
+  [ 58] setprop 377 ............................. wantedSnack = sn
+  [ 61] getprop 377 ............................. <wantedSnack>
+  [ 64] pusharglist 1 ........................... <wantedSnack>
+  [ 66] extcall 31 .............................. <voidp(wantedSnack)>
+  [ 68] not ..................................... <not voidp(wantedSnack)>
+  [ 69] jmpifz [105] ............................ if not voidp(wantedSnack) then
+  [ 72] getprop 41 .............................. <room_mgr>
+  [ 74] pushsymb 333 ............................ <#snackStations>
+  [ 77] getprop 377 ............................. <wantedSnack>
+  [ 80] pusharglist 3 ........................... <room_mgr, #snackStations, wantedSnack>
+  [ 82] objcall 30 .............................. <room_mgr.snackStations[wantedSnack]>
+  [ 84] setlocal 0 .............................. ss = room_mgr.snackStations[wantedSnack]
+  [ 86] getlocal 0 .............................. <ss>
+  [ 88] pusharglist 1 ........................... <ss>
+  [ 90] extcall 31 .............................. <voidp(ss)>
+  [ 92] not ..................................... <not voidp(ss)>
+  [ 93] jmpifz [105] ............................ if not voidp(ss) then
+  [ 96] getlocal 0 .............................. <ss>
+  [ 98] getparam 0 .............................. <me>
+  [100] pusharglistnoret 2 ...................... <ss, me>
+  [102] objcall 895 ............................. ss.addGroup(me)
+  [105] getprop 130 ............................. <table>
+  [107] getparam 1 .............................. <sn>
+  [109] pusharglistnoret 2 ...................... <table, sn>
+  [111] objcall 474 ............................. table.showBubble(sn)
+  [114] ret
+end
+
+on setPickedUp me, p
+  [  0] getparam 1 .............................. <p>
+  [  2] setprop 896 ............................. pickedUp = p
+  [  5] ret
+end
+
+on addView me, vu
+  [  0] getprop 276 ............................. <views>
+  [  3] getparam 1 .............................. <vu>
+  [  5] pusharglist 2 ........................... <views, vu>
+  [  7] objcall 11 .............................. <views.getOne(vu)>
+  [  9] pushzero ................................ <0>
+  [ 10] eq ...................................... <views.getOne(vu) = 0>
+  [ 11] jmpifz [ 23] ............................ if views.getOne(vu) = 0 then
+  [ 14] getprop 276 ............................. <views>
+  [ 17] getparam 1 .............................. <vu>
+  [ 19] pusharglistnoret 2 ...................... <views, vu>
+  [ 21] objcall 6 ............................... views.add(vu)
+  [ 23] ret
+end
+
+on removeView me, vu
+  [  0] getprop 276 ............................. <views>
+  [  3] getparam 1 .............................. <vu>
+  [  5] pusharglistnoret 2 ...................... <views, vu>
+  [  7] objcall 14 .............................. views.deleteOne(vu)
+  [  9] ret
+end
+
+on setTimeMultiplier me, num
+  [  0] pushsymb 296 ............................ <#setTimeMultiplier>
+  [  3] getprop 341 ............................. <states>
+  [  6] getparam 1 .............................. <num>
+  [  8] pusharglistnoret 3 ...................... <#setTimeMultiplier, states, num>
+  [ 10] extcall 32 .............................. call(#setTimeMultiplier, states, num)
+  [ 12] ret
+end
+
+on destroy me
+  [  0] getprop 893 ............................. <mood_timer>
+  [  3] pusharglistnoret 1 ...................... <mood_timer>
+  [  5] objcall 5 ............................... mood_timer.destroy()
+  [  7] pusharglist 0 ........................... <>
+  [  9] extcall 65 .............................. <VOID>
+  [ 11] setprop 893 ............................. mood_timer = VOID
+  [ 14] pushsymb 5 .............................. <#destroy>
+  [ 16] getprop 341 ............................. <states>
+  [ 19] pusharglistnoret 2 ...................... <#destroy, states>
+  [ 21] extcall 32 .............................. call(#destroy, states)
+  [ 23] getprop 341 ............................. <states>
+  [ 26] pusharglistnoret 1 ...................... <states>
+  [ 28] objcall 10 .............................. states.deleteAll()
+  [ 30] pusharglist 0 ........................... <>
+  [ 32] extcall 65 .............................. <VOID>
+  [ 34] setprop 41 .............................. room_mgr = VOID
+  [ 36] getprop 488 ............................. <sitterChains>
+  [ 39] pusharglistnoret 1 ...................... <sitterChains>
+  [ 41] objcall 10 .............................. sitterChains.deleteAll()
+  [ 43] pusharglist 0 ........................... <>
+  [ 45] extcall 65 .............................. <VOID>
+  [ 47] setprop 500 ............................. tableChain = VOID
+  [ 50] pushsymb 5 .............................. <#destroy>
+  [ 52] getprop 113 ............................. <sitters>
+  [ 54] pusharglistnoret 2 ...................... <#destroy, sitters>
+  [ 56] extcall 32 .............................. call(#destroy, sitters)
+  [ 58] getprop 113 ............................. <sitters>
+  [ 60] pusharglistnoret 1 ...................... <sitters>
+  [ 62] objcall 10 .............................. sitters.deleteAll()
+  [ 64] pushsymb 75 ............................. <#removeObject>
+  [ 66] getprop 276 ............................. <views>
+  [ 69] getparam 0 .............................. <me>
+  [ 71] pusharglistnoret 3 ...................... <#removeObject, views, me>
+  [ 73] extcall 32 .............................. call(#removeObject, views, me)
+  [ 75] getprop 276 ............................. <views>
+  [ 78] pusharglistnoret 1 ...................... <views>
+  [ 80] objcall 10 .............................. views.deleteAll()
+  [ 82] ret
+end
+
+on startMoodTimer me, hap, mad
+  [  0] getprop 893 ............................. <mood_timer>
+  [  3] getparam 1 .............................. <hap>
+  [  5] pusharglistnoret 2 ...................... <mood_timer, hap>
+  [  7] objcall 897 ............................. mood_timer.setHappyMS(hap)
+  [ 10] getprop 893 ............................. <mood_timer>
+  [ 13] getparam 2 .............................. <mad>
+  [ 15] pusharglistnoret 2 ...................... <mood_timer, mad>
+  [ 17] objcall 898 ............................. mood_timer.setMadMS(mad)
+  [ 20] getprop 893 ............................. <mood_timer>
+  [ 23] pusharglistnoret 1 ...................... <mood_timer>
+  [ 25] objcall 253 ............................. mood_timer.start()
+  [ 27] ret
+end
+
+on stopMoodTimer me, addresults
+  [  0] getprop 893 ............................. <mood_timer>
+  [  3] pusharglist 1 ........................... <mood_timer>
+  [  5] objcall 208 ............................. <mood_timer.stop()>
+  [  7] setlocal 0 .............................. r = mood_timer.stop()
+  [  9] getparam 1 .............................. <addresults>
+  [ 11] jmpifz [ 27] ............................ if addresults then
+  [ 14] getparam 0 .............................. <me>
+  [ 16] getlocal 0 .............................. <r>
+  [ 18] getprop 900 ............................. <timeMood>
+  [ 21] mul ..................................... <r * timeMood>
+  [ 22] pusharglistnoret 2 ...................... <me, r * timeMood>
+  [ 24] objcall 858 ............................. me.changeMood(r * timeMood)
+  [ 27] ret
+end
+
+on setState me, s
+  [  0] getprop 205 ............................. <state>
+  [  2] getobjprop 183 .......................... <state.name>
+  [  4] getparam 1 .............................. <s>
+  [  6] eq ...................................... <state.name = s>
+  [  7] jmpifz [ 14] ............................ if state.name = s then
+  [ 10] pusharglistnoret 0 ...................... <>
+  [ 12] extcall 9 ............................... return 
+  [ 14] getparam 1 .............................. <s>
+  [ 16] pushsymb 189 ............................ <#snack>
+  [ 18] eq ...................................... <s = #snack>
+  [ 19] jmpifz [ 26] ............................ if s = #snack then
+  [ 22] pusharglistnoret 0 ...................... <>
+  [ 24] extcall 136 ............................. nothing()
+  [ 26] getparam 1 .............................. <s>
+  [ 28] pushsymb 198 ............................ <#leaving>
+  [ 30] eq ...................................... <s = #leaving>
+  [ 31] getparam 1 .............................. <s>
+  [ 33] pushsymb 200 ............................ <#ditching>
+  [ 35] eq ...................................... <s = #ditching>
+  [ 36] or ...................................... <(s = #leaving) or (s = #ditching)>
+  [ 37] jmpifz [ 52] ............................ if (s = #leaving) or (s = #ditching) then
+  [ 40] getprop 41 .............................. <room_mgr>
+  [ 42] getchainedprop 335 ...................... <room_mgr.kitchen>
+  [ 45] getprop 130 ............................. <table>
+  [ 47] pusharglistnoret 2 ...................... <room_mgr.kitchen, table>
+  [ 49] objcall 379 ............................. room_mgr.kitchen.killFood(table)
+  [ 52] pushsymb 158 ............................ <#setState>
+  [ 54] getprop 113 ............................. <sitters>
+  [ 56] getparam 1 .............................. <s>
+  [ 58] pusharglistnoret 3 ...................... <#setState, sitters, s>
+  [ 60] extcall 32 .............................. call(#setState, sitters, s)
+  [ 62] getprop 341 ............................. <states>
+  [ 65] getparam 1 .............................. <s>
+  [ 67] pusharglist 2 ........................... <states, s>
+  [ 69] objcall 36 .............................. <states[s]>
+  [ 71] setlocal 0 .............................. st = states[s]
+  [ 73] getprop 205 ............................. <state>
+  [ 75] pusharglist 1 ........................... <state>
+  [ 77] extcall 31 .............................. <voidp(state)>
+  [ 79] not ..................................... <not voidp(state)>
+  [ 80] jmpifz [ 91] ............................ if not voidp(state) then
+  [ 83] getprop 205 ............................. <state>
+  [ 85] getlocal 0 .............................. <st>
+  [ 87] pusharglistnoret 2 ...................... <state, st>
+  [ 89] objcall 20 .............................. state.leaveState(st)
+  [ 91] getlocal 0 .............................. <st>
+  [ 93] pusharglist 1 ........................... <st>
+  [ 95] extcall 31 .............................. <voidp(st)>
+  [ 97] jmpifz [104] ............................ if voidp(st) then
+  [100] pusharglistnoret 0 ...................... <>
+  [102] extcall 9 ............................... return 
+  [104] getlocal 0 .............................. <st>
+  [106] getprop 205 ............................. <state>
+  [108] pusharglistnoret 2 ...................... <st, state>
+  [110] objcall 19 .............................. st.enterState(state)
+  [112] getlocal 0 .............................. <st>
+  [114] setprop 205 ............................. state = st
+  [116] ret
+end
+
+on getState me
+  [  0] getprop 205 ............................. <state>
+  [  2] getobjprop 183 .......................... <state.name>
+  [  4] pusharglistnoret 1 ...................... <state.name>
+  [  6] extcall 9 ............................... return state.name
+  [  8] ret
+end
+
+on getColorBonus me, num
+  [  0] getparam 0 .............................. <me>
+  [  2] getparam 1 .............................. <num>
+  [  4] getprop 902 ............................. <colorMood>
+  [  7] mul ..................................... <num * colorMood>
+  [  8] pusharglistnoret 2 ...................... <me, num * colorMood>
+  [ 10] objcall 858 ............................. me.changeMood(num * colorMood)
+  [ 13] ret
+end
+
+on changeMood me, num
+  [  0] getprop 98 .............................. <mood>
+  [  2] getparam 1 .............................. <num>
+  [  4] add ..................................... <mood + num>
+  [  5] setlocal 0 .............................. m = mood + num
+  [  7] getprop 896 ............................. <pickedUp>
+  [ 10] jmpifz [ 23] ............................ if pickedUp then
+  [ 13] pushint8 1 .............................. <1>
+  [ 15] getlocal 0 .............................. <m>
+  [ 17] pusharglist 2 ........................... <1, m>
+  [ 19] extcall 153 ............................. <max(1, m)>
+  [ 21] setlocal 0 .............................. m = max(1, m)
+  [ 23] getparam 0 .............................. <me>
+  [ 25] getlocal 0 .............................. <m>
+  [ 27] pusharglistnoret 2 ...................... <me, m>
+  [ 29] objcall 879 ............................. me.setMood(m)
+  [ 32] getprop 893 ............................. <mood_timer>
+  [ 35] pusharglist 1 ........................... <mood_timer>
+  [ 37] extcall 31 .............................. <voidp(mood_timer)>
+  [ 39] not ..................................... <not voidp(mood_timer)>
+  [ 40] jmpifz [ 51] ............................ if not voidp(mood_timer) then
+  [ 43] getprop 893 ............................. <mood_timer>
+  [ 46] pusharglistnoret 1 ...................... <mood_timer>
+  [ 48] objcall 367 ............................. mood_timer.reset()
+  [ 51] getparam 1 .............................. <num>
+  [ 53] pushzero ................................ <0>
+  [ 54] lt ...................................... <num < 0>
+  [ 55] jmpifz [ 69] ............................ if num < 0 then
+  [ 58] getprop 205 ............................. <state>
+  [ 60] pushsymb 98 ............................. <#mood>
+  [ 62] getprop 98 .............................. <mood>
+  [ 64] pusharglistnoret 3 ...................... <state, #mood, mood>
+  [ 66] objcall 508 ............................. state.event(#mood, mood)
+  [ 69] pushsymb 39 ............................. <#update>
+  [ 71] getprop 113 ............................. <sitters>
+  [ 73] pusharglistnoret 2 ...................... <#update, sitters>
+  [ 75] extcall 32 .............................. call(#update, sitters)
+  [ 77] pushsymb 39 ............................. <#update>
+  [ 79] getprop 276 ............................. <views>
+  [ 82] pusharglistnoret 2 ...................... <#update, views>
+  [ 84] extcall 32 .............................. call(#update, views)
+  [ 86] ret
+end
+
+on setMood me, num
+  [  0] pushzero ................................ <0>
+  [  1] getparam 1 .............................. <num>
+  [  3] pusharglist 2 ........................... <0, num>
+  [  5] extcall 153 ............................. <max(0, num)>
+  [  7] pushint8 10 ............................. <10>
+  [  9] pusharglist 2 ........................... <max(0, num), 10>
+  [ 11] extcall 154 ............................. <min(max(0, num), 10)>
+  [ 13] setlocal 0 .............................. m = min(max(0, num), 10)
+  [ 15] getlocal 0 .............................. <m>
+  [ 17] getprop 98 .............................. <mood>
+  [ 19] lt ...................................... <m < mood>
+  [ 20] jmpifz [ 26] ............................ if m < mood then / else
+  [ 23] jmp [ 41]
+  [ 26] getlocal 0 .............................. <m>
+  [ 28] getprop 98 .............................. <mood>
+  [ 30] gt ...................................... <m > mood>
+  [ 31] jmpifz [ 41] ............................ if m > mood then
+  [ 34] pushcons 11 ............................. <"sfx_get_heart_1">
+  [ 36] pusharglistnoret 1 ...................... <"sfx_get_heart_1">
+  [ 38] extcall 516 ............................. SndSFX("sfx_get_heart_1")
+  [ 41] getlocal 0 .............................. <m>
+  [ 43] setprop 98 .............................. mood = m
+  [ 45] ret
+end
+
+on nextState me
+  [  0] getprop 341 ............................. <states>
+  [  3] getprop 205 ............................. <state>
+  [  5] pusharglist 2 ........................... <states, state>
+  [  7] objcall 511 ............................. <states.getPos(state)>
+  [ 10] setlocal 0 .............................. snum = states.getPos(state)
+  [ 12] getlocal 0 .............................. <snum>
+  [ 14] pushint8 1 .............................. <1>
+  [ 16] add ..................................... <snum + 1>
+  [ 17] getprop 341 ............................. <states>
+  [ 20] getobjprop 12 ........................... <states.count>
+  [ 22] lteq .................................... <(snum + 1) <= states.count>
+  [ 23] jmpifz [ 45] ............................ if (snum + 1) <= states.count then
+  [ 26] getparam 0 .............................. <me>
+  [ 28] getprop 341 ............................. <states>
+  [ 31] getlocal 0 .............................. <snum>
+  [ 33] pushint8 1 .............................. <1>
+  [ 35] add ..................................... <snum + 1>
+  [ 36] pusharglist 2 ........................... <states, snum + 1>
+  [ 38] objcall 891 ............................. <states.getPropAt(snum + 1)>
+  [ 41] pusharglistnoret 2 ...................... <me, states.getPropAt(snum + 1)>
+  [ 43] objcall 158 ............................. me.setState(states.getPropAt(snum + 1))
+  [ 45] ret
+end
+
+on setTable me, t
+  [  0] getparam 1 .............................. <t>
+  [  2] setprop 130 ............................. table = t
+  [  4] ret
+end
+
+on doFloAction me, flo
+  [  0] getprop 130 ............................. <table>
+  [  2] pusharglist 1 ........................... <table>
+  [  4] extcall 31 .............................. <voidp(table)>
+  [  6] jmpifz [ 16] ............................ if voidp(table) then
+  [  9] pushsymb 529 ............................ <#nothing_to_do>
+  [ 12] pusharglistnoret 1 ...................... <#nothing_to_do>
+  [ 14] extcall 9 ............................... return #nothing_to_do
+  [ 16] getprop 205 ............................. <state>
+  [ 18] pushsymb 530 ............................ <#flo>
+  [ 21] getparam 1 .............................. <flo>
+  [ 23] pusharglist 3 ........................... <state, #flo, flo>
+  [ 25] objcall 508 ............................. <state.event(#flo, flo)>
+  [ 28] pusharglistnoret 1 ...................... <state.event(#flo, flo)>
+  [ 30] extcall 9 ............................... return state.event(#flo, flo)
+  [ 32] ret
+end
+
+on haveDrink me, pts
+  [  0] pushsymb 162 ............................ <#drink>
+  [  2] getprop 113 ............................. <sitters>
+  [  4] pusharglistnoret 2 ...................... <#drink, sitters>
+  [  6] extcall 32 .............................. call(#drink, sitters)
+  [  8] getparam 0 .............................. <me>
+  [ 10] getparam 1 .............................. <pts>
+  [ 12] pusharglistnoret 2 ...................... <me, pts>
+  [ 14] objcall 858 ............................. me.changeMood(pts)
+  [ 17] ret
+end
+
+on stopWaiting me
+  [  0] getprop 43 .............................. <game_mgr>
+  [  2] getprop 904 ............................. <leavePenalty>
+  [  5] pusharglistnoret 2 ...................... <game_mgr, leavePenalty>
+  [  7] objcall 686 ............................. game_mgr.angryCustomer(leavePenalty)
+  [ 10] pushsymb 76 ............................. <#showPenalty>
+  [ 12] getprop 276 ............................. <views>
+  [ 15] getprop 904 ............................. <leavePenalty>
+  [ 18] pusharglistnoret 3 ...................... <#showPenalty, views, leavePenalty>
+  [ 20] extcall 32 .............................. call(#showPenalty, views, leavePenalty)
+  [ 22] getprop 43 .............................. <game_mgr>
+  [ 24] getparam 0 .............................. <me>
+  [ 26] pusharglistnoret 2 ...................... <game_mgr, me>
+  [ 28] objcall 688 ............................. game_mgr.removeWaitingGroup(me)
+  [ 31] getparam 0 .............................. <me>
+  [ 33] pusharglistnoret 1 ...................... <me>
+  [ 35] objcall 5 ............................... me.destroy()
+  [ 37] ret
+end
+
+on sitAtTable me, t, ch, indx
+  [  0] getprop 130 ............................. <table>
+  [  2] pusharglist 1 ........................... <table>
+  [  4] extcall 31 .............................. <voidp(table)>
+  [  6] not ..................................... <not voidp(table)>
+  [  7] jmpifz [ 23] ............................ if not voidp(table) then / else
+  [ 10] pushcons 12 ............................. <"tried to seat an already seated group">
+  [ 12] pusharglistnoret 1 ...................... <"tried to seat an already seated group">
+  [ 14] extcall 60 .............................. complain("tried to seat an already seated group")
+  [ 16] pusharglistnoret 0 ...................... <>
+  [ 18] extcall 9 ............................... return 
+  [ 20] jmp [ 45]
+  [ 23] getparam 1 .............................. <t>
+  [ 25] getobjprop 92 ........................... <t.sitterGroup>
+  [ 27] pusharglist 1 ........................... <t.sitterGroup>
+  [ 29] extcall 31 .............................. <voidp(t.sitterGroup)>
+  [ 31] not ..................................... <not voidp(t.sitterGroup)>
+  [ 32] jmpifz [ 45] ............................ if not voidp(t.sitterGroup) then
+  [ 35] pushcons 13 ............................. <"tried to seat a group at an occupied table">
+  [ 37] pusharglistnoret 1 ...................... <"tried to seat a group at an occupied table">
+  [ 39] extcall 60 .............................. complain("tried to seat a group at an occupied table")
+  [ 41] pusharglistnoret 0 ...................... <>
+  [ 43] extcall 9 ............................... return 
+  [ 45] getparam 1 .............................. <t>
+  [ 47] getparam 0 .............................. <me>
+  [ 49] getparam 2 .............................. <ch>
+  [ 51] getparam 3 .............................. <indx>
+  [ 53] pusharglist 4 ........................... <t, me, ch, indx>
+  [ 55] objcall 477 ............................. <t.seatGroup(me, ch, indx)>
+  [ 58] setlocal 0 .............................. tbl = t.seatGroup(me, ch, indx)
+  [ 60] getlocal 0 .............................. <tbl>
+  [ 62] pusharglist 1 ........................... <tbl>
+  [ 64] extcall 31 .............................. <voidp(tbl)>
+  [ 66] jmpifz [ 73] ............................ if voidp(tbl) then
+  [ 69] pusharglistnoret 0 ...................... <>
+  [ 71] extcall 9 ............................... return 
+  [ 73] getparam 0 .............................. <me>
+  [ 75] getlocal 0 .............................. <tbl>
+  [ 77] pusharglistnoret 2 ...................... <me, tbl>
+  [ 79] objcall 266 ............................. me.setTable(tbl)
+  [ 82] getprop 43 .............................. <game_mgr>
+  [ 84] getparam 0 .............................. <me>
+  [ 86] pusharglistnoret 2 ...................... <game_mgr, me>
+  [ 88] objcall 688 ............................. game_mgr.removeWaitingGroup(me)
+  [ 91] getparam 0 .............................. <me>
+  [ 93] pushsymb 187 ............................ <#deciding>
+  [ 95] pusharglistnoret 2 ...................... <me, #deciding>
+  [ 97] objcall 158 ............................. me.setState(#deciding)
+  [ 99] ret
+end
+
+on leaveTable me
+  [  0] getprop 130 ............................. <table>
+  [  2] pusharglist 1 ........................... <table>
+  [  4] extcall 31 .............................. <voidp(table)>
+  [  6] jmpifz [ 13] ............................ if voidp(table) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 9 ............................... return 
+  [ 13] getprop 41 .............................. <room_mgr>
+  [ 15] getparam 0 .............................. <me>
+  [ 17] getprop 130 ............................. <table>
+  [ 19] pusharglistnoret 3 ...................... <room_mgr, me, table>
+  [ 21] objcall 300 ............................. room_mgr.groupLeft(me, table)
+  [ 24] getprop 130 ............................. <table>
+  [ 26] getparam 0 .............................. <me>
+  [ 28] pusharglistnoret 2 ...................... <table, me>
+  [ 30] objcall 480 ............................. table.groupLeave(me)
+  [ 33] pushsymb 513 ............................ <#setChair>
+  [ 36] getprop 113 ............................. <sitters>
+  [ 38] pusharglist 0 ........................... <>
+  [ 40] extcall 65 .............................. <VOID>
+  [ 42] pusharglistnoret 3 ...................... <#setChair, sitters, VOID>
+  [ 44] extcall 32 .............................. call(#setChair, sitters, VOID)
+  [ 46] pushsymb 905 ............................ <#updateChains>
+  [ 49] getprop 886 ............................. <linkedGroups>
+  [ 52] pusharglistnoret 2 ...................... <#updateChains, linkedGroups>
+  [ 54] extcall 32 .............................. call(#updateChains, linkedGroups)
+  [ 56] ret
+end
+
+on leaveWithoutPaying me
+  [  0] getprop 43 .............................. <game_mgr>
+  [  2] getprop 904 ............................. <leavePenalty>
+  [  5] pusharglistnoret 2 ...................... <game_mgr, leavePenalty>
+  [  7] objcall 686 ............................. game_mgr.angryCustomer(leavePenalty)
+  [ 10] pushsymb 76 ............................. <#showPenalty>
+  [ 12] getprop 130 ............................. <table>
+  [ 14] getobjprop 276 .......................... <table.views>
+  [ 17] getprop 904 ............................. <leavePenalty>
+  [ 20] pusharglistnoret 3 ...................... <#showPenalty, table.views, leavePenalty>
+  [ 22] extcall 32 .............................. call(#showPenalty, table.views, leavePenalty)
+  [ 24] getparam 0 .............................. <me>
+  [ 26] pushsymb 200 ............................ <#ditching>
+  [ 28] pusharglistnoret 2 ...................... <me, #ditching>
+  [ 30] objcall 158 ............................. me.setState(#ditching)
+  [ 32] ret
+end
+
+on getLinkedGroups me
+  [  0] getprop 886 ............................. <linkedGroups>
+  [  3] pusharglistnoret 1 ...................... <linkedGroups>
+  [  5] extcall 9 ............................... return linkedGroups
+  [  7] ret
+end
+
+on leaveTip me
+  [  0] getparam 0 .............................. <me>
+  [  2] pusharglist 1 ........................... <me>
+  [  4] objcall 884 ............................. <me.calculateTip()>
+  [  7] setlocal 0 .............................. tip = me.calculateTip()
+  [  9] getprop 889 ............................. <groupType>
+  [ 12] pushcons 7 .............................. <"critic">
+  [ 14] eq ...................................... <groupType = "critic">
+  [ 15] jmpifz [ 45] ............................ if groupType = "critic" then
+  [ 18] getprop 98 .............................. <mood>
+  [ 20] getprop 906 ............................. <heartsRequired>
+  [ 23] gteq .................................... <mood >= heartsRequired>
+  [ 24] jmpifz [ 45] ............................ if mood >= heartsRequired then
+  [ 27] getprop 43 .............................. <game_mgr>
+  [ 29] pusharglistnoret 1 ...................... <game_mgr>
+  [ 31] objcall 694 ............................. game_mgr.addStar()
+  [ 34] getlocal 0 .............................. <tip>
+  [ 36] pushsymb 872 ............................ <#extra_star>
+  [ 39] pushint8 1 .............................. <1>
+  [ 41] pusharglistnoret 3 ...................... <tip, #extra_star, 1>
+  [ 43] objcall 25 .............................. tip[#extra_star] = 1
+  [ 45] pushcons 14 ............................. <"sfx_bring_check_1">
+  [ 47] pusharglistnoret 1 ...................... <"sfx_bring_check_1">
+  [ 49] extcall 516 ............................. SndSFX("sfx_bring_check_1")
+  [ 52] getprop 130 ............................. <table>
+  [ 54] getlocal 0 .............................. <tip>
+  [ 56] pusharglistnoret 2 ...................... <table, tip>
+  [ 58] objcall 482 ............................. table.setTip(tip)
+  [ 61] ret
+end
+
+on calculateTip me
+  [  0] getprop 113 ............................. <sitters>
+  [  2] getobjprop 12 ........................... <sitters.count>
+  [  4] getprop 908 ............................. <baseTip>
+  [  7] mul ..................................... <sitters.count * baseTip>
+  [  8] getprop 98 .............................. <mood>
+  [ 10] getprop 909 ............................. <moodTip>
+  [ 13] mul ..................................... <mood * moodTip>
+  [ 14] add ..................................... <(sitters.count * baseTip) + (mood * moodTip)>
+  [ 15] setlocal 0 .............................. total = (sitters.count * baseTip) + (mood * moodTip)
+  [ 17] pusharglist 0 ........................... <[:]>
+  [ 19] pushproplist ............................ <[:]>
+  [ 20] setlocal 1 .............................. Info = [:]
+  [ 22] pushsymb 767 ............................ <#total>
+  [ 25] getlocal 0 .............................. <total>
+  [ 27] pusharglist 2 ........................... <[#total: total]>
+  [ 29] pushproplist ............................ <[#total: total]>
+  [ 30] setlocal 1 .............................. Info = [#total: total]
+  [ 32] getlocal 1 .............................. <Info>
+  [ 34] pusharglistnoret 1 ...................... <Info>
+  [ 36] extcall 9 ............................... return Info
+  [ 38] ret
+end
+
+on setupStates me
+  [  0] pusharglist 0 ........................... <[:]>
+  [  2] pushproplist ............................ <[:]>
+  [  3] setprop 341 ............................. states = [:]
+  [  6] getprop 852 ............................. <stateData>
+  [  9] pusharglist 1 ........................... <stateData>
+  [ 11] extcall 346 ............................. <Keys(stateData)>
+  [ 14] setlocal 0 .............................. k = Keys(stateData)
+  [ 16] getlocal 0 .............................. <k>
+  [ 18] pushcons 15 ............................. <"new">
+  [ 20] pusharglistnoret 2 ...................... <k, "new">
+  [ 22] objcall 6 ............................... k.add("new")
+  [ 24] getlocal 0 .............................. <k>
+  [ 26] peek 0
+  [ 28] pusharglist 1
+  [ 30] extcall 12
+  [ 32] pushint8 1
+  [ 34] peek 0
+  [ 36] peek 2
+  [ 38] lteq
+  [ 39] jmpifz [124] ............................ repeat with i in k
+  [ 42] peek 2
+  [ 44] peek 1
+  [ 46] pusharglist 2
+  [ 48] extcall 36
+  [ 50] setlocal 1
+  [ 52] pushcons 16 ............................. <"sgstate.">
+  [ 54] getlocal 1 .............................. <i>
+  [ 56] joinstr ................................. <"sgstate." & i>
+  [ 57] pushcons 9 .............................. <"scripts.game">
+  [ 59] pusharglist 2 ........................... <"sgstate." & i, "scripts.game">
+  [ 61] extcall 81 .............................. <member("sgstate." & i, "scripts.game")>
+  [ 63] setlocal 2 .............................. m = member("sgstate." & i, "scripts.game")
+  [ 65] getlocal 2 .............................. <m>
+  [ 67] getobjprop 86 ........................... <m.number>
+  [ 69] pushint8 1 .............................. <1>
+  [ 71] inv ..................................... <-1>
+  [ 72] eq ...................................... <m.number = -1>
+  [ 73] jmpifz [ 91] ............................ if m.number = -1 then
+  [ 76] pushcons 17 ............................. <"unimplemented group state ">
+  [ 78] getlocal 1 .............................. <i>
+  [ 80] joinstr ................................. <"unimplemented group state " & i>
+  [ 81] pushcons 18 ............................. <" specified in config.xml file">
+  [ 83] joinstr ................................. <"unimplemented group state " & i & " specified in config.xml file">
+  [ 84] pusharglistnoret 1 ...................... <"unimplemented group state " & i & " specified in config.xml file">
+  [ 86] extcall 60 .............................. complain("unimplemented group state " & i & " specified in config.xml file")
+  [ 88] jmp [119] ............................... next repeat
+  [ 91] getprop 341 ............................. <states>
+  [ 94] getlocal 1 .............................. <i>
+  [ 96] getlocal 2 .............................. <m>
+  [ 98] getchainedprop 55 ....................... <m.script>
+  [100] getparam 0 .............................. <me>
+  [102] getprop 852 ............................. <stateData>
+  [105] getlocal 1 .............................. <i>
+  [107] pusharglist 2 ........................... <stateData, i>
+  [109] objcall 36 .............................. <stateData[i]>
+  [111] pusharglist 3 ........................... <m.script, me, stateData[i]>
+  [113] objcall 4 ............................... <m.script.new(me, stateData[i])>
+  [115] pusharglistnoret 3 ...................... <states, i, m.script.new(me, stateData[i])>
+  [117] objcall 25 .............................. states[i] = m.script.new(me, stateData[i])
+  [119] pushint8 1
+  [121] add
+  [122] endrepeat [ 34]
+  [124] pop 3
+  [126] ret
+end
+
+on setStateTimeMultipliers me, pl
+  [  0] getparam 1 .............................. <pl>
+  [  2] pusharglist 1 ........................... <pl>
+  [  4] extcall 346 ............................. <Keys(pl)>
+  [  7] peek 0
+  [  9] pusharglist 1
+  [ 11] extcall 12
+  [ 13] pushint8 1
+  [ 15] peek 0
+  [ 17] peek 2
+  [ 19] lteq
+  [ 20] jmpifz [ 76] ............................ repeat with k in Keys(pl)
+  [ 23] peek 2
+  [ 25] peek 1
+  [ 27] pusharglist 2
+  [ 29] extcall 36
+  [ 31] setlocal 0
+  [ 33] getprop 341 ............................. <states>
+  [ 36] getlocal 0 .............................. <k>
+  [ 38] pusharglist 2 ........................... <states, k>
+  [ 40] objcall 36 .............................. <states[k]>
+  [ 42] setlocal 1 .............................. s = states[k]
+  [ 44] getlocal 1 .............................. <s>
+  [ 46] pusharglist 1 ........................... <s>
+  [ 48] extcall 31 .............................. <voidp(s)>
+  [ 50] jmpifz [ 56] ............................ if voidp(s) then
+  [ 53] jmp [ 71] ............................... next repeat
+  [ 56] getlocal 1 .............................. <s>
+  [ 58] getparam 1 .............................. <pl>
+  [ 60] getlocal 0 .............................. <k>
+  [ 62] pusharglist 2 ........................... <pl, k>
+  [ 64] objcall 36 .............................. <pl[k]>
+  [ 66] pusharglistnoret 2 ...................... <s, pl[k]>
+  [ 68] objcall 911 ............................. s.setStateTimeMultiplier(pl[k])
+  [ 71] pushint8 1
+  [ 73] add
+  [ 74] endrepeat [ 15]
+  [ 76] pop 3
+  [ 78] ret
+end
