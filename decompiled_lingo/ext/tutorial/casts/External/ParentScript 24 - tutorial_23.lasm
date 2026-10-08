@@ -1,0 +1,100 @@
+property done, tables, flo
+global glob
+
+on startStep me
+  [  0] pushzero ................................ <0>
+  [  1] setprop 66 .............................. done = 0
+  [  3] getglobal 8 ............................. <glob>
+  [  5] getchainedprop 9 ........................ <glob.managers>
+  [  7] getchainedprop 10 ....................... <glob.managers.game>
+  [  9] getchainedprop 11 ....................... <glob.managers.game.room>
+  [ 11] getobjprop 79 ........................... <glob.managers.game.room.waiter>
+  [ 13] setprop 78 .............................. flo = glob.managers.game.room.waiter
+  [ 15] getglobal 8 ............................. <glob>
+  [ 17] getchainedprop 9 ........................ <glob.managers>
+  [ 19] getchainedprop 10 ....................... <glob.managers.game>
+  [ 21] getchainedprop 11 ....................... <glob.managers.game.room>
+  [ 23] getobjprop 70 ........................... <glob.managers.game.room.tables>
+  [ 25] setprop 70 .............................. tables = glob.managers.game.room.tables
+  [ 27] getprop 70 .............................. <tables>
+  [ 29] getobjprop 59 ........................... <tables.count>
+  [ 31] pushint8 2 .............................. <2>
+  [ 33] nteq .................................... <tables.count <> 2>
+  [ 34] jmpifz [ 41] ............................ if tables.count <> 2 then
+  [ 37] pusharglistnoret 0 ...................... <>
+  [ 39] extcall 44 .............................. return 
+  [ 41] getprop 70 .............................. <tables>
+  [ 43] peek 0
+  [ 45] pusharglist 1
+  [ 47] extcall 59
+  [ 49] pushint8 1
+  [ 51] peek 0
+  [ 53] peek 2
+  [ 55] lteq
+  [ 56] jmpifz [ 86] ............................ repeat with t in tables
+  [ 59] peek 2
+  [ 61] peek 1
+  [ 63] pusharglist 2
+  [ 65] extcall 25
+  [ 67] setlocal 0
+  [ 69] getlocal 0 .............................. <t>
+  [ 71] getobjprop 91 ........................... <t.dirty>
+  [ 73] not ..................................... <not t.dirty>
+  [ 74] jmpifz [ 81] ............................ if not t.dirty then
+  [ 77] pusharglistnoret 0 ...................... <>
+  [ 79] extcall 44 .............................. return 
+  [ 81] pushint8 1
+  [ 83] add
+  [ 84] endrepeat [ 51]
+  [ 86] pop 3
+  [ 88] pushint8 1 .............................. <1>
+  [ 90] pusharglistnoret 1 ...................... <1>
+  [ 92] extcall 44 .............................. return 1
+  [ 94] ret
+end
+
+on checkDone me
+  [  0] getprop 66 .............................. <done>
+  [  2] jmpifz [  9] ............................ if done then
+  [  5] pusharglistnoret 0 ...................... <>
+  [  7] extcall 44 .............................. return 
+  [  9] pushint8 1 .............................. <1>
+  [ 11] setlocal 0 .............................. clean = 1
+  [ 13] getprop 70 .............................. <tables>
+  [ 15] peek 0
+  [ 17] pusharglist 1
+  [ 19] extcall 59
+  [ 21] pushint8 1
+  [ 23] peek 0
+  [ 25] peek 2
+  [ 27] lteq
+  [ 28] jmpifz [ 56] ............................ repeat with t in tables
+  [ 31] peek 2
+  [ 33] peek 1
+  [ 35] pusharglist 2
+  [ 37] extcall 25
+  [ 39] setlocal 1
+  [ 41] getlocal 0 .............................. <clean>
+  [ 43] getlocal 1 .............................. <t>
+  [ 45] getobjprop 91 ........................... <t.dirty>
+  [ 47] not ..................................... <not t.dirty>
+  [ 48] and ..................................... <clean and not t.dirty>
+  [ 49] setlocal 0 .............................. clean = clean and not t.dirty
+  [ 51] pushint8 1
+  [ 53] add
+  [ 54] endrepeat [ 23]
+  [ 56] pop 3
+  [ 58] getprop 78 .............................. <flo>
+  [ 60] pushsymb 85 ............................. <#payload>
+  [ 62] pusharglist 2 ........................... <flo, #payload>
+  [ 64] objcall 59 .............................. <flo.payload.count>
+  [ 66] pushzero ................................ <0>
+  [ 67] eq ...................................... <flo.payload.count = 0>
+  [ 68] getlocal 0 .............................. <clean>
+  [ 70] and ..................................... <(flo.payload.count = 0) and clean>
+  [ 71] setprop 66 .............................. done = (flo.payload.count = 0) and clean
+  [ 73] getprop 66 .............................. <done>
+  [ 75] pusharglistnoret 1 ...................... <done>
+  [ 77] extcall 44 .............................. return done
+  [ 79] ret
+end

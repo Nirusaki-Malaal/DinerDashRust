@@ -1,0 +1,86 @@
+property done, sitterGroups
+global glob
+
+on startStep me
+  [  0] pushzero ................................ <0>
+  [  1] setprop 66 .............................. done = 0
+  [  3] getglobal 8 ............................. <glob>
+  [  5] getchainedprop 9 ........................ <glob.managers>
+  [  7] getchainedprop 10 ....................... <glob.managers.game>
+  [  9] getchainedprop 11 ....................... <glob.managers.game.room>
+  [ 11] getobjprop 96 ........................... <glob.managers.game.room.sitterGroups>
+  [ 13] setprop 96 .............................. sitterGroups = glob.managers.game.room.sitterGroups
+  [ 15] getprop 96 .............................. <sitterGroups>
+  [ 17] getobjprop 59 ........................... <sitterGroups.count>
+  [ 19] pushint8 2 .............................. <2>
+  [ 21] nteq .................................... <sitterGroups.count <> 2>
+  [ 22] jmpifz [ 29] ............................ if sitterGroups.count <> 2 then
+  [ 25] pusharglistnoret 0 ...................... <>
+  [ 27] extcall 44 .............................. return 
+  [ 29] getprop 96 .............................. <sitterGroups>
+  [ 31] pushint8 1 .............................. <1>
+  [ 33] pusharglist 2 ........................... <sitterGroups, 1>
+  [ 35] objcall 25 .............................. <sitterGroups[1]>
+  [ 37] getchainedprop 74 ....................... <sitterGroups[1].state>
+  [ 39] getobjprop 75 ........................... <sitterGroups[1].state.name>
+  [ 41] pushsymb 88 ............................. <#check>
+  [ 43] nteq .................................... <sitterGroups[1].state.name <> #check>
+  [ 44] getprop 96 .............................. <sitterGroups>
+  [ 46] pushint8 2 .............................. <2>
+  [ 48] pusharglist 2 ........................... <sitterGroups, 2>
+  [ 50] objcall 25 .............................. <sitterGroups[2]>
+  [ 52] getchainedprop 74 ....................... <sitterGroups[2].state>
+  [ 54] getobjprop 75 ........................... <sitterGroups[2].state.name>
+  [ 56] pushsymb 88 ............................. <#check>
+  [ 58] nteq .................................... <sitterGroups[2].state.name <> #check>
+  [ 59] or ...................................... <(sitterGroups[1].state.name <> #check) or (sitterGroups[2].state.name <> #check)>
+  [ 60] jmpifz [ 67] ............................ if (sitterGroups[1].state.name <> #check) or (sitterGroups[2].state.name <> #check) then
+  [ 63] pusharglistnoret 0 ...................... <>
+  [ 65] extcall 44 .............................. return 
+  [ 67] pushint8 1 .............................. <1>
+  [ 69] pusharglistnoret 1 ...................... <1>
+  [ 71] extcall 44 .............................. return 1
+  [ 73] ret
+end
+
+on checkDone me
+  [  0] getprop 66 .............................. <done>
+  [  2] jmpifz [  9] ............................ if done then
+  [  5] pusharglistnoret 0 ...................... <>
+  [  7] extcall 44 .............................. return 
+  [  9] pushzero ................................ <0>
+  [ 10] setlocal 0 .............................. ch = 0
+  [ 12] getprop 96 .............................. <sitterGroups>
+  [ 14] peek 0
+  [ 16] pusharglist 1
+  [ 18] extcall 59
+  [ 20] pushint8 1
+  [ 22] peek 0
+  [ 24] peek 2
+  [ 26] lteq
+  [ 27] jmpifz [ 59] ............................ repeat with s in sitterGroups
+  [ 30] peek 2
+  [ 32] peek 1
+  [ 34] pusharglist 2
+  [ 36] extcall 25
+  [ 38] setlocal 1
+  [ 40] getlocal 0 .............................. <ch>
+  [ 42] getlocal 1 .............................. <s>
+  [ 44] getchainedprop 74 ....................... <s.state>
+  [ 46] getobjprop 75 ........................... <s.state.name>
+  [ 48] pushsymb 88 ............................. <#check>
+  [ 50] eq ...................................... <s.state.name = #check>
+  [ 51] or ...................................... <ch or (s.state.name = #check)>
+  [ 52] setlocal 0 .............................. ch = ch or (s.state.name = #check)
+  [ 54] pushint8 1
+  [ 56] add
+  [ 57] endrepeat [ 22]
+  [ 59] pop 3
+  [ 61] getlocal 0 .............................. <ch>
+  [ 63] not ..................................... <not ch>
+  [ 64] setprop 66 .............................. done = not ch
+  [ 66] getprop 66 .............................. <done>
+  [ 68] pusharglistnoret 1 ...................... <done>
+  [ 70] extcall 44 .............................. return done
+  [ 72] ret
+end

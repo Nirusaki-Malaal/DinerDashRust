@@ -1,0 +1,38 @@
+property dragicon, done
+global glob
+
+on startStep me
+  [  0] pushzero ................................ <0>
+  [  1] setprop 66 .............................. done = 0
+  [  3] getglobal 8 ............................. <glob>
+  [  5] getchainedprop 9 ........................ <glob.managers>
+  [  7] getchainedprop 10 ....................... <glob.managers.game>
+  [  9] getchainedprop 68 ....................... <glob.managers.game.queue>
+  [ 11] getobjprop 67 ........................... <glob.managers.game.queue.dragicon>
+  [ 13] setprop 67 .............................. dragicon = glob.managers.game.queue.dragicon
+  [ 15] getprop 67 .............................. <dragicon>
+  [ 17] pusharglist 1 ........................... <dragicon>
+  [ 19] extcall 26 .............................. <voidp(dragicon)>
+  [ 21] not ..................................... <not voidp(dragicon)>
+  [ 22] pusharglistnoret 1 ...................... <not voidp(dragicon)>
+  [ 24] extcall 44 .............................. return not voidp(dragicon)
+  [ 26] ret
+end
+
+on checkDone me
+  [  0] getprop 66 .............................. <done>
+  [  2] getprop 67 .............................. <dragicon>
+  [  4] pusharglist 1 ........................... <dragicon>
+  [  6] extcall 26 .............................. <voidp(dragicon)>
+  [  8] or ...................................... <done or voidp(dragicon)>
+  [  9] jmpifz [ 16] ............................ if done or voidp(dragicon) then
+  [ 12] pusharglistnoret 0 ...................... <>
+  [ 14] extcall 44 .............................. return 
+  [ 16] getprop 67 .............................. <dragicon>
+  [ 18] getobjprop 69 ........................... <dragicon.dragging>
+  [ 20] setprop 66 .............................. done = dragicon.dragging
+  [ 22] getprop 66 .............................. <done>
+  [ 24] pusharglistnoret 1 ...................... <done>
+  [ 26] extcall 44 .............................. return done
+  [ 28] ret
+end

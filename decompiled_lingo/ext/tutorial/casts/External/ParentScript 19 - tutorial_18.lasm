@@ -1,0 +1,30 @@
+property done, ms
+global glob
+
+on startStep me
+  [  0] pushzero ................................ <0>
+  [  1] setprop 66 .............................. done = 0
+  [  3] getmovieprop 90 ......................... <the milliSeconds>
+  [  5] pushint16 2000 .......................... <2000>
+  [  8] add ..................................... <the milliSeconds + 2000>
+  [  9] setprop 89 .............................. ms = the milliSeconds + 2000
+  [ 11] pushint8 1 .............................. <1>
+  [ 13] pusharglistnoret 1 ...................... <1>
+  [ 15] extcall 44 .............................. return 1
+  [ 17] ret
+end
+
+on checkDone me
+  [  0] getprop 66 .............................. <done>
+  [  2] jmpifz [  9] ............................ if done then
+  [  5] pusharglistnoret 0 ...................... <>
+  [  7] extcall 44 .............................. return 
+  [  9] getmovieprop 90 ......................... <the milliSeconds>
+  [ 11] getprop 89 .............................. <ms>
+  [ 13] gt ...................................... <the milliSeconds > ms>
+  [ 14] setprop 66 .............................. done = the milliSeconds > ms
+  [ 16] getprop 66 .............................. <done>
+  [ 18] pusharglistnoret 1 ...................... <done>
+  [ 20] extcall 44 .............................. return done
+  [ 22] ret
+end

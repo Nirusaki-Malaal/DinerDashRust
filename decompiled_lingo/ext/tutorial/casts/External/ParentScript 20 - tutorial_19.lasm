@@ -1,0 +1,47 @@
+property done, flo
+global glob
+
+on startStep me
+  [  0] pushzero ................................ <0>
+  [  1] setprop 66 .............................. done = 0
+  [  3] getglobal 8 ............................. <glob>
+  [  5] getchainedprop 9 ........................ <glob.managers>
+  [  7] getchainedprop 10 ....................... <glob.managers.game>
+  [  9] getchainedprop 11 ....................... <glob.managers.game.room>
+  [ 11] getobjprop 79 ........................... <glob.managers.game.room.waiter>
+  [ 13] setprop 78 .............................. flo = glob.managers.game.room.waiter
+  [ 15] getprop 78 .............................. <flo>
+  [ 17] pushsymb 85 ............................. <#payload>
+  [ 19] pusharglist 2 ........................... <flo, #payload>
+  [ 21] objcall 59 .............................. <flo.payload.count>
+  [ 23] jmpifz [ 30] ............................ if flo.payload.count then
+  [ 26] pusharglistnoret 0 ...................... <>
+  [ 28] extcall 44 .............................. return 
+  [ 30] pushint8 1 .............................. <1>
+  [ 32] pusharglistnoret 1 ...................... <1>
+  [ 34] extcall 44 .............................. return 1
+  [ 36] ret
+end
+
+on checkDone me
+  [  0] getprop 66 .............................. <done>
+  [  2] getprop 78 .............................. <flo>
+  [  4] pusharglist 1 ........................... <flo>
+  [  6] extcall 26 .............................. <voidp(flo)>
+  [  8] or ...................................... <done or voidp(flo)>
+  [  9] jmpifz [ 16] ............................ if done or voidp(flo) then
+  [ 12] pusharglistnoret 0 ...................... <>
+  [ 14] extcall 44 .............................. return 
+  [ 16] getprop 78 .............................. <flo>
+  [ 18] pushsymb 86 ............................. <#food>
+  [ 20] pusharglist 2 ........................... <flo, #food>
+  [ 22] objcall 101 ............................. <flo.getPayload(#food)>
+  [ 24] getobjprop 59 ........................... <flo.getPayload(#food).count>
+  [ 26] pushint8 2 .............................. <2>
+  [ 28] eq ...................................... <flo.getPayload(#food).count = 2>
+  [ 29] setprop 66 .............................. done = flo.getPayload(#food).count = 2
+  [ 31] getprop 66 .............................. <done>
+  [ 33] pusharglistnoret 1 ...................... <done>
+  [ 35] extcall 44 .............................. return done
+  [ 37] ret
+end

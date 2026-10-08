@@ -1,0 +1,79 @@
+property done, kitchen, sitterGroup, flo
+global glob
+
+on startStep me
+  [  0] pushzero ................................ <0>
+  [  1] setprop 66 .............................. done = 0
+  [  3] getglobal 8 ............................. <glob>
+  [  5] getchainedprop 9 ........................ <glob.managers>
+  [  7] getchainedprop 10 ....................... <glob.managers.game>
+  [  9] getobjprop 11 ........................... <glob.managers.game.room>
+  [ 11] setlocal 0 .............................. rm = glob.managers.game.room
+  [ 13] getlocal 0 .............................. <rm>
+  [ 15] getobjprop 70 ........................... <rm.tables>
+  [ 17] setlocal 1 .............................. t = rm.tables
+  [ 19] getlocal 0 .............................. <rm>
+  [ 21] getobjprop 83 ........................... <rm.kitchen>
+  [ 23] setprop 83 .............................. kitchen = rm.kitchen
+  [ 25] getlocal 1 .............................. <t>
+  [ 27] getobjprop 59 ........................... <t.count>
+  [ 29] pushint8 2 .............................. <2>
+  [ 31] nteq .................................... <t.count <> 2>
+  [ 32] jmpifz [ 39] ............................ if t.count <> 2 then
+  [ 35] pusharglistnoret 0 ...................... <>
+  [ 37] extcall 44 .............................. return 
+  [ 39] getlocal 1 .............................. <t>
+  [ 41] pushint8 1 .............................. <1>
+  [ 43] pusharglist 2 ........................... <t, 1>
+  [ 45] objcall 25 .............................. <t[1]>
+  [ 47] getobjprop 73 ........................... <t[1].sitterGroup>
+  [ 49] setprop 73 .............................. sitterGroup = t[1].sitterGroup
+  [ 51] getprop 73 .............................. <sitterGroup>
+  [ 53] getobjprop 26 ........................... <sitterGroup.voidp>
+  [ 55] jmpifz [ 62] ............................ if sitterGroup.voidp then
+  [ 58] pusharglistnoret 0 ...................... <>
+  [ 60] extcall 44 .............................. return 
+  [ 62] getglobal 8 ............................. <glob>
+  [ 64] getchainedprop 9 ........................ <glob.managers>
+  [ 66] getchainedprop 10 ....................... <glob.managers.game>
+  [ 68] getchainedprop 11 ....................... <glob.managers.game.room>
+  [ 70] getobjprop 79 ........................... <glob.managers.game.room.waiter>
+  [ 72] setprop 78 .............................. flo = glob.managers.game.room.waiter
+  [ 74] getparam 0 .............................. <me>
+  [ 76] pusharglist 1 ........................... <me>
+  [ 78] objcall 57 .............................. <me.checkDone()>
+  [ 80] jmpifz [ 87] ............................ if me.checkDone() then
+  [ 83] pusharglistnoret 0 ...................... <>
+  [ 85] extcall 44 .............................. return 
+  [ 87] pushint8 1 .............................. <1>
+  [ 89] pusharglistnoret 1 ...................... <1>
+  [ 91] extcall 44 .............................. return 1
+  [ 93] ret
+end
+
+on checkDone me
+  [  0] getprop 66 .............................. <done>
+  [  2] jmpifz [  9] ............................ if done then
+  [  5] pusharglistnoret 0 ...................... <>
+  [  7] extcall 44 .............................. return 
+  [  9] getprop 73 .............................. <sitterGroup>
+  [ 11] getchainedprop 74 ....................... <sitterGroup.state>
+  [ 13] getobjprop 75 ........................... <sitterGroup.state.name>
+  [ 15] pushsymb 98 ............................. <#deciding>
+  [ 17] nteq .................................... <sitterGroup.state.name <> #deciding>
+  [ 18] getprop 83 .............................. <kitchen>
+  [ 20] getprop 73 .............................. <sitterGroup>
+  [ 22] getobjprop 71 ........................... <sitterGroup.table>
+  [ 24] pusharglist 2 ........................... <kitchen, sitterGroup.table>
+  [ 26] objcall 99 .............................. <kitchen.getMakingOrMade(sitterGroup.table)>
+  [ 28] and ..................................... <(sitterGroup.state.name <> #deciding) and kitchen.getMakingOrMade(sitterGroup.table)>
+  [ 29] setprop 66 .............................. done = (sitterGroup.state.name <> #deciding) and kitchen.getMakingOrMade(sitterGroup.table)
+  [ 31] getprop 66 .............................. <done>
+  [ 33] jmpifz [ 40] ............................ if done then
+  [ 36] pusharglistnoret 0 ...................... <>
+  [ 38] extcall 100 ............................. nothing()
+  [ 40] getprop 66 .............................. <done>
+  [ 42] pusharglistnoret 1 ...................... <done>
+  [ 44] extcall 44 .............................. return done
+  [ 46] ret
+end

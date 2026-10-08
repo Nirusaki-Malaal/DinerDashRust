@@ -1,0 +1,73 @@
+property done, ms, sitterGroups
+global glob
+
+on startStep me
+  [  0] pushzero ................................ <0>
+  [  1] setprop 66 .............................. done = 0
+  [  3] getglobal 8 ............................. <glob>
+  [  5] getchainedprop 9 ........................ <glob.managers>
+  [  7] getchainedprop 10 ....................... <glob.managers.game>
+  [  9] getchainedprop 11 ....................... <glob.managers.game.room>
+  [ 11] getobjprop 96 ........................... <glob.managers.game.room.sitterGroups>
+  [ 13] setprop 96 .............................. sitterGroups = glob.managers.game.room.sitterGroups
+  [ 15] getprop 96 .............................. <sitterGroups>
+  [ 17] getobjprop 59 ........................... <sitterGroups.count>
+  [ 19] pushint8 2 .............................. <2>
+  [ 21] nteq .................................... <sitterGroups.count <> 2>
+  [ 22] jmpifz [ 29] ............................ if sitterGroups.count <> 2 then
+  [ 25] pusharglistnoret 0 ...................... <>
+  [ 27] extcall 44 .............................. return 
+  [ 29] getmovieprop 90 ......................... <the milliSeconds>
+  [ 31] pushint16 2000 .......................... <2000>
+  [ 34] add ..................................... <the milliSeconds + 2000>
+  [ 35] setprop 89 .............................. ms = the milliSeconds + 2000
+  [ 37] pushint8 1 .............................. <1>
+  [ 39] pusharglistnoret 1 ...................... <1>
+  [ 41] extcall 44 .............................. return 1
+  [ 43] ret
+end
+
+on checkDone me
+  [  0] getprop 66 .............................. <done>
+  [  2] jmpifz [  9] ............................ if done then
+  [  5] pusharglistnoret 0 ...................... <>
+  [  7] extcall 44 .............................. return 
+  [  9] pushint8 1 .............................. <1>
+  [ 11] setlocal 0 .............................. doneEating = 1
+  [ 13] getprop 96 .............................. <sitterGroups>
+  [ 15] peek 0
+  [ 17] pusharglist 1
+  [ 19] extcall 59
+  [ 21] pushint8 1
+  [ 23] peek 0
+  [ 25] peek 2
+  [ 27] lteq
+  [ 28] jmpifz [ 60] ............................ repeat with i in sitterGroups
+  [ 31] peek 2
+  [ 33] peek 1
+  [ 35] pusharglist 2
+  [ 37] extcall 25
+  [ 39] setlocal 1
+  [ 41] getlocal 0 .............................. <doneEating>
+  [ 43] getlocal 1 .............................. <i>
+  [ 45] getchainedprop 74 ....................... <i.state>
+  [ 47] getobjprop 75 ........................... <i.state.name>
+  [ 49] pushsymb 88 ............................. <#check>
+  [ 51] eq ...................................... <i.state.name = #check>
+  [ 52] and ..................................... <doneEating and (i.state.name = #check)>
+  [ 53] setlocal 0 .............................. doneEating = doneEating and (i.state.name = #check)
+  [ 55] pushint8 1
+  [ 57] add
+  [ 58] endrepeat [ 23]
+  [ 60] pop 3
+  [ 62] getmovieprop 90 ......................... <the milliSeconds>
+  [ 64] getprop 89 .............................. <ms>
+  [ 66] gt ...................................... <the milliSeconds > ms>
+  [ 67] getlocal 0 .............................. <doneEating>
+  [ 69] and ..................................... <(the milliSeconds > ms) and doneEating>
+  [ 70] setprop 66 .............................. done = (the milliSeconds > ms) and doneEating
+  [ 72] getprop 66 .............................. <done>
+  [ 74] pusharglistnoret 1 ...................... <done>
+  [ 76] extcall 44 .............................. return done
+  [ 78] ret
+end

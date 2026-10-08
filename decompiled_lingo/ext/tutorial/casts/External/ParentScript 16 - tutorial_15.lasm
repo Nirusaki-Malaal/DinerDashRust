@@ -1,0 +1,42 @@
+property done, roomgroups
+global glob
+
+on startStep me
+  [  0] pushzero ................................ <0>
+  [  1] setprop 66 .............................. done = 0
+  [  3] getglobal 8 ............................. <glob>
+  [  5] getchainedprop 9 ........................ <glob.managers>
+  [  7] getchainedprop 10 ....................... <glob.managers.game>
+  [  9] getchainedprop 11 ....................... <glob.managers.game.room>
+  [ 11] getobjprop 96 ........................... <glob.managers.game.room.sitterGroups>
+  [ 13] setprop 95 .............................. roomgroups = glob.managers.game.room.sitterGroups
+  [ 15] getprop 95 .............................. <roomgroups>
+  [ 17] getobjprop 59 ........................... <roomgroups.count>
+  [ 19] jmpifz [ 26] ............................ if roomgroups.count then
+  [ 22] pusharglistnoret 0 ...................... <>
+  [ 24] extcall 44 .............................. return 
+  [ 26] pushint8 1 .............................. <1>
+  [ 28] pusharglistnoret 1 ...................... <1>
+  [ 30] extcall 44 .............................. return 1
+  [ 32] ret
+end
+
+on checkDone me
+  [  0] getprop 66 .............................. <done>
+  [  2] getprop 95 .............................. <roomgroups>
+  [  4] pusharglist 1 ........................... <roomgroups>
+  [  6] extcall 26 .............................. <voidp(roomgroups)>
+  [  8] or ...................................... <done or voidp(roomgroups)>
+  [  9] jmpifz [ 16] ............................ if done or voidp(roomgroups) then
+  [ 12] pusharglistnoret 0 ...................... <>
+  [ 14] extcall 44 .............................. return 
+  [ 16] getprop 95 .............................. <roomgroups>
+  [ 18] getobjprop 59 ........................... <roomgroups.count>
+  [ 20] pushint8 2 .............................. <2>
+  [ 22] eq ...................................... <roomgroups.count = 2>
+  [ 23] setprop 66 .............................. done = roomgroups.count = 2
+  [ 25] getprop 66 .............................. <done>
+  [ 27] pusharglistnoret 1 ...................... <done>
+  [ 29] extcall 44 .............................. return done
+  [ 31] ret
+end
