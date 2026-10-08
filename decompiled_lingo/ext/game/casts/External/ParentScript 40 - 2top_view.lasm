@@ -1,0 +1,63 @@
+global glob
+
+on new me, Args
+  [  0] getparam 1 .............................. <Args>
+  [  2] pusharglist 1 ........................... <Args>
+  [  4] extcall 31 .............................. <voidp(Args)>
+  [  6] jmpifz [ 14] ............................ if voidp(Args) then
+  [  9] pusharglist 0 ........................... <[:]>
+  [ 11] pushproplist ............................ <[:]>
+  [ 12] setparam 1 .............................. Args = [:]
+  [ 14] getglobal 1 ............................. <glob>
+  [ 16] getchainedprop 108 ...................... <glob.managers>
+  [ 18] getchainedprop 172 ...................... <glob.managers.game>
+  [ 20] getchainedprop 173 ...................... <glob.managers.game.room>
+  [ 22] getchainedprop 45 ....................... <glob.managers.game.room.node>
+  [ 24] pushcons 0 .............................. <"2top">
+  [ 26] pusharglist 1 ........................... <"2top">
+  [ 28] extcall 47 .............................. <getNodeData("2top")>
+  [ 30] pusharglist 2 ........................... <glob.managers.game.room.node, getNodeData("2top")>
+  [ 32] objcall 48 .............................. <glob.managers.game.room.node.newNode(getNodeData("2top"))>
+  [ 34] setlocal 0 .............................. node = glob.managers.game.room.node.newNode(getNodeData("2top"))
+  [ 36] getlocal 0 .............................. <node>
+  [ 38] pushint16 5000 .......................... <5000>
+  [ 41] inv ..................................... <-5000>
+  [ 42] pushint16 5000 .......................... <5000>
+  [ 45] inv ..................................... <-5000>
+  [ 46] pusharglist 2 ........................... <-5000, -5000>
+  [ 48] extcall 361 ............................. <point(-5000, -5000)>
+  [ 51] pusharglistnoret 2 ...................... <node, point(-5000, -5000)>
+  [ 53] objcall 135 ............................. node.setLoc(point(-5000, -5000))
+  [ 55] getparam 1 .............................. <Args>
+  [ 57] pushsymb 45 ............................. <#node>
+  [ 59] getlocal 0 .............................. <node>
+  [ 61] pusharglistnoret 3 ...................... <Args, #node, node>
+  [ 63] objcall 25 .............................. Args[#node] = node
+  [ 65] getparam 1 .............................. <Args>
+  [ 67] pushsymb 155 ............................ <#capacity>
+  [ 69] pushint8 2 .............................. <2>
+  [ 71] pusharglistnoret 3 ...................... <Args, #capacity, 2>
+  [ 73] objcall 25 .............................. Args[#capacity] = 2
+  [ 75] getparam 1 .............................. <Args>
+  [ 77] pushsymb 137 ............................ <#type>
+  [ 79] pushcons 0 .............................. <"2top">
+  [ 81] pusharglistnoret 3 ...................... <Args, #type, "2top">
+  [ 83] objcall 25 .............................. Args[#type] = "2top"
+  [ 85] getparam 1 .............................. <Args>
+  [ 87] pushsymb 982 ............................ <#destroyNode>
+  [ 90] pushint8 1 .............................. <1>
+  [ 92] pusharglistnoret 3 ...................... <Args, #destroyNode, 1>
+  [ 94] objcall 25 .............................. Args[#destroyNode] = 1
+  [ 96] getlocal 0 .............................. <node>
+  [ 98] pusharglistnoret 1 ...................... <node>
+  [100] objcall 983 ............................. node.updateTransform()
+  [103] pushcons 1 .............................. <"table_view">
+  [105] pusharglist 1 ........................... <"table_view">
+  [107] extcall 55 .............................. <script("table_view")>
+  [109] getparam 1 .............................. <Args>
+  [111] pusharglist 2 ........................... <script("table_view"), Args>
+  [113] objcall 4 ............................... <script("table_view").new(Args)>
+  [115] pusharglistnoret 1 ...................... <script("table_view").new(Args)>
+  [117] extcall 9 ............................... return script("table_view").new(Args)
+  [119] ret
+end

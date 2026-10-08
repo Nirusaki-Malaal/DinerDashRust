@@ -1,0 +1,157 @@
+property callbacks, transitionsTo, transitionsFrom
+
+on new me
+  [  0] pusharglist 0 ........................... <[:]>
+  [  2] pushproplist ............................ <[:]>
+  [  3] setprop 22 .............................. callbacks = [:]
+  [  5] pusharglist 0 ........................... <[:]>
+  [  7] pushproplist ............................ <[:]>
+  [  8] setprop 23 .............................. transitionsTo = [:]
+  [ 10] pusharglist 0 ........................... <[:]>
+  [ 12] pushproplist ............................ <[:]>
+  [ 13] setprop 24 .............................. transitionsFrom = [:]
+  [ 15] getparam 0 .............................. <me>
+  [ 17] pusharglistnoret 1 ...................... <me>
+  [ 19] extcall 9 ............................... return me
+  [ 21] ret
+end
+
+on destroy me
+  [  0] getprop 22 .............................. <callbacks>
+  [  2] pusharglistnoret 1 ...................... <callbacks>
+  [  4] objcall 10 .............................. callbacks.deleteAll()
+  [  6] getprop 23 .............................. <transitionsTo>
+  [  8] pusharglistnoret 1 ...................... <transitionsTo>
+  [ 10] objcall 10 .............................. transitionsTo.deleteAll()
+  [ 12] getprop 24 .............................. <transitionsFrom>
+  [ 14] pusharglistnoret 1 ...................... <transitionsFrom>
+  [ 16] objcall 10 .............................. transitionsFrom.deleteAll()
+  [ 18] ret
+end
+
+on setCallback me, sym, cb
+  [  0] getprop 22 .............................. <callbacks>
+  [  2] getparam 1 .............................. <sym>
+  [  4] getparam 2 .............................. <cb>
+  [  6] pusharglistnoret 3 ...................... <callbacks, sym, cb>
+  [  8] objcall 25 .............................. callbacks[sym] = cb
+  [ 10] ret
+end
+
+on setTransitionFrom me, st, cb
+  [  0] getprop 24 .............................. <transitionsFrom>
+  [  2] getparam 1 .............................. <st>
+  [  4] getparam 2 .............................. <cb>
+  [  6] pusharglistnoret 3 ...................... <transitionsFrom, st, cb>
+  [  8] objcall 28 .............................. transitionsFrom.setProp(st, cb)
+  [ 10] ret
+end
+
+on setTransitionTo me, st, cb
+  [  0] getprop 23 .............................. <transitionsTo>
+  [  2] getparam 1 .............................. <st>
+  [  4] getparam 2 .............................. <cb>
+  [  6] pusharglistnoret 3 ...................... <transitionsTo, st, cb>
+  [  8] objcall 28 .............................. transitionsTo.setProp(st, cb)
+  [ 10] ret
+end
+
+on transitionFrom me, st
+  [  0] getprop 24 .............................. <transitionsFrom>
+  [  2] getparam 1 .............................. <st>
+  [  4] pusharglist 2 ........................... <transitionsFrom, st>
+  [  6] objcall 30 .............................. <transitionsFrom.getProp(st)>
+  [  8] setlocal 0 .............................. cb = transitionsFrom.getProp(st)
+  [ 10] getlocal 0 .............................. <cb>
+  [ 12] pusharglist 1 ........................... <cb>
+  [ 14] extcall 31 .............................. <voidp(cb)>
+  [ 16] jmpifz [ 23] ............................ if voidp(cb) then
+  [ 19] pusharglistnoret 0 ...................... <>
+  [ 21] extcall 9 ............................... return 
+  [ 23] getlocal 0 .............................. <cb>
+  [ 25] getobjprop 33 ........................... <cb.handler>
+  [ 27] getlocal 0 .............................. <cb>
+  [ 29] getobjprop 34 ........................... <cb.target>
+  [ 31] getlocal 0 .............................. <cb>
+  [ 33] pushsymb 35 ............................. <#Args>
+  [ 35] pusharglist 2 ........................... <cb, #Args>
+  [ 37] objcall 36 .............................. <cb[#Args]>
+  [ 39] pusharglistnoret 3 ...................... <cb.handler, cb.target, cb[#Args]>
+  [ 41] extcall 32 .............................. call(cb.handler, cb.target, cb[#Args])
+  [ 43] ret
+end
+
+on enterState me
+  [  0] getprop 22 .............................. <callbacks>
+  [  2] pushsymb 19 ............................. <#enterState>
+  [  4] pusharglist 2 ........................... <callbacks, #enterState>
+  [  6] objcall 36 .............................. <callbacks[#enterState]>
+  [  8] setlocal 0 .............................. cb = callbacks[#enterState]
+  [ 10] getlocal 0 .............................. <cb>
+  [ 12] pusharglist 1 ........................... <cb>
+  [ 14] extcall 31 .............................. <voidp(cb)>
+  [ 16] jmpifz [ 23] ............................ if voidp(cb) then
+  [ 19] pusharglistnoret 0 ...................... <>
+  [ 21] extcall 9 ............................... return 
+  [ 23] getlocal 0 .............................. <cb>
+  [ 25] getobjprop 33 ........................... <cb.handler>
+  [ 27] getlocal 0 .............................. <cb>
+  [ 29] getobjprop 34 ........................... <cb.target>
+  [ 31] getlocal 0 .............................. <cb>
+  [ 33] pushsymb 35 ............................. <#Args>
+  [ 35] pusharglist 2 ........................... <cb, #Args>
+  [ 37] objcall 36 .............................. <cb[#Args]>
+  [ 39] pusharglistnoret 3 ...................... <cb.handler, cb.target, cb[#Args]>
+  [ 41] extcall 32 .............................. call(cb.handler, cb.target, cb[#Args])
+  [ 43] ret
+end
+
+on leaveState me
+  [  0] getprop 22 .............................. <callbacks>
+  [  2] pushsymb 20 ............................. <#leaveState>
+  [  4] pusharglist 2 ........................... <callbacks, #leaveState>
+  [  6] objcall 36 .............................. <callbacks[#leaveState]>
+  [  8] setlocal 0 .............................. cb = callbacks[#leaveState]
+  [ 10] getlocal 0 .............................. <cb>
+  [ 12] pusharglist 1 ........................... <cb>
+  [ 14] extcall 31 .............................. <voidp(cb)>
+  [ 16] jmpifz [ 23] ............................ if voidp(cb) then
+  [ 19] pusharglistnoret 0 ...................... <>
+  [ 21] extcall 9 ............................... return 
+  [ 23] getlocal 0 .............................. <cb>
+  [ 25] getobjprop 33 ........................... <cb.handler>
+  [ 27] getlocal 0 .............................. <cb>
+  [ 29] getobjprop 34 ........................... <cb.target>
+  [ 31] getlocal 0 .............................. <cb>
+  [ 33] pushsymb 35 ............................. <#Args>
+  [ 35] pusharglist 2 ........................... <cb, #Args>
+  [ 37] objcall 36 .............................. <cb[#Args]>
+  [ 39] pusharglistnoret 3 ...................... <cb.handler, cb.target, cb[#Args]>
+  [ 41] extcall 32 .............................. call(cb.handler, cb.target, cb[#Args])
+  [ 43] ret
+end
+
+on transitionTo me, st
+  [  0] getprop 23 .............................. <transitionsTo>
+  [  2] getparam 1 .............................. <st>
+  [  4] pusharglist 2 ........................... <transitionsTo, st>
+  [  6] objcall 30 .............................. <transitionsTo.getProp(st)>
+  [  8] setlocal 0 .............................. cb = transitionsTo.getProp(st)
+  [ 10] getlocal 0 .............................. <cb>
+  [ 12] pusharglist 1 ........................... <cb>
+  [ 14] extcall 31 .............................. <voidp(cb)>
+  [ 16] jmpifz [ 23] ............................ if voidp(cb) then
+  [ 19] pusharglistnoret 0 ...................... <>
+  [ 21] extcall 9 ............................... return 
+  [ 23] getlocal 0 .............................. <cb>
+  [ 25] getobjprop 33 ........................... <cb.handler>
+  [ 27] getlocal 0 .............................. <cb>
+  [ 29] getobjprop 34 ........................... <cb.target>
+  [ 31] getlocal 0 .............................. <cb>
+  [ 33] pushsymb 35 ............................. <#Args>
+  [ 35] pusharglist 2 ........................... <cb, #Args>
+  [ 37] objcall 36 .............................. <cb[#Args]>
+  [ 39] pusharglistnoret 3 ...................... <cb.handler, cb.target, cb[#Args]>
+  [ 41] extcall 32 .............................. call(cb.handler, cb.target, cb[#Args])
+  [ 43] ret
+end

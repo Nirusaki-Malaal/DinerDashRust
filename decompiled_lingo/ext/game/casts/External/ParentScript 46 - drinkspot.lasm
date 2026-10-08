@@ -1,0 +1,364 @@
+property type, kitchen, drinknode, node, drinks, mouselistener, room_mgr, Tile, destTile, timer, hilite, hilited, checkmarks, numSelects, refreshMS, alphaspeed, alphadir, alphacount, moodPoints
+
+on new me, Args
+  [  0] pushsymb 400 ............................ <#drinkspot>
+  [  3] setprop 137 ............................. type = #drinkspot
+  [  5] getparam 1 .............................. <Args>
+  [  7] getobjprop 45 ........................... <Args.node>
+  [  9] setprop 45 .............................. node = Args.node
+  [ 11] getprop 45 .............................. <node>
+  [ 13] pushint8 1 .............................. <1>
+  [ 15] pusharglistnoret 2 ...................... <node, 1>
+  [ 17] objcall 57 .............................. node.setVisible(1)
+  [ 19] getprop 45 .............................. <node>
+  [ 21] pushcons 0 .............................. <"drinks">
+  [ 23] pusharglist 2 ........................... <node, "drinks">
+  [ 25] objcall 36 .............................. <node["drinks"]>
+  [ 27] setprop 1037 ............................ drinknode = node["drinks"]
+  [ 30] getprop 1037 ............................ <drinknode>
+  [ 33] pushzero ................................ <0>
+  [ 34] pusharglistnoret 2 ...................... <drinknode, 0>
+  [ 36] objcall 57 .............................. drinknode.setVisible(0)
+  [ 38] getparam 1 .............................. <Args>
+  [ 40] getobjprop 41 ........................... <Args.room_mgr>
+  [ 42] setprop 41 .............................. room_mgr = Args.room_mgr
+  [ 44] pushint8 10 ............................. <10>
+  [ 46] setprop 169 ............................. alphaspeed = 10
+  [ 48] pushint8 1 .............................. <1>
+  [ 50] setprop 167 ............................. alphadir = 1
+  [ 52] pushzero ................................ <0>
+  [ 53] setprop 168 ............................. alphacount = 0
+  [ 55] pusharglist 0 ........................... <>
+  [ 57] extcall 272 ............................. <getConfigData()>
+  [ 60] getobjprop 913 .......................... <getConfigData().drinkMood>
+  [ 63] setprop 1038 ............................ moodPoints = getConfigData().drinkMood
+  [ 66] pusharglist 0 ........................... <>
+  [ 68] extcall 272 ............................. <getConfigData()>
+  [ 71] getobjprop 1040 ......................... <getConfigData().drinkRefreshMS>
+  [ 74] getparam 1 .............................. <Args>
+  [ 76] getobjprop 334 .......................... <Args.timeMultiplier>
+  [ 79] mul ..................................... <getConfigData().drinkRefreshMS * Args.timeMultiplier>
+  [ 80] setprop 1039 ............................ refreshMS = getConfigData().drinkRefreshMS * Args.timeMultiplier
+  [ 83] pushsymb 45 ............................. <#node>
+  [ 85] getprop 45 .............................. <node>
+  [ 87] pushsymb 34 ............................. <#target>
+  [ 89] getparam 0 .............................. <me>
+  [ 91] pushsymb 604 ............................ <#recursive>
+  [ 94] pushint8 1 .............................. <1>
+  [ 96] pusharglist 6 ........................... <[#node: node, #target: me, #recursive: 1]>
+  [ 98] pushproplist ............................ <[#node: node, #target: me, #recursive: 1]>
+  [ 99] pusharglist 1 ........................... <[#node: node, #target: me, #recursive: 1]>
+  [101] extcall 251 ............................. <newMouseListener([#node: node, #target: me, #recursive: 1])>
+  [103] setprop 250 ............................. mouselistener = newMouseListener([#node: node, #target: me, #recursive: 1])
+  [105] getprop 1039 ............................ <refreshMS>
+  [108] pushsymb 34 ............................. <#target>
+  [110] getparam 0 .............................. <me>
+  [112] pushsymb 33 ............................. <#handler>
+  [114] pushsymb 1036 ........................... <#refreshDrinks>
+  [117] pusharglist 4 ........................... <[#target: me, #handler: #refreshDrinks]>
+  [119] pushproplist ............................ <[#target: me, #handler: #refreshDrinks]>
+  [120] pusharglist 2 ........................... <refreshMS, [#target: me, #handler: #refreshDrinks]>
+  [122] extcall 252 ............................. <timedCall(refreshMS, [#target: me, #handler: #refreshDrinks])>
+  [124] setprop 870 ............................. timer = timedCall(refreshMS, [#target: me, #handler: #refreshDrinks])
+  [127] pushzero ................................ <0>
+  [128] setprop 425 ............................. drinks = 0
+  [131] getprop 45 .............................. <node>
+  [133] pushcons 1 .............................. <"hilite">
+  [135] pusharglist 2 ........................... <node, "hilite">
+  [137] objcall 36 .............................. <node["hilite"]>
+  [139] setprop 1013 ............................ hilite = node["hilite"]
+  [142] pusharglist 0 ........................... <[]>
+  [144] pushlist ................................ <[]>
+  [145] setprop 1014 ............................ checkmarks = []
+  [148] pushint8 1 .............................. <1>
+  [150] setlocal 0
+  [152] getlocal 0
+  [154] pushint8 3 .............................. <3>
+  [156] lteq
+  [157] jmpifz [187] ............................ repeat with i = 1 to 3
+  [160] getprop 1014 ............................ <checkmarks>
+  [163] getprop 45 .............................. <node>
+  [165] pushcons 2 .............................. <"checkmark_">
+  [167] getlocal 0 .............................. <i>
+  [169] joinstr ................................. <"checkmark_" & i>
+  [170] pusharglist 2 ........................... <node, "checkmark_" & i>
+  [172] objcall 36 .............................. <node["checkmark_" & i]>
+  [174] pusharglistnoret 2 ...................... <checkmarks, node["checkmark_" & i]>
+  [176] objcall 6 ............................... checkmarks.add(node["checkmark_" & i])
+  [178] pushint8 1
+  [180] getlocal 0
+  [182] add
+  [183] setlocal 0
+  [185] endrepeat [152]
+  [187] getparam 0 .............................. <me>
+  [189] pushzero ................................ <0>
+  [190] pusharglistnoret 2 ...................... <me, 0>
+  [192] objcall 469 ............................. me.setHilite(0)
+  [195] getparam 0 .............................. <me>
+  [197] pushzero ................................ <0>
+  [198] pusharglistnoret 2 ...................... <me, 0>
+  [200] objcall 453 ............................. me.setSelected(0)
+  [203] getparam 0 .............................. <me>
+  [205] pusharglistnoret 1 ...................... <me>
+  [207] extcall 9 ............................... return me
+  [209] ret
+end
+
+on mouseEnter me
+  [  0] pushsymb 490 ............................ <#finger_up>
+  [  3] pusharglistnoret 1 ...................... <#finger_up>
+  [  5] extcall 94 .............................. setcursor(#finger_up)
+  [  7] ret
+end
+
+on mouseLeave me
+  [  0] pushsymb 104 ............................ <#arrow>
+  [  2] pusharglistnoret 1 ...................... <#arrow>
+  [  4] extcall 94 .............................. setcursor(#arrow)
+  [  6] ret
+end
+
+on mouseDown me
+  [  0] getprop 41 .............................. <room_mgr>
+  [  2] getparam 0 .............................. <me>
+  [  4] pusharglistnoret 2 ...................... <room_mgr, me>
+  [  6] objcall 301 ............................. room_mgr.selectDest(me)
+  [  9] pushsymb 491 ............................ <#finger_down>
+  [ 12] pusharglistnoret 1 ...................... <#finger_down>
+  [ 14] extcall 94 .............................. setcursor(#finger_down)
+  [ 16] ret
+end
+
+on mouseUp me
+  [  0] pushsymb 490 ............................ <#finger_up>
+  [  3] pusharglistnoret 1 ...................... <#finger_up>
+  [  5] extcall 94 .............................. setcursor(#finger_up)
+  [  7] ret
+end
+
+on setHilite me, h
+  [  0] getprop 1013 ............................ <hilite>
+  [  3] getparam 1 .............................. <h>
+  [  5] pusharglistnoret 2 ...................... <hilite, h>
+  [  7] objcall 57 .............................. hilite.setVisible(h)
+  [  9] getparam 1 .............................. <h>
+  [ 11] setprop 1015 ............................ hilited = h
+  [ 14] getparam 1 .............................. <h>
+  [ 16] jmpifz [ 30] ............................ if h then / else
+  [ 19] getparam 0 .............................. <me>
+  [ 21] pushsymb 117 ............................ <#exitFrame>
+  [ 23] pusharglistnoret 2 ...................... <me, #exitFrame>
+  [ 25] extcall 100 ............................. subscribe(me, #exitFrame)
+  [ 27] jmp [ 38]
+  [ 30] getparam 0 .............................. <me>
+  [ 32] pushsymb 117 ............................ <#exitFrame>
+  [ 34] pusharglistnoret 2 ...................... <me, #exitFrame>
+  [ 36] extcall 105 ............................. unsubscribe(me, #exitFrame)
+  [ 38] ret
+end
+
+on setSelected me, s
+  [  0] getparam 1 .............................. <s>
+  [  2] jmpifz [ 39] ............................ if s then / else
+  [  5] pushint8 3 .............................. <3>
+  [  7] getprop 1016 ............................ <numSelects>
+  [ 10] pushint8 1 .............................. <1>
+  [ 12] add ..................................... <numSelects + 1>
+  [ 13] pusharglist 2 ........................... <3, numSelects + 1>
+  [ 15] extcall 154 ............................. <min(3, numSelects + 1)>
+  [ 17] setprop 1016 ............................ numSelects = min(3, numSelects + 1)
+  [ 20] getprop 1014 ............................ <checkmarks>
+  [ 23] getprop 1016 ............................ <numSelects>
+  [ 26] pusharglist 2 ........................... <checkmarks, numSelects>
+  [ 28] objcall 36 .............................. <checkmarks[numSelects]>
+  [ 30] pushint8 1 .............................. <1>
+  [ 32] pusharglistnoret 2 ...................... <checkmarks[numSelects], 1>
+  [ 34] objcall 57 .............................. checkmarks[numSelects].setVisible(1)
+  [ 36] jmp [ 53]
+  [ 39] pushzero ................................ <0>
+  [ 40] setprop 1016 ............................ numSelects = 0
+  [ 43] pushsymb 57 ............................. <#setVisible>
+  [ 45] getprop 1014 ............................ <checkmarks>
+  [ 48] pushzero ................................ <0>
+  [ 49] pusharglistnoret 3 ...................... <#setVisible, checkmarks, 0>
+  [ 51] extcall 32 .............................. call(#setVisible, checkmarks, 0)
+  [ 53] ret
+end
+
+on exitFrame me
+  [  0] getprop 1015 ............................ <hilited>
+  [  3] not ..................................... <not hilited>
+  [  4] jmpifz [ 11] ............................ if not hilited then
+  [  7] pusharglistnoret 0 ...................... <>
+  [  9] extcall 9 ............................... return 
+  [ 11] getprop 168 ............................. <alphacount>
+  [ 13] getprop 167 ............................. <alphadir>
+  [ 15] getprop 169 ............................. <alphaspeed>
+  [ 17] mul ..................................... <alphadir * alphaspeed>
+  [ 18] add ..................................... <alphacount + (alphadir * alphaspeed)>
+  [ 19] setprop 168 ............................. alphacount = alphacount + (alphadir * alphaspeed)
+  [ 21] getprop 168 ............................. <alphacount>
+  [ 23] pushzero ................................ <0>
+  [ 24] lt ...................................... <alphacount < 0>
+  [ 25] jmpifz [ 35] ............................ if alphacount < 0 then / else
+  [ 28] pushint8 1 .............................. <1>
+  [ 30] setprop 167 ............................. alphadir = 1
+  [ 32] jmp [ 48]
+  [ 35] getprop 168 ............................. <alphacount>
+  [ 37] pushint8 100 ............................ <100>
+  [ 39] gt ...................................... <alphacount > 100>
+  [ 40] jmpifz [ 48] ............................ if alphacount > 100 then
+  [ 43] pushint8 1 .............................. <1>
+  [ 45] inv ..................................... <-1>
+  [ 46] setprop 167 ............................. alphadir = -1
+  [ 48] getprop 1013 ............................ <hilite>
+  [ 51] pushzero ................................ <0>
+  [ 52] getprop 168 ............................. <alphacount>
+  [ 54] pushint8 100 ............................ <100>
+  [ 56] pusharglist 2 ........................... <alphacount, 100>
+  [ 58] extcall 154 ............................. <min(alphacount, 100)>
+  [ 60] pusharglist 2 ........................... <0, min(alphacount, 100)>
+  [ 62] extcall 153 ............................. <max(0, min(alphacount, 100))>
+  [ 64] pusharglistnoret 2 ...................... <hilite, max(0, min(alphacount, 100))>
+  [ 66] objcall 571 ............................. hilite.setAlpha(max(0, min(alphacount, 100)))
+  [ 69] ret
+end
+
+on setTile me, t
+  [  0] getparam 1 .............................. <t>
+  [  2] setprop 262 ............................. Tile = t
+  [  5] ret
+end
+
+on setDestTile me, t
+  [  0] getparam 1 .............................. <t>
+  [  2] setprop 392 ............................. destTile = t
+  [  5] ret
+end
+
+on getTile me
+  [  0] getprop 392 ............................. <destTile>
+  [  3] pusharglist 1 ........................... <destTile>
+  [  5] extcall 31 .............................. <voidp(destTile)>
+  [  7] not ..................................... <not voidp(destTile)>
+  [  8] jmpifz [ 18] ............................ if not voidp(destTile) then
+  [ 11] getprop 392 ............................. <destTile>
+  [ 14] pusharglistnoret 1 ...................... <destTile>
+  [ 16] extcall 9 ............................... return destTile
+  [ 18] getprop 262 ............................. <Tile>
+  [ 21] pusharglistnoret 1 ...................... <Tile>
+  [ 23] extcall 9 ............................... return Tile
+  [ 25] ret
+end
+
+on setKitchen me, k
+  [  0] getparam 1 .............................. <k>
+  [  2] setprop 335 ............................. kitchen = k
+  [  5] ret
+end
+
+on doFloAction me, flo
+  [  0] getprop 425 ............................. <drinks>
+  [  3] not ..................................... <not drinks>
+  [  4] jmpifz [ 14] ............................ if not drinks then
+  [  7] pushsymb 529 ............................ <#nothing_to_do>
+  [ 10] pusharglistnoret 1 ...................... <#nothing_to_do>
+  [ 12] extcall 9 ............................... return #nothing_to_do
+  [ 14] getparam 1 .............................. <flo>
+  [ 16] pushsymb 425 ............................ <#drinks>
+  [ 19] pushsymb 137 ............................ <#type>
+  [ 21] pushsymb 425 ............................ <#drinks>
+  [ 24] pushsymb 1038 ........................... <#moodPoints>
+  [ 27] getprop 1038 ............................ <moodPoints>
+  [ 30] pusharglist 4 ........................... <[#type: #drinks, #moodPoints: moodPoints]>
+  [ 32] pushproplist ............................ <[#type: #drinks, #moodPoints: moodPoints]>
+  [ 33] pusharglist 3 ........................... <flo, #drinks, [#type: #drinks, #moodPoints: moodPoints]>
+  [ 35] objcall 526 ............................. <flo.pickUp(#drinks, [#type: #drinks, #moodPoints: moodPoints])>
+  [ 38] jmpifz [ 75] ............................ if flo.pickUp(#drinks, [#type: #drinks, #moodPoints: moodPoints]) then
+  [ 41] pushzero ................................ <0>
+  [ 42] setprop 425 ............................. drinks = 0
+  [ 45] getprop 1037 ............................ <drinknode>
+  [ 48] pushzero ................................ <0>
+  [ 49] pusharglistnoret 2 ...................... <drinknode, 0>
+  [ 51] objcall 57 .............................. drinknode.setVisible(0)
+  [ 53] getparam 0 .............................. <me>
+  [ 55] pushzero ................................ <0>
+  [ 56] pusharglistnoret 2 ...................... <me, 0>
+  [ 58] objcall 469 ............................. me.setHilite(0)
+  [ 61] getprop 870 ............................. <timer>
+  [ 64] pusharglistnoret 1 ...................... <timer>
+  [ 66] objcall 253 ............................. timer.start()
+  [ 68] pushsymb 527 ............................ <#Ok>
+  [ 71] pusharglistnoret 1 ...................... <#Ok>
+  [ 73] extcall 9 ............................... return #Ok
+  [ 75] pushsymb 528 ............................ <#hands_full>
+  [ 78] pusharglistnoret 1 ...................... <#hands_full>
+  [ 80] extcall 9 ............................... return #hands_full
+  [ 82] ret
+end
+
+on refreshDrinks me
+  [  0] getprop 425 ............................. <drinks>
+  [  3] jmpifz [ 10] ............................ if drinks then
+  [  6] pusharglistnoret 0 ...................... <>
+  [  8] extcall 9 ............................... return 
+  [ 10] pushint8 1 .............................. <1>
+  [ 12] setprop 425 ............................. drinks = 1
+  [ 15] getparam 0 .............................. <me>
+  [ 17] pushint8 1 .............................. <1>
+  [ 19] pusharglistnoret 2 ...................... <me, 1>
+  [ 21] objcall 469 ............................. me.setHilite(1)
+  [ 24] getprop 1037 ............................ <drinknode>
+  [ 27] pushint8 1 .............................. <1>
+  [ 29] pusharglistnoret 2 ...................... <drinknode, 1>
+  [ 31] objcall 57 .............................. drinknode.setVisible(1)
+  [ 33] ret
+end
+
+on destroy me
+  [  0] getparam 0 .............................. <me>
+  [  2] pushsymb 117 ............................ <#exitFrame>
+  [  4] pusharglistnoret 2 ...................... <me, #exitFrame>
+  [  6] extcall 105 ............................. unsubscribe(me, #exitFrame)
+  [  8] getprop 250 ............................. <mouselistener>
+  [ 10] pusharglist 1 ........................... <mouselistener>
+  [ 12] extcall 31 .............................. <voidp(mouselistener)>
+  [ 14] not ..................................... <not voidp(mouselistener)>
+  [ 15] jmpifz [ 24] ............................ if not voidp(mouselistener) then
+  [ 18] getprop 250 ............................. <mouselistener>
+  [ 20] pusharglistnoret 1 ...................... <mouselistener>
+  [ 22] objcall 5 ............................... mouselistener.destroy()
+  [ 24] pusharglist 0 ........................... <>
+  [ 26] extcall 65 .............................. <VOID>
+  [ 28] setprop 250 ............................. mouselistener = VOID
+  [ 30] getprop 870 ............................. <timer>
+  [ 33] pusharglist 1 ........................... <timer>
+  [ 35] extcall 31 .............................. <voidp(timer)>
+  [ 37] not ..................................... <not voidp(timer)>
+  [ 38] jmpifz [ 48] ............................ if not voidp(timer) then
+  [ 41] getprop 870 ............................. <timer>
+  [ 44] pusharglistnoret 1 ...................... <timer>
+  [ 46] objcall 5 ............................... timer.destroy()
+  [ 48] pusharglist 0 ........................... <>
+  [ 50] extcall 65 .............................. <VOID>
+  [ 52] setprop 870 ............................. timer = VOID
+  [ 55] pusharglist 0 ........................... <>
+  [ 57] extcall 65 .............................. <VOID>
+  [ 59] setprop 1013 ............................ hilite = VOID
+  [ 62] getprop 1014 ............................ <checkmarks>
+  [ 65] pusharglistnoret 1 ...................... <checkmarks>
+  [ 67] objcall 10 .............................. checkmarks.deleteAll()
+  [ 69] pusharglist 0 ........................... <>
+  [ 71] extcall 65 .............................. <VOID>
+  [ 73] setprop 335 ............................. kitchen = VOID
+  [ 76] pusharglist 0 ........................... <>
+  [ 78] extcall 65 .............................. <VOID>
+  [ 80] setprop 262 ............................. Tile = VOID
+  [ 83] pusharglist 0 ........................... <>
+  [ 85] extcall 65 .............................. <VOID>
+  [ 87] setprop 1037 ............................ drinknode = VOID
+  [ 90] pusharglist 0 ........................... <>
+  [ 92] extcall 65 .............................. <VOID>
+  [ 94] setprop 45 .............................. node = VOID
+  [ 96] ret
+end

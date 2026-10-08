@@ -1,0 +1,197 @@
+property sg, name, events, happyMS, madMS, orderPoints, timeMultiplier, stateTimeMultiplier, minMS, previousState, availableSnacks
+
+on new me, t, dat
+  [  0] getparam 1 .............................. <t>
+  [  2] setprop 114 ............................. sg = t
+  [  4] pushsymb 189 ............................ <#snack>
+  [  6] setprop 183 ............................. name = #snack
+  [  8] getparam 2 .............................. <dat>
+  [ 10] getobjprop 919 .......................... <dat.happyMS>
+  [ 13] setprop 919 ............................. happyMS = dat.happyMS
+  [ 16] pushfloat32 1.0 ......................... <1.0>
+  [ 21] setprop 334 ............................. timeMultiplier = 1.0
+  [ 24] pushfloat32 1.0 ......................... <1.0>
+  [ 29] setprop 921 ............................. stateTimeMultiplier = 1.0
+  [ 32] getparam 2 .............................. <dat>
+  [ 34] getobjprop 920 .......................... <dat.madMS>
+  [ 37] setprop 920 ............................. madMS = dat.madMS
+  [ 40] pushsymb 932 ............................ <#putDrinks>
+  [ 43] pushsymb 933 ............................ <#getTicket>
+  [ 46] pusharglist 2 ........................... <[#putDrinks, #getTicket]>
+  [ 48] pushlist ................................ <[#putDrinks, #getTicket]>
+  [ 49] setprop 917 ............................. events = [#putDrinks, #getTicket]
+  [ 52] getparam 2 .............................. <dat>
+  [ 54] getobjprop 894 .......................... <dat.minMS>
+  [ 57] setprop 894 ............................. minMS = dat.minMS
+  [ 60] getparam 0 .............................. <me>
+  [ 62] pusharglistnoret 1 ...................... <me>
+  [ 64] extcall 9 ............................... return me
+  [ 66] ret
+end
+
+on setSnacks me, ls
+  [  0] getparam 1 .............................. <ls>
+  [  2] pusharglist 1 ........................... <ls>
+  [  4] extcall 31 .............................. <voidp(ls)>
+  [  6] jmpifz [ 14] ............................ if voidp(ls) then
+  [  9] pusharglist 0 ........................... <[]>
+  [ 11] pushlist ................................ <[]>
+  [ 12] setparam 1 .............................. ls = []
+  [ 14] getparam 1 .............................. <ls>
+  [ 16] setprop 697 ............................. availableSnacks = ls
+  [ 19] ret
+end
+
+on setTimeMultiplier me, num
+  [  0] getparam 1 .............................. <num>
+  [  2] setprop 334 ............................. timeMultiplier = num
+  [  5] ret
+end
+
+on setStateTimeMultiplier me, num
+  [  0] getparam 1 .............................. <num>
+  [  2] setprop 921 ............................. stateTimeMultiplier = num
+  [  5] ret
+end
+
+on destroy me
+  [  0] pusharglist 0 ........................... <>
+  [  2] extcall 65 .............................. <VOID>
+  [  4] setprop 114 ............................. sg = VOID
+  [  6] ret
+end
+
+on enterState me, s
+  [  0] getparam 1 .............................. <s>
+  [  2] getobjprop 183 .......................... <s.name>
+  [  4] setprop 918 ............................. previousState = s.name
+  [  7] getprop 697 ............................. <availableSnacks>
+  [ 10] getobjprop 12 ........................... <availableSnacks.count>
+  [ 12] pushzero ................................ <0>
+  [ 13] eq ...................................... <availableSnacks.count = 0>
+  [ 14] jmpifz [ 30] ............................ if availableSnacks.count = 0 then
+  [ 17] getprop 114 ............................. <sg>
+  [ 19] getprop 918 ............................. <previousState>
+  [ 22] pusharglistnoret 2 ...................... <sg, previousState>
+  [ 24] objcall 158 ............................. sg.setState(previousState)
+  [ 26] pusharglistnoret 0 ...................... <>
+  [ 28] extcall 9 ............................... return 
+  [ 30] getprop 114 ............................. <sg>
+  [ 32] getprop 697 ............................. <availableSnacks>
+  [ 35] getprop 697 ............................. <availableSnacks>
+  [ 38] getobjprop 12 ........................... <availableSnacks.count>
+  [ 40] pusharglist 1 ........................... <availableSnacks.count>
+  [ 42] extcall 639 ............................. <random(availableSnacks.count)>
+  [ 45] pusharglist 2 ........................... <availableSnacks, random(availableSnacks.count)>
+  [ 47] objcall 36 .............................. <availableSnacks[random(availableSnacks.count)]>
+  [ 49] pusharglistnoret 2 ...................... <sg, availableSnacks[random(availableSnacks.count)]>
+  [ 51] objcall 876 ............................. sg.setWantedSnack(availableSnacks[random(availableSnacks.count)])
+  [ 54] getprop 114 ............................. <sg>
+  [ 56] getprop 894 ............................. <minMS>
+  [ 59] getprop 919 ............................. <happyMS>
+  [ 62] getprop 334 ............................. <timeMultiplier>
+  [ 65] mul ..................................... <happyMS * timeMultiplier>
+  [ 66] getprop 921 ............................. <stateTimeMultiplier>
+  [ 69] mul ..................................... <happyMS * timeMultiplier * stateTimeMultiplier>
+  [ 70] pusharglist 2 ........................... <minMS, happyMS * timeMultiplier * stateTimeMultiplier>
+  [ 72] extcall 153 ............................. <max(minMS, happyMS * timeMultiplier * stateTimeMultiplier)>
+  [ 74] getprop 894 ............................. <minMS>
+  [ 77] getprop 920 ............................. <madMS>
+  [ 80] getprop 334 ............................. <timeMultiplier>
+  [ 83] mul ..................................... <madMS * timeMultiplier>
+  [ 84] getprop 921 ............................. <stateTimeMultiplier>
+  [ 87] mul ..................................... <madMS * timeMultiplier * stateTimeMultiplier>
+  [ 88] pusharglist 2 ........................... <minMS, madMS * timeMultiplier * stateTimeMultiplier>
+  [ 90] extcall 153 ............................. <max(minMS, madMS * timeMultiplier * stateTimeMultiplier)>
+  [ 92] pusharglistnoret 3 ...................... <sg, max(minMS, happyMS * timeMultiplier * stateTimeMultiplier), max(minMS, madMS * timeMultiplier * stateTimeMultiplier)>
+  [ 94] objcall 877 ............................. sg.startMoodTimer(max(minMS, happyMS * timeMultiplier * stateTimeMultiplier), max(minMS, madMS * timeMultiplier * stateTimeMultiplier))
+  [ 97] ret
+end
+
+on event me, sym, arg
+  [  0] getprop 114 ............................. <sg>
+  [  2] pusharglist 1 ........................... <sg>
+  [  4] extcall 31 .............................. <voidp(sg)>
+  [  6] jmpifz [ 13] ............................ if voidp(sg) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 9 ............................... return 
+  [ 13] getparam 1 .............................. <sym>
+  [ 15] pushsymb 98 ............................. <#mood>
+  [ 17] eq ...................................... <sym = #mood>
+  [ 18] jmpifz [ 57] ............................ if sym = #mood then / else
+  [ 21] getparam 2 .............................. <arg>
+  [ 23] pushzero ................................ <0>
+  [ 24] eq ...................................... <arg = 0>
+  [ 25] jmpifz [ 38] ............................ if arg = 0 then / else
+  [ 28] getprop 114 ............................. <sg>
+  [ 30] pusharglistnoret 1 ...................... <sg>
+  [ 32] objcall 881 ............................. sg.leaveWithoutPaying()
+  [ 35] jmp [ 54]
+  [ 38] getprop 114 ............................. <sg>
+  [ 40] pusharglistnoret 1 ...................... <sg>
+  [ 42] objcall 878 ............................. sg.stopMoodTimer()
+  [ 45] getprop 114 ............................. <sg>
+  [ 47] getprop 918 ............................. <previousState>
+  [ 50] pusharglistnoret 2 ...................... <sg, previousState>
+  [ 52] objcall 158 ............................. sg.setState(previousState)
+  [ 54] jmp [151]
+  [ 57] getparam 1 .............................. <sym>
+  [ 59] pushsymb 530 ............................ <#flo>
+  [ 62] eq ...................................... <sym = #flo>
+  [ 63] jmpifz [151] ............................ if sym = #flo then
+  [ 66] getparam 2 .............................. <arg>
+  [ 68] getprop 114 ............................. <sg>
+  [ 70] getobjprop 377 .......................... <sg.wantedSnack>
+  [ 73] getprop 114 ............................. <sg>
+  [ 75] getobjprop 130 .......................... <sg.table>
+  [ 77] pusharglist 3 ........................... <arg, sg.wantedSnack, sg.table>
+  [ 79] objcall 930 ............................. <arg.dropOff(sg.wantedSnack, sg.table)>
+  [ 82] jmpifz [110] ............................ if arg.dropOff(sg.wantedSnack, sg.table) then
+  [ 85] getprop 114 ............................. <sg>
+  [ 87] pushint8 1 .............................. <1>
+  [ 89] pusharglistnoret 2 ...................... <sg, 1>
+  [ 91] objcall 878 ............................. sg.stopMoodTimer(1)
+  [ 94] getprop 114 ............................. <sg>
+  [ 96] getprop 918 ............................. <previousState>
+  [ 99] pusharglistnoret 2 ...................... <sg, previousState>
+  [101] objcall 158 ............................. sg.setState(previousState)
+  [103] pushsymb 527 ............................ <#Ok>
+  [106] pusharglistnoret 1 ...................... <#Ok>
+  [108] extcall 9 ............................... return #Ok
+  [110] getparam 2 .............................. <arg>
+  [112] pushsymb 425 ............................ <#drinks>
+  [115] pusharglist 2 ........................... <arg, #drinks>
+  [117] objcall 929 ............................. <arg.hasPayload(#drinks)>
+  [120] jmpifz [144] ............................ if arg.hasPayload(#drinks) then
+  [123] getparam 2 .............................. <arg>
+  [125] pushsymb 425 ............................ <#drinks>
+  [128] getprop 114 ............................. <sg>
+  [130] getobjprop 130 .......................... <sg.table>
+  [132] pusharglistnoret 3 ...................... <arg, #drinks, sg.table>
+  [134] objcall 930 ............................. arg.dropOff(#drinks, sg.table)
+  [137] pushsymb 527 ............................ <#Ok>
+  [140] pusharglistnoret 1 ...................... <#Ok>
+  [142] extcall 9 ............................... return #Ok
+  [144] pushsymb 529 ............................ <#nothing_to_do>
+  [147] pusharglistnoret 1 ...................... <#nothing_to_do>
+  [149] extcall 9 ............................... return #nothing_to_do
+  [151] ret
+end
+
+on leaveState me, s
+  [  0] getprop 114 ............................. <sg>
+  [  2] pusharglist 1 ........................... <sg>
+  [  4] extcall 31 .............................. <voidp(sg)>
+  [  6] jmpifz [ 13] ............................ if voidp(sg) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 9 ............................... return 
+  [ 13] getprop 114 ............................. <sg>
+  [ 15] pusharglist 0 ........................... <>
+  [ 17] extcall 65 .............................. <VOID>
+  [ 19] pusharglistnoret 2 ...................... <sg, VOID>
+  [ 21] objcall 876 ............................. sg.setWantedSnack(VOID)
+  [ 24] getprop 114 ............................. <sg>
+  [ 26] pusharglistnoret 1 ...................... <sg>
+  [ 28] objcall 878 ............................. sg.stopMoodTimer()
+  [ 31] ret
+end

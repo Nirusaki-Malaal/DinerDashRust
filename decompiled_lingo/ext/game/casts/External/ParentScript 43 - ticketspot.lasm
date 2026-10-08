@@ -1,0 +1,325 @@
+property kitchen, Tile, destTile, type, node, hilite, checkmarks, numSelects, room_mgr, mouselistener, hilited, alphaspeed, alphadir, alphacount
+
+on new me, Args
+  [  0] pushsymb 426 ............................ <#ticketspot>
+  [  3] setprop 137 ............................. type = #ticketspot
+  [  5] getparam 1 .............................. <Args>
+  [  7] getobjprop 45 ........................... <Args.node>
+  [  9] setprop 45 .............................. node = Args.node
+  [ 11] getprop 45 .............................. <node>
+  [ 13] pushint8 1 .............................. <1>
+  [ 15] pusharglistnoret 2 ...................... <node, 1>
+  [ 17] objcall 57 .............................. node.setVisible(1)
+  [ 19] getprop 45 .............................. <node>
+  [ 21] pushcons 0 .............................. <"hilite">
+  [ 23] pusharglist 2 ........................... <node, "hilite">
+  [ 25] objcall 36 .............................. <node["hilite"]>
+  [ 27] setprop 1013 ............................ hilite = node["hilite"]
+  [ 30] pusharglist 0 ........................... <[]>
+  [ 32] pushlist ................................ <[]>
+  [ 33] setprop 1014 ............................ checkmarks = []
+  [ 36] pushint8 10 ............................. <10>
+  [ 38] setprop 169 ............................. alphaspeed = 10
+  [ 40] pushint8 1 .............................. <1>
+  [ 42] setprop 167 ............................. alphadir = 1
+  [ 44] pushzero ................................ <0>
+  [ 45] setprop 168 ............................. alphacount = 0
+  [ 47] pushint8 1 .............................. <1>
+  [ 49] setlocal 0
+  [ 51] getlocal 0
+  [ 53] pushint8 3 .............................. <3>
+  [ 55] lteq
+  [ 56] jmpifz [ 86] ............................ repeat with i = 1 to 3
+  [ 59] getprop 1014 ............................ <checkmarks>
+  [ 62] getprop 45 .............................. <node>
+  [ 64] pushcons 1 .............................. <"checkmark_">
+  [ 66] getlocal 0 .............................. <i>
+  [ 68] joinstr ................................. <"checkmark_" & i>
+  [ 69] pusharglist 2 ........................... <node, "checkmark_" & i>
+  [ 71] objcall 36 .............................. <node["checkmark_" & i]>
+  [ 73] pusharglistnoret 2 ...................... <checkmarks, node["checkmark_" & i]>
+  [ 75] objcall 6 ............................... checkmarks.add(node["checkmark_" & i])
+  [ 77] pushint8 1
+  [ 79] getlocal 0
+  [ 81] add
+  [ 82] setlocal 0
+  [ 84] endrepeat [ 51]
+  [ 86] getparam 0 .............................. <me>
+  [ 88] pushzero ................................ <0>
+  [ 89] pusharglistnoret 2 ...................... <me, 0>
+  [ 91] objcall 469 ............................. me.setHilite(0)
+  [ 94] getparam 0 .............................. <me>
+  [ 96] pushzero ................................ <0>
+  [ 97] pusharglistnoret 2 ...................... <me, 0>
+  [ 99] objcall 453 ............................. me.setSelected(0)
+  [102] getparam 1 .............................. <Args>
+  [104] getobjprop 41 ........................... <Args.room_mgr>
+  [106] setprop 41 .............................. room_mgr = Args.room_mgr
+  [108] pushsymb 34 ............................. <#target>
+  [110] getparam 0 .............................. <me>
+  [112] pushsymb 45 ............................. <#node>
+  [114] getprop 45 .............................. <node>
+  [116] pushsymb 604 ............................ <#recursive>
+  [119] pushint8 1 .............................. <1>
+  [121] pusharglist 6 ........................... <[#target: me, #node: node, #recursive: 1]>
+  [123] pushproplist ............................ <[#target: me, #node: node, #recursive: 1]>
+  [124] pusharglist 1 ........................... <[#target: me, #node: node, #recursive: 1]>
+  [126] extcall 251 ............................. <newMouseListener([#target: me, #node: node, #recursive: 1])>
+  [128] setprop 250 ............................. mouselistener = newMouseListener([#target: me, #node: node, #recursive: 1])
+  [130] getparam 0 .............................. <me>
+  [132] pushsymb 117 ............................ <#exitFrame>
+  [134] pusharglistnoret 2 ...................... <me, #exitFrame>
+  [136] extcall 100 ............................. subscribe(me, #exitFrame)
+  [138] getparam 0 .............................. <me>
+  [140] pusharglistnoret 1 ...................... <me>
+  [142] extcall 9 ............................... return me
+  [144] ret
+end
+
+on exitFrame me
+  [  0] getprop 1015 ............................ <hilited>
+  [  3] not ..................................... <not hilited>
+  [  4] jmpifz [ 11] ............................ if not hilited then
+  [  7] pusharglistnoret 0 ...................... <>
+  [  9] extcall 9 ............................... return 
+  [ 11] getprop 168 ............................. <alphacount>
+  [ 13] getprop 167 ............................. <alphadir>
+  [ 15] getprop 169 ............................. <alphaspeed>
+  [ 17] mul ..................................... <alphadir * alphaspeed>
+  [ 18] add ..................................... <alphacount + (alphadir * alphaspeed)>
+  [ 19] setprop 168 ............................. alphacount = alphacount + (alphadir * alphaspeed)
+  [ 21] getprop 168 ............................. <alphacount>
+  [ 23] pushzero ................................ <0>
+  [ 24] lt ...................................... <alphacount < 0>
+  [ 25] jmpifz [ 35] ............................ if alphacount < 0 then / else
+  [ 28] pushint8 1 .............................. <1>
+  [ 30] setprop 167 ............................. alphadir = 1
+  [ 32] jmp [ 48]
+  [ 35] getprop 168 ............................. <alphacount>
+  [ 37] pushint8 100 ............................ <100>
+  [ 39] gt ...................................... <alphacount > 100>
+  [ 40] jmpifz [ 48] ............................ if alphacount > 100 then
+  [ 43] pushint8 1 .............................. <1>
+  [ 45] inv ..................................... <-1>
+  [ 46] setprop 167 ............................. alphadir = -1
+  [ 48] getprop 1013 ............................ <hilite>
+  [ 51] pushzero ................................ <0>
+  [ 52] getprop 168 ............................. <alphacount>
+  [ 54] pushint8 100 ............................ <100>
+  [ 56] pusharglist 2 ........................... <alphacount, 100>
+  [ 58] extcall 154 ............................. <min(alphacount, 100)>
+  [ 60] pusharglist 2 ........................... <0, min(alphacount, 100)>
+  [ 62] extcall 153 ............................. <max(0, min(alphacount, 100))>
+  [ 64] pusharglistnoret 2 ...................... <hilite, max(0, min(alphacount, 100))>
+  [ 66] objcall 571 ............................. hilite.setAlpha(max(0, min(alphacount, 100)))
+  [ 69] ret
+end
+
+on mouseEnter me
+  [  0] pushsymb 490 ............................ <#finger_up>
+  [  3] pusharglistnoret 1 ...................... <#finger_up>
+  [  5] extcall 94 .............................. setcursor(#finger_up)
+  [  7] ret
+end
+
+on mouseLeave me
+  [  0] pushsymb 104 ............................ <#arrow>
+  [  2] pusharglistnoret 1 ...................... <#arrow>
+  [  4] extcall 94 .............................. setcursor(#arrow)
+  [  6] ret
+end
+
+on mouseDown me
+  [  0] getprop 41 .............................. <room_mgr>
+  [  2] getparam 0 .............................. <me>
+  [  4] pusharglistnoret 2 ...................... <room_mgr, me>
+  [  6] objcall 301 ............................. room_mgr.selectDest(me)
+  [  9] pushsymb 491 ............................ <#finger_down>
+  [ 12] pusharglistnoret 1 ...................... <#finger_down>
+  [ 14] extcall 94 .............................. setcursor(#finger_down)
+  [ 16] ret
+end
+
+on mouseUp me
+  [  0] pushsymb 490 ............................ <#finger_up>
+  [  3] pusharglistnoret 1 ...................... <#finger_up>
+  [  5] extcall 94 .............................. setcursor(#finger_up)
+  [  7] ret
+end
+
+on setHilite me, h
+  [  0] getprop 45 .............................. <node>
+  [  2] pushcons 2 .............................. <"start">
+  [  4] pusharglistnoret 2 ...................... <node, "start">
+  [  6] objcall 209 ............................. node.setAnimation("start")
+  [  8] getprop 1013 ............................ <hilite>
+  [ 11] getparam 1 .............................. <h>
+  [ 13] pusharglistnoret 2 ...................... <hilite, h>
+  [ 15] objcall 57 .............................. hilite.setVisible(h)
+  [ 17] getparam 1 .............................. <h>
+  [ 19] setprop 1015 ............................ hilited = h
+  [ 22] getprop 1015 ............................ <hilited>
+  [ 25] jmpifz [ 39] ............................ if hilited then / else
+  [ 28] getparam 0 .............................. <me>
+  [ 30] pushsymb 117 ............................ <#exitFrame>
+  [ 32] pusharglistnoret 2 ...................... <me, #exitFrame>
+  [ 34] extcall 100 ............................. subscribe(me, #exitFrame)
+  [ 36] jmp [ 47]
+  [ 39] getparam 0 .............................. <me>
+  [ 41] pushsymb 117 ............................ <#exitFrame>
+  [ 43] pusharglistnoret 2 ...................... <me, #exitFrame>
+  [ 45] extcall 105 ............................. unsubscribe(me, #exitFrame)
+  [ 47] ret
+end
+
+on setSelected me, s
+  [  0] getparam 1 .............................. <s>
+  [  2] jmpifz [ 39] ............................ if s then / else
+  [  5] pushint8 3 .............................. <3>
+  [  7] getprop 1016 ............................ <numSelects>
+  [ 10] pushint8 1 .............................. <1>
+  [ 12] add ..................................... <numSelects + 1>
+  [ 13] pusharglist 2 ........................... <3, numSelects + 1>
+  [ 15] extcall 154 ............................. <min(3, numSelects + 1)>
+  [ 17] setprop 1016 ............................ numSelects = min(3, numSelects + 1)
+  [ 20] getprop 1014 ............................ <checkmarks>
+  [ 23] getprop 1016 ............................ <numSelects>
+  [ 26] pusharglist 2 ........................... <checkmarks, numSelects>
+  [ 28] objcall 36 .............................. <checkmarks[numSelects]>
+  [ 30] pushint8 1 .............................. <1>
+  [ 32] pusharglistnoret 2 ...................... <checkmarks[numSelects], 1>
+  [ 34] objcall 57 .............................. checkmarks[numSelects].setVisible(1)
+  [ 36] jmp [ 53]
+  [ 39] pushzero ................................ <0>
+  [ 40] setprop 1016 ............................ numSelects = 0
+  [ 43] pushsymb 57 ............................. <#setVisible>
+  [ 45] getprop 1014 ............................ <checkmarks>
+  [ 48] pushzero ................................ <0>
+  [ 49] pusharglistnoret 3 ...................... <#setVisible, checkmarks, 0>
+  [ 51] extcall 32 .............................. call(#setVisible, checkmarks, 0)
+  [ 53] ret
+end
+
+on doFloAction me, flo
+  [  0] getparam 1 .............................. <flo>
+  [  2] pushsymb 934 ............................ <#ticket>
+  [  5] pusharglist 2 ........................... <flo, #ticket>
+  [  7] objcall 1017 ............................ <flo.hasPayloadType(#ticket)>
+  [ 10] not ..................................... <not flo.hasPayloadType(#ticket)>
+  [ 11] jmpifz [ 21] ............................ if not flo.hasPayloadType(#ticket) then
+  [ 14] pushsymb 529 ............................ <#nothing_to_do>
+  [ 17] pusharglistnoret 1 ...................... <#nothing_to_do>
+  [ 19] extcall 9 ............................... return #nothing_to_do
+  [ 21] getparam 1 .............................. <flo>
+  [ 23] pushsymb 934 ............................ <#ticket>
+  [ 26] pusharglist 2 ........................... <flo, #ticket>
+  [ 28] objcall 1018 ............................ <flo.getPayload(#ticket)>
+  [ 31] peek 0
+  [ 33] pusharglist 1
+  [ 35] extcall 12
+  [ 37] pushint8 1
+  [ 39] peek 0
+  [ 41] peek 2
+  [ 43] lteq
+  [ 44] jmpifz [ 99] ............................ repeat with i in flo.getPayload(#ticket)
+  [ 47] peek 2
+  [ 49] peek 1
+  [ 51] pusharglist 2
+  [ 53] extcall 36
+  [ 55] setlocal 0
+  [ 57] getprop 335 ............................. <kitchen>
+  [ 60] getlocal 0 .............................. <i>
+  [ 62] pusharglistnoret 2 ...................... <kitchen, i>
+  [ 64] objcall 991 ............................. kitchen.addTicket(i)
+  [ 67] getparam 1 .............................. <flo>
+  [ 69] pushsymb 934 ............................ <#ticket>
+  [ 72] getlocal 0 .............................. <i>
+  [ 74] pusharglistnoret 3 ...................... <flo, #ticket, i>
+  [ 76] objcall 930 ............................. flo.dropOff(#ticket, i)
+  [ 79] getprop 45 .............................. <node>
+  [ 81] pushcons 3 .............................. <"turn">
+  [ 83] pushsymb 184 ............................ <#loopCount>
+  [ 85] pushint8 1 .............................. <1>
+  [ 87] pusharglist 2 ........................... <[#loopCount: 1]>
+  [ 89] pushproplist ............................ <[#loopCount: 1]>
+  [ 90] pusharglistnoret 3 ...................... <node, "turn", [#loopCount: 1]>
+  [ 92] objcall 209 ............................. node.setAnimation("turn", [#loopCount: 1])
+  [ 94] pushint8 1
+  [ 96] add
+  [ 97] endrepeat [ 39]
+  [ 99] pop 3
+  [101] pushsymb 527 ............................ <#Ok>
+  [104] pusharglistnoret 1 ...................... <#Ok>
+  [106] extcall 9 ............................... return #Ok
+  [108] ret
+end
+
+on setKitchen me, k
+  [  0] getparam 1 .............................. <k>
+  [  2] setprop 335 ............................. kitchen = k
+  [  5] ret
+end
+
+on destroy me
+  [  0] getparam 0 .............................. <me>
+  [  2] pushsymb 117 ............................ <#exitFrame>
+  [  4] pusharglistnoret 2 ...................... <me, #exitFrame>
+  [  6] extcall 105 ............................. unsubscribe(me, #exitFrame)
+  [  8] getprop 250 ............................. <mouselistener>
+  [ 10] pusharglist 1 ........................... <mouselistener>
+  [ 12] extcall 31 .............................. <voidp(mouselistener)>
+  [ 14] not ..................................... <not voidp(mouselistener)>
+  [ 15] jmpifz [ 30] ............................ if not voidp(mouselistener) then
+  [ 18] getprop 250 ............................. <mouselistener>
+  [ 20] pusharglistnoret 1 ...................... <mouselistener>
+  [ 22] objcall 5 ............................... mouselistener.destroy()
+  [ 24] pusharglist 0 ........................... <>
+  [ 26] extcall 65 .............................. <VOID>
+  [ 28] setprop 250 ............................. mouselistener = VOID
+  [ 30] getprop 1014 ............................ <checkmarks>
+  [ 33] pusharglistnoret 1 ...................... <checkmarks>
+  [ 35] objcall 10 .............................. checkmarks.deleteAll()
+  [ 37] pusharglist 0 ........................... <>
+  [ 39] extcall 65 .............................. <VOID>
+  [ 41] setprop 1013 ............................ hilite = VOID
+  [ 44] pusharglist 0 ........................... <>
+  [ 46] extcall 65 .............................. <VOID>
+  [ 48] setprop 45 .............................. node = VOID
+  [ 50] pusharglist 0 ........................... <>
+  [ 52] extcall 65 .............................. <VOID>
+  [ 54] setprop 41 .............................. room_mgr = VOID
+  [ 56] pusharglist 0 ........................... <>
+  [ 58] extcall 65 .............................. <VOID>
+  [ 60] setprop 335 ............................. kitchen = VOID
+  [ 63] pusharglist 0 ........................... <>
+  [ 65] extcall 65 .............................. <VOID>
+  [ 67] setprop 262 ............................. Tile = VOID
+  [ 70] ret
+end
+
+on setTile me, t
+  [  0] getparam 1 .............................. <t>
+  [  2] setprop 262 ............................. Tile = t
+  [  5] ret
+end
+
+on getTile me
+  [  0] getprop 392 ............................. <destTile>
+  [  3] pusharglist 1 ........................... <destTile>
+  [  5] extcall 31 .............................. <voidp(destTile)>
+  [  7] not ..................................... <not voidp(destTile)>
+  [  8] jmpifz [ 18] ............................ if not voidp(destTile) then
+  [ 11] getprop 392 ............................. <destTile>
+  [ 14] pusharglistnoret 1 ...................... <destTile>
+  [ 16] extcall 9 ............................... return destTile
+  [ 18] getprop 262 ............................. <Tile>
+  [ 21] pusharglistnoret 1 ...................... <Tile>
+  [ 23] extcall 9 ............................... return Tile
+  [ 25] ret
+end
+
+on setDestTile me, t
+  [  0] getparam 1 .............................. <t>
+  [  2] setprop 392 ............................. destTile = t
+  [  5] ret
+end

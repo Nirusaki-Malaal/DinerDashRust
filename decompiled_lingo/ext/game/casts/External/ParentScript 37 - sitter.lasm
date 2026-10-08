@@ -1,0 +1,181 @@
+property color, chair, chain, chained, sitterGroup, ready, mood, views, state, game_mgr, chairBonus
+
+on new me, Args
+  [  0] pusharglist 0 ........................... <[]>
+  [  2] pushlist ................................ <[]>
+  [  3] setprop 276 ............................. views = []
+  [  6] getparam 1 .............................. <Args>
+  [  8] getobjprop 92 ........................... <Args.sitterGroup>
+  [ 10] setprop 92 .............................. sitterGroup = Args.sitterGroup
+  [ 12] getprop 92 .............................. <sitterGroup>
+  [ 14] getobjprop 43 ........................... <sitterGroup.game_mgr>
+  [ 16] setprop 43 .............................. game_mgr = sitterGroup.game_mgr
+  [ 18] pusharglist 0 ........................... <>
+  [ 20] extcall 272 ............................. <getConfigData()>
+  [ 23] getobjprop 275 .......................... <getConfigData().baseChairBonus>
+  [ 26] setprop 268 ............................. chairBonus = getConfigData().baseChairBonus
+  [ 29] getparam 1 .............................. <Args>
+  [ 31] getobjprop 315 .......................... <Args.config>
+  [ 34] setlocal 0 .............................. cfg = Args.config
+  [ 36] pushint8 1 .............................. <1>
+  [ 38] setlocal 1
+  [ 40] getlocal 1
+  [ 42] getparam 1 .............................. <Args>
+  [ 44] pushsymb 315 ............................ <#config>
+  [ 47] pusharglist 2 ........................... <Args, #config>
+  [ 49] objcall 12 .............................. <Args.config.count>
+  [ 51] lteq
+  [ 52] jmpifz [ 87] ............................ repeat with i = 1 to Args.config.count
+  [ 55] getparam 0 .............................. <me>
+  [ 57] getlocal 0 .............................. <cfg>
+  [ 59] getlocal 1 .............................. <i>
+  [ 61] pusharglist 2 ........................... <cfg, i>
+  [ 63] objcall 891 ............................. <cfg.getPropAt(i)>
+  [ 66] getlocal 0 .............................. <cfg>
+  [ 68] getlocal 1 .............................. <i>
+  [ 70] pusharglist 2 ........................... <cfg, i>
+  [ 72] objcall 36 .............................. <cfg[i]>
+  [ 74] pusharglistnoret 3 ...................... <me, cfg.getPropAt(i), cfg[i]>
+  [ 76] objcall 28 .............................. me.setProp(cfg.getPropAt(i), cfg[i])
+  [ 78] pushint8 1
+  [ 80] getlocal 1
+  [ 82] add
+  [ 83] setlocal 1
+  [ 85] endrepeat [ 40]
+  [ 87] getparam 1 .............................. <Args>
+  [ 89] getobjprop 230 .......................... <Args.color>
+  [ 91] setprop 230 ............................. color = Args.color
+  [ 93] getprop 92 .............................. <sitterGroup>
+  [ 95] getobjprop 232 .......................... <sitterGroup.graphicType>
+  [ 97] pushcons 0 .............................. <"critic">
+  [ 99] eq ...................................... <sitterGroup.graphicType = "critic">
+  [100] jmpifz [107] ............................ if sitterGroup.graphicType = "critic" then
+  [103] pusharglistnoret 0 ...................... <>
+  [105] extcall 136 ............................. nothing()
+  [107] pushzero ................................ <0>
+  [108] setprop 188 ............................. ready = 0
+  [110] pushint8 3 .............................. <3>
+  [112] setprop 98 .............................. mood = 3
+  [114] getparam 0 .............................. <me>
+  [116] pusharglistnoret 1 ...................... <me>
+  [118] extcall 9 ............................... return me
+  [120] ret
+end
+
+on setState me, sym
+  [  0] getparam 1 .............................. <sym>
+  [  2] setprop 205 ............................. state = sym
+  [  4] pushsymb 158 ............................ <#setState>
+  [  6] getprop 276 ............................. <views>
+  [  9] getprop 205 ............................. <state>
+  [ 11] pusharglistnoret 3 ...................... <#setState, views, state>
+  [ 13] extcall 32 .............................. call(#setState, views, state)
+  [ 15] ret
+end
+
+on setReady me
+  [  0] pushsymb 39 ............................. <#update>
+  [  2] getprop 276 ............................. <views>
+  [  5] pusharglistnoret 2 ...................... <#update, views>
+  [  7] extcall 32 .............................. call(#update, views)
+  [  9] ret
+end
+
+on drink me
+  [  0] pushsymb 162 ............................ <#drink>
+  [  2] getprop 276 ............................. <views>
+  [  5] pusharglistnoret 2 ...................... <#drink, views>
+  [  7] extcall 32 .............................. call(#drink, views)
+  [  9] ret
+end
+
+on setFoodPickedUp me, b
+  [  0] pushsymb 157 ............................ <#setFoodPickedUp>
+  [  2] getprop 276 ............................. <views>
+  [  5] getparam 1 .............................. <b>
+  [  7] pusharglistnoret 3 ...................... <#setFoodPickedUp, views, b>
+  [  9] extcall 32 .............................. call(#setFoodPickedUp, views, b)
+  [ 11] ret
+end
+
+on addView me, vu
+  [  0] getprop 276 ............................. <views>
+  [  3] getparam 1 .............................. <vu>
+  [  5] pusharglist 2 ........................... <views, vu>
+  [  7] objcall 11 .............................. <views.getOne(vu)>
+  [  9] pushzero ................................ <0>
+  [ 10] eq ...................................... <views.getOne(vu) = 0>
+  [ 11] jmpifz [ 23] ............................ if views.getOne(vu) = 0 then
+  [ 14] getprop 276 ............................. <views>
+  [ 17] getparam 1 .............................. <vu>
+  [ 19] pusharglistnoret 2 ...................... <views, vu>
+  [ 21] objcall 6 ............................... views.add(vu)
+  [ 23] ret
+end
+
+on removeView me, vu
+  [  0] getprop 276 ............................. <views>
+  [  3] getparam 1 .............................. <vu>
+  [  5] pusharglistnoret 2 ...................... <views, vu>
+  [  7] objcall 14 .............................. views.deleteOne(vu)
+  [  9] ret
+end
+
+on destroy me
+  [  0] pushsymb 111 ............................ <#setSitter>
+  [  2] getprop 276 ............................. <views>
+  [  5] pusharglist 0 ........................... <>
+  [  7] extcall 65 .............................. <VOID>
+  [  9] pusharglistnoret 3 ...................... <#setSitter, views, VOID>
+  [ 11] extcall 32 .............................. call(#setSitter, views, VOID)
+  [ 13] pusharglist 0 ........................... <>
+  [ 15] extcall 65 .............................. <VOID>
+  [ 17] setprop 43 .............................. game_mgr = VOID
+  [ 19] getprop 276 ............................. <views>
+  [ 22] pusharglistnoret 1 ...................... <views>
+  [ 24] objcall 10 .............................. views.deleteAll()
+  [ 26] pusharglist 0 ........................... <>
+  [ 28] extcall 65 .............................. <VOID>
+  [ 30] setprop 868 ............................. chain = VOID
+  [ 33] pusharglist 0 ........................... <>
+  [ 35] extcall 65 .............................. <VOID>
+  [ 37] setprop 92 .............................. sitterGroup = VOID
+  [ 39] ret
+end
+
+on checkChairBonus me
+  [  0] getprop 147 ............................. <chair>
+  [  2] pusharglist 0 ........................... <>
+  [  4] extcall 65 .............................. <VOID>
+  [  6] eq ...................................... <chair = VOID>
+  [  7] jmpifz [ 14] ............................ if chair = VOID then
+  [ 10] pusharglistnoret 0 ...................... <>
+  [ 12] extcall 9 ............................... return 
+  [ 14] getprop 147 ............................. <chair>
+  [ 16] pusharglistnoret 1 ...................... <chair>
+  [ 18] objcall 267 ............................. chair.checkBonus()
+  [ 21] ret
+end
+
+on setChair me, ch
+  [  0] getparam 1 .............................. <ch>
+  [  2] setprop 147 ............................. chair = ch
+  [  4] ret
+end
+
+on update me
+  [  0] getprop 92 .............................. <sitterGroup>
+  [  2] getchainedprop 205 ...................... <sitterGroup.state>
+  [  4] getobjprop 183 .......................... <sitterGroup.state.name>
+  [  6] pushsymb 188 ............................ <#ready>
+  [  8] eq ...................................... <sitterGroup.state.name = #ready>
+  [  9] setprop 188 ............................. ready = sitterGroup.state.name = #ready
+  [ 11] getprop 92 .............................. <sitterGroup>
+  [ 13] getobjprop 98 ........................... <sitterGroup.mood>
+  [ 15] setprop 98 .............................. mood = sitterGroup.mood
+  [ 17] pushsymb 39 ............................. <#update>
+  [ 19] getprop 276 ............................. <views>
+  [ 22] pusharglistnoret 2 ...................... <#update, views>
+  [ 24] extcall 32 .............................. call(#update, views)
+  [ 26] ret
+end

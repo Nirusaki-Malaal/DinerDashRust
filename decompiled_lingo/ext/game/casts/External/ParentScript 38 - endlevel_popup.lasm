@@ -1,0 +1,97 @@
+property node, button, mgr
+global glob
+
+on new me, m
+  [  0] getparam 1 .............................. <m>
+  [  2] setprop 963 ............................. mgr = m
+  [  5] getprop 963 ............................. <mgr>
+  [  8] getchainedprop 45 ....................... <mgr.node>
+  [ 10] pushcons 0 .............................. <"endlevel">
+  [ 12] pusharglist 1 ........................... <"endlevel">
+  [ 14] extcall 47 .............................. <getNodeData("endlevel")>
+  [ 16] pusharglist 2 ........................... <mgr.node, getNodeData("endlevel")>
+  [ 18] objcall 48 .............................. <mgr.node.newNode(getNodeData("endlevel"))>
+  [ 20] setprop 45 .............................. node = mgr.node.newNode(getNodeData("endlevel"))
+  [ 22] pushsymb 45 ............................. <#node>
+  [ 24] getprop 45 .............................. <node>
+  [ 26] pushcons 1 .............................. <"okbutton">
+  [ 28] pusharglist 2 ........................... <node, "okbutton">
+  [ 30] objcall 36 .............................. <node["okbutton"]>
+  [ 32] pushsymb 186 ............................ <#callback>
+  [ 34] pushsymb 34 ............................. <#target>
+  [ 36] getglobal 1 ............................. <glob>
+  [ 38] getchainedprop 108 ...................... <glob.managers>
+  [ 40] getobjprop 738 .......................... <glob.managers.mode>
+  [ 43] pushsymb 33 ............................. <#handler>
+  [ 45] pushsymb 739 ............................ <#setMode>
+  [ 48] pushsymb 35 ............................. <#Args>
+  [ 50] pushsymb 783 ............................ <#play>
+  [ 53] pusharglist 6 ........................... <[#target: glob.managers.mode, #handler: #setMode, #Args: #play]>
+  [ 55] pushproplist ............................ <[#target: glob.managers.mode, #handler: #setMode, #Args: #play]>
+  [ 56] pusharglist 4 ........................... <[#node: node["okbutton"], #callback: [#target: glob.managers.mode, #handler: #setMode, #Args: #play]]>
+  [ 58] pushproplist ............................ <[#node: node["okbutton"], #callback: [#target: glob.managers.mode, #handler: #setMode, #Args: #play]]>
+  [ 59] pusharglist 1 ........................... <[#node: node["okbutton"], #callback: [#target: glob.managers.mode, #handler: #setMode, #Args: #play]]>
+  [ 61] extcall 712 ............................. <newButton([#node: node["okbutton"], #callback: [#target: glob.managers.mode, #handler: #setMode, #Args: #play]])>
+  [ 64] setprop 964 ............................. button = newButton([#node: node["okbutton"], #callback: [#target: glob.managers.mode, #handler: #setMode, #Args: #play]])
+  [ 67] getprop 45 .............................. <node>
+  [ 69] pushzero ................................ <0>
+  [ 70] pusharglistnoret 2 ...................... <node, 0>
+  [ 72] objcall 57 .............................. node.setVisible(0)
+  [ 74] getprop 45 .............................. <node>
+  [ 76] pushint16 800 ........................... <800>
+  [ 79] getprop 45 .............................. <node>
+  [ 81] pusharglist 1 ........................... <node>
+  [ 83] objcall 965 ............................. <node.getWidth()>
+  [ 86] pushint8 2 .............................. <2>
+  [ 88] div ..................................... <node.getWidth() / 2>
+  [ 89] sub ..................................... <800 - (node.getWidth() / 2)>
+  [ 90] pushint16 600 ........................... <600>
+  [ 93] getprop 45 .............................. <node>
+  [ 95] pusharglist 1 ........................... <node>
+  [ 97] objcall 966 ............................. <node.getHeight()>
+  [100] pushint8 2 .............................. <2>
+  [102] div ..................................... <node.getHeight() / 2>
+  [103] sub ..................................... <600 - (node.getHeight() / 2)>
+  [104] pusharglist 2 ........................... <800 - (node.getWidth() / 2), 600 - (node.getHeight() / 2)>
+  [106] extcall 361 ............................. <point(800 - (node.getWidth() / 2), 600 - (node.getHeight() / 2))>
+  [109] pusharglistnoret 2 ...................... <node, point(800 - (node.getWidth() / 2), 600 - (node.getHeight() / 2))>
+  [111] objcall 135 ............................. node.setLoc(point(800 - (node.getWidth() / 2), 600 - (node.getHeight() / 2)))
+  [113] getprop 45 .............................. <node>
+  [115] pushint32 1000000 ....................... <1000000>
+  [120] pusharglistnoret 2 ...................... <node, 1000000>
+  [122] objcall 122 ............................. node.setZOffset(1000000)
+  [124] getprop 45 .............................. <node>
+  [126] pusharglistnoret 1 ...................... <node>
+  [128] objcall 53 .............................. node.moveToFront()
+  [130] getparam 0 .............................. <me>
+  [132] pusharglistnoret 1 ...................... <me>
+  [134] extcall 9 ............................... return me
+  [136] ret
+end
+
+on setVisible me, v
+  [  0] getprop 45 .............................. <node>
+  [  2] getparam 1 .............................. <v>
+  [  4] pusharglistnoret 2 ...................... <node, v>
+  [  6] objcall 57 .............................. node.setVisible(v)
+  [  8] ret
+end
+
+on destroy me
+  [  0] getprop 45 .............................. <node>
+  [  2] pusharglistnoret 1 ...................... <node>
+  [  4] objcall 5 ............................... node.destroy()
+  [  6] pusharglist 0 ........................... <>
+  [  8] extcall 65 .............................. <VOID>
+  [ 10] setprop 45 .............................. node = VOID
+  [ 12] getprop 964 ............................. <button>
+  [ 15] pusharglistnoret 1 ...................... <button>
+  [ 17] objcall 5 ............................... button.destroy()
+  [ 19] pusharglist 0 ........................... <>
+  [ 21] extcall 65 .............................. <VOID>
+  [ 23] setprop 964 ............................. button = VOID
+  [ 26] pusharglist 0 ........................... <>
+  [ 28] extcall 65 .............................. <VOID>
+  [ 30] setprop 963 ............................. mgr = VOID
+  [ 33] ret
+end

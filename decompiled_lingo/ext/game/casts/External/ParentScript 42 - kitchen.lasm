@@ -1,0 +1,669 @@
+property ticketspots, foodspots, emptySpots, fullSpots, busspots, drinkspots, readyFood, foodReadyMS, timers, timeMultiplier, chef
+
+on new me, Args
+  [  0] getparam 1 .............................. <Args>
+  [  2] getobjprop 336 .......................... <Args.foodReadyMS>
+  [  5] setprop 336 ............................. foodReadyMS = Args.foodReadyMS
+  [  8] pusharglist 0 ........................... <[]>
+  [ 10] pushlist ................................ <[]>
+  [ 11] setprop 995 ............................. ticketspots = []
+  [ 14] pusharglist 0 ........................... <[]>
+  [ 16] pushlist ................................ <[]>
+  [ 17] setprop 996 ............................. emptySpots = []
+  [ 20] pusharglist 0 ........................... <[:]>
+  [ 22] pushproplist ............................ <[:]>
+  [ 23] setprop 997 ............................. fullSpots = [:]
+  [ 26] pusharglist 0 ........................... <[]>
+  [ 28] pushlist ................................ <[]>
+  [ 29] setprop 998 ............................. foodspots = []
+  [ 32] pusharglist 0 ........................... <[]>
+  [ 34] pushlist ................................ <[]>
+  [ 35] setprop 999 ............................. busspots = []
+  [ 38] pusharglist 0 ........................... <[]>
+  [ 40] pushlist ................................ <[]>
+  [ 41] setprop 1000 ............................ drinkspots = []
+  [ 44] pusharglist 0 ........................... <[]>
+  [ 46] pushlist ................................ <[]>
+  [ 47] setprop 1001 ............................ readyFood = []
+  [ 50] pusharglist 0 ........................... <[:]>
+  [ 52] pushproplist ............................ <[:]>
+  [ 53] setprop 1002 ............................ timers = [:]
+  [ 56] pushfloat32 1.0 ......................... <1.0>
+  [ 61] setprop 334 ............................. timeMultiplier = 1.0
+  [ 64] getparam 0 .............................. <me>
+  [ 66] pushsymb 984 ............................ <#hiliteAllDests>
+  [ 69] pushsymb 985 ............................ <#unhiliteAllDests>
+  [ 72] pusharglist 2 ........................... <[#hiliteAllDests, #unhiliteAllDests]>
+  [ 74] pushlist ................................ <[#hiliteAllDests, #unhiliteAllDests]>
+  [ 75] pusharglistnoret 2 ...................... <me, [#hiliteAllDests, #unhiliteAllDests]>
+  [ 77] extcall 100 ............................. subscribe(me, [#hiliteAllDests, #unhiliteAllDests])
+  [ 79] pushcons 0 .............................. <"chef">
+  [ 81] pushcons 1 .............................. <"scripts.game">
+  [ 83] pusharglist 2 ........................... <"chef", "scripts.game">
+  [ 85] extcall 55 .............................. <script("chef", "scripts.game")>
+  [ 87] pusharglist 1 ........................... <script("chef", "scripts.game")>
+  [ 89] objcall 4 ............................... <script("chef", "scripts.game").new()>
+  [ 91] setprop 352 ............................. chef = script("chef", "scripts.game").new()
+  [ 94] getparam 0 .............................. <me>
+  [ 96] pusharglistnoret 1 ...................... <me>
+  [ 98] extcall 9 ............................... return me
+  [100] ret
+end
+
+on resetSpeed me
+  [  0] pusharglist 0 ........................... <>
+  [  2] extcall 272 ............................. <getConfigData()>
+  [  5] getobjprop 336 .......................... <getConfigData().foodReadyMS>
+  [  8] setprop 336 ............................. foodReadyMS = getConfigData().foodReadyMS
+  [ 11] ret
+end
+
+on deleteSpots me
+  [  0] pushsymb 5 .............................. <#destroy>
+  [  2] getprop 1002 ............................ <timers>
+  [  5] pusharglistnoret 2 ...................... <#destroy, timers>
+  [  7] extcall 32 .............................. call(#destroy, timers)
+  [  9] getprop 1002 ............................ <timers>
+  [ 12] pusharglistnoret 1 ...................... <timers>
+  [ 14] objcall 10 .............................. timers.deleteAll()
+  [ 16] pushsymb 5 .............................. <#destroy>
+  [ 18] getprop 1000 ............................ <drinkspots>
+  [ 21] pushzero ................................ <0>
+  [ 22] pusharglistnoret 3 ...................... <#destroy, drinkspots, 0>
+  [ 24] extcall 32 .............................. call(#destroy, drinkspots, 0)
+  [ 26] getprop 1000 ............................ <drinkspots>
+  [ 29] pusharglistnoret 1 ...................... <drinkspots>
+  [ 31] objcall 10 .............................. drinkspots.deleteAll()
+  [ 33] pushsymb 5 .............................. <#destroy>
+  [ 35] getprop 998 ............................. <foodspots>
+  [ 38] pushzero ................................ <0>
+  [ 39] pusharglistnoret 3 ...................... <#destroy, foodspots, 0>
+  [ 41] extcall 32 .............................. call(#destroy, foodspots, 0)
+  [ 43] getprop 998 ............................. <foodspots>
+  [ 46] pusharglistnoret 1 ...................... <foodspots>
+  [ 48] objcall 10 .............................. foodspots.deleteAll()
+  [ 50] pushsymb 5 .............................. <#destroy>
+  [ 52] getprop 995 ............................. <ticketspots>
+  [ 55] pushzero ................................ <0>
+  [ 56] pusharglistnoret 3 ...................... <#destroy, ticketspots, 0>
+  [ 58] extcall 32 .............................. call(#destroy, ticketspots, 0)
+  [ 60] getprop 995 ............................. <ticketspots>
+  [ 63] pusharglistnoret 1 ...................... <ticketspots>
+  [ 65] objcall 10 .............................. ticketspots.deleteAll()
+  [ 67] pushsymb 5 .............................. <#destroy>
+  [ 69] getprop 999 ............................. <busspots>
+  [ 72] pushzero ................................ <0>
+  [ 73] pusharglistnoret 3 ...................... <#destroy, busspots, 0>
+  [ 75] extcall 32 .............................. call(#destroy, busspots, 0)
+  [ 77] getprop 999 ............................. <busspots>
+  [ 80] pusharglistnoret 1 ...................... <busspots>
+  [ 82] objcall 10 .............................. busspots.deleteAll()
+  [ 84] getprop 996 ............................. <emptySpots>
+  [ 87] pusharglistnoret 1 ...................... <emptySpots>
+  [ 89] objcall 10 .............................. emptySpots.deleteAll()
+  [ 91] ret
+end
+
+on addSpot me, obj
+  [  0] getparam 1 .............................. <obj>
+  [  2] getobjprop 137 .......................... <obj.type>
+  [  4] setlocal 0 .............................. typ = obj.type
+  [  6] getlocal 0 .............................. <typ>
+  [  8] pushsymb 1003 ........................... <#foodspot>
+  [ 11] eq ...................................... <typ = #foodspot>
+  [ 12] jmpifz [ 27] ............................ if typ = #foodspot then / else
+  [ 15] getparam 0 .............................. <me>
+  [ 17] getparam 1 .............................. <obj>
+  [ 19] pusharglistnoret 2 ...................... <me, obj>
+  [ 21] objcall 989 ............................. me.addFoodSpot(obj)
+  [ 24] jmp [ 87]
+  [ 27] getlocal 0 .............................. <typ>
+  [ 29] pushsymb 427 ............................ <#busspot>
+  [ 32] eq ...................................... <typ = #busspot>
+  [ 33] jmpifz [ 48] ............................ if typ = #busspot then / else
+  [ 36] getparam 0 .............................. <me>
+  [ 38] getparam 1 .............................. <obj>
+  [ 40] pusharglistnoret 2 ...................... <me, obj>
+  [ 42] objcall 986 ............................. me.addBusSpot(obj)
+  [ 45] jmp [ 87]
+  [ 48] getlocal 0 .............................. <typ>
+  [ 50] pushsymb 426 ............................ <#ticketspot>
+  [ 53] eq ...................................... <typ = #ticketspot>
+  [ 54] jmpifz [ 69] ............................ if typ = #ticketspot then / else
+  [ 57] getparam 0 .............................. <me>
+  [ 59] getparam 1 .............................. <obj>
+  [ 61] pusharglistnoret 2 ...................... <me, obj>
+  [ 63] objcall 990 ............................. me.addTicketSpot(obj)
+  [ 66] jmp [ 87]
+  [ 69] getlocal 0 .............................. <typ>
+  [ 71] pushsymb 400 ............................ <#drinkspot>
+  [ 74] eq ...................................... <typ = #drinkspot>
+  [ 75] jmpifz [ 87] ............................ if typ = #drinkspot then
+  [ 78] getparam 0 .............................. <me>
+  [ 80] getparam 1 .............................. <obj>
+  [ 82] pusharglistnoret 2 ...................... <me, obj>
+  [ 84] objcall 988 ............................. me.addDrinkSpot(obj)
+  [ 87] ret
+end
+
+on hiliteAllDests me, typ
+  [  0] getparam 1 .............................. <typ>
+  [  2] pushsymb 525 ............................ <#dishes>
+  [  5] eq ...................................... <typ = #dishes>
+  [  6] jmpifz [ 24] ............................ if typ = #dishes then / else
+  [  9] pushsymb 469 ............................ <#setHilite>
+  [ 12] getprop 999 ............................. <busspots>
+  [ 15] pushint8 1 .............................. <1>
+  [ 17] pusharglistnoret 3 ...................... <#setHilite, busspots, 1>
+  [ 19] extcall 32 .............................. call(#setHilite, busspots, 1)
+  [ 21] jmp [ 45]
+  [ 24] getparam 1 .............................. <typ>
+  [ 26] pushsymb 934 ............................ <#ticket>
+  [ 29] eq ...................................... <typ = #ticket>
+  [ 30] jmpifz [ 45] ............................ if typ = #ticket then
+  [ 33] pushsymb 469 ............................ <#setHilite>
+  [ 36] getprop 995 ............................. <ticketspots>
+  [ 39] pushint8 1 .............................. <1>
+  [ 41] pusharglistnoret 3 ...................... <#setHilite, ticketspots, 1>
+  [ 43] extcall 32 .............................. call(#setHilite, ticketspots, 1)
+  [ 45] ret
+end
+
+on unhiliteAllDests me, typ
+  [  0] getparam 1 .............................. <typ>
+  [  2] pushsymb 525 ............................ <#dishes>
+  [  5] eq ...................................... <typ = #dishes>
+  [  6] jmpifz [ 23] ............................ if typ = #dishes then / else
+  [  9] pushsymb 469 ............................ <#setHilite>
+  [ 12] getprop 999 ............................. <busspots>
+  [ 15] pushzero ................................ <0>
+  [ 16] pusharglistnoret 3 ...................... <#setHilite, busspots, 0>
+  [ 18] extcall 32 .............................. call(#setHilite, busspots, 0)
+  [ 20] jmp [ 43]
+  [ 23] getparam 1 .............................. <typ>
+  [ 25] pushsymb 934 ............................ <#ticket>
+  [ 28] eq ...................................... <typ = #ticket>
+  [ 29] jmpifz [ 43] ............................ if typ = #ticket then
+  [ 32] pushsymb 469 ............................ <#setHilite>
+  [ 35] getprop 995 ............................. <ticketspots>
+  [ 38] pushzero ................................ <0>
+  [ 39] pusharglistnoret 3 ...................... <#setHilite, ticketspots, 0>
+  [ 41] extcall 32 .............................. call(#setHilite, ticketspots, 0)
+  [ 43] ret
+end
+
+on addBusSpot me, fs
+  [  0] getprop 999 ............................. <busspots>
+  [  3] getparam 1 .............................. <fs>
+  [  5] pusharglist 2 ........................... <busspots, fs>
+  [  7] objcall 11 .............................. <busspots.getOne(fs)>
+  [  9] jmpifz [ 16] ............................ if busspots.getOne(fs) then
+  [ 12] pusharglistnoret 0 ...................... <>
+  [ 14] extcall 9 ............................... return 
+  [ 16] getprop 999 ............................. <busspots>
+  [ 19] getparam 1 .............................. <fs>
+  [ 21] pusharglistnoret 2 ...................... <busspots, fs>
+  [ 23] objcall 6 ............................... busspots.add(fs)
+  [ 25] getparam 1 .............................. <fs>
+  [ 27] getparam 0 .............................. <me>
+  [ 29] pusharglistnoret 2 ...................... <fs, me>
+  [ 31] objcall 1004 ............................ fs.setKitchen(me)
+  [ 34] ret
+end
+
+on setDrinkProps me, pl
+  [  0] getparam 1 .............................. <pl>
+  [  2] pusharglist 1 ........................... <pl>
+  [  4] extcall 346 ............................. <Keys(pl)>
+  [  7] peek 0
+  [  9] pusharglist 1
+  [ 11] extcall 12
+  [ 13] pushint8 1
+  [ 15] peek 0
+  [ 17] peek 2
+  [ 19] lteq
+  [ 20] jmpifz [ 90] ............................ repeat with i in Keys(pl)
+  [ 23] peek 2
+  [ 25] peek 1
+  [ 27] pusharglist 2
+  [ 29] extcall 36
+  [ 31] setlocal 0
+  [ 33] getprop 1000 ............................ <drinkspots>
+  [ 36] peek 0
+  [ 38] pusharglist 1
+  [ 40] extcall 12
+  [ 42] pushint8 1
+  [ 44] peek 0
+  [ 46] peek 2
+  [ 48] lteq
+  [ 49] jmpifz [ 83] ............................ repeat with d in drinkspots
+  [ 52] peek 2
+  [ 54] peek 1
+  [ 56] pusharglist 2
+  [ 58] extcall 36
+  [ 60] setlocal 1
+  [ 62] getlocal 1 .............................. <d>
+  [ 64] getlocal 0 .............................. <i>
+  [ 66] getparam 1 .............................. <pl>
+  [ 68] getlocal 0 .............................. <i>
+  [ 70] pusharglist 2 ........................... <pl, i>
+  [ 72] objcall 36 .............................. <pl[i]>
+  [ 74] pusharglistnoret 3 ...................... <d, i, pl[i]>
+  [ 76] objcall 25 .............................. d[i] = pl[i]
+  [ 78] pushint8 1
+  [ 80] add
+  [ 81] endrepeat [ 44]
+  [ 83] pop 3
+  [ 85] pushint8 1
+  [ 87] add
+  [ 88] endrepeat [ 15]
+  [ 90] pop 3
+  [ 92] ret
+end
+
+on getMakingOrMade me, tbl
+  [  0] getprop 1002 ............................ <timers>
+  [  3] getparam 1 .............................. <tbl>
+  [  5] pusharglist 2 ........................... <timers, tbl>
+  [  7] objcall 1006 ............................ <timers.getaProp(tbl)>
+  [ 10] pusharglist 1 ........................... <timers.getaProp(tbl)>
+  [ 12] extcall 31 .............................. <voidp(timers.getaProp(tbl))>
+  [ 14] not ..................................... <not voidp(timers.getaProp(tbl))>
+  [ 15] jmpifz [ 24] ............................ if not voidp(timers.getaProp(tbl)) then
+  [ 18] pushint8 1 .............................. <1>
+  [ 20] pusharglistnoret 1 ...................... <1>
+  [ 22] extcall 9 ............................... return 1
+  [ 24] getprop 998 ............................. <foodspots>
+  [ 27] peek 0
+  [ 29] pusharglist 1
+  [ 31] extcall 12
+  [ 33] pushint8 1
+  [ 35] peek 0
+  [ 37] peek 2
+  [ 39] lteq
+  [ 40] jmpifz [ 75] ............................ repeat with i in foodspots
+  [ 43] peek 2
+  [ 45] peek 1
+  [ 47] pusharglist 2
+  [ 49] extcall 36
+  [ 51] setlocal 0
+  [ 53] getlocal 0 .............................. <i>
+  [ 55] getobjprop 937 .......................... <i.food>
+  [ 58] getparam 1 .............................. <tbl>
+  [ 60] eq ...................................... <i.food = tbl>
+  [ 61] jmpifz [ 70] ............................ if i.food = tbl then
+  [ 64] pushint8 1 .............................. <1>
+  [ 66] pusharglistnoret 1 ...................... <1>
+  [ 68] extcall 9 ............................... return 1
+  [ 70] pushint8 1
+  [ 72] add
+  [ 73] endrepeat [ 35]
+  [ 75] pop 3
+  [ 77] ret
+end
+
+on addDrinkSpot me, fs
+  [  0] getprop 1000 ............................ <drinkspots>
+  [  3] getparam 1 .............................. <fs>
+  [  5] pusharglist 2 ........................... <drinkspots, fs>
+  [  7] objcall 11 .............................. <drinkspots.getOne(fs)>
+  [  9] jmpifz [ 16] ............................ if drinkspots.getOne(fs) then
+  [ 12] pusharglistnoret 0 ...................... <>
+  [ 14] extcall 9 ............................... return 
+  [ 16] getprop 1000 ............................ <drinkspots>
+  [ 19] getparam 1 .............................. <fs>
+  [ 21] pusharglistnoret 2 ...................... <drinkspots, fs>
+  [ 23] objcall 6 ............................... drinkspots.add(fs)
+  [ 25] getparam 1 .............................. <fs>
+  [ 27] getparam 0 .............................. <me>
+  [ 29] pusharglistnoret 2 ...................... <fs, me>
+  [ 31] objcall 1004 ............................ fs.setKitchen(me)
+  [ 34] ret
+end
+
+on addFoodSpot me, fs
+  [  0] getprop 998 ............................. <foodspots>
+  [  3] getparam 1 .............................. <fs>
+  [  5] pusharglist 2 ........................... <foodspots, fs>
+  [  7] objcall 11 .............................. <foodspots.getOne(fs)>
+  [  9] jmpifz [ 16] ............................ if foodspots.getOne(fs) then
+  [ 12] pusharglistnoret 0 ...................... <>
+  [ 14] extcall 9 ............................... return 
+  [ 16] getprop 998 ............................. <foodspots>
+  [ 19] getparam 1 .............................. <fs>
+  [ 21] pusharglistnoret 2 ...................... <foodspots, fs>
+  [ 23] objcall 6 ............................... foodspots.add(fs)
+  [ 25] getprop 996 ............................. <emptySpots>
+  [ 28] getparam 1 .............................. <fs>
+  [ 30] pusharglistnoret 2 ...................... <emptySpots, fs>
+  [ 32] objcall 6 ............................... emptySpots.add(fs)
+  [ 34] getparam 1 .............................. <fs>
+  [ 36] getparam 0 .............................. <me>
+  [ 38] pusharglistnoret 2 ...................... <fs, me>
+  [ 40] objcall 1004 ............................ fs.setKitchen(me)
+  [ 43] ret
+end
+
+on addTicketSpot me, ts
+  [  0] getprop 995 ............................. <ticketspots>
+  [  3] getparam 1 .............................. <ts>
+  [  5] pusharglist 2 ........................... <ticketspots, ts>
+  [  7] objcall 11 .............................. <ticketspots.getOne(ts)>
+  [  9] jmpifz [ 16] ............................ if ticketspots.getOne(ts) then
+  [ 12] pusharglistnoret 0 ...................... <>
+  [ 14] extcall 9 ............................... return 
+  [ 16] getprop 995 ............................. <ticketspots>
+  [ 19] getparam 1 .............................. <ts>
+  [ 21] pusharglistnoret 2 ...................... <ticketspots, ts>
+  [ 23] objcall 6 ............................... ticketspots.add(ts)
+  [ 25] getparam 1 .............................. <ts>
+  [ 27] getparam 0 .............................. <me>
+  [ 29] pusharglistnoret 2 ...................... <ts, me>
+  [ 31] objcall 1004 ............................ ts.setKitchen(me)
+  [ 34] ret
+end
+
+on addTicket me, t
+  [  0] getprop 1002 ............................ <timers>
+  [  3] getparam 1 .............................. <t>
+  [  5] pusharglist 2 ........................... <timers, t>
+  [  7] objcall 1006 ............................ <timers.getaProp(t)>
+  [ 10] pusharglist 1 ........................... <timers.getaProp(t)>
+  [ 12] extcall 31 .............................. <voidp(timers.getaProp(t))>
+  [ 14] not ..................................... <not voidp(timers.getaProp(t))>
+  [ 15] jmpifz [ 22] ............................ if not voidp(timers.getaProp(t)) then
+  [ 18] pusharglistnoret 0 ...................... <>
+  [ 20] extcall 9 ............................... return 
+  [ 22] getprop 336 ............................. <foodReadyMS>
+  [ 25] getprop 334 ............................. <timeMultiplier>
+  [ 28] mul ..................................... <foodReadyMS * timeMultiplier>
+  [ 29] setlocal 0 .............................. ms = foodReadyMS * timeMultiplier
+  [ 31] getprop 1002 ............................ <timers>
+  [ 34] getobjprop 12 ........................... <timers.count>
+  [ 36] pushzero ................................ <0>
+  [ 37] eq ...................................... <timers.count = 0>
+  [ 38] jmpifz [ 50] ............................ if timers.count = 0 then
+  [ 41] getprop 352 ............................. <chef>
+  [ 44] pushint8 1 .............................. <1>
+  [ 46] pusharglistnoret 2 ...................... <chef, 1>
+  [ 48] objcall 57 .............................. chef.setVisible(1)
+  [ 50] getprop 1002 ............................ <timers>
+  [ 53] getparam 1 .............................. <t>
+  [ 55] pusharglist 2 ........................... <timers, t>
+  [ 57] objcall 1006 ............................ <timers.getaProp(t)>
+  [ 60] setlocal 1 .............................. tm = timers.getaProp(t)
+  [ 62] getlocal 1 .............................. <tm>
+  [ 64] pusharglist 1 ........................... <tm>
+  [ 66] extcall 31 .............................. <voidp(tm)>
+  [ 68] not ..................................... <not voidp(tm)>
+  [ 69] jmpifz [ 78] ............................ if not voidp(tm) then
+  [ 72] getlocal 1 .............................. <tm>
+  [ 74] pusharglistnoret 1 ...................... <tm>
+  [ 76] objcall 5 ............................... tm.destroy()
+  [ 78] getprop 1002 ............................ <timers>
+  [ 81] getparam 1 .............................. <t>
+  [ 83] getlocal 0 .............................. <ms>
+  [ 85] pushsymb 34 ............................. <#target>
+  [ 87] getparam 0 .............................. <me>
+  [ 89] pushsymb 33 ............................. <#handler>
+  [ 91] pushsymb 992 ............................ <#foodReady>
+  [ 94] pushsymb 35 ............................. <#Args>
+  [ 96] getparam 1 .............................. <t>
+  [ 98] pusharglist 6 ........................... <[#target: me, #handler: #foodReady, #Args: t]>
+  [100] pushproplist ............................ <[#target: me, #handler: #foodReady, #Args: t]>
+  [101] pusharglist 2 ........................... <ms, [#target: me, #handler: #foodReady, #Args: t]>
+  [103] extcall 252 ............................. <timedCall(ms, [#target: me, #handler: #foodReady, #Args: t])>
+  [105] pusharglistnoret 3 ...................... <timers, t, timedCall(ms, [#target: me, #handler: #foodReady, #Args: t])>
+  [107] objcall 1008 ............................ timers.setaProp(t, timedCall(ms, [#target: me, #handler: #foodReady, #Args: t]))
+  [110] ret
+end
+
+on setTimeMultiplier me, num
+  [  0] getparam 1 .............................. <num>
+  [  2] setprop 334 ............................. timeMultiplier = num
+  [  5] ret
+end
+
+on foodReady me, t
+  [  0] getprop 1002 ............................ <timers>
+  [  3] getparam 1 .............................. <t>
+  [  5] pusharglist 2 ........................... <timers, t>
+  [  7] objcall 1006 ............................ <timers.getaProp(t)>
+  [ 10] setlocal 0 .............................. tm = timers.getaProp(t)
+  [ 12] getlocal 0 .............................. <tm>
+  [ 14] pusharglist 1 ........................... <tm>
+  [ 16] extcall 31 .............................. <voidp(tm)>
+  [ 18] jmpifz [ 31] ............................ if voidp(tm) then
+  [ 21] pushcons 2 .............................. <"debugging note for food disappearing bug">
+  [ 23] pusharglistnoret 1 ...................... <"debugging note for food disappearing bug">
+  [ 25] extcall 60 .............................. complain("debugging note for food disappearing bug")
+  [ 27] pusharglistnoret 0 ...................... <>
+  [ 29] extcall 9 ............................... return 
+  [ 31] getlocal 0 .............................. <tm>
+  [ 33] pusharglistnoret 1 ...................... <tm>
+  [ 35] objcall 5 ............................... tm.destroy()
+  [ 37] getprop 996 ............................. <emptySpots>
+  [ 40] getobjprop 12 ........................... <emptySpots.count>
+  [ 42] pushzero ................................ <0>
+  [ 43] eq ...................................... <emptySpots.count = 0>
+  [ 44] jmpifz [ 59] ............................ if emptySpots.count = 0 then / else
+  [ 47] getprop 1001 ............................ <readyFood>
+  [ 50] getparam 1 .............................. <t>
+  [ 52] pusharglistnoret 2 ...................... <readyFood, t>
+  [ 54] objcall 6 ............................... readyFood.add(t)
+  [ 56] jmp [101]
+  [ 59] getprop 996 ............................. <emptySpots>
+  [ 62] pushint8 1 .............................. <1>
+  [ 64] pusharglist 2 ........................... <emptySpots, 1>
+  [ 66] objcall 36 .............................. <emptySpots[1]>
+  [ 68] setlocal 1 .............................. sp = emptySpots[1]
+  [ 70] getprop 996 ............................. <emptySpots>
+  [ 73] pushint8 1 .............................. <1>
+  [ 75] pusharglistnoret 2 ...................... <emptySpots, 1>
+  [ 77] objcall 634 ............................. emptySpots.deleteAt(1)
+  [ 80] getprop 997 ............................. <fullSpots>
+  [ 83] getparam 1 .............................. <t>
+  [ 85] getlocal 1 .............................. <sp>
+  [ 87] pusharglistnoret 3 ...................... <fullSpots, t, sp>
+  [ 89] objcall 1008 ............................ fullSpots.setaProp(t, sp)
+  [ 92] getlocal 1 .............................. <sp>
+  [ 94] getparam 1 .............................. <t>
+  [ 96] pusharglistnoret 2 ...................... <sp, t>
+  [ 98] objcall 1010 ............................ sp.setFood(t)
+  [101] getprop 1002 ............................ <timers>
+  [104] getparam 1 .............................. <t>
+  [106] pusharglistnoret 2 ...................... <timers, t>
+  [108] objcall 635 ............................. timers.deleteProp(t)
+  [111] getprop 1002 ............................ <timers>
+  [114] getobjprop 12 ........................... <timers.count>
+  [116] pushzero ................................ <0>
+  [117] eq ...................................... <timers.count = 0>
+  [118] jmpifz [129] ............................ if timers.count = 0 then
+  [121] getprop 352 ............................. <chef>
+  [124] pushzero ................................ <0>
+  [125] pusharglistnoret 2 ...................... <chef, 0>
+  [127] objcall 57 .............................. chef.setVisible(0)
+  [129] ret
+end
+
+on killFood me, t
+  [  0] getprop 1002 ............................ <timers>
+  [  3] getparam 1 .............................. <t>
+  [  5] pusharglist 2 ........................... <timers, t>
+  [  7] objcall 1006 ............................ <timers.getaProp(t)>
+  [ 10] setlocal 0 .............................. tm = timers.getaProp(t)
+  [ 12] getlocal 0 .............................. <tm>
+  [ 14] pusharglist 1 ........................... <tm>
+  [ 16] extcall 31 .............................. <voidp(tm)>
+  [ 18] not ..................................... <not voidp(tm)>
+  [ 19] jmpifz [ 38] ............................ if not voidp(tm) then
+  [ 22] getlocal 0 .............................. <tm>
+  [ 24] pusharglistnoret 1 ...................... <tm>
+  [ 26] objcall 5 ............................... tm.destroy()
+  [ 28] getprop 1002 ............................ <timers>
+  [ 31] getparam 1 .............................. <t>
+  [ 33] pusharglistnoret 2 ...................... <timers, t>
+  [ 35] objcall 635 ............................. timers.deleteProp(t)
+  [ 38] getprop 997 ............................. <fullSpots>
+  [ 41] getparam 1 .............................. <t>
+  [ 43] pusharglist 2 ........................... <fullSpots, t>
+  [ 45] objcall 1006 ............................ <fullSpots.getaProp(t)>
+  [ 48] setlocal 1 .............................. sp = fullSpots.getaProp(t)
+  [ 50] getlocal 1 .............................. <sp>
+  [ 52] pusharglist 1 ........................... <sp>
+  [ 54] extcall 31 .............................. <voidp(sp)>
+  [ 56] not ..................................... <not voidp(sp)>
+  [ 57] jmpifz [ 80] ............................ if not voidp(sp) then
+  [ 60] getlocal 1 .............................. <sp>
+  [ 62] pusharglist 0 ........................... <>
+  [ 64] extcall 65 .............................. <VOID>
+  [ 66] pusharglistnoret 2 ...................... <sp, VOID>
+  [ 68] objcall 1010 ............................ sp.setFood(VOID)
+  [ 71] getparam 0 .............................. <me>
+  [ 73] getlocal 1 .............................. <sp>
+  [ 75] pusharglistnoret 2 ...................... <me, sp>
+  [ 77] objcall 994 ............................. me.addEmptySpot(sp)
+  [ 80] getprop 1002 ............................ <timers>
+  [ 83] getobjprop 12 ........................... <timers.count>
+  [ 85] pushzero ................................ <0>
+  [ 86] eq ...................................... <timers.count = 0>
+  [ 87] jmpifz [ 98] ............................ if timers.count = 0 then
+  [ 90] getprop 352 ............................. <chef>
+  [ 93] pushzero ................................ <0>
+  [ 94] pusharglistnoret 2 ...................... <chef, 0>
+  [ 96] objcall 57 .............................. chef.setVisible(0)
+  [ 98] getprop 1001 ............................ <readyFood>
+  [101] getparam 1 .............................. <t>
+  [103] pusharglistnoret 2 ...................... <readyFood, t>
+  [105] objcall 14 .............................. readyFood.deleteOne(t)
+  [107] ret
+end
+
+on returnFood me, t
+  [  0] getparam 1 .............................. <t>
+  [  2] getobjprop 92 ........................... <t.sitterGroup>
+  [  4] pusharglist 1 ........................... <t.sitterGroup>
+  [  6] extcall 31 .............................. <voidp(t.sitterGroup)>
+  [  8] not ..................................... <not voidp(t.sitterGroup)>
+  [  9] jmpifz [ 32] ............................ if not voidp(t.sitterGroup) then / else
+  [ 12] getparam 0 .............................. <me>
+  [ 14] getparam 1 .............................. <t>
+  [ 16] pusharglistnoret 2 ...................... <me, t>
+  [ 18] objcall 991 ............................. me.addTicket(t)
+  [ 21] getparam 1 .............................. <t>
+  [ 23] pushzero ................................ <0>
+  [ 24] pusharglistnoret 2 ...................... <t, 0>
+  [ 26] objcall 481 ............................. t.setFoodReady(0)
+  [ 29] jmp [ 70]
+  [ 32] getprop 1002 ............................ <timers>
+  [ 35] getparam 1 .............................. <t>
+  [ 37] pusharglist 2 ........................... <timers, t>
+  [ 39] objcall 1006 ............................ <timers.getaProp(t)>
+  [ 42] setlocal 0 .............................. tm = timers.getaProp(t)
+  [ 44] getlocal 0 .............................. <tm>
+  [ 46] pusharglist 1 ........................... <tm>
+  [ 48] extcall 31 .............................. <voidp(tm)>
+  [ 50] not ..................................... <not voidp(tm)>
+  [ 51] jmpifz [ 70] ............................ if not voidp(tm) then
+  [ 54] getlocal 0 .............................. <tm>
+  [ 56] pusharglistnoret 1 ...................... <tm>
+  [ 58] objcall 5 ............................... tm.destroy()
+  [ 60] getprop 1002 ............................ <timers>
+  [ 63] getparam 1 .............................. <t>
+  [ 65] pusharglistnoret 2 ...................... <timers, t>
+  [ 67] objcall 635 ............................. timers.deleteProp(t)
+  [ 70] getprop 997 ............................. <fullSpots>
+  [ 73] getparam 1 .............................. <t>
+  [ 75] pusharglist 2 ........................... <fullSpots, t>
+  [ 77] objcall 1006 ............................ <fullSpots.getaProp(t)>
+  [ 80] setlocal 1 .............................. sp = fullSpots.getaProp(t)
+  [ 82] getprop 1002 ............................ <timers>
+  [ 85] getobjprop 12 ........................... <timers.count>
+  [ 87] jmpifz [ 99] ............................ if timers.count then
+  [ 90] getprop 352 ............................. <chef>
+  [ 93] pushint8 1 .............................. <1>
+  [ 95] pusharglistnoret 2 ...................... <chef, 1>
+  [ 97] objcall 57 .............................. chef.setVisible(1)
+  [ 99] getlocal 1 .............................. <sp>
+  [101] pusharglist 1 ........................... <sp>
+  [103] extcall 31 .............................. <voidp(sp)>
+  [105] jmpifz [112] ............................ if voidp(sp) then
+  [108] pusharglistnoret 0 ...................... <>
+  [110] extcall 9 ............................... return 
+  [112] getprop 997 ............................. <fullSpots>
+  [115] getparam 1 .............................. <t>
+  [117] pusharglistnoret 2 ...................... <fullSpots, t>
+  [119] objcall 635 ............................. fullSpots.deleteProp(t)
+  [122] getlocal 1 .............................. <sp>
+  [124] pusharglist 0 ........................... <>
+  [126] extcall 65 .............................. <VOID>
+  [128] pusharglistnoret 2 ...................... <sp, VOID>
+  [130] objcall 1010 ............................ sp.setFood(VOID)
+  [133] getparam 0 .............................. <me>
+  [135] getlocal 1 .............................. <sp>
+  [137] pusharglistnoret 2 ...................... <me, sp>
+  [139] objcall 994 ............................. me.addEmptySpot(sp)
+  [142] ret
+end
+
+on addEmptySpot me, sp
+  [  0] getprop 1001 ............................ <readyFood>
+  [  3] getobjprop 12 ........................... <readyFood.count>
+  [  5] jmpifz [ 62] ............................ if readyFood.count then / else
+  [  8] getprop 1001 ............................ <readyFood>
+  [ 11] pushint8 1 .............................. <1>
+  [ 13] pusharglist 2 ........................... <readyFood, 1>
+  [ 15] objcall 36 .............................. <readyFood[1]>
+  [ 17] setlocal 0 .............................. t = readyFood[1]
+  [ 19] getprop 1001 ............................ <readyFood>
+  [ 22] pushint8 1 .............................. <1>
+  [ 24] pusharglistnoret 2 ...................... <readyFood, 1>
+  [ 26] objcall 634 ............................. readyFood.deleteAt(1)
+  [ 29] getprop 997 ............................. <fullSpots>
+  [ 32] getparam 1 .............................. <sp>
+  [ 34] pusharglistnoret 2 ...................... <fullSpots, sp>
+  [ 36] objcall 14 .............................. fullSpots.deleteOne(sp)
+  [ 38] getprop 997 ............................. <fullSpots>
+  [ 41] getlocal 0 .............................. <t>
+  [ 43] getparam 1 .............................. <sp>
+  [ 45] pusharglistnoret 3 ...................... <fullSpots, t, sp>
+  [ 47] objcall 1008 ............................ fullSpots.setaProp(t, sp)
+  [ 50] getparam 1 .............................. <sp>
+  [ 52] getlocal 0 .............................. <t>
+  [ 54] pusharglistnoret 2 ...................... <sp, t>
+  [ 56] objcall 1010 ............................ sp.setFood(t)
+  [ 59] jmp [ 94]
+  [ 62] getprop 996 ............................. <emptySpots>
+  [ 65] getparam 1 .............................. <sp>
+  [ 67] pusharglist 2 ........................... <emptySpots, sp>
+  [ 69] objcall 11 .............................. <emptySpots.getOne(sp)>
+  [ 71] pushzero ................................ <0>
+  [ 72] eq ...................................... <emptySpots.getOne(sp) = 0>
+  [ 73] jmpifz [ 94] ............................ if emptySpots.getOne(sp) = 0 then
+  [ 76] getprop 997 ............................. <fullSpots>
+  [ 79] getparam 1 .............................. <sp>
+  [ 81] pusharglistnoret 2 ...................... <fullSpots, sp>
+  [ 83] objcall 14 .............................. fullSpots.deleteOne(sp)
+  [ 85] getprop 996 ............................. <emptySpots>
+  [ 88] getparam 1 .............................. <sp>
+  [ 90] pusharglistnoret 2 ...................... <emptySpots, sp>
+  [ 92] objcall 6 ............................... emptySpots.add(sp)
+  [ 94] ret
+end
+
+on destroy me
+  [  0] getparam 0 .............................. <me>
+  [  2] pushsymb 1012 ........................... <#setDestHilite>
+  [  5] pusharglistnoret 2 ...................... <me, #setDestHilite>
+  [  7] extcall 105 ............................. unsubscribe(me, #setDestHilite)
+  [  9] pusharglist 0 ........................... <>
+  [ 11] extcall 65 .............................. <VOID>
+  [ 13] setlocal 0 .............................. room_mgr = VOID
+  [ 15] getprop 1001 ............................ <readyFood>
+  [ 18] pusharglistnoret 1 ...................... <readyFood>
+  [ 20] objcall 10 .............................. readyFood.deleteAll()
+  [ 22] getparam 0 .............................. <me>
+  [ 24] pusharglistnoret 1 ...................... <me>
+  [ 26] objcall 371 ............................. me.deleteSpots()
+  [ 29] ret
+end

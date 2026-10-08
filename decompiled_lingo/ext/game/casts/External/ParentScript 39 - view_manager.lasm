@@ -1,0 +1,645 @@
+property glob, node_mgr, views, sitterAnims, recycleList
+
+on new me, g
+  [  0] getparam 1 .............................. <g>
+  [  2] setprop 1 ............................... glob = g
+  [  4] pusharglist 0 ........................... <[:]>
+  [  6] pushproplist ............................ <[:]>
+  [  7] setprop 276 ............................. views = [:]
+  [ 10] getprop 276 ............................. <views>
+  [ 13] pushcons 0 .............................. <"6top">
+  [ 15] pushsymb 55 ............................. <#script>
+  [ 17] pushcons 1 .............................. <"6top_view">
+  [ 19] pushcons 2 .............................. <"scripts.game">
+  [ 21] pusharglist 2 ........................... <"6top_view", "scripts.game">
+  [ 23] extcall 55 .............................. <script("6top_view", "scripts.game")>
+  [ 25] pushsymb 968 ............................ <#prebuild>
+  [ 28] pushzero ................................ <0>
+  [ 29] pushsymb 276 ............................ <#views>
+  [ 32] pusharglist 0 ........................... <[]>
+  [ 34] pushlist ................................ <[]>
+  [ 35] pushsymb 969 ............................ <#free>
+  [ 38] pusharglist 0 ........................... <[]>
+  [ 40] pushlist ................................ <[]>
+  [ 41] pusharglist 8 ........................... <[#script: script("6top_view", "scripts.game"), #prebuild: 0, #views: [], #free: []]>
+  [ 43] pushproplist ............................ <[#script: script("6top_view", "scripts.game"), #prebuild: 0, #views: [], #free: []]>
+  [ 44] pusharglistnoret 3 ...................... <views, "6top", [#script: script("6top_view", "scripts.game"), #prebuild: 0, #views: [], #free: []]>
+  [ 46] objcall 25 .............................. views["6top"] = [#script: script("6top_view", "scripts.game"), #prebuild: 0, #views: [], #free: []]
+  [ 48] getprop 276 ............................. <views>
+  [ 51] pushcons 3 .............................. <"4top">
+  [ 53] pushsymb 55 ............................. <#script>
+  [ 55] pushcons 4 .............................. <"4top_view">
+  [ 57] pushcons 2 .............................. <"scripts.game">
+  [ 59] pusharglist 2 ........................... <"4top_view", "scripts.game">
+  [ 61] extcall 55 .............................. <script("4top_view", "scripts.game")>
+  [ 63] pushsymb 968 ............................ <#prebuild>
+  [ 66] pushzero ................................ <0>
+  [ 67] pushsymb 276 ............................ <#views>
+  [ 70] pusharglist 0 ........................... <[]>
+  [ 72] pushlist ................................ <[]>
+  [ 73] pushsymb 969 ............................ <#free>
+  [ 76] pusharglist 0 ........................... <[]>
+  [ 78] pushlist ................................ <[]>
+  [ 79] pusharglist 8 ........................... <[#script: script("4top_view", "scripts.game"), #prebuild: 0, #views: [], #free: []]>
+  [ 81] pushproplist ............................ <[#script: script("4top_view", "scripts.game"), #prebuild: 0, #views: [], #free: []]>
+  [ 82] pusharglistnoret 3 ...................... <views, "4top", [#script: script("4top_view", "scripts.game"), #prebuild: 0, #views: [], #free: []]>
+  [ 84] objcall 25 .............................. views["4top"] = [#script: script("4top_view", "scripts.game"), #prebuild: 0, #views: [], #free: []]
+  [ 86] getprop 276 ............................. <views>
+  [ 89] pushcons 5 .............................. <"2top">
+  [ 91] pushsymb 55 ............................. <#script>
+  [ 93] pushcons 6 .............................. <"2top_view">
+  [ 95] pushcons 2 .............................. <"scripts.game">
+  [ 97] pusharglist 2 ........................... <"2top_view", "scripts.game">
+  [ 99] extcall 55 .............................. <script("2top_view", "scripts.game")>
+  [101] pushsymb 968 ............................ <#prebuild>
+  [104] pushzero ................................ <0>
+  [105] pushsymb 276 ............................ <#views>
+  [108] pusharglist 0 ........................... <[]>
+  [110] pushlist ................................ <[]>
+  [111] pushsymb 969 ............................ <#free>
+  [114] pusharglist 0 ........................... <[]>
+  [116] pushlist ................................ <[]>
+  [117] pusharglist 8 ........................... <[#script: script("2top_view", "scripts.game"), #prebuild: 0, #views: [], #free: []]>
+  [119] pushproplist ............................ <[#script: script("2top_view", "scripts.game"), #prebuild: 0, #views: [], #free: []]>
+  [120] pusharglistnoret 3 ...................... <views, "2top", [#script: script("2top_view", "scripts.game"), #prebuild: 0, #views: [], #free: []]>
+  [122] objcall 25 .............................. views["2top"] = [#script: script("2top_view", "scripts.game"), #prebuild: 0, #views: [], #free: []]
+  [124] getprop 276 ............................. <views>
+  [127] pushcons 7 .............................. <"colorbonus">
+  [129] pushsymb 55 ............................. <#script>
+  [131] pushcons 7 .............................. <"colorbonus">
+  [133] pushcons 2 .............................. <"scripts.game">
+  [135] pusharglist 2 ........................... <"colorbonus", "scripts.game">
+  [137] extcall 55 .............................. <script("colorbonus", "scripts.game")>
+  [139] pushsymb 968 ............................ <#prebuild>
+  [142] pushint8 1 .............................. <1>
+  [144] pushsymb 276 ............................ <#views>
+  [147] pusharglist 0 ........................... <[]>
+  [149] pushlist ................................ <[]>
+  [150] pushsymb 969 ............................ <#free>
+  [153] pusharglist 0 ........................... <[]>
+  [155] pushlist ................................ <[]>
+  [156] pusharglist 8 ........................... <[#script: script("colorbonus", "scripts.game"), #prebuild: 1, #views: [], #free: []]>
+  [158] pushproplist ............................ <[#script: script("colorbonus", "scripts.game"), #prebuild: 1, #views: [], #free: []]>
+  [159] pusharglistnoret 3 ...................... <views, "colorbonus", [#script: script("colorbonus", "scripts.game"), #prebuild: 1, #views: [], #free: []]>
+  [161] objcall 25 .............................. views["colorbonus"] = [#script: script("colorbonus", "scripts.game"), #prebuild: 1, #views: [], #free: []]
+  [163] getprop 276 ............................. <views>
+  [166] pushcons 8 .............................. <"multbonus">
+  [168] pushsymb 55 ............................. <#script>
+  [170] pushcons 8 .............................. <"multbonus">
+  [172] pushcons 2 .............................. <"scripts.game">
+  [174] pusharglist 2 ........................... <"multbonus", "scripts.game">
+  [176] extcall 55 .............................. <script("multbonus", "scripts.game")>
+  [178] pushsymb 968 ............................ <#prebuild>
+  [181] pushint8 1 .............................. <1>
+  [183] pushsymb 276 ............................ <#views>
+  [186] pusharglist 0 ........................... <[]>
+  [188] pushlist ................................ <[]>
+  [189] pushsymb 969 ............................ <#free>
+  [192] pusharglist 0 ........................... <[]>
+  [194] pushlist ................................ <[]>
+  [195] pusharglist 8 ........................... <[#script: script("multbonus", "scripts.game"), #prebuild: 1, #views: [], #free: []]>
+  [197] pushproplist ............................ <[#script: script("multbonus", "scripts.game"), #prebuild: 1, #views: [], #free: []]>
+  [198] pusharglistnoret 3 ...................... <views, "multbonus", [#script: script("multbonus", "scripts.game"), #prebuild: 1, #views: [], #free: []]>
+  [200] objcall 25 .............................. views["multbonus"] = [#script: script("multbonus", "scripts.game"), #prebuild: 1, #views: [], #free: []]
+  [202] getprop 276 ............................. <views>
+  [205] pushcons 9 .............................. <"penalty">
+  [207] pushsymb 55 ............................. <#script>
+  [209] pushcons 9 .............................. <"penalty">
+  [211] pushcons 2 .............................. <"scripts.game">
+  [213] pusharglist 2 ........................... <"penalty", "scripts.game">
+  [215] extcall 55 .............................. <script("penalty", "scripts.game")>
+  [217] pushsymb 968 ............................ <#prebuild>
+  [220] pushint8 1 .............................. <1>
+  [222] pushsymb 276 ............................ <#views>
+  [225] pusharglist 0 ........................... <[]>
+  [227] pushlist ................................ <[]>
+  [228] pushsymb 969 ............................ <#free>
+  [231] pusharglist 0 ........................... <[]>
+  [233] pushlist ................................ <[]>
+  [234] pusharglist 8 ........................... <[#script: script("penalty", "scripts.game"), #prebuild: 1, #views: [], #free: []]>
+  [236] pushproplist ............................ <[#script: script("penalty", "scripts.game"), #prebuild: 1, #views: [], #free: []]>
+  [237] pusharglistnoret 3 ...................... <views, "penalty", [#script: script("penalty", "scripts.game"), #prebuild: 1, #views: [], #free: []]>
+  [239] objcall 25 .............................. views["penalty"] = [#script: script("penalty", "scripts.game"), #prebuild: 1, #views: [], #free: []]
+  [241] getprop 276 ............................. <views>
+  [244] pushcons 10 ............................. <"tip">
+  [246] pushsymb 55 ............................. <#script>
+  [248] pushcons 11 ............................. <"tip_bonus">
+  [250] pushcons 2 .............................. <"scripts.game">
+  [252] pusharglist 2 ........................... <"tip_bonus", "scripts.game">
+  [254] extcall 55 .............................. <script("tip_bonus", "scripts.game")>
+  [256] pushsymb 968 ............................ <#prebuild>
+  [259] pushint8 1 .............................. <1>
+  [261] pushsymb 276 ............................ <#views>
+  [264] pusharglist 0 ........................... <[]>
+  [266] pushlist ................................ <[]>
+  [267] pushsymb 969 ............................ <#free>
+  [270] pusharglist 0 ........................... <[]>
+  [272] pushlist ................................ <[]>
+  [273] pusharglist 8 ........................... <[#script: script("tip_bonus", "scripts.game"), #prebuild: 1, #views: [], #free: []]>
+  [275] pushproplist ............................ <[#script: script("tip_bonus", "scripts.game"), #prebuild: 1, #views: [], #free: []]>
+  [276] pusharglistnoret 3 ...................... <views, "tip", [#script: script("tip_bonus", "scripts.game"), #prebuild: 1, #views: [], #free: []]>
+  [278] objcall 25 .............................. views["tip"] = [#script: script("tip_bonus", "scripts.game"), #prebuild: 1, #views: [], #free: []]
+  [280] pushcons 7 .............................. <"colorbonus">
+  [282] pushcons 8 .............................. <"multbonus">
+  [284] pushcons 9 .............................. <"penalty">
+  [286] pushcons 10 ............................. <"tip">
+  [288] pusharglist 4 ........................... <["colorbonus", "multbonus", "penalty", "tip"]>
+  [290] pushlist ................................ <["colorbonus", "multbonus", "penalty", "tip"]>
+  [291] setprop 970 ............................. recycleList = ["colorbonus", "multbonus", "penalty", "tip"]
+  [294] getparam 0 .............................. <me>
+  [296] pusharglistnoret 1 ...................... <me>
+  [298] extcall 9 ............................... return me
+  [300] ret
+end
+
+on showChairBonus me, nd, pts
+  [  0] getparam 0 .............................. <me>
+  [  2] pushcons 7 .............................. <"colorbonus">
+  [  4] pusharglist 2 ........................... <me, "colorbonus">
+  [  6] objcall 484 ............................. <me.getView("colorbonus")>
+  [  9] setlocal 0 .............................. vu = me.getView("colorbonus")
+  [ 11] getlocal 0 .............................. <vu>
+  [ 13] pusharglist 1 ........................... <vu>
+  [ 15] extcall 31 .............................. <voidp(vu)>
+  [ 17] jmpifz [ 24] ............................ if voidp(vu) then
+  [ 20] pusharglistnoret 0 ...................... <>
+  [ 22] extcall 9 ............................... return 
+  [ 24] getlocal 0 .............................. <vu>
+  [ 26] getchainedprop 45 ....................... <vu.node>
+  [ 28] getparam 1 .............................. <nd>
+  [ 30] getobjprop 101 .......................... <nd.parent>
+  [ 32] pusharglistnoret 2 ...................... <vu.node, nd.parent>
+  [ 34] objcall 263 ............................. vu.node.setParent(nd.parent)
+  [ 37] getlocal 0 .............................. <vu>
+  [ 39] getchainedprop 45 ....................... <vu.node>
+  [ 41] getparam 1 .............................. <nd>
+  [ 43] pusharglist 1 ........................... <nd>
+  [ 45] objcall 51 .............................. <nd.getLoc()>
+  [ 47] pusharglistnoret 2 ...................... <vu.node, nd.getLoc()>
+  [ 49] objcall 135 ............................. vu.node.setLoc(nd.getLoc())
+  [ 51] getlocal 0 .............................. <vu>
+  [ 53] getparam 2 .............................. <pts>
+  [ 55] pusharglistnoret 2 ...................... <vu, pts>
+  [ 57] objcall 956 ............................. vu.show(pts)
+  [ 60] ret
+end
+
+on showTableBonus me, nd, arg
+  [  0] getparam 2 .............................. <arg>
+  [  2] pushsymb 282 ............................ <#score>
+  [  5] pusharglist 2 ........................... <arg, #score>
+  [  7] objcall 36 .............................. <arg[#score]>
+  [  9] pushzero ................................ <0>
+  [ 10] eq ...................................... <arg[#score] = 0>
+  [ 11] jmpifz [ 18] ............................ if arg[#score] = 0 then
+  [ 14] pusharglistnoret 0 ...................... <>
+  [ 16] extcall 9 ............................... return 
+  [ 18] getparam 0 .............................. <me>
+  [ 20] pushcons 8 .............................. <"multbonus">
+  [ 22] pusharglist 2 ........................... <me, "multbonus">
+  [ 24] objcall 484 ............................. <me.getView("multbonus")>
+  [ 27] setlocal 0 .............................. vu = me.getView("multbonus")
+  [ 29] getlocal 0 .............................. <vu>
+  [ 31] pusharglist 1 ........................... <vu>
+  [ 33] extcall 31 .............................. <voidp(vu)>
+  [ 35] jmpifz [ 42] ............................ if voidp(vu) then
+  [ 38] pusharglistnoret 0 ...................... <>
+  [ 40] extcall 9 ............................... return 
+  [ 42] getlocal 0 .............................. <vu>
+  [ 44] getchainedprop 45 ....................... <vu.node>
+  [ 46] getparam 1 .............................. <nd>
+  [ 48] pusharglist 1 ........................... <nd>
+  [ 50] objcall 406 ............................. <nd.getLocRel()>
+  [ 53] pusharglistnoret 2 ...................... <vu.node, nd.getLocRel()>
+  [ 55] objcall 971 ............................. vu.node.setLocRel(nd.getLocRel())
+  [ 58] getlocal 0 .............................. <vu>
+  [ 60] getparam 2 .............................. <arg>
+  [ 62] pusharglistnoret 2 ...................... <vu, arg>
+  [ 64] objcall 956 ............................. vu.show(arg)
+  [ 67] ret
+end
+
+on showPenalty me, nd, arg
+  [  0] getparam 0 .............................. <me>
+  [  2] pushcons 9 .............................. <"penalty">
+  [  4] pusharglist 2 ........................... <me, "penalty">
+  [  6] objcall 484 ............................. <me.getView("penalty")>
+  [  9] setlocal 0 .............................. vu = me.getView("penalty")
+  [ 11] getlocal 0 .............................. <vu>
+  [ 13] pusharglist 1 ........................... <vu>
+  [ 15] extcall 31 .............................. <voidp(vu)>
+  [ 17] jmpifz [ 24] ............................ if voidp(vu) then
+  [ 20] pusharglistnoret 0 ...................... <>
+  [ 22] extcall 9 ............................... return 
+  [ 24] getlocal 0 .............................. <vu>
+  [ 26] getchainedprop 45 ....................... <vu.node>
+  [ 28] getparam 1 .............................. <nd>
+  [ 30] pusharglist 1 ........................... <nd>
+  [ 32] objcall 406 ............................. <nd.getLocRel()>
+  [ 35] pusharglistnoret 2 ...................... <vu.node, nd.getLocRel()>
+  [ 37] objcall 971 ............................. vu.node.setLocRel(nd.getLocRel())
+  [ 40] getlocal 0 .............................. <vu>
+  [ 42] getparam 2 .............................. <arg>
+  [ 44] pusharglistnoret 2 ...................... <vu, arg>
+  [ 46] objcall 956 ............................. vu.show(arg)
+  [ 49] ret
+end
+
+on showTip me, nd, arg
+  [  0] getparam 0 .............................. <me>
+  [  2] pushcons 10 ............................. <"tip">
+  [  4] pusharglist 2 ........................... <me, "tip">
+  [  6] objcall 484 ............................. <me.getView("tip")>
+  [  9] setlocal 0 .............................. vu = me.getView("tip")
+  [ 11] getlocal 0 .............................. <vu>
+  [ 13] pusharglist 1 ........................... <vu>
+  [ 15] extcall 31 .............................. <voidp(vu)>
+  [ 17] jmpifz [ 24] ............................ if voidp(vu) then
+  [ 20] pusharglistnoret 0 ...................... <>
+  [ 22] extcall 9 ............................... return 
+  [ 24] getlocal 0 .............................. <vu>
+  [ 26] getchainedprop 45 ....................... <vu.node>
+  [ 28] getparam 1 .............................. <nd>
+  [ 30] pusharglist 1 ........................... <nd>
+  [ 32] objcall 406 ............................. <nd.getLocRel()>
+  [ 35] pusharglistnoret 2 ...................... <vu.node, nd.getLocRel()>
+  [ 37] objcall 971 ............................. vu.node.setLocRel(nd.getLocRel())
+  [ 40] getlocal 0 .............................. <vu>
+  [ 42] getparam 2 .............................. <arg>
+  [ 44] pusharglistnoret 2 ...................... <vu, arg>
+  [ 46] objcall 956 ............................. vu.show(arg)
+  [ 49] ret
+end
+
+on init me
+  [  0] pusharglist 0 ........................... <[]>
+  [  2] pushlist ................................ <[]>
+  [  3] setlocal 0 .............................. tp = []
+  [  5] getprop 1 ............................... <glob>
+  [  7] getchainedprop 108 ...................... <glob.managers>
+  [  9] getchainedprop 315 ...................... <glob.managers.config>
+  [ 12] getchainedprop 398 ...................... <glob.managers.config.group>
+  [ 15] getobjprop 890 .......................... <glob.managers.config.group.types>
+  [ 18] peek 0
+  [ 20] pusharglist 1
+  [ 22] extcall 12
+  [ 24] pushint8 1
+  [ 26] peek 0
+  [ 28] peek 2
+  [ 30] lteq
+  [ 31] jmpifz [ 59] ............................ repeat with i in glob.managers.config.group.types
+  [ 34] peek 2
+  [ 36] peek 1
+  [ 38] pusharglist 2
+  [ 40] extcall 36
+  [ 42] setlocal 1
+  [ 44] getlocal 0 .............................. <tp>
+  [ 46] getlocal 1 .............................. <i>
+  [ 48] getobjprop 232 .......................... <i.graphicType>
+  [ 50] pusharglistnoret 2 ...................... <tp, i.graphicType>
+  [ 52] objcall 6 ............................... tp.add(i.graphicType)
+  [ 54] pushint8 1
+  [ 56] add
+  [ 57] endrepeat [ 26]
+  [ 59] pop 3
+  [ 61] pusharglist 0 ........................... <[:]>
+  [ 63] pushproplist ............................ <[:]>
+  [ 64] setprop 972 ............................. sitterAnims = [:]
+  [ 67] getlocal 0 .............................. <tp>
+  [ 69] peek 0
+  [ 71] pusharglist 1
+  [ 73] extcall 12
+  [ 75] pushint8 1
+  [ 77] peek 0
+  [ 79] peek 2
+  [ 81] lteq
+  [ 82] jmpifz [230] ............................ repeat with t in tp
+  [ 85] peek 2
+  [ 87] peek 1
+  [ 89] pusharglist 2
+  [ 91] extcall 36
+  [ 93] setlocal 2
+  [ 95] pushcons 12 ............................. <"red">
+  [ 97] pushcons 13 ............................. <"green">
+  [ 99] pushcons 14 ............................. <"blue">
+  [101] pushcons 15 ............................. <"purple">
+  [103] pushcons 16 ............................. <"yellow">
+  [105] pusharglist 5 ........................... <["red", "green", "blue", "purple", "yellow"]>
+  [107] pushlist ................................ <["red", "green", "blue", "purple", "yellow"]>
+  [108] peek 0
+  [110] pusharglist 1
+  [112] extcall 12
+  [114] pushint8 1
+  [116] peek 0
+  [118] peek 2
+  [120] lteq
+  [121] jmpifz [223] ............................ repeat with c in ["red", "green", "blue", "purple", "yellow"]
+  [124] peek 2
+  [126] peek 1
+  [128] pusharglist 2
+  [130] extcall 36
+  [132] setlocal 3
+  [134] getlocal 2 .............................. <t>
+  [136] pushcons 17 ............................. <"_">
+  [138] joinstr ................................. <t & "_">
+  [139] getlocal 3 .............................. <c>
+  [141] joinstr ................................. <t & "_" & c>
+  [142] setlocal 4 .............................. k = t & "_" & c
+  [144] getlocal 4 .............................. <k>
+  [146] pusharglist 1 ........................... <k>
+  [148] extcall 47 .............................. <getNodeData(k)>
+  [150] setlocal 5 .............................. n = getNodeData(k)
+  [152] getlocal 5 .............................. <n>
+  [154] pusharglist 1 ........................... <n>
+  [156] extcall 31 .............................. <voidp(n)>
+  [158] jmpifz [164] ............................ if voidp(n) then
+  [161] jmp [218] ............................... next repeat
+  [164] getprop 972 ............................. <sitterAnims>
+  [167] getlocal 4 .............................. <k>
+  [169] pushsymb 973 ............................ <#body>
+  [172] getlocal 5 .............................. <n>
+  [174] pushsymb 49 ............................. <#children>
+  [176] pushcons 18 ............................. <"body">
+  [178] pusharglist 3 ........................... <n, #children, "body">
+  [180] objcall 50 .............................. <n.children["body"]>
+  [182] getobjprop 975 .......................... <n.children["body"].frames>
+  [185] pusharglist 1 ........................... <n.children["body"].frames>
+  [187] extcall 974 ............................. <getAnimData(n.children["body"].frames)>
+  [190] pushsymb 976 ............................ <#face>
+  [193] getlocal 5 .............................. <n>
+  [195] pushsymb 49 ............................. <#children>
+  [197] pushcons 19 ............................. <"face">
+  [199] pusharglist 3 ........................... <n, #children, "face">
+  [201] objcall 50 .............................. <n.children["face"]>
+  [203] getobjprop 975 .......................... <n.children["face"].frames>
+  [206] pusharglist 1 ........................... <n.children["face"].frames>
+  [208] extcall 974 ............................. <getAnimData(n.children["face"].frames)>
+  [211] pusharglist 4 ........................... <[#body: getAnimData(n.children["body"].frames), #face: getAnimData(n.children["face"].frames)]>
+  [213] pushproplist ............................ <[#body: getAnimData(n.children["body"].frames), #face: getAnimData(n.children["face"].frames)]>
+  [214] pusharglistnoret 3 ...................... <sitterAnims, k, [#body: getAnimData(n.children["body"].frames), #face: getAnimData(n.children["face"].frames)]>
+  [216] objcall 25 .............................. sitterAnims[k] = [#body: getAnimData(n.children["body"].frames), #face: getAnimData(n.children["face"].frames)]
+  [218] pushint8 1
+  [220] add
+  [221] endrepeat [116]
+  [223] pop 3
+  [225] pushint8 1
+  [227] add
+  [228] endrepeat [ 77]
+  [230] pop 3
+  [232] getprop 1 ............................... <glob>
+  [234] getchainedprop 108 ...................... <glob.managers>
+  [236] getobjprop 45 ........................... <glob.managers.node>
+  [238] setprop 977 ............................. node_mgr = glob.managers.node
+  [241] getprop 977 ............................. <node_mgr>
+  [244] getchainedprop 978 ...................... <node_mgr.ROOT>
+  [247] pushcons 20 ............................. <"please_wait">
+  [249] pusharglist 1 ........................... <"please_wait">
+  [251] extcall 47 .............................. <getNodeData("please_wait")>
+  [253] pusharglist 2 ........................... <node_mgr.ROOT, getNodeData("please_wait")>
+  [255] objcall 48 .............................. <node_mgr.ROOT.newNode(getNodeData("please_wait"))>
+  [257] setlocal 6 .............................. tempnode = node_mgr.ROOT.newNode(getNodeData("please_wait"))
+  [259] getlocal 6 .............................. <tempnode>
+  [261] pushzero ................................ <0>
+  [262] pushzero ................................ <0>
+  [263] pusharglist 2 ........................... <0, 0>
+  [265] extcall 361 ............................. <point(0, 0)>
+  [268] pusharglistnoret 2 ...................... <tempnode, point(0, 0)>
+  [270] objcall 135 ............................. tempnode.setLoc(point(0, 0))
+  [272] getlocal 6 .............................. <tempnode>
+  [274] pushint32 10000000 ...................... <10000000>
+  [279] pusharglistnoret 2 ...................... <tempnode, 10000000>
+  [281] objcall 122 ............................. tempnode.setZOffset(10000000)
+  [283] getlocal 6 .............................. <tempnode>
+  [285] pushint8 1 .............................. <1>
+  [287] pusharglistnoret 2 ...................... <tempnode, 1>
+  [289] objcall 57 .............................. tempnode.setVisible(1)
+  [291] getprop 276 ............................. <views>
+  [294] peek 0
+  [296] pusharglist 1
+  [298] extcall 12
+  [300] pushint8 1
+  [302] peek 0
+  [304] peek 2
+  [306] lteq
+  [307] jmpifz [381] ............................ repeat with ls in views
+  [310] peek 2
+  [312] peek 1
+  [314] pusharglist 2
+  [316] extcall 36
+  [318] setlocal 7
+  [320] pushint8 1 .............................. <1>
+  [322] setlocal 8
+  [324] getlocal 8
+  [326] getlocal 7 .............................. <ls>
+  [328] getobjprop 968 .......................... <ls.prebuild>
+  [331] lteq
+  [332] jmpifz [376] ............................ repeat with j = 1 to ls.prebuild
+  [335] getlocal 7 .............................. <ls>
+  [337] getchainedprop 55 ....................... <ls.script>
+  [339] pusharglist 1 ........................... <ls.script>
+  [341] objcall 4 ............................... <ls.script.new()>
+  [343] setlocal 9 .............................. vu = ls.script.new()
+  [345] getlocal 7 .............................. <ls>
+  [347] getchainedprop 276 ...................... <ls.views>
+  [350] getlocal 9 .............................. <vu>
+  [352] pusharglistnoret 2 ...................... <ls.views, vu>
+  [354] objcall 6 ............................... ls.views.add(vu)
+  [356] getlocal 7 .............................. <ls>
+  [358] getchainedprop 969 ...................... <ls.free>
+  [361] getlocal 9 .............................. <vu>
+  [363] pusharglistnoret 2 ...................... <ls.free, vu>
+  [365] objcall 6 ............................... ls.free.add(vu)
+  [367] pushint8 1
+  [369] getlocal 8
+  [371] add
+  [372] setlocal 8
+  [374] endrepeat [324]
+  [376] pushint8 1
+  [378] add
+  [379] endrepeat [302]
+  [381] pop 3
+  [383] getlocal 6 .............................. <tempnode>
+  [385] pusharglistnoret 1 ...................... <tempnode>
+  [387] objcall 5 ............................... tempnode.destroy()
+  [389] pusharglist 0 ........................... <>
+  [391] extcall 65 .............................. <VOID>
+  [393] setlocal 6 .............................. tempnode = VOID
+  [395] ret
+end
+
+on destroy me
+  [  0] pusharglist 0 ........................... <>
+  [  2] extcall 65 .............................. <VOID>
+  [  4] setprop 977 ............................. node_mgr = VOID
+  [  7] pusharglist 0 ........................... <>
+  [  9] extcall 65 .............................. <VOID>
+  [ 11] setprop 1 ............................... glob = VOID
+  [ 13] getprop 276 ............................. <views>
+  [ 16] peek 0
+  [ 18] pusharglist 1
+  [ 20] extcall 12
+  [ 22] pushint8 1
+  [ 24] peek 0
+  [ 26] peek 2
+  [ 28] lteq
+  [ 29] jmpifz [ 76] ............................ repeat with ls in views
+  [ 32] peek 2
+  [ 34] peek 1
+  [ 36] pusharglist 2
+  [ 38] extcall 36
+  [ 40] setlocal 0
+  [ 42] getlocal 0 .............................. <ls>
+  [ 44] getchainedprop 969 ...................... <ls.free>
+  [ 47] pusharglistnoret 1 ...................... <ls.free>
+  [ 49] objcall 10 .............................. ls.free.deleteAll()
+  [ 51] pushsymb 5 .............................. <#destroy>
+  [ 53] getlocal 0 .............................. <ls>
+  [ 55] getobjprop 276 .......................... <ls.views>
+  [ 58] pusharglistnoret 2 ...................... <#destroy, ls.views>
+  [ 60] extcall 32 .............................. call(#destroy, ls.views)
+  [ 62] getlocal 0 .............................. <ls>
+  [ 64] getchainedprop 276 ...................... <ls.views>
+  [ 67] pusharglistnoret 1 ...................... <ls.views>
+  [ 69] objcall 10 .............................. ls.views.deleteAll()
+  [ 71] pushint8 1
+  [ 73] add
+  [ 74] endrepeat [ 24]
+  [ 76] pop 3
+  [ 78] ret
+end
+
+on getView me, sym
+  [  0] getprop 276 ............................. <views>
+  [  3] getparam 1 .............................. <sym>
+  [  5] pusharglist 2 ........................... <views, sym>
+  [  7] objcall 36 .............................. <views[sym]>
+  [  9] setlocal 0 .............................. ls = views[sym]
+  [ 11] getlocal 0 .............................. <ls>
+  [ 13] pusharglist 1 ........................... <ls>
+  [ 15] extcall 31 .............................. <voidp(ls)>
+  [ 17] jmpifz [ 36] ............................ if voidp(ls) then
+  [ 20] pushcons 21 ............................. <"no view type '">
+  [ 22] getparam 1 .............................. <sym>
+  [ 24] joinstr ................................. <"no view type '" & sym>
+  [ 25] pushcons 22 ............................. <"'">
+  [ 27] joinstr ................................. <"no view type '" & sym & "'">
+  [ 28] pusharglistnoret 1 ...................... <"no view type '" & sym & "'">
+  [ 30] extcall 60 .............................. complain("no view type '" & sym & "'")
+  [ 32] pusharglistnoret 0 ...................... <>
+  [ 34] extcall 9 ............................... return 
+  [ 36] getlocal 0 .............................. <ls>
+  [ 38] getobjprop 969 .......................... <ls.free>
+  [ 41] setlocal 1 .............................. fr = ls.free
+  [ 43] getlocal 1 .............................. <fr>
+  [ 45] getobjprop 12 ........................... <fr.count>
+  [ 47] jmpifz [ 75] ............................ if fr.count then
+  [ 50] getlocal 1 .............................. <fr>
+  [ 52] pushint8 1 .............................. <1>
+  [ 54] pusharglist 2 ........................... <fr, 1>
+  [ 56] objcall 36 .............................. <fr[1]>
+  [ 58] setlocal 2 .............................. vu = fr[1]
+  [ 60] getlocal 1 .............................. <fr>
+  [ 62] pushint8 1 .............................. <1>
+  [ 64] pusharglistnoret 2 ...................... <fr, 1>
+  [ 66] objcall 634 ............................. fr.deleteAt(1)
+  [ 69] getlocal 2 .............................. <vu>
+  [ 71] pusharglistnoret 1 ...................... <vu>
+  [ 73] extcall 9 ............................... return vu
+  [ 75] pushsymb 4 .............................. <#new>
+  [ 77] getlocal 0 .............................. <ls>
+  [ 79] getobjprop 55 ........................... <ls.script>
+  [ 81] pusharglist 2 ........................... <#new, ls.script>
+  [ 83] extcall 980 ............................. <callAndPutMS(#new, ls.script)>
+  [ 86] setlocal 2 .............................. vu = callAndPutMS(#new, ls.script)
+  [ 88] getlocal 0 .............................. <ls>
+  [ 90] getchainedprop 276 ...................... <ls.views>
+  [ 93] getlocal 2 .............................. <vu>
+  [ 95] pusharglistnoret 2 ...................... <ls.views, vu>
+  [ 97] objcall 6 ............................... ls.views.add(vu)
+  [ 99] getlocal 2 .............................. <vu>
+  [101] pusharglistnoret 1 ...................... <vu>
+  [103] extcall 9 ............................... return vu
+  [105] ret
+end
+
+on returnView me, vu
+  [  0] getparam 1 .............................. <vu>
+  [  2] getobjprop 137 .......................... <vu.type>
+  [  4] pushcons 3 .............................. <"4top">
+  [  6] eq ...................................... <vu.type = "4top">
+  [  7] jmpifz [ 14] ............................ if vu.type = "4top" then
+  [ 10] pusharglistnoret 0 ...................... <>
+  [ 12] extcall 136 ............................. nothing()
+  [ 14] getprop 276 ............................. <views>
+  [ 17] getparam 1 .............................. <vu>
+  [ 19] getobjprop 137 .......................... <vu.type>
+  [ 21] pusharglist 2 ........................... <views, vu.type>
+  [ 23] objcall 36 .............................. <views[vu.type]>
+  [ 25] setlocal 0 .............................. ls = views[vu.type]
+  [ 27] getlocal 0 .............................. <ls>
+  [ 29] pusharglist 1 ........................... <ls>
+  [ 31] extcall 31 .............................. <voidp(ls)>
+  [ 33] jmpifz [ 40] ............................ if voidp(ls) then
+  [ 36] pusharglistnoret 0 ...................... <>
+  [ 38] extcall 9 ............................... return 
+  [ 40] getlocal 0 .............................. <ls>
+  [ 42] getchainedprop 969 ...................... <ls.free>
+  [ 45] getparam 1 .............................. <vu>
+  [ 47] pusharglist 2 ........................... <ls.free, vu>
+  [ 49] objcall 11 .............................. <ls.free.getOne(vu)>
+  [ 51] pushzero ................................ <0>
+  [ 52] nteq .................................... <ls.free.getOne(vu) <> 0>
+  [ 53] jmpifz [ 66] ............................ if ls.free.getOne(vu) <> 0 then
+  [ 56] pushcons 23 ............................. <"tried to return view already in free list">
+  [ 58] pusharglistnoret 1 ...................... <"tried to return view already in free list">
+  [ 60] extcall 60 .............................. complain("tried to return view already in free list")
+  [ 62] pusharglistnoret 0 ...................... <>
+  [ 64] extcall 9 ............................... return 
+  [ 66] getlocal 0 .............................. <ls>
+  [ 68] getchainedprop 276 ...................... <ls.views>
+  [ 71] getparam 1 .............................. <vu>
+  [ 73] pusharglist 2 ........................... <ls.views, vu>
+  [ 75] objcall 11 .............................. <ls.views.getOne(vu)>
+  [ 77] pushzero ................................ <0>
+  [ 78] eq ...................................... <ls.views.getOne(vu) = 0>
+  [ 79] jmpifz [ 92] ............................ if ls.views.getOne(vu) = 0 then
+  [ 82] pushcons 24 ............................. <"tried to return view not created by this view mgr">
+  [ 84] pusharglistnoret 1 ...................... <"tried to return view not created by this view mgr">
+  [ 86] extcall 60 .............................. complain("tried to return view not created by this view mgr")
+  [ 88] pusharglistnoret 0 ...................... <>
+  [ 90] extcall 9 ............................... return 
+  [ 92] getparam 1 .............................. <vu>
+  [ 94] pusharglist 0 ........................... <>
+  [ 96] extcall 65 .............................. <VOID>
+  [ 98] pusharglistnoret 2 ...................... <vu, VOID>
+  [100] objcall 485 ............................. vu.setObject(VOID)
+  [103] getprop 970 ............................. <recycleList>
+  [106] getparam 1 .............................. <vu>
+  [108] getobjprop 137 .......................... <vu.type>
+  [110] pusharglist 2 ........................... <recycleList, vu.type>
+  [112] objcall 11 .............................. <recycleList.getOne(vu.type)>
+  [114] getlocal 0 .............................. <ls>
+  [116] pushsymb 969 ............................ <#free>
+  [119] pusharglist 2 ........................... <ls, #free>
+  [121] objcall 12 .............................. <ls.free.count>
+  [123] getlocal 0 .............................. <ls>
+  [125] getobjprop 968 .......................... <ls.prebuild>
+  [128] lt ...................................... <ls.free.count < ls.prebuild>
+  [129] and ..................................... <recycleList.getOne(vu.type) and (ls.free.count < ls.prebuild)>
+  [130] jmpifz [147] ............................ if recycleList.getOne(vu.type) and (ls.free.count < ls.prebuild) then / else
+  [133] getlocal 0 .............................. <ls>
+  [135] getchainedprop 969 ...................... <ls.free>
+  [138] getparam 1 .............................. <vu>
+  [140] pusharglistnoret 2 ...................... <ls.free, vu>
+  [142] objcall 6 ............................... ls.free.add(vu)
+  [144] jmp [164]
+  [147] getlocal 0 .............................. <ls>
+  [149] getchainedprop 276 ...................... <ls.views>
+  [152] getparam 1 .............................. <vu>
+  [154] pusharglistnoret 2 ...................... <ls.views, vu>
+  [156] objcall 14 .............................. ls.views.deleteOne(vu)
+  [158] getparam 1 .............................. <vu>
+  [160] pusharglistnoret 1 ...................... <vu>
+  [162] objcall 5 ............................... vu.destroy()
+  [164] ret
+end
