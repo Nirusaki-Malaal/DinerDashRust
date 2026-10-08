@@ -1,0 +1,17 @@
+{
+  "type": 11,
+  "infoLen": 104,
+  "specificDataLen": 2,
+  "info": {
+    "dataOffset": 20,
+    "unk1": 0,
+    "unk2": 0,
+    "flags": 1,
+    "scriptId": 18,
+    "scriptSrcText": "",
+    "name": "statue_anim"
+  },
+  "member": {
+    "scriptType": 7
+  }
+}
