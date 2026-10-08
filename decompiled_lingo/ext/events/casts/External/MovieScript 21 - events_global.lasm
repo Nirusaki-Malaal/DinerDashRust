@@ -1,0 +1,176 @@
+global glob, time_mgr, debug
+
+on prepareMovie
+  [  0] pushint8 1 .............................. <1>
+  [  2] pushint8 8 .............................. <8>
+  [  4] set 7 ................................... set the exitLock to 1
+  [  6] pushzero ................................ <0>
+  [  7] setmovieprop 247 ........................ the debugPlaybackEnabled = 0
+  [  9] pushint8 1 .............................. <1>
+  [ 11] pusharglistnoret 1 ...................... <1>
+  [ 13] extcall 211 ............................. go(1)
+  [ 15] gettoplevelprop 248 ..................... <_movie>
+  [ 17] getchainedprop 249 ...................... <_movie.displayTemplate>
+  [ 19] pushzero ................................ <0>
+  [ 20] setobjprop 250 .......................... _movie.displayTemplate.resizable = 0
+  [ 22] gettoplevelprop 248 ..................... <_movie>
+  [ 24] getchainedprop 249 ...................... <_movie.displayTemplate>
+  [ 26] getchainedprop 251 ...................... <_movie.displayTemplate.titlebarOptions>
+  [ 28] pushint8 1 .............................. <1>
+  [ 30] setobjprop 252 .......................... _movie.displayTemplate.titlebarOptions.minimizebox = 1
+  [ 32] getmovieprop 253 ........................ <the runMode>
+  [ 34] pushcons 0 .............................. <"Projector">
+  [ 36] containsstr ............................. <the runMode contains "Projector">
+  [ 37] jmpifz [ 44] ............................ if the runMode contains "Projector" then
+  [ 40] pusharglistnoret 0 ...................... <>
+  [ 42] extcall 254 ............................. helpDirectorFindCastlibs()
+  [ 44] pushint8 60 ............................. <60>
+  [ 46] pusharglistnoret 1 ...................... <60>
+  [ 48] extcall 255 ............................. puppetTempo(60)
+  [ 50] pushcons 1 .............................. <"setting up res xtra">
+  [ 52] pusharglistnoret 1 ...................... <"setting up res xtra">
+  [ 54] extcall 23 .............................. put "setting up res xtra"
+  [ 56] pusharglistnoret 0 ...................... <>
+  [ 58] extcall 256 ............................. setupResXtra()
+  [ 61] pushcons 2 .............................. <"glob">
+  [ 63] pusharglist 1 ........................... <"glob">
+  [ 65] extcall 13 .............................. <script("glob")>
+  [ 67] pusharglist 1 ........................... <script("glob")>
+  [ 69] objcall 0 ............................... <script("glob").new()>
+  [ 71] setglobal 52 ............................ glob = script("glob").new()
+  [ 73] pusharglistnoret 0 ...................... <>
+  [ 75] extcall 257 ............................. updateStage()
+  [ 78] ret
+end
+
+on startMovie
+  [  0] getmovieprop 253 ........................ <the runMode>
+  [  2] pushcons 3 .............................. <"Author">
+  [  4] eq ...................................... <the runMode = "Author">
+  [  5] jmpifz [ 13] ............................ if the runMode = "Author" then
+  [  8] pusharglistnoret 0 ...................... <>
+  [ 10] extcall 258 ............................. updateVersionText()
+  [ 13] getglobal 52 ............................ <glob>
+  [ 15] getchainedprop 56 ....................... <glob.managers>
+  [ 17] getobjprop 260 .......................... <glob.managers.time>
+  [ 20] setglobal 259 ........................... time_mgr = glob.managers.time
+  [ 23] pushcons 4 .............................. <"fs_pause">
+  [ 25] pusharglist 1 ........................... <"fs_pause">
+  [ 27] extcall 201 ............................. <marker("fs_pause")>
+  [ 29] pusharglistnoret 1 ...................... <marker("fs_pause")>
+  [ 31] extcall 211 ............................. go(marker("fs_pause"))
+  [ 33] ret
+end
+
+on closeRequest
+  [  0] getglobal 52 ............................ <glob>
+  [  2] getobjprop 73 ........................... <glob.voidp>
+  [  4] jmpifz [ 12] ............................ if glob.voidp then
+  [  7] pusharglistnoret 0 ...................... <>
+  [  9] extcall 261 ............................. halt()
+  [ 12] getglobal 52 ............................ <glob>
+  [ 14] pushint8 1 .............................. <1>
+  [ 16] setobjprop 262 .......................... glob.closeRequested = 1
+  [ 19] ret
+end
+
+on mouseDown
+  [  0] getglobal 52 ............................ <glob>
+  [  2] getobjprop 73 ........................... <glob.voidp>
+  [  4] jmpifz [ 11] ............................ if glob.voidp then
+  [  7] pusharglistnoret 0 ...................... <>
+  [  9] extcall 8 ............................... return 
+  [ 11] getglobal 52 ............................ <glob>
+  [ 13] pusharglistnoret 1 ...................... <glob>
+  [ 15] objcall 48 .............................. glob.mouseDown()
+  [ 17] ret
+end
+
+on mouseUp
+  [  0] getglobal 52 ............................ <glob>
+  [  2] getobjprop 73 ........................... <glob.voidp>
+  [  4] jmpifz [ 11] ............................ if glob.voidp then
+  [  7] pusharglistnoret 0 ...................... <>
+  [  9] extcall 8 ............................... return 
+  [ 11] getglobal 52 ............................ <glob>
+  [ 13] pusharglistnoret 1 ...................... <glob>
+  [ 15] objcall 47 .............................. glob.mouseUp()
+  [ 17] ret
+end
+
+on keyDown
+  [  0] getglobal 52 ............................ <glob>
+  [  2] getobjprop 73 ........................... <glob.voidp>
+  [  4] jmpifz [ 11] ............................ if glob.voidp then
+  [  7] pusharglistnoret 0 ...................... <>
+  [  9] extcall 8 ............................... return 
+  [ 11] getglobal 52 ............................ <glob>
+  [ 13] pusharglist 0 ........................... <>
+  [ 15] thebuiltin 263 .......................... <the key>
+  [ 18] pusharglistnoret 2 ...................... <glob, the key>
+  [ 20] objcall 245 ............................. glob.keyDown(the key)
+  [ 22] ret
+end
+
+on exitFrame
+  [  0] getglobal 52 ............................ <glob>
+  [  2] getobjprop 73 ........................... <glob.voidp>
+  [  4] jmpifz [ 11] ............................ if glob.voidp then
+  [  7] pusharglistnoret 0 ...................... <>
+  [  9] extcall 8 ............................... return 
+  [ 11] getglobal 52 ............................ <glob>
+  [ 13] pusharglistnoret 1 ...................... <glob>
+  [ 15] objcall 51 .............................. glob.exitFrame()
+  [ 17] ret
+end
+
+on stopMovie
+  [  0] getmovieprop 253 ........................ <the runMode>
+  [  2] pushcons 3 .............................. <"Author">
+  [  4] containsstr ............................. <the runMode contains "Author">
+  [  5] not ..................................... <not (the runMode contains "Author")>
+  [  6] jmpifz [ 13] ............................ if not (the runMode contains "Author") then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 8 ............................... return 
+  [ 13] getglobal 52 ............................ <glob>
+  [ 15] pusharglist 1 ........................... <glob>
+  [ 17] extcall 73 .............................. <voidp(glob)>
+  [ 19] jmpifz [ 26] ............................ if voidp(glob) then
+  [ 22] pusharglistnoret 0 ...................... <>
+  [ 24] extcall 8 ............................... return 
+  [ 26] getglobal 52 ............................ <glob>
+  [ 28] pusharglistnoret 1 ...................... <glob>
+  [ 30] objcall 1 ............................... glob.destroy()
+  [ 32] pusharglist 0 ........................... <>
+  [ 34] extcall 18 .............................. <VOID>
+  [ 36] setglobal 52 ............................ glob = VOID
+  [ 38] pushint8 1 .............................. <1>
+  [ 40] setlocal 0
+  [ 42] getlocal 0
+  [ 44] pushcons 5 .............................. <"dynamic">
+  [ 46] pushint8 2 .............................. <2>
+  [ 48] get 8 ................................... <the number of castMembers of castLib "dynamic">
+  [ 50] lteq
+  [ 51] jmpifz [ 76] ............................ repeat with i = 1 to the number of castMembers of castLib "dynamic"
+  [ 54] getlocal 0 .............................. <i>
+  [ 56] pushcons 5 .............................. <"dynamic">
+  [ 58] pusharglist 2 ........................... <i, "dynamic">
+  [ 60] extcall 81 .............................. <member(i, "dynamic")>
+  [ 62] pusharglistnoret 1 ...................... <member(i, "dynamic")>
+  [ 64] extcall 264 ............................. erase(member(i, "dynamic"))
+  [ 67] pushint8 1
+  [ 69] getlocal 0
+  [ 71] add
+  [ 72] setlocal 0
+  [ 74] endrepeat [ 42]
+  [ 76] ret
+end
+
+on complain str
+  [  0] getglobal 265 ........................... <debug>
+  [  3] jmpifz [ 13] ............................ if debug then
+  [  6] getparam 0 .............................. <str>
+  [  8] pusharglistnoret 1 ...................... <str>
+  [ 10] extcall 266 ............................. alert(str)
+  [ 13] ret
+end

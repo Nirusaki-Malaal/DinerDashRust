@@ -1,0 +1,112 @@
+property targets, dragsource, mousepressed
+
+on new me
+  [  0] pusharglist 0 ........................... <[]>
+  [  2] pushlist ................................ <[]>
+  [  3] setprop 156 ............................. targets = []
+  [  5] getparam 0 .............................. <me>
+  [  7] pusharglistnoret 1 ...................... <me>
+  [  9] extcall 8 ............................... return me
+  [ 11] ret
+end
+
+on destroy me
+  [  0] pushsymb 157 ............................ <#removeGroup>
+  [  2] getprop 156 ............................. <targets>
+  [  4] getparam 0 .............................. <me>
+  [  6] pusharglistnoret 3 ...................... <#removeGroup, targets, me>
+  [  8] extcall 16 .............................. call(#removeGroup, targets, me)
+  [ 10] getprop 156 ............................. <targets>
+  [ 12] pusharglistnoret 1 ...................... <targets>
+  [ 14] objcall 17 .............................. targets.deleteAll()
+  [ 16] ret
+end
+
+on addTarget me, t
+  [  0] getprop 156 ............................. <targets>
+  [  2] getparam 1 .............................. <t>
+  [  4] pusharglist 2 ........................... <targets, t>
+  [  6] objcall 37 .............................. <targets.getOne(t)>
+  [  8] pushzero ................................ <0>
+  [  9] nteq .................................... <targets.getOne(t) <> 0>
+  [ 10] jmpifz [ 17] ............................ if targets.getOne(t) <> 0 then
+  [ 13] pusharglistnoret 0 ...................... <>
+  [ 15] extcall 8 ............................... return 
+  [ 17] getprop 156 ............................. <targets>
+  [ 19] getparam 1 .............................. <t>
+  [ 21] pusharglistnoret 2 ...................... <targets, t>
+  [ 23] objcall 14 .............................. targets.add(t)
+  [ 25] getparam 1 .............................. <t>
+  [ 27] getparam 0 .............................. <me>
+  [ 29] pusharglistnoret 2 ...................... <t, me>
+  [ 31] objcall 158 ............................. t.addGroup(me)
+  [ 33] ret
+end
+
+on removeTarget me, t
+  [  0] getprop 156 ............................. <targets>
+  [  2] getparam 1 .............................. <t>
+  [  4] pusharglist 2 ........................... <targets, t>
+  [  6] objcall 37 .............................. <targets.getOne(t)>
+  [  8] pushzero ................................ <0>
+  [  9] eq ...................................... <targets.getOne(t) = 0>
+  [ 10] jmpifz [ 17] ............................ if targets.getOne(t) = 0 then
+  [ 13] pusharglistnoret 0 ...................... <>
+  [ 15] extcall 8 ............................... return 
+  [ 17] getparam 1 .............................. <t>
+  [ 19] pusharglist 0 ........................... <>
+  [ 21] extcall 18 .............................. <VOID>
+  [ 23] pusharglistnoret 2 ...................... <t, VOID>
+  [ 25] objcall 154 ............................. t.setSource(VOID)
+  [ 27] getprop 156 ............................. <targets>
+  [ 29] getparam 1 .............................. <t>
+  [ 31] pusharglistnoret 2 ...................... <targets, t>
+  [ 33] objcall 43 .............................. targets.deleteOne(t)
+  [ 35] getparam 1 .............................. <t>
+  [ 37] getparam 0 .............................. <me>
+  [ 39] pusharglistnoret 2 ...................... <t, me>
+  [ 41] objcall 157 ............................. t.removeGroup(me)
+  [ 43] ret
+end
+
+on moveObject me, srcobj, tobj
+  [  0] ret
+end
+
+on setSource me, dobj
+  [  0] getprop 161 ............................. <dragsource>
+  [  2] getparam 1 .............................. <dobj>
+  [  4] eq ...................................... <dragsource = dobj>
+  [  5] jmpifz [ 12] ............................ if dragsource = dobj then
+  [  8] pusharglistnoret 0 ...................... <>
+  [ 10] extcall 8 ............................... return 
+  [ 12] getprop 161 ............................. <dragsource>
+  [ 14] pusharglist 1 ........................... <dragsource>
+  [ 16] extcall 73 .............................. <voidp(dragsource)>
+  [ 18] not ..................................... <not voidp(dragsource)>
+  [ 19] jmpifz [ 28] ............................ if not voidp(dragsource) then
+  [ 22] pusharglist 0 ........................... <>
+  [ 24] extcall 18 .............................. <VOID>
+  [ 26] setprop 161 ............................. dragsource = VOID
+  [ 28] getparam 1 .............................. <dobj>
+  [ 30] setprop 161 ............................. dragsource = dobj
+  [ 32] pushsymb 154 ............................ <#setSource>
+  [ 34] getprop 156 ............................. <targets>
+  [ 36] getparam 1 .............................. <dobj>
+  [ 38] pusharglistnoret 3 ...................... <#setSource, targets, dobj>
+  [ 40] extcall 16 .............................. call(#setSource, targets, dobj)
+  [ 42] ret
+end
+
+on removeSource me, s
+  [  0] getprop 161 ............................. <dragsource>
+  [  2] getparam 1 .............................. <s>
+  [  4] eq ...................................... <dragsource = s>
+  [  5] jmpifz [ 18] ............................ if dragsource = s then
+  [  8] getparam 0 .............................. <me>
+  [ 10] pusharglist 0 ........................... <>
+  [ 12] extcall 18 .............................. <VOID>
+  [ 14] pusharglistnoret 2 ...................... <me, VOID>
+  [ 16] objcall 154 ............................. me.setSource(VOID)
+  [ 18] ret
+end

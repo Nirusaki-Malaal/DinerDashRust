@@ -1,0 +1,41 @@
+on timedCall ms, cb, grp
+  [  0] pushcons 0 .............................. <"timeout">
+  [  2] pusharglist 1 ........................... <"timeout">
+  [  4] extcall 13 .............................. <script("timeout")>
+  [  6] getparam 0 .............................. <ms>
+  [  8] getparam 1 .............................. <cb>
+  [ 10] pushint8 1 .............................. <1>
+  [ 12] getparam 2 .............................. <grp>
+  [ 14] pusharglist 5 ........................... <script("timeout"), ms, cb, 1, grp>
+  [ 16] objcall 0 ............................... <script("timeout").new(ms, cb, 1, grp)>
+  [ 18] setlocal 0 .............................. t = script("timeout").new(ms, cb, 1, grp)
+  [ 20] getlocal 0 .............................. <t>
+  [ 22] pusharglistnoret 1 ...................... <t>
+  [ 24] extcall 8 ............................... return t
+  [ 26] ret
+end
+
+on triggerCall t, cb
+  [  0] pushcons 1 .............................. <"notifier">
+  [  2] pushcons 2 .............................. <"scripts.trigger">
+  [  4] pusharglist 2 ........................... <"notifier", "scripts.trigger">
+  [  6] extcall 13 .............................. <script("notifier", "scripts.trigger")>
+  [  8] pusharglist 1 ........................... <script("notifier", "scripts.trigger")>
+  [ 10] objcall 0 ............................... <script("notifier", "scripts.trigger").new()>
+  [ 12] setlocal 0 .............................. n = script("notifier", "scripts.trigger").new()
+  [ 14] getlocal 0 .............................. <n>
+  [ 16] getparam 1 .............................. <cb>
+  [ 18] pusharglistnoret 2 ...................... <n, cb>
+  [ 20] objcall 98 .............................. n.setCallback(cb)
+  [ 22] getlocal 0 .............................. <n>
+  [ 24] getparam 0 .............................. <t>
+  [ 26] pusharglistnoret 2 ...................... <n, t>
+  [ 28] objcall 150 ............................. n.addTrigger(t)
+  [ 30] getlocal 0 .............................. <n>
+  [ 32] pusharglistnoret 1 ...................... <n>
+  [ 34] objcall 136 ............................. n.start()
+  [ 36] getlocal 0 .............................. <n>
+  [ 38] pusharglistnoret 1 ...................... <n>
+  [ 40] extcall 8 ............................... return n
+  [ 42] ret
+end

@@ -1,0 +1,276 @@
+property drag_mgr, callbacks, cb_keys, node, currentTarget, group
+
+on new me, Args
+  [  0] getparam 1 .............................. <Args>
+  [  2] getobjprop 170 .......................... <Args.targetGroup>
+  [  4] setprop 138 ............................. group = Args.targetGroup
+  [  6] pusharglist 0 ........................... <[:]>
+  [  8] pushproplist ............................ <[:]>
+  [  9] setprop 102 ............................. callbacks = [:]
+  [ 11] pushsymb 166 ............................ <#dragEnter>
+  [ 13] pushsymb 167 ............................ <#dragLeave>
+  [ 15] pushsymb 169 ............................ <#dragDrop>
+  [ 17] pushsymb 168 ............................ <#dragRelease>
+  [ 19] pusharglist 4 ........................... <[#dragEnter, #dragLeave, #dragDrop, #dragRelease]>
+  [ 21] pushlist ................................ <[#dragEnter, #dragLeave, #dragDrop, #dragRelease]>
+  [ 22] setprop 171 ............................. cb_keys = [#dragEnter, #dragLeave, #dragDrop, #dragRelease]
+  [ 24] getparam 0 .............................. <me>
+  [ 26] pusharglistnoret 1 ...................... <me>
+  [ 28] extcall 8 ............................... return me
+  [ 30] ret
+end
+
+on setCallback me, sym, cb
+  [  0] getprop 171 ............................. <cb_keys>
+  [  2] getparam 1 .............................. <sym>
+  [  4] pusharglist 2 ........................... <cb_keys, sym>
+  [  6] objcall 37 .............................. <cb_keys.getOne(sym)>
+  [  8] pushzero ................................ <0>
+  [  9] eq ...................................... <cb_keys.getOne(sym) = 0>
+  [ 10] jmpifz [ 17] ............................ if cb_keys.getOne(sym) = 0 then
+  [ 13] pusharglistnoret 0 ...................... <>
+  [ 15] extcall 8 ............................... return 
+  [ 17] getprop 102 ............................. <callbacks>
+  [ 19] getparam 1 .............................. <sym>
+  [ 21] getparam 2 .............................. <cb>
+  [ 23] pusharglistnoret 3 ...................... <callbacks, sym, cb>
+  [ 25] objcall 40 .............................. callbacks[sym] = cb
+  [ 27] ret
+end
+
+on clearCallbacks me
+  [  0] getprop 102 ............................. <callbacks>
+  [  2] pusharglistnoret 1 ...................... <callbacks>
+  [  4] objcall 17 .............................. callbacks.deleteAll()
+  [  6] ret
+end
+
+on forwardEvents me, obj
+  [  0] getparam 0 .............................. <me>
+  [  2] pusharglistnoret 1 ...................... <me>
+  [  4] objcall 97 .............................. me.clearCallbacks()
+  [  6] getparam 1 .............................. <obj>
+  [  8] pusharglist 1 ........................... <obj>
+  [ 10] objcall 36 .............................. <obj.handlers()>
+  [ 12] setlocal 0 .............................. h = obj.handlers()
+  [ 14] getprop 171 ............................. <cb_keys>
+  [ 16] peek 0
+  [ 18] pusharglist 1
+  [ 20] extcall 76
+  [ 22] pushint8 1
+  [ 24] peek 0
+  [ 26] peek 2
+  [ 28] lteq
+  [ 29] jmpifz [ 79] ............................ repeat with i in cb_keys
+  [ 32] peek 2
+  [ 34] peek 1
+  [ 36] pusharglist 2
+  [ 38] extcall 77
+  [ 40] setlocal 1
+  [ 42] getlocal 0 .............................. <h>
+  [ 44] getlocal 1 .............................. <i>
+  [ 46] pusharglist 2 ........................... <h, i>
+  [ 48] objcall 37 .............................. <h.getOne(i)>
+  [ 50] pushzero ................................ <0>
+  [ 51] nteq .................................... <h.getOne(i) <> 0>
+  [ 52] jmpifz [ 74] ............................ if h.getOne(i) <> 0 then
+  [ 55] getparam 0 .............................. <me>
+  [ 57] getlocal 1 .............................. <i>
+  [ 59] pushsymb 105 ............................ <#target>
+  [ 61] getparam 1 .............................. <obj>
+  [ 63] pushsymb 29 ............................. <#handler>
+  [ 65] getlocal 1 .............................. <i>
+  [ 67] pusharglist 4 ........................... <[#target: obj, #handler: i]>
+  [ 69] pushproplist ............................ <[#target: obj, #handler: i]>
+  [ 70] pusharglistnoret 3 ...................... <me, i, [#target: obj, #handler: i]>
+  [ 72] objcall 98 .............................. me.setCallback(i, [#target: obj, #handler: i])
+  [ 74] pushint8 1
+  [ 76] add
+  [ 77] endrepeat [ 24]
+  [ 79] pop 3
+  [ 81] ret
+end
+
+on destroy me
+  [  0] pusharglist 0 ........................... <>
+  [  2] extcall 18 .............................. <VOID>
+  [  4] setlocal 0 .............................. data = VOID
+  [  6] getprop 102 ............................. <callbacks>
+  [  8] pusharglistnoret 1 ...................... <callbacks>
+  [ 10] objcall 17 .............................. callbacks.deleteAll()
+  [ 12] pusharglist 0 ........................... <>
+  [ 14] extcall 18 .............................. <VOID>
+  [ 16] setlocal 1 .............................. obj = VOID
+  [ 18] getprop 138 ............................. <group>
+  [ 20] getparam 0 .............................. <me>
+  [ 22] pusharglistnoret 2 ...................... <group, me>
+  [ 24] objcall 155 ............................. group.removeSource(me)
+  [ 26] pusharglist 0 ........................... <>
+  [ 28] extcall 18 .............................. <VOID>
+  [ 30] setprop 138 ............................. group = VOID
+  [ 32] pusharglist 0 ........................... <>
+  [ 34] extcall 18 .............................. <VOID>
+  [ 36] setprop 172 ............................. currentTarget = VOID
+  [ 38] ret
+end
+
+on startDragging me
+  [  0] getprop 138 ............................. <group>
+  [  2] getparam 0 .............................. <me>
+  [  4] pusharglistnoret 2 ...................... <group, me>
+  [  6] objcall 154 ............................. group.setSource(me)
+  [  8] ret
+end
+
+on stopDragging me
+  [  0] getprop 138 ............................. <group>
+  [  2] getparam 0 .............................. <me>
+  [  4] pusharglistnoret 2 ...................... <group, me>
+  [  6] objcall 155 ............................. group.removeSource(me)
+  [  8] ret
+end
+
+on release me
+  [  0] getprop 172 ............................. <currentTarget>
+  [  2] pusharglist 1 ........................... <currentTarget>
+  [  4] extcall 73 .............................. <voidp(currentTarget)>
+  [  6] jmpifz [ 18] ............................ if voidp(currentTarget) then / else
+  [  9] getparam 0 .............................. <me>
+  [ 11] pusharglistnoret 1 ...................... <me>
+  [ 13] objcall 168 ............................. me.dragRelease()
+  [ 15] jmp [ 26]
+  [ 18] getparam 0 .............................. <me>
+  [ 20] getprop 172 ............................. <currentTarget>
+  [ 22] pusharglistnoret 2 ...................... <me, currentTarget>
+  [ 24] objcall 169 ............................. me.dragDrop(currentTarget)
+  [ 26] ret
+end
+
+on dragEnter me, t
+  [  0] getparam 1 .............................. <t>
+  [  2] getprop 172 ............................. <currentTarget>
+  [  4] eq ...................................... <t = currentTarget>
+  [  5] jmpifz [ 12] ............................ if t = currentTarget then
+  [  8] pusharglistnoret 0 ...................... <>
+  [ 10] extcall 8 ............................... return 
+  [ 12] getparam 1 .............................. <t>
+  [ 14] setprop 172 ............................. currentTarget = t
+  [ 16] getprop 102 ............................. <callbacks>
+  [ 18] pushsymb 166 ............................ <#dragEnter>
+  [ 20] pusharglist 2 ........................... <callbacks, #dragEnter>
+  [ 22] objcall 77 .............................. <callbacks[#dragEnter]>
+  [ 24] setlocal 0 .............................. cb = callbacks[#dragEnter]
+  [ 26] getlocal 0 .............................. <cb>
+  [ 28] pusharglist 1 ........................... <cb>
+  [ 30] extcall 73 .............................. <voidp(cb)>
+  [ 32] jmpifz [ 39] ............................ if voidp(cb) then
+  [ 35] pusharglistnoret 0 ...................... <>
+  [ 37] extcall 8 ............................... return 
+  [ 39] getlocal 0 .............................. <cb>
+  [ 41] getobjprop 29 ........................... <cb.handler>
+  [ 43] getlocal 0 .............................. <cb>
+  [ 45] pushsymb 105 ............................ <#target>
+  [ 47] pusharglist 2 ........................... <cb, #target>
+  [ 49] objcall 77 .............................. <cb[#target]>
+  [ 51] getparam 1 .............................. <t>
+  [ 53] getobjprop 121 .......................... <t.data>
+  [ 55] getlocal 0 .............................. <cb>
+  [ 57] pushsymb 30 ............................. <#Args>
+  [ 59] pusharglist 2 ........................... <cb, #Args>
+  [ 61] objcall 77 .............................. <cb[#Args]>
+  [ 63] pusharglistnoret 4 ...................... <cb.handler, cb[#target], t.data, cb[#Args]>
+  [ 65] extcall 16 .............................. call(cb.handler, cb[#target], t.data, cb[#Args])
+  [ 67] ret
+end
+
+on dragLeave me, t
+  [  0] getparam 1 .............................. <t>
+  [  2] getprop 172 ............................. <currentTarget>
+  [  4] eq ...................................... <t = currentTarget>
+  [  5] jmpifz [ 14] ............................ if t = currentTarget then
+  [  8] pusharglist 0 ........................... <>
+  [ 10] extcall 18 .............................. <VOID>
+  [ 12] setprop 172 ............................. currentTarget = VOID
+  [ 14] getprop 102 ............................. <callbacks>
+  [ 16] pushsymb 167 ............................ <#dragLeave>
+  [ 18] pusharglist 2 ........................... <callbacks, #dragLeave>
+  [ 20] objcall 77 .............................. <callbacks[#dragLeave]>
+  [ 22] setlocal 0 .............................. cb = callbacks[#dragLeave]
+  [ 24] getlocal 0 .............................. <cb>
+  [ 26] pusharglist 1 ........................... <cb>
+  [ 28] extcall 73 .............................. <voidp(cb)>
+  [ 30] jmpifz [ 37] ............................ if voidp(cb) then
+  [ 33] pusharglistnoret 0 ...................... <>
+  [ 35] extcall 8 ............................... return 
+  [ 37] getlocal 0 .............................. <cb>
+  [ 39] getobjprop 29 ........................... <cb.handler>
+  [ 41] getlocal 0 .............................. <cb>
+  [ 43] pushsymb 105 ............................ <#target>
+  [ 45] pusharglist 2 ........................... <cb, #target>
+  [ 47] objcall 77 .............................. <cb[#target]>
+  [ 49] getparam 1 .............................. <t>
+  [ 51] getobjprop 121 .......................... <t.data>
+  [ 53] getlocal 0 .............................. <cb>
+  [ 55] pushsymb 30 ............................. <#Args>
+  [ 57] pusharglist 2 ........................... <cb, #Args>
+  [ 59] objcall 77 .............................. <cb[#Args]>
+  [ 61] pusharglistnoret 4 ...................... <cb.handler, cb[#target], t.data, cb[#Args]>
+  [ 63] extcall 16 .............................. call(cb.handler, cb[#target], t.data, cb[#Args])
+  [ 65] ret
+end
+
+on dragRelease me
+  [  0] getprop 102 ............................. <callbacks>
+  [  2] pushsymb 168 ............................ <#dragRelease>
+  [  4] pusharglist 2 ........................... <callbacks, #dragRelease>
+  [  6] objcall 77 .............................. <callbacks[#dragRelease]>
+  [  8] setlocal 0 .............................. cb = callbacks[#dragRelease]
+  [ 10] getlocal 0 .............................. <cb>
+  [ 12] pusharglist 1 ........................... <cb>
+  [ 14] extcall 73 .............................. <voidp(cb)>
+  [ 16] jmpifz [ 23] ............................ if voidp(cb) then
+  [ 19] pusharglistnoret 0 ...................... <>
+  [ 21] extcall 8 ............................... return 
+  [ 23] getlocal 0 .............................. <cb>
+  [ 25] getobjprop 29 ........................... <cb.handler>
+  [ 27] getlocal 0 .............................. <cb>
+  [ 29] pushsymb 105 ............................ <#target>
+  [ 31] pusharglist 2 ........................... <cb, #target>
+  [ 33] objcall 77 .............................. <cb[#target]>
+  [ 35] getlocal 0 .............................. <cb>
+  [ 37] pushsymb 30 ............................. <#Args>
+  [ 39] pusharglist 2 ........................... <cb, #Args>
+  [ 41] objcall 77 .............................. <cb[#Args]>
+  [ 43] pusharglistnoret 3 ...................... <cb.handler, cb[#target], cb[#Args]>
+  [ 45] extcall 16 .............................. call(cb.handler, cb[#target], cb[#Args])
+  [ 47] ret
+end
+
+on dragDrop me, t
+  [  0] getprop 102 ............................. <callbacks>
+  [  2] pushsymb 169 ............................ <#dragDrop>
+  [  4] pusharglist 2 ........................... <callbacks, #dragDrop>
+  [  6] objcall 77 .............................. <callbacks[#dragDrop]>
+  [  8] setlocal 0 .............................. cb = callbacks[#dragDrop]
+  [ 10] getlocal 0 .............................. <cb>
+  [ 12] pusharglist 1 ........................... <cb>
+  [ 14] extcall 73 .............................. <voidp(cb)>
+  [ 16] jmpifz [ 23] ............................ if voidp(cb) then
+  [ 19] pusharglistnoret 0 ...................... <>
+  [ 21] extcall 8 ............................... return 
+  [ 23] getlocal 0 .............................. <cb>
+  [ 25] getobjprop 29 ........................... <cb.handler>
+  [ 27] getlocal 0 .............................. <cb>
+  [ 29] pushsymb 105 ............................ <#target>
+  [ 31] pusharglist 2 ........................... <cb, #target>
+  [ 33] objcall 77 .............................. <cb[#target]>
+  [ 35] getparam 1 .............................. <t>
+  [ 37] getobjprop 121 .......................... <t.data>
+  [ 39] getlocal 0 .............................. <cb>
+  [ 41] pushsymb 30 ............................. <#Args>
+  [ 43] pusharglist 2 ........................... <cb, #Args>
+  [ 45] objcall 77 .............................. <cb[#Args]>
+  [ 47] pusharglistnoret 4 ...................... <cb.handler, cb[#target], t.data, cb[#Args]>
+  [ 49] extcall 16 .............................. call(cb.handler, cb[#target], t.data, cb[#Args])
+  [ 51] ret
+end

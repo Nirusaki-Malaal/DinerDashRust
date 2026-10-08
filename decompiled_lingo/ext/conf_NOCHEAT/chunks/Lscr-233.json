@@ -1,0 +1,942 @@
+{
+  "totalLength": 11396,
+  "totalLength2": 11396,
+  "headerLength": 92,
+  "scriptNumber": 1,
+  "unk20": 33,
+  "parentNumber": -1,
+  "scriptFlags": 0,
+  "unk42": 0,
+  "castID": 2162704,
+  "factoryNameID": -1,
+  "handlerVectorsCount": 0,
+  "handlerVectorsOffset": 11396,
+  "handlerVectorsSize": 0,
+  "propertiesCount": 14,
+  "propertiesOffset": 92,
+  "globalsCount": 0,
+  "globalsOffset": 120,
+  "handlersCount": 18,
+  "handlersOffset": 120,
+  "literalsCount": 118,
+  "literalsOffset": 8690,
+  "literalsDataCount": 1762,
+  "literalsDataOffset": 9634,
+  "propertyNameIDs": [
+    198,
+    224,
+    225,
+    25,
+    209,
+    85,
+    345,
+    153,
+    165,
+    167,
+    168,
+    154,
+    58,
+    171
+  ],
+  "globalNameIDs": [],
+  "handlers": [
+    {
+      "nameID": 0,
+      "vectorPos": 65535,
+      "compiledLen": 1103,
+      "compiledOffset": 948,
+      "argumentCount": 1,
+      "argumentOffset": 2052,
+      "localsCount": 17,
+      "localsOffset": 2054,
+      "globalsCount": 0,
+      "globalsOffset": 120,
+      "unknown1": 246,
+      "unknown2": 17,
+      "lineCount": 127,
+      "lineOffset": 2088,
+      "stackHeight": 16
+    },
+    {
+      "nameID": 1,
+      "vectorPos": 65535,
+      "compiledLen": 53,
+      "compiledOffset": 2216,
+      "argumentCount": 1,
+      "argumentOffset": 2270,
+      "localsCount": 1,
+      "localsOffset": 2272,
+      "globalsCount": 0,
+      "globalsOffset": 120,
+      "unknown1": 3729,
+      "unknown2": 148,
+      "lineCount": 15,
+      "lineOffset": 2274,
+      "stackHeight": 2
+    },
+    {
+      "nameID": 137,
+      "vectorPos": 65535,
+      "compiledLen": 102,
+      "compiledOffset": 2290,
+      "argumentCount": 2,
+      "argumentOffset": 2392,
+      "localsCount": 2,
+      "localsOffset": 2396,
+      "globalsCount": 0,
+      "globalsOffset": 120,
+      "unknown1": 4102,
+      "unknown2": 167,
+      "lineCount": 14,
+      "lineOffset": 2400,
+      "stackHeight": 4
+    },
+    {
+      "nameID": 138,
+      "vectorPos": 65535,
+      "compiledLen": 93,
+      "compiledOffset": 2414,
+      "argumentCount": 1,
+      "argumentOffset": 2508,
+      "localsCount": 4,
+      "localsOffset": 2510,
+      "globalsCount": 0,
+      "globalsOffset": 120,
+      "unknown1": 4586,
+      "unknown2": 184,
+      "lineCount": 13,
+      "lineOffset": 2518,
+      "stackHeight": 4
+    },
+    {
+      "nameID": 139,
+      "vectorPos": 65535,
+      "compiledLen": 45,
+      "compiledOffset": 2532,
+      "argumentCount": 2,
+      "argumentOffset": 2578,
+      "localsCount": 1,
+      "localsOffset": 2582,
+      "globalsCount": 0,
+      "globalsOffset": 120,
+      "unknown1": 4977,
+      "unknown2": 202,
+      "lineCount": 3,
+      "lineOffset": 2584,
+      "stackHeight": 3
+    },
+    {
+      "nameID": 140,
+      "vectorPos": 65535,
+      "compiledLen": 58,
+      "compiledOffset": 2588,
+      "argumentCount": 3,
+      "argumentOffset": 2646,
+      "localsCount": 1,
+      "localsOffset": 2652,
+      "globalsCount": 0,
+      "globalsOffset": 120,
+      "unknown1": 5111,
+      "unknown2": 209,
+      "lineCount": 7,
+      "lineOffset": 2654,
+      "stackHeight": 3
+    },
+    {
+      "nameID": 141,
+      "vectorPos": 65535,
+      "compiledLen": 31,
+      "compiledOffset": 2662,
+      "argumentCount": 2,
+      "argumentOffset": 2694,
+      "localsCount": 2,
+      "localsOffset": 2698,
+      "globalsCount": 0,
+      "globalsOffset": 120,
+      "unknown1": 5322,
+      "unknown2": 220,
+      "lineCount": 3,
+      "lineOffset": 2702,
+      "stackHeight": 3
+    },
+    {
+      "nameID": 142,
+      "vectorPos": 65535,
+      "compiledLen": 294,
+      "compiledOffset": 2706,
+      "argumentCount": 1,
+      "argumentOffset": 3000,
+      "localsCount": 7,
+      "localsOffset": 3002,
+      "globalsCount": 0,
+      "globalsOffset": 120,
+      "unknown1": 5454,
+      "unknown2": 227,
+      "lineCount": 31,
+      "lineOffset": 3016,
+      "stackHeight": 8
+    },
+    {
+      "nameID": 143,
+      "vectorPos": 65535,
+      "compiledLen": 431,
+      "compiledOffset": 3048,
+      "argumentCount": 1,
+      "argumentOffset": 3480,
+      "localsCount": 13,
+      "localsOffset": 3482,
+      "globalsCount": 0,
+      "globalsOffset": 120,
+      "unknown1": 6185,
+      "unknown2": 261,
+      "lineCount": 41,
+      "lineOffset": 3508,
+      "stackHeight": 12
+    },
+    {
+      "nameID": 144,
+      "vectorPos": 65535,
+      "compiledLen": 1052,
+      "compiledOffset": 3550,
+      "argumentCount": 1,
+      "argumentOffset": 4602,
+      "localsCount": 23,
+      "localsOffset": 4604,
+      "globalsCount": 0,
+      "globalsOffset": 120,
+      "unknown1": 7321,
+      "unknown2": 306,
+      "lineCount": 110,
+      "lineOffset": 4650,
+      "stackHeight": 11
+    },
+    {
+      "nameID": 145,
+      "vectorPos": 65535,
+      "compiledLen": 1226,
+      "compiledOffset": 4760,
+      "argumentCount": 1,
+      "argumentOffset": 5986,
+      "localsCount": 33,
+      "localsOffset": 5988,
+      "globalsCount": 0,
+      "globalsOffset": 120,
+      "unknown1": 10311,
+      "unknown2": 420,
+      "lineCount": 114,
+      "lineOffset": 6054,
+      "stackHeight": 16
+    },
+    {
+      "nameID": 146,
+      "vectorPos": 65535,
+      "compiledLen": 1907,
+      "compiledOffset": 6168,
+      "argumentCount": 1,
+      "argumentOffset": 8076,
+      "localsCount": 52,
+      "localsOffset": 8078,
+      "globalsCount": 0,
+      "globalsOffset": 120,
+      "unknown1": 13879,
+      "unknown2": 537,
+      "lineCount": 221,
+      "lineOffset": 8182,
+      "stackHeight": 25
+    },
+    {
+      "nameID": 147,
+      "vectorPos": 65535,
+      "compiledLen": 11,
+      "compiledOffset": 8404,
+      "argumentCount": 0,
+      "argumentOffset": 8416,
+      "localsCount": 0,
+      "localsOffset": 8416,
+      "globalsCount": 0,
+      "globalsOffset": 120,
+      "unknown1": 20979,
+      "unknown2": 762,
+      "lineCount": 6,
+      "lineOffset": 8416,
+      "stackHeight": 2
+    },
+    {
+      "nameID": 148,
+      "vectorPos": 65535,
+      "compiledLen": 25,
+      "compiledOffset": 8422,
+      "argumentCount": 2,
+      "argumentOffset": 8448,
+      "localsCount": 0,
+      "localsOffset": 8452,
+      "globalsCount": 0,
+      "globalsOffset": 120,
+      "unknown1": 21052,
+      "unknown2": 772,
+      "lineCount": 1,
+      "lineOffset": 8452,
+      "stackHeight": 4
+    },
+    {
+      "nameID": 149,
+      "vectorPos": 65535,
+      "compiledLen": 35,
+      "compiledOffset": 8454,
+      "argumentCount": 2,
+      "argumentOffset": 8490,
+      "localsCount": 1,
+      "localsOffset": 8494,
+      "globalsCount": 0,
+      "globalsOffset": 120,
+      "unknown1": 21127,
+      "unknown2": 776,
+      "lineCount": 3,
+      "lineOffset": 8496,
+      "stackHeight": 3
+    },
+    {
+      "nameID": 150,
+      "vectorPos": 65535,
+      "compiledLen": 40,
+      "compiledOffset": 8500,
+      "argumentCount": 2,
+      "argumentOffset": 8540,
+      "localsCount": 1,
+      "localsOffset": 8544,
+      "globalsCount": 0,
+      "globalsOffset": 120,
+      "unknown1": 21303,
+      "unknown2": 782,
+      "lineCount": 3,
+      "lineOffset": 8546,
+      "stackHeight": 3
+    },
+    {
+      "nameID": 151,
+      "vectorPos": 65535,
+      "compiledLen": 66,
+      "compiledOffset": 8550,
+      "argumentCount": 3,
+      "argumentOffset": 8616,
+      "localsCount": 1,
+      "localsOffset": 8622,
+      "globalsCount": 0,
+      "globalsOffset": 120,
+      "unknown1": 21530,
+      "unknown2": 790,
+      "lineCount": 8,
+      "lineOffset": 8624,
+      "stackHeight": 4
+    },
+    {
+      "nameID": 152,
+      "vectorPos": 65535,
+      "compiledLen": 50,
+      "compiledOffset": 8632,
+      "argumentCount": 2,
+      "argumentOffset": 8682,
+      "localsCount": 0,
+      "localsOffset": 8686,
+      "globalsCount": 0,
+      "globalsOffset": 120,
+      "unknown1": 21721,
+      "unknown2": 803,
+      "lineCount": 3,
+      "lineOffset": 8686,
+      "stackHeight": 4
+    }
+  ],
+  "literals": [
+    {
+      "type": 1,
+      "offset": 0,
+      "value": "Author"
+    },
+    {
+      "type": 1,
+      "offset": 12,
+      "value": "refresh_flag"
+    },
+    {
+      "type": 1,
+      "offset": 30,
+      "value": "scripts.config"
+    },
+    {
+      "type": 1,
+      "offset": 50,
+      "value": "1"
+    },
+    {
+      "type": 1,
+      "offset": 56,
+      "value": "0"
+    },
+    {
+      "type": 1,
+      "offset": 62,
+      "value": "gameLab"
+    },
+    {
+      "type": 1,
+      "offset": 74,
+      "value": "xml.parser"
+    },
+    {
+      "type": 1,
+      "offset": 90,
+      "value": "new table"
+    },
+    {
+      "type": 1,
+      "offset": 104,
+      "value": "add a new table to the restaurant"
+    },
+    {
+      "type": 1,
+      "offset": 142,
+      "value": "remove_2"
+    },
+    {
+      "type": 1,
+      "offset": 156,
+      "value": "remove_"
+    },
+    {
+      "type": 1,
+      "offset": 168,
+      "value": "a"
+    },
+    {
+      "type": 1,
+      "offset": 174,
+      "value": "b"
+    },
+    {
+      "type": 1,
+      "offset": 180,
+      "value": "c"
+    },
+    {
+      "type": 1,
+      "offset": 186,
+      "value": "state_"
+    },
+    {
+      "type": 1,
+      "offset": 198,
+      "value": "state_1"
+    },
+    {
+      "type": 1,
+      "offset": 210,
+      "value": "tiki_2"
+    },
+    {
+      "type": 1,
+      "offset": 222,
+      "value": "tiki_3"
+    },
+    {
+      "type": 1,
+      "offset": 234,
+      "value": "tiki_4"
+    },
+    {
+      "type": 1,
+      "offset": 246,
+      "value": "state_2"
+    },
+    {
+      "type": 1,
+      "offset": 258,
+      "value": "state_3"
+    },
+    {
+      "type": 1,
+      "offset": 270,
+      "value": "state_4"
+    },
+    {
+      "type": 1,
+      "offset": 282,
+      "value": "bg_seafood_2"
+    },
+    {
+      "type": 1,
+      "offset": 300,
+      "value": "bg_seafood_3"
+    },
+    {
+      "type": 1,
+      "offset": 318,
+      "value": "bg_seafood_4"
+    },
+    {
+      "type": 1,
+      "offset": 336,
+      "value": "bg_chez_2"
+    },
+    {
+      "type": 1,
+      "offset": 350,
+      "value": "bg_chez_3"
+    },
+    {
+      "type": 1,
+      "offset": 364,
+      "value": "bg_chez_4a"
+    },
+    {
+      "type": 1,
+      "offset": 380,
+      "value": "bg_chez_4b"
+    },
+    {
+      "type": 1,
+      "offset": 396,
+      "value": "bg_1"
+    },
+    {
+      "type": 1,
+      "offset": 406,
+      "value": "bg_2"
+    },
+    {
+      "type": 1,
+      "offset": 416,
+      "value": "crack_1_a"
+    },
+    {
+      "type": 1,
+      "offset": 430,
+      "value": "crack_1_b"
+    },
+    {
+      "type": 1,
+      "offset": 444,
+      "value": "crack_1_c"
+    },
+    {
+      "type": 1,
+      "offset": 458,
+      "value": "d"
+    },
+    {
+      "type": 1,
+      "offset": 464,
+      "value": "crack_2_"
+    },
+    {
+      "type": 1,
+      "offset": 478,
+      "value": "crack_3_"
+    },
+    {
+      "type": 1,
+      "offset": 492,
+      "value": "state_5"
+    },
+    {
+      "type": 1,
+      "offset": 504,
+      "value": "diner"
+    },
+    {
+      "type": 1,
+      "offset": 514,
+      "value": "bg_diner"
+    },
+    {
+      "type": 1,
+      "offset": 528,
+      "value": "family"
+    },
+    {
+      "type": 1,
+      "offset": 540,
+      "value": "bg_tiki"
+    },
+    {
+      "type": 1,
+      "offset": 552,
+      "value": "finedining"
+    },
+    {
+      "type": 1,
+      "offset": 568,
+      "value": "bg_seafood"
+    },
+    {
+      "type": 1,
+      "offset": 584,
+      "value": "chezflos"
+    },
+    {
+      "type": 1,
+      "offset": 598,
+      "value": "bg_chez"
+    },
+    {
+      "type": 1,
+      "offset": 610,
+      "value": "goddess"
+    },
+    {
+      "type": 1,
+      "offset": 622,
+      "value": "bg_goddess"
+    },
+    {
+      "type": 1,
+      "offset": 638,
+      "value": "sitter_regpoints"
+    },
+    {
+      "type": 1,
+      "offset": 660,
+      "value": "scripts.layout"
+    },
+    {
+      "type": 1,
+      "offset": 680,
+      "value": "config/"
+    },
+    {
+      "type": 1,
+      "offset": 692,
+      "value": ".xml"
+    },
+    {
+      "type": 1,
+      "offset": 702,
+      "value": "mm/dd/yy"
+    },
+    {
+      "type": 1,
+      "offset": 716,
+      "value": ":hh:nn:ss"
+    },
+    {
+      "type": 1,
+      "offset": 730,
+      "value": "_date"
+    },
+    {
+      "type": 1,
+      "offset": 740,
+      "value": "endless"
+    },
+    {
+      "type": 1,
+      "offset": 752,
+      "value": "career"
+    },
+    {
+      "type": 1,
+      "offset": 764,
+      "value": "config"
+    },
+    {
+      "type": 1,
+      "offset": 776,
+      "value": "config_date"
+    },
+    {
+      "type": 1,
+      "offset": 792,
+      "value": "_dump"
+    },
+    {
+      "type": 1,
+      "offset": 802,
+      "value": "global"
+    },
+    {
+      "type": 1,
+      "offset": 814,
+      "value": "actionPoints"
+    },
+    {
+      "type": 1,
+      "offset": 832,
+      "value": "timebomb"
+    },
+    {
+      "type": 1,
+      "offset": 846,
+      "value": "powerups"
+    },
+    {
+      "type": 1,
+      "offset": 860,
+      "value": "powerupLevels"
+    },
+    {
+      "type": 1,
+      "offset": 878,
+      "value": "numProps"
+    },
+    {
+      "type": 1,
+      "offset": 892,
+      "value": "customer"
+    },
+    {
+      "type": 1,
+      "offset": 906,
+      "value": "customerConfig"
+    },
+    {
+      "type": 1,
+      "offset": 926,
+      "value": "customers"
+    },
+    {
+      "type": 1,
+      "offset": 940,
+      "value": "id"
+    },
+    {
+      "type": 1,
+      "offset": 948,
+      "value": "color"
+    },
+    {
+      "type": 1,
+      "offset": 958,
+      "value": "groupDefaults"
+    },
+    {
+      "type": 1,
+      "offset": 976,
+      "value": "groupStates"
+    },
+    {
+      "type": 1,
+      "offset": 992,
+      "value": "groupTypes"
+    },
+    {
+      "type": 1,
+      "offset": 1008,
+      "value": "graphicType"
+    },
+    {
+      "type": 1,
+      "offset": 1024,
+      "value": "boy"
+    },
+    {
+      "type": 1,
+      "offset": 1032,
+      "value": "careerMode"
+    },
+    {
+      "type": 1,
+      "offset": 1048,
+      "value": "stages"
+    },
+    {
+      "type": 1,
+      "offset": 1060,
+      "value": "numStars"
+    },
+    {
+      "type": 1,
+      "offset": 1074,
+      "value": "levels"
+    },
+    {
+      "type": 1,
+      "offset": 1086,
+      "value": "layoutFile"
+    },
+    {
+      "type": 1,
+      "offset": 1102,
+      "value": "bgState"
+    },
+    {
+      "type": 1,
+      "offset": 1114,
+      "value": "doodle"
+    },
+    {
+      "type": 1,
+      "offset": 1126,
+      "value": "no leveldata member named "
+    },
+    {
+      "type": 1,
+      "offset": 1158,
+      "value": " in config cast"
+    },
+    {
+      "type": 1,
+      "offset": 1178,
+      "value": "thislevel"
+    },
+    {
+      "type": 1,
+      "offset": 1192,
+      "value": "podium"
+    },
+    {
+      "type": 1,
+      "offset": 1204,
+      "value": "no powerup '"
+    },
+    {
+      "type": 1,
+      "offset": 1222,
+      "value": "' lvl '"
+    },
+    {
+      "type": 1,
+      "offset": 1234,
+      "value": " in powerup.xml"
+    },
+    {
+      "type": 1,
+      "offset": 1254,
+      "value": "snacks"
+    },
+    {
+      "type": 1,
+      "offset": 1266,
+      "value": " not one of currently available snacks: "
+    },
+    {
+      "type": 1,
+      "offset": 1312,
+      "value": "groups"
+    },
+    {
+      "type": 1,
+      "offset": 1324,
+      "value": "groupType"
+    },
+    {
+      "type": 1,
+      "offset": 1338,
+      "value": "customerIDs"
+    },
+    {
+      "type": 1,
+      "offset": 1354,
+      "value": "text"
+    },
+    {
+      "type": 1,
+      "offset": 1364,
+      "value": "career_"
+    },
+    {
+      "type": 1,
+      "offset": 1376,
+      "value": "_"
+    },
+    {
+      "type": 1,
+      "offset": 1382,
+      "value": "introText"
+    },
+    {
+      "type": 1,
+      "offset": 1396,
+      "value": "endlessMode"
+    },
+    {
+      "type": 1,
+      "offset": 1412,
+      "value": "endlessStages"
+    },
+    {
+      "type": 1,
+      "offset": 1430,
+      "value": "name"
+    },
+    {
+      "type": 1,
+      "offset": 1440,
+      "value": "endlessLevels"
+    },
+    {
+      "type": 1,
+      "offset": 1458,
+      "value": "tableUpgrades"
+    },
+    {
+      "type": 1,
+      "offset": 1476,
+      "value": "problem using layout file "
+    },
+    {
+      "type": 1,
+      "offset": 1508,
+      "value": " as table upgrade"
+    },
+    {
+      "type": 1,
+      "offset": 1530,
+      "value": "subLevels"
+    },
+    {
+      "type": 1,
+      "offset": 1544,
+      "value": "goal"
+    },
+    {
+      "type": 1,
+      "offset": 1554,
+      "value": "randomGroups"
+    },
+    {
+      "type": 1,
+      "offset": 1572,
+      "value": "no queueTimeMS in an endless level"
+    },
+    {
+      "type": 1,
+      "offset": 1612,
+      "value": "frequency"
+    },
+    {
+      "type": 1,
+      "offset": 1626,
+      "value": "upgrades"
+    },
+    {
+      "type": 1,
+      "offset": 1640,
+      "value": "table upgrade offered "
+    },
+    {
+      "type": 1,
+      "offset": 1668,
+      "value": " times but only "
+    },
+    {
+      "type": 1,
+      "offset": 1690,
+      "value": " layout files defined "
+    },
+    {
+      "type": 1,
+      "offset": 1718,
+      "value": "randomColors"
+    },
+    {
+      "type": 1,
+      "offset": 1736,
+      "value": "endsub_"
+    },
+    {
+      "type": 1,
+      "offset": 1748,
+      "value": "endless_"
+    }
+  ]
+}
