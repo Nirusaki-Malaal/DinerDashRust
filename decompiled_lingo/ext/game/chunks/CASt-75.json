@@ -1,0 +1,17 @@
+{
+  "type": 11,
+  "infoLen": 102,
+  "specificDataLen": 2,
+  "info": {
+    "dataOffset": 20,
+    "unk1": 0,
+    "unk2": 0,
+    "flags": 1,
+    "scriptId": 64,
+    "scriptSrcText": "",
+    "name": "colorbonus"
+  },
+  "member": {
+    "scriptType": 7
+  }
+}
