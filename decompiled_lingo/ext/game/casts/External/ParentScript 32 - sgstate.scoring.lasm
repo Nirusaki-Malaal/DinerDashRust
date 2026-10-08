@@ -1,0 +1,138 @@
+property sg, name, events, timer, timeMultiplier, stateTimeMultiplier, durationMS, minMS
+
+on new me, s, dat
+  [  0] getparam 1 .............................. <s>
+  [  2] setprop 114 ............................. sg = s
+  [  4] pushint16 1000 .......................... <1000>
+  [  7] getparam 2 .............................. <dat>
+  [  9] getobjprop 926 .......................... <dat.durationMS>
+  [ 12] pusharglist 2 ........................... <1000, dat.durationMS>
+  [ 14] extcall 153 ............................. <max(1000, dat.durationMS)>
+  [ 16] setprop 926 ............................. durationMS = max(1000, dat.durationMS)
+  [ 19] pushsymb 206 ............................ <#scoring>
+  [ 21] setprop 183 ............................. name = #scoring
+  [ 23] pushfloat32 1.0 ......................... <1.0>
+  [ 28] setprop 334 ............................. timeMultiplier = 1.0
+  [ 31] pushfloat32 1.0 ......................... <1.0>
+  [ 36] setprop 921 ............................. stateTimeMultiplier = 1.0
+  [ 39] getparam 2 .............................. <dat>
+  [ 41] getobjprop 894 .......................... <dat.minMS>
+  [ 44] setprop 894 ............................. minMS = dat.minMS
+  [ 47] getparam 0 .............................. <me>
+  [ 49] pusharglistnoret 1 ...................... <me>
+  [ 51] extcall 9 ............................... return me
+  [ 53] ret
+end
+
+on destroy me
+  [  0] getprop 870 ............................. <timer>
+  [  3] pusharglist 1 ........................... <timer>
+  [  5] extcall 31 .............................. <voidp(timer)>
+  [  7] not ..................................... <not voidp(timer)>
+  [  8] jmpifz [ 25] ............................ if not voidp(timer) then
+  [ 11] getprop 870 ............................. <timer>
+  [ 14] pusharglistnoret 1 ...................... <timer>
+  [ 16] objcall 5 ............................... timer.destroy()
+  [ 18] pusharglist 0 ........................... <>
+  [ 20] extcall 65 .............................. <VOID>
+  [ 22] setprop 870 ............................. timer = VOID
+  [ 25] pusharglist 0 ........................... <>
+  [ 27] extcall 65 .............................. <VOID>
+  [ 29] setprop 114 ............................. sg = VOID
+  [ 31] ret
+end
+
+on setTimeMultiplier me, num
+  [  0] getparam 1 .............................. <num>
+  [  2] setprop 334 ............................. timeMultiplier = num
+  [  5] ret
+end
+
+on setStateTimeMultiplier me, num
+  [  0] getparam 1 .............................. <num>
+  [  2] setprop 921 ............................. stateTimeMultiplier = num
+  [  5] ret
+end
+
+on enterState me, s
+  [  0] getprop 114 ............................. <sg>
+  [  2] getchainedprop 130 ...................... <sg.table>
+  [  4] pusharglistnoret 1 ...................... <sg.table>
+  [  6] objcall 467 ............................. sg.table.showDirty()
+  [  9] getprop 894 ............................. <minMS>
+  [ 12] getprop 926 ............................. <durationMS>
+  [ 15] getprop 334 ............................. <timeMultiplier>
+  [ 18] mul ..................................... <durationMS * timeMultiplier>
+  [ 19] getprop 921 ............................. <stateTimeMultiplier>
+  [ 22] mul ..................................... <durationMS * timeMultiplier * stateTimeMultiplier>
+  [ 23] pusharglist 2 ........................... <minMS, durationMS * timeMultiplier * stateTimeMultiplier>
+  [ 25] extcall 153 ............................. <max(minMS, durationMS * timeMultiplier * stateTimeMultiplier)>
+  [ 27] setlocal 0 .............................. ms = max(minMS, durationMS * timeMultiplier * stateTimeMultiplier)
+  [ 29] getlocal 0 .............................. <ms>
+  [ 31] pushsymb 34 ............................. <#target>
+  [ 33] getprop 114 ............................. <sg>
+  [ 35] pushsymb 33 ............................. <#handler>
+  [ 37] pushsymb 158 ............................ <#setState>
+  [ 39] pushsymb 35 ............................. <#Args>
+  [ 41] pushsymb 198 ............................ <#leaving>
+  [ 43] pusharglist 6 ........................... <[#target: sg, #handler: #setState, #Args: #leaving]>
+  [ 45] pushproplist ............................ <[#target: sg, #handler: #setState, #Args: #leaving]>
+  [ 46] pusharglist 2 ........................... <ms, [#target: sg, #handler: #setState, #Args: #leaving]>
+  [ 48] extcall 252 ............................. <timedCall(ms, [#target: sg, #handler: #setState, #Args: #leaving])>
+  [ 50] setprop 870 ............................. timer = timedCall(ms, [#target: sg, #handler: #setState, #Args: #leaving])
+  [ 53] ret
+end
+
+on event me, sym, arg
+  [  0] getparam 1 .............................. <sym>
+  [  2] pushsymb 475 ............................ <#payCheck>
+  [  5] eq ...................................... <sym = #payCheck>
+  [  6] jmpifz [ 20] ............................ if sym = #payCheck then / else
+  [  9] getprop 114 ............................. <sg>
+  [ 11] pushsymb 198 ............................ <#leaving>
+  [ 13] pusharglistnoret 2 ...................... <sg, #leaving>
+  [ 15] objcall 158 ............................. sg.setState(#leaving)
+  [ 17] jmp [ 77]
+  [ 20] getparam 1 .............................. <sym>
+  [ 22] pushsymb 530 ............................ <#flo>
+  [ 25] eq ...................................... <sym = #flo>
+  [ 26] jmpifz [ 77] ............................ if sym = #flo then
+  [ 29] getprop 114 ............................. <sg>
+  [ 31] getobjprop 130 .......................... <sg.table>
+  [ 33] setlocal 0 .............................. t = sg.table
+  [ 35] getlocal 0 .............................. <t>
+  [ 37] getobjprop 492 .......................... <t.dirty>
+  [ 40] jmpifz [ 70] ............................ if t.dirty then
+  [ 43] getparam 2 .............................. <arg>
+  [ 45] pushsymb 525 ............................ <#dishes>
+  [ 48] pusharglist 2 ........................... <arg, #dishes>
+  [ 50] objcall 526 ............................. <arg.pickUp(#dishes)>
+  [ 53] jmpifz [ 70] ............................ if arg.pickUp(#dishes) then
+  [ 56] getlocal 0 .............................. <t>
+  [ 58] pusharglistnoret 1 ...................... <t>
+  [ 60] objcall 458 ............................. t.clearDishes()
+  [ 63] pushsymb 527 ............................ <#Ok>
+  [ 66] pusharglistnoret 1 ...................... <#Ok>
+  [ 68] extcall 9 ............................... return #Ok
+  [ 70] pushsymb 528 ............................ <#hands_full>
+  [ 73] pusharglistnoret 1 ...................... <#hands_full>
+  [ 75] extcall 9 ............................... return #hands_full
+  [ 77] ret
+end
+
+on leaveState me, s
+  [  0] getprop 114 ............................. <sg>
+  [  2] pusharglist 1 ........................... <sg>
+  [  4] extcall 31 .............................. <voidp(sg)>
+  [  6] jmpifz [ 13] ............................ if voidp(sg) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 9 ............................... return 
+  [ 13] getprop 114 ............................. <sg>
+  [ 15] getchainedprop 130 ...................... <sg.table>
+  [ 17] pusharglistnoret 1 ...................... <sg.table>
+  [ 19] objcall 466 ............................. sg.table.hideCheck()
+  [ 22] getprop 114 ............................. <sg>
+  [ 24] pusharglistnoret 1 ...................... <sg>
+  [ 26] objcall 883 ............................. sg.leaveTip()
+  [ 29] ret
+end

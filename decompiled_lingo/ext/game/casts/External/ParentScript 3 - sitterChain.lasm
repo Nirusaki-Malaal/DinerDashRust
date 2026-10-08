@@ -1,0 +1,46 @@
+property elements, count
+
+on new me
+  [  0] pusharglist 0 ........................... <[]>
+  [  2] pushlist ................................ <[]>
+  [  3] setprop 8 ............................... elements = []
+  [  5] getparam 0 .............................. <me>
+  [  7] pusharglistnoret 1 ...................... <me>
+  [  9] extcall 9 ............................... return me
+  [ 11] ret
+end
+
+on destroy me
+  [  0] getprop 8 ............................... <elements>
+  [  2] pusharglistnoret 1 ...................... <elements>
+  [  4] objcall 10 .............................. elements.deleteAll()
+  [  6] ret
+end
+
+on add me, s
+  [  0] getprop 8 ............................... <elements>
+  [  2] getparam 1 .............................. <s>
+  [  4] pusharglist 2 ........................... <elements, s>
+  [  6] objcall 11 .............................. <elements.getOne(s)>
+  [  8] pushzero ................................ <0>
+  [  9] eq ...................................... <elements.getOne(s) = 0>
+  [ 10] jmpifz [ 27] ............................ if elements.getOne(s) = 0 then
+  [ 13] getprop 8 ............................... <elements>
+  [ 15] getparam 1 .............................. <s>
+  [ 17] pusharglistnoret 2 ...................... <elements, s>
+  [ 19] objcall 6 ............................... elements.add(s)
+  [ 21] getprop 8 ............................... <elements>
+  [ 23] getobjprop 12 ........................... <elements.count>
+  [ 25] setprop 12 .............................. count = elements.count
+  [ 27] ret
+end
+
+on Remove me, s
+  [  0] getprop 8 ............................... <elements>
+  [  2] getparam 1 .............................. <s>
+  [  4] pusharglist 2 ........................... <elements, s>
+  [  6] objcall 14 .............................. <elements.deleteOne(s)>
+  [  8] pusharglistnoret 1 ...................... <elements.deleteOne(s)>
+  [ 10] extcall 9 ............................... return elements.deleteOne(s)
+  [ 12] ret
+end

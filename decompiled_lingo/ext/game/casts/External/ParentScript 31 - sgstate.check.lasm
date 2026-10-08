@@ -1,0 +1,146 @@
+property sg, name, happyMS, madMS, timeMultiplier, stateTimeMultiplier, minMS, game_mgr
+
+on new me, t, dat
+  [  0] getparam 1 .............................. <t>
+  [  2] setprop 114 ............................. sg = t
+  [  4] getprop 114 ............................. <sg>
+  [  6] getobjprop 43 ........................... <sg.game_mgr>
+  [  8] setprop 43 .............................. game_mgr = sg.game_mgr
+  [ 10] getparam 2 .............................. <dat>
+  [ 12] getobjprop 919 .......................... <dat.happyMS>
+  [ 15] setprop 919 ............................. happyMS = dat.happyMS
+  [ 18] getparam 2 .............................. <dat>
+  [ 20] getobjprop 920 .......................... <dat.madMS>
+  [ 23] setprop 920 ............................. madMS = dat.madMS
+  [ 26] pushfloat32 1.0 ......................... <1.0>
+  [ 31] setprop 334 ............................. timeMultiplier = 1.0
+  [ 34] pushfloat32 1.0 ......................... <1.0>
+  [ 39] setprop 921 ............................. stateTimeMultiplier = 1.0
+  [ 42] pushsymb 194 ............................ <#check>
+  [ 44] setprop 183 ............................. name = #check
+  [ 46] getparam 2 .............................. <dat>
+  [ 48] getobjprop 894 .......................... <dat.minMS>
+  [ 51] setprop 894 ............................. minMS = dat.minMS
+  [ 54] getparam 0 .............................. <me>
+  [ 56] pusharglistnoret 1 ...................... <me>
+  [ 58] extcall 9 ............................... return me
+  [ 60] ret
+end
+
+on destroy me
+  [  0] pusharglist 0 ........................... <>
+  [  2] extcall 65 .............................. <VOID>
+  [  4] setprop 114 ............................. sg = VOID
+  [  6] ret
+end
+
+on setTimeMultiplier me, num
+  [  0] getparam 1 .............................. <num>
+  [  2] setprop 334 ............................. timeMultiplier = num
+  [  5] ret
+end
+
+on setStateTimeMultiplier me, num
+  [  0] getparam 1 .............................. <num>
+  [  2] setprop 921 ............................. stateTimeMultiplier = num
+  [  5] ret
+end
+
+on enterState me, s
+  [  0] getprop 43 .............................. <game_mgr>
+  [  2] getobjprop 722 .......................... <game_mgr.tutorialMode>
+  [  5] not ..................................... <not game_mgr.tutorialMode>
+  [  6] jmpifz [ 52] ............................ if not game_mgr.tutorialMode then
+  [  9] getprop 114 ............................. <sg>
+  [ 11] getprop 894 ............................. <minMS>
+  [ 14] getprop 919 ............................. <happyMS>
+  [ 17] getprop 334 ............................. <timeMultiplier>
+  [ 20] mul ..................................... <happyMS * timeMultiplier>
+  [ 21] getprop 921 ............................. <stateTimeMultiplier>
+  [ 24] mul ..................................... <happyMS * timeMultiplier * stateTimeMultiplier>
+  [ 25] pusharglist 2 ........................... <minMS, happyMS * timeMultiplier * stateTimeMultiplier>
+  [ 27] extcall 153 ............................. <max(minMS, happyMS * timeMultiplier * stateTimeMultiplier)>
+  [ 29] getprop 894 ............................. <minMS>
+  [ 32] getprop 920 ............................. <madMS>
+  [ 35] getprop 334 ............................. <timeMultiplier>
+  [ 38] mul ..................................... <madMS * timeMultiplier>
+  [ 39] getprop 921 ............................. <stateTimeMultiplier>
+  [ 42] mul ..................................... <madMS * timeMultiplier * stateTimeMultiplier>
+  [ 43] pusharglist 2 ........................... <minMS, madMS * timeMultiplier * stateTimeMultiplier>
+  [ 45] extcall 153 ............................. <max(minMS, madMS * timeMultiplier * stateTimeMultiplier)>
+  [ 47] pusharglistnoret 3 ...................... <sg, max(minMS, happyMS * timeMultiplier * stateTimeMultiplier), max(minMS, madMS * timeMultiplier * stateTimeMultiplier)>
+  [ 49] objcall 877 ............................. sg.startMoodTimer(max(minMS, happyMS * timeMultiplier * stateTimeMultiplier), max(minMS, madMS * timeMultiplier * stateTimeMultiplier))
+  [ 52] pushsymb 393 ............................ <#setReady>
+  [ 55] getprop 114 ............................. <sg>
+  [ 57] getobjprop 113 .......................... <sg.sitters>
+  [ 59] pushint8 1 .............................. <1>
+  [ 61] pusharglistnoret 3 ...................... <#setReady, sg.sitters, 1>
+  [ 63] extcall 32 .............................. call(#setReady, sg.sitters, 1)
+  [ 65] ret
+end
+
+on event me, sym, flo
+  [  0] getparam 1 .............................. <sym>
+  [  2] pushsymb 98 ............................. <#mood>
+  [  4] eq ...................................... <sym = #mood>
+  [  5] jmpifz [ 25] ............................ if sym = #mood then / else
+  [  8] getparam 2 .............................. <flo>
+  [ 10] pushzero ................................ <0>
+  [ 11] eq ...................................... <flo = 0>
+  [ 12] jmpifz [ 22] ............................ if flo = 0 then
+  [ 15] getprop 114 ............................. <sg>
+  [ 17] pusharglistnoret 1 ...................... <sg>
+  [ 19] objcall 881 ............................. sg.leaveWithoutPaying()
+  [ 22] jmp [ 95]
+  [ 25] getparam 1 .............................. <sym>
+  [ 27] pushsymb 530 ............................ <#flo>
+  [ 30] eq ...................................... <sym = #flo>
+  [ 31] jmpifz [ 95] ............................ if sym = #flo then
+  [ 34] getparam 2 .............................. <flo>
+  [ 36] pusharglist 1 ........................... <flo>
+  [ 38] objcall 939 ............................. <flo.canPickUp()>
+  [ 41] jmpifz [ 88] ............................ if flo.canPickUp() then
+  [ 44] getprop 114 ............................. <sg>
+  [ 46] pushint8 1 .............................. <1>
+  [ 48] pusharglistnoret 2 ...................... <sg, 1>
+  [ 50] objcall 878 ............................. sg.stopMoodTimer(1)
+  [ 53] getprop 114 ............................. <sg>
+  [ 55] getchainedprop 130 ...................... <sg.table>
+  [ 57] pusharglistnoret 1 ...................... <sg.table>
+  [ 59] objcall 465 ............................. sg.table.showCheck()
+  [ 62] getprop 114 ............................. <sg>
+  [ 64] pushsymb 206 ............................ <#scoring>
+  [ 66] pusharglistnoret 2 ...................... <sg, #scoring>
+  [ 68] objcall 158 ............................. sg.setState(#scoring)
+  [ 70] getparam 2 .............................. <flo>
+  [ 72] getprop 114 ............................. <sg>
+  [ 74] getobjprop 130 .......................... <sg.table>
+  [ 76] pusharglistnoret 2 ...................... <flo, sg.table>
+  [ 78] objcall 940 ............................. flo.dropCheck(sg.table)
+  [ 81] pushsymb 527 ............................ <#Ok>
+  [ 84] pusharglistnoret 1 ...................... <#Ok>
+  [ 86] extcall 9 ............................... return #Ok
+  [ 88] pushsymb 528 ............................ <#hands_full>
+  [ 91] pusharglistnoret 1 ...................... <#hands_full>
+  [ 93] extcall 9 ............................... return #hands_full
+  [ 95] ret
+end
+
+on leaveState me, s
+  [  0] getprop 114 ............................. <sg>
+  [  2] pusharglist 1 ........................... <sg>
+  [  4] extcall 31 .............................. <voidp(sg)>
+  [  6] jmpifz [ 13] ............................ if voidp(sg) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 9 ............................... return 
+  [ 13] pushsymb 393 ............................ <#setReady>
+  [ 16] getprop 114 ............................. <sg>
+  [ 18] getobjprop 113 .......................... <sg.sitters>
+  [ 20] pushzero ................................ <0>
+  [ 21] pusharglistnoret 3 ...................... <#setReady, sg.sitters, 0>
+  [ 23] extcall 32 .............................. call(#setReady, sg.sitters, 0)
+  [ 25] getprop 114 ............................. <sg>
+  [ 27] pusharglistnoret 1 ...................... <sg>
+  [ 29] objcall 878 ............................. sg.stopMoodTimer()
+  [ 32] ret
+end

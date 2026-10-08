@@ -1,0 +1,132 @@
+property happyMS, madMS, minMS, ms, callback, stopped, totalms
+
+on new me, Args
+  [  0] getparam 1 .............................. <Args>
+  [  2] getobjprop 894 .......................... <Args.minMS>
+  [  5] setprop 894 ............................. minMS = Args.minMS
+  [  8] getparam 1 .............................. <Args>
+  [ 10] getobjprop 186 .......................... <Args.callback>
+  [ 12] setprop 186 ............................. callback = Args.callback
+  [ 14] getparam 0 .............................. <me>
+  [ 16] pusharglistnoret 1 ...................... <me>
+  [ 18] extcall 9 ............................... return me
+  [ 20] ret
+end
+
+on destroy me
+  [  0] getparam 0 .............................. <me>
+  [  2] pushsymb 117 ............................ <#exitFrame>
+  [  4] pusharglistnoret 2 ...................... <me, #exitFrame>
+  [  6] extcall 105 ............................. unsubscribe(me, #exitFrame)
+  [  8] pushint8 1 .............................. <1>
+  [ 10] setprop 941 ............................. stopped = 1
+  [ 13] getprop 186 ............................. <callback>
+  [ 15] pusharglist 1 ........................... <callback>
+  [ 17] extcall 31 .............................. <voidp(callback)>
+  [ 19] not ..................................... <not voidp(callback)>
+  [ 20] jmpifz [ 29] ............................ if not voidp(callback) then
+  [ 23] getprop 186 ............................. <callback>
+  [ 25] pusharglistnoret 1 ...................... <callback>
+  [ 27] objcall 10 .............................. callback.deleteAll()
+  [ 29] ret
+end
+
+on setMadMS me, newms
+  [  0] getprop 894 ............................. <minMS>
+  [  3] getprop 68 .............................. <ms>
+  [  5] getprop 920 ............................. <madMS>
+  [  8] getparam 1 .............................. <newms>
+  [ 10] sub ..................................... <madMS - newms>
+  [ 11] sub ..................................... <ms - (madMS - newms)>
+  [ 12] pusharglist 2 ........................... <minMS, ms - (madMS - newms)>
+  [ 14] extcall 153 ............................. <max(minMS, ms - (madMS - newms))>
+  [ 16] setprop 68 .............................. ms = max(minMS, ms - (madMS - newms))
+  [ 18] getparam 1 .............................. <newms>
+  [ 20] setprop 920 ............................. madMS = newms
+  [ 23] ret
+end
+
+on setHappyMS me, newms
+  [  0] getparam 1 .............................. <newms>
+  [  2] setprop 919 ............................. happyMS = newms
+  [  5] ret
+end
+
+on exitFrame me, msdelta
+  [  0] getprop 941 ............................. <stopped>
+  [  3] jmpifz [ 10] ............................ if stopped then
+  [  6] pusharglistnoret 0 ...................... <>
+  [  8] extcall 9 ............................... return 
+  [ 10] getprop 68 .............................. <ms>
+  [ 12] getparam 1 .............................. <msdelta>
+  [ 14] add ..................................... <ms + msdelta>
+  [ 15] setprop 68 .............................. ms = ms + msdelta
+  [ 17] getprop 943 ............................. <totalms>
+  [ 20] getparam 1 .............................. <msdelta>
+  [ 22] add ..................................... <totalms + msdelta>
+  [ 23] setprop 943 ............................. totalms = totalms + msdelta
+  [ 26] getprop 68 .............................. <ms>
+  [ 28] getprop 920 ............................. <madMS>
+  [ 31] gteq .................................... <ms >= madMS>
+  [ 32] jmpifz [ 70] ............................ if ms >= madMS then
+  [ 35] getprop 186 ............................. <callback>
+  [ 37] getobjprop 34 ........................... <callback.target>
+  [ 39] pusharglist 1 ........................... <callback.target>
+  [ 41] extcall 31 .............................. <voidp(callback.target)>
+  [ 43] not ..................................... <not voidp(callback.target)>
+  [ 44] jmpifz [ 67] ............................ if not voidp(callback.target) then
+  [ 47] getprop 186 ............................. <callback>
+  [ 49] getobjprop 33 ........................... <callback.handler>
+  [ 51] getprop 186 ............................. <callback>
+  [ 53] getobjprop 34 ........................... <callback.target>
+  [ 55] getprop 186 ............................. <callback>
+  [ 57] pushsymb 35 ............................. <#Args>
+  [ 59] pusharglist 2 ........................... <callback, #Args>
+  [ 61] objcall 36 .............................. <callback[#Args]>
+  [ 63] pusharglistnoret 3 ...................... <callback.handler, callback.target, callback[#Args]>
+  [ 65] extcall 32 .............................. call(callback.handler, callback.target, callback[#Args])
+  [ 67] pushzero ................................ <0>
+  [ 68] setprop 68 .............................. ms = 0
+  [ 70] ret
+end
+
+on reset me
+  [  0] pushzero ................................ <0>
+  [  1] setprop 68 .............................. ms = 0
+  [  3] ret
+end
+
+on start me
+  [  0] pushzero ................................ <0>
+  [  1] setprop 68 .............................. ms = 0
+  [  3] pushzero ................................ <0>
+  [  4] setprop 941 ............................. stopped = 0
+  [  7] pushzero ................................ <0>
+  [  8] setprop 943 ............................. totalms = 0
+  [ 11] getparam 0 .............................. <me>
+  [ 13] pushsymb 117 ............................ <#exitFrame>
+  [ 15] pusharglistnoret 2 ...................... <me, #exitFrame>
+  [ 17] extcall 100 ............................. subscribe(me, #exitFrame)
+  [ 19] ret
+end
+
+on stop me
+  [  0] pushint8 1 .............................. <1>
+  [  2] setprop 941 ............................. stopped = 1
+  [  5] getparam 0 .............................. <me>
+  [  7] pushsymb 117 ............................ <#exitFrame>
+  [  9] pusharglistnoret 2 ...................... <me, #exitFrame>
+  [ 11] extcall 105 ............................. unsubscribe(me, #exitFrame)
+  [ 13] getprop 943 ............................. <totalms>
+  [ 16] getprop 919 ............................. <happyMS>
+  [ 19] lt ...................................... <totalms < happyMS>
+  [ 20] setlocal 0 .............................. happy = totalms < happyMS
+  [ 22] pushzero ................................ <0>
+  [ 23] setprop 68 .............................. ms = 0
+  [ 25] pushzero ................................ <0>
+  [ 26] setprop 943 ............................. totalms = 0
+  [ 29] getlocal 0 .............................. <happy>
+  [ 31] pusharglistnoret 1 ...................... <happy>
+  [ 33] extcall 9 ............................... return happy
+  [ 35] ret
+end

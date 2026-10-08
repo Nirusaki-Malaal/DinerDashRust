@@ -1,0 +1,166 @@
+property sg, name, events, happyMS, madMS, timeMultiplier, stateTimeMultiplier, minMS, game_mgr
+
+on new me, t, dat
+  [  0] getparam 1 .............................. <t>
+  [  2] setprop 114 ............................. sg = t
+  [  4] getprop 114 ............................. <sg>
+  [  6] getobjprop 43 ........................... <sg.game_mgr>
+  [  8] setprop 43 .............................. game_mgr = sg.game_mgr
+  [ 10] getparam 2 .............................. <dat>
+  [ 12] getobjprop 919 .......................... <dat.happyMS>
+  [ 15] setprop 919 ............................. happyMS = dat.happyMS
+  [ 18] getparam 2 .............................. <dat>
+  [ 20] getobjprop 920 .......................... <dat.madMS>
+  [ 23] setprop 920 ............................. madMS = dat.madMS
+  [ 26] getparam 2 .............................. <dat>
+  [ 28] getobjprop 894 .......................... <dat.minMS>
+  [ 31] setprop 894 ............................. minMS = dat.minMS
+  [ 34] pushfloat32 1.0 ......................... <1.0>
+  [ 39] setprop 334 ............................. timeMultiplier = 1.0
+  [ 42] pushfloat32 1.0 ......................... <1.0>
+  [ 47] setprop 921 ............................. stateTimeMultiplier = 1.0
+  [ 50] pushsymb 190 ............................ <#ordered>
+  [ 52] setprop 183 ............................. name = #ordered
+  [ 54] pushsymb 932 ............................ <#putDrinks>
+  [ 57] pushsymb 936 ............................ <#putFood>
+  [ 60] pusharglist 2 ........................... <[#putDrinks, #putFood]>
+  [ 62] pushlist ................................ <[#putDrinks, #putFood]>
+  [ 63] setprop 917 ............................. events = [#putDrinks, #putFood]
+  [ 66] getparam 0 .............................. <me>
+  [ 68] pusharglistnoret 1 ...................... <me>
+  [ 70] extcall 9 ............................... return me
+  [ 72] ret
+end
+
+on setTimeMultiplier me, num
+  [  0] getparam 1 .............................. <num>
+  [  2] setprop 334 ............................. timeMultiplier = num
+  [  5] ret
+end
+
+on setStateTimeMultiplier me, num
+  [  0] getparam 1 .............................. <num>
+  [  2] setprop 921 ............................. stateTimeMultiplier = num
+  [  5] ret
+end
+
+on destroy me
+  [  0] pusharglist 0 ........................... <>
+  [  2] extcall 65 .............................. <VOID>
+  [  4] setprop 114 ............................. sg = VOID
+  [  6] ret
+end
+
+on enterState me
+  [  0] getprop 43 .............................. <game_mgr>
+  [  2] getobjprop 722 .......................... <game_mgr.tutorialMode>
+  [  5] not ..................................... <not game_mgr.tutorialMode>
+  [  6] jmpifz [ 52] ............................ if not game_mgr.tutorialMode then
+  [  9] getprop 114 ............................. <sg>
+  [ 11] getprop 894 ............................. <minMS>
+  [ 14] getprop 919 ............................. <happyMS>
+  [ 17] getprop 334 ............................. <timeMultiplier>
+  [ 20] mul ..................................... <happyMS * timeMultiplier>
+  [ 21] getprop 921 ............................. <stateTimeMultiplier>
+  [ 24] mul ..................................... <happyMS * timeMultiplier * stateTimeMultiplier>
+  [ 25] pusharglist 2 ........................... <minMS, happyMS * timeMultiplier * stateTimeMultiplier>
+  [ 27] extcall 153 ............................. <max(minMS, happyMS * timeMultiplier * stateTimeMultiplier)>
+  [ 29] getprop 894 ............................. <minMS>
+  [ 32] getprop 920 ............................. <madMS>
+  [ 35] getprop 334 ............................. <timeMultiplier>
+  [ 38] mul ..................................... <madMS * timeMultiplier>
+  [ 39] getprop 921 ............................. <stateTimeMultiplier>
+  [ 42] mul ..................................... <madMS * timeMultiplier * stateTimeMultiplier>
+  [ 43] pusharglist 2 ........................... <minMS, madMS * timeMultiplier * stateTimeMultiplier>
+  [ 45] extcall 153 ............................. <max(minMS, madMS * timeMultiplier * stateTimeMultiplier)>
+  [ 47] pusharglistnoret 3 ...................... <sg, max(minMS, happyMS * timeMultiplier * stateTimeMultiplier), max(minMS, madMS * timeMultiplier * stateTimeMultiplier)>
+  [ 49] objcall 877 ............................. sg.startMoodTimer(max(minMS, happyMS * timeMultiplier * stateTimeMultiplier), max(minMS, madMS * timeMultiplier * stateTimeMultiplier))
+  [ 52] getprop 114 ............................. <sg>
+  [ 54] getchainedprop 130 ...................... <sg.table>
+  [ 56] pusharglistnoret 1 ...................... <sg.table>
+  [ 58] objcall 471 ............................. sg.table.showNumber()
+  [ 61] ret
+end
+
+on event me, sym, flo
+  [  0] getparam 1 .............................. <sym>
+  [  2] pushsymb 98 ............................. <#mood>
+  [  4] eq ...................................... <sym = #mood>
+  [  5] jmpifz [ 25] ............................ if sym = #mood then / else
+  [  8] getparam 2 .............................. <flo>
+  [ 10] pushzero ................................ <0>
+  [ 11] eq ...................................... <flo = 0>
+  [ 12] jmpifz [ 22] ............................ if flo = 0 then
+  [ 15] getprop 114 ............................. <sg>
+  [ 17] pusharglistnoret 1 ...................... <sg>
+  [ 19] objcall 881 ............................. sg.leaveWithoutPaying()
+  [ 22] jmp [140]
+  [ 25] getparam 1 .............................. <sym>
+  [ 27] pushsymb 530 ............................ <#flo>
+  [ 30] eq ...................................... <sym = #flo>
+  [ 31] jmpifz [119] ............................ if sym = #flo then / else
+  [ 34] getparam 2 .............................. <flo>
+  [ 36] pushsymb 937 ............................ <#food>
+  [ 39] getprop 114 ............................. <sg>
+  [ 41] getobjprop 130 .......................... <sg.table>
+  [ 43] pusharglist 3 ........................... <flo, #food, sg.table>
+  [ 45] objcall 930 ............................. <flo.dropOff(#food, sg.table)>
+  [ 48] jmpifz [ 75] ............................ if flo.dropOff(#food, sg.table) then
+  [ 51] getprop 114 ............................. <sg>
+  [ 53] pushint8 1 .............................. <1>
+  [ 55] pusharglistnoret 2 ...................... <sg, 1>
+  [ 57] objcall 878 ............................. sg.stopMoodTimer(1)
+  [ 60] getprop 114 ............................. <sg>
+  [ 62] pushsymb 193 ............................ <#eating>
+  [ 64] pusharglistnoret 2 ...................... <sg, #eating>
+  [ 66] objcall 158 ............................. sg.setState(#eating)
+  [ 68] pushsymb 527 ............................ <#Ok>
+  [ 71] pusharglistnoret 1 ...................... <#Ok>
+  [ 73] extcall 9 ............................... return #Ok
+  [ 75] getparam 2 .............................. <flo>
+  [ 77] pushsymb 425 ............................ <#drinks>
+  [ 80] pusharglist 2 ........................... <flo, #drinks>
+  [ 82] objcall 929 ............................. <flo.hasPayload(#drinks)>
+  [ 85] jmpifz [109] ............................ if flo.hasPayload(#drinks) then
+  [ 88] getparam 2 .............................. <flo>
+  [ 90] pushsymb 425 ............................ <#drinks>
+  [ 93] getprop 114 ............................. <sg>
+  [ 95] getobjprop 130 .......................... <sg.table>
+  [ 97] pusharglistnoret 3 ...................... <flo, #drinks, sg.table>
+  [ 99] objcall 930 ............................. flo.dropOff(#drinks, sg.table)
+  [102] pushsymb 527 ............................ <#Ok>
+  [105] pusharglistnoret 1 ...................... <#Ok>
+  [107] extcall 9 ............................... return #Ok
+  [109] pushsymb 529 ............................ <#nothing_to_do>
+  [112] pusharglistnoret 1 ...................... <#nothing_to_do>
+  [114] extcall 9 ............................... return #nothing_to_do
+  [116] jmp [140]
+  [119] getparam 1 .............................. <sym>
+  [121] pushsymb 534 ............................ <#foodPickedUp>
+  [124] eq ...................................... <sym = #foodPickedUp>
+  [125] jmpifz [140] ............................ if sym = #foodPickedUp then
+  [128] pushsymb 157 ............................ <#setFoodPickedUp>
+  [130] getprop 114 ............................. <sg>
+  [132] getobjprop 113 .......................... <sg.sitters>
+  [134] getparam 2 .............................. <flo>
+  [136] pusharglistnoret 3 ...................... <#setFoodPickedUp, sg.sitters, flo>
+  [138] extcall 32 .............................. call(#setFoodPickedUp, sg.sitters, flo)
+  [140] ret
+end
+
+on leaveState me
+  [  0] getprop 114 ............................. <sg>
+  [  2] pusharglist 1 ........................... <sg>
+  [  4] extcall 31 .............................. <voidp(sg)>
+  [  6] jmpifz [ 13] ............................ if voidp(sg) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 9 ............................... return 
+  [ 13] getprop 114 ............................. <sg>
+  [ 15] getchainedprop 130 ...................... <sg.table>
+  [ 17] pusharglistnoret 1 ...................... <sg.table>
+  [ 19] objcall 472 ............................. sg.table.hideNumber()
+  [ 22] getprop 114 ............................. <sg>
+  [ 24] pusharglistnoret 1 ...................... <sg>
+  [ 26] objcall 878 ............................. sg.stopMoodTimer()
+  [ 29] ret
+end

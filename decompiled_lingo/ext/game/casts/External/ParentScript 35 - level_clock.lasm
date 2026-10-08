@@ -1,0 +1,111 @@
+property node, endMark, currentMark, last_num, animProps, fork
+
+on new me, n
+  [  0] getparam 1 .............................. <n>
+  [  2] setprop 45 .............................. node = n
+  [  4] getprop 45 .............................. <node>
+  [  6] pushsymb 49 ............................. <#children>
+  [  8] pushint8 1 .............................. <1>
+  [ 10] pusharglist 3 ........................... <node, #children, 1>
+  [ 12] objcall 30 .............................. <node.children[1]>
+  [ 14] setprop 945 ............................. fork = node.children[1]
+  [ 17] pushcons 0 .............................. <0.0001>
+  [ 19] setprop 946 ............................. endMark = 0.0001
+  [ 22] pushsymb 81 ............................. <#member>
+  [ 24] pushsymb 947 ............................ <#rotation>
+  [ 27] pushsymb 225 ............................ <#xflip>
+  [ 29] pushsymb 948 ............................ <#yflip>
+  [ 32] pusharglist 4 ........................... <[#member, #rotation, #xflip, #yflip]>
+  [ 34] pushlist ................................ <[#member, #rotation, #xflip, #yflip]>
+  [ 35] setprop 210 ............................. animProps = [#member, #rotation, #xflip, #yflip]
+  [ 37] getparam 0 .............................. <me>
+  [ 39] pusharglistnoret 1 ...................... <me>
+  [ 41] extcall 9 ............................... return me
+  [ 43] ret
+end
+
+on setEndMark me, num
+  [  0] getprop 45 .............................. <node>
+  [  2] pushzero ................................ <0>
+  [  3] pusharglistnoret 2 ...................... <node, 0>
+  [  5] objcall 949 ............................. node.setRotation(0)
+  [  8] getprop 45 .............................. <node>
+  [ 10] pushint8 1 .............................. <1>
+  [ 12] pushint8 1 .............................. <1>
+  [ 14] pusharglist 2 ........................... <[1, 1]>
+  [ 16] pushlist ................................ <[1, 1]>
+  [ 17] pusharglistnoret 2 ...................... <node, [1, 1]>
+  [ 19] objcall 950 ............................. node.setScale([1, 1])
+  [ 22] pushcons 0 .............................. <0.0001>
+  [ 24] getparam 1 .............................. <num>
+  [ 26] pusharglist 2 ........................... <0.0001, num>
+  [ 28] extcall 153 ............................. <max(0.0001, num)>
+  [ 30] setprop 946 ............................. endMark = max(0.0001, num)
+  [ 33] ret
+end
+
+on setMark me, num
+  [  0] pushint8 1 .............................. <1>
+  [  2] pushint8 12 ............................. <12>
+  [  4] getparam 1 .............................. <num>
+  [  6] pusharglist 1 ........................... <num>
+  [  8] extcall 774 ............................. <float(num)>
+  [ 11] getprop 946 ............................. <endMark>
+  [ 14] div ..................................... <float(num) / endMark>
+  [ 15] pushint8 12 ............................. <12>
+  [ 17] mul ..................................... <float(num) / endMark * 12>
+  [ 18] pusharglist 1 ........................... <float(num) / endMark * 12>
+  [ 20] extcall 216 ............................. <integer(float(num) / endMark * 12)>
+  [ 22] pusharglist 2 ........................... <12, integer(float(num) / endMark * 12)>
+  [ 24] extcall 154 ............................. <min(12, integer(float(num) / endMark * 12))>
+  [ 26] pusharglist 2 ........................... <1, min(12, integer(float(num) / endMark * 12))>
+  [ 28] extcall 153 ............................. <max(1, min(12, integer(float(num) / endMark * 12)))>
+  [ 30] setlocal 0 .............................. myint = max(1, min(12, integer(float(num) / endMark * 12)))
+  [ 32] getlocal 0 .............................. <myint>
+  [ 34] getprop 951 ............................. <last_num>
+  [ 37] eq ...................................... <myint = last_num>
+  [ 38] jmpifz [ 45] ............................ if myint = last_num then
+  [ 41] pusharglistnoret 0 ...................... <>
+  [ 43] extcall 9 ............................... return 
+  [ 45] getlocal 0 .............................. <myint>
+  [ 47] setprop 951 ............................. last_num = myint
+  [ 50] getprop 945 ............................. <fork>
+  [ 53] getlocal 0 .............................. <myint>
+  [ 55] pusharglist 1 ........................... <myint>
+  [ 57] extcall 59 .............................. <string(myint)>
+  [ 59] pushsymb 184 ............................ <#loopCount>
+  [ 61] pushint8 1 .............................. <1>
+  [ 63] pushsymb 210 ............................ <#animProps>
+  [ 65] getprop 210 ............................. <animProps>
+  [ 67] pusharglist 4 ........................... <[#loopCount: 1, #animProps: animProps]>
+  [ 69] pushproplist ............................ <[#loopCount: 1, #animProps: animProps]>
+  [ 70] pusharglistnoret 3 ...................... <fork, string(myint), [#loopCount: 1, #animProps: animProps]>
+  [ 72] objcall 209 ............................. fork.setAnimation(string(myint), [#loopCount: 1, #animProps: animProps])
+  [ 74] getprop 945 ............................. <fork>
+  [ 77] getchainedprop 952 ...................... <fork.pSprite>
+  [ 80] pushzero ................................ <0>
+  [ 81] setobjprop 953 .......................... fork.pSprite.stretch = 0
+  [ 84] ret
+end
+
+on destroy me
+  [  0] pushint8 1 .............................. <1>
+  [  2] setlocal 0
+  [  4] getlocal 0
+  [  6] getparam 0 .............................. <me>
+  [  8] getobjprop 12 ........................... <me.count>
+  [ 10] lteq
+  [ 11] jmpifz [ 35] ............................ repeat with i = 1 to me.count
+  [ 14] getparam 0 .............................. <me>
+  [ 16] getlocal 0 .............................. <i>
+  [ 18] pusharglist 0 ........................... <>
+  [ 20] extcall 65 .............................. <VOID>
+  [ 22] pusharglistnoret 3 ...................... <me, i, VOID>
+  [ 24] objcall 25 .............................. me[i] = VOID
+  [ 26] pushint8 1
+  [ 28] getlocal 0
+  [ 30] add
+  [ 31] setlocal 0
+  [ 33] endrepeat [  4]
+  [ 35] ret
+end
