@@ -1,0 +1,115 @@
+property node, stars, capacity
+
+on new me, n
+  [  0] getparam 1 .............................. <n>
+  [  2] setprop 45 .............................. node = n
+  [  4] pusharglist 0 ........................... <[]>
+  [  6] pushlist ................................ <[]>
+  [  7] setprop 1145 ............................ stars = []
+  [ 10] pushint8 1 .............................. <1>
+  [ 12] setlocal 0
+  [ 14] getlocal 0
+  [ 16] pushint8 6 .............................. <6>
+  [ 18] lteq
+  [ 19] jmpifz [ 49] ............................ repeat with i = 1 to 6
+  [ 22] getprop 1145 ............................ <stars>
+  [ 25] getprop 45 .............................. <node>
+  [ 27] pushcons 0 .............................. <"star_">
+  [ 29] getlocal 0 .............................. <i>
+  [ 31] joinstr ................................. <"star_" & i>
+  [ 32] pusharglist 2 ........................... <node, "star_" & i>
+  [ 34] objcall 36 .............................. <node["star_" & i]>
+  [ 36] pusharglistnoret 2 ...................... <stars, node["star_" & i]>
+  [ 38] objcall 6 ............................... stars.add(node["star_" & i])
+  [ 40] pushint8 1
+  [ 42] getlocal 0
+  [ 44] add
+  [ 45] setlocal 0
+  [ 47] endrepeat [ 14]
+  [ 49] getprop 1145 ............................ <stars>
+  [ 52] getobjprop 12 ........................... <stars.count>
+  [ 54] setprop 155 ............................. capacity = stars.count
+  [ 56] getparam 0 .............................. <me>
+  [ 58] pusharglistnoret 1 ...................... <me>
+  [ 60] extcall 9 ............................... return me
+  [ 62] ret
+end
+
+on setCapacity me, num
+  [  0] getprop 1145 ............................ <stars>
+  [  3] getobjprop 12 ........................... <stars.count>
+  [  5] setlocal 0 .............................. ct = stars.count
+  [  7] pushint8 1 .............................. <1>
+  [  9] getparam 1 .............................. <num>
+  [ 11] getlocal 0 .............................. <ct>
+  [ 13] pusharglist 2 ........................... <num, ct>
+  [ 15] extcall 154 ............................. <min(num, ct)>
+  [ 17] pusharglist 2 ........................... <1, min(num, ct)>
+  [ 19] extcall 153 ............................. <max(1, min(num, ct))>
+  [ 21] setprop 155 ............................. capacity = max(1, min(num, ct))
+  [ 23] pushint8 1 .............................. <1>
+  [ 25] setlocal 1
+  [ 27] getlocal 1
+  [ 29] getlocal 0 .............................. <ct>
+  [ 31] lteq
+  [ 32] jmpifz [ 62] ............................ repeat with i = 1 to ct
+  [ 35] getprop 1145 ............................ <stars>
+  [ 38] getlocal 1 .............................. <i>
+  [ 40] pusharglist 2 ........................... <stars, i>
+  [ 42] objcall 36 .............................. <stars[i]>
+  [ 44] getlocal 1 .............................. <i>
+  [ 46] getparam 1 .............................. <num>
+  [ 48] lteq .................................... <i <= num>
+  [ 49] pusharglistnoret 2 ...................... <stars[i], i <= num>
+  [ 51] objcall 57 .............................. stars[i].setVisible(i <= num)
+  [ 53] pushint8 1
+  [ 55] getlocal 1
+  [ 57] add
+  [ 58] setlocal 1
+  [ 60] endrepeat [ 27]
+  [ 62] ret
+end
+
+on setFull me, num
+  [  0] pushint8 1 .............................. <1>
+  [  2] setlocal 0
+  [  4] getlocal 0
+  [  6] getprop 155 ............................. <capacity>
+  [  8] lteq
+  [  9] jmpifz [ 62] ............................ repeat with i = 1 to capacity
+  [ 12] getlocal 0 .............................. <i>
+  [ 14] getparam 1 .............................. <num>
+  [ 16] lteq .................................... <i <= num>
+  [ 17] jmpifz [ 38] ............................ if i <= num then
+  [ 20] getprop 1145 ............................ <stars>
+  [ 23] getlocal 0 .............................. <i>
+  [ 25] pusharglist 2 ........................... <stars, i>
+  [ 27] objcall 36 .............................. <stars[i]>
+  [ 29] pushcons 1 .............................. <"full">
+  [ 31] pusharglistnoret 2 ...................... <stars[i], "full">
+  [ 33] objcall 209 ............................. stars[i].setAnimation("full")
+  [ 35] jmp [ 53] ............................... next repeat
+  [ 38] getprop 1145 ............................ <stars>
+  [ 41] getlocal 0 .............................. <i>
+  [ 43] pusharglist 2 ........................... <stars, i>
+  [ 45] objcall 36 .............................. <stars[i]>
+  [ 47] pushcons 2 .............................. <"empty">
+  [ 49] pusharglistnoret 2 ...................... <stars[i], "empty">
+  [ 51] objcall 209 ............................. stars[i].setAnimation("empty")
+  [ 53] pushint8 1
+  [ 55] getlocal 0
+  [ 57] add
+  [ 58] setlocal 0
+  [ 60] endrepeat [  4]
+  [ 62] ret
+end
+
+on destroy me
+  [  0] getprop 1145 ............................ <stars>
+  [  3] pusharglistnoret 1 ...................... <stars>
+  [  5] objcall 10 .............................. stars.deleteAll()
+  [  7] pusharglist 0 ........................... <>
+  [  9] extcall 65 .............................. <VOID>
+  [ 11] setprop 45 .............................. node = VOID
+  [ 13] ret
+end

@@ -1,0 +1,75 @@
+property Tile, node, shapeinfo, type
+
+on new me, Args
+  [  0] pushsymb 1146 ........................... <#obstacle>
+  [  3] setprop 137 ............................. type = #obstacle
+  [  5] getparam 1 .............................. <Args>
+  [  7] getchainedprop 384 ...................... <Args.parentNode>
+  [ 10] pushcons 0 .............................. <"obstacle">
+  [ 12] pusharglist 1 ........................... <"obstacle">
+  [ 14] extcall 47 .............................. <getNodeData("obstacle")>
+  [ 16] pushsymb 49 ............................. <#children>
+  [ 18] pushint8 1 .............................. <1>
+  [ 20] pusharglist 3 ........................... <getNodeData("obstacle"), #children, 1>
+  [ 22] objcall 30 .............................. <getNodeData("obstacle").children[1]>
+  [ 24] pusharglist 2 ........................... <Args.parentNode, getNodeData("obstacle").children[1]>
+  [ 26] objcall 48 .............................. <Args.parentNode.newNode(getNodeData("obstacle").children[1])>
+  [ 28] setprop 45 .............................. node = Args.parentNode.newNode(getNodeData("obstacle").children[1])
+  [ 30] getparam 0 .............................. <me>
+  [ 32] pusharglist 1 ........................... <[me]>
+  [ 34] pushlist ................................ <[me]>
+  [ 35] pusharglist 1 ........................... <[[me]]>
+  [ 37] pushlist ................................ <[[me]]>
+  [ 38] setprop 261 ............................. shapeinfo = [[me]]
+  [ 41] getparam 0 .............................. <me>
+  [ 43] pusharglistnoret 1 ...................... <me>
+  [ 45] extcall 9 ............................... return me
+  [ 47] ret
+end
+
+on destroy me
+  [  0] getprop 262 ............................. <Tile>
+  [  3] pusharglist 1 ........................... <Tile>
+  [  5] extcall 31 .............................. <voidp(Tile)>
+  [  7] not ..................................... <not voidp(Tile)>
+  [  8] jmpifz [ 21] ............................ if not voidp(Tile) then
+  [ 11] getprop 262 ............................. <Tile>
+  [ 14] getparam 0 .............................. <me>
+  [ 16] pusharglistnoret 2 ...................... <Tile, me>
+  [ 18] objcall 264 ............................. Tile.removeOccupant(me)
+  [ 21] pusharglist 0 ........................... <>
+  [ 23] extcall 65 .............................. <VOID>
+  [ 25] setprop 262 ............................. Tile = VOID
+  [ 28] getprop 45 .............................. <node>
+  [ 30] pusharglistnoret 1 ...................... <node>
+  [ 32] objcall 5 ............................... node.destroy()
+  [ 34] pusharglist 0 ........................... <>
+  [ 36] extcall 65 .............................. <VOID>
+  [ 38] setprop 45 .............................. node = VOID
+  [ 40] ret
+end
+
+on setTile me, t
+  [  0] getparam 1 .............................. <t>
+  [  2] setprop 262 ............................. Tile = t
+  [  5] getprop 45 .............................. <node>
+  [  7] getprop 262 ............................. <Tile>
+  [ 10] getobjprop 45 ........................... <Tile.node>
+  [ 12] pusharglistnoret 2 ...................... <node, Tile.node>
+  [ 14] objcall 263 ............................. node.setParent(Tile.node)
+  [ 17] getprop 45 .............................. <node>
+  [ 19] getprop 262 ............................. <Tile>
+  [ 22] getchainedprop 45 ....................... <Tile.node>
+  [ 24] pusharglist 1 ........................... <Tile.node>
+  [ 26] objcall 1147 ............................ <Tile.node.getRegPoint()>
+  [ 29] pusharglistnoret 2 ...................... <node, Tile.node.getRegPoint()>
+  [ 31] objcall 135 ............................. node.setLoc(Tile.node.getRegPoint())
+  [ 33] ret
+end
+
+on getTile me
+  [  0] getprop 262 ............................. <Tile>
+  [  3] pusharglistnoret 1 ...................... <Tile>
+  [  5] extcall 9 ............................... return Tile
+  [  7] ret
+end

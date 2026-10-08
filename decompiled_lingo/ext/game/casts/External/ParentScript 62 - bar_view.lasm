@@ -1,0 +1,109 @@
+global glob
+
+on new me, nodes, bgnode, bar
+  [  0] getparam 1 .............................. <nodes>
+  [  2] getobjprop 1159 ......................... <nodes.stool>
+  [  5] setlocal 0 .............................. cn = nodes.stool
+  [  7] getparam 1 .............................. <nodes>
+  [  9] getobjprop 204 .......................... <nodes.sitter>
+  [ 11] setlocal 1 .............................. sn = nodes.sitter
+  [ 13] getparam 1 .............................. <nodes>
+  [ 15] getobjprop 1160 ......................... <nodes.stoolnum>
+  [ 18] setlocal 2 .............................. cnum = nodes.stoolnum
+  [ 20] getparam 1 .............................. <nodes>
+  [ 22] getobjprop 1158 ......................... <nodes.legs>
+  [ 25] setlocal 3 .............................. ln = nodes.legs
+  [ 27] getparam 1 .............................. <nodes>
+  [ 29] getobjprop 219 .......................... <nodes.setting>
+  [ 31] setlocal 4 .............................. s = nodes.setting
+  [ 33] getparam 1 .............................. <nodes>
+  [ 35] getobjprop 1020 ......................... <nodes.mousetrap>
+  [ 38] setlocal 5 .............................. t = nodes.mousetrap
+  [ 40] getparam 1 .............................. <nodes>
+  [ 42] getobjprop 492 .......................... <nodes.dirty>
+  [ 45] setlocal 6 .............................. dirty = nodes.dirty
+  [ 47] getparam 1 .............................. <nodes>
+  [ 49] getobjprop 1161 ......................... <nodes.tablestuff>
+  [ 52] setlocal 7 .............................. ts = nodes.tablestuff
+  [ 54] getlocal 7 .............................. <ts>
+  [ 56] getlocal 7 .............................. <ts>
+  [ 58] getobjprop 12 ........................... <ts.count>
+  [ 60] pusharglist 2 ........................... <ts, ts.count>
+  [ 62] objcall 36 .............................. <ts[ts.count]>
+  [ 64] setlocal 8 .............................. tnode = ts[ts.count]
+  [ 66] getlocal 8 .............................. <tnode>
+  [ 68] pushcons 0 .............................. <"bar_tablestuff">
+  [ 70] pusharglist 1 ........................... <"bar_tablestuff">
+  [ 72] extcall 47 .............................. <getNodeData("bar_tablestuff")>
+  [ 74] pusharglist 2 ........................... <tnode, getNodeData("bar_tablestuff")>
+  [ 76] objcall 48 .............................. <tnode.newNode(getNodeData("bar_tablestuff"))>
+  [ 78] setlocal 9 .............................. tstuff = tnode.newNode(getNodeData("bar_tablestuff"))
+  [ 80] getlocal 8 .............................. <tnode>
+  [ 82] pusharglist 1 ........................... <tnode>
+  [ 84] objcall 51 .............................. <tnode.getLoc()>
+  [ 86] getlocal 7 .............................. <ts>
+  [ 88] pushint8 1 .............................. <1>
+  [ 90] pusharglist 2 ........................... <ts, 1>
+  [ 92] objcall 36 .............................. <ts[1]>
+  [ 94] pusharglist 1 ........................... <ts[1]>
+  [ 96] objcall 51 .............................. <ts[1].getLoc()>
+  [ 98] sub ..................................... <tnode.getLoc() - ts[1].getLoc()>
+  [ 99] pushfloat32 2.0 ......................... <2.0>
+  [104] div ..................................... <(tnode.getLoc() - ts[1].getLoc()) / 2.0>
+  [105] setlocal 10 ............................. numloc = (tnode.getLoc() - ts[1].getLoc()) / 2.0
+  [107] getlocal 9 .............................. <tstuff>
+  [109] pushcons 1 .............................. <"heartrow">
+  [111] pusharglist 2 ........................... <tstuff, "heartrow">
+  [113] objcall 36 .............................. <tstuff["heartrow"]>
+  [115] setlocal 11 ............................. hr = tstuff["heartrow"]
+  [117] getlocal 11 ............................. <hr>
+  [119] pusharglist 1 ........................... <hr>
+  [121] objcall 406 ............................. <hr.getLocRel()>
+  [124] setlocal 12 ............................. hloc = hr.getLocRel()
+  [126] getlocal 9 .............................. <tstuff>
+  [128] getlocal 9 .............................. <tstuff>
+  [130] pusharglist 1 ........................... <tstuff>
+  [132] objcall 51 .............................. <tstuff.getLoc()>
+  [134] getlocal 10 ............................. <numloc>
+  [136] sub ..................................... <tstuff.getLoc() - numloc>
+  [137] pusharglistnoret 2 ...................... <tstuff, tstuff.getLoc() - numloc>
+  [139] objcall 135 ............................. tstuff.setLoc(tstuff.getLoc() - numloc)
+  [141] getlocal 11 ............................. <hr>
+  [143] getlocal 12 ............................. <hloc>
+  [145] pusharglistnoret 2 ...................... <hr, hloc>
+  [147] objcall 971 ............................. hr.setLocRel(hloc)
+  [150] pushsymb 1184 ........................... <#chair_nodes>
+  [153] getlocal 0 .............................. <cn>
+  [155] pushsymb 1185 ........................... <#sitter_nodes>
+  [158] getlocal 1 .............................. <sn>
+  [160] pushsymb 1186 ........................... <#settings>
+  [163] getlocal 4 .............................. <s>
+  [165] pushsymb 1187 ........................... <#chair_nums>
+  [168] getlocal 2 .............................. <cnum>
+  [170] pushsymb 1188 ........................... <#legnodes>
+  [173] getlocal 3 .............................. <ln>
+  [175] pushsymb 1189 ........................... <#table_nodes>
+  [178] getlocal 5 .............................. <t>
+  [180] pushsymb 1190 ........................... <#isBar>
+  [183] pushint8 1 .............................. <1>
+  [185] pushsymb 138 ............................ <#bar>
+  [187] getparam 3 .............................. <bar>
+  [189] pushsymb 1161 ........................... <#tablestuff>
+  [192] getlocal 9 .............................. <tstuff>
+  [194] pushsymb 1191 ........................... <#dirty_nodes>
+  [197] getlocal 6 .............................. <dirty>
+  [199] pushsymb 45 ............................. <#node>
+  [201] getparam 2 .............................. <bgnode>
+  [203] pusharglist 22 .......................... <[#chair_nodes: cn, #sitter_nodes: sn, #settings: s, #chair_nums: cnum, #legnodes: ln, #table_nodes: t, #isBar: 1, #bar: bar, #tablestuff: tstuff, #dirty_nodes: dirty, #node: bgnode]>
+  [205] pushproplist ............................ <[#chair_nodes: cn, #sitter_nodes: sn, #settings: s, #chair_nums: cnum, #legnodes: ln, #table_nodes: t, #isBar: 1, #bar: bar, #tablestuff: tstuff, #dirty_nodes: dirty, #node: bgnode]>
+  [206] setlocal 13 ............................. Args = [#chair_nodes: cn, #sitter_nodes: sn, #settings: s, #chair_nums: cnum, #legnodes: ln, #table_nodes: t, #isBar: 1, #bar: bar, #tablestuff: tstuff, #dirty_nodes: dirty, #node: bgnode]
+  [208] pushcons 2 .............................. <"table_view">
+  [210] pusharglist 1 ........................... <"table_view">
+  [212] extcall 55 .............................. <script("table_view")>
+  [214] getlocal 13 ............................. <Args>
+  [216] pusharglist 2 ........................... <script("table_view"), Args>
+  [218] objcall 4 ............................... <script("table_view").new(Args)>
+  [220] pusharglistnoret 1 ...................... <script("table_view").new(Args)>
+  [222] extcall 9 ............................... return script("table_view").new(Args)
+  [224] ret
+end

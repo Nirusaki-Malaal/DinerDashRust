@@ -1,0 +1,1188 @@
+property node, nodelists, nodekeys, chairs, view_mgr, dividers, empty_tables, full_tables, length, room_mgr, letters, shapeinfo, tiles, destTiles, type, barmems
+
+on new me, Args
+  [  0] pushsymb 138 ............................ <#bar>
+  [  2] setprop 137 ............................. type = #bar
+  [  4] getparam 1 .............................. <Args>
+  [  6] getobjprop 41 ........................... <Args.room_mgr>
+  [  8] setprop 41 .............................. room_mgr = Args.room_mgr
+  [ 10] getprop 41 .............................. <room_mgr>
+  [ 12] getchainedprop 43 ....................... <room_mgr.game_mgr>
+  [ 14] getchainedprop 45 ....................... <room_mgr.game_mgr.node>
+  [ 16] pushcons 0 .............................. <"bar">
+  [ 18] pusharglist 1 ........................... <"bar">
+  [ 20] extcall 47 .............................. <getNodeData("bar")>
+  [ 22] pusharglist 2 ........................... <room_mgr.game_mgr.node, getNodeData("bar")>
+  [ 24] objcall 48 .............................. <room_mgr.game_mgr.node.newNode(getNodeData("bar"))>
+  [ 26] setprop 45 .............................. node = room_mgr.game_mgr.node.newNode(getNodeData("bar"))
+  [ 28] pushint8 8 .............................. <8>
+  [ 30] setprop 1151 ............................ length = 8
+  [ 33] pusharglist 0 ........................... <[]>
+  [ 35] pushlist ................................ <[]>
+  [ 36] setprop 1152 ............................ empty_tables = []
+  [ 39] pusharglist 0 ........................... <[]>
+  [ 41] pushlist ................................ <[]>
+  [ 42] setprop 510 ............................. full_tables = []
+  [ 45] pushcons 1 .............................. <"A">
+  [ 47] pushcons 2 .............................. <"B">
+  [ 49] pushcons 3 .............................. <"C">
+  [ 51] pushcons 4 .............................. <"D">
+  [ 53] pushcons 5 .............................. <"E">
+  [ 55] pushcons 6 .............................. <"F">
+  [ 57] pushcons 7 .............................. <"G">
+  [ 59] pushcons 8 .............................. <"H">
+  [ 61] pusharglist 8 ........................... <["A", "B", "C", "D", "E", "F", "G", "H"]>
+  [ 63] pushlist ................................ <["A", "B", "C", "D", "E", "F", "G", "H"]>
+  [ 64] setprop 1153 ............................ letters = ["A", "B", "C", "D", "E", "F", "G", "H"]
+  [ 67] getprop 1153 ............................ <letters>
+  [ 70] pusharglistnoret 1 ...................... <letters>
+  [ 72] objcall 629 ............................. letters.sort()
+  [ 75] pusharglist 0 ........................... <[]>
+  [ 77] pushlist ................................ <[]>
+  [ 78] setprop 424 ............................. tiles = []
+  [ 81] pusharglist 0 ........................... <[]>
+  [ 83] pushlist ................................ <[]>
+  [ 84] setprop 1154 ............................ destTiles = []
+  [ 87] pusharglist 0 ........................... <[:]>
+  [ 89] pushproplist ............................ <[:]>
+  [ 90] setprop 1155 ............................ barmems = [:]
+  [ 93] pushcons 9 .............................. <"diner">
+  [ 95] pushcons 10 ............................. <"family">
+  [ 97] pushcons 11 ............................. <"finedining">
+  [ 99] pushcons 12 ............................. <"chezflos">
+  [101] pusharglist 4 ........................... <["diner", "family", "finedining", "chezflos"]>
+  [103] pushlist ................................ <["diner", "family", "finedining", "chezflos"]>
+  [104] peek 0
+  [106] pusharglist 1
+  [108] extcall 12
+  [110] pushint8 1
+  [112] peek 0
+  [114] peek 2
+  [116] lteq
+  [117] jmpifz [152] ............................ repeat with i in ["diner", "family", "finedining", "chezflos"]
+  [120] peek 2
+  [122] peek 1
+  [124] pusharglist 2
+  [126] extcall 36
+  [128] setlocal 0
+  [130] getprop 1155 ............................ <barmems>
+  [133] getlocal 0 .............................. <i>
+  [135] pushcons 0 .............................. <"bar">
+  [137] pushcons 13 ............................. <"gfx.diner">
+  [139] pusharglist 2 ........................... <"bar", "gfx.diner">
+  [141] extcall 81 .............................. <member("bar", "gfx.diner")>
+  [143] pusharglistnoret 3 ...................... <barmems, i, member("bar", "gfx.diner")>
+  [145] objcall 25 .............................. barmems[i] = member("bar", "gfx.diner")
+  [147] pushint8 1
+  [149] add
+  [150] endrepeat [112]
+  [152] pop 3
+  [154] getprop 1155 ............................ <barmems>
+  [157] pushcons 14 ............................. <"goddess">
+  [159] pushcons 0 .............................. <"bar">
+  [161] pushcons 15 ............................. <"gfx.goddess">
+  [163] pusharglist 2 ........................... <"bar", "gfx.goddess">
+  [165] extcall 81 .............................. <member("bar", "gfx.goddess")>
+  [167] pusharglistnoret 3 ...................... <barmems, "goddess", member("bar", "gfx.goddess")>
+  [169] objcall 25 .............................. barmems["goddess"] = member("bar", "gfx.goddess")
+  [171] pusharglist 0 ........................... <[]>
+  [173] pushlist ................................ <[]>
+  [174] setlocal 1 .............................. empty_views = []
+  [176] pusharglist 0 ........................... <[]>
+  [178] pushlist ................................ <[]>
+  [179] setlocal 2 .............................. full_views = []
+  [181] pusharglist 0 ........................... <[]>
+  [183] pushlist ................................ <[]>
+  [184] setprop 152 ............................. chairs = []
+  [186] pushint8 1 .............................. <1>
+  [188] setlocal 0
+  [190] getlocal 0
+  [192] getprop 1151 ............................ <length>
+  [195] lteq
+  [196] jmpifz [252] ............................ repeat with i = 1 to length
+  [199] getparam 1 .............................. <Args>
+  [201] pushsymb 152 ............................ <#chairs>
+  [203] getlocal 0 .............................. <i>
+  [205] pusharglist 3 ........................... <Args, #chairs, i>
+  [207] objcall 30 .............................. <Args.chairs[i]>
+  [209] setlocal 3 .............................. dat = Args.chairs[i]
+  [211] getprop 152 ............................. <chairs>
+  [213] pushcons 16 ............................. <"chair">
+  [215] pushcons 17 ............................. <"scripts.game">
+  [217] pusharglist 2 ........................... <"chair", "scripts.game">
+  [219] extcall 55 .............................. <script("chair", "scripts.game")>
+  [221] pushsymb 130 ............................ <#table>
+  [223] pusharglist 0 ........................... <>
+  [225] extcall 65 .............................. <VOID>
+  [227] pushsymb 270 ............................ <#data>
+  [230] getlocal 3 .............................. <dat>
+  [232] pusharglist 4 ........................... <[#table: VOID, #data: dat]>
+  [234] pushproplist ............................ <[#table: VOID, #data: dat]>
+  [235] pusharglist 2 ........................... <script("chair", "scripts.game"), [#table: VOID, #data: dat]>
+  [237] objcall 4 ............................... <script("chair", "scripts.game").new([#table: VOID, #data: dat])>
+  [239] pusharglistnoret 2 ...................... <chairs, script("chair", "scripts.game").new([#table: VOID, #data: dat])>
+  [241] objcall 6 ............................... chairs.add(script("chair", "scripts.game").new([#table: VOID, #data: dat]))
+  [243] pushint8 1
+  [245] getlocal 0
+  [247] add
+  [248] setlocal 0
+  [250] endrepeat [190]
+  [252] pusharglist 0 ........................... <[]>
+  [254] pushlist ................................ <[]>
+  [255] setprop 1156 ............................ dividers = []
+  [258] pushint8 1 .............................. <1>
+  [260] setlocal 0
+  [262] getlocal 0
+  [264] getprop 1151 ............................ <length>
+  [267] pushint8 1 .............................. <1>
+  [269] sub ..................................... <length - 1>
+  [270] lteq
+  [271] jmpifz [301] ............................ repeat with i = 1 to length - 1
+  [274] getprop 1156 ............................ <dividers>
+  [277] getprop 45 .............................. <node>
+  [279] pushcons 18 ............................. <"divider_">
+  [281] getlocal 0 .............................. <i>
+  [283] joinstr ................................. <"divider_" & i>
+  [284] pusharglist 2 ........................... <node, "divider_" & i>
+  [286] objcall 36 .............................. <node["divider_" & i]>
+  [288] pusharglistnoret 2 ...................... <dividers, node["divider_" & i]>
+  [290] objcall 6 ............................... dividers.add(node["divider_" & i])
+  [292] pushint8 1
+  [294] getlocal 0
+  [296] add
+  [297] setlocal 0
+  [299] endrepeat [262]
+  [301] pushsymb 204 ............................ <#sitter>
+  [303] pushsymb 1158 ........................... <#legs>
+  [306] pushsymb 1159 ........................... <#stool>
+  [309] pushsymb 1160 ........................... <#stoolnum>
+  [312] pushsymb 1161 ........................... <#tablestuff>
+  [315] pushsymb 1020 ........................... <#mousetrap>
+  [318] pushsymb 492 ............................ <#dirty>
+  [321] pushsymb 219 ............................ <#setting>
+  [323] pusharglist 8 ........................... <[#sitter, #legs, #stool, #stoolnum, #tablestuff, #mousetrap, #dirty, #setting]>
+  [325] pushlist ................................ <[#sitter, #legs, #stool, #stoolnum, #tablestuff, #mousetrap, #dirty, #setting]>
+  [326] setprop 1157 ............................ nodekeys = [#sitter, #legs, #stool, #stoolnum, #tablestuff, #mousetrap, #dirty, #setting]
+  [329] pusharglist 0 ........................... <[:]>
+  [331] pushproplist ............................ <[:]>
+  [332] setprop 1162 ............................ nodelists = [:]
+  [335] getprop 1157 ............................ <nodekeys>
+  [338] peek 0
+  [340] pusharglist 1
+  [342] extcall 12
+  [344] pushint8 1
+  [346] peek 0
+  [348] peek 2
+  [350] lteq
+  [351] jmpifz [381] ............................ repeat with i in nodekeys
+  [354] peek 2
+  [356] peek 1
+  [358] pusharglist 2
+  [360] extcall 36
+  [362] setlocal 0
+  [364] getprop 1162 ............................ <nodelists>
+  [367] getlocal 0 .............................. <i>
+  [369] pusharglist 0 ........................... <[]>
+  [371] pushlist ................................ <[]>
+  [372] pusharglistnoret 3 ...................... <nodelists, i, []>
+  [374] objcall 25 .............................. nodelists[i] = []
+  [376] pushint8 1
+  [378] add
+  [379] endrepeat [346]
+  [381] pop 3
+  [383] pushint8 1 .............................. <1>
+  [385] setlocal 0
+  [387] getlocal 0
+  [389] getprop 1151 ............................ <length>
+  [392] lteq
+  [393] jmpifz [468] ............................ repeat with i = 1 to length
+  [396] getprop 1157 ............................ <nodekeys>
+  [399] peek 0
+  [401] pusharglist 1
+  [403] extcall 12
+  [405] pushint8 1
+  [407] peek 0
+  [409] peek 2
+  [411] lteq
+  [412] jmpifz [457] ............................ repeat with k in nodekeys
+  [415] peek 2
+  [417] peek 1
+  [419] pusharglist 2
+  [421] extcall 36
+  [423] setlocal 4
+  [425] getprop 1162 ............................ <nodelists>
+  [428] getlocal 4 .............................. <k>
+  [430] pusharglist 2 ........................... <nodelists, k>
+  [432] objcall 36 .............................. <nodelists[k]>
+  [434] getprop 45 .............................. <node>
+  [436] getlocal 4 .............................. <k>
+  [438] pushcons 19 ............................. <"_">
+  [440] joinstr ................................. <k & "_">
+  [441] getlocal 0 .............................. <i>
+  [443] joinstr ................................. <k & "_" & i>
+  [444] pusharglist 2 ........................... <node, k & "_" & i>
+  [446] objcall 36 .............................. <node[k & "_" & i]>
+  [448] pusharglistnoret 2 ...................... <nodelists[k], node[k & "_" & i]>
+  [450] objcall 6 ............................... nodelists[k].add(node[k & "_" & i])
+  [452] pushint8 1
+  [454] add
+  [455] endrepeat [407]
+  [457] pop 3
+  [459] pushint8 1
+  [461] getlocal 0
+  [463] add
+  [464] setlocal 0
+  [466] endrepeat [387]
+  [468] pusharglist 0 ........................... <[]>
+  [470] pushlist ................................ <[]>
+  [471] setprop 261 ............................. shapeinfo = []
+  [474] getprop 152 ............................. <chairs>
+  [476] peek 0
+  [478] pusharglist 1
+  [480] extcall 12
+  [482] pushint8 1
+  [484] peek 0
+  [486] peek 2
+  [488] lteq
+  [489] jmpifz [523] ............................ repeat with i in chairs
+  [492] peek 2
+  [494] peek 1
+  [496] pusharglist 2
+  [498] extcall 36
+  [500] setlocal 0
+  [502] getprop 261 ............................. <shapeinfo>
+  [505] getlocal 0 .............................. <i>
+  [507] getparam 0 .............................. <me>
+  [509] getparam 0 .............................. <me>
+  [511] pusharglist 3 ........................... <[i, me, me]>
+  [513] pushlist ................................ <[i, me, me]>
+  [514] pusharglistnoret 2 ...................... <shapeinfo, [i, me, me]>
+  [516] objcall 6 ............................... shapeinfo.add([i, me, me])
+  [518] pushint8 1
+  [520] add
+  [521] endrepeat [484]
+  [523] pop 3
+  [525] getprop 261 ............................. <shapeinfo>
+  [528] pushint8 8 .............................. <8>
+  [530] pusharglistnoret 2 ...................... <shapeinfo, 8>
+  [532] objcall 634 ............................. shapeinfo.deleteAt(8)
+  [535] getparam 0 .............................. <me>
+  [537] pusharglistnoret 1 ...................... <me>
+  [539] extcall 9 ............................... return me
+  [541] ret
+end
+
+on init me, dt
+  [  0] getparam 1 .............................. <dt>
+  [  2] setprop 1154 ............................ destTiles = dt
+  [  5] getparam 0 .............................. <me>
+  [  7] pusharglistnoret 1 ...................... <me>
+  [  9] objcall 507 ............................. me.align()
+  [ 12] getprop 152 ............................. <chairs>
+  [ 14] pushint8 1 .............................. <1>
+  [ 16] pusharglist 2 ........................... <chairs, 1>
+  [ 18] objcall 36 .............................. <chairs[1]>
+  [ 20] getchainedprop 262 ...................... <chairs[1].Tile>
+  [ 23] pushsymb 383 ............................ <#pos>
+  [ 26] pushint8 1 .............................. <1>
+  [ 28] pusharglist 3 ........................... <chairs[1].Tile, #pos, 1>
+  [ 30] objcall 30 .............................. <chairs[1].Tile.pos[1]>
+  [ 32] pushint8 2 .............................. <2>
+  [ 34] add ..................................... <chairs[1].Tile.pos[1] + 2>
+  [ 35] setlocal 0 .............................. xPos = chairs[1].Tile.pos[1] + 2
+  [ 37] getparam 0 .............................. <me>
+  [ 39] pushint8 1 .............................. <1>
+  [ 41] getprop 1151 ............................ <length>
+  [ 44] pusharglistnoret 3 ...................... <me, 1, length>
+  [ 46] objcall 1149 ............................ me.makeEmptyTable(1, length)
+  [ 49] ret
+end
+
+on setTile me, t
+  [  0] getprop 424 ............................. <tiles>
+  [  3] getparam 1 .............................. <t>
+  [  5] pusharglistnoret 2 ...................... <tiles, t>
+  [  7] objcall 6 ............................... tiles.add(t)
+  [  9] ret
+end
+
+on setRestaurant me, r
+  [  0] getprop 1155 ............................ <barmems>
+  [  3] getparam 1 .............................. <r>
+  [  5] pusharglist 2 ........................... <barmems, r>
+  [  7] objcall 36 .............................. <barmems[r]>
+  [  9] setlocal 0 .............................. mem = barmems[r]
+  [ 11] getlocal 0 .............................. <mem>
+  [ 13] pusharglist 1 ........................... <mem>
+  [ 15] extcall 31 .............................. <voidp(mem)>
+  [ 17] jmpifz [ 24] ............................ if voidp(mem) then
+  [ 20] pusharglistnoret 0 ...................... <>
+  [ 22] extcall 9 ............................... return 
+  [ 24] getprop 45 .............................. <node>
+  [ 26] pushcons 20 ............................. <"bg">
+  [ 28] pusharglist 2 ........................... <node, "bg">
+  [ 30] objcall 36 .............................. <node["bg"]>
+  [ 32] getlocal 0 .............................. <mem>
+  [ 34] pusharglistnoret 2 ...................... <node["bg"], mem>
+  [ 36] objcall 213 ............................. node["bg"].setMember(mem)
+  [ 38] ret
+end
+
+on zsortSitters me
+  [  0] pusharglist 0 ........................... <[:]>
+  [  2] pushproplist ............................ <[:]>
+  [  3] setlocal 0 .............................. ls = [:]
+  [  5] getlocal 0 .............................. <ls>
+  [  7] pusharglistnoret 1 ...................... <ls>
+  [  9] objcall 629 ............................. ls.sort()
+  [ 12] getprop 1162 ............................ <nodelists>
+  [ 15] getobjprop 204 .......................... <nodelists.sitter>
+  [ 17] setlocal 1 .............................. nodes = nodelists.sitter
+  [ 19] getlocal 1 .............................. <nodes>
+  [ 21] peek 0
+  [ 23] pusharglist 1
+  [ 25] extcall 12
+  [ 27] pushint8 1
+  [ 29] peek 0
+  [ 31] peek 2
+  [ 33] lteq
+  [ 34] jmpifz [ 66] ............................ repeat with n in nodes
+  [ 37] peek 2
+  [ 39] peek 1
+  [ 41] pusharglist 2
+  [ 43] extcall 36
+  [ 45] setlocal 2
+  [ 47] getlocal 0 .............................. <ls>
+  [ 49] getlocal 2 .............................. <n>
+  [ 51] getobjprop 558 .......................... <n.y>
+  [ 54] getlocal 2 .............................. <n>
+  [ 56] pusharglistnoret 3 ...................... <ls, n.y, n>
+  [ 58] objcall 633 ............................. ls.addProp(n.y, n)
+  [ 61] pushint8 1
+  [ 63] add
+  [ 64] endrepeat [ 29]
+  [ 66] pop 3
+  [ 68] getlocal 0 .............................. <ls>
+  [ 70] peek 0
+  [ 72] pusharglist 1
+  [ 74] extcall 12
+  [ 76] pushint8 1
+  [ 78] peek 0
+  [ 80] peek 2
+  [ 82] lteq
+  [ 83] jmpifz [107] ............................ repeat with n in ls
+  [ 86] peek 2
+  [ 88] peek 1
+  [ 90] pusharglist 2
+  [ 92] extcall 36
+  [ 94] setlocal 2
+  [ 96] getlocal 2 .............................. <n>
+  [ 98] pusharglistnoret 1 ...................... <n>
+  [100] objcall 53 .............................. n.moveToFront()
+  [102] pushint8 1
+  [104] add
+  [105] endrepeat [ 78]
+  [107] pop 3
+  [109] ret
+end
+
+on align me
+  [  0] getprop 152 ............................. <chairs>
+  [  2] pushint8 1 .............................. <1>
+  [  4] pusharglist 2 ........................... <chairs, 1>
+  [  6] objcall 36 .............................. <chairs[1]>
+  [  8] getobjprop 262 .......................... <chairs[1].Tile>
+  [ 11] setlocal 0 .............................. t = chairs[1].Tile
+  [ 13] getlocal 0 .............................. <t>
+  [ 15] pusharglist 1 ........................... <t>
+  [ 17] extcall 31 .............................. <voidp(t)>
+  [ 19] jmpifz [ 33] ............................ if voidp(t) then
+  [ 22] getprop 45 .............................. <node>
+  [ 24] pushzero ................................ <0>
+  [ 25] pusharglistnoret 2 ...................... <node, 0>
+  [ 27] objcall 57 .............................. node.setVisible(0)
+  [ 29] pusharglistnoret 0 ...................... <>
+  [ 31] extcall 9 ............................... return 
+  [ 33] getlocal 0 .............................. <t>
+  [ 35] getobjprop 45 ........................... <t.node>
+  [ 37] setlocal 1 .............................. anchor = t.node
+  [ 39] getlocal 1 .............................. <anchor>
+  [ 41] pusharglist 1 ........................... <anchor>
+  [ 43] extcall 31 .............................. <voidp(anchor)>
+  [ 45] jmpifz [ 52] ............................ if voidp(anchor) then
+  [ 48] pusharglistnoret 0 ...................... <>
+  [ 50] extcall 9 ............................... return 
+  [ 52] getprop 45 .............................. <node>
+  [ 54] getprop 1162 ............................ <nodelists>
+  [ 57] pushsymb 1159 ........................... <#stool>
+  [ 60] pushint8 1 .............................. <1>
+  [ 62] pusharglist 3 ........................... <nodelists, #stool, 1>
+  [ 64] objcall 50 .............................. <nodelists.stool[1]>
+  [ 66] pusharglist 1 ........................... <nodelists.stool[1]>
+  [ 68] objcall 51 .............................. <nodelists.stool[1].getLoc()>
+  [ 70] pushint8 10 ............................. <10>
+  [ 72] inv ..................................... <-10>
+  [ 73] pushint8 20 ............................. <20>
+  [ 75] inv ..................................... <-20>
+  [ 76] pusharglist 2 ........................... <-10, -20>
+  [ 78] extcall 361 ............................. <point(-10, -20)>
+  [ 81] add ..................................... <nodelists.stool[1].getLoc() + point(-10, -20)>
+  [ 82] pusharglistnoret 2 ...................... <node, nodelists.stool[1].getLoc() + point(-10, -20)>
+  [ 84] objcall 52 .............................. node.setRegPoint(nodelists.stool[1].getLoc() + point(-10, -20))
+  [ 86] getprop 45 .............................. <node>
+  [ 88] getlocal 1 .............................. <anchor>
+  [ 90] pusharglistnoret 2 ...................... <node, anchor>
+  [ 92] objcall 263 ............................. node.setParent(anchor)
+  [ 95] getprop 45 .............................. <node>
+  [ 97] pusharglistnoret 1 ...................... <node>
+  [ 99] objcall 354 ............................. node.moveToBack()
+  [102] getprop 45 .............................. <node>
+  [104] getlocal 1 .............................. <anchor>
+  [106] pusharglist 1 ........................... <anchor>
+  [108] objcall 1147 ............................ <anchor.getRegPoint()>
+  [111] pusharglistnoret 2 ...................... <node, anchor.getRegPoint()>
+  [113] objcall 135 ............................. node.setLoc(anchor.getRegPoint())
+  [115] getprop 45 .............................. <node>
+  [117] pushint8 1 .............................. <1>
+  [119] pusharglistnoret 2 ...................... <node, 1>
+  [121] objcall 57 .............................. node.setVisible(1)
+  [123] ret
+end
+
+on makeEmptyTable me, start_indx, end_indx
+  [  0] getprop 1152 ............................ <empty_tables>
+  [  3] peek 0
+  [  5] pusharglist 1
+  [  7] extcall 12
+  [  9] pushint8 1
+  [ 11] peek 0
+  [ 13] peek 2
+  [ 15] lteq
+  [ 16] jmpifz [ 64] ............................ repeat with t in empty_tables
+  [ 19] peek 2
+  [ 21] peek 1
+  [ 23] pusharglist 2
+  [ 25] extcall 36
+  [ 27] setlocal 0
+  [ 29] getlocal 0 .............................. <t>
+  [ 31] getobjprop 486 .......................... <t.startIndex>
+  [ 34] getparam 2 .............................. <end_indx>
+  [ 36] lteq .................................... <t.startIndex <= end_indx>
+  [ 37] getlocal 0 .............................. <t>
+  [ 39] getobjprop 487 .......................... <t.endIndex>
+  [ 42] getparam 1 .............................. <start_indx>
+  [ 44] gteq .................................... <t.endIndex >= start_indx>
+  [ 45] and ..................................... <(t.startIndex <= end_indx) and (t.endIndex >= start_indx)>
+  [ 46] jmpifz [ 59] ............................ if (t.startIndex <= end_indx) and (t.endIndex >= start_indx) then
+  [ 49] pushcons 21 ............................. <"tried to make overlapping table">
+  [ 51] pusharglistnoret 1 ...................... <"tried to make overlapping table">
+  [ 53] extcall 60 .............................. complain("tried to make overlapping table")
+  [ 55] pusharglistnoret 0 ...................... <>
+  [ 57] extcall 9 ............................... return 
+  [ 59] pushint8 1
+  [ 61] add
+  [ 62] endrepeat [ 11]
+  [ 64] pop 3
+  [ 66] getprop 1162 ............................ <nodelists>
+  [ 69] pusharglist 1 ........................... <nodelists>
+  [ 71] objcall 405 ............................. <nodelists.duplicate()>
+  [ 74] setlocal 1 .............................. nds = nodelists.duplicate()
+  [ 76] pusharglist 0 ........................... <[:]>
+  [ 78] pushproplist ............................ <[:]>
+  [ 79] setlocal 1 .............................. nds = [:]
+  [ 81] pusharglist 0 ........................... <[]>
+  [ 83] pushlist ................................ <[]>
+  [ 84] setlocal 2 .............................. chs = []
+  [ 86] getprop 1157 ............................ <nodekeys>
+  [ 89] peek 0
+  [ 91] pusharglist 1
+  [ 93] extcall 12
+  [ 95] pushint8 1
+  [ 97] peek 0
+  [ 99] peek 2
+  [101] lteq
+  [102] jmpifz [131] ............................ repeat with k in nodekeys
+  [105] peek 2
+  [107] peek 1
+  [109] pusharglist 2
+  [111] extcall 36
+  [113] setlocal 3
+  [115] getlocal 1 .............................. <nds>
+  [117] getlocal 3 .............................. <k>
+  [119] pusharglist 0 ........................... <[]>
+  [121] pushlist ................................ <[]>
+  [122] pusharglistnoret 3 ...................... <nds, k, []>
+  [124] objcall 25 .............................. nds[k] = []
+  [126] pushint8 1
+  [128] add
+  [129] endrepeat [ 97]
+  [131] pop 3
+  [133] getparam 1 .............................. <start_indx>
+  [135] setlocal 4
+  [137] getlocal 4
+  [139] getparam 2 .............................. <end_indx>
+  [141] lteq
+  [142] jmpifz [231] ............................ repeat with i = start_indx to end_indx
+  [145] getlocal 2 .............................. <chs>
+  [147] getprop 152 ............................. <chairs>
+  [149] getlocal 4 .............................. <i>
+  [151] pusharglist 2 ........................... <chairs, i>
+  [153] objcall 36 .............................. <chairs[i]>
+  [155] pusharglistnoret 2 ...................... <chs, chairs[i]>
+  [157] objcall 6 ............................... chs.add(chairs[i])
+  [159] getprop 1157 ............................ <nodekeys>
+  [162] peek 0
+  [164] pusharglist 1
+  [166] extcall 12
+  [168] pushint8 1
+  [170] peek 0
+  [172] peek 2
+  [174] lteq
+  [175] jmpifz [220] ............................ repeat with k in nodekeys
+  [178] peek 2
+  [180] peek 1
+  [182] pusharglist 2
+  [184] extcall 36
+  [186] setlocal 3
+  [188] getlocal 1 .............................. <nds>
+  [190] getlocal 3 .............................. <k>
+  [192] pusharglist 2 ........................... <nds, k>
+  [194] objcall 36 .............................. <nds[k]>
+  [196] getprop 1162 ............................ <nodelists>
+  [199] getlocal 3 .............................. <k>
+  [201] pusharglist 2 ........................... <nodelists, k>
+  [203] objcall 36 .............................. <nodelists[k]>
+  [205] getlocal 4 .............................. <i>
+  [207] pusharglist 2 ........................... <nodelists[k], i>
+  [209] objcall 36 .............................. <nodelists[k][i]>
+  [211] pusharglistnoret 2 ...................... <nds[k], nodelists[k][i]>
+  [213] objcall 6 ............................... nds[k].add(nodelists[k][i])
+  [215] pushint8 1
+  [217] add
+  [218] endrepeat [170]
+  [220] pop 3
+  [222] pushint8 1
+  [224] getlocal 4
+  [226] add
+  [227] setlocal 4
+  [229] endrepeat [137]
+  [231] pushcons 22 ............................. <"table">
+  [233] pusharglist 1 ........................... <"table">
+  [235] extcall 55 .............................. <script("table")>
+  [237] pushsymb 1162 ........................... <#nodelists>
+  [240] getlocal 1 .............................. <nds>
+  [242] pushsymb 138 ............................ <#bar>
+  [244] getparam 0 .............................. <me>
+  [246] pushsymb 152 ............................ <#chairs>
+  [248] getlocal 2 .............................. <chs>
+  [250] pushsymb 486 ............................ <#startIndex>
+  [253] getparam 1 .............................. <start_indx>
+  [255] pushsymb 41 ............................. <#room_mgr>
+  [257] getprop 41 .............................. <room_mgr>
+  [259] pushsymb 386 ............................ <#tablenum>
+  [262] pushint8 100 ............................ <100>
+  [264] getparam 1 .............................. <start_indx>
+  [266] add ..................................... <100 + start_indx>
+  [267] pushsymb 1169 ........................... <#bar_mgr>
+  [270] getparam 0 .............................. <me>
+  [272] pushsymb 487 ............................ <#endIndex>
+  [275] getparam 2 .............................. <end_indx>
+  [277] pusharglist 16 .......................... <[#nodelists: nds, #bar: me, #chairs: chs, #startIndex: start_indx, #room_mgr: room_mgr, #tablenum: 100 + start_indx, #bar_mgr: me, #endIndex: end_indx]>
+  [279] pushproplist ............................ <[#nodelists: nds, #bar: me, #chairs: chs, #startIndex: start_indx, #room_mgr: room_mgr, #tablenum: 100 + start_indx, #bar_mgr: me, #endIndex: end_indx]>
+  [280] pusharglist 2 ........................... <script("table"), [#nodelists: nds, #bar: me, #chairs: chs, #startIndex: start_indx, #room_mgr: room_mgr, #tablenum: 100 + start_indx, #bar_mgr: me, #endIndex: end_indx]>
+  [282] objcall 4 ............................... <script("table").new([#nodelists: nds, #bar: me, #chairs: chs, #startIndex: start_indx, #room_mgr: room_mgr, #tablenum: 100 + start_indx, #bar_mgr: me, #endIndex: end_indx])>
+  [284] setlocal 0 .............................. t = script("table").new([#nodelists: nds, #bar: me, #chairs: chs, #startIndex: start_indx, #room_mgr: room_mgr, #tablenum: 100 + start_indx, #bar_mgr: me, #endIndex: end_indx])
+  [286] pushcons 23 ............................. <"bar_view">
+  [288] pusharglist 1 ........................... <"bar_view">
+  [290] extcall 55 .............................. <script("bar_view")>
+  [292] getlocal 1 .............................. <nds>
+  [294] getprop 45 .............................. <node>
+  [296] pushcons 24 ............................. <"mousearea">
+  [298] pusharglist 2 ........................... <node, "mousearea">
+  [300] objcall 36 .............................. <node["mousearea"]>
+  [302] getparam 0 .............................. <me>
+  [304] pusharglist 4 ........................... <script("bar_view"), nds, node["mousearea"], me>
+  [306] objcall 4 ............................... <script("bar_view").new(nds, node["mousearea"], me)>
+  [308] setlocal 5 .............................. v = script("bar_view").new(nds, node["mousearea"], me)
+  [310] getlocal 5 .............................. <v>
+  [312] getlocal 0 .............................. <t>
+  [314] pusharglistnoret 2 ...................... <v, t>
+  [316] objcall 485 ............................. v.setObject(t)
+  [319] getlocal 5 .............................. <v>
+  [321] pusharglistnoret 1 ...................... <v>
+  [323] objcall 1170 ............................ v.setEmpty()
+  [326] getlocal 0 .............................. <t>
+  [328] getlocal 5 .............................. <v>
+  [330] pusharglistnoret 2 ...................... <t, v>
+  [332] objcall 112 ............................. t.addView(v)
+  [334] getparam 1 .............................. <start_indx>
+  [336] setlocal 4
+  [338] getlocal 4
+  [340] getparam 2 .............................. <end_indx>
+  [342] pushint8 1 .............................. <1>
+  [344] sub ..................................... <end_indx - 1>
+  [345] lteq
+  [346] jmpifz [372] ............................ repeat with i = start_indx to end_indx - 1
+  [349] getprop 1156 ............................ <dividers>
+  [352] getlocal 4 .............................. <i>
+  [354] pusharglist 2 ........................... <dividers, i>
+  [356] objcall 36 .............................. <dividers[i]>
+  [358] pushzero ................................ <0>
+  [359] pusharglistnoret 2 ...................... <dividers[i], 0>
+  [361] objcall 57 .............................. dividers[i].setVisible(0)
+  [363] pushint8 1
+  [365] getlocal 4
+  [367] add
+  [368] setlocal 4
+  [370] endrepeat [338]
+  [372] getparam 2 .............................. <end_indx>
+  [374] getprop 1151 ............................ <length>
+  [377] lt ...................................... <end_indx < length>
+  [378] jmpifz [396] ............................ if end_indx < length then
+  [381] getprop 1156 ............................ <dividers>
+  [384] getparam 2 .............................. <end_indx>
+  [386] pusharglist 2 ........................... <dividers, end_indx>
+  [388] objcall 36 .............................. <dividers[end_indx]>
+  [390] pushint8 1 .............................. <1>
+  [392] pusharglistnoret 2 ...................... <dividers[end_indx], 1>
+  [394] objcall 57 .............................. dividers[end_indx].setVisible(1)
+  [396] getprop 1152 ............................ <empty_tables>
+  [399] getlocal 0 .............................. <t>
+  [401] pusharglistnoret 2 ...................... <empty_tables, t>
+  [403] objcall 6 ............................... empty_tables.add(t)
+  [405] getlocal 0 .............................. <t>
+  [407] getobjprop 486 .......................... <t.startIndex>
+  [410] getlocal 0 .............................. <t>
+  [412] getobjprop 487 .......................... <t.endIndex>
+  [415] getlocal 0 .............................. <t>
+  [417] getobjprop 486 .......................... <t.startIndex>
+  [420] sub ..................................... <t.endIndex - t.startIndex>
+  [421] pusharglist 1 ........................... <t.endIndex - t.startIndex>
+  [423] extcall 774 ............................. <float(t.endIndex - t.startIndex)>
+  [426] pushint8 2 .............................. <2>
+  [428] div ..................................... <float(t.endIndex - t.startIndex) / 2>
+  [429] pusharglist 1 ........................... <float(t.endIndex - t.startIndex) / 2>
+  [431] extcall 216 ............................. <integer(float(t.endIndex - t.startIndex) / 2)>
+  [433] add ..................................... <t.startIndex + integer(float(t.endIndex - t.startIndex) / 2)>
+  [434] setlocal 6 .............................. tindx = t.startIndex + integer(float(t.endIndex - t.startIndex) / 2)
+  [436] getprop 424 ............................. <tiles>
+  [439] getlocal 6 .............................. <tindx>
+  [441] pusharglist 2 ........................... <tiles, tindx>
+  [443] objcall 36 .............................. <tiles[tindx]>
+  [445] setlocal 7 .............................. Tile = tiles[tindx]
+  [447] getlocal 0 .............................. <t>
+  [449] getlocal 7 .............................. <Tile>
+  [451] pusharglistnoret 2 ...................... <t, Tile>
+  [453] objcall 260 ............................. t.setTile(Tile)
+  [456] getlocal 0 .............................. <t>
+  [458] getprop 1154 ............................ <destTiles>
+  [461] getlocal 6 .............................. <tindx>
+  [463] pusharglist 2 ........................... <destTiles, tindx>
+  [465] objcall 36 .............................. <destTiles[tindx]>
+  [467] pusharglistnoret 2 ...................... <t, destTiles[tindx]>
+  [469] objcall 389 ............................. t.setDestTile(destTiles[tindx])
+  [472] getlocal 7 .............................. <Tile>
+  [474] getlocal 0 .............................. <t>
+  [476] pusharglistnoret 2 ...................... <Tile, t>
+  [478] objcall 290 ............................. Tile.setOccupant(t)
+  [481] getlocal 0 .............................. <t>
+  [483] pusharglistnoret 1 ...................... <t>
+  [485] extcall 9 ............................... return t
+  [487] ret
+end
+
+on removeEmptyTable me, t
+  [  0] getprop 1152 ............................ <empty_tables>
+  [  3] getparam 1 .............................. <t>
+  [  5] pusharglist 2 ........................... <empty_tables, t>
+  [  7] objcall 14 .............................. <empty_tables.deleteOne(t)>
+  [  9] pusharglistnoret 1 ...................... <empty_tables.deleteOne(t)>
+  [ 11] extcall 9 ............................... return empty_tables.deleteOne(t)
+  [ 13] ret
+end
+
+on makeFullTable me, start_indx, end_indx
+  [  0] pusharglist 0 ........................... <>
+  [  2] extcall 65 .............................. <VOID>
+  [  4] setlocal 0 .............................. container = VOID
+  [  6] getprop 1152 ............................ <empty_tables>
+  [  9] peek 0
+  [ 11] pusharglist 1
+  [ 13] extcall 12
+  [ 15] pushint8 1
+  [ 17] peek 0
+  [ 19] peek 2
+  [ 21] lteq
+  [ 22] jmpifz [ 67] ............................ repeat with et in empty_tables
+  [ 25] peek 2
+  [ 27] peek 1
+  [ 29] pusharglist 2
+  [ 31] extcall 36
+  [ 33] setlocal 1
+  [ 35] getlocal 1 .............................. <et>
+  [ 37] getobjprop 486 .......................... <et.startIndex>
+  [ 40] getparam 1 .............................. <start_indx>
+  [ 42] lteq .................................... <et.startIndex <= start_indx>
+  [ 43] getlocal 1 .............................. <et>
+  [ 45] getobjprop 487 .......................... <et.endIndex>
+  [ 48] getparam 2 .............................. <end_indx>
+  [ 50] gteq .................................... <et.endIndex >= end_indx>
+  [ 51] and ..................................... <(et.startIndex <= start_indx) and (et.endIndex >= end_indx)>
+  [ 52] jmpifz [ 62] ............................ if (et.startIndex <= start_indx) and (et.endIndex >= end_indx) then
+  [ 55] getlocal 1 .............................. <et>
+  [ 57] setlocal 0 .............................. container = et
+  [ 59] jmp [ 67] ............................... exit repeat
+  [ 62] pushint8 1
+  [ 64] add
+  [ 65] endrepeat [ 17]
+  [ 67] pop 3
+  [ 69] getlocal 0 .............................. <container>
+  [ 71] pusharglist 1 ........................... <container>
+  [ 73] extcall 31 .............................. <voidp(container)>
+  [ 75] jmpifz [ 82] ............................ if voidp(container) then
+  [ 78] pusharglistnoret 0 ...................... <>
+  [ 80] extcall 9 ............................... return 
+  [ 82] getlocal 0 .............................. <container>
+  [ 84] getobjprop 486 .......................... <container.startIndex>
+  [ 87] setlocal 2 .............................. contStart = container.startIndex
+  [ 89] getlocal 0 .............................. <container>
+  [ 91] getobjprop 487 .......................... <container.endIndex>
+  [ 94] setlocal 3 .............................. contEnd = container.endIndex
+  [ 96] getparam 0 .............................. <me>
+  [ 98] getlocal 0 .............................. <container>
+  [100] pusharglistnoret 2 ...................... <me, container>
+  [102] objcall 1150 ............................ me.removeEmptyTable(container)
+  [105] getlocal 0 .............................. <container>
+  [107] pusharglistnoret 1 ...................... <container>
+  [109] objcall 5 ............................... container.destroy()
+  [111] getlocal 2 .............................. <contStart>
+  [113] getparam 1 .............................. <start_indx>
+  [115] lt ...................................... <contStart < start_indx>
+  [116] jmpifz [133] ............................ if contStart < start_indx then
+  [119] getparam 0 .............................. <me>
+  [121] getlocal 2 .............................. <contStart>
+  [123] getparam 1 .............................. <start_indx>
+  [125] pushint8 1 .............................. <1>
+  [127] sub ..................................... <start_indx - 1>
+  [128] pusharglistnoret 3 ...................... <me, contStart, start_indx - 1>
+  [130] objcall 1149 ............................ me.makeEmptyTable(contStart, start_indx - 1)
+  [133] getparam 2 .............................. <end_indx>
+  [135] getlocal 3 .............................. <contEnd>
+  [137] lt ...................................... <end_indx < contEnd>
+  [138] jmpifz [155] ............................ if end_indx < contEnd then
+  [141] getparam 0 .............................. <me>
+  [143] getparam 2 .............................. <end_indx>
+  [145] pushint8 1 .............................. <1>
+  [147] add ..................................... <end_indx + 1>
+  [148] getlocal 3 .............................. <contEnd>
+  [150] pusharglistnoret 3 ...................... <me, end_indx + 1, contEnd>
+  [152] objcall 1149 ............................ me.makeEmptyTable(end_indx + 1, contEnd)
+  [155] pusharglist 0 ........................... <[:]>
+  [157] pushproplist ............................ <[:]>
+  [158] setlocal 4 .............................. nds = [:]
+  [160] getprop 1157 ............................ <nodekeys>
+  [163] peek 0
+  [165] pusharglist 1
+  [167] extcall 12
+  [169] pushint8 1
+  [171] peek 0
+  [173] peek 2
+  [175] lteq
+  [176] jmpifz [205] ............................ repeat with k in nodekeys
+  [179] peek 2
+  [181] peek 1
+  [183] pusharglist 2
+  [185] extcall 36
+  [187] setlocal 5
+  [189] getlocal 4 .............................. <nds>
+  [191] getlocal 5 .............................. <k>
+  [193] pusharglist 0 ........................... <[]>
+  [195] pushlist ................................ <[]>
+  [196] pusharglistnoret 3 ...................... <nds, k, []>
+  [198] objcall 25 .............................. nds[k] = []
+  [200] pushint8 1
+  [202] add
+  [203] endrepeat [171]
+  [205] pop 3
+  [207] pusharglist 0 ........................... <[]>
+  [209] pushlist ................................ <[]>
+  [210] setlocal 6 .............................. chs = []
+  [212] getparam 1 .............................. <start_indx>
+  [214] setlocal 7
+  [216] getlocal 7
+  [218] getparam 2 .............................. <end_indx>
+  [220] lteq
+  [221] jmpifz [310] ............................ repeat with i = start_indx to end_indx
+  [224] getprop 1157 ............................ <nodekeys>
+  [227] peek 0
+  [229] pusharglist 1
+  [231] extcall 12
+  [233] pushint8 1
+  [235] peek 0
+  [237] peek 2
+  [239] lteq
+  [240] jmpifz [285] ............................ repeat with k in nodekeys
+  [243] peek 2
+  [245] peek 1
+  [247] pusharglist 2
+  [249] extcall 36
+  [251] setlocal 5
+  [253] getlocal 4 .............................. <nds>
+  [255] getlocal 5 .............................. <k>
+  [257] pusharglist 2 ........................... <nds, k>
+  [259] objcall 36 .............................. <nds[k]>
+  [261] getprop 1162 ............................ <nodelists>
+  [264] getlocal 5 .............................. <k>
+  [266] pusharglist 2 ........................... <nodelists, k>
+  [268] objcall 36 .............................. <nodelists[k]>
+  [270] getlocal 7 .............................. <i>
+  [272] pusharglist 2 ........................... <nodelists[k], i>
+  [274] objcall 36 .............................. <nodelists[k][i]>
+  [276] pusharglistnoret 2 ...................... <nds[k], nodelists[k][i]>
+  [278] objcall 6 ............................... nds[k].add(nodelists[k][i])
+  [280] pushint8 1
+  [282] add
+  [283] endrepeat [235]
+  [285] pop 3
+  [287] getlocal 6 .............................. <chs>
+  [289] getprop 152 ............................. <chairs>
+  [291] getlocal 7 .............................. <i>
+  [293] pusharglist 2 ........................... <chairs, i>
+  [295] objcall 36 .............................. <chairs[i]>
+  [297] pusharglistnoret 2 ...................... <chs, chairs[i]>
+  [299] objcall 6 ............................... chs.add(chairs[i])
+  [301] pushint8 1
+  [303] getlocal 7
+  [305] add
+  [306] setlocal 7
+  [308] endrepeat [216]
+  [310] getparam 1 .............................. <start_indx>
+  [312] setlocal 7
+  [314] getlocal 7
+  [316] getparam 2 .............................. <end_indx>
+  [318] pushint8 1 .............................. <1>
+  [320] sub ..................................... <end_indx - 1>
+  [321] lteq
+  [322] jmpifz [348] ............................ repeat with i = start_indx to end_indx - 1
+  [325] getprop 1156 ............................ <dividers>
+  [328] getlocal 7 .............................. <i>
+  [330] pusharglist 2 ........................... <dividers, i>
+  [332] objcall 36 .............................. <dividers[i]>
+  [334] pushzero ................................ <0>
+  [335] pusharglistnoret 2 ...................... <dividers[i], 0>
+  [337] objcall 57 .............................. dividers[i].setVisible(0)
+  [339] pushint8 1
+  [341] getlocal 7
+  [343] add
+  [344] setlocal 7
+  [346] endrepeat [314]
+  [348] getparam 2 .............................. <end_indx>
+  [350] getprop 1151 ............................ <length>
+  [353] lt ...................................... <end_indx < length>
+  [354] jmpifz [372] ............................ if end_indx < length then
+  [357] getprop 1156 ............................ <dividers>
+  [360] getparam 2 .............................. <end_indx>
+  [362] pusharglist 2 ........................... <dividers, end_indx>
+  [364] objcall 36 .............................. <dividers[end_indx]>
+  [366] pushint8 1 .............................. <1>
+  [368] pusharglistnoret 2 ...................... <dividers[end_indx], 1>
+  [370] objcall 57 .............................. dividers[end_indx].setVisible(1)
+  [372] pushcons 22 ............................. <"table">
+  [374] pusharglist 1 ........................... <"table">
+  [376] extcall 55 .............................. <script("table")>
+  [378] pushsymb 1162 ........................... <#nodelists>
+  [381] getlocal 4 .............................. <nds>
+  [383] pushsymb 138 ............................ <#bar>
+  [385] getparam 0 .............................. <me>
+  [387] pushsymb 152 ............................ <#chairs>
+  [389] getlocal 6 .............................. <chs>
+  [391] pushsymb 486 ............................ <#startIndex>
+  [394] getparam 1 .............................. <start_indx>
+  [396] pushsymb 41 ............................. <#room_mgr>
+  [398] getprop 41 .............................. <room_mgr>
+  [400] pushsymb 386 ............................ <#tablenum>
+  [403] pushint8 100 ............................ <100>
+  [405] getparam 1 .............................. <start_indx>
+  [407] add ..................................... <100 + start_indx>
+  [408] pushsymb 1169 ........................... <#bar_mgr>
+  [411] getparam 0 .............................. <me>
+  [413] pushsymb 487 ............................ <#endIndex>
+  [416] getparam 2 .............................. <end_indx>
+  [418] pusharglist 16 .......................... <[#nodelists: nds, #bar: me, #chairs: chs, #startIndex: start_indx, #room_mgr: room_mgr, #tablenum: 100 + start_indx, #bar_mgr: me, #endIndex: end_indx]>
+  [420] pushproplist ............................ <[#nodelists: nds, #bar: me, #chairs: chs, #startIndex: start_indx, #room_mgr: room_mgr, #tablenum: 100 + start_indx, #bar_mgr: me, #endIndex: end_indx]>
+  [421] pusharglist 2 ........................... <script("table"), [#nodelists: nds, #bar: me, #chairs: chs, #startIndex: start_indx, #room_mgr: room_mgr, #tablenum: 100 + start_indx, #bar_mgr: me, #endIndex: end_indx]>
+  [423] objcall 4 ............................... <script("table").new([#nodelists: nds, #bar: me, #chairs: chs, #startIndex: start_indx, #room_mgr: room_mgr, #tablenum: 100 + start_indx, #bar_mgr: me, #endIndex: end_indx])>
+  [425] setlocal 8 .............................. t = script("table").new([#nodelists: nds, #bar: me, #chairs: chs, #startIndex: start_indx, #room_mgr: room_mgr, #tablenum: 100 + start_indx, #bar_mgr: me, #endIndex: end_indx])
+  [427] pushcons 23 ............................. <"bar_view">
+  [429] pusharglist 1 ........................... <"bar_view">
+  [431] extcall 55 .............................. <script("bar_view")>
+  [433] getlocal 4 .............................. <nds>
+  [435] getprop 45 .............................. <node>
+  [437] pushcons 24 ............................. <"mousearea">
+  [439] pusharglist 2 ........................... <node, "mousearea">
+  [441] objcall 36 .............................. <node["mousearea"]>
+  [443] getparam 0 .............................. <me>
+  [445] pusharglist 4 ........................... <script("bar_view"), nds, node["mousearea"], me>
+  [447] objcall 4 ............................... <script("bar_view").new(nds, node["mousearea"], me)>
+  [449] setlocal 9 .............................. v = script("bar_view").new(nds, node["mousearea"], me)
+  [451] getlocal 9 .............................. <v>
+  [453] getlocal 8 .............................. <t>
+  [455] pusharglistnoret 2 ...................... <v, t>
+  [457] objcall 485 ............................. v.setObject(t)
+  [460] getlocal 8 .............................. <t>
+  [462] getlocal 9 .............................. <v>
+  [464] pusharglistnoret 2 ...................... <t, v>
+  [466] objcall 112 ............................. t.addView(v)
+  [468] getprop 510 ............................. <full_tables>
+  [471] getlocal 8 .............................. <t>
+  [473] pusharglist 2 ........................... <full_tables, t>
+  [475] objcall 11 .............................. <full_tables.getOne(t)>
+  [477] pushzero ................................ <0>
+  [478] eq ...................................... <full_tables.getOne(t) = 0>
+  [479] jmpifz [494] ............................ if full_tables.getOne(t) = 0 then / else
+  [482] getprop 510 ............................. <full_tables>
+  [485] getlocal 8 .............................. <t>
+  [487] pusharglistnoret 2 ...................... <full_tables, t>
+  [489] objcall 6 ............................... full_tables.add(t)
+  [491] jmp [498]
+  [494] pusharglistnoret 0 ...................... <>
+  [496] extcall 136 ............................. nothing()
+  [498] getlocal 8 .............................. <t>
+  [500] getobjprop 486 .......................... <t.startIndex>
+  [503] getlocal 8 .............................. <t>
+  [505] getobjprop 487 .......................... <t.endIndex>
+  [508] getlocal 8 .............................. <t>
+  [510] getobjprop 486 .......................... <t.startIndex>
+  [513] sub ..................................... <t.endIndex - t.startIndex>
+  [514] pusharglist 1 ........................... <t.endIndex - t.startIndex>
+  [516] extcall 774 ............................. <float(t.endIndex - t.startIndex)>
+  [519] pushint8 2 .............................. <2>
+  [521] div ..................................... <float(t.endIndex - t.startIndex) / 2>
+  [522] pusharglist 1 ........................... <float(t.endIndex - t.startIndex) / 2>
+  [524] extcall 216 ............................. <integer(float(t.endIndex - t.startIndex) / 2)>
+  [526] add ..................................... <t.startIndex + integer(float(t.endIndex - t.startIndex) / 2)>
+  [527] setlocal 10 ............................. tindx = t.startIndex + integer(float(t.endIndex - t.startIndex) / 2)
+  [529] getprop 424 ............................. <tiles>
+  [532] getlocal 10 ............................. <tindx>
+  [534] pusharglist 2 ........................... <tiles, tindx>
+  [536] objcall 36 .............................. <tiles[tindx]>
+  [538] setlocal 11 ............................. Tile = tiles[tindx]
+  [540] getlocal 8 .............................. <t>
+  [542] getlocal 11 ............................. <Tile>
+  [544] pusharglistnoret 2 ...................... <t, Tile>
+  [546] objcall 260 ............................. t.setTile(Tile)
+  [549] getlocal 8 .............................. <t>
+  [551] getprop 1154 ............................ <destTiles>
+  [554] getlocal 10 ............................. <tindx>
+  [556] pusharglist 2 ........................... <destTiles, tindx>
+  [558] objcall 36 .............................. <destTiles[tindx]>
+  [560] pusharglistnoret 2 ...................... <t, destTiles[tindx]>
+  [562] objcall 389 ............................. t.setDestTile(destTiles[tindx])
+  [565] getlocal 11 ............................. <Tile>
+  [567] getlocal 8 .............................. <t>
+  [569] pusharglistnoret 2 ...................... <Tile, t>
+  [571] objcall 290 ............................. Tile.setOccupant(t)
+  [574] getlocal 8 .............................. <t>
+  [576] pusharglistnoret 1 ...................... <t>
+  [578] extcall 9 ............................... return t
+  [580] ret
+end
+
+on getLetter me
+  [  0] getprop 1153 ............................ <letters>
+  [  3] pushint8 1 .............................. <1>
+  [  5] pusharglist 2 ........................... <letters, 1>
+  [  7] objcall 36 .............................. <letters[1]>
+  [  9] setlocal 0 .............................. let = letters[1]
+  [ 11] getprop 1153 ............................ <letters>
+  [ 14] pushint8 1 .............................. <1>
+  [ 16] pusharglistnoret 2 ...................... <letters, 1>
+  [ 18] objcall 634 ............................. letters.deleteAt(1)
+  [ 21] getlocal 0 .............................. <let>
+  [ 23] pusharglistnoret 1 ...................... <let>
+  [ 25] extcall 9 ............................... return let
+  [ 27] ret
+end
+
+on returnLetter me, let
+  [  0] getprop 1153 ............................ <letters>
+  [  3] getparam 1 .............................. <let>
+  [  5] pusharglist 2 ........................... <letters, let>
+  [  7] objcall 11 .............................. <letters.getOne(let)>
+  [  9] pushzero ................................ <0>
+  [ 10] eq ...................................... <letters.getOne(let) = 0>
+  [ 11] getparam 1 .............................. <let>
+  [ 13] pusharglist 1 ........................... <let>
+  [ 15] extcall 1181 ............................ <stringp(let)>
+  [ 18] and ..................................... <(letters.getOne(let) = 0) and stringp(let)>
+  [ 19] jmpifz [ 31] ............................ if (letters.getOne(let) = 0) and stringp(let) then
+  [ 22] getprop 1153 ............................ <letters>
+  [ 25] getparam 1 .............................. <let>
+  [ 27] pusharglistnoret 2 ...................... <letters, let>
+  [ 29] objcall 6 ............................... letters.add(let)
+  [ 31] ret
+end
+
+on removeFullTable me, t
+  [  0] getprop 510 ............................. <full_tables>
+  [  3] getparam 1 .............................. <t>
+  [  5] pusharglist 2 ........................... <full_tables, t>
+  [  7] objcall 14 .............................. <full_tables.deleteOne(t)>
+  [  9] not ..................................... <not full_tables.deleteOne(t)>
+  [ 10] jmpifz [ 17] ............................ if not full_tables.deleteOne(t) then
+  [ 13] pusharglistnoret 0 ...................... <>
+  [ 15] extcall 9 ............................... return 
+  [ 17] getparam 1 .............................. <t>
+  [ 19] getobjprop 486 .......................... <t.startIndex>
+  [ 22] setlocal 0 .............................. newstart = t.startIndex
+  [ 24] getparam 1 .............................. <t>
+  [ 26] getobjprop 487 .......................... <t.endIndex>
+  [ 29] setlocal 1 .............................. newend = t.endIndex
+  [ 31] getparam 1 .............................. <t>
+  [ 33] getobjprop 486 .......................... <t.startIndex>
+  [ 36] pushint8 1 .............................. <1>
+  [ 38] gt ...................................... <t.startIndex > 1>
+  [ 39] jmpifz [117] ............................ if t.startIndex > 1 then
+  [ 42] getprop 1152 ............................ <empty_tables>
+  [ 45] peek 0
+  [ 47] pusharglist 1
+  [ 49] extcall 12
+  [ 51] pushint8 1
+  [ 53] peek 0
+  [ 55] peek 2
+  [ 57] lteq
+  [ 58] jmpifz [115] ............................ repeat with et in empty_tables
+  [ 61] peek 2
+  [ 63] peek 1
+  [ 65] pusharglist 2
+  [ 67] extcall 36
+  [ 69] setlocal 2
+  [ 71] getlocal 2 .............................. <et>
+  [ 73] getobjprop 487 .......................... <et.endIndex>
+  [ 76] getlocal 0 .............................. <newstart>
+  [ 78] pushint8 1 .............................. <1>
+  [ 80] sub ..................................... <newstart - 1>
+  [ 81] eq ...................................... <et.endIndex = (newstart - 1)>
+  [ 82] jmpifz [110] ............................ if et.endIndex = (newstart - 1) then
+  [ 85] getlocal 2 .............................. <et>
+  [ 87] getobjprop 486 .......................... <et.startIndex>
+  [ 90] setlocal 0 .............................. newstart = et.startIndex
+  [ 92] getparam 0 .............................. <me>
+  [ 94] getlocal 2 .............................. <et>
+  [ 96] pusharglistnoret 2 ...................... <me, et>
+  [ 98] objcall 1150 ............................ me.removeEmptyTable(et)
+  [101] getlocal 2 .............................. <et>
+  [103] pusharglistnoret 1 ...................... <et>
+  [105] objcall 5 ............................... et.destroy()
+  [107] jmp [115] ............................... exit repeat
+  [110] pushint8 1
+  [112] add
+  [113] endrepeat [ 53]
+  [115] pop 3
+  [117] getparam 1 .............................. <t>
+  [119] getobjprop 487 .......................... <t.endIndex>
+  [122] getprop 1151 ............................ <length>
+  [125] lt ...................................... <t.endIndex < length>
+  [126] jmpifz [200] ............................ if t.endIndex < length then
+  [129] pushint8 1 .............................. <1>
+  [131] setlocal 3
+  [133] getlocal 3
+  [135] getprop 1152 ............................ <empty_tables>
+  [138] getobjprop 12 ........................... <empty_tables.count>
+  [140] lteq
+  [141] jmpifz [200] ............................ repeat with i = 1 to empty_tables.count
+  [144] getprop 1152 ............................ <empty_tables>
+  [147] getlocal 3 .............................. <i>
+  [149] pusharglist 2 ........................... <empty_tables, i>
+  [151] objcall 36 .............................. <empty_tables[i]>
+  [153] setlocal 2 .............................. et = empty_tables[i]
+  [155] getlocal 2 .............................. <et>
+  [157] getobjprop 486 .......................... <et.startIndex>
+  [160] getlocal 1 .............................. <newend>
+  [162] pushint8 1 .............................. <1>
+  [164] add ..................................... <newend + 1>
+  [165] eq ...................................... <et.startIndex = (newend + 1)>
+  [166] jmpifz [191] ............................ if et.startIndex = (newend + 1) then
+  [169] getlocal 2 .............................. <et>
+  [171] getobjprop 487 .......................... <et.endIndex>
+  [174] setlocal 1 .............................. newend = et.endIndex
+  [176] getparam 0 .............................. <me>
+  [178] getlocal 2 .............................. <et>
+  [180] pusharglistnoret 2 ...................... <me, et>
+  [182] objcall 1150 ............................ me.removeEmptyTable(et)
+  [185] getlocal 2 .............................. <et>
+  [187] pusharglistnoret 1 ...................... <et>
+  [189] objcall 5 ............................... et.destroy()
+  [191] pushint8 1
+  [193] getlocal 3
+  [195] add
+  [196] setlocal 3
+  [198] endrepeat [133]
+  [200] getlocal 0 .............................. <newstart>
+  [202] getparam 1 .............................. <t>
+  [204] getobjprop 486 .......................... <t.startIndex>
+  [207] eq ...................................... <newstart = t.startIndex>
+  [208] getlocal 1 .............................. <newend>
+  [210] getparam 1 .............................. <t>
+  [212] getobjprop 487 .......................... <t.endIndex>
+  [215] eq ...................................... <newend = t.endIndex>
+  [216] and ..................................... <(newstart = t.startIndex) and (newend = t.endIndex)>
+  [217] jmpifz [224] ............................ if (newstart = t.startIndex) and (newend = t.endIndex) then
+  [220] pusharglistnoret 0 ...................... <>
+  [222] extcall 136 ............................. nothing()
+  [224] getparam 1 .............................. <t>
+  [226] pusharglistnoret 1 ...................... <t>
+  [228] objcall 5 ............................... t.destroy()
+  [230] getparam 0 .............................. <me>
+  [232] getlocal 0 .............................. <newstart>
+  [234] getlocal 1 .............................. <newend>
+  [236] pusharglist 3 ........................... <me, newstart, newend>
+  [238] objcall 1149 ............................ <me.makeEmptyTable(newstart, newend)>
+  [241] setparam 1 .............................. t = me.makeEmptyTable(newstart, newend)
+  [243] getparam 1 .............................. <t>
+  [245] not ..................................... <not t>
+  [246] jmpifz [253] ............................ if not t then
+  [249] pusharglistnoret 0 ...................... <>
+  [251] extcall 136 ............................. nothing()
+  [253] pushint8 1 .............................. <1>
+  [255] pusharglistnoret 1 ...................... <1>
+  [257] extcall 9 ............................... return 1
+  [259] ret
+end
+
+on destroy me
+  [  0] pushsymb 5 .............................. <#destroy>
+  [  2] getprop 1152 ............................ <empty_tables>
+  [  5] pusharglistnoret 2 ...................... <#destroy, empty_tables>
+  [  7] extcall 32 .............................. call(#destroy, empty_tables)
+  [  9] pushsymb 5 .............................. <#destroy>
+  [ 11] getprop 510 ............................. <full_tables>
+  [ 14] pusharglistnoret 2 ...................... <#destroy, full_tables>
+  [ 16] extcall 32 .............................. call(#destroy, full_tables)
+  [ 18] pushsymb 5 .............................. <#destroy>
+  [ 20] getprop 152 ............................. <chairs>
+  [ 22] pusharglistnoret 2 ...................... <#destroy, chairs>
+  [ 24] extcall 32 .............................. call(#destroy, chairs)
+  [ 26] getprop 45 .............................. <node>
+  [ 28] pusharglistnoret 1 ...................... <node>
+  [ 30] objcall 5 ............................... node.destroy()
+  [ 32] pushint8 1 .............................. <1>
+  [ 34] setlocal 0
+  [ 36] getlocal 0
+  [ 38] getparam 0 .............................. <me>
+  [ 40] getobjprop 12 ........................... <me.count>
+  [ 42] lteq
+  [ 43] jmpifz [ 67] ............................ repeat with i = 1 to me.count
+  [ 46] getparam 0 .............................. <me>
+  [ 48] getlocal 0 .............................. <i>
+  [ 50] pusharglist 0 ........................... <>
+  [ 52] extcall 65 .............................. <VOID>
+  [ 54] pusharglistnoret 3 ...................... <me, i, VOID>
+  [ 56] objcall 25 .............................. me[i] = VOID
+  [ 58] pushint8 1
+  [ 60] getlocal 0
+  [ 62] add
+  [ 63] setlocal 0
+  [ 65] endrepeat [ 36]
+  [ 67] ret
+end

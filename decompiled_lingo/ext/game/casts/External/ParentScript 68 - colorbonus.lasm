@@ -1,0 +1,420 @@
+property color, numbers, multiplier, members, node, showing, home_yreg, speed, height, y, alpha, view_mgr, type
+global glob
+
+on new me
+  [  0] getglobal 1 ............................. <glob>
+  [  2] getchainedprop 108 ...................... <glob.managers>
+  [  4] getchainedprop 172 ...................... <glob.managers.game>
+  [  6] getchainedprop 45 ....................... <glob.managers.game.node>
+  [  8] pushcons 0 .............................. <"colorbonus">
+  [ 10] pusharglist 1 ........................... <"colorbonus">
+  [ 12] extcall 47 .............................. <getNodeData("colorbonus")>
+  [ 14] pusharglist 2 ........................... <glob.managers.game.node, getNodeData("colorbonus")>
+  [ 16] objcall 48 .............................. <glob.managers.game.node.newNode(getNodeData("colorbonus"))>
+  [ 18] setprop 45 .............................. node = glob.managers.game.node.newNode(getNodeData("colorbonus"))
+  [ 20] getprop 45 .............................. <node>
+  [ 22] setlocal 0 .............................. n = node
+  [ 24] getglobal 1 ............................. <glob>
+  [ 26] getchainedprop 108 ...................... <glob.managers>
+  [ 28] getobjprop 109 .......................... <glob.managers.view>
+  [ 30] setprop 594 ............................. view_mgr = glob.managers.view
+  [ 33] pushcons 0 .............................. <"colorbonus">
+  [ 35] setprop 137 ............................. type = "colorbonus"
+  [ 37] getlocal 0 .............................. <n>
+  [ 39] pushcons 1 .............................. <"color">
+  [ 41] pusharglist 2 ........................... <n, "color">
+  [ 43] objcall 36 .............................. <n["color"]>
+  [ 45] setprop 230 ............................. color = n["color"]
+  [ 47] pusharglist 0 ........................... <[]>
+  [ 49] pushlist ................................ <[]>
+  [ 50] setprop 1268 ............................ numbers = []
+  [ 53] pushint8 1 .............................. <1>
+  [ 55] setlocal 1
+  [ 57] getlocal 1
+  [ 59] pushint8 4 .............................. <4>
+  [ 61] lteq
+  [ 62] jmpifz [ 92] ............................ repeat with i = 1 to 4
+  [ 65] getprop 1268 ............................ <numbers>
+  [ 68] getlocal 0 .............................. <n>
+  [ 70] pushcons 2 .............................. <"number_">
+  [ 72] getlocal 1 .............................. <i>
+  [ 74] joinstr ................................. <"number_" & i>
+  [ 75] pusharglist 2 ........................... <n, "number_" & i>
+  [ 77] objcall 36 .............................. <n["number_" & i]>
+  [ 79] pusharglistnoret 2 ...................... <numbers, n["number_" & i]>
+  [ 81] objcall 6 ............................... numbers.add(n["number_" & i])
+  [ 83] pushint8 1
+  [ 85] getlocal 1
+  [ 87] add
+  [ 88] setlocal 1
+  [ 90] endrepeat [ 57]
+  [ 92] getlocal 0 .............................. <n>
+  [ 94] pushcons 3 .............................. <"multiplier">
+  [ 96] pusharglist 2 ........................... <n, "multiplier">
+  [ 98] objcall 36 .............................. <n["multiplier"]>
+  [100] setprop 283 ............................. multiplier = n["multiplier"]
+  [103] pusharglist 0 ........................... <[:]>
+  [105] pushproplist ............................ <[:]>
+  [106] setprop 713 ............................. members = [:]
+  [109] pushsymb 77 ............................. <#red>
+  [111] pushsymb 78 ............................. <#green>
+  [113] pushsymb 80 ............................. <#purple>
+  [115] pushsymb 79 ............................. <#blue>
+  [117] pushsymb 600 ............................ <#yellow>
+  [120] pusharglist 5 ........................... <[#red, #green, #purple, #blue, #yellow]>
+  [122] pushlist ................................ <[#red, #green, #purple, #blue, #yellow]>
+  [123] setlocal 2 .............................. colors = [#red, #green, #purple, #blue, #yellow]
+  [125] pusharglist 0 ........................... <[:]>
+  [127] pushproplist ............................ <[:]>
+  [128] setprop 713 ............................. members = [:]
+  [131] getlocal 2 .............................. <colors>
+  [133] peek 0
+  [135] pusharglist 1
+  [137] extcall 12
+  [139] pushint8 1
+  [141] peek 0
+  [143] peek 2
+  [145] lteq
+  [146] jmpifz [312] ............................ repeat with i in colors
+  [149] peek 2
+  [151] peek 1
+  [153] pusharglist 2
+  [155] extcall 36
+  [157] setlocal 1
+  [159] pusharglist 0 ........................... <[:]>
+  [161] pushproplist ............................ <[:]>
+  [162] setlocal 3 .............................. ls = [:]
+  [164] getlocal 3 .............................. <ls>
+  [166] pushsymb 230 ............................ <#color>
+  [168] getlocal 1 .............................. <i>
+  [170] pushcons 4 .............................. <".color">
+  [172] joinstr ................................. <i & ".color">
+  [173] pushcons 5 .............................. <"gfx.numbers">
+  [175] pusharglist 2 ........................... <i & ".color", "gfx.numbers">
+  [177] extcall 81 .............................. <member(i & ".color", "gfx.numbers")>
+  [179] pusharglistnoret 3 ...................... <ls, #color, member(i & ".color", "gfx.numbers")>
+  [181] objcall 25 .............................. ls[#color] = member(i & ".color", "gfx.numbers")
+  [183] pusharglist 0 ........................... <[]>
+  [185] pushlist ................................ <[]>
+  [186] setlocal 4 .............................. nums = []
+  [188] pushzero ................................ <0>
+  [189] setlocal 5
+  [191] getlocal 5
+  [193] pushint8 9 .............................. <9>
+  [195] lteq
+  [196] jmpifz [228] ............................ repeat with num = 0 to 9
+  [199] getlocal 4 .............................. <nums>
+  [201] getlocal 1 .............................. <i>
+  [203] pushcons 6 .............................. <".">
+  [205] joinstr ................................. <i & ".">
+  [206] getlocal 5 .............................. <num>
+  [208] joinstr ................................. <i & "." & num>
+  [209] pushcons 5 .............................. <"gfx.numbers">
+  [211] pusharglist 2 ........................... <i & "." & num, "gfx.numbers">
+  [213] extcall 81 .............................. <member(i & "." & num, "gfx.numbers")>
+  [215] pusharglistnoret 2 ...................... <nums, member(i & "." & num, "gfx.numbers")>
+  [217] objcall 6 ............................... nums.add(member(i & "." & num, "gfx.numbers"))
+  [219] pushint8 1
+  [221] getlocal 5
+  [223] add
+  [224] setlocal 5
+  [226] endrepeat [191]
+  [228] getlocal 3 .............................. <ls>
+  [230] pushsymb 1268 ........................... <#numbers>
+  [233] getlocal 4 .............................. <nums>
+  [235] pusharglistnoret 3 ...................... <ls, #numbers, nums>
+  [237] objcall 25 .............................. ls[#numbers] = nums
+  [239] pusharglist 0 ........................... <[]>
+  [241] pushlist ................................ <[]>
+  [242] setlocal 6 .............................. mult = []
+  [244] pushint8 1 .............................. <1>
+  [246] setlocal 5
+  [248] getlocal 5
+  [250] pushint8 5 .............................. <5>
+  [252] lteq
+  [253] jmpifz [285] ............................ repeat with num = 1 to 5
+  [256] getlocal 6 .............................. <mult>
+  [258] getlocal 1 .............................. <i>
+  [260] pushcons 7 .............................. <".x">
+  [262] joinstr ................................. <i & ".x">
+  [263] getlocal 5 .............................. <num>
+  [265] joinstr ................................. <i & ".x" & num>
+  [266] pushcons 5 .............................. <"gfx.numbers">
+  [268] pusharglist 2 ........................... <i & ".x" & num, "gfx.numbers">
+  [270] extcall 81 .............................. <member(i & ".x" & num, "gfx.numbers")>
+  [272] pusharglistnoret 2 ...................... <mult, member(i & ".x" & num, "gfx.numbers")>
+  [274] objcall 6 ............................... mult.add(member(i & ".x" & num, "gfx.numbers"))
+  [276] pushint8 1
+  [278] getlocal 5
+  [280] add
+  [281] setlocal 5
+  [283] endrepeat [248]
+  [285] getlocal 3 .............................. <ls>
+  [287] pushsymb 283 ............................ <#multiplier>
+  [290] getlocal 6 .............................. <mult>
+  [292] pusharglistnoret 3 ...................... <ls, #multiplier, mult>
+  [294] objcall 25 .............................. ls[#multiplier] = mult
+  [296] getprop 713 ............................. <members>
+  [299] getlocal 1 .............................. <i>
+  [301] getlocal 3 .............................. <ls>
+  [303] pusharglistnoret 3 ...................... <members, i, ls>
+  [305] objcall 25 .............................. members[i] = ls
+  [307] pushint8 1
+  [309] add
+  [310] endrepeat [141]
+  [312] pop 3
+  [314] getprop 45 .............................. <node>
+  [316] pushint32 1000000 ....................... <1000000>
+  [321] pusharglistnoret 2 ...................... <node, 1000000>
+  [323] objcall 122 ............................. node.setZOffset(1000000)
+  [325] getprop 45 .............................. <node>
+  [327] getprop 1268 ............................ <numbers>
+  [330] pushint8 3 .............................. <3>
+  [332] pusharglist 2 ........................... <numbers, 3>
+  [334] objcall 36 .............................. <numbers[3]>
+  [336] pusharglist 1 ........................... <numbers[3]>
+  [338] objcall 51 .............................. <numbers[3].getLoc()>
+  [340] pushzero ................................ <0>
+  [341] pushint8 10 ............................. <10>
+  [343] pusharglist 2 ........................... <[0, 10]>
+  [345] pushlist ................................ <[0, 10]>
+  [346] add ..................................... <numbers[3].getLoc() + [0, 10]>
+  [347] pusharglistnoret 2 ...................... <node, numbers[3].getLoc() + [0, 10]>
+  [349] objcall 52 .............................. node.setRegPoint(numbers[3].getLoc() + [0, 10])
+  [351] getprop 45 .............................. <node>
+  [353] pusharglist 1 ........................... <node>
+  [355] objcall 959 ............................. <node.getYReg()>
+  [358] setprop 958 ............................. home_yreg = node.getYReg()
+  [361] pushfloat32 100.0 ....................... <100.0>
+  [366] setprop 824 ............................. speed = 100.0
+  [369] pushfloat32 75.0 ........................ <75.0>
+  [374] setprop 415 ............................. height = 75.0
+  [377] getprop 45 .............................. <node>
+  [379] pushzero ................................ <0>
+  [380] pusharglistnoret 2 ...................... <node, 0>
+  [382] objcall 57 .............................. node.setVisible(0)
+  [384] getparam 0 .............................. <me>
+  [386] pusharglistnoret 1 ...................... <me>
+  [388] extcall 9 ............................... return me
+  [390] ret
+end
+
+on show me, Args
+  [  0] getparam 1 .............................. <Args>
+  [  2] getobjprop 282 .......................... <Args.score>
+  [  5] setlocal 0 .............................. num = Args.score
+  [  7] getparam 1 .............................. <Args>
+  [  9] getobjprop 283 .......................... <Args.multiplier>
+  [ 12] setlocal 1 .............................. mult = Args.multiplier
+  [ 14] getparam 1 .............................. <Args>
+  [ 16] getobjprop 230 .......................... <Args.color>
+  [ 18] setlocal 2 .............................. col = Args.color
+  [ 20] getlocal 0 .............................. <num>
+  [ 22] getobjprop 1272 ......................... <num.integerp>
+  [ 25] not ..................................... <not num.integerp>
+  [ 26] jmpifz [ 33] ............................ if not num.integerp then
+  [ 29] pusharglistnoret 0 ...................... <>
+  [ 31] extcall 9 ............................... return 
+  [ 33] getlocal 0 .............................. <num>
+  [ 35] pushint16 9999 .......................... <9999>
+  [ 38] gt ...................................... <num > 9999>
+  [ 39] getlocal 0 .............................. <num>
+  [ 41] pushzero ................................ <0>
+  [ 42] lt ...................................... <num < 0>
+  [ 43] or ...................................... <(num > 9999) or (num < 0)>
+  [ 44] jmpifz [ 51] ............................ if (num > 9999) or (num < 0) then
+  [ 47] pusharglistnoret 0 ...................... <>
+  [ 49] extcall 9 ............................... return 
+  [ 51] getprop 713 ............................. <members>
+  [ 54] getlocal 2 .............................. <col>
+  [ 56] pusharglist 2 ........................... <members, col>
+  [ 58] objcall 36 .............................. <members[col]>
+  [ 60] setlocal 3 .............................. mems = members[col]
+  [ 62] getlocal 3 .............................. <mems>
+  [ 64] pusharglist 1 ........................... <mems>
+  [ 66] extcall 31 .............................. <voidp(mems)>
+  [ 68] jmpifz [ 75] ............................ if voidp(mems) then
+  [ 71] pusharglistnoret 0 ...................... <>
+  [ 73] extcall 9 ............................... return 
+  [ 75] getlocal 3 .............................. <mems>
+  [ 77] getobjprop 283 .......................... <mems.multiplier>
+  [ 80] setlocal 4 .............................. mult_mems = mems.multiplier
+  [ 82] getlocal 3 .............................. <mems>
+  [ 84] getobjprop 1268 ......................... <mems.numbers>
+  [ 87] setlocal 5 .............................. num_mems = mems.numbers
+  [ 89] getlocal 0 .............................. <num>
+  [ 91] pusharglist 1 ........................... <num>
+  [ 93] extcall 59 .............................. <string(num)>
+  [ 95] setlocal 6 .............................. str = string(num)
+  [ 97] getlocal 6 .............................. <str>
+  [ 99] pushsymb 1273 ........................... <#char>
+  [102] pusharglist 2 ........................... <str, #char>
+  [104] objcall 12 .............................. <str.char.count>
+  [106] setlocal 7 .............................. ct = str.char.count
+  [108] pushint8 4 .............................. <4>
+  [110] getlocal 7 .............................. <ct>
+  [112] sub ..................................... <4 - ct>
+  [113] setlocal 8 .............................. diff = 4 - ct
+  [115] pushint8 1 .............................. <1>
+  [117] setlocal 9
+  [119] getlocal 9
+  [121] pushint8 4 .............................. <4>
+  [123] lteq
+  [124] jmpifz [206] ............................ repeat with i = 1 to 4
+  [127] getprop 1268 ............................ <numbers>
+  [130] getlocal 9 .............................. <i>
+  [132] pusharglist 2 ........................... <numbers, i>
+  [134] objcall 36 .............................. <numbers[i]>
+  [136] setlocal 10 ............................. n = numbers[i]
+  [138] getlocal 9 .............................. <i>
+  [140] getlocal 8 .............................. <diff>
+  [142] lteq .................................... <i <= diff>
+  [143] jmpifz [156] ............................ if i <= diff then
+  [146] getlocal 10 ............................. <n>
+  [148] pushzero ................................ <0>
+  [149] pusharglistnoret 2 ...................... <n, 0>
+  [151] objcall 57 .............................. n.setVisible(0)
+  [153] jmp [197] ............................... next repeat
+  [156] getlocal 10 ............................. <n>
+  [158] getlocal 5 .............................. <num_mems>
+  [160] getlocal 6 .............................. <str>
+  [162] pushsymb 1273 ........................... <#char>
+  [165] getlocal 9 .............................. <i>
+  [167] getlocal 8 .............................. <diff>
+  [169] sub ..................................... <i - diff>
+  [170] pusharglist 3 ........................... <str, #char, i - diff>
+  [172] objcall 30 .............................. <str.char[i - diff]>
+  [174] pusharglist 1 ........................... <str.char[i - diff]>
+  [176] extcall 216 ............................. <integer(str.char[i - diff])>
+  [178] pushint8 1 .............................. <1>
+  [180] add ..................................... <integer(str.char[i - diff]) + 1>
+  [181] pusharglist 2 ........................... <num_mems, integer(str.char[i - diff]) + 1>
+  [183] objcall 36 .............................. <num_mems[integer(str.char[i - diff]) + 1]>
+  [185] pusharglistnoret 2 ...................... <n, num_mems[integer(str.char[i - diff]) + 1]>
+  [187] objcall 213 ............................. n.setMember(num_mems[integer(str.char[i - diff]) + 1])
+  [189] getlocal 10 ............................. <n>
+  [191] pushint8 1 .............................. <1>
+  [193] pusharglistnoret 2 ...................... <n, 1>
+  [195] objcall 57 .............................. n.setVisible(1)
+  [197] pushint8 1
+  [199] getlocal 9
+  [201] add
+  [202] setlocal 9
+  [204] endrepeat [119]
+  [206] pushint8 1 .............................. <1>
+  [208] getlocal 1 .............................. <mult>
+  [210] pushint8 5 .............................. <5>
+  [212] pusharglist 2 ........................... <mult, 5>
+  [214] extcall 154 ............................. <min(mult, 5)>
+  [216] pusharglist 2 ........................... <1, min(mult, 5)>
+  [218] extcall 153 ............................. <max(1, min(mult, 5))>
+  [220] setlocal 1 .............................. mult = max(1, min(mult, 5))
+  [222] getprop 283 ............................. <multiplier>
+  [225] getlocal 4 .............................. <mult_mems>
+  [227] getlocal 1 .............................. <mult>
+  [229] pusharglist 2 ........................... <mult_mems, mult>
+  [231] objcall 36 .............................. <mult_mems[mult]>
+  [233] pusharglistnoret 2 ...................... <multiplier, mult_mems[mult]>
+  [235] objcall 213 ............................. multiplier.setMember(mult_mems[mult])
+  [237] getprop 230 ............................. <color>
+  [239] getlocal 3 .............................. <mems>
+  [241] getobjprop 230 .......................... <mems.color>
+  [243] pusharglistnoret 2 ...................... <color, mems.color>
+  [245] objcall 213 ............................. color.setMember(mems.color)
+  [247] pushzero ................................ <0>
+  [248] setprop 558 ............................. y = 0
+  [251] pushint8 100 ............................ <100>
+  [253] setprop 960 ............................. alpha = 100
+  [256] getprop 45 .............................. <node>
+  [258] getprop 958 ............................. <home_yreg>
+  [261] pusharglistnoret 2 ...................... <node, home_yreg>
+  [263] objcall 961 ............................. node.setYReg(home_yreg)
+  [266] getprop 45 .............................. <node>
+  [268] pushint8 1 .............................. <1>
+  [270] pusharglistnoret 2 ...................... <node, 1>
+  [272] objcall 57 .............................. node.setVisible(1)
+  [274] getparam 0 .............................. <me>
+  [276] pushsymb 117 ............................ <#exitFrame>
+  [278] pushcons 8 .............................. <"score">
+  [280] pusharglistnoret 3 ...................... <me, #exitFrame, "score">
+  [282] extcall 100 ............................. subscribe(me, #exitFrame, "score")
+  [284] ret
+end
+
+on hide me
+  [  0] getprop 45 .............................. <node>
+  [  2] pushzero ................................ <0>
+  [  3] pusharglistnoret 2 ...................... <node, 0>
+  [  5] objcall 57 .............................. node.setVisible(0)
+  [  7] getparam 0 .............................. <me>
+  [  9] pushsymb 117 ............................ <#exitFrame>
+  [ 11] pushcons 8 .............................. <"score">
+  [ 13] pusharglistnoret 3 ...................... <me, #exitFrame, "score">
+  [ 15] extcall 105 ............................. unsubscribe(me, #exitFrame, "score")
+  [ 17] getprop 594 ............................. <view_mgr>
+  [ 20] getparam 0 .............................. <me>
+  [ 22] pusharglistnoret 2 ...................... <view_mgr, me>
+  [ 24] objcall 499 ............................. view_mgr.returnView(me)
+  [ 27] ret
+end
+
+on setObject me
+  [  0] ret
+end
+
+on removeObject me
+  [  0] ret
+end
+
+on exitFrame me, ms
+  [  0] getprop 558 ............................. <y>
+  [  3] getparam 1 .............................. <ms>
+  [  5] pushcons 9 .............................. <0.001>
+  [  7] mul ..................................... <ms * 0.001>
+  [  8] getprop 824 ............................. <speed>
+  [ 11] mul ..................................... <ms * 0.001 * speed>
+  [ 12] add ..................................... <y + (ms * 0.001 * speed)>
+  [ 13] setprop 558 ............................. y = y + (ms * 0.001 * speed)
+  [ 16] getprop 558 ............................. <y>
+  [ 19] getprop 415 ............................. <height>
+  [ 22] gt ...................................... <y > height>
+  [ 23] jmpifz [ 37] ............................ if y > height then
+  [ 26] getparam 0 .............................. <me>
+  [ 28] pusharglistnoret 1 ...................... <me>
+  [ 30] objcall 863 ............................. me.hide()
+  [ 33] pusharglistnoret 0 ...................... <>
+  [ 35] extcall 9 ............................... return 
+  [ 37] getprop 45 .............................. <node>
+  [ 39] getprop 958 ............................. <home_yreg>
+  [ 42] getprop 558 ............................. <y>
+  [ 45] add ..................................... <home_yreg + y>
+  [ 46] pusharglistnoret 2 ...................... <node, home_yreg + y>
+  [ 48] objcall 961 ............................. node.setYReg(home_yreg + y)
+  [ 51] ret
+end
+
+on destroy me
+  [  0] getprop 1268 ............................ <numbers>
+  [  3] pusharglistnoret 1 ...................... <numbers>
+  [  5] objcall 10 .............................. numbers.deleteAll()
+  [  7] pusharglist 0 ........................... <>
+  [  9] extcall 65 .............................. <VOID>
+  [ 11] setlocal 0 .............................. bonus = VOID
+  [ 13] pusharglist 0 ........................... <>
+  [ 15] extcall 65 .............................. <VOID>
+  [ 17] setprop 230 ............................. color = VOID
+  [ 19] pusharglist 0 ........................... <>
+  [ 21] extcall 65 .............................. <VOID>
+  [ 23] setprop 283 ............................. multiplier = VOID
+  [ 26] getprop 45 .............................. <node>
+  [ 28] pusharglistnoret 1 ...................... <node>
+  [ 30] objcall 5 ............................... node.destroy()
+  [ 32] pusharglist 0 ........................... <>
+  [ 34] extcall 65 .............................. <VOID>
+  [ 36] setprop 45 .............................. node = VOID
+  [ 38] getparam 0 .............................. <me>
+  [ 40] pushsymb 117 ............................ <#exitFrame>
+  [ 42] pusharglistnoret 2 ...................... <me, #exitFrame>
+  [ 44] extcall 105 ............................. unsubscribe(me, #exitFrame)
+  [ 46] ret
+end
