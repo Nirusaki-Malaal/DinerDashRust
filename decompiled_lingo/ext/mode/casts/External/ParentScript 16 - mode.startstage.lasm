@@ -1,0 +1,1224 @@
+property mgr, name, node_mgr, game_mgr, gameNode, titleNode, node, buttons, levelDots, stagedata, selectedDot, selectedDotMem, save_mgr, savedGame, currentLevel, timer, toggle, toggleCount, restaurants, construction, const_anim, statueAnim, rest5dots, statueCover, initialized, sparkles, statues, dotmem, starMem, currentDotMem, fadeOut, maxStage, showStatueAnim
+global glob
+
+on new me, m
+  [  0] getparam 1 .............................. <m>
+  [  2] setprop 52 .............................. mgr = m
+  [  4] getparam 1 .............................. <m>
+  [  6] getchainedprop 4 ........................ <m.glob>
+  [  8] getobjprop 6 ............................ <m.glob.managers>
+  [ 10] setlocal 0 .............................. mgrs = m.glob.managers
+  [ 12] getlocal 0 .............................. <mgrs>
+  [ 14] getobjprop 54 ........................... <mgrs.node>
+  [ 16] setprop 53 .............................. node_mgr = mgrs.node
+  [ 18] getlocal 0 .............................. <mgrs>
+  [ 20] getobjprop 7 ............................ <mgrs.game>
+  [ 22] setprop 5 ............................... game_mgr = mgrs.game
+  [ 24] getlocal 0 .............................. <mgrs>
+  [ 26] getobjprop 56 ........................... <mgrs.savegame>
+  [ 28] setprop 55 .............................. save_mgr = mgrs.savegame
+  [ 30] getprop 53 .............................. <node_mgr>
+  [ 32] pushcons 0 .............................. <"game">
+  [ 34] pusharglist 2 ........................... <node_mgr, "game">
+  [ 36] objcall 65 .............................. <node_mgr.getGroup("game")>
+  [ 38] setprop 116 ............................. gameNode = node_mgr.getGroup("game")
+  [ 40] getprop 53 .............................. <node_mgr>
+  [ 42] pushcons 1 .............................. <"titles">
+  [ 44] pusharglist 2 ........................... <node_mgr, "titles">
+  [ 46] objcall 65 .............................. <node_mgr.getGroup("titles")>
+  [ 48] setprop 117 ............................. titleNode = node_mgr.getGroup("titles")
+  [ 50] pushsymb 21 ............................. <#startstage>
+  [ 52] setprop 63 .............................. name = #startstage
+  [ 54] getparam 0 .............................. <me>
+  [ 56] pusharglistnoret 1 ...................... <me>
+  [ 58] extcall 9 ............................... return me
+  [ 60] ret
+end
+
+on init me
+  [  0] getprop 64 .............................. <initialized>
+  [  2] jmpifz [  9] ............................ if initialized then
+  [  5] pusharglistnoret 0 ...................... <>
+  [  7] extcall 9 ............................... return 
+  [  9] pushint8 1 .............................. <1>
+  [ 11] setprop 64 .............................. initialized = 1
+  [ 13] pushcons 2 .............................. <"leveldot_normal">
+  [ 15] pushcons 3 .............................. <"gfx.screens">
+  [ 17] pusharglist 2 ........................... <"leveldot_normal", "gfx.screens">
+  [ 19] extcall 75 .............................. <member("leveldot_normal", "gfx.screens")>
+  [ 21] setprop 370 ............................. dotmem = member("leveldot_normal", "gfx.screens")
+  [ 24] pushcons 4 .............................. <"leveldot_star">
+  [ 26] pushcons 3 .............................. <"gfx.screens">
+  [ 28] pusharglist 2 ........................... <"leveldot_star", "gfx.screens">
+  [ 30] extcall 75 .............................. <member("leveldot_star", "gfx.screens")>
+  [ 32] setprop 371 ............................. starMem = member("leveldot_star", "gfx.screens")
+  [ 35] pushcons 5 .............................. <"lvlcontinue_selected">
+  [ 37] pushcons 3 .............................. <"gfx.screens">
+  [ 39] pusharglist 2 ........................... <"lvlcontinue_selected", "gfx.screens">
+  [ 41] extcall 75 .............................. <member("lvlcontinue_selected", "gfx.screens")>
+  [ 43] setprop 372 ............................. currentDotMem = member("lvlcontinue_selected", "gfx.screens")
+  [ 46] getprop 117 ............................. <titleNode>
+  [ 48] pushcons 6 .............................. <"career_setup">
+  [ 50] pusharglist 1 ........................... <"career_setup">
+  [ 52] extcall 66 .............................. <getNodeData("career_setup")>
+  [ 54] pusharglist 2 ........................... <titleNode, getNodeData("career_setup")>
+  [ 56] objcall 67 .............................. <titleNode.newNode(getNodeData("career_setup"))>
+  [ 58] setprop 54 .............................. node = titleNode.newNode(getNodeData("career_setup"))
+  [ 60] getprop 54 .............................. <node>
+  [ 62] pushcons 7 .............................. <"unlockall_button">
+  [ 64] pusharglist 2 ........................... <node, "unlockall_button">
+  [ 66] objcall 31 .............................. <node["unlockall_button"]>
+  [ 68] pusharglistnoret 1 ...................... <node["unlockall_button"]>
+  [ 70] objcall 2 ............................... node["unlockall_button"].destroy()
+  [ 72] getprop 54 .............................. <node>
+  [ 74] pushcons 8 .............................. <"lockall_button">
+  [ 76] pusharglist 2 ........................... <node, "lockall_button">
+  [ 78] objcall 31 .............................. <node["lockall_button"]>
+  [ 80] pusharglistnoret 1 ...................... <node["lockall_button"]>
+  [ 82] objcall 2 ............................... node["lockall_button"].destroy()
+  [ 84] getprop 54 .............................. <node>
+  [ 86] pushcons 9 .............................. <"star_text">
+  [ 88] pusharglist 2 ........................... <node, "star_text">
+  [ 90] objcall 31 .............................. <node["star_text"]>
+  [ 92] pusharglistnoret 1 ...................... <node["star_text"]>
+  [ 94] objcall 2 ............................... node["star_text"].destroy()
+  [ 96] getprop 54 .............................. <node>
+  [ 98] pushzero ................................ <0>
+  [ 99] pusharglistnoret 2 ...................... <node, 0>
+  [101] objcall 95 .............................. node.setVisible(0)
+  [103] pusharglist 0 ........................... <[:]>
+  [105] pushproplist ............................ <[:]>
+  [106] setprop 71 .............................. buttons = [:]
+  [108] getprop 54 .............................. <node>
+  [110] pushcons 10 ............................. <"fadeout">
+  [112] pusharglist 2 ........................... <node, "fadeout">
+  [114] objcall 31 .............................. <node["fadeout"]>
+  [116] setprop 373 ............................. fadeOut = node["fadeout"]
+  [119] pushsymb 72 ............................. <#rollover>
+  [121] pushcons 11 ............................. <"button_continue_on">
+  [123] pushcons 3 .............................. <"gfx.screens">
+  [125] pusharglist 2 ........................... <"button_continue_on", "gfx.screens">
+  [127] extcall 75 .............................. <member("button_continue_on", "gfx.screens")>
+  [129] pushsymb 74 ............................. <#normal>
+  [131] pushcons 12 ............................. <"button_continue">
+  [133] pushcons 3 .............................. <"gfx.screens">
+  [135] pusharglist 2 ........................... <"button_continue", "gfx.screens">
+  [137] extcall 75 .............................. <member("button_continue", "gfx.screens")>
+  [139] pusharglist 4 ........................... <[#rollover: member("button_continue_on", "gfx.screens"), #normal: member("button_continue", "gfx.screens")]>
+  [141] pushproplist ............................ <[#rollover: member("button_continue_on", "gfx.screens"), #normal: member("button_continue", "gfx.screens")]>
+  [142] setlocal 0 .............................. mems = [#rollover: member("button_continue_on", "gfx.screens"), #normal: member("button_continue", "gfx.screens")]
+  [144] getprop 71 .............................. <buttons>
+  [146] pushsymb 224 ............................ <#continue>
+  [148] pushsymb 54 ............................. <#node>
+  [150] getprop 54 .............................. <node>
+  [152] pushcons 13 ............................. <"play_button">
+  [154] pusharglist 2 ........................... <node, "play_button">
+  [156] objcall 31 .............................. <node["play_button"]>
+  [158] pushsymb 77 ............................. <#members>
+  [160] getlocal 0 .............................. <mems>
+  [162] pusharglist 4 ........................... <[#node: node["play_button"], #members: mems]>
+  [164] pushproplist ............................ <[#node: node["play_button"], #members: mems]>
+  [165] pusharglist 1 ........................... <[#node: node["play_button"], #members: mems]>
+  [167] extcall 76 .............................. <newButton([#node: node["play_button"], #members: mems])>
+  [169] pusharglistnoret 3 ...................... <buttons, #continue, newButton([#node: node["play_button"], #members: mems])>
+  [171] objcall 34 .............................. buttons[#continue] = newButton([#node: node["play_button"], #members: mems])
+  [173] getprop 71 .............................. <buttons>
+  [175] getchainedprop 224 ...................... <buttons.continue>
+  [177] pushzero ................................ <0>
+  [178] pusharglistnoret 2 ...................... <buttons.continue, 0>
+  [180] objcall 95 .............................. buttons.continue.setVisible(0)
+  [182] getprop 54 .............................. <node>
+  [184] pushcons 14 ............................. <"menu_button">
+  [186] pusharglist 2 ........................... <node, "menu_button">
+  [188] objcall 31 .............................. <node["menu_button"]>
+  [190] pushzero ................................ <0>
+  [191] pusharglistnoret 2 ...................... <node["menu_button"], 0>
+  [193] objcall 95 .............................. node["menu_button"].setVisible(0)
+  [195] getprop 54 .............................. <node>
+  [197] pushcons 15 ............................. <"career_title">
+  [199] pusharglist 2 ........................... <node, "career_title">
+  [201] objcall 31 .............................. <node["career_title"]>
+  [203] pushzero ................................ <0>
+  [204] pusharglistnoret 2 ...................... <node["career_title"], 0>
+  [206] objcall 95 .............................. node["career_title"].setVisible(0)
+  [208] getprop 54 .............................. <node>
+  [210] pushcons 16 ............................. <"career_text">
+  [212] pusharglist 2 ........................... <node, "career_text">
+  [214] objcall 31 .............................. <node["career_text"]>
+  [216] pushzero ................................ <0>
+  [217] pusharglistnoret 2 ...................... <node["career_text"], 0>
+  [219] objcall 95 .............................. node["career_text"].setVisible(0)
+  [221] getprop 54 .............................. <node>
+  [223] pushcons 17 ............................. <"newgame_button">
+  [225] pusharglist 2 ........................... <node, "newgame_button">
+  [227] objcall 31 .............................. <node["newgame_button"]>
+  [229] pushzero ................................ <0>
+  [230] pusharglistnoret 2 ...................... <node["newgame_button"], 0>
+  [232] objcall 95 .............................. node["newgame_button"].setVisible(0)
+  [234] pusharglist 0 ........................... <[]>
+  [236] pushlist ................................ <[]>
+  [237] setprop 225 ............................. restaurants = []
+  [239] pusharglist 0 ........................... <[]>
+  [241] pushlist ................................ <[]>
+  [242] setprop 374 ............................. construction = []
+  [245] pusharglist 0 ........................... <[]>
+  [247] pushlist ................................ <[]>
+  [248] setprop 375 ............................. const_anim = []
+  [251] pushint8 2 .............................. <2>
+  [253] setlocal 1
+  [255] getlocal 1
+  [257] pushint8 4 .............................. <4>
+  [259] lteq
+  [260] jmpifz [325] ............................ repeat with i = 2 to 4
+  [263] getprop 225 ............................. <restaurants>
+  [265] getprop 54 .............................. <node>
+  [267] pushcons 18 ............................. <"rest_">
+  [269] getlocal 1 .............................. <i>
+  [271] joinstr ................................. <"rest_" & i>
+  [272] pusharglist 2 ........................... <node, "rest_" & i>
+  [274] objcall 31 .............................. <node["rest_" & i]>
+  [276] pusharglistnoret 2 ...................... <restaurants, node["rest_" & i]>
+  [278] objcall 121 ............................. restaurants.add(node["rest_" & i])
+  [280] getprop 374 ............................. <construction>
+  [283] getprop 54 .............................. <node>
+  [285] pushcons 19 ............................. <"const_anim_">
+  [287] getlocal 1 .............................. <i>
+  [289] joinstr ................................. <"const_anim_" & i>
+  [290] pusharglist 2 ........................... <node, "const_anim_" & i>
+  [292] objcall 31 .............................. <node["const_anim_" & i]>
+  [294] pusharglistnoret 2 ...................... <construction, node["const_anim_" & i]>
+  [296] objcall 121 ............................. construction.add(node["const_anim_" & i])
+  [298] getprop 375 ............................. <const_anim>
+  [301] getprop 54 .............................. <node>
+  [303] pushcons 20 ............................. <"const_">
+  [305] getlocal 1 .............................. <i>
+  [307] joinstr ................................. <"const_" & i>
+  [308] pusharglist 2 ........................... <node, "const_" & i>
+  [310] objcall 31 .............................. <node["const_" & i]>
+  [312] pusharglistnoret 2 ...................... <const_anim, node["const_" & i]>
+  [314] objcall 121 ............................. const_anim.add(node["const_" & i])
+  [316] pushint8 1
+  [318] getlocal 1
+  [320] add
+  [321] setlocal 1
+  [323] endrepeat [255]
+  [325] getprop 225 ............................. <restaurants>
+  [327] getprop 54 .............................. <node>
+  [329] pushcons 21 ............................. <"rest_5">
+  [331] pusharglist 2 ........................... <node, "rest_5">
+  [333] objcall 31 .............................. <node["rest_5"]>
+  [335] pusharglistnoret 2 ...................... <restaurants, node["rest_5"]>
+  [337] objcall 121 ............................. restaurants.add(node["rest_5"])
+  [339] getprop 54 .............................. <node>
+  [341] pushcons 22 ............................. <"rest5_dots">
+  [343] pusharglist 2 ........................... <node, "rest5_dots">
+  [345] objcall 31 .............................. <node["rest5_dots"]>
+  [347] setprop 226 ............................. rest5dots = node["rest5_dots"]
+  [349] getprop 54 .............................. <node>
+  [351] pushcons 23 ............................. <"statue_cover">
+  [353] pusharglist 2 ........................... <node, "statue_cover">
+  [355] objcall 31 .............................. <node["statue_cover"]>
+  [357] setprop 118 ............................. statueCover = node["statue_cover"]
+  [359] getprop 54 .............................. <node>
+  [361] pushcons 24 ............................. <"statue_1">
+  [363] pusharglist 2 ........................... <node, "statue_1">
+  [365] objcall 31 .............................. <node["statue_1"]>
+  [367] getprop 54 .............................. <node>
+  [369] pushcons 25 ............................. <"statue_2">
+  [371] pusharglist 2 ........................... <node, "statue_2">
+  [373] objcall 31 .............................. <node["statue_2"]>
+  [375] pusharglist 2 ........................... <[node["statue_1"], node["statue_2"]]>
+  [377] pushlist ................................ <[node["statue_1"], node["statue_2"]]>
+  [378] setprop 376 ............................. statues = [node["statue_1"], node["statue_2"]]
+  [381] pushcons 26 ............................. <"statue_anim">
+  [383] pushcons 27 ............................. <"scripts.mode">
+  [385] pusharglist 2 ........................... <"statue_anim", "scripts.mode">
+  [387] extcall 32 .............................. <script("statue_anim", "scripts.mode")>
+  [389] pushsymb 52 ............................. <#mgr>
+  [391] getparam 0 .............................. <me>
+  [393] pushsymb 378 ............................ <#statue1>
+  [396] getprop 376 ............................. <statues>
+  [399] pushint8 1 .............................. <1>
+  [401] pusharglist 2 ........................... <statues, 1>
+  [403] objcall 31 .............................. <statues[1]>
+  [405] pushsymb 118 ............................ <#statueCover>
+  [407] getprop 118 ............................. <statueCover>
+  [409] pushsymb 379 ............................ <#statue2>
+  [412] getprop 376 ............................. <statues>
+  [415] pushint8 2 .............................. <2>
+  [417] pusharglist 2 ........................... <statues, 2>
+  [419] objcall 31 .............................. <statues[2]>
+  [421] pushsymb 380 ............................ <#door>
+  [424] getprop 54 .............................. <node>
+  [426] pushcons 21 ............................. <"rest_5">
+  [428] pusharglist 2 ........................... <node, "rest_5">
+  [430] objcall 31 .............................. <node["rest_5"]>
+  [432] pusharglist 10 .......................... <[#mgr: me, #statue1: statues[1], #statueCover: statueCover, #statue2: statues[2], #door: node["rest_5"]]>
+  [434] pushproplist ............................ <[#mgr: me, #statue1: statues[1], #statueCover: statueCover, #statue2: statues[2], #door: node["rest_5"]]>
+  [435] pusharglist 2 ........................... <script("statue_anim", "scripts.mode"), [#mgr: me, #statue1: statues[1], #statueCover: statueCover, #statue2: statues[2], #door: node["rest_5"]]>
+  [437] objcall 0 ............................... <script("statue_anim", "scripts.mode").new([#mgr: me, #statue1: statues[1], #statueCover: statueCover, #statue2: statues[2], #door: node["rest_5"]])>
+  [439] setprop 377 ............................. statueAnim = script("statue_anim", "scripts.mode").new([#mgr: me, #statue1: statues[1], #statueCover: statueCover, #statue2: statues[2], #door: node["rest_5"]])
+  [442] pushsymb 381 ............................ <#setAnimGroup>
+  [445] getprop 375 ............................. <const_anim>
+  [448] pushsymb 382 ............................ <#titles>
+  [451] pusharglistnoret 3 ...................... <#setAnimGroup, const_anim, #titles>
+  [453] extcall 36 .............................. call(#setAnimGroup, const_anim, #titles)
+  [455] pushcons 28 ............................. <"leveldot_selected">
+  [457] pushcons 3 .............................. <"gfx.screens">
+  [459] pusharglist 2 ........................... <"leveldot_selected", "gfx.screens">
+  [461] extcall 75 .............................. <member("leveldot_selected", "gfx.screens")>
+  [463] setprop 211 ............................. selectedDotMem = member("leveldot_selected", "gfx.screens")
+  [465] pusharglist 0 ........................... <[]>
+  [467] pushlist ................................ <[]>
+  [468] setprop 383 ............................. levelDots = []
+  [471] pushint8 1 .............................. <1>
+  [473] setlocal 1
+  [475] getlocal 1
+  [477] pushint8 5 .............................. <5>
+  [479] lteq
+  [480] jmpifz [550] ............................ repeat with i = 1 to 5
+  [483] pusharglist 0 ........................... <[]>
+  [485] pushlist ................................ <[]>
+  [486] setlocal 2 .............................. lvl = []
+  [488] pushint8 1 .............................. <1>
+  [490] setlocal 3
+  [492] getlocal 3
+  [494] pushint8 10 ............................. <10>
+  [496] lteq
+  [497] jmpifz [532] ............................ repeat with j = 1 to 10
+  [500] getlocal 2 .............................. <lvl>
+  [502] getprop 54 .............................. <node>
+  [504] pushcons 29 ............................. <"lvlbutton_">
+  [506] getlocal 1 .............................. <i>
+  [508] joinstr ................................. <"lvlbutton_" & i>
+  [509] pushcons 30 ............................. <"_">
+  [511] joinstr ................................. <"lvlbutton_" & i & "_">
+  [512] getlocal 3 .............................. <j>
+  [514] joinstr ................................. <"lvlbutton_" & i & "_" & j>
+  [515] pusharglist 2 ........................... <node, "lvlbutton_" & i & "_" & j>
+  [517] objcall 31 .............................. <node["lvlbutton_" & i & "_" & j]>
+  [519] pusharglistnoret 2 ...................... <lvl, node["lvlbutton_" & i & "_" & j]>
+  [521] objcall 121 ............................. lvl.add(node["lvlbutton_" & i & "_" & j])
+  [523] pushint8 1
+  [525] getlocal 3
+  [527] add
+  [528] setlocal 3
+  [530] endrepeat [492]
+  [532] getprop 383 ............................. <levelDots>
+  [535] getlocal 2 .............................. <lvl>
+  [537] pusharglistnoret 2 ...................... <levelDots, lvl>
+  [539] objcall 121 ............................. levelDots.add(lvl)
+  [541] pushint8 1
+  [543] getlocal 1
+  [545] add
+  [546] setlocal 1
+  [548] endrepeat [475]
+  [550] pushcons 31 ............................. <"timeout">
+  [552] pusharglist 1 ........................... <"timeout">
+  [554] extcall 32 .............................. <script("timeout")>
+  [556] pusharglist 1 ........................... <script("timeout")>
+  [558] objcall 0 ............................... <script("timeout").new()>
+  [560] setprop 168 ............................. timer = script("timeout").new()
+  [562] getprop 168 ............................. <timer>
+  [564] pushcons 1 .............................. <"titles">
+  [566] pusharglistnoret 2 ...................... <timer, "titles">
+  [568] objcall 58 .............................. timer.setGroup("titles")
+  [570] getprop 168 ............................. <timer>
+  [572] pushint16 500 ........................... <500>
+  [575] pusharglistnoret 2 ...................... <timer, 500>
+  [577] objcall 91 .............................. timer.setPeriod(500)
+  [579] pusharglist 0 ........................... <[]>
+  [581] pushlist ................................ <[]>
+  [582] setprop 145 ............................. sparkles = []
+  [584] pushint8 1 .............................. <1>
+  [586] setlocal 1
+  [588] getlocal 1
+  [590] pushint8 4 .............................. <4>
+  [592] lteq
+  [593] jmpifz [638] ............................ repeat with i = 1 to 4
+  [596] getprop 54 .............................. <node>
+  [598] pushcons 32 ............................. <"sparkle_">
+  [600] getlocal 1 .............................. <i>
+  [602] joinstr ................................. <"sparkle_" & i>
+  [603] pusharglist 2 ........................... <node, "sparkle_" & i>
+  [605] objcall 31 .............................. <node["sparkle_" & i]>
+  [607] setlocal 4 .............................. n = node["sparkle_" & i]
+  [609] getlocal 4 .............................. <n>
+  [611] pushcons 33 ............................. <"sparkle1">
+  [613] pusharglist 1 ........................... <"sparkle1">
+  [615] extcall 66 .............................. <getNodeData("sparkle1")>
+  [617] pusharglistnoret 2 ...................... <n, getNodeData("sparkle1")>
+  [619] objcall 67 .............................. n.newNode(getNodeData("sparkle1"))
+  [621] getprop 145 ............................. <sparkles>
+  [623] getlocal 4 .............................. <n>
+  [625] pusharglistnoret 2 ...................... <sparkles, n>
+  [627] objcall 121 ............................. sparkles.add(n)
+  [629] pushint8 1
+  [631] getlocal 1
+  [633] add
+  [634] setlocal 1
+  [636] endrepeat [588]
+  [638] getprop 54 .............................. <node>
+  [640] pushcons 34 ............................. <"sparkle_5">
+  [642] pusharglist 2 ........................... <node, "sparkle_5">
+  [644] objcall 31 .............................. <node["sparkle_5"]>
+  [646] setlocal 4 .............................. n = node["sparkle_5"]
+  [648] getlocal 4 .............................. <n>
+  [650] pushcons 33 ............................. <"sparkle1">
+  [652] pusharglist 1 ........................... <"sparkle1">
+  [654] extcall 66 .............................. <getNodeData("sparkle1")>
+  [656] pusharglistnoret 2 ...................... <n, getNodeData("sparkle1")>
+  [658] objcall 67 .............................. n.newNode(getNodeData("sparkle1"))
+  [660] getprop 145 ............................. <sparkles>
+  [662] getlocal 4 .............................. <n>
+  [664] pusharglistnoret 2 ...................... <sparkles, n>
+  [666] objcall 121 ............................. sparkles.add(n)
+  [668] pushsymb 95 ............................. <#setVisible>
+  [670] getprop 145 ............................. <sparkles>
+  [672] pushzero ................................ <0>
+  [673] pusharglistnoret 3 ...................... <#setVisible, sparkles, 0>
+  [675] extcall 36 .............................. call(#setVisible, sparkles, 0)
+  [677] pushsymb 381 ............................ <#setAnimGroup>
+  [680] getprop 145 ............................. <sparkles>
+  [682] pushcons 1 .............................. <"titles">
+  [684] pusharglistnoret 3 ...................... <#setAnimGroup, sparkles, "titles">
+  [686] extcall 36 .............................. call(#setAnimGroup, sparkles, "titles")
+  [688] ret
+end
+
+on showConstruction me
+  [  0] pushcons 35 ............................. <"sfx_unlock_stage">
+  [  2] pusharglistnoret 1 ...................... <"sfx_unlock_stage">
+  [  4] extcall 176 ............................. SndSFX("sfx_unlock_stage")
+  [  6] getprop 168 ............................. <timer>
+  [  8] pusharglistnoret 1 ...................... <timer>
+  [ 10] objcall 86 .............................. timer.stop()
+  [ 12] getprop 170 ............................. <currentLevel>
+  [ 14] getobjprop 140 .......................... <currentLevel.stage>
+  [ 16] pushint8 1 .............................. <1>
+  [ 18] sub ..................................... <currentLevel.stage - 1>
+  [ 19] setlocal 0 .............................. indx = currentLevel.stage - 1
+  [ 21] getlocal 0 .............................. <indx>
+  [ 23] pushint8 1 .............................. <1>
+  [ 25] lt ...................................... <indx < 1>
+  [ 26] getlocal 0 .............................. <indx>
+  [ 28] getprop 225 ............................. <restaurants>
+  [ 30] getobjprop 30 ........................... <restaurants.count>
+  [ 32] gt ...................................... <indx > restaurants.count>
+  [ 33] or ...................................... <(indx < 1) or (indx > restaurants.count)>
+  [ 34] jmpifz [ 41] ............................ if (indx < 1) or (indx > restaurants.count) then
+  [ 37] pusharglistnoret 0 ...................... <>
+  [ 39] extcall 9 ............................... return 
+  [ 41] getprop 225 ............................. <restaurants>
+  [ 43] getlocal 0 .............................. <indx>
+  [ 45] pusharglist 2 ........................... <restaurants, indx>
+  [ 47] objcall 31 .............................. <restaurants[indx]>
+  [ 49] pushzero ................................ <0>
+  [ 50] pusharglistnoret 2 ...................... <restaurants[indx], 0>
+  [ 52] objcall 95 .............................. restaurants[indx].setVisible(0)
+  [ 54] getprop 374 ............................. <construction>
+  [ 57] getlocal 0 .............................. <indx>
+  [ 59] pusharglist 2 ........................... <construction, indx>
+  [ 61] objcall 31 .............................. <construction[indx]>
+  [ 63] pushint8 1 .............................. <1>
+  [ 65] pusharglistnoret 2 ...................... <construction[indx], 1>
+  [ 67] objcall 95 .............................. construction[indx].setVisible(1)
+  [ 69] getprop 168 ............................. <timer>
+  [ 71] pushsymb 59 ............................. <#target>
+  [ 73] getparam 0 .............................. <me>
+  [ 75] pushsymb 60 ............................. <#handler>
+  [ 77] pushsymb 366 ............................ <#showConstAnim>
+  [ 80] pusharglist 4 ........................... <[#target: me, #handler: #showConstAnim]>
+  [ 82] pushproplist ............................ <[#target: me, #handler: #showConstAnim]>
+  [ 83] pusharglistnoret 2 ...................... <timer, [#target: me, #handler: #showConstAnim]>
+  [ 85] objcall 61 .............................. timer.setCallback([#target: me, #handler: #showConstAnim])
+  [ 87] getprop 168 ............................. <timer>
+  [ 89] pusharglistnoret 1 ...................... <timer>
+  [ 91] objcall 92 .............................. timer.start()
+  [ 93] ret
+end
+
+on showConstAnim me
+  [  0] getprop 168 ............................. <timer>
+  [  2] pusharglistnoret 1 ...................... <timer>
+  [  4] objcall 86 .............................. timer.stop()
+  [  6] getprop 170 ............................. <currentLevel>
+  [  8] getobjprop 140 .......................... <currentLevel.stage>
+  [ 10] pushint8 1 .............................. <1>
+  [ 12] sub ..................................... <currentLevel.stage - 1>
+  [ 13] setlocal 0 .............................. indx = currentLevel.stage - 1
+  [ 15] getlocal 0 .............................. <indx>
+  [ 17] pushint8 1 .............................. <1>
+  [ 19] lt ...................................... <indx < 1>
+  [ 20] getlocal 0 .............................. <indx>
+  [ 22] pushint8 3 .............................. <3>
+  [ 24] gt ...................................... <indx > 3>
+  [ 25] or ...................................... <(indx < 1) or (indx > 3)>
+  [ 26] jmpifz [ 33] ............................ if (indx < 1) or (indx > 3) then
+  [ 29] pusharglistnoret 0 ...................... <>
+  [ 31] extcall 9 ............................... return 
+  [ 33] getprop 375 ............................. <const_anim>
+  [ 36] getlocal 0 .............................. <indx>
+  [ 38] pusharglist 2 ........................... <const_anim, indx>
+  [ 40] objcall 31 .............................. <const_anim[indx]>
+  [ 42] setlocal 1 .............................. ca = const_anim[indx]
+  [ 44] getlocal 1 .............................. <ca>
+  [ 46] pushint8 1 .............................. <1>
+  [ 48] pusharglistnoret 2 ...................... <ca, 1>
+  [ 50] objcall 95 .............................. ca.setVisible(1)
+  [ 52] getlocal 1 .............................. <ca>
+  [ 54] pushcons 36 ............................. <"const">
+  [ 56] pushsymb 89 ............................. <#frameMS>
+  [ 58] pushint16 300 ........................... <300>
+  [ 61] pushsymb 87 ............................. <#loopCount>
+  [ 63] pushint8 3 .............................. <3>
+  [ 65] pushsymb 181 ............................ <#callback>
+  [ 67] pushsymb 59 ............................. <#target>
+  [ 69] getparam 0 .............................. <me>
+  [ 71] pushsymb 60 ............................. <#handler>
+  [ 73] pushsymb 367 ............................ <#hideConstAnim>
+  [ 76] pusharglist 4 ........................... <[#target: me, #handler: #hideConstAnim]>
+  [ 78] pushproplist ............................ <[#target: me, #handler: #hideConstAnim]>
+  [ 79] pusharglist 6 ........................... <[#frameMS: 300, #loopCount: 3, #callback: [#target: me, #handler: #hideConstAnim]]>
+  [ 81] pushproplist ............................ <[#frameMS: 300, #loopCount: 3, #callback: [#target: me, #handler: #hideConstAnim]]>
+  [ 82] pusharglistnoret 3 ...................... <ca, "const", [#frameMS: 300, #loopCount: 3, #callback: [#target: me, #handler: #hideConstAnim]]>
+  [ 84] objcall 90 .............................. ca.setAnimation("const", [#frameMS: 300, #loopCount: 3, #callback: [#target: me, #handler: #hideConstAnim]])
+  [ 86] ret
+end
+
+on hideConstAnim me
+  [  0] getprop 170 ............................. <currentLevel>
+  [  2] getobjprop 140 .......................... <currentLevel.stage>
+  [  4] pushint8 1 .............................. <1>
+  [  6] sub ..................................... <currentLevel.stage - 1>
+  [  7] setlocal 0 .............................. indx = currentLevel.stage - 1
+  [  9] getprop 374 ............................. <construction>
+  [ 12] getlocal 0 .............................. <indx>
+  [ 14] pusharglist 2 ........................... <construction, indx>
+  [ 16] objcall 31 .............................. <construction[indx]>
+  [ 18] pushzero ................................ <0>
+  [ 19] pusharglistnoret 2 ...................... <construction[indx], 0>
+  [ 21] objcall 95 .............................. construction[indx].setVisible(0)
+  [ 23] getprop 225 ............................. <restaurants>
+  [ 25] getlocal 0 .............................. <indx>
+  [ 27] pusharglist 2 ........................... <restaurants, indx>
+  [ 29] objcall 31 .............................. <restaurants[indx]>
+  [ 31] pushint8 1 .............................. <1>
+  [ 33] pusharglistnoret 2 ...................... <restaurants[indx], 1>
+  [ 35] objcall 95 .............................. restaurants[indx].setVisible(1)
+  [ 37] getprop 375 ............................. <const_anim>
+  [ 40] getlocal 0 .............................. <indx>
+  [ 42] pusharglist 2 ........................... <const_anim, indx>
+  [ 44] objcall 31 .............................. <const_anim[indx]>
+  [ 46] pushzero ................................ <0>
+  [ 47] pusharglistnoret 2 ...................... <const_anim[indx], 0>
+  [ 49] objcall 95 .............................. const_anim[indx].setVisible(0)
+  [ 51] getprop 71 .............................. <buttons>
+  [ 53] getchainedprop 224 ...................... <buttons.continue>
+  [ 55] pushint8 1 .............................. <1>
+  [ 57] pusharglistnoret 2 ...................... <buttons.continue, 1>
+  [ 59] objcall 95 .............................. buttons.continue.setVisible(1)
+  [ 61] ret
+end
+
+on startStatueAnim me
+  [  0] pushcons 37 ............................. <"sfx_goddess_appear">
+  [  2] pusharglistnoret 1 ...................... <"sfx_goddess_appear">
+  [  4] extcall 176 ............................. SndSFX("sfx_goddess_appear")
+  [  6] getprop 225 ............................. <restaurants>
+  [  8] pushint8 4 .............................. <4>
+  [ 10] pusharglist 2 ........................... <restaurants, 4>
+  [ 12] objcall 31 .............................. <restaurants[4]>
+  [ 14] pushint8 100 ............................ <100>
+  [ 16] pusharglistnoret 2 ...................... <restaurants[4], 100>
+  [ 18] objcall 68 .............................. restaurants[4].setZOffset(100)
+  [ 20] pushsymb 54 ............................. <#node>
+  [ 22] getprop 373 ............................. <fadeOut>
+  [ 25] pushsymb 177 ............................ <#setter>
+  [ 27] pushsymb 174 ............................ <#setAlpha>
+  [ 29] pushsymb 92 ............................. <#start>
+  [ 31] pushzero ................................ <0>
+  [ 32] pushsymb 178 ............................ <#end>
+  [ 34] pushint8 50 ............................. <50>
+  [ 36] pushsymb 179 ............................ <#ms>
+  [ 38] pushint16 500 ........................... <500>
+  [ 41] pushsymb 180 ............................ <#group>
+  [ 43] pushcons 1 .............................. <"titles">
+  [ 45] pusharglist 12 .......................... <[#node: fadeOut, #setter: #setAlpha, #start: 0, #end: 50, #ms: 500, #group: "titles"]>
+  [ 47] pushproplist ............................ <[#node: fadeOut, #setter: #setAlpha, #start: 0, #end: 50, #ms: 500, #group: "titles"]>
+  [ 48] setlocal 0 .............................. Args = [#node: fadeOut, #setter: #setAlpha, #start: 0, #end: 50, #ms: 500, #group: "titles"]
+  [ 50] pushcons 38 ............................. <"node_tween">
+  [ 52] pusharglist 1 ........................... <"node_tween">
+  [ 54] extcall 32 .............................. <script("node_tween")>
+  [ 56] getlocal 0 .............................. <Args>
+  [ 58] pusharglistnoret 2 ...................... <script("node_tween"), Args>
+  [ 60] objcall 0 ............................... script("node_tween").new(Args)
+  [ 62] getprop 377 ............................. <statueAnim>
+  [ 65] pusharglistnoret 1 ...................... <statueAnim>
+  [ 67] objcall 92 .............................. statueAnim.start()
+  [ 69] ret
+end
+
+on statueDone me
+  [  0] pushsymb 54 ............................. <#node>
+  [  2] getprop 373 ............................. <fadeOut>
+  [  5] pushsymb 177 ............................ <#setter>
+  [  7] pushsymb 174 ............................ <#setAlpha>
+  [  9] pushsymb 92 ............................. <#start>
+  [ 11] pushint8 50 ............................. <50>
+  [ 13] pushsymb 178 ............................ <#end>
+  [ 15] pushzero ................................ <0>
+  [ 16] pushsymb 179 ............................ <#ms>
+  [ 18] pushint16 500 ........................... <500>
+  [ 21] pushsymb 180 ............................ <#group>
+  [ 23] pushcons 1 .............................. <"titles">
+  [ 25] pusharglist 12 .......................... <[#node: fadeOut, #setter: #setAlpha, #start: 50, #end: 0, #ms: 500, #group: "titles"]>
+  [ 27] pushproplist ............................ <[#node: fadeOut, #setter: #setAlpha, #start: 50, #end: 0, #ms: 500, #group: "titles"]>
+  [ 28] setlocal 0 .............................. Args = [#node: fadeOut, #setter: #setAlpha, #start: 50, #end: 0, #ms: 500, #group: "titles"]
+  [ 30] pushcons 38 ............................. <"node_tween">
+  [ 32] pusharglist 1 ........................... <"node_tween">
+  [ 34] extcall 32 .............................. <script("node_tween")>
+  [ 36] getlocal 0 .............................. <Args>
+  [ 38] pusharglistnoret 2 ...................... <script("node_tween"), Args>
+  [ 40] objcall 0 ............................... script("node_tween").new(Args)
+  [ 42] getprop 71 .............................. <buttons>
+  [ 44] getchainedprop 224 ...................... <buttons.continue>
+  [ 46] pushint8 1 .............................. <1>
+  [ 48] pusharglistnoret 2 ...................... <buttons.continue, 1>
+  [ 50] objcall 95 .............................. buttons.continue.setVisible(1)
+  [ 52] ret
+end
+
+on setupMap me
+  [  0] getprop 55 .............................. <save_mgr>
+  [  2] getobjprop 126 .......................... <save_mgr.stages>
+  [  4] setlocal 0 .............................. stgs = save_mgr.stages
+  [  6] getprop 55 .............................. <save_mgr>
+  [  8] getobjprop 230 .......................... <save_mgr.savedGame>
+  [ 10] setprop 230 ............................. savedGame = save_mgr.savedGame
+  [ 12] pushzero ................................ <0>
+  [ 13] setprop 385 ............................. showStatueAnim = 0
+  [ 16] pushint8 1 .............................. <1>
+  [ 18] setprop 386 ............................. maxStage = 1
+  [ 21] pusharglist 0 ........................... <[]>
+  [ 23] pushlist ................................ <[]>
+  [ 24] setlocal 1 .............................. vis_rest = []
+  [ 26] pushint8 1 .............................. <1>
+  [ 28] setlocal 2
+  [ 30] getlocal 2
+  [ 32] pushint8 5 .............................. <5>
+  [ 34] lteq
+  [ 35] jmpifz [296] ............................ repeat with i = 1 to 5
+  [ 38] getprop 383 ............................. <levelDots>
+  [ 41] getlocal 2 .............................. <i>
+  [ 43] pusharglist 2 ........................... <levelDots, i>
+  [ 45] objcall 31 .............................. <levelDots[i]>
+  [ 47] setlocal 3 .............................. dots = levelDots[i]
+  [ 49] getlocal 2 .............................. <i>
+  [ 51] getlocal 0 .............................. <stgs>
+  [ 53] getobjprop 30 ........................... <stgs.count>
+  [ 55] gt ...................................... <i > stgs.count>
+  [ 56] jmpifz [ 71] ............................ if i > stgs.count then
+  [ 59] pushsymb 95 ............................. <#setVisible>
+  [ 61] getlocal 3 .............................. <dots>
+  [ 63] pushzero ................................ <0>
+  [ 64] pusharglistnoret 3 ...................... <#setVisible, dots, 0>
+  [ 66] extcall 36 .............................. call(#setVisible, dots, 0)
+  [ 68] jmp [286] ............................... next repeat
+  [ 71] getlocal 0 .............................. <stgs>
+  [ 73] getlocal 2 .............................. <i>
+  [ 75] pusharglist 2 ........................... <stgs, i>
+  [ 77] objcall 31 .............................. <stgs[i]>
+  [ 79] setlocal 4 .............................. lvls = stgs[i]
+  [ 81] pushzero ................................ <0>
+  [ 82] setlocal 5 .............................. vis = 0
+  [ 84] pushint8 1 .............................. <1>
+  [ 86] setlocal 6
+  [ 88] getlocal 6
+  [ 90] pushint8 10 ............................. <10>
+  [ 92] lteq
+  [ 93] jmpifz [273] ............................ repeat with j = 1 to 10
+  [ 96] getlocal 3 .............................. <dots>
+  [ 98] getlocal 6 .............................. <j>
+  [100] pusharglist 2 ........................... <dots, j>
+  [102] objcall 31 .............................. <dots[j]>
+  [104] setlocal 7 .............................. b = dots[j]
+  [106] getlocal 4 .............................. <lvls>
+  [108] pusharglist 1 ........................... <lvls>
+  [110] extcall 39 .............................. <voidp(lvls)>
+  [112] jmpifz [124] ............................ if voidp(lvls) then / else
+  [115] pusharglist 0 ........................... <>
+  [117] extcall 38 .............................. <VOID>
+  [119] setlocal 8 .............................. lvl = VOID
+  [121] jmp [153]
+  [124] getlocal 4 .............................. <lvls>
+  [126] getobjprop 30 ........................... <lvls.count>
+  [128] getlocal 6 .............................. <j>
+  [130] lt ...................................... <lvls.count < j>
+  [131] jmpifz [143] ............................ if lvls.count < j then / else
+  [134] pusharglist 0 ........................... <>
+  [136] extcall 38 .............................. <VOID>
+  [138] setlocal 8 .............................. lvl = VOID
+  [140] jmp [153]
+  [143] getlocal 4 .............................. <lvls>
+  [145] getlocal 6 .............................. <j>
+  [147] pusharglist 2 ........................... <lvls, j>
+  [149] objcall 31 .............................. <lvls[j]>
+  [151] setlocal 8 .............................. lvl = lvls[j]
+  [153] getlocal 8 .............................. <lvl>
+  [155] getobjprop 132 .......................... <lvl.unlocked>
+  [157] setlocal 9 .............................. unlocked = lvl.unlocked
+  [159] getlocal 9 .............................. <unlocked>
+  [161] jmpifz [257] ............................ if unlocked then
+  [164] getprop 230 ............................. <savedGame>
+  [166] getobjprop 140 .......................... <savedGame.stage>
+  [168] getlocal 2 .............................. <i>
+  [170] eq ...................................... <savedGame.stage = i>
+  [171] getprop 230 ............................. <savedGame>
+  [173] getobjprop 231 .......................... <savedGame.level>
+  [175] getlocal 6 .............................. <j>
+  [177] eq ...................................... <savedGame.level = j>
+  [178] and ..................................... <(savedGame.stage = i) and (savedGame.level = j)>
+  [179] jmpifz [194] ............................ if (savedGame.stage = i) and (savedGame.level = j) then / else
+  [182] getlocal 7 .............................. <b>
+  [184] getprop 372 ............................. <currentDotMem>
+  [187] pusharglistnoret 2 ...................... <b, currentDotMem>
+  [189] objcall 172 ............................. b.setMember(currentDotMem)
+  [191] jmp [222]
+  [194] getlocal 8 .............................. <lvl>
+  [196] getobjprop 233 .......................... <lvl.starred>
+  [198] jmpifz [213] ............................ if lvl.starred then / else
+  [201] getlocal 7 .............................. <b>
+  [203] getprop 371 ............................. <starMem>
+  [206] pusharglistnoret 2 ...................... <b, starMem>
+  [208] objcall 172 ............................. b.setMember(starMem)
+  [210] jmp [222]
+  [213] getlocal 7 .............................. <b>
+  [215] getprop 370 ............................. <dotmem>
+  [218] pusharglistnoret 2 ...................... <b, dotmem>
+  [220] objcall 172 ............................. b.setMember(dotmem)
+  [222] getlocal 7 .............................. <b>
+  [224] pushint8 1 .............................. <1>
+  [226] pusharglistnoret 2 ...................... <b, 1>
+  [228] objcall 95 .............................. b.setVisible(1)
+  [230] pushint8 1 .............................. <1>
+  [232] setlocal 5 .............................. vis = 1
+  [234] getlocal 6 .............................. <j>
+  [236] pushint8 2 .............................. <2>
+  [238] eq ...................................... <j = 2>
+  [239] jmpifz [254] ............................ if j = 2 then
+  [242] getprop 386 ............................. <maxStage>
+  [245] getlocal 2 .............................. <i>
+  [247] pusharglist 2 ........................... <maxStage, i>
+  [249] extcall 190 ............................. <max(maxStage, i)>
+  [251] setprop 386 ............................. maxStage = max(maxStage, i)
+  [254] jmp [264] ............................... next repeat
+  [257] getlocal 7 .............................. <b>
+  [259] pushzero ................................ <0>
+  [260] pusharglistnoret 2 ...................... <b, 0>
+  [262] objcall 95 .............................. b.setVisible(0)
+  [264] pushint8 1
+  [266] getlocal 6
+  [268] add
+  [269] setlocal 6
+  [271] endrepeat [ 88]
+  [273] getlocal 5 .............................. <vis>
+  [275] jmpifz [286] ............................ if vis then
+  [278] getlocal 1 .............................. <vis_rest>
+  [280] getlocal 2 .............................. <i>
+  [282] pusharglistnoret 2 ...................... <vis_rest, i>
+  [284] objcall 121 ............................. vis_rest.add(i)
+  [286] pushint8 1
+  [288] getlocal 2
+  [290] add
+  [291] setlocal 2
+  [293] endrepeat [ 30]
+  [296] pushint8 2 .............................. <2>
+  [298] setlocal 2
+  [300] getlocal 2
+  [302] pushint8 5 .............................. <5>
+  [304] lteq
+  [305] jmpifz [658] ............................ repeat with i = 2 to 5
+  [308] getlocal 2 .............................. <i>
+  [310] getprop 170 ............................. <currentLevel>
+  [312] getobjprop 140 .......................... <currentLevel.stage>
+  [314] eq ...................................... <i = currentLevel.stage>
+  [315] jmpifz [576] ............................ if i = currentLevel.stage then
+  [318] getprop 55 .............................. <save_mgr>
+  [320] getchainedprop 387 ...................... <save_mgr.seenItems>
+  [323] getlocal 2 .............................. <i>
+  [325] pusharglist 2 ........................... <save_mgr.seenItems, i>
+  [327] objcall 236 ............................. <save_mgr.seenItems.getOne(i)>
+  [329] pushzero ................................ <0>
+  [330] eq ...................................... <save_mgr.seenItems.getOne(i) = 0>
+  [331] jmpifz [482] ............................ if save_mgr.seenItems.getOne(i) = 0 then / else
+  [334] getprop 55 .............................. <save_mgr>
+  [336] getlocal 2 .............................. <i>
+  [338] pusharglistnoret 2 ...................... <save_mgr, i>
+  [340] objcall 388 ............................. save_mgr.seenItem(i)
+  [343] getlocal 2 .............................. <i>
+  [345] pushint8 5 .............................. <5>
+  [347] lt ...................................... <i < 5>
+  [348] jmpifz [454] ............................ if i < 5 then / else
+  [351] getprop 374 ............................. <construction>
+  [354] getlocal 2 .............................. <i>
+  [356] pushint8 1 .............................. <1>
+  [358] sub ..................................... <i - 1>
+  [359] pusharglist 2 ........................... <construction, i - 1>
+  [361] objcall 31 .............................. <construction[i - 1]>
+  [363] pushint8 1 .............................. <1>
+  [365] pusharglistnoret 2 ...................... <construction[i - 1], 1>
+  [367] objcall 95 .............................. construction[i - 1].setVisible(1)
+  [369] getprop 375 ............................. <const_anim>
+  [372] getlocal 2 .............................. <i>
+  [374] pushint8 1 .............................. <1>
+  [376] sub ..................................... <i - 1>
+  [377] pusharglist 2 ........................... <const_anim, i - 1>
+  [379] objcall 31 .............................. <const_anim[i - 1]>
+  [381] pushzero ................................ <0>
+  [382] pusharglistnoret 2 ...................... <const_anim[i - 1], 0>
+  [384] objcall 95 .............................. const_anim[i - 1].setVisible(0)
+  [386] getprop 225 ............................. <restaurants>
+  [388] getlocal 2 .............................. <i>
+  [390] pushint8 1 .............................. <1>
+  [392] sub ..................................... <i - 1>
+  [393] pusharglist 2 ........................... <restaurants, i - 1>
+  [395] objcall 31 .............................. <restaurants[i - 1]>
+  [397] pushzero ................................ <0>
+  [398] pusharglistnoret 2 ...................... <restaurants[i - 1], 0>
+  [400] objcall 95 .............................. restaurants[i - 1].setVisible(0)
+  [402] pushsymb 54 ............................. <#node>
+  [404] getprop 374 ............................. <construction>
+  [407] getlocal 2 .............................. <i>
+  [409] pushint8 1 .............................. <1>
+  [411] sub ..................................... <i - 1>
+  [412] pusharglist 2 ........................... <construction, i - 1>
+  [414] objcall 31 .............................. <construction[i - 1]>
+  [416] pushsymb 180 ............................ <#group>
+  [418] pushcons 1 .............................. <"titles">
+  [420] pushsymb 179 ............................ <#ms>
+  [422] pushint16 200 ........................... <200>
+  [425] pushsymb 87 ............................. <#loopCount>
+  [427] pushint8 4 .............................. <4>
+  [429] pushsymb 181 ............................ <#callback>
+  [431] pushsymb 59 ............................. <#target>
+  [433] getparam 0 .............................. <me>
+  [435] pushsymb 60 ............................. <#handler>
+  [437] pushsymb 365 ............................ <#showConstruction>
+  [440] pusharglist 4 ........................... <[#target: me, #handler: #showConstruction]>
+  [442] pushproplist ............................ <[#target: me, #handler: #showConstruction]>
+  [443] pusharglist 10 .......................... <[#node: construction[i - 1], #group: "titles", #ms: 200, #loopCount: 4, #callback: [#target: me, #handler: #showConstruction]]>
+  [445] pushproplist ............................ <[#node: construction[i - 1], #group: "titles", #ms: 200, #loopCount: 4, #callback: [#target: me, #handler: #showConstruction]]>
+  [446] pusharglistnoret 1 ...................... <[#node: construction[i - 1], #group: "titles", #ms: 200, #loopCount: 4, #callback: [#target: me, #handler: #showConstruction]]>
+  [448] extcall 389 ............................. flashNode([#node: construction[i - 1], #group: "titles", #ms: 200, #loopCount: 4, #callback: [#target: me, #handler: #showConstruction]])
+  [451] jmp [479]
+  [454] getprop 118 ............................. <statueCover>
+  [456] pushzero ................................ <0>
+  [457] pusharglistnoret 2 ...................... <statueCover, 0>
+  [459] objcall 95 .............................. statueCover.setVisible(0)
+  [461] getprop 225 ............................. <restaurants>
+  [463] pushint8 4 .............................. <4>
+  [465] pusharglist 2 ........................... <restaurants, 4>
+  [467] objcall 31 .............................. <restaurants[4]>
+  [469] pushzero ................................ <0>
+  [470] pusharglistnoret 2 ...................... <restaurants[4], 0>
+  [472] objcall 95 .............................. restaurants[4].setVisible(0)
+  [474] pushint8 1 .............................. <1>
+  [476] setprop 385 ............................. showStatueAnim = 1
+  [479] jmp [573]
+  [482] getprop 71 .............................. <buttons>
+  [484] getchainedprop 224 ...................... <buttons.continue>
+  [486] pushint8 1 .............................. <1>
+  [488] pusharglistnoret 2 ...................... <buttons.continue, 1>
+  [490] objcall 95 .............................. buttons.continue.setVisible(1)
+  [492] getprop 225 ............................. <restaurants>
+  [494] getlocal 2 .............................. <i>
+  [496] pushint8 1 .............................. <1>
+  [498] sub ..................................... <i - 1>
+  [499] pusharglist 2 ........................... <restaurants, i - 1>
+  [501] objcall 31 .............................. <restaurants[i - 1]>
+  [503] pushint8 1 .............................. <1>
+  [505] pusharglistnoret 2 ...................... <restaurants[i - 1], 1>
+  [507] objcall 95 .............................. restaurants[i - 1].setVisible(1)
+  [509] getprop 145 ............................. <sparkles>
+  [511] getlocal 2 .............................. <i>
+  [513] pusharglist 2 ........................... <sparkles, i>
+  [515] objcall 31 .............................. <sparkles[i]>
+  [517] pushint8 1 .............................. <1>
+  [519] pusharglistnoret 2 ...................... <sparkles[i], 1>
+  [521] objcall 95 .............................. sparkles[i].setVisible(1)
+  [523] getprop 145 ............................. <sparkles>
+  [525] getlocal 2 .............................. <i>
+  [527] pusharglist 2 ........................... <sparkles, i>
+  [529] objcall 31 .............................. <sparkles[i]>
+  [531] pushcons 39 ............................. <"sparkle">
+  [533] pusharglistnoret 2 ...................... <sparkles[i], "sparkle">
+  [535] objcall 90 .............................. sparkles[i].setAnimation("sparkle")
+  [537] getlocal 2 .............................. <i>
+  [539] pushint8 5 .............................. <5>
+  [541] lt ...................................... <i < 5>
+  [542] jmpifz [565] ............................ if i < 5 then / else
+  [545] getprop 374 ............................. <construction>
+  [548] getlocal 2 .............................. <i>
+  [550] pushint8 1 .............................. <1>
+  [552] sub ..................................... <i - 1>
+  [553] pusharglist 2 ........................... <construction, i - 1>
+  [555] objcall 31 .............................. <construction[i - 1]>
+  [557] pushzero ................................ <0>
+  [558] pusharglistnoret 2 ...................... <construction[i - 1], 0>
+  [560] objcall 95 .............................. construction[i - 1].setVisible(0)
+  [562] jmp [573]
+  [565] getprop 118 ............................. <statueCover>
+  [567] pushint8 1 .............................. <1>
+  [569] pusharglistnoret 2 ...................... <statueCover, 1>
+  [571] objcall 95 .............................. statueCover.setVisible(1)
+  [573] jmp [648] ............................... next repeat
+  [576] getlocal 2 .............................. <i>
+  [578] pushint8 5 .............................. <5>
+  [580] lt ...................................... <i < 5>
+  [581] jmpifz [601] ............................ if i < 5 then
+  [584] getprop 374 ............................. <construction>
+  [587] getlocal 2 .............................. <i>
+  [589] pushint8 1 .............................. <1>
+  [591] sub ..................................... <i - 1>
+  [592] pusharglist 2 ........................... <construction, i - 1>
+  [594] objcall 31 .............................. <construction[i - 1]>
+  [596] pushzero ................................ <0>
+  [597] pusharglistnoret 2 ...................... <construction[i - 1], 0>
+  [599] objcall 95 .............................. construction[i - 1].setVisible(0)
+  [601] getlocal 1 .............................. <vis_rest>
+  [603] getlocal 2 .............................. <i>
+  [605] pusharglist 2 ........................... <vis_rest, i>
+  [607] objcall 236 ............................. <vis_rest.getOne(i)>
+  [609] jmpifz [632] ............................ if vis_rest.getOne(i) then
+  [612] getprop 225 ............................. <restaurants>
+  [614] getlocal 2 .............................. <i>
+  [616] pushint8 1 .............................. <1>
+  [618] sub ..................................... <i - 1>
+  [619] pusharglist 2 ........................... <restaurants, i - 1>
+  [621] objcall 31 .............................. <restaurants[i - 1]>
+  [623] pushint8 1 .............................. <1>
+  [625] pusharglistnoret 2 ...................... <restaurants[i - 1], 1>
+  [627] objcall 95 .............................. restaurants[i - 1].setVisible(1)
+  [629] jmp [648] ............................... next repeat
+  [632] getprop 225 ............................. <restaurants>
+  [634] getlocal 2 .............................. <i>
+  [636] pushint8 1 .............................. <1>
+  [638] sub ..................................... <i - 1>
+  [639] pusharglist 2 ........................... <restaurants, i - 1>
+  [641] objcall 31 .............................. <restaurants[i - 1]>
+  [643] pushzero ................................ <0>
+  [644] pusharglistnoret 2 ...................... <restaurants[i - 1], 0>
+  [646] objcall 95 .............................. restaurants[i - 1].setVisible(0)
+  [648] pushint8 1
+  [650] getlocal 2
+  [652] add
+  [653] setlocal 2
+  [655] endrepeat [300]
+  [658] getprop 385 ............................. <showStatueAnim>
+  [661] not ..................................... <not showStatueAnim>
+  [662] jmpifz [693] ............................ if not showStatueAnim then
+  [665] getlocal 1 .............................. <vis_rest>
+  [667] pushint8 5 .............................. <5>
+  [669] pusharglist 2 ........................... <vis_rest, 5>
+  [671] objcall 236 ............................. <vis_rest.getOne(5)>
+  [673] pushzero ................................ <0>
+  [674] nteq .................................... <vis_rest.getOne(5) <> 0>
+  [675] setlocal 10 ............................. r5vis = vis_rest.getOne(5) <> 0
+  [677] getprop 118 ............................. <statueCover>
+  [679] getlocal 10 ............................. <r5vis>
+  [681] pusharglistnoret 2 ...................... <statueCover, r5vis>
+  [683] objcall 95 .............................. statueCover.setVisible(r5vis)
+  [685] getprop 226 ............................. <rest5dots>
+  [687] getlocal 10 ............................. <r5vis>
+  [689] pusharglistnoret 2 ...................... <rest5dots, r5vis>
+  [691] objcall 95 .............................. rest5dots.setVisible(r5vis)
+  [693] ret
+end
+
+on continue me
+  [  0] getprop 385 ............................. <showStatueAnim>
+  [  3] jmpifz [ 17] ............................ if showStatueAnim then / else
+  [  6] getprop 52 .............................. <mgr>
+  [  8] pushsymb 14 ............................. <#transform_comic>
+  [ 10] pusharglistnoret 2 ...................... <mgr, #transform_comic>
+  [ 12] objcall 3 ............................... mgr.setMode(#transform_comic)
+  [ 14] jmp [ 31]
+  [ 17] getprop 5 ............................... <game_mgr>
+  [ 19] pusharglistnoret 1 ...................... <game_mgr>
+  [ 21] objcall 144 ............................. game_mgr.loadLevel()
+  [ 23] getprop 52 .............................. <mgr>
+  [ 25] pushsymb 22 ............................. <#startLevel>
+  [ 27] pusharglistnoret 2 ...................... <mgr, #startLevel>
+  [ 29] objcall 3 ............................... mgr.setMode(#startLevel)
+  [ 31] ret
+end
+
+on destroy me
+  [  0] getprop 64 .............................. <initialized>
+  [  2] jmpifz [ 48] ............................ if initialized then
+  [  5] pushsymb 2 .............................. <#destroy>
+  [  7] getprop 71 .............................. <buttons>
+  [  9] pusharglistnoret 2 ...................... <#destroy, buttons>
+  [ 11] extcall 36 .............................. call(#destroy, buttons)
+  [ 13] getprop 168 ............................. <timer>
+  [ 15] pusharglist 1 ........................... <timer>
+  [ 17] extcall 39 .............................. <voidp(timer)>
+  [ 19] not ..................................... <not voidp(timer)>
+  [ 20] jmpifz [ 35] ............................ if not voidp(timer) then
+  [ 23] getprop 168 ............................. <timer>
+  [ 25] pusharglistnoret 1 ...................... <timer>
+  [ 27] objcall 2 ............................... timer.destroy()
+  [ 29] pusharglist 0 ........................... <>
+  [ 31] extcall 38 .............................. <VOID>
+  [ 33] setprop 168 ............................. timer = VOID
+  [ 35] getprop 377 ............................. <statueAnim>
+  [ 38] pusharglistnoret 1 ...................... <statueAnim>
+  [ 40] objcall 2 ............................... statueAnim.destroy()
+  [ 42] getprop 54 .............................. <node>
+  [ 44] pusharglistnoret 1 ...................... <node>
+  [ 46] objcall 2 ............................... node.destroy()
+  [ 48] getparam 0 .............................. <me>
+  [ 50] pusharglistnoret 1 ...................... <me>
+  [ 52] extcall 84 .............................. voidRefs(me)
+  [ 54] ret
+end
+
+on fadeUp me
+  [  0] getprop 385 ............................. <showStatueAnim>
+  [  3] jmpifz [ 23] ............................ if showStatueAnim then / else
+  [  6] pushsymb 59 ............................. <#target>
+  [  8] getparam 0 .............................. <me>
+  [ 10] pushsymb 60 ............................. <#handler>
+  [ 12] pushsymb 368 ............................ <#startStatueAnim>
+  [ 15] pusharglist 4 ........................... <[#target: me, #handler: #startStatueAnim]>
+  [ 17] pushproplist ............................ <[#target: me, #handler: #startStatueAnim]>
+  [ 18] setlocal 0 .............................. cb = [#target: me, #handler: #startStatueAnim]
+  [ 20] jmp [ 29]
+  [ 23] pusharglist 0 ........................... <>
+  [ 25] extcall 38 .............................. <VOID>
+  [ 27] setlocal 0 .............................. cb = VOID
+  [ 29] pushsymb 54 ............................. <#node>
+  [ 31] getprop 373 ............................. <fadeOut>
+  [ 34] pushsymb 177 ............................ <#setter>
+  [ 36] pushsymb 174 ............................ <#setAlpha>
+  [ 38] pushsymb 92 ............................. <#start>
+  [ 40] pushint8 100 ............................ <100>
+  [ 42] pushsymb 178 ............................ <#end>
+  [ 44] pushzero ................................ <0>
+  [ 45] pushsymb 179 ............................ <#ms>
+  [ 47] pushint16 500 ........................... <500>
+  [ 50] pushsymb 180 ............................ <#group>
+  [ 52] pushcons 1 .............................. <"titles">
+  [ 54] pushsymb 181 ............................ <#callback>
+  [ 56] getlocal 0 .............................. <cb>
+  [ 58] pusharglist 14 .......................... <[#node: fadeOut, #setter: #setAlpha, #start: 100, #end: 0, #ms: 500, #group: "titles", #callback: cb]>
+  [ 60] pushproplist ............................ <[#node: fadeOut, #setter: #setAlpha, #start: 100, #end: 0, #ms: 500, #group: "titles", #callback: cb]>
+  [ 61] setlocal 1 .............................. Args = [#node: fadeOut, #setter: #setAlpha, #start: 100, #end: 0, #ms: 500, #group: "titles", #callback: cb]
+  [ 63] pushcons 38 ............................. <"node_tween">
+  [ 65] pusharglist 1 ........................... <"node_tween">
+  [ 67] extcall 32 .............................. <script("node_tween")>
+  [ 69] getlocal 1 .............................. <Args>
+  [ 71] pusharglistnoret 2 ...................... <script("node_tween"), Args>
+  [ 73] objcall 0 ............................... script("node_tween").new(Args)
+  [ 75] ret
+end
+
+on fadeDown me
+  [  0] pushsymb 95 ............................. <#setVisible>
+  [  2] getprop 145 ............................. <sparkles>
+  [  4] pushzero ................................ <0>
+  [  5] pusharglistnoret 3 ...................... <#setVisible, sparkles, 0>
+  [  7] extcall 36 .............................. call(#setVisible, sparkles, 0)
+  [  9] getprop 225 ............................. <restaurants>
+  [ 11] pushint8 4 .............................. <4>
+  [ 13] pusharglist 2 ........................... <restaurants, 4>
+  [ 15] objcall 31 .............................. <restaurants[4]>
+  [ 17] pushzero ................................ <0>
+  [ 18] pusharglistnoret 2 ...................... <restaurants[4], 0>
+  [ 20] objcall 68 .............................. restaurants[4].setZOffset(0)
+  [ 22] getprop 54 .............................. <node>
+  [ 24] pusharglistnoret 1 ...................... <node>
+  [ 26] objcall 97 .............................. node.updateLocZ()
+  [ 28] pushsymb 54 ............................. <#node>
+  [ 30] getprop 373 ............................. <fadeOut>
+  [ 33] pushsymb 177 ............................ <#setter>
+  [ 35] pushsymb 174 ............................ <#setAlpha>
+  [ 37] pushsymb 92 ............................. <#start>
+  [ 39] pushzero ................................ <0>
+  [ 40] pushsymb 178 ............................ <#end>
+  [ 42] pushint8 100 ............................ <100>
+  [ 44] pushsymb 179 ............................ <#ms>
+  [ 46] pushint16 500 ........................... <500>
+  [ 49] pushsymb 180 ............................ <#group>
+  [ 51] pushcons 1 .............................. <"titles">
+  [ 53] pushsymb 181 ............................ <#callback>
+  [ 55] pushsymb 59 ............................. <#target>
+  [ 57] getparam 0 .............................. <me>
+  [ 59] pushsymb 60 ............................. <#handler>
+  [ 61] pushsymb 224 ............................ <#continue>
+  [ 63] pusharglist 4 ........................... <[#target: me, #handler: #continue]>
+  [ 65] pushproplist ............................ <[#target: me, #handler: #continue]>
+  [ 66] pusharglist 14 .......................... <[#node: fadeOut, #setter: #setAlpha, #start: 0, #end: 100, #ms: 500, #group: "titles", #callback: [#target: me, #handler: #continue]]>
+  [ 68] pushproplist ............................ <[#node: fadeOut, #setter: #setAlpha, #start: 0, #end: 100, #ms: 500, #group: "titles", #callback: [#target: me, #handler: #continue]]>
+  [ 69] setlocal 0 .............................. Args = [#node: fadeOut, #setter: #setAlpha, #start: 0, #end: 100, #ms: 500, #group: "titles", #callback: [#target: me, #handler: #continue]]
+  [ 71] pushcons 38 ............................. <"node_tween">
+  [ 73] pusharglist 1 ........................... <"node_tween">
+  [ 75] extcall 32 .............................. <script("node_tween")>
+  [ 77] getlocal 0 .............................. <Args>
+  [ 79] pusharglistnoret 2 ...................... <script("node_tween"), Args>
+  [ 81] objcall 0 ............................... script("node_tween").new(Args)
+  [ 83] ret
+end
+
+on enterMode me, previousMode
+  [  0] getprop 64 .............................. <initialized>
+  [  2] not ..................................... <not initialized>
+  [  3] jmpifz [ 15] ............................ if not initialized then / else
+  [  6] getparam 0 .............................. <me>
+  [  8] pusharglistnoret 1 ...................... <me>
+  [ 10] objcall 1 ............................... me.init()
+  [ 12] jmp [ 21]
+  [ 15] getprop 54 .............................. <node>
+  [ 17] pusharglistnoret 1 ...................... <node>
+  [ 19] objcall 96 .............................. node.embody()
+  [ 21] getprop 54 .............................. <node>
+  [ 23] pusharglistnoret 1 ...................... <node>
+  [ 25] objcall 97 .............................. node.updateLocZ()
+  [ 27] getprop 5 ............................... <game_mgr>
+  [ 29] pushzero ................................ <0>
+  [ 30] pusharglistnoret 2 ...................... <game_mgr, 0>
+  [ 32] objcall 187 ............................. game_mgr.setPaused(0)
+  [ 34] pushsymb 140 ............................ <#stage>
+  [ 36] getprop 5 ............................... <game_mgr>
+  [ 38] getobjprop 127 .......................... <game_mgr.currentStage>
+  [ 40] pushsymb 231 ............................ <#level>
+  [ 42] getprop 5 ............................... <game_mgr>
+  [ 44] getobjprop 170 .......................... <game_mgr.currentLevel>
+  [ 46] pusharglist 4 ........................... <[#stage: game_mgr.currentStage, #level: game_mgr.currentLevel]>
+  [ 48] pushproplist ............................ <[#stage: game_mgr.currentStage, #level: game_mgr.currentLevel]>
+  [ 49] setprop 170 ............................. currentLevel = [#stage: game_mgr.currentStage, #level: game_mgr.currentLevel]
+  [ 51] getprop 168 ............................. <timer>
+  [ 53] pusharglistnoret 1 ...................... <timer>
+  [ 55] objcall 92 .............................. timer.start()
+  [ 57] pushsymb 95 ............................. <#setVisible>
+  [ 59] getprop 145 ............................. <sparkles>
+  [ 61] pushzero ................................ <0>
+  [ 62] pusharglistnoret 3 ...................... <#setVisible, sparkles, 0>
+  [ 64] extcall 36 .............................. call(#setVisible, sparkles, 0)
+  [ 66] getprop 71 .............................. <buttons>
+  [ 68] getchainedprop 224 ...................... <buttons.continue>
+  [ 70] pushsymb 59 ............................. <#target>
+  [ 72] getparam 0 .............................. <me>
+  [ 74] pushsymb 60 ............................. <#handler>
+  [ 76] pushsymb 259 ............................ <#fadeDown>
+  [ 79] pusharglist 4 ........................... <[#target: me, #handler: #fadeDown]>
+  [ 81] pushproplist ............................ <[#target: me, #handler: #fadeDown]>
+  [ 82] pusharglistnoret 2 ...................... <buttons.continue, [#target: me, #handler: #fadeDown]>
+  [ 84] objcall 61 .............................. buttons.continue.setCallback([#target: me, #handler: #fadeDown])
+  [ 86] getparam 0 .............................. <me>
+  [ 88] getprop 124 ............................. <stagedata>
+  [ 90] pusharglistnoret 2 ...................... <me, stagedata>
+  [ 92] objcall 204 ............................. me.setupMap(stagedata)
+  [ 94] pushsymb 95 ............................. <#setVisible>
+  [ 96] getprop 376 ............................. <statues>
+  [ 99] getprop 385 ............................. <showStatueAnim>
+  [102] pusharglistnoret 3 ...................... <#setVisible, statues, showStatueAnim>
+  [104] extcall 36 .............................. call(#setVisible, statues, showStatueAnim)
+  [106] getprop 5 ............................... <game_mgr>
+  [108] pushint8 1 .............................. <1>
+  [110] pusharglistnoret 2 ...................... <game_mgr, 1>
+  [112] objcall 187 ............................. game_mgr.setPaused(1)
+  [114] getprop 116 ............................. <gameNode>
+  [116] pushzero ................................ <0>
+  [117] pusharglistnoret 2 ...................... <gameNode, 0>
+  [119] objcall 95 .............................. gameNode.setVisible(0)
+  [121] getprop 117 ............................. <titleNode>
+  [123] pushint8 1 .............................. <1>
+  [125] pusharglistnoret 2 ...................... <titleNode, 1>
+  [127] objcall 95 .............................. titleNode.setVisible(1)
+  [129] getprop 54 .............................. <node>
+  [131] pushint8 1 .............................. <1>
+  [133] pusharglistnoret 2 ...................... <node, 1>
+  [135] objcall 95 .............................. node.setVisible(1)
+  [137] getprop 54 .............................. <node>
+  [139] pushzero ................................ <0>
+  [140] pushzero ................................ <0>
+  [141] pusharglist 2 ........................... <0, 0>
+  [143] extcall 101 ............................. <point(0, 0)>
+  [145] pusharglistnoret 2 ...................... <node, point(0, 0)>
+  [147] objcall 102 ............................. node.setLoc(point(0, 0))
+  [149] pushsymb 95 ............................. <#setVisible>
+  [151] getprop 375 ............................. <const_anim>
+  [154] pushzero ................................ <0>
+  [155] pusharglistnoret 3 ...................... <#setVisible, const_anim, 0>
+  [157] extcall 36 .............................. call(#setVisible, const_anim, 0)
+  [159] getprop 373 ............................. <fadeOut>
+  [162] pushint8 100 ............................ <100>
+  [164] pusharglistnoret 2 ...................... <fadeOut, 100>
+  [166] objcall 174 ............................. fadeOut.setAlpha(100)
+  [168] getparam 0 .............................. <me>
+  [170] pusharglistnoret 1 ...................... <me>
+  [172] objcall 153 ............................. me.fadeUp()
+  [174] ret
+end
+
+on event me, sym
+  [  0] ret
+end
+
+on leaveMode me, nextMode
+  [  0] getprop 145 ............................. <sparkles>
+  [  2] peek 0
+  [  4] pusharglist 1
+  [  6] extcall 30
+  [  8] pushint8 1
+  [ 10] peek 0
+  [ 12] peek 2
+  [ 14] lteq
+  [ 15] jmpifz [ 41] ............................ repeat with s in sparkles
+  [ 18] peek 2
+  [ 20] peek 1
+  [ 22] pusharglist 2
+  [ 24] extcall 31
+  [ 26] setlocal 0
+  [ 28] getlocal 0 .............................. <s>
+  [ 30] getchainedprop 106 ...................... <s.animator>
+  [ 32] pusharglistnoret 1 ...................... <s.animator>
+  [ 34] objcall 86 .............................. s.animator.stop()
+  [ 36] pushint8 1
+  [ 38] add
+  [ 39] endrepeat [ 10]
+  [ 41] pop 3
+  [ 43] getprop 54 .............................. <node>
+  [ 45] pusharglistnoret 1 ...................... <node>
+  [ 47] objcall 108 ............................. node.disembody()
+  [ 49] getprop 168 ............................. <timer>
+  [ 51] pusharglistnoret 1 ...................... <timer>
+  [ 53] objcall 86 .............................. timer.stop()
+  [ 55] getprop 168 ............................. <timer>
+  [ 57] pusharglist 0 ........................... <>
+  [ 59] extcall 38 .............................. <VOID>
+  [ 61] pusharglistnoret 2 ...................... <timer, VOID>
+  [ 63] objcall 61 .............................. timer.setCallback(VOID)
+  [ 65] pushsymb 61 ............................. <#setCallback>
+  [ 67] getprop 71 .............................. <buttons>
+  [ 69] pusharglist 0 ........................... <>
+  [ 71] extcall 38 .............................. <VOID>
+  [ 73] pusharglistnoret 3 ...................... <#setCallback, buttons, VOID>
+  [ 75] extcall 36 .............................. call(#setCallback, buttons, VOID)
+  [ 77] getprop 54 .............................. <node>
+  [ 79] pushint16 5000 .......................... <5000>
+  [ 82] inv ..................................... <-5000>
+  [ 83] pushint16 5000 .......................... <5000>
+  [ 86] inv ..................................... <-5000>
+  [ 87] pusharglist 2 ........................... <-5000, -5000>
+  [ 89] extcall 101 ............................. <point(-5000, -5000)>
+  [ 91] pusharglistnoret 2 ...................... <node, point(-5000, -5000)>
+  [ 93] objcall 102 ............................. node.setLoc(point(-5000, -5000))
+  [ 95] getprop 54 .............................. <node>
+  [ 97] pushzero ................................ <0>
+  [ 98] pusharglistnoret 2 ...................... <node, 0>
+  [100] objcall 95 .............................. node.setVisible(0)
+  [102] ret
+end

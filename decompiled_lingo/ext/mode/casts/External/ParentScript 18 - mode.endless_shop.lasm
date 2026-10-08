@@ -1,0 +1,459 @@
+property mgr, name, node_mgr, game_mgr, screen, node, grp, inventext, itembuttons, itemdesc, check, timer, continuebutton, initialized, numUpgrades
+
+on new me, m
+  [  0] getparam 1 .............................. <m>
+  [  2] setprop 52 .............................. mgr = m
+  [  4] getparam 1 .............................. <m>
+  [  6] getchainedprop 4 ........................ <m.glob>
+  [  8] getchainedprop 6 ........................ <m.glob.managers>
+  [ 10] getobjprop 54 ........................... <m.glob.managers.node>
+  [ 12] setprop 53 .............................. node_mgr = m.glob.managers.node
+  [ 14] getparam 1 .............................. <m>
+  [ 16] getchainedprop 4 ........................ <m.glob>
+  [ 18] getchainedprop 6 ........................ <m.glob.managers>
+  [ 20] getobjprop 7 ............................ <m.glob.managers.game>
+  [ 22] setprop 5 ............................... game_mgr = m.glob.managers.game
+  [ 24] getprop 53 .............................. <node_mgr>
+  [ 26] pushcons 0 .............................. <"titles">
+  [ 28] pusharglist 2 ........................... <node_mgr, "titles">
+  [ 30] objcall 65 .............................. <node_mgr.getGroup("titles")>
+  [ 32] setprop 83 .............................. grp = node_mgr.getGroup("titles")
+  [ 34] pushsymb 18 ............................. <#endless_shop>
+  [ 36] setprop 63 .............................. name = #endless_shop
+  [ 38] getparam 0 .............................. <me>
+  [ 40] pusharglistnoret 1 ...................... <me>
+  [ 42] extcall 9 ............................... return me
+  [ 44] ret
+end
+
+on init me
+  [  0] getprop 64 .............................. <initialized>
+  [  2] jmpifz [  9] ............................ if initialized then
+  [  5] pusharglistnoret 0 ...................... <>
+  [  7] extcall 9 ............................... return 
+  [  9] pushint8 1 .............................. <1>
+  [ 11] setprop 64 .............................. initialized = 1
+  [ 13] getprop 83 .............................. <grp>
+  [ 15] pushcons 1 .............................. <"endless_shop">
+  [ 17] pusharglist 1 ........................... <"endless_shop">
+  [ 19] extcall 66 .............................. <getNodeData("endless_shop")>
+  [ 21] pusharglist 2 ........................... <grp, getNodeData("endless_shop")>
+  [ 23] objcall 67 .............................. <grp.newNode(getNodeData("endless_shop"))>
+  [ 25] setprop 54 .............................. node = grp.newNode(getNodeData("endless_shop"))
+  [ 27] getprop 54 .............................. <node>
+  [ 29] pushzero ................................ <0>
+  [ 30] pusharglistnoret 2 ...................... <node, 0>
+  [ 32] objcall 95 .............................. node.setVisible(0)
+  [ 34] getprop 54 .............................. <node>
+  [ 36] pushint32 9999999 ....................... <9999999>
+  [ 41] pusharglistnoret 2 ...................... <node, 9999999>
+  [ 43] objcall 68 .............................. node.setZOffset(9999999)
+  [ 45] getprop 54 .............................. <node>
+  [ 47] pushcons 2 .............................. <"check">
+  [ 49] pusharglist 2 ........................... <node, "check">
+  [ 51] objcall 31 .............................. <node["check"]>
+  [ 53] setprop 422 ............................. check = node["check"]
+  [ 56] getprop 54 .............................. <node>
+  [ 58] pushcons 3 .............................. <"item_desc">
+  [ 60] pusharglist 2 ........................... <node, "item_desc">
+  [ 62] objcall 31 .............................. <node["item_desc"]>
+  [ 64] setprop 423 ............................. itemdesc = node["item_desc"]
+  [ 67] pusharglist 0 ........................... <[]>
+  [ 69] pushlist ................................ <[]>
+  [ 70] setprop 424 ............................. itembuttons = []
+  [ 73] pusharglist 0 ........................... <[]>
+  [ 75] pushlist ................................ <[]>
+  [ 76] setlocal 0 .............................. itemnames = []
+  [ 78] pushcons 4 .............................. <"eshop_button">
+  [ 80] pusharglist 1 ........................... <"eshop_button">
+  [ 82] extcall 32 .............................. <script("eshop_button")>
+  [ 84] setlocal 1 .............................. bscript = script("eshop_button")
+  [ 86] pushint8 1 .............................. <1>
+  [ 88] setlocal 2
+  [ 90] getlocal 2
+  [ 92] pushint8 3 .............................. <3>
+  [ 94] lteq
+  [ 95] jmpifz [160] ............................ repeat with i = 1 to 3
+  [ 98] getprop 424 ............................. <itembuttons>
+  [101] getlocal 1 .............................. <bscript>
+  [103] pushsymb 395 ............................ <#icon>
+  [106] getprop 54 .............................. <node>
+  [108] pushcons 5 .............................. <"item_">
+  [110] getlocal 2 .............................. <i>
+  [112] joinstr ................................. <"item_" & i>
+  [113] pusharglist 2 ........................... <node, "item_" & i>
+  [115] objcall 31 .............................. <node["item_" & i]>
+  [117] pushsymb 63 ............................. <#name>
+  [119] getprop 54 .............................. <node>
+  [121] pushcons 6 .............................. <"itemname_">
+  [123] getlocal 2 .............................. <i>
+  [125] joinstr ................................. <"itemname_" & i>
+  [126] pusharglist 2 ........................... <node, "itemname_" & i>
+  [128] objcall 31 .............................. <node["itemname_" & i]>
+  [130] pushsymb 397 ............................ <#desc>
+  [133] getprop 423 ............................. <itemdesc>
+  [136] pushsymb 52 ............................. <#mgr>
+  [138] getparam 0 .............................. <me>
+  [140] pusharglist 8 ........................... <[#icon: node["item_" & i], #name: node["itemname_" & i], #desc: itemdesc, #mgr: me]>
+  [142] pushproplist ............................ <[#icon: node["item_" & i], #name: node["itemname_" & i], #desc: itemdesc, #mgr: me]>
+  [143] pusharglist 2 ........................... <bscript, [#icon: node["item_" & i], #name: node["itemname_" & i], #desc: itemdesc, #mgr: me]>
+  [145] objcall 0 ............................... <bscript.new([#icon: node["item_" & i], #name: node["itemname_" & i], #desc: itemdesc, #mgr: me])>
+  [147] pusharglistnoret 2 ...................... <itembuttons, bscript.new([#icon: node["item_" & i], #name: node["itemname_" & i], #desc: itemdesc, #mgr: me])>
+  [149] objcall 121 ............................. itembuttons.add(bscript.new([#icon: node["item_" & i], #name: node["itemname_" & i], #desc: itemdesc, #mgr: me]))
+  [151] pushint8 1
+  [153] getlocal 2
+  [155] add
+  [156] setlocal 2
+  [158] endrepeat [ 90]
+  [160] pusharglist 0 ........................... <[:]>
+  [162] pushproplist ............................ <[:]>
+  [163] setprop 425 ............................. inventext = [:]
+  [166] pushsymb 398 ............................ <#podium>
+  [169] pushsymb 399 ............................ <#stereo>
+  [172] pushsymb 400 ............................ <#shoes>
+  [175] pushsymb 401 ............................ <#oven>
+  [178] pushsymb 402 ............................ <#maitred>
+  [181] pushsymb 403 ............................ <#drinks>
+  [184] pusharglist 6 ........................... <[#podium, #stereo, #shoes, #oven, #maitred, #drinks]>
+  [186] pushlist ................................ <[#podium, #stereo, #shoes, #oven, #maitred, #drinks]>
+  [187] peek 0
+  [189] pusharglist 1
+  [191] extcall 30
+  [193] pushint8 1
+  [195] peek 0
+  [197] peek 2
+  [199] lteq
+  [200] jmpifz [238] ............................ repeat with i in [#podium, #stereo, #shoes, #oven, #maitred, #drinks]
+  [203] peek 2
+  [205] peek 1
+  [207] pusharglist 2
+  [209] extcall 31
+  [211] setlocal 2
+  [213] getprop 425 ............................. <inventext>
+  [216] getlocal 2 .............................. <i>
+  [218] getprop 54 .............................. <node>
+  [220] pushcons 7 .............................. <"text_">
+  [222] getlocal 2 .............................. <i>
+  [224] joinstr ................................. <"text_" & i>
+  [225] pusharglist 2 ........................... <node, "text_" & i>
+  [227] objcall 31 .............................. <node["text_" & i]>
+  [229] pusharglistnoret 3 ...................... <inventext, i, node["text_" & i]>
+  [231] objcall 34 .............................. inventext[i] = node["text_" & i]
+  [233] pushint8 1
+  [235] add
+  [236] endrepeat [195]
+  [238] pop 3
+  [240] pushcons 8 .............................. <"timeout">
+  [242] pusharglist 1 ........................... <"timeout">
+  [244] extcall 32 .............................. <script("timeout")>
+  [246] pusharglist 1 ........................... <script("timeout")>
+  [248] objcall 0 ............................... <script("timeout").new()>
+  [250] setprop 168 ............................. timer = script("timeout").new()
+  [252] getprop 168 ............................. <timer>
+  [254] pushint8 1 .............................. <1>
+  [256] setobjprop 426 .......................... timer.oneshot = 1
+  [259] getprop 168 ............................. <timer>
+  [261] pushint16 500 ........................... <500>
+  [264] pusharglistnoret 2 ...................... <timer, 500>
+  [266] objcall 91 .............................. timer.setPeriod(500)
+  [268] getprop 168 ............................. <timer>
+  [270] pushsymb 59 ............................. <#target>
+  [272] getparam 0 .............................. <me>
+  [274] pushsymb 60 ............................. <#handler>
+  [276] pushsymb 420 ............................ <#getUpgrades>
+  [279] pusharglist 4 ........................... <[#target: me, #handler: #getUpgrades]>
+  [281] pushproplist ............................ <[#target: me, #handler: #getUpgrades]>
+  [282] pusharglistnoret 2 ...................... <timer, [#target: me, #handler: #getUpgrades]>
+  [284] objcall 61 .............................. timer.setCallback([#target: me, #handler: #getUpgrades])
+  [286] getprop 168 ............................. <timer>
+  [288] pushsymb 142 ............................ <#mode>
+  [290] pusharglistnoret 2 ...................... <timer, #mode>
+  [292] objcall 58 .............................. timer.setGroup(#mode)
+  [294] pushsymb 54 ............................. <#node>
+  [296] getprop 54 .............................. <node>
+  [298] pushcons 9 .............................. <"continue_button">
+  [300] pusharglist 2 ........................... <node, "continue_button">
+  [302] objcall 31 .............................. <node["continue_button"]>
+  [304] pusharglist 2 ........................... <[#node: node["continue_button"]]>
+  [306] pushproplist ............................ <[#node: node["continue_button"]]>
+  [307] pusharglist 1 ........................... <[#node: node["continue_button"]]>
+  [309] extcall 76 .............................. <newButton([#node: node["continue_button"]])>
+  [311] setprop 427 ............................. continuebutton = newButton([#node: node["continue_button"]])
+  [314] ret
+end
+
+on destroy me
+  [  0] getprop 64 .............................. <initialized>
+  [  2] jmpifz [ 26] ............................ if initialized then
+  [  5] pushsymb 2 .............................. <#destroy>
+  [  7] getprop 424 ............................. <itembuttons>
+  [ 10] pusharglistnoret 2 ...................... <#destroy, itembuttons>
+  [ 12] extcall 36 .............................. call(#destroy, itembuttons)
+  [ 14] getprop 168 ............................. <timer>
+  [ 16] pusharglistnoret 1 ...................... <timer>
+  [ 18] objcall 2 ............................... timer.destroy()
+  [ 20] getprop 54 .............................. <node>
+  [ 22] pusharglistnoret 1 ...................... <node>
+  [ 24] objcall 2 ............................... node.destroy()
+  [ 26] getparam 0 .............................. <me>
+  [ 28] pusharglistnoret 1 ...................... <me>
+  [ 30] extcall 84 .............................. voidRefs(me)
+  [ 32] ret
+end
+
+on selectItem me, inf, nd
+  [  0] getprop 5 ............................... <game_mgr>
+  [  2] getparam 1 .............................. <inf>
+  [  4] pusharglistnoret 2 ...................... <game_mgr, inf>
+  [  6] objcall 430 ............................. game_mgr.addInventoryItem(inf)
+  [  9] getprop 422 ............................. <check>
+  [ 12] getparam 2 .............................. <nd>
+  [ 14] pusharglist 1 ........................... <nd>
+  [ 16] objcall 160 ............................. <nd.getLoc()>
+  [ 18] pusharglistnoret 2 ...................... <check, nd.getLoc()>
+  [ 20] objcall 102 ............................. check.setLoc(nd.getLoc())
+  [ 22] getprop 422 ............................. <check>
+  [ 25] pushint8 1 .............................. <1>
+  [ 27] pusharglistnoret 2 ...................... <check, 1>
+  [ 29] objcall 95 .............................. check.setVisible(1)
+  [ 31] pushsymb 194 ............................ <#setDisabled>
+  [ 33] getprop 424 ............................. <itembuttons>
+  [ 36] pusharglistnoret 2 ...................... <#setDisabled, itembuttons>
+  [ 38] extcall 36 .............................. call(#setDisabled, itembuttons)
+  [ 40] getprop 168 ............................. <timer>
+  [ 42] pusharglistnoret 1 ...................... <timer>
+  [ 44] objcall 92 .............................. timer.start()
+  [ 46] ret
+end
+
+on getUpgrades me
+  [  0] getprop 432 ............................. <numUpgrades>
+  [  3] pushint8 1 .............................. <1>
+  [  5] sub ..................................... <numUpgrades - 1>
+  [  6] setprop 432 ............................. numUpgrades = numUpgrades - 1
+  [  9] getprop 422 ............................. <check>
+  [ 12] pushzero ................................ <0>
+  [ 13] pusharglistnoret 2 ...................... <check, 0>
+  [ 15] objcall 95 .............................. check.setVisible(0)
+  [ 17] getprop 423 ............................. <itemdesc>
+  [ 20] pushcons 10 ............................. <EMPTY>
+  [ 22] pusharglistnoret 2 ...................... <itemdesc, EMPTY>
+  [ 24] objcall 94 .............................. itemdesc.setText(EMPTY)
+  [ 26] getprop 5 ............................... <game_mgr>
+  [ 28] pusharglist 1 ........................... <game_mgr>
+  [ 30] objcall 433 ............................. <game_mgr.getUpgradeSet()>
+  [ 33] setlocal 0 .............................. buy = game_mgr.getUpgradeSet()
+  [ 35] getlocal 0 .............................. <buy>
+  [ 37] pusharglist 1 ........................... <buy>
+  [ 39] extcall 39 .............................. <voidp(buy)>
+  [ 41] jmpifz [ 49] ............................ if voidp(buy) then
+  [ 44] pusharglist 0 ........................... <[]>
+  [ 46] pushlist ................................ <[]>
+  [ 47] setlocal 0 .............................. buy = []
+  [ 49] getprop 5 ............................... <game_mgr>
+  [ 51] getobjprop 434 .......................... <game_mgr.inventory>
+  [ 54] setlocal 1 .............................. inven = game_mgr.inventory
+  [ 56] getprop 425 ............................. <inventext>
+  [ 59] getobjprop 30 ........................... <inventext.count>
+  [ 61] setlocal 2 .............................. ct = inventext.count
+  [ 63] pushint8 1 .............................. <1>
+  [ 65] setlocal 3
+  [ 67] getlocal 3
+  [ 69] getlocal 2 .............................. <ct>
+  [ 71] lteq
+  [ 72] jmpifz [171] ............................ repeat with i = 1 to ct
+  [ 75] getprop 425 ............................. <inventext>
+  [ 78] getlocal 3 .............................. <i>
+  [ 80] pusharglist 2 ........................... <inventext, i>
+  [ 82] objcall 98 .............................. <inventext.getPropAt(i)>
+  [ 84] setlocal 4 .............................. p = inventext.getPropAt(i)
+  [ 86] getprop 425 ............................. <inventext>
+  [ 89] getlocal 3 .............................. <i>
+  [ 91] pusharglist 2 ........................... <inventext, i>
+  [ 93] objcall 31 .............................. <inventext[i]>
+  [ 95] setlocal 5 .............................. t = inventext[i]
+  [ 97] getlocal 1 .............................. <inven>
+  [ 99] getlocal 4 .............................. <p>
+  [101] pusharglist 2 ........................... <inven, p>
+  [103] objcall 31 .............................. <inven[p]>
+  [105] setlocal 6 .............................. inv = inven[p]
+  [107] getlocal 6 .............................. <inv>
+  [109] pusharglist 1 ........................... <inv>
+  [111] extcall 39 .............................. <voidp(inv)>
+  [113] jmpifz [126] ............................ if voidp(inv) then
+  [116] getlocal 5 .............................. <t>
+  [118] pushzero ................................ <0>
+  [119] pusharglistnoret 2 ...................... <t, 0>
+  [121] objcall 95 .............................. t.setVisible(0)
+  [123] jmp [162] ............................... next repeat
+  [126] getlocal 6 .............................. <inv>
+  [128] getobjprop 63 ........................... <inv.name>
+  [130] setlocal 7 .............................. nm = inv.name
+  [132] getlocal 7 .............................. <nm>
+  [134] pushsymb 404 ............................ <#table>
+  [137] eq ...................................... <nm = #table>
+  [138] jmpifz [144] ............................ if nm = #table then
+  [141] jmp [162] ............................... next repeat
+  [144] getlocal 5 .............................. <t>
+  [146] getlocal 6 .............................. <inv>
+  [148] getobjprop 63 ........................... <inv.name>
+  [150] pusharglistnoret 2 ...................... <t, inv.name>
+  [152] objcall 94 .............................. t.setText(inv.name)
+  [154] getlocal 5 .............................. <t>
+  [156] pushint8 1 .............................. <1>
+  [158] pusharglistnoret 2 ...................... <t, 1>
+  [160] objcall 95 .............................. t.setVisible(1)
+  [162] pushint8 1
+  [164] getlocal 3
+  [166] add
+  [167] setlocal 3
+  [169] endrepeat [ 67]
+  [171] getlocal 0 .............................. <buy>
+  [173] getobjprop 30 ........................... <buy.count>
+  [175] setlocal 2 .............................. ct = buy.count
+  [177] pushint8 1 .............................. <1>
+  [179] setlocal 3
+  [181] getlocal 3
+  [183] pushint8 3 .............................. <3>
+  [185] lteq
+  [186] jmpifz [246] ............................ repeat with i = 1 to 3
+  [189] getprop 424 ............................. <itembuttons>
+  [192] getlocal 3 .............................. <i>
+  [194] pusharglist 2 ........................... <itembuttons, i>
+  [196] objcall 31 .............................. <itembuttons[i]>
+  [198] setlocal 8 .............................. ib = itembuttons[i]
+  [200] getlocal 3 .............................. <i>
+  [202] getlocal 2 .............................. <ct>
+  [204] gt ...................................... <i > ct>
+  [205] jmpifz [222] ............................ if i > ct then
+  [208] getlocal 8 .............................. <ib>
+  [210] pusharglist 0 ........................... <>
+  [212] extcall 38 .............................. <VOID>
+  [214] pusharglistnoret 2 ...................... <ib, VOID>
+  [216] objcall 392 ............................. ib.setItem(VOID)
+  [219] jmp [237] ............................... next repeat
+  [222] getlocal 8 .............................. <ib>
+  [224] getlocal 0 .............................. <buy>
+  [226] getlocal 3 .............................. <i>
+  [228] pusharglist 2 ........................... <buy, i>
+  [230] objcall 31 .............................. <buy[i]>
+  [232] pusharglistnoret 2 ...................... <ib, buy[i]>
+  [234] objcall 392 ............................. ib.setItem(buy[i])
+  [237] pushint8 1
+  [239] getlocal 3
+  [241] add
+  [242] setlocal 3
+  [244] endrepeat [181]
+  [246] getlocal 0 .............................. <buy>
+  [248] getobjprop 30 ........................... <buy.count>
+  [250] pushzero ................................ <0>
+  [251] eq ...................................... <buy.count = 0>
+  [252] jmpifz [290] ............................ if buy.count = 0 then
+  [255] getprop 427 ............................. <continuebutton>
+  [258] pushint8 1 .............................. <1>
+  [260] pusharglistnoret 2 ...................... <continuebutton, 1>
+  [262] objcall 95 .............................. continuebutton.setVisible(1)
+  [264] getprop 427 ............................. <continuebutton>
+  [267] pushsymb 59 ............................. <#target>
+  [269] getprop 52 .............................. <mgr>
+  [271] pushsymb 60 ............................. <#handler>
+  [273] pushsymb 3 .............................. <#setMode>
+  [275] pushsymb 99 ............................. <#Args>
+  [277] pushsymb 23 ............................. <#play>
+  [279] pusharglist 6 ........................... <[#target: mgr, #handler: #setMode, #Args: #play]>
+  [281] pushproplist ............................ <[#target: mgr, #handler: #setMode, #Args: #play]>
+  [282] pusharglistnoret 2 ...................... <continuebutton, [#target: mgr, #handler: #setMode, #Args: #play]>
+  [284] objcall 61 .............................. continuebutton.setCallback([#target: mgr, #handler: #setMode, #Args: #play])
+  [286] pusharglistnoret 0 ...................... <>
+  [288] extcall 9 ............................... return 
+  [290] getprop 427 ............................. <continuebutton>
+  [293] pushzero ................................ <0>
+  [294] pusharglistnoret 2 ...................... <continuebutton, 0>
+  [296] objcall 95 .............................. continuebutton.setVisible(0)
+  [298] ret
+end
+
+on showDone me
+  [  0] ret
+end
+
+on enterMode me, previousMode, dat
+  [  0] getparam 2 .............................. <dat>
+  [  2] getobjprop 441 .......................... <dat.upgrades>
+  [  5] setprop 432 ............................. numUpgrades = dat.upgrades
+  [  8] getprop 64 .............................. <initialized>
+  [ 10] not ..................................... <not initialized>
+  [ 11] jmpifz [ 23] ............................ if not initialized then / else
+  [ 14] getparam 0 .............................. <me>
+  [ 16] pusharglistnoret 1 ...................... <me>
+  [ 18] objcall 1 ............................... me.init()
+  [ 20] jmp [ 29]
+  [ 23] getprop 54 .............................. <node>
+  [ 25] pusharglistnoret 1 ...................... <node>
+  [ 27] objcall 96 .............................. node.embody()
+  [ 29] getprop 54 .............................. <node>
+  [ 31] pusharglistnoret 1 ...................... <node>
+  [ 33] objcall 97 .............................. node.updateLocZ()
+  [ 35] getprop 54 .............................. <node>
+  [ 37] pushcons 11 ............................. <"mousetrap">
+  [ 39] pusharglist 2 ........................... <node, "mousetrap">
+  [ 41] objcall 31 .............................. <node["mousetrap"]>
+  [ 43] getparam 0 .............................. <me>
+  [ 45] pusharglistnoret 2 ...................... <node["mousetrap"], me>
+  [ 47] objcall 197 ............................. node["mousetrap"].addMouseListener(me)
+  [ 49] getprop 5 ............................... <game_mgr>
+  [ 51] pushint8 1 .............................. <1>
+  [ 53] pusharglistnoret 2 ...................... <game_mgr, 1>
+  [ 55] objcall 187 ............................. game_mgr.setPaused(1)
+  [ 57] getprop 83 .............................. <grp>
+  [ 59] pushint8 1 .............................. <1>
+  [ 61] pusharglistnoret 2 ...................... <grp, 1>
+  [ 63] objcall 95 .............................. grp.setVisible(1)
+  [ 65] getprop 54 .............................. <node>
+  [ 67] pushint8 1 .............................. <1>
+  [ 69] pusharglistnoret 2 ...................... <node, 1>
+  [ 71] objcall 95 .............................. node.setVisible(1)
+  [ 73] getparam 0 .............................. <me>
+  [ 75] pusharglistnoret 1 ...................... <me>
+  [ 77] objcall 420 ............................. me.getUpgrades()
+  [ 80] ret
+end
+
+on event me, sym
+  [  0] ret
+end
+
+on leaveMode me, nextMode
+  [  0] getprop 168 ............................. <timer>
+  [  2] pusharglistnoret 1 ...................... <timer>
+  [  4] objcall 86 .............................. timer.stop()
+  [  6] getprop 427 ............................. <continuebutton>
+  [  9] pusharglist 0 ........................... <>
+  [ 11] extcall 38 .............................. <VOID>
+  [ 13] pusharglistnoret 2 ...................... <continuebutton, VOID>
+  [ 15] objcall 61 .............................. continuebutton.setCallback(VOID)
+  [ 17] getprop 54 .............................. <node>
+  [ 19] pushcons 11 ............................. <"mousetrap">
+  [ 21] pusharglist 2 ........................... <node, "mousetrap">
+  [ 23] objcall 31 .............................. <node["mousetrap"]>
+  [ 25] getparam 0 .............................. <me>
+  [ 27] pusharglistnoret 2 ...................... <node["mousetrap"], me>
+  [ 29] objcall 200 ............................. node["mousetrap"].removeMouseListener(me)
+  [ 31] getprop 5 ............................... <game_mgr>
+  [ 33] pushzero ................................ <0>
+  [ 34] pusharglistnoret 2 ...................... <game_mgr, 0>
+  [ 36] objcall 187 ............................. game_mgr.setPaused(0)
+  [ 38] getprop 5 ............................... <game_mgr>
+  [ 40] getchainedprop 442 ...................... <game_mgr.upgradeButton>
+  [ 43] pushzero ................................ <0>
+  [ 44] pusharglistnoret 2 ...................... <game_mgr.upgradeButton, 0>
+  [ 46] objcall 95 .............................. game_mgr.upgradeButton.setVisible(0)
+  [ 48] getprop 54 .............................. <node>
+  [ 50] pushzero ................................ <0>
+  [ 51] pusharglistnoret 2 ...................... <node, 0>
+  [ 53] objcall 95 .............................. node.setVisible(0)
+  [ 55] getprop 54 .............................. <node>
+  [ 57] pusharglistnoret 1 ...................... <node>
+  [ 59] objcall 108 ............................. node.disembody()
+  [ 61] ret
+end

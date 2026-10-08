@@ -1,0 +1,330 @@
+property statue1, statue2, door, mgr, fadeSpeed, doorDelay, doorSpeed, doorStarted, statue2Started, doorDone, msCount, currentAlpha, alphadir, doorhome, doorstart, doorY, statuemems, currentMem, statueCover, done
+
+on new me, Args
+  [  0] getparam 1 .............................. <Args>
+  [  2] getobjprop 52 ........................... <Args.mgr>
+  [  4] setprop 52 .............................. mgr = Args.mgr
+  [  6] getparam 1 .............................. <Args>
+  [  8] getobjprop 378 .......................... <Args.statue1>
+  [ 11] setprop 378 ............................. statue1 = Args.statue1
+  [ 14] getparam 1 .............................. <Args>
+  [ 16] getobjprop 379 .......................... <Args.statue2>
+  [ 19] setprop 379 ............................. statue2 = Args.statue2
+  [ 22] getparam 1 .............................. <Args>
+  [ 24] getobjprop 380 .......................... <Args.door>
+  [ 27] setprop 380 ............................. door = Args.door
+  [ 30] getprop 380 ............................. <door>
+  [ 33] pusharglist 1 ........................... <door>
+  [ 35] objcall 160 ............................. <door.getLoc()>
+  [ 37] pushint8 2 .............................. <2>
+  [ 39] pusharglist 2 ........................... <door.getLoc(), 2>
+  [ 41] objcall 31 .............................. <door.getLoc()[2]>
+  [ 43] setprop 443 ............................. doorhome = door.getLoc()[2]
+  [ 46] getprop 443 ............................. <doorhome>
+  [ 49] pushint16 500 ........................... <500>
+  [ 52] sub ..................................... <doorhome - 500>
+  [ 53] setprop 444 ............................. doorstart = doorhome - 500
+  [ 56] pusharglist 0 ........................... <[]>
+  [ 58] pushlist ................................ <[]>
+  [ 59] setprop 445 ............................. statuemems = []
+  [ 62] pushint8 1 .............................. <1>
+  [ 64] setlocal 0
+  [ 66] getlocal 0
+  [ 68] pushint8 7 .............................. <7>
+  [ 70] lteq
+  [ 71] jmpifz [101] ............................ repeat with i = 1 to 7
+  [ 74] getprop 445 ............................. <statuemems>
+  [ 77] pushcons 0 .............................. <"statue_">
+  [ 79] getlocal 0 .............................. <i>
+  [ 81] joinstr ................................. <"statue_" & i>
+  [ 82] pushcons 1 .............................. <"gfx.screens">
+  [ 84] pusharglist 2 ........................... <"statue_" & i, "gfx.screens">
+  [ 86] extcall 75 .............................. <member("statue_" & i, "gfx.screens")>
+  [ 88] pusharglistnoret 2 ...................... <statuemems, member("statue_" & i, "gfx.screens")>
+  [ 90] objcall 121 ............................. statuemems.add(member("statue_" & i, "gfx.screens"))
+  [ 92] pushint8 1
+  [ 94] getlocal 0
+  [ 96] add
+  [ 97] setlocal 0
+  [ 99] endrepeat [ 66]
+  [101] getparam 1 .............................. <Args>
+  [103] getobjprop 118 .......................... <Args.statueCover>
+  [105] setprop 118 ............................. statueCover = Args.statueCover
+  [107] pushint16 200 ........................... <200>
+  [110] setprop 446 ............................. doorSpeed = 200
+  [113] pushint16 1000 .......................... <1000>
+  [116] setprop 447 ............................. doorDelay = 1000
+  [119] pushint8 5 .............................. <5>
+  [121] setprop 448 ............................. fadeSpeed = 5
+  [124] getparam 0 .............................. <me>
+  [126] pusharglistnoret 1 ...................... <me>
+  [128] extcall 9 ............................... return me
+  [130] ret
+end
+
+on destroy me
+  [  0] getparam 0 .............................. <me>
+  [  2] pushsymb 328 ............................ <#exitFrame>
+  [  5] pushcons 2 .............................. <"titles">
+  [  7] pusharglistnoret 3 ...................... <me, #exitFrame, "titles">
+  [  9] extcall 301 ............................. unsubscribe(me, #exitFrame, "titles")
+  [ 12] pusharglist 0 ........................... <>
+  [ 14] extcall 38 .............................. <VOID>
+  [ 16] setlocal 0 .............................. statues = VOID
+  [ 18] pusharglist 0 ........................... <>
+  [ 20] extcall 38 .............................. <VOID>
+  [ 22] setprop 380 ............................. door = VOID
+  [ 25] pusharglist 0 ........................... <>
+  [ 27] extcall 38 .............................. <VOID>
+  [ 29] setprop 52 .............................. mgr = VOID
+  [ 31] ret
+end
+
+on start me
+  [  0] pushcons 3 .............................. <"sfx_goddess_appear">
+  [  2] pusharglistnoret 1 ...................... <"sfx_goddess_appear">
+  [  4] extcall 176 ............................. SndSFX("sfx_goddess_appear")
+  [  6] getparam 0 .............................. <me>
+  [  8] pushsymb 328 ............................ <#exitFrame>
+  [ 11] pushcons 2 .............................. <"titles">
+  [ 13] pusharglistnoret 3 ...................... <me, #exitFrame, "titles">
+  [ 15] extcall 335 ............................. subscribe(me, #exitFrame, "titles")
+  [ 18] getprop 380 ............................. <door>
+  [ 21] getprop 444 ............................. <doorstart>
+  [ 24] pusharglistnoret 2 ...................... <door, doorstart>
+  [ 26] objcall 173 ............................. door.setY(doorstart)
+  [ 28] getprop 380 ............................. <door>
+  [ 31] pushint8 1 .............................. <1>
+  [ 33] pusharglistnoret 2 ...................... <door, 1>
+  [ 35] objcall 95 .............................. door.setVisible(1)
+  [ 37] getprop 378 ............................. <statue1>
+  [ 40] pushint8 1 .............................. <1>
+  [ 42] pusharglistnoret 2 ...................... <statue1, 1>
+  [ 44] objcall 95 .............................. statue1.setVisible(1)
+  [ 46] getprop 378 ............................. <statue1>
+  [ 49] pushzero ................................ <0>
+  [ 50] pusharglistnoret 2 ...................... <statue1, 0>
+  [ 52] objcall 174 ............................. statue1.setAlpha(0)
+  [ 54] getprop 379 ............................. <statue2>
+  [ 57] pushint8 1 .............................. <1>
+  [ 59] pusharglistnoret 2 ...................... <statue2, 1>
+  [ 61] objcall 95 .............................. statue2.setVisible(1)
+  [ 63] getprop 379 ............................. <statue2>
+  [ 66] pushzero ................................ <0>
+  [ 67] pusharglistnoret 2 ...................... <statue2, 0>
+  [ 69] objcall 174 ............................. statue2.setAlpha(0)
+  [ 71] getprop 378 ............................. <statue1>
+  [ 74] getprop 445 ............................. <statuemems>
+  [ 77] pushint8 1 .............................. <1>
+  [ 79] pusharglist 2 ........................... <statuemems, 1>
+  [ 81] objcall 31 .............................. <statuemems[1]>
+  [ 83] pusharglistnoret 2 ...................... <statue1, statuemems[1]>
+  [ 85] objcall 172 ............................. statue1.setMember(statuemems[1])
+  [ 87] getprop 379 ............................. <statue2>
+  [ 90] getprop 445 ............................. <statuemems>
+  [ 93] pushint8 3 .............................. <3>
+  [ 95] pusharglist 2 ........................... <statuemems, 3>
+  [ 97] objcall 31 .............................. <statuemems[3]>
+  [ 99] pusharglistnoret 2 ...................... <statue2, statuemems[3]>
+  [101] objcall 172 ............................. statue2.setMember(statuemems[3])
+  [103] pushint8 3 .............................. <3>
+  [105] setprop 449 ............................. currentMem = 3
+  [108] pushint8 1 .............................. <1>
+  [110] setprop 450 ............................. currentAlpha = 1
+  [113] pushint8 1 .............................. <1>
+  [115] setprop 451 ............................. alphadir = 1
+  [118] pushzero ................................ <0>
+  [119] setprop 452 ............................. statue2Started = 0
+  [122] pushzero ................................ <0>
+  [123] setprop 453 ............................. msCount = 0
+  [126] pushzero ................................ <0>
+  [127] setprop 454 ............................. done = 0
+  [130] ret
+end
+
+on stop me
+  [  0] pushint8 1 .............................. <1>
+  [  2] setprop 454 ............................. done = 1
+  [  5] getparam 0 .............................. <me>
+  [  7] pushsymb 328 ............................ <#exitFrame>
+  [ 10] pushcons 2 .............................. <"titles">
+  [ 12] pusharglistnoret 3 ...................... <me, #exitFrame, "titles">
+  [ 14] extcall 301 ............................. unsubscribe(me, #exitFrame, "titles")
+  [ 17] getprop 380 ............................. <door>
+  [ 20] pushzero ................................ <0>
+  [ 21] pusharglistnoret 2 ...................... <door, 0>
+  [ 23] objcall 68 .............................. door.setZOffset(0)
+  [ 25] getprop 52 .............................. <mgr>
+  [ 27] pusharglistnoret 1 ...................... <mgr>
+  [ 29] objcall 369 ............................. mgr.statueDone()
+  [ 32] ret
+end
+
+on exitFrame me, ms
+  [  0] getprop 454 ............................. <done>
+  [  3] jmpifz [ 10] ............................ if done then
+  [  6] pusharglistnoret 0 ...................... <>
+  [  8] extcall 9 ............................... return 
+  [ 10] getprop 455 ............................. <doorDone>
+  [ 13] jmpifz [ 86] ............................ if doorDone then
+  [ 16] pushint8 100 ............................ <100>
+  [ 18] getprop 450 ............................. <currentAlpha>
+  [ 21] getprop 448 ............................. <fadeSpeed>
+  [ 24] add ..................................... <currentAlpha + fadeSpeed>
+  [ 25] pusharglist 2 ........................... <100, currentAlpha + fadeSpeed>
+  [ 27] extcall 191 ............................. <min(100, currentAlpha + fadeSpeed)>
+  [ 29] setprop 450 ............................. currentAlpha = min(100, currentAlpha + fadeSpeed)
+  [ 32] getprop 118 ............................. <statueCover>
+  [ 34] getprop 450 ............................. <currentAlpha>
+  [ 37] pusharglistnoret 2 ...................... <statueCover, currentAlpha>
+  [ 39] objcall 174 ............................. statueCover.setAlpha(currentAlpha)
+  [ 41] getprop 378 ............................. <statue1>
+  [ 44] pushint8 100 ............................ <100>
+  [ 46] getprop 450 ............................. <currentAlpha>
+  [ 49] sub ..................................... <100 - currentAlpha>
+  [ 50] pusharglistnoret 2 ...................... <statue1, 100 - currentAlpha>
+  [ 52] objcall 174 ............................. statue1.setAlpha(100 - currentAlpha)
+  [ 54] getprop 379 ............................. <statue2>
+  [ 57] pushint8 100 ............................ <100>
+  [ 59] getprop 450 ............................. <currentAlpha>
+  [ 62] sub ..................................... <100 - currentAlpha>
+  [ 63] pusharglistnoret 2 ...................... <statue2, 100 - currentAlpha>
+  [ 65] objcall 174 ............................. statue2.setAlpha(100 - currentAlpha)
+  [ 67] getprop 450 ............................. <currentAlpha>
+  [ 70] pushint8 100 ............................ <100>
+  [ 72] eq ...................................... <currentAlpha = 100>
+  [ 73] jmpifz [ 82] ............................ if currentAlpha = 100 then
+  [ 76] getparam 0 .............................. <me>
+  [ 78] pusharglistnoret 1 ...................... <me>
+  [ 80] objcall 86 .............................. me.stop()
+  [ 82] pusharglistnoret 0 ...................... <>
+  [ 84] extcall 9 ............................... return 
+  [ 86] getprop 378 ............................. <statue1>
+  [ 89] getprop 450 ............................. <currentAlpha>
+  [ 92] pusharglistnoret 2 ...................... <statue1, currentAlpha>
+  [ 94] objcall 174 ............................. statue1.setAlpha(currentAlpha)
+  [ 96] getprop 452 ............................. <statue2Started>
+  [ 99] jmpifz [115] ............................ if statue2Started then
+  [102] getprop 379 ............................. <statue2>
+  [105] pushint8 100 ............................ <100>
+  [107] getprop 450 ............................. <currentAlpha>
+  [110] sub ..................................... <100 - currentAlpha>
+  [111] pusharglistnoret 2 ...................... <statue2, 100 - currentAlpha>
+  [113] objcall 174 ............................. statue2.setAlpha(100 - currentAlpha)
+  [115] pushzero ................................ <0>
+  [116] getprop 450 ............................. <currentAlpha>
+  [119] getprop 451 ............................. <alphadir>
+  [122] getprop 448 ............................. <fadeSpeed>
+  [125] mul ..................................... <alphadir * fadeSpeed>
+  [126] add ..................................... <currentAlpha + (alphadir * fadeSpeed)>
+  [127] pushint8 100 ............................ <100>
+  [129] pusharglist 2 ........................... <currentAlpha + (alphadir * fadeSpeed), 100>
+  [131] extcall 191 ............................. <min(currentAlpha + (alphadir * fadeSpeed), 100)>
+  [133] pusharglist 2 ........................... <0, min(currentAlpha + (alphadir * fadeSpeed), 100)>
+  [135] extcall 190 ............................. <max(0, min(currentAlpha + (alphadir * fadeSpeed), 100))>
+  [137] setprop 450 ............................. currentAlpha = max(0, min(currentAlpha + (alphadir * fadeSpeed), 100))
+  [140] getprop 450 ............................. <currentAlpha>
+  [143] pushzero ................................ <0>
+  [144] eq ...................................... <currentAlpha = 0>
+  [145] getprop 450 ............................. <currentAlpha>
+  [148] pushint8 100 ............................ <100>
+  [150] eq ...................................... <currentAlpha = 100>
+  [151] or ...................................... <(currentAlpha = 0) or (currentAlpha = 100)>
+  [152] jmpifz [239] ............................ if (currentAlpha = 0) or (currentAlpha = 100) then / else
+  [155] getprop 451 ............................. <alphadir>
+  [158] inv ..................................... <-alphadir>
+  [159] setprop 451 ............................. alphadir = -alphadir
+  [162] getprop 452 ............................. <statue2Started>
+  [165] not ..................................... <not statue2Started>
+  [166] jmpifz [174] ............................ if not statue2Started then
+  [169] pushint8 1 .............................. <1>
+  [171] setprop 452 ............................. statue2Started = 1
+  [174] getprop 450 ............................. <currentAlpha>
+  [177] pushzero ................................ <0>
+  [178] eq ...................................... <currentAlpha = 0>
+  [179] jmpifz [219] ............................ if currentAlpha = 0 then
+  [182] getprop 456 ............................. <doorStarted>
+  [185] not ..................................... <not doorStarted>
+  [186] jmpifz [219] ............................ if not doorStarted then
+  [189] getprop 449 ............................. <currentMem>
+  [192] pushint8 7 .............................. <7>
+  [194] lt ...................................... <currentMem < 7>
+  [195] jmpifz [210] ............................ if currentMem < 7 then / else
+  [198] getprop 449 ............................. <currentMem>
+  [201] pushint8 1 .............................. <1>
+  [203] add ..................................... <currentMem + 1>
+  [204] setprop 449 ............................. currentMem = currentMem + 1
+  [207] jmp [219]
+  [210] pushint8 1 .............................. <1>
+  [212] setprop 456 ............................. doorStarted = 1
+  [215] pushzero ................................ <0>
+  [216] setprop 453 ............................. msCount = 0
+  [219] getprop 378 ............................. <statue1>
+  [222] getprop 445 ............................. <statuemems>
+  [225] getprop 449 ............................. <currentMem>
+  [228] pusharglist 2 ........................... <statuemems, currentMem>
+  [230] objcall 31 .............................. <statuemems[currentMem]>
+  [232] pusharglistnoret 2 ...................... <statue1, statuemems[currentMem]>
+  [234] objcall 172 ............................. statue1.setMember(statuemems[currentMem])
+  [236] jmp [268]
+  [239] getprop 379 ............................. <statue2>
+  [242] getprop 445 ............................. <statuemems>
+  [245] getprop 445 ............................. <statuemems>
+  [248] getobjprop 30 ........................... <statuemems.count>
+  [250] getprop 449 ............................. <currentMem>
+  [253] pushint8 1 .............................. <1>
+  [255] add ..................................... <currentMem + 1>
+  [256] pusharglist 2 ........................... <statuemems.count, currentMem + 1>
+  [258] extcall 191 ............................. <min(statuemems.count, currentMem + 1)>
+  [260] pusharglist 2 ........................... <statuemems, min(statuemems.count, currentMem + 1)>
+  [262] objcall 31 .............................. <statuemems[min(statuemems.count, currentMem + 1)]>
+  [264] pusharglistnoret 2 ...................... <statue2, statuemems[min(statuemems.count, currentMem + 1)]>
+  [266] objcall 172 ............................. statue2.setMember(statuemems[min(statuemems.count, currentMem + 1)])
+  [268] getprop 456 ............................. <doorStarted>
+  [271] not ..................................... <not doorStarted>
+  [272] jmpifz [279] ............................ if not doorStarted then
+  [275] pusharglistnoret 0 ...................... <>
+  [277] extcall 9 ............................... return 
+  [279] getprop 455 ............................. <doorDone>
+  [282] jmpifz [289] ............................ if doorDone then
+  [285] pusharglistnoret 0 ...................... <>
+  [287] extcall 9 ............................... return 
+  [289] getprop 453 ............................. <msCount>
+  [292] getparam 1 .............................. <ms>
+  [294] add ..................................... <msCount + ms>
+  [295] setprop 453 ............................. msCount = msCount + ms
+  [298] getprop 443 ............................. <doorhome>
+  [301] getprop 444 ............................. <doorstart>
+  [304] getprop 446 ............................. <doorSpeed>
+  [307] getprop 453 ............................. <msCount>
+  [310] mul ..................................... <doorSpeed * msCount>
+  [311] pushcons 4 .............................. <0.001>
+  [313] mul ..................................... <doorSpeed * msCount * 0.001>
+  [314] pusharglist 1 ........................... <doorSpeed * msCount * 0.001>
+  [316] extcall 458 ............................. <integer(doorSpeed * msCount * 0.001)>
+  [319] add ..................................... <doorstart + integer(doorSpeed * msCount * 0.001)>
+  [320] pusharglist 2 ........................... <doorhome, doorstart + integer(doorSpeed * msCount * 0.001)>
+  [322] extcall 191 ............................. <min(doorhome, doorstart + integer(doorSpeed * msCount * 0.001))>
+  [324] setprop 457 ............................. doorY = min(doorhome, doorstart + integer(doorSpeed * msCount * 0.001))
+  [327] getprop 457 ............................. <doorY>
+  [330] getprop 443 ............................. <doorhome>
+  [333] eq ...................................... <doorY = doorhome>
+  [334] jmpifz [361] ............................ if doorY = doorhome then
+  [337] pushint8 1 .............................. <1>
+  [339] setprop 455 ............................. doorDone = 1
+  [342] pushzero ................................ <0>
+  [343] setprop 450 ............................. currentAlpha = 0
+  [346] getprop 118 ............................. <statueCover>
+  [348] pushzero ................................ <0>
+  [349] pusharglistnoret 2 ...................... <statueCover, 0>
+  [351] objcall 174 ............................. statueCover.setAlpha(0)
+  [353] getprop 118 ............................. <statueCover>
+  [355] pushint8 1 .............................. <1>
+  [357] pusharglistnoret 2 ...................... <statueCover, 1>
+  [359] objcall 95 .............................. statueCover.setVisible(1)
+  [361] getprop 380 ............................. <door>
+  [364] getprop 457 ............................. <doorY>
+  [367] pusharglistnoret 2 ...................... <door, doorY>
+  [369] objcall 173 ............................. door.setY(doorY)
+  [371] ret
+end

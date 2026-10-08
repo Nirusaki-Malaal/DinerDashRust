@@ -1,0 +1,1037 @@
+property save_mgr, node_mgr, okbutton, oklocs, slotbuttons, fields, buttons, node, grp, name, selectedSlot, selectMem, playerList, colors, mgr, initialized, editing, timer, cursorChar, editText, textColors, nextMode
+
+on new me, m
+  [  0] getparam 1 .............................. <m>
+  [  2] setprop 52 .............................. mgr = m
+  [  4] getparam 1 .............................. <m>
+  [  6] getchainedprop 4 ........................ <m.glob>
+  [  8] getchainedprop 6 ........................ <m.glob.managers>
+  [ 10] getobjprop 54 ........................... <m.glob.managers.node>
+  [ 12] setprop 53 .............................. node_mgr = m.glob.managers.node
+  [ 14] getparam 1 .............................. <m>
+  [ 16] getchainedprop 4 ........................ <m.glob>
+  [ 18] getchainedprop 6 ........................ <m.glob.managers>
+  [ 20] getobjprop 56 ........................... <m.glob.managers.savegame>
+  [ 22] setprop 55 .............................. save_mgr = m.glob.managers.savegame
+  [ 24] getprop 53 .............................. <node_mgr>
+  [ 26] pushcons 0 .............................. <"titles">
+  [ 28] pusharglist 2 ........................... <node_mgr, "titles">
+  [ 30] objcall 65 .............................. <node_mgr.getGroup("titles")>
+  [ 32] setprop 83 .............................. grp = node_mgr.getGroup("titles")
+  [ 34] pushsymb 74 ............................. <#normal>
+  [ 36] pushint16 255 ........................... <255>
+  [ 39] pushint16 255 ........................... <255>
+  [ 42] pushint16 255 ........................... <255>
+  [ 45] pusharglist 3 ........................... <255, 255, 255>
+  [ 47] extcall 360 ............................. <rgb(255, 255, 255)>
+  [ 50] pushsymb 469 ............................ <#edit>
+  [ 53] pushint16 255 ........................... <255>
+  [ 56] pushint16 255 ........................... <255>
+  [ 59] pushint16 128 ........................... <128>
+  [ 62] pusharglist 3 ........................... <255, 255, 128>
+  [ 64] extcall 360 ............................. <rgb(255, 255, 128)>
+  [ 67] pushsymb 470 ............................ <#wrong>
+  [ 70] pushint16 255 ........................... <255>
+  [ 73] pushint8 84 ............................. <84>
+  [ 75] pushint8 84 ............................. <84>
+  [ 77] pusharglist 3 ........................... <255, 84, 84>
+  [ 79] extcall 360 ............................. <rgb(255, 84, 84)>
+  [ 82] pushsymb 471 ............................ <#selected>
+  [ 85] pushint16 128 ........................... <128>
+  [ 88] pushint16 255 ........................... <255>
+  [ 91] pushint16 255 ........................... <255>
+  [ 94] pusharglist 3 ........................... <128, 255, 255>
+  [ 96] extcall 360 ............................. <rgb(128, 255, 255)>
+  [ 99] pusharglist 8 ........................... <[#normal: rgb(255, 255, 255), #edit: rgb(255, 255, 128), #wrong: rgb(255, 84, 84), #selected: rgb(128, 255, 255)]>
+  [101] pushproplist ............................ <[#normal: rgb(255, 255, 255), #edit: rgb(255, 255, 128), #wrong: rgb(255, 84, 84), #selected: rgb(128, 255, 255)]>
+  [102] setprop 468 ............................. textColors = [#normal: rgb(255, 255, 255), #edit: rgb(255, 255, 128), #wrong: rgb(255, 84, 84), #selected: rgb(128, 255, 255)]
+  [105] pushsymb 17 ............................. <#login>
+  [107] setprop 63 .............................. name = #login
+  [109] getparam 0 .............................. <me>
+  [111] pusharglistnoret 1 ...................... <me>
+  [113] objcall 1 ............................... me.init()
+  [115] getparam 0 .............................. <me>
+  [117] pusharglistnoret 1 ...................... <me>
+  [119] extcall 9 ............................... return me
+  [121] ret
+end
+
+on init me
+  [  0] getprop 64 .............................. <initialized>
+  [  2] jmpifz [  9] ............................ if initialized then
+  [  5] pusharglistnoret 0 ...................... <>
+  [  7] extcall 9 ............................... return 
+  [  9] pushint8 1 .............................. <1>
+  [ 11] setprop 64 .............................. initialized = 1
+  [ 13] getprop 83 .............................. <grp>
+  [ 15] pushcons 1 .............................. <"login">
+  [ 17] pusharglist 1 ........................... <"login">
+  [ 19] extcall 66 .............................. <getNodeData("login")>
+  [ 21] pusharglist 2 ........................... <grp, getNodeData("login")>
+  [ 23] objcall 67 .............................. <grp.newNode(getNodeData("login"))>
+  [ 25] setprop 54 .............................. node = grp.newNode(getNodeData("login"))
+  [ 27] getprop 54 .............................. <node>
+  [ 29] pushzero ................................ <0>
+  [ 30] pusharglistnoret 2 ...................... <node, 0>
+  [ 32] objcall 95 .............................. node.setVisible(0)
+  [ 34] pushcons 2 .............................. <"login_selected">
+  [ 36] pushcons 3 .............................. <"gfx.screens">
+  [ 38] pusharglist 2 ........................... <"login_selected", "gfx.screens">
+  [ 40] extcall 75 .............................. <member("login_selected", "gfx.screens")>
+  [ 42] setprop 472 ............................. selectMem = member("login_selected", "gfx.screens")
+  [ 45] pushsymb 74 ............................. <#normal>
+  [ 47] pushcons 4 .............................. <"login_normal">
+  [ 49] pushcons 3 .............................. <"gfx.screens">
+  [ 51] pusharglist 2 ........................... <"login_normal", "gfx.screens">
+  [ 53] extcall 75 .............................. <member("login_normal", "gfx.screens")>
+  [ 55] pushsymb 72 ............................. <#rollover>
+  [ 57] pushcons 5 .............................. <"login_rollover">
+  [ 59] pushcons 3 .............................. <"gfx.screens">
+  [ 61] pusharglist 2 ........................... <"login_rollover", "gfx.screens">
+  [ 63] extcall 75 .............................. <member("login_rollover", "gfx.screens")>
+  [ 65] pushsymb 214 ............................ <#down>
+  [ 67] getprop 472 ............................. <selectMem>
+  [ 70] pusharglist 6 ........................... <[#normal: member("login_normal", "gfx.screens"), #rollover: member("login_rollover", "gfx.screens"), #down: selectMem]>
+  [ 72] pushproplist ............................ <[#normal: member("login_normal", "gfx.screens"), #rollover: member("login_rollover", "gfx.screens"), #down: selectMem]>
+  [ 73] setlocal 0 .............................. buttonmems = [#normal: member("login_normal", "gfx.screens"), #rollover: member("login_rollover", "gfx.screens"), #down: selectMem]
+  [ 75] pusharglist 0 ........................... <[]>
+  [ 77] pushlist ................................ <[]>
+  [ 78] setlocal 1 .............................. boxes = []
+  [ 80] pusharglist 0 ........................... <[]>
+  [ 82] pushlist ................................ <[]>
+  [ 83] setprop 473 ............................. oklocs = []
+  [ 86] pusharglist 0 ........................... <[]>
+  [ 88] pushlist ................................ <[]>
+  [ 89] setprop 474 ............................. fields = []
+  [ 92] pusharglist 0 ........................... <[]>
+  [ 94] pushlist ................................ <[]>
+  [ 95] setprop 475 ............................. slotbuttons = []
+  [ 98] pushsymb 59 ............................. <#target>
+  [100] getparam 0 .............................. <me>
+  [102] pushsymb 60 ............................. <#handler>
+  [104] pushsymb 460 ............................ <#selectSlot>
+  [107] pusharglist 4 ........................... <[#target: me, #handler: #selectSlot]>
+  [109] pushproplist ............................ <[#target: me, #handler: #selectSlot]>
+  [110] setlocal 2 .............................. cb = [#target: me, #handler: #selectSlot]
+  [112] pushint8 1 .............................. <1>
+  [114] setlocal 3
+  [116] getlocal 3
+  [118] pushint8 10 ............................. <10>
+  [120] lteq
+  [121] jmpifz [218] ............................ repeat with i = 1 to 10
+  [124] getprop 473 ............................. <oklocs>
+  [127] getprop 54 .............................. <node>
+  [129] pushcons 6 .............................. <"ok_">
+  [131] getlocal 3 .............................. <i>
+  [133] joinstr ................................. <"ok_" & i>
+  [134] pusharglist 2 ........................... <node, "ok_" & i>
+  [136] objcall 31 .............................. <node["ok_" & i]>
+  [138] pusharglist 1 ........................... <node["ok_" & i]>
+  [140] objcall 160 ............................. <node["ok_" & i].getLoc()>
+  [142] pusharglistnoret 2 ...................... <oklocs, node["ok_" & i].getLoc()>
+  [144] objcall 121 ............................. oklocs.add(node["ok_" & i].getLoc())
+  [146] getlocal 2 .............................. <cb>
+  [148] pushsymb 99 ............................. <#Args>
+  [150] getlocal 3 .............................. <i>
+  [152] pusharglistnoret 3 ...................... <cb, #Args, i>
+  [154] objcall 34 .............................. cb[#Args] = i
+  [156] getprop 475 ............................. <slotbuttons>
+  [159] pushsymb 54 ............................. <#node>
+  [161] getprop 54 .............................. <node>
+  [163] pushcons 7 .............................. <"box_">
+  [165] getlocal 3 .............................. <i>
+  [167] joinstr ................................. <"box_" & i>
+  [168] pusharglist 2 ........................... <node, "box_" & i>
+  [170] objcall 31 .............................. <node["box_" & i]>
+  [172] pushsymb 77 ............................. <#members>
+  [174] getlocal 0 .............................. <buttonmems>
+  [176] pushsymb 181 ............................ <#callback>
+  [178] getlocal 2 .............................. <cb>
+  [180] pusharglist 6 ........................... <[#node: node["box_" & i], #members: buttonmems, #callback: cb]>
+  [182] pushproplist ............................ <[#node: node["box_" & i], #members: buttonmems, #callback: cb]>
+  [183] pusharglist 1 ........................... <[#node: node["box_" & i], #members: buttonmems, #callback: cb]>
+  [185] extcall 76 .............................. <newButton([#node: node["box_" & i], #members: buttonmems, #callback: cb])>
+  [187] pusharglistnoret 2 ...................... <slotbuttons, newButton([#node: node["box_" & i], #members: buttonmems, #callback: cb])>
+  [189] objcall 121 ............................. slotbuttons.add(newButton([#node: node["box_" & i], #members: buttonmems, #callback: cb]))
+  [191] getprop 474 ............................. <fields>
+  [194] getprop 54 .............................. <node>
+  [196] pushcons 8 .............................. <"text_">
+  [198] getlocal 3 .............................. <i>
+  [200] joinstr ................................. <"text_" & i>
+  [201] pusharglist 2 ........................... <node, "text_" & i>
+  [203] objcall 31 .............................. <node["text_" & i]>
+  [205] pusharglistnoret 2 ...................... <fields, node["text_" & i]>
+  [207] objcall 121 ............................. fields.add(node["text_" & i])
+  [209] pushint8 1
+  [211] getlocal 3
+  [213] add
+  [214] setlocal 3
+  [216] endrepeat [116]
+  [218] pusharglist 0 ........................... <[:]>
+  [220] pushproplist ............................ <[:]>
+  [221] setprop 71 .............................. buttons = [:]
+  [223] pushcons 9 .............................. <"ok">
+  [225] pushcons 10 ............................. <"cancel">
+  [227] pushcons 11 ............................. <"delete">
+  [229] pushcons 12 ............................. <"play">
+  [231] pusharglist 4 ........................... <["ok", "cancel", "delete", "play"]>
+  [233] pushlist ................................ <["ok", "cancel", "delete", "play"]>
+  [234] peek 0
+  [236] pusharglist 1
+  [238] extcall 30
+  [240] pushint8 1
+  [242] peek 0
+  [244] peek 2
+  [246] lteq
+  [247] jmpifz [362] ............................ repeat with i in ["ok", "cancel", "delete", "play"]
+  [250] peek 2
+  [252] peek 1
+  [254] pusharglist 2
+  [256] extcall 31
+  [258] setlocal 3
+  [260] pushsymb 74 ............................. <#normal>
+  [262] pushcons 13 ............................. <"login_">
+  [264] getlocal 3 .............................. <i>
+  [266] joinstr ................................. <"login_" & i>
+  [267] pushcons 3 .............................. <"gfx.screens">
+  [269] pusharglist 2 ........................... <"login_" & i, "gfx.screens">
+  [271] extcall 75 .............................. <member("login_" & i, "gfx.screens")>
+  [273] pushsymb 72 ............................. <#rollover>
+  [275] pushcons 13 ............................. <"login_">
+  [277] getlocal 3 .............................. <i>
+  [279] joinstr ................................. <"login_" & i>
+  [280] pushcons 14 ............................. <"_up">
+  [282] joinstr ................................. <"login_" & i & "_up">
+  [283] pushcons 3 .............................. <"gfx.screens">
+  [285] pusharglist 2 ........................... <"login_" & i & "_up", "gfx.screens">
+  [287] extcall 75 .............................. <member("login_" & i & "_up", "gfx.screens")>
+  [289] pusharglist 4 ........................... <[#normal: member("login_" & i, "gfx.screens"), #rollover: member("login_" & i & "_up", "gfx.screens")]>
+  [291] pushproplist ............................ <[#normal: member("login_" & i, "gfx.screens"), #rollover: member("login_" & i & "_up", "gfx.screens")]>
+  [292] setlocal 4 .............................. mems = [#normal: member("login_" & i, "gfx.screens"), #rollover: member("login_" & i & "_up", "gfx.screens")]
+  [294] getprop 71 .............................. <buttons>
+  [296] getlocal 3 .............................. <i>
+  [298] pusharglist 1 ........................... <i>
+  [300] extcall 263 ............................. <symbol(i)>
+  [303] pushsymb 54 ............................. <#node>
+  [305] getprop 54 .............................. <node>
+  [307] getlocal 3 .............................. <i>
+  [309] pusharglist 1 ........................... <i>
+  [311] extcall 33 .............................. <string(i)>
+  [313] pusharglist 2 ........................... <node, string(i)>
+  [315] objcall 31 .............................. <node[string(i)]>
+  [317] pushsymb 77 ............................. <#members>
+  [319] getlocal 4 .............................. <mems>
+  [321] pushsymb 181 ............................ <#callback>
+  [323] pushsymb 59 ............................. <#target>
+  [325] getparam 0 .............................. <me>
+  [327] pushsymb 60 ............................. <#handler>
+  [329] pushcons 15 ............................. <"click">
+  [331] getlocal 3 .............................. <i>
+  [333] joinstr ................................. <"click" & i>
+  [334] pusharglist 1 ........................... <"click" & i>
+  [336] extcall 263 ............................. <symbol("click" & i)>
+  [339] pushsymb 99 ............................. <#Args>
+  [341] getlocal 3 .............................. <i>
+  [343] pusharglist 6 ........................... <[#target: me, #handler: symbol("click" & i), #Args: i]>
+  [345] pushproplist ............................ <[#target: me, #handler: symbol("click" & i), #Args: i]>
+  [346] pusharglist 6 ........................... <[#node: node[string(i)], #members: mems, #callback: [#target: me, #handler: symbol("click" & i), #Args: i]]>
+  [348] pushproplist ............................ <[#node: node[string(i)], #members: mems, #callback: [#target: me, #handler: symbol("click" & i), #Args: i]]>
+  [349] pusharglist 1 ........................... <[#node: node[string(i)], #members: mems, #callback: [#target: me, #handler: symbol("click" & i), #Args: i]]>
+  [351] extcall 76 .............................. <newButton([#node: node[string(i)], #members: mems, #callback: [#target: me, #handler: symbol("click" & i), #Args: i]])>
+  [353] pusharglistnoret 3 ...................... <buttons, symbol(i), newButton([#node: node[string(i)], #members: mems, #callback: [#target: me, #handler: symbol("click" & i), #Args: i]])>
+  [355] objcall 34 .............................. buttons[symbol(i)] = newButton([#node: node[string(i)], #members: mems, #callback: [#target: me, #handler: symbol("click" & i), #Args: i]])
+  [357] pushint8 1
+  [359] add
+  [360] endrepeat [242]
+  [362] pop 3
+  [364] getprop 71 .............................. <buttons>
+  [366] getchainedprop 317 ...................... <buttons.Ok>
+  [369] pushzero ................................ <0>
+  [370] pushzero ................................ <0>
+  [371] pusharglist 2 ........................... <0, 0>
+  [373] extcall 101 ............................. <point(0, 0)>
+  [375] pusharglistnoret 2 ...................... <buttons.Ok, point(0, 0)>
+  [377] objcall 102 ............................. buttons.Ok.setLoc(point(0, 0))
+  [379] getprop 71 .............................. <buttons>
+  [381] getchainedprop 317 ...................... <buttons.Ok>
+  [384] pushzero ................................ <0>
+  [385] pusharglistnoret 2 ...................... <buttons.Ok, 0>
+  [387] objcall 95 .............................. buttons.Ok.setVisible(0)
+  [389] pushcons 16 ............................. <"timeout">
+  [391] pusharglist 1 ........................... <"timeout">
+  [393] extcall 32 .............................. <script("timeout")>
+  [395] pusharglist 1 ........................... <script("timeout")>
+  [397] objcall 0 ............................... <script("timeout").new()>
+  [399] setprop 168 ............................. timer = script("timeout").new()
+  [401] getprop 168 ............................. <timer>
+  [403] pushint16 300 ........................... <300>
+  [406] pusharglistnoret 2 ...................... <timer, 300>
+  [408] objcall 91 .............................. timer.setPeriod(300)
+  [410] getprop 168 ............................. <timer>
+  [412] pushcons 0 .............................. <"titles">
+  [414] pusharglistnoret 2 ...................... <timer, "titles">
+  [416] objcall 58 .............................. timer.setGroup("titles")
+  [418] getprop 168 ............................. <timer>
+  [420] pushsymb 59 ............................. <#target>
+  [422] getparam 0 .............................. <me>
+  [424] pushsymb 60 ............................. <#handler>
+  [426] pushsymb 461 ............................ <#flashCursor>
+  [429] pusharglist 4 ........................... <[#target: me, #handler: #flashCursor]>
+  [431] pushproplist ............................ <[#target: me, #handler: #flashCursor]>
+  [432] pusharglistnoret 2 ...................... <timer, [#target: me, #handler: #flashCursor]>
+  [434] objcall 61 .............................. timer.setCallback([#target: me, #handler: #flashCursor])
+  [436] ret
+end
+
+on destroy me
+  [  0] getprop 54 .............................. <node>
+  [  2] pusharglistnoret 1 ...................... <node>
+  [  4] objcall 2 ............................... node.destroy()
+  [  6] pushsymb 2 .............................. <#destroy>
+  [  8] getprop 71 .............................. <buttons>
+  [ 10] pusharglistnoret 2 ...................... <#destroy, buttons>
+  [ 12] extcall 36 .............................. call(#destroy, buttons)
+  [ 14] pushsymb 2 .............................. <#destroy>
+  [ 16] getprop 475 ............................. <slotbuttons>
+  [ 19] pusharglistnoret 2 ...................... <#destroy, slotbuttons>
+  [ 21] extcall 36 .............................. call(#destroy, slotbuttons)
+  [ 23] getprop 168 ............................. <timer>
+  [ 25] pusharglistnoret 1 ...................... <timer>
+  [ 27] objcall 2 ............................... timer.destroy()
+  [ 29] getparam 0 .............................. <me>
+  [ 31] pusharglistnoret 1 ...................... <me>
+  [ 33] extcall 84 .............................. voidRefs(me)
+  [ 35] ret
+end
+
+on enterMode me, previousMode, arg
+  [  0] getprop 64 .............................. <initialized>
+  [  2] not ..................................... <not initialized>
+  [  3] jmpifz [ 15] ............................ if not initialized then / else
+  [  6] getparam 0 .............................. <me>
+  [  8] pusharglistnoret 1 ...................... <me>
+  [ 10] objcall 1 ............................... me.init()
+  [ 12] jmp [ 21]
+  [ 15] getprop 54 .............................. <node>
+  [ 17] pusharglistnoret 1 ...................... <node>
+  [ 19] objcall 96 .............................. node.embody()
+  [ 21] getprop 54 .............................. <node>
+  [ 23] pusharglistnoret 1 ...................... <node>
+  [ 25] objcall 97 .............................. node.updateLocZ()
+  [ 27] getparam 2 .............................. <arg>
+  [ 29] setprop 109 ............................. nextMode = arg
+  [ 31] getprop 109 ............................. <nextMode>
+  [ 33] pusharglist 1 ........................... <nextMode>
+  [ 35] extcall 39 .............................. <voidp(nextMode)>
+  [ 37] jmpifz [ 44] ............................ if voidp(nextMode) then
+  [ 40] pushsymb 13 ............................. <#menu>
+  [ 42] setprop 109 ............................. nextMode = #menu
+  [ 44] pushzero ................................ <0>
+  [ 45] setprop 478 ............................. editing = 0
+  [ 48] getprop 55 .............................. <save_mgr>
+  [ 50] pusharglist 1 ........................... <save_mgr>
+  [ 52] objcall 481 ............................. <save_mgr.getProfiles()>
+  [ 55] pusharglist 1 ........................... <save_mgr.getProfiles()>
+  [ 57] extcall 480 ............................. <Keys(save_mgr.getProfiles())>
+  [ 60] setprop 479 ............................. playerList = Keys(save_mgr.getProfiles())
+  [ 63] pusharglist 0 ........................... <>
+  [ 65] extcall 38 .............................. <VOID>
+  [ 67] setprop 482 ............................. selectedSlot = VOID
+  [ 70] getprop 54 .............................. <node>
+  [ 72] pushint8 1 .............................. <1>
+  [ 74] pusharglistnoret 2 ...................... <node, 1>
+  [ 76] objcall 95 .............................. node.setVisible(1)
+  [ 78] pushcons 17 ............................. <"game">
+  [ 80] pusharglist 1 ........................... <"game">
+  [ 82] extcall 483 ............................. <getNodeGroup("game")>
+  [ 85] pushzero ................................ <0>
+  [ 86] pusharglistnoret 2 ...................... <getNodeGroup("game"), 0>
+  [ 88] objcall 95 .............................. getNodeGroup("game").setVisible(0)
+  [ 90] getparam 0 .............................. <me>
+  [ 92] pusharglistnoret 1 ...................... <me>
+  [ 94] objcall 459 ............................. me.Refresh()
+  [ 97] ret
+end
+
+on leaveMode me, nextMode
+  [  0] getprop 54 .............................. <node>
+  [  2] pushzero ................................ <0>
+  [  3] pusharglistnoret 2 ...................... <node, 0>
+  [  5] objcall 95 .............................. node.setVisible(0)
+  [  7] getprop 54 .............................. <node>
+  [  9] pusharglistnoret 1 ...................... <node>
+  [ 11] objcall 108 ............................. node.disembody()
+  [ 13] ret
+end
+
+on Refresh me
+  [  0] getprop 168 ............................. <timer>
+  [  2] pusharglistnoret 1 ...................... <timer>
+  [  4] objcall 86 .............................. timer.stop()
+  [  6] getprop 71 .............................. <buttons>
+  [  8] getchainedprop 317 ...................... <buttons.Ok>
+  [ 11] pushzero ................................ <0>
+  [ 12] pusharglistnoret 2 ...................... <buttons.Ok, 0>
+  [ 14] objcall 95 .............................. buttons.Ok.setVisible(0)
+  [ 16] getprop 55 .............................. <save_mgr>
+  [ 18] pusharglist 1 ........................... <save_mgr>
+  [ 20] objcall 481 ............................. <save_mgr.getProfiles()>
+  [ 23] pusharglist 1 ........................... <save_mgr.getProfiles()>
+  [ 25] extcall 480 ............................. <Keys(save_mgr.getProfiles())>
+  [ 28] setprop 479 ............................. playerList = Keys(save_mgr.getProfiles())
+  [ 31] getprop 479 ............................. <playerList>
+  [ 34] getobjprop 30 ........................... <playerList.count>
+  [ 36] setlocal 0 .............................. ct = playerList.count
+  [ 38] getprop 482 ............................. <selectedSlot>
+  [ 41] getlocal 0 .............................. <ct>
+  [ 43] lteq .................................... <selectedSlot <= ct>
+  [ 44] getprop 482 ............................. <selectedSlot>
+  [ 47] pushzero ................................ <0>
+  [ 48] gt ...................................... <selectedSlot > 0>
+  [ 49] and ..................................... <(selectedSlot <= ct) and (selectedSlot > 0)>
+  [ 50] setlocal 1 .............................. vis = (selectedSlot <= ct) and (selectedSlot > 0)
+  [ 52] getprop 71 .............................. <buttons>
+  [ 54] getchainedprop 485 ...................... <buttons.delete>
+  [ 57] getlocal 1 .............................. <vis>
+  [ 59] pusharglistnoret 2 ...................... <buttons.delete, vis>
+  [ 61] objcall 95 .............................. buttons.delete.setVisible(vis)
+  [ 63] getprop 71 .............................. <buttons>
+  [ 65] getchainedprop 23 ....................... <buttons.play>
+  [ 67] getlocal 1 .............................. <vis>
+  [ 69] pusharglistnoret 2 ...................... <buttons.play, vis>
+  [ 71] objcall 95 .............................. buttons.play.setVisible(vis)
+  [ 73] pushint8 1 .............................. <1>
+  [ 75] setlocal 2
+  [ 77] getlocal 2
+  [ 79] pushint8 10 ............................. <10>
+  [ 81] lteq
+  [ 82] jmpifz [400] ............................ repeat with i = 1 to 10
+  [ 85] getprop 475 ............................. <slotbuttons>
+  [ 88] getlocal 2 .............................. <i>
+  [ 90] pusharglist 2 ........................... <slotbuttons, i>
+  [ 92] objcall 31 .............................. <slotbuttons[i]>
+  [ 94] setlocal 3 .............................. sb = slotbuttons[i]
+  [ 96] getprop 474 ............................. <fields>
+  [ 99] getlocal 2 .............................. <i>
+  [101] pusharglist 2 ........................... <fields, i>
+  [103] objcall 31 .............................. <fields[i]>
+  [105] setlocal 4 .............................. f = fields[i]
+  [107] getlocal 4 .............................. <f>
+  [109] getobjprop 359 .......................... <f.sourcemem>
+  [112] setlocal 5 .............................. m = f.sourcemem
+  [114] getlocal 5 .............................. <m>
+  [116] pushsymb 486 ............................ <#center>
+  [119] setobjprop 487 .......................... m.alignment = #center
+  [122] getlocal 2 .............................. <i>
+  [124] getlocal 0 .............................. <ct>
+  [126] pushint8 1 .............................. <1>
+  [128] add ..................................... <ct + 1>
+  [129] eq ...................................... <i = (ct + 1)>
+  [130] jmpifz [194] ............................ if i = (ct + 1) then / else
+  [133] getlocal 4 .............................. <f>
+  [135] pushcons 18 ............................. <"[New Player]">
+  [137] pusharglistnoret 2 ...................... <f, "[New Player]">
+  [139] objcall 94 .............................. f.setText("[New Player]")
+  [141] getlocal 5 .............................. <m>
+  [143] getprop 468 ............................. <textColors>
+  [146] getobjprop 469 .......................... <textColors.edit>
+  [149] setobjprop 361 .......................... m.color = textColors.edit
+  [152] getlocal 3 .............................. <sb>
+  [154] pushsymb 59 ............................. <#target>
+  [156] getparam 0 .............................. <me>
+  [158] pushsymb 60 ............................. <#handler>
+  [160] pushsymb 462 ............................ <#editSlot>
+  [163] pushsymb 99 ............................. <#Args>
+  [165] getlocal 2 .............................. <i>
+  [167] pusharglist 6 ........................... <[#target: me, #handler: #editSlot, #Args: i]>
+  [169] pushproplist ............................ <[#target: me, #handler: #editSlot, #Args: i]>
+  [170] pusharglistnoret 2 ...................... <sb, [#target: me, #handler: #editSlot, #Args: i]>
+  [172] objcall 61 .............................. sb.setCallback([#target: me, #handler: #editSlot, #Args: i])
+  [174] getlocal 3 .............................. <sb>
+  [176] pushzero ................................ <0>
+  [177] pusharglistnoret 2 ...................... <sb, 0>
+  [179] objcall 194 ............................. sb.setDisabled(0)
+  [181] getlocal 3 .............................. <sb>
+  [183] getchainedprop 54 ....................... <sb.node>
+  [185] pushint8 100 ............................ <100>
+  [187] pusharglistnoret 2 ...................... <sb.node, 100>
+  [189] objcall 174 ............................. sb.node.setAlpha(100)
+  [191] jmp [382]
+  [194] getlocal 2 .............................. <i>
+  [196] getlocal 0 .............................. <ct>
+  [198] gt ...................................... <i > ct>
+  [199] jmpifz [241] ............................ if i > ct then / else
+  [202] getlocal 4 .............................. <f>
+  [204] pushcons 19 ............................. <EMPTY>
+  [206] pusharglistnoret 2 ...................... <f, EMPTY>
+  [208] objcall 94 .............................. f.setText(EMPTY)
+  [210] getlocal 3 .............................. <sb>
+  [212] pushint8 1 .............................. <1>
+  [214] pusharglistnoret 2 ...................... <sb, 1>
+  [216] objcall 194 ............................. sb.setDisabled(1)
+  [218] getlocal 3 .............................. <sb>
+  [220] pusharglist 0 ........................... <>
+  [222] extcall 38 .............................. <VOID>
+  [224] pusharglistnoret 2 ...................... <sb, VOID>
+  [226] objcall 61 .............................. sb.setCallback(VOID)
+  [228] getlocal 3 .............................. <sb>
+  [230] getchainedprop 54 ....................... <sb.node>
+  [232] pushint8 30 ............................. <30>
+  [234] pusharglistnoret 2 ...................... <sb.node, 30>
+  [236] objcall 174 ............................. sb.node.setAlpha(30)
+  [238] jmp [382]
+  [241] getlocal 2 .............................. <i>
+  [243] getprop 482 ............................. <selectedSlot>
+  [246] eq ...................................... <i = selectedSlot>
+  [247] jmpifz [318] ............................ if i = selectedSlot then / else
+  [250] getlocal 4 .............................. <f>
+  [252] getprop 479 ............................. <playerList>
+  [255] getlocal 2 .............................. <i>
+  [257] pusharglist 2 ........................... <playerList, i>
+  [259] objcall 31 .............................. <playerList[i]>
+  [261] pusharglistnoret 2 ...................... <f, playerList[i]>
+  [263] objcall 94 .............................. f.setText(playerList[i])
+  [265] getlocal 5 .............................. <m>
+  [267] getprop 468 ............................. <textColors>
+  [270] getobjprop 471 .......................... <textColors.selected>
+  [273] setobjprop 361 .......................... m.color = textColors.selected
+  [276] getlocal 3 .............................. <sb>
+  [278] pushint8 1 .............................. <1>
+  [280] pusharglistnoret 2 ...................... <sb, 1>
+  [282] objcall 194 ............................. sb.setDisabled(1)
+  [284] getlocal 3 .............................. <sb>
+  [286] pusharglist 0 ........................... <>
+  [288] extcall 38 .............................. <VOID>
+  [290] pusharglistnoret 2 ...................... <sb, VOID>
+  [292] objcall 61 .............................. sb.setCallback(VOID)
+  [294] getlocal 3 .............................. <sb>
+  [296] getchainedprop 54 ....................... <sb.node>
+  [298] getprop 472 ............................. <selectMem>
+  [301] pusharglistnoret 2 ...................... <sb.node, selectMem>
+  [303] objcall 172 ............................. sb.node.setMember(selectMem)
+  [305] getlocal 3 .............................. <sb>
+  [307] getchainedprop 54 ....................... <sb.node>
+  [309] pushint8 100 ............................ <100>
+  [311] pusharglistnoret 2 ...................... <sb.node, 100>
+  [313] objcall 174 ............................. sb.node.setAlpha(100)
+  [315] jmp [382]
+  [318] getlocal 4 .............................. <f>
+  [320] getprop 479 ............................. <playerList>
+  [323] getlocal 2 .............................. <i>
+  [325] pusharglist 2 ........................... <playerList, i>
+  [327] objcall 31 .............................. <playerList[i]>
+  [329] pusharglistnoret 2 ...................... <f, playerList[i]>
+  [331] objcall 94 .............................. f.setText(playerList[i])
+  [333] getlocal 5 .............................. <m>
+  [335] getprop 468 ............................. <textColors>
+  [338] getobjprop 74 ........................... <textColors.normal>
+  [340] setobjprop 361 .......................... m.color = textColors.normal
+  [343] getlocal 3 .............................. <sb>
+  [345] pushsymb 59 ............................. <#target>
+  [347] getparam 0 .............................. <me>
+  [349] pushsymb 60 ............................. <#handler>
+  [351] pushsymb 460 ............................ <#selectSlot>
+  [354] pushsymb 99 ............................. <#Args>
+  [356] getlocal 2 .............................. <i>
+  [358] pusharglist 6 ........................... <[#target: me, #handler: #selectSlot, #Args: i]>
+  [360] pushproplist ............................ <[#target: me, #handler: #selectSlot, #Args: i]>
+  [361] pusharglistnoret 2 ...................... <sb, [#target: me, #handler: #selectSlot, #Args: i]>
+  [363] objcall 61 .............................. sb.setCallback([#target: me, #handler: #selectSlot, #Args: i])
+  [365] getlocal 3 .............................. <sb>
+  [367] pushzero ................................ <0>
+  [368] pusharglistnoret 2 ...................... <sb, 0>
+  [370] objcall 194 ............................. sb.setDisabled(0)
+  [372] getlocal 3 .............................. <sb>
+  [374] getchainedprop 54 ....................... <sb.node>
+  [376] pushint8 100 ............................ <100>
+  [378] pusharglistnoret 2 ...................... <sb.node, 100>
+  [380] objcall 174 ............................. sb.node.setAlpha(100)
+  [382] getlocal 4 .............................. <f>
+  [384] getlocal 5 .............................. <m>
+  [386] pusharglistnoret 2 ...................... <f, m>
+  [388] objcall 172 ............................. f.setMember(m)
+  [390] pushint8 1
+  [392] getlocal 2
+  [394] add
+  [395] setlocal 2
+  [397] endrepeat [ 77]
+  [400] ret
+end
+
+on selectSlot me, num
+  [  0] getprop 482 ............................. <selectedSlot>
+  [  3] getparam 1 .............................. <num>
+  [  5] eq ...................................... <selectedSlot = num>
+  [  6] getparam 1 .............................. <num>
+  [  8] pushint8 1 .............................. <1>
+  [ 10] lt ...................................... <num < 1>
+  [ 11] or ...................................... <(selectedSlot = num) or (num < 1)>
+  [ 12] getparam 1 .............................. <num>
+  [ 14] pushint8 10 ............................. <10>
+  [ 16] gt ...................................... <num > 10>
+  [ 17] or ...................................... <(selectedSlot = num) or (num < 1) or (num > 10)>
+  [ 18] jmpifz [ 25] ............................ if (selectedSlot = num) or (num < 1) or (num > 10) then
+  [ 21] pusharglistnoret 0 ...................... <>
+  [ 23] extcall 9 ............................... return 
+  [ 25] getparam 1 .............................. <num>
+  [ 27] setprop 482 ............................. selectedSlot = num
+  [ 30] getparam 0 .............................. <me>
+  [ 32] pusharglistnoret 1 ...................... <me>
+  [ 34] objcall 459 ............................. me.Refresh()
+  [ 37] ret
+end
+
+on flashCursor me
+  [  0] getprop 478 ............................. <editing>
+  [  3] not ..................................... <not editing>
+  [  4] jmpifz [ 22] ............................ if not editing then
+  [  7] getprop 168 ............................. <timer>
+  [  9] pusharglistnoret 1 ...................... <timer>
+  [ 11] objcall 86 .............................. timer.stop()
+  [ 13] pushcons 19 ............................. <EMPTY>
+  [ 15] setprop 489 ............................. cursorChar = EMPTY
+  [ 18] pusharglistnoret 0 ...................... <>
+  [ 20] extcall 9 ............................... return 
+  [ 22] getprop 489 ............................. <cursorChar>
+  [ 25] pushcons 19 ............................. <EMPTY>
+  [ 27] eq ...................................... <cursorChar = EMPTY>
+  [ 28] jmpifz [ 39] ............................ if cursorChar = EMPTY then / else
+  [ 31] pushcons 20 ............................. <"__">
+  [ 33] setprop 489 ............................. cursorChar = "__"
+  [ 36] jmp [ 44]
+  [ 39] pushcons 19 ............................. <EMPTY>
+  [ 41] setprop 489 ............................. cursorChar = EMPTY
+  [ 44] getprop 474 ............................. <fields>
+  [ 47] getprop 482 ............................. <selectedSlot>
+  [ 50] pusharglist 2 ........................... <fields, selectedSlot>
+  [ 52] objcall 31 .............................. <fields[selectedSlot]>
+  [ 54] getprop 490 ............................. <editText>
+  [ 57] getprop 489 ............................. <cursorChar>
+  [ 60] joinstr ................................. <editText & cursorChar>
+  [ 61] pusharglistnoret 2 ...................... <fields[selectedSlot], editText & cursorChar>
+  [ 63] objcall 94 .............................. fields[selectedSlot].setText(editText & cursorChar)
+  [ 65] ret
+end
+
+on editSlot me, num
+  [  0] getparam 1 .............................. <num>
+  [  2] setprop 482 ............................. selectedSlot = num
+  [  5] getparam 0 .............................. <me>
+  [  7] pusharglistnoret 1 ...................... <me>
+  [  9] objcall 459 ............................. me.Refresh()
+  [ 12] getprop 475 ............................. <slotbuttons>
+  [ 15] getparam 1 .............................. <num>
+  [ 17] pusharglist 2 ........................... <slotbuttons, num>
+  [ 19] objcall 31 .............................. <slotbuttons[num]>
+  [ 21] setlocal 0 .............................. sb = slotbuttons[num]
+  [ 23] getlocal 0 .............................. <sb>
+  [ 25] pushint8 1 .............................. <1>
+  [ 27] pusharglistnoret 2 ...................... <sb, 1>
+  [ 29] objcall 194 ............................. sb.setDisabled(1)
+  [ 31] getlocal 0 .............................. <sb>
+  [ 33] getchainedprop 54 ....................... <sb.node>
+  [ 35] getprop 472 ............................. <selectMem>
+  [ 38] pusharglistnoret 2 ...................... <sb.node, selectMem>
+  [ 40] objcall 172 ............................. sb.node.setMember(selectMem)
+  [ 42] pushint8 1 .............................. <1>
+  [ 44] setprop 478 ............................. editing = 1
+  [ 47] pushcons 19 ............................. <EMPTY>
+  [ 49] setprop 490 ............................. editText = EMPTY
+  [ 52] pushcons 20 ............................. <"__">
+  [ 54] setprop 489 ............................. cursorChar = "__"
+  [ 57] getprop 474 ............................. <fields>
+  [ 60] getprop 482 ............................. <selectedSlot>
+  [ 63] pusharglist 2 ........................... <fields, selectedSlot>
+  [ 65] objcall 31 .............................. <fields[selectedSlot]>
+  [ 67] setlocal 1 .............................. f = fields[selectedSlot]
+  [ 69] getlocal 1 .............................. <f>
+  [ 71] getobjprop 359 .......................... <f.sourcemem>
+  [ 74] setlocal 2 .............................. m = f.sourcemem
+  [ 76] getlocal 2 .............................. <m>
+  [ 78] pushsymb 292 ............................ <#left>
+  [ 81] setobjprop 487 .......................... m.alignment = #left
+  [ 84] getlocal 2 .............................. <m>
+  [ 86] getprop 468 ............................. <textColors>
+  [ 89] getobjprop 469 .......................... <textColors.edit>
+  [ 92] setobjprop 361 .......................... m.color = textColors.edit
+  [ 95] getlocal 1 .............................. <f>
+  [ 97] getprop 490 ............................. <editText>
+  [100] getprop 489 ............................. <cursorChar>
+  [103] joinstr ................................. <editText & cursorChar>
+  [104] pusharglistnoret 2 ...................... <f, editText & cursorChar>
+  [106] objcall 94 .............................. f.setText(editText & cursorChar)
+  [108] getlocal 1 .............................. <f>
+  [110] getlocal 2 .............................. <m>
+  [112] pusharglistnoret 2 ...................... <f, m>
+  [114] objcall 172 ............................. f.setMember(m)
+  [116] getprop 71 .............................. <buttons>
+  [118] getchainedprop 317 ...................... <buttons.Ok>
+  [121] getprop 473 ............................. <oklocs>
+  [124] getprop 482 ............................. <selectedSlot>
+  [127] pusharglist 2 ........................... <oklocs, selectedSlot>
+  [129] objcall 31 .............................. <oklocs[selectedSlot]>
+  [131] pusharglistnoret 2 ...................... <buttons.Ok, oklocs[selectedSlot]>
+  [133] objcall 102 ............................. buttons.Ok.setLoc(oklocs[selectedSlot])
+  [135] getprop 71 .............................. <buttons>
+  [137] getchainedprop 317 ...................... <buttons.Ok>
+  [140] pushzero ................................ <0>
+  [141] pusharglistnoret 2 ...................... <buttons.Ok, 0>
+  [143] objcall 95 .............................. buttons.Ok.setVisible(0)
+  [145] getparam 0 .............................. <me>
+  [147] pushsymb 463 ............................ <#keyDown>
+  [150] pushcons 0 .............................. <"titles">
+  [152] pusharglistnoret 3 ...................... <me, #keyDown, "titles">
+  [154] extcall 335 ............................. subscribe(me, #keyDown, "titles")
+  [157] getprop 71 .............................. <buttons>
+  [159] getchainedprop 485 ...................... <buttons.delete>
+  [162] pushzero ................................ <0>
+  [163] pusharglistnoret 2 ...................... <buttons.delete, 0>
+  [165] objcall 95 .............................. buttons.delete.setVisible(0)
+  [167] getprop 71 .............................. <buttons>
+  [169] getchainedprop 23 ....................... <buttons.play>
+  [171] pushzero ................................ <0>
+  [172] pusharglistnoret 2 ...................... <buttons.play, 0>
+  [174] objcall 95 .............................. buttons.play.setVisible(0)
+  [176] getprop 168 ............................. <timer>
+  [178] pusharglistnoret 1 ...................... <timer>
+  [180] objcall 92 .............................. timer.start()
+  [182] ret
+end
+
+on keyDown me, k
+  [  0] getparam 1 .............................. <k>
+  [  2] pusharglist 1 ........................... <k>
+  [  4] extcall 491 ............................. <charToNum(k)>
+  [  7] setlocal 0 .............................. num = charToNum(k)
+  [  9] getprop 474 ............................. <fields>
+  [ 12] getprop 482 ............................. <selectedSlot>
+  [ 15] pusharglist 2 ........................... <fields, selectedSlot>
+  [ 17] objcall 31 .............................. <fields[selectedSlot]>
+  [ 19] setlocal 1 .............................. f = fields[selectedSlot]
+  [ 21] getprop 490 ............................. <editText>
+  [ 24] pushsymb 492 ............................ <#char>
+  [ 27] pusharglist 2 ........................... <editText, #char>
+  [ 29] objcall 30 .............................. <editText.char.count>
+  [ 31] setlocal 2 .............................. cc = editText.char.count
+  [ 33] getparam 1 .............................. <k>
+  [ 35] pushcons 21 ............................. <RETURN>
+  [ 37] eq ...................................... <k = RETURN>
+  [ 38] jmpifz [ 67] ............................ if k = RETURN then / else
+  [ 41] getparam 0 .............................. <me>
+  [ 43] getprop 490 ............................. <editText>
+  [ 46] pusharglist 2 ........................... <me, editText>
+  [ 48] objcall 464 ............................. <me.checkName(editText)>
+  [ 51] jmpifz [ 64] ............................ if me.checkName(editText) then
+  [ 54] getparam 0 .............................. <me>
+  [ 56] pusharglistnoret 1 ...................... <me>
+  [ 58] objcall 151 ............................. me.clickOK()
+  [ 60] pusharglistnoret 0 ...................... <>
+  [ 62] extcall 9 ............................... return 
+  [ 64] jmp [171]
+  [ 67] getlocal 0 .............................. <num>
+  [ 69] pushint8 8 .............................. <8>
+  [ 71] eq ...................................... <num = 8>
+  [ 72] jmpifz [132] ............................ if num = 8 then / else
+  [ 75] getlocal 2 .............................. <cc>
+  [ 77] pushint8 1 .............................. <1>
+  [ 79] gt ...................................... <cc > 1>
+  [ 80] jmpifz [113] ............................ if cc > 1 then / else
+  [ 83] getprop 490 ............................. <editText>
+  [ 86] pushsymb 492 ............................ <#char>
+  [ 89] pushint8 1 .............................. <1>
+  [ 91] getlocal 2 .............................. <cc>
+  [ 93] pushint8 1 .............................. <1>
+  [ 95] sub ..................................... <cc - 1>
+  [ 96] pusharglist 4 ........................... <editText, #char, 1, cc - 1>
+  [ 98] objcall 196 ............................. <editText.char[1..cc - 1]>
+  [100] setprop 490 ............................. editText = editText.char[1..cc - 1]
+  [103] getlocal 2 .............................. <cc>
+  [105] pushint8 1 .............................. <1>
+  [107] sub ..................................... <cc - 1>
+  [108] setlocal 2 .............................. cc = cc - 1
+  [110] jmp [129]
+  [113] getlocal 2 .............................. <cc>
+  [115] pushint8 1 .............................. <1>
+  [117] eq ...................................... <cc = 1>
+  [118] jmpifz [129] ............................ if cc = 1 then
+  [121] pushcons 19 ............................. <EMPTY>
+  [123] setprop 490 ............................. editText = EMPTY
+  [126] pushzero ................................ <0>
+  [127] setlocal 2 .............................. cc = 0
+  [129] jmp [171]
+  [132] getlocal 2 .............................. <cc>
+  [134] pushint8 11 ............................. <11>
+  [136] gt ...................................... <cc > 11>
+  [137] jmpifz [144] ............................ if cc > 11 then
+  [140] pusharglistnoret 0 ...................... <>
+  [142] extcall 9 ............................... return 
+  [144] getlocal 0 .............................. <num>
+  [146] pushint8 32 ............................. <32>
+  [148] lt ...................................... <num < 32>
+  [149] getlocal 0 .............................. <num>
+  [151] pushint8 126 ............................ <126>
+  [153] gt ...................................... <num > 126>
+  [154] or ...................................... <(num < 32) or (num > 126)>
+  [155] jmpifz [162] ............................ if (num < 32) or (num > 126) then
+  [158] pusharglistnoret 0 ...................... <>
+  [160] extcall 9 ............................... return 
+  [162] getprop 490 ............................. <editText>
+  [165] getparam 1 .............................. <k>
+  [167] joinstr ................................. <editText & k>
+  [168] setprop 490 ............................. editText = editText & k
+  [171] getlocal 1 .............................. <f>
+  [173] getprop 490 ............................. <editText>
+  [176] getprop 489 ............................. <cursorChar>
+  [179] joinstr ................................. <editText & cursorChar>
+  [180] pusharglistnoret 2 ...................... <f, editText & cursorChar>
+  [182] objcall 94 .............................. f.setText(editText & cursorChar)
+  [184] getparam 0 .............................. <me>
+  [186] getprop 490 ............................. <editText>
+  [189] pusharglist 2 ........................... <me, editText>
+  [191] objcall 464 ............................. <me.checkName(editText)>
+  [194] setlocal 3 .............................. Ok = me.checkName(editText)
+  [196] getlocal 3 .............................. <Ok>
+  [198] getlocal 2 .............................. <cc>
+  [200] pushzero ................................ <0>
+  [201] eq ...................................... <cc = 0>
+  [202] or ...................................... <Ok or (cc = 0)>
+  [203] jmpifz [223] ............................ if Ok or (cc = 0) then / else
+  [206] getlocal 1 .............................. <f>
+  [208] getchainedprop 359 ...................... <f.sourcemem>
+  [211] getprop 468 ............................. <textColors>
+  [214] getobjprop 469 .......................... <textColors.edit>
+  [217] setobjprop 361 .......................... f.sourcemem.color = textColors.edit
+  [220] jmp [237]
+  [223] getlocal 1 .............................. <f>
+  [225] getchainedprop 359 ...................... <f.sourcemem>
+  [228] getprop 468 ............................. <textColors>
+  [231] getobjprop 470 .......................... <textColors.wrong>
+  [234] setobjprop 361 .......................... f.sourcemem.color = textColors.wrong
+  [237] getprop 71 .............................. <buttons>
+  [239] getchainedprop 317 ...................... <buttons.Ok>
+  [242] getlocal 3 .............................. <Ok>
+  [244] pusharglistnoret 2 ...................... <buttons.Ok, Ok>
+  [246] objcall 95 .............................. buttons.Ok.setVisible(Ok)
+  [248] ret
+end
+
+on checkName me, t
+  [  0] getparam 1 .............................. <t>
+  [  2] pushsymb 495 ............................ <#word>
+  [  5] pusharglist 2 ........................... <t, #word>
+  [  7] objcall 30 .............................. <t.word.count>
+  [  9] setlocal 0 .............................. wc = t.word.count
+  [ 11] getlocal 0 .............................. <wc>
+  [ 13] pushzero ................................ <0>
+  [ 14] eq ...................................... <wc = 0>
+  [ 15] jmpifz [ 22] ............................ if wc = 0 then
+  [ 18] pusharglistnoret 0 ...................... <>
+  [ 20] extcall 9 ............................... return 
+  [ 22] pushcons 19 ............................. <EMPTY>
+  [ 24] setlocal 1 .............................. s = EMPTY
+  [ 26] pushint8 1 .............................. <1>
+  [ 28] setlocal 2
+  [ 30] getlocal 2
+  [ 32] getlocal 0 .............................. <wc>
+  [ 34] lteq
+  [ 35] jmpifz [ 81] ............................ repeat with i = 1 to wc
+  [ 38] getlocal 1 .............................. <s>
+  [ 40] getparam 1 .............................. <t>
+  [ 42] pushsymb 495 ............................ <#word>
+  [ 45] getlocal 2 .............................. <i>
+  [ 47] pusharglist 3 ........................... <t, #word, i>
+  [ 49] objcall 196 ............................. <t.word[i]>
+  [ 51] joinstr ................................. <s & t.word[i]>
+  [ 52] setlocal 1 .............................. s = s & t.word[i]
+  [ 54] getlocal 2 .............................. <i>
+  [ 56] getlocal 0 .............................. <wc>
+  [ 58] lt ...................................... <i < wc>
+  [ 59] jmpifz [ 72] ............................ if i < wc then
+  [ 62] getlocal 1 .............................. <s>
+  [ 64] pusharglist 0 ........................... <>
+  [ 66] extcall 496 ............................. <SPACE>
+  [ 69] joinstr ................................. <s & SPACE>
+  [ 70] setlocal 1 .............................. s = s & SPACE
+  [ 72] pushint8 1
+  [ 74] getlocal 2
+  [ 76] add
+  [ 77] setlocal 2
+  [ 79] endrepeat [ 30]
+  [ 81] getprop 479 ............................. <playerList>
+  [ 84] peek 0
+  [ 86] pusharglist 1
+  [ 88] extcall 30
+  [ 90] pushint8 1
+  [ 92] peek 0
+  [ 94] peek 2
+  [ 96] lteq
+  [ 97] jmpifz [127] ............................ repeat with i in playerList
+  [100] peek 2
+  [102] peek 1
+  [104] pusharglist 2
+  [106] extcall 31
+  [108] setlocal 2
+  [110] getlocal 2 .............................. <i>
+  [112] getlocal 1 .............................. <s>
+  [114] eq ...................................... <i = s>
+  [115] jmpifz [122] ............................ if i = s then
+  [118] pusharglistnoret 0 ...................... <>
+  [120] extcall 9 ............................... return 
+  [122] pushint8 1
+  [124] add
+  [125] endrepeat [ 92]
+  [127] pop 3
+  [129] pushint8 1 .............................. <1>
+  [131] pusharglistnoret 1 ...................... <1>
+  [133] extcall 9 ............................... return 1
+  [135] ret
+end
+
+on clickOK me
+  [  0] getprop 490 ............................. <editText>
+  [  3] pushsymb 495 ............................ <#word>
+  [  6] pusharglist 2 ........................... <editText, #word>
+  [  8] objcall 30 .............................. <editText.word.count>
+  [ 10] setlocal 0 .............................. wc = editText.word.count
+  [ 12] getlocal 0 .............................. <wc>
+  [ 14] pushzero ................................ <0>
+  [ 15] eq ...................................... <wc = 0>
+  [ 16] jmpifz [ 30] ............................ if wc = 0 then
+  [ 19] pushcons 22 ............................. <"Please type in a name.">
+  [ 21] pusharglistnoret 1 ...................... <"Please type in a name.">
+  [ 23] extcall 498 ............................. alert("Please type in a name.")
+  [ 26] pusharglistnoret 0 ...................... <>
+  [ 28] extcall 9 ............................... return 
+  [ 30] pushcons 19 ............................. <EMPTY>
+  [ 32] setlocal 1 .............................. s = EMPTY
+  [ 34] pushint8 1 .............................. <1>
+  [ 36] setlocal 2
+  [ 38] getlocal 2
+  [ 40] getlocal 0 .............................. <wc>
+  [ 42] lteq
+  [ 43] jmpifz [ 90] ............................ repeat with i = 1 to wc
+  [ 46] getlocal 1 .............................. <s>
+  [ 48] getprop 490 ............................. <editText>
+  [ 51] pushsymb 495 ............................ <#word>
+  [ 54] getlocal 2 .............................. <i>
+  [ 56] pusharglist 3 ........................... <editText, #word, i>
+  [ 58] objcall 196 ............................. <editText.word[i]>
+  [ 60] joinstr ................................. <s & editText.word[i]>
+  [ 61] setlocal 1 .............................. s = s & editText.word[i]
+  [ 63] getlocal 2 .............................. <i>
+  [ 65] getlocal 0 .............................. <wc>
+  [ 67] lt ...................................... <i < wc>
+  [ 68] jmpifz [ 81] ............................ if i < wc then
+  [ 71] getlocal 1 .............................. <s>
+  [ 73] pusharglist 0 ........................... <>
+  [ 75] extcall 496 ............................. <SPACE>
+  [ 78] joinstr ................................. <s & SPACE>
+  [ 79] setlocal 1 .............................. s = s & SPACE
+  [ 81] pushint8 1
+  [ 83] getlocal 2
+  [ 85] add
+  [ 86] setlocal 2
+  [ 88] endrepeat [ 38]
+  [ 90] getprop 479 ............................. <playerList>
+  [ 93] getlocal 1 .............................. <s>
+  [ 95] pusharglist 2 ........................... <playerList, s>
+  [ 97] objcall 236 ............................. <playerList.getOne(s)>
+  [ 99] jmpifz [123] ............................ if playerList.getOne(s) then
+  [102] pushcons 23 ............................. <"That name is already taken.">
+  [104] pusharglistnoret 1 ...................... <"That name is already taken.">
+  [106] extcall 498 ............................. alert("That name is already taken.")
+  [109] getparam 0 .............................. <me>
+  [111] getprop 482 ............................. <selectedSlot>
+  [114] pusharglistnoret 2 ...................... <me, selectedSlot>
+  [116] objcall 462 ............................. me.editSlot(selectedSlot)
+  [119] pusharglistnoret 0 ...................... <>
+  [121] extcall 9 ............................... return 
+  [123] getprop 71 .............................. <buttons>
+  [125] getchainedprop 317 ...................... <buttons.Ok>
+  [128] pushzero ................................ <0>
+  [129] pusharglistnoret 2 ...................... <buttons.Ok, 0>
+  [131] objcall 95 .............................. buttons.Ok.setVisible(0)
+  [133] getprop 55 .............................. <save_mgr>
+  [135] getlocal 1 .............................. <s>
+  [137] pusharglistnoret 2 ...................... <save_mgr, s>
+  [139] objcall 499 ............................. save_mgr.newProfile(s)
+  [142] getparam 0 .............................. <me>
+  [144] pushsymb 463 ............................ <#keyDown>
+  [147] pushcons 0 .............................. <"titles">
+  [149] pusharglistnoret 3 ...................... <me, #keyDown, "titles">
+  [151] extcall 301 ............................. unsubscribe(me, #keyDown, "titles")
+  [154] pushzero ................................ <0>
+  [155] setprop 478 ............................. editing = 0
+  [158] getparam 0 .............................. <me>
+  [160] pusharglistnoret 1 ...................... <me>
+  [162] objcall 459 ............................. me.Refresh()
+  [165] ret
+end
+
+on clickCancel me
+  [  0] getprop 52 .............................. <mgr>
+  [  2] pushsymb 13 ............................. <#menu>
+  [  4] pusharglistnoret 2 ...................... <mgr, #menu>
+  [  6] objcall 3 ............................... mgr.setMode(#menu)
+  [  8] ret
+end
+
+on clickPlay me
+  [  0] getprop 482 ............................. <selectedSlot>
+  [  3] pushint8 1 .............................. <1>
+  [  5] lt ...................................... <selectedSlot < 1>
+  [  6] getprop 482 ............................. <selectedSlot>
+  [  9] getprop 479 ............................. <playerList>
+  [ 12] getobjprop 30 ........................... <playerList.count>
+  [ 14] gt ...................................... <selectedSlot > playerList.count>
+  [ 15] or ...................................... <(selectedSlot < 1) or (selectedSlot > playerList.count)>
+  [ 16] jmpifz [ 23] ............................ if (selectedSlot < 1) or (selectedSlot > playerList.count) then
+  [ 19] pusharglistnoret 0 ...................... <>
+  [ 21] extcall 9 ............................... return 
+  [ 23] getprop 55 .............................. <save_mgr>
+  [ 25] getprop 479 ............................. <playerList>
+  [ 28] getprop 482 ............................. <selectedSlot>
+  [ 31] pusharglist 2 ........................... <playerList, selectedSlot>
+  [ 33] objcall 31 .............................. <playerList[selectedSlot]>
+  [ 35] pusharglistnoret 2 ...................... <save_mgr, playerList[selectedSlot]>
+  [ 37] objcall 500 ............................. save_mgr.setCurrentProfile(playerList[selectedSlot])
+  [ 40] getprop 52 .............................. <mgr>
+  [ 42] getprop 109 ............................. <nextMode>
+  [ 44] pusharglistnoret 2 ...................... <mgr, nextMode>
+  [ 46] objcall 3 ............................... mgr.setMode(nextMode)
+  [ 48] ret
+end
+
+on clickDelete me
+  [  0] getprop 482 ............................. <selectedSlot>
+  [  3] pushint8 1 .............................. <1>
+  [  5] lt ...................................... <selectedSlot < 1>
+  [  6] getprop 482 ............................. <selectedSlot>
+  [  9] getprop 479 ............................. <playerList>
+  [ 12] getobjprop 30 ........................... <playerList.count>
+  [ 14] gt ...................................... <selectedSlot > playerList.count>
+  [ 15] or ...................................... <(selectedSlot < 1) or (selectedSlot > playerList.count)>
+  [ 16] jmpifz [ 23] ............................ if (selectedSlot < 1) or (selectedSlot > playerList.count) then
+  [ 19] pusharglistnoret 0 ...................... <>
+  [ 21] extcall 9 ............................... return 
+  [ 23] getprop 479 ............................. <playerList>
+  [ 26] getobjprop 30 ........................... <playerList.count>
+  [ 28] getprop 482 ............................. <selectedSlot>
+  [ 31] lt ...................................... <playerList.count < selectedSlot>
+  [ 32] jmpifz [ 39] ............................ if playerList.count < selectedSlot then
+  [ 35] pusharglistnoret 0 ...................... <>
+  [ 37] extcall 9 ............................... return 
+  [ 39] getprop 55 .............................. <save_mgr>
+  [ 41] getprop 479 ............................. <playerList>
+  [ 44] getprop 482 ............................. <selectedSlot>
+  [ 47] pusharglist 2 ........................... <playerList, selectedSlot>
+  [ 49] objcall 31 .............................. <playerList[selectedSlot]>
+  [ 51] pusharglistnoret 2 ...................... <save_mgr, playerList[selectedSlot]>
+  [ 53] objcall 501 ............................. save_mgr.deleteProfile(playerList[selectedSlot])
+  [ 56] pushzero ................................ <0>
+  [ 57] setprop 482 ............................. selectedSlot = 0
+  [ 60] getparam 0 .............................. <me>
+  [ 62] pusharglistnoret 1 ...................... <me>
+  [ 64] objcall 459 ............................. me.Refresh()
+  [ 67] ret
+end

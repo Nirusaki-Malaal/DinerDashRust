@@ -1,0 +1,391 @@
+property mgr, name, node_mgr, screen, node, grp, menubutton, initialized, page, buttons
+
+on new me, m
+  [  0] getparam 1 .............................. <m>
+  [  2] setprop 52 .............................. mgr = m
+  [  4] getparam 1 .............................. <m>
+  [  6] getchainedprop 4 ........................ <m.glob>
+  [  8] getchainedprop 6 ........................ <m.glob.managers>
+  [ 10] getobjprop 54 ........................... <m.glob.managers.node>
+  [ 12] setprop 53 .............................. node_mgr = m.glob.managers.node
+  [ 14] getprop 53 .............................. <node_mgr>
+  [ 16] pushcons 0 .............................. <"titles">
+  [ 18] pusharglist 2 ........................... <node_mgr, "titles">
+  [ 20] objcall 65 .............................. <node_mgr.getGroup("titles")>
+  [ 22] setprop 83 .............................. grp = node_mgr.getGroup("titles")
+  [ 24] pushsymb 28 ............................. <#help>
+  [ 26] setprop 63 .............................. name = #help
+  [ 28] getparam 0 .............................. <me>
+  [ 30] pusharglistnoret 1 ...................... <me>
+  [ 32] extcall 9 ............................... return me
+  [ 34] ret
+end
+
+on init me
+  [  0] getprop 64 .............................. <initialized>
+  [  2] jmpifz [  9] ............................ if initialized then
+  [  5] pusharglistnoret 0 ...................... <>
+  [  7] extcall 9 ............................... return 
+  [  9] pushint8 1 .............................. <1>
+  [ 11] setprop 64 .............................. initialized = 1
+  [ 13] getprop 83 .............................. <grp>
+  [ 15] pushcons 1 .............................. <"help">
+  [ 17] pusharglist 1 ........................... <"help">
+  [ 19] extcall 66 .............................. <getNodeData("help")>
+  [ 21] pusharglist 2 ........................... <grp, getNodeData("help")>
+  [ 23] objcall 67 .............................. <grp.newNode(getNodeData("help"))>
+  [ 25] setprop 54 .............................. node = grp.newNode(getNodeData("help"))
+  [ 27] getprop 54 .............................. <node>
+  [ 29] pushzero ................................ <0>
+  [ 30] pusharglistnoret 2 ...................... <node, 0>
+  [ 32] objcall 95 .............................. node.setVisible(0)
+  [ 34] pushsymb 54 ............................. <#node>
+  [ 36] getprop 54 .............................. <node>
+  [ 38] pushcons 2 .............................. <"menubutton">
+  [ 40] pusharglist 2 ........................... <node, "menubutton">
+  [ 42] objcall 31 .............................. <node["menubutton"]>
+  [ 44] pushsymb 181 ............................ <#callback>
+  [ 46] pushsymb 59 ............................. <#target>
+  [ 48] getprop 52 .............................. <mgr>
+  [ 50] pushsymb 60 ............................. <#handler>
+  [ 52] pushsymb 3 .............................. <#setMode>
+  [ 54] pushsymb 99 ............................. <#Args>
+  [ 56] pushsymb 13 ............................. <#menu>
+  [ 58] pusharglist 6 ........................... <[#target: mgr, #handler: #setMode, #Args: #menu]>
+  [ 60] pushproplist ............................ <[#target: mgr, #handler: #setMode, #Args: #menu]>
+  [ 61] pushsymb 77 ............................. <#members>
+  [ 63] pushsymb 72 ............................. <#rollover>
+  [ 65] pushcons 3 .............................. <"help_button_backtomenu_up">
+  [ 67] pushcons 4 .............................. <"gfx.screens">
+  [ 69] pusharglist 2 ........................... <"help_button_backtomenu_up", "gfx.screens">
+  [ 71] extcall 75 .............................. <member("help_button_backtomenu_up", "gfx.screens")>
+  [ 73] pusharglist 2 ........................... <[#rollover: member("help_button_backtomenu_up", "gfx.screens")]>
+  [ 75] pushproplist ............................ <[#rollover: member("help_button_backtomenu_up", "gfx.screens")]>
+  [ 76] pusharglist 6 ........................... <[#node: node["menubutton"], #callback: [#target: mgr, #handler: #setMode, #Args: #menu], #members: [#rollover: member("help_button_backtomenu_up", "gfx.screens")]]>
+  [ 78] pushproplist ............................ <[#node: node["menubutton"], #callback: [#target: mgr, #handler: #setMode, #Args: #menu], #members: [#rollover: member("help_button_backtomenu_up", "gfx.screens")]]>
+  [ 79] pusharglist 1 ........................... <[#node: node["menubutton"], #callback: [#target: mgr, #handler: #setMode, #Args: #menu], #members: [#rollover: member("help_button_backtomenu_up", "gfx.screens")]]>
+  [ 81] extcall 76 .............................. <newButton([#node: node["menubutton"], #callback: [#target: mgr, #handler: #setMode, #Args: #menu], #members: [#rollover: member("help_button_backtomenu_up", "gfx.screens")]])>
+  [ 83] setprop 163 ............................. menubutton = newButton([#node: node["menubutton"], #callback: [#target: mgr, #handler: #setMode, #Args: #menu], #members: [#rollover: member("help_button_backtomenu_up", "gfx.screens")]])
+  [ 85] pushsymb 74 ............................. <#normal>
+  [ 87] pushcons 5 .............................. <"help_arrow">
+  [ 89] pusharglist 1 ........................... <"help_arrow">
+  [ 91] extcall 75 .............................. <member("help_arrow")>
+  [ 93] pushsymb 72 ............................. <#rollover>
+  [ 95] pushcons 6 .............................. <"help_arrow_up">
+  [ 97] pusharglist 1 ........................... <"help_arrow_up">
+  [ 99] extcall 75 .............................. <member("help_arrow_up")>
+  [101] pusharglist 4 ........................... <[#normal: member("help_arrow"), #rollover: member("help_arrow_up")]>
+  [103] pushproplist ............................ <[#normal: member("help_arrow"), #rollover: member("help_arrow_up")]>
+  [104] setlocal 0 .............................. arrowmems = [#normal: member("help_arrow"), #rollover: member("help_arrow_up")]
+  [106] pusharglist 0 ........................... <[:]>
+  [108] pushproplist ............................ <[:]>
+  [109] setprop 71 .............................. buttons = [:]
+  [111] getprop 71 .............................. <buttons>
+  [113] pushsymb 307 ............................ <#previous>
+  [116] pushsymb 54 ............................. <#node>
+  [118] getprop 54 .............................. <node>
+  [120] pushcons 7 .............................. <"previous">
+  [122] pusharglist 2 ........................... <node, "previous">
+  [124] objcall 31 .............................. <node["previous"]>
+  [126] pushsymb 77 ............................. <#members>
+  [128] getlocal 0 .............................. <arrowmems>
+  [130] pushsymb 181 ............................ <#callback>
+  [132] pushsymb 59 ............................. <#target>
+  [134] getparam 0 .............................. <me>
+  [136] pushsymb 60 ............................. <#handler>
+  [138] pushsymb 303 ............................ <#goPrevious>
+  [141] pusharglist 4 ........................... <[#target: me, #handler: #goPrevious]>
+  [143] pushproplist ............................ <[#target: me, #handler: #goPrevious]>
+  [144] pusharglist 6 ........................... <[#node: node["previous"], #members: arrowmems, #callback: [#target: me, #handler: #goPrevious]]>
+  [146] pushproplist ............................ <[#node: node["previous"], #members: arrowmems, #callback: [#target: me, #handler: #goPrevious]]>
+  [147] pusharglist 1 ........................... <[#node: node["previous"], #members: arrowmems, #callback: [#target: me, #handler: #goPrevious]]>
+  [149] extcall 76 .............................. <newButton([#node: node["previous"], #members: arrowmems, #callback: [#target: me, #handler: #goPrevious]])>
+  [151] pusharglistnoret 3 ...................... <buttons, #previous, newButton([#node: node["previous"], #members: arrowmems, #callback: [#target: me, #handler: #goPrevious]])>
+  [153] objcall 34 .............................. buttons[#previous] = newButton([#node: node["previous"], #members: arrowmems, #callback: [#target: me, #handler: #goPrevious]])
+  [155] getprop 71 .............................. <buttons>
+  [157] pushsymb 308 ............................ <#next>
+  [160] pushsymb 54 ............................. <#node>
+  [162] getprop 54 .............................. <node>
+  [164] pushcons 8 .............................. <"next">
+  [166] pusharglist 2 ........................... <node, "next">
+  [168] objcall 31 .............................. <node["next"]>
+  [170] pushsymb 77 ............................. <#members>
+  [172] getlocal 0 .............................. <arrowmems>
+  [174] pushsymb 181 ............................ <#callback>
+  [176] pushsymb 59 ............................. <#target>
+  [178] getparam 0 .............................. <me>
+  [180] pushsymb 60 ............................. <#handler>
+  [182] pushsymb 304 ............................ <#goNext>
+  [185] pusharglist 4 ........................... <[#target: me, #handler: #goNext]>
+  [187] pushproplist ............................ <[#target: me, #handler: #goNext]>
+  [188] pusharglist 6 ........................... <[#node: node["next"], #members: arrowmems, #callback: [#target: me, #handler: #goNext]]>
+  [190] pushproplist ............................ <[#node: node["next"], #members: arrowmems, #callback: [#target: me, #handler: #goNext]]>
+  [191] pusharglist 1 ........................... <[#node: node["next"], #members: arrowmems, #callback: [#target: me, #handler: #goNext]]>
+  [193] extcall 76 .............................. <newButton([#node: node["next"], #members: arrowmems, #callback: [#target: me, #handler: #goNext]])>
+  [195] pusharglistnoret 3 ...................... <buttons, #next, newButton([#node: node["next"], #members: arrowmems, #callback: [#target: me, #handler: #goNext]])>
+  [197] objcall 34 .............................. buttons[#next] = newButton([#node: node["next"], #members: arrowmems, #callback: [#target: me, #handler: #goNext]])
+  [199] getprop 71 .............................. <buttons>
+  [201] pushsymb 309 ............................ <#credits>
+  [204] pushsymb 54 ............................. <#node>
+  [206] getprop 54 .............................. <node>
+  [208] pushcons 9 .............................. <"credits">
+  [210] pusharglist 2 ........................... <node, "credits">
+  [212] objcall 31 .............................. <node["credits"]>
+  [214] pushsymb 181 ............................ <#callback>
+  [216] pushsymb 59 ............................. <#target>
+  [218] getparam 0 .............................. <me>
+  [220] pushsymb 60 ............................. <#handler>
+  [222] pushsymb 305 ............................ <#goCredits>
+  [225] pusharglist 4 ........................... <[#target: me, #handler: #goCredits]>
+  [227] pushproplist ............................ <[#target: me, #handler: #goCredits]>
+  [228] pushsymb 77 ............................. <#members>
+  [230] pushsymb 72 ............................. <#rollover>
+  [232] pushcons 10 ............................. <"help_button_credits_up">
+  [234] pushcons 4 .............................. <"gfx.screens">
+  [236] pusharglist 2 ........................... <"help_button_credits_up", "gfx.screens">
+  [238] extcall 75 .............................. <member("help_button_credits_up", "gfx.screens")>
+  [240] pusharglist 2 ........................... <[#rollover: member("help_button_credits_up", "gfx.screens")]>
+  [242] pushproplist ............................ <[#rollover: member("help_button_credits_up", "gfx.screens")]>
+  [243] pusharglist 6 ........................... <[#node: node["credits"], #callback: [#target: me, #handler: #goCredits], #members: [#rollover: member("help_button_credits_up", "gfx.screens")]]>
+  [245] pushproplist ............................ <[#node: node["credits"], #callback: [#target: me, #handler: #goCredits], #members: [#rollover: member("help_button_credits_up", "gfx.screens")]]>
+  [246] pusharglist 1 ........................... <[#node: node["credits"], #callback: [#target: me, #handler: #goCredits], #members: [#rollover: member("help_button_credits_up", "gfx.screens")]]>
+  [248] extcall 76 .............................. <newButton([#node: node["credits"], #callback: [#target: me, #handler: #goCredits], #members: [#rollover: member("help_button_credits_up", "gfx.screens")]])>
+  [250] pusharglistnoret 3 ...................... <buttons, #credits, newButton([#node: node["credits"], #callback: [#target: me, #handler: #goCredits], #members: [#rollover: member("help_button_credits_up", "gfx.screens")]])>
+  [252] objcall 34 .............................. buttons[#credits] = newButton([#node: node["credits"], #callback: [#target: me, #handler: #goCredits], #members: [#rollover: member("help_button_credits_up", "gfx.screens")]])
+  [254] getprop 71 .............................. <buttons>
+  [256] pushsymb 310 ............................ <#instructions>
+  [259] pushsymb 54 ............................. <#node>
+  [261] getprop 54 .............................. <node>
+  [263] pushcons 11 ............................. <"instructions">
+  [265] pusharglist 2 ........................... <node, "instructions">
+  [267] objcall 31 .............................. <node["instructions"]>
+  [269] pushsymb 181 ............................ <#callback>
+  [271] pushsymb 59 ............................. <#target>
+  [273] getparam 0 .............................. <me>
+  [275] pushsymb 60 ............................. <#handler>
+  [277] pushsymb 306 ............................ <#goInstructions>
+  [280] pusharglist 4 ........................... <[#target: me, #handler: #goInstructions]>
+  [282] pushproplist ............................ <[#target: me, #handler: #goInstructions]>
+  [283] pushsymb 77 ............................. <#members>
+  [285] pushsymb 72 ............................. <#rollover>
+  [287] pushcons 12 ............................. <"help_button_instruction_up">
+  [289] pushcons 4 .............................. <"gfx.screens">
+  [291] pusharglist 2 ........................... <"help_button_instruction_up", "gfx.screens">
+  [293] extcall 75 .............................. <member("help_button_instruction_up", "gfx.screens")>
+  [295] pusharglist 2 ........................... <[#rollover: member("help_button_instruction_up", "gfx.screens")]>
+  [297] pushproplist ............................ <[#rollover: member("help_button_instruction_up", "gfx.screens")]>
+  [298] pusharglist 6 ........................... <[#node: node["instructions"], #callback: [#target: me, #handler: #goInstructions], #members: [#rollover: member("help_button_instruction_up", "gfx.screens")]]>
+  [300] pushproplist ............................ <[#node: node["instructions"], #callback: [#target: me, #handler: #goInstructions], #members: [#rollover: member("help_button_instruction_up", "gfx.screens")]]>
+  [301] pusharglist 1 ........................... <[#node: node["instructions"], #callback: [#target: me, #handler: #goInstructions], #members: [#rollover: member("help_button_instruction_up", "gfx.screens")]]>
+  [303] extcall 76 .............................. <newButton([#node: node["instructions"], #callback: [#target: me, #handler: #goInstructions], #members: [#rollover: member("help_button_instruction_up", "gfx.screens")]])>
+  [305] pusharglistnoret 3 ...................... <buttons, #instructions, newButton([#node: node["instructions"], #callback: [#target: me, #handler: #goInstructions], #members: [#rollover: member("help_button_instruction_up", "gfx.screens")]])>
+  [307] objcall 34 .............................. buttons[#instructions] = newButton([#node: node["instructions"], #callback: [#target: me, #handler: #goInstructions], #members: [#rollover: member("help_button_instruction_up", "gfx.screens")]])
+  [309] ret
+end
+
+on destroy me
+  [  0] getprop 64 .............................. <initialized>
+  [  2] jmpifz [ 17] ............................ if initialized then
+  [  5] getprop 163 ............................. <menubutton>
+  [  7] pusharglistnoret 1 ...................... <menubutton>
+  [  9] objcall 2 ............................... menubutton.destroy()
+  [ 11] getprop 54 .............................. <node>
+  [ 13] pusharglistnoret 1 ...................... <node>
+  [ 15] objcall 2 ............................... node.destroy()
+  [ 17] getparam 0 .............................. <me>
+  [ 19] pusharglistnoret 1 ...................... <me>
+  [ 21] extcall 84 .............................. voidRefs(me)
+  [ 23] ret
+end
+
+on goPrevious me
+  [  0] pushint8 1 .............................. <1>
+  [  2] getprop 300 ............................. <page>
+  [  5] pushint8 1 .............................. <1>
+  [  7] sub ..................................... <page - 1>
+  [  8] pusharglist 2 ........................... <1, page - 1>
+  [ 10] extcall 190 ............................. <max(1, page - 1)>
+  [ 12] setprop 300 ............................. page = max(1, page - 1)
+  [ 15] getprop 54 .............................. <node>
+  [ 17] getprop 300 ............................. <page>
+  [ 20] pusharglist 1 ........................... <page>
+  [ 22] extcall 33 .............................. <string(page)>
+  [ 24] pusharglistnoret 2 ...................... <node, string(page)>
+  [ 26] objcall 90 .............................. node.setAnimation(string(page))
+  [ 28] getprop 71 .............................. <buttons>
+  [ 30] getchainedprop 307 ...................... <buttons.previous>
+  [ 33] getprop 300 ............................. <page>
+  [ 36] pushint8 1 .............................. <1>
+  [ 38] gt ...................................... <page > 1>
+  [ 39] pusharglistnoret 2 ...................... <buttons.previous, page > 1>
+  [ 41] objcall 95 .............................. buttons.previous.setVisible(page > 1)
+  [ 43] getprop 71 .............................. <buttons>
+  [ 45] getchainedprop 308 ...................... <buttons.next>
+  [ 48] getprop 300 ............................. <page>
+  [ 51] pushint8 5 .............................. <5>
+  [ 53] lt ...................................... <page < 5>
+  [ 54] pusharglistnoret 2 ...................... <buttons.next, page < 5>
+  [ 56] objcall 95 .............................. buttons.next.setVisible(page < 5)
+  [ 58] ret
+end
+
+on goNext me
+  [  0] pushint8 5 .............................. <5>
+  [  2] getprop 300 ............................. <page>
+  [  5] pushint8 1 .............................. <1>
+  [  7] add ..................................... <page + 1>
+  [  8] pusharglist 2 ........................... <5, page + 1>
+  [ 10] extcall 191 ............................. <min(5, page + 1)>
+  [ 12] setprop 300 ............................. page = min(5, page + 1)
+  [ 15] getprop 54 .............................. <node>
+  [ 17] getprop 300 ............................. <page>
+  [ 20] pusharglist 1 ........................... <page>
+  [ 22] extcall 33 .............................. <string(page)>
+  [ 24] pusharglistnoret 2 ...................... <node, string(page)>
+  [ 26] objcall 90 .............................. node.setAnimation(string(page))
+  [ 28] getprop 71 .............................. <buttons>
+  [ 30] getchainedprop 307 ...................... <buttons.previous>
+  [ 33] getprop 300 ............................. <page>
+  [ 36] pushint8 1 .............................. <1>
+  [ 38] gt ...................................... <page > 1>
+  [ 39] pusharglistnoret 2 ...................... <buttons.previous, page > 1>
+  [ 41] objcall 95 .............................. buttons.previous.setVisible(page > 1)
+  [ 43] getprop 71 .............................. <buttons>
+  [ 45] getchainedprop 308 ...................... <buttons.next>
+  [ 48] getprop 300 ............................. <page>
+  [ 51] pushint8 5 .............................. <5>
+  [ 53] lt ...................................... <page < 5>
+  [ 54] pusharglistnoret 2 ...................... <buttons.next, page < 5>
+  [ 56] objcall 95 .............................. buttons.next.setVisible(page < 5)
+  [ 58] ret
+end
+
+on goCredits me
+  [  0] getprop 54 .............................. <node>
+  [  2] pushcons 9 .............................. <"credits">
+  [  4] pusharglistnoret 2 ...................... <node, "credits">
+  [  6] objcall 90 .............................. node.setAnimation("credits")
+  [  8] getprop 71 .............................. <buttons>
+  [ 10] getchainedprop 307 ...................... <buttons.previous>
+  [ 13] pushzero ................................ <0>
+  [ 14] pusharglistnoret 2 ...................... <buttons.previous, 0>
+  [ 16] objcall 95 .............................. buttons.previous.setVisible(0)
+  [ 18] getprop 71 .............................. <buttons>
+  [ 20] getchainedprop 308 ...................... <buttons.next>
+  [ 23] pushzero ................................ <0>
+  [ 24] pusharglistnoret 2 ...................... <buttons.next, 0>
+  [ 26] objcall 95 .............................. buttons.next.setVisible(0)
+  [ 28] getprop 71 .............................. <buttons>
+  [ 30] getchainedprop 309 ...................... <buttons.credits>
+  [ 33] pushzero ................................ <0>
+  [ 34] pusharglistnoret 2 ...................... <buttons.credits, 0>
+  [ 36] objcall 95 .............................. buttons.credits.setVisible(0)
+  [ 38] getprop 71 .............................. <buttons>
+  [ 40] getchainedprop 310 ...................... <buttons.instructions>
+  [ 43] pushint8 1 .............................. <1>
+  [ 45] pusharglistnoret 2 ...................... <buttons.instructions, 1>
+  [ 47] objcall 95 .............................. buttons.instructions.setVisible(1)
+  [ 49] ret
+end
+
+on goInstructions me
+  [  0] pushint8 1 .............................. <1>
+  [  2] setprop 300 ............................. page = 1
+  [  5] getprop 54 .............................. <node>
+  [  7] pushcons 13 ............................. <"1">
+  [  9] pusharglistnoret 2 ...................... <node, "1">
+  [ 11] objcall 90 .............................. node.setAnimation("1")
+  [ 13] getprop 71 .............................. <buttons>
+  [ 15] getchainedprop 307 ...................... <buttons.previous>
+  [ 18] pushzero ................................ <0>
+  [ 19] pusharglistnoret 2 ...................... <buttons.previous, 0>
+  [ 21] objcall 95 .............................. buttons.previous.setVisible(0)
+  [ 23] getprop 71 .............................. <buttons>
+  [ 25] getchainedprop 308 ...................... <buttons.next>
+  [ 28] pushint8 1 .............................. <1>
+  [ 30] pusharglistnoret 2 ...................... <buttons.next, 1>
+  [ 32] objcall 95 .............................. buttons.next.setVisible(1)
+  [ 34] getprop 71 .............................. <buttons>
+  [ 36] getchainedprop 309 ...................... <buttons.credits>
+  [ 39] pushint8 1 .............................. <1>
+  [ 41] pusharglistnoret 2 ...................... <buttons.credits, 1>
+  [ 43] objcall 95 .............................. buttons.credits.setVisible(1)
+  [ 45] getprop 71 .............................. <buttons>
+  [ 47] getchainedprop 310 ...................... <buttons.instructions>
+  [ 50] pushzero ................................ <0>
+  [ 51] pusharglistnoret 2 ...................... <buttons.instructions, 0>
+  [ 53] objcall 95 .............................. buttons.instructions.setVisible(0)
+  [ 55] ret
+end
+
+on enterMode me, previousMode
+  [  0] getprop 64 .............................. <initialized>
+  [  2] not ..................................... <not initialized>
+  [  3] jmpifz [ 15] ............................ if not initialized then / else
+  [  6] getparam 0 .............................. <me>
+  [  8] pusharglistnoret 1 ...................... <me>
+  [ 10] objcall 1 ............................... me.init()
+  [ 12] jmp [ 21]
+  [ 15] getprop 54 .............................. <node>
+  [ 17] pusharglistnoret 1 ...................... <node>
+  [ 19] objcall 96 .............................. node.embody()
+  [ 21] getprop 54 .............................. <node>
+  [ 23] pusharglistnoret 1 ...................... <node>
+  [ 25] objcall 97 .............................. node.updateLocZ()
+  [ 27] getprop 83 .............................. <grp>
+  [ 29] pushint8 1 .............................. <1>
+  [ 31] pusharglistnoret 2 ...................... <grp, 1>
+  [ 33] objcall 95 .............................. grp.setVisible(1)
+  [ 35] getprop 54 .............................. <node>
+  [ 37] pushint8 1 .............................. <1>
+  [ 39] pusharglistnoret 2 ...................... <node, 1>
+  [ 41] objcall 95 .............................. node.setVisible(1)
+  [ 43] getprop 71 .............................. <buttons>
+  [ 45] getchainedprop 308 ...................... <buttons.next>
+  [ 48] pushsymb 59 ............................. <#target>
+  [ 50] getparam 0 .............................. <me>
+  [ 52] pushsymb 60 ............................. <#handler>
+  [ 54] pushsymb 304 ............................ <#goNext>
+  [ 57] pusharglist 4 ........................... <[#target: me, #handler: #goNext]>
+  [ 59] pushproplist ............................ <[#target: me, #handler: #goNext]>
+  [ 60] pusharglistnoret 2 ...................... <buttons.next, [#target: me, #handler: #goNext]>
+  [ 62] objcall 61 .............................. buttons.next.setCallback([#target: me, #handler: #goNext])
+  [ 64] getprop 71 .............................. <buttons>
+  [ 66] getchainedprop 307 ...................... <buttons.previous>
+  [ 69] pushsymb 59 ............................. <#target>
+  [ 71] getparam 0 .............................. <me>
+  [ 73] pushsymb 60 ............................. <#handler>
+  [ 75] pushsymb 303 ............................ <#goPrevious>
+  [ 78] pusharglist 4 ........................... <[#target: me, #handler: #goPrevious]>
+  [ 80] pushproplist ............................ <[#target: me, #handler: #goPrevious]>
+  [ 81] pusharglistnoret 2 ...................... <buttons.previous, [#target: me, #handler: #goPrevious]>
+  [ 83] objcall 61 .............................. buttons.previous.setCallback([#target: me, #handler: #goPrevious])
+  [ 85] getparam 0 .............................. <me>
+  [ 87] pusharglistnoret 1 ...................... <me>
+  [ 89] objcall 306 ............................. me.goInstructions()
+  [ 92] ret
+end
+
+on event me, sym
+  [  0] ret
+end
+
+on leaveMode me, nextMode
+  [  0] getprop 54 .............................. <node>
+  [  2] pusharglistnoret 1 ...................... <node>
+  [  4] objcall 108 ............................. node.disembody()
+  [  6] getparam 1 .............................. <nextMode>
+  [  8] getobjprop 63 ........................... <nextMode.name>
+  [ 10] pushsymb 13 ............................. <#menu>
+  [ 12] nteq .................................... <nextMode.name <> #menu>
+  [ 13] jmpifz [ 23] ............................ if nextMode.name <> #menu then
+  [ 16] getprop 83 .............................. <grp>
+  [ 18] pushzero ................................ <0>
+  [ 19] pusharglistnoret 2 ...................... <grp, 0>
+  [ 21] objcall 95 .............................. grp.setVisible(0)
+  [ 23] getprop 54 .............................. <node>
+  [ 25] pushzero ................................ <0>
+  [ 26] pusharglistnoret 2 ...................... <node, 0>
+  [ 28] objcall 95 .............................. node.setVisible(0)
+  [ 30] ret
+end

@@ -1,0 +1,223 @@
+property node, callback, poptime, popsize, poploc, nodescale, home, ms, timergroup, defaults
+
+on new me
+  [  0] pusharglist 0 ........................... <[:]>
+  [  2] pushproplist ............................ <[:]>
+  [  3] setprop 329 ............................. defaults = [:]
+  [  6] getprop 329 ............................. <defaults>
+  [  9] pushsymb 330 ............................ <#poptime>
+  [ 12] pushfloat32 200.0 ....................... <200.0>
+  [ 17] pusharglistnoret 3 ...................... <defaults, #poptime, 200.0>
+  [ 19] objcall 34 .............................. defaults[#poptime] = 200.0
+  [ 21] getprop 329 ............................. <defaults>
+  [ 24] pushsymb 331 ............................ <#popsize>
+  [ 27] pushfloat32 2.0 ......................... <2.0>
+  [ 32] pusharglistnoret 3 ...................... <defaults, #popsize, 2.0>
+  [ 34] objcall 34 .............................. defaults[#popsize] = 2.0
+  [ 36] getprop 329 ............................. <defaults>
+  [ 39] pushsymb 273 ............................ <#poploc>
+  [ 42] pushint8 15 ............................. <15>
+  [ 44] pushint8 10 ............................. <10>
+  [ 46] pusharglist 2 ........................... <15, 10>
+  [ 48] extcall 101 ............................. <point(15, 10)>
+  [ 50] pusharglistnoret 3 ...................... <defaults, #poploc, point(15, 10)>
+  [ 52] objcall 34 .............................. defaults[#poploc] = point(15, 10)
+  [ 54] getparam 0 .............................. <me>
+  [ 56] pusharglistnoret 1 ...................... <me>
+  [ 58] extcall 9 ............................... return me
+  [ 60] ret
+end
+
+on destroy me
+  [  0] getparam 0 .............................. <me>
+  [  2] pushsymb 328 ............................ <#exitFrame>
+  [  5] getprop 274 ............................. <timergroup>
+  [  8] pusharglistnoret 3 ...................... <me, #exitFrame, timergroup>
+  [ 10] extcall 301 ............................. unsubscribe(me, #exitFrame, timergroup)
+  [ 13] pusharglist 0 ........................... <>
+  [ 15] extcall 38 .............................. <VOID>
+  [ 17] setprop 54 .............................. node = VOID
+  [ 19] pusharglist 0 ........................... <>
+  [ 21] extcall 38 .............................. <VOID>
+  [ 23] setprop 181 ............................. callback = VOID
+  [ 25] ret
+end
+
+on pop me, Args
+  [  0] getprop 54 .............................. <node>
+  [  2] pusharglist 1 ........................... <node>
+  [  4] extcall 39 .............................. <voidp(node)>
+  [  6] not ..................................... <not voidp(node)>
+  [  7] jmpifz [ 16] ............................ if not voidp(node) then
+  [ 10] getparam 0 .............................. <me>
+  [ 12] pusharglistnoret 1 ...................... <me>
+  [ 14] objcall 86 .............................. me.stop()
+  [ 16] getparam 1 .............................. <Args>
+  [ 18] getobjprop 54 ........................... <Args.node>
+  [ 20] setprop 54 .............................. node = Args.node
+  [ 22] pushcons 0 .............................. <"sfx_menu_down_2">
+  [ 24] pusharglistnoret 1 ...................... <"sfx_menu_down_2">
+  [ 26] extcall 176 ............................. SndSFX("sfx_menu_down_2")
+  [ 28] getprop 54 .............................. <node>
+  [ 30] pusharglist 1 ........................... <node>
+  [ 32] objcall 160 ............................. <node.getLoc()>
+  [ 34] setprop 165 ............................. home = node.getLoc()
+  [ 36] getprop 54 .............................. <node>
+  [ 38] pusharglist 1 ........................... <node>
+  [ 40] objcall 333 ............................. <node.getScale()>
+  [ 43] setprop 332 ............................. nodescale = node.getScale()
+  [ 46] getparam 1 .............................. <Args>
+  [ 48] pushsymb 181 ............................ <#callback>
+  [ 50] pusharglist 2 ........................... <Args, #callback>
+  [ 52] objcall 31 .............................. <Args[#callback]>
+  [ 54] setprop 181 ............................. callback = Args[#callback]
+  [ 56] getparam 1 .............................. <Args>
+  [ 58] pushsymb 274 ............................ <#timergroup>
+  [ 61] pusharglist 2 ........................... <Args, #timergroup>
+  [ 63] objcall 31 .............................. <Args[#timergroup]>
+  [ 65] setprop 274 ............................. timergroup = Args[#timergroup]
+  [ 68] pushsymb 330 ............................ <#poptime>
+  [ 71] pushsymb 331 ............................ <#popsize>
+  [ 74] pushsymb 273 ............................ <#poploc>
+  [ 77] pusharglist 3 ........................... <[#poptime, #popsize, #poploc]>
+  [ 79] pushlist ................................ <[#poptime, #popsize, #poploc]>
+  [ 80] peek 0
+  [ 82] pusharglist 1
+  [ 84] extcall 30
+  [ 86] pushint8 1
+  [ 88] peek 0
+  [ 90] peek 2
+  [ 92] lteq
+  [ 93] jmpifz [151] ............................ repeat with i in [#poptime, #popsize, #poploc]
+  [ 96] peek 2
+  [ 98] peek 1
+  [100] pusharglist 2
+  [102] extcall 31
+  [104] setlocal 0
+  [106] getparam 1 .............................. <Args>
+  [108] getlocal 0 .............................. <i>
+  [110] pusharglist 2 ........................... <Args, i>
+  [112] objcall 31 .............................. <Args[i]>
+  [114] setlocal 1 .............................. v = Args[i]
+  [116] getlocal 1 .............................. <v>
+  [118] pusharglist 1 ........................... <v>
+  [120] extcall 39 .............................. <voidp(v)>
+  [122] jmpifz [136] ............................ if voidp(v) then
+  [125] getprop 329 ............................. <defaults>
+  [128] getlocal 0 .............................. <i>
+  [130] pusharglist 2 ........................... <defaults, i>
+  [132] objcall 31 .............................. <defaults[i]>
+  [134] setlocal 1 .............................. v = defaults[i]
+  [136] getparam 0 .............................. <me>
+  [138] getlocal 0 .............................. <i>
+  [140] getlocal 1 .............................. <v>
+  [142] pusharglistnoret 3 ...................... <me, i, v>
+  [144] objcall 34 .............................. me[i] = v
+  [146] pushint8 1
+  [148] add
+  [149] endrepeat [ 88]
+  [151] pop 3
+  [153] getprop 330 ............................. <poptime>
+  [156] pusharglist 1 ........................... <poptime>
+  [158] extcall 334 ............................. <float(poptime)>
+  [161] setprop 330 ............................. poptime = float(poptime)
+  [164] getprop 330 ............................. <poptime>
+  [167] setprop 179 ............................. ms = poptime
+  [169] getparam 0 .............................. <me>
+  [171] pushsymb 328 ............................ <#exitFrame>
+  [174] getprop 274 ............................. <timergroup>
+  [177] pusharglistnoret 3 ...................... <me, #exitFrame, timergroup>
+  [179] extcall 335 ............................. subscribe(me, #exitFrame, timergroup)
+  [182] getprop 54 .............................. <node>
+  [184] pushint8 1 .............................. <1>
+  [186] pusharglistnoret 2 ...................... <node, 1>
+  [188] objcall 95 .............................. node.setVisible(1)
+  [190] getparam 0 .............................. <me>
+  [192] pushzero ................................ <0>
+  [193] pusharglistnoret 2 ...................... <me, 0>
+  [195] objcall 328 ............................. me.exitFrame(0)
+  [198] ret
+end
+
+on exitFrame me, frameMS
+  [  0] getprop 54 .............................. <node>
+  [  2] getobjprop 39 ........................... <node.voidp>
+  [  4] jmpifz [ 11] ............................ if node.voidp then
+  [  7] pusharglistnoret 0 ...................... <>
+  [  9] extcall 9 ............................... return 
+  [ 11] getprop 179 ............................. <ms>
+  [ 13] getparam 1 .............................. <frameMS>
+  [ 15] sub ..................................... <ms - frameMS>
+  [ 16] setprop 179 ............................. ms = ms - frameMS
+  [ 18] getprop 179 ............................. <ms>
+  [ 20] pushzero ................................ <0>
+  [ 21] lteq .................................... <ms <= 0>
+  [ 22] jmpifz [ 35] ............................ if ms <= 0 then
+  [ 25] getparam 0 .............................. <me>
+  [ 27] pusharglistnoret 1 ...................... <me>
+  [ 29] objcall 86 .............................. me.stop()
+  [ 31] pusharglistnoret 0 ...................... <>
+  [ 33] extcall 9 ............................... return 
+  [ 35] getprop 179 ............................. <ms>
+  [ 37] getprop 330 ............................. <poptime>
+  [ 40] div ..................................... <ms / poptime>
+  [ 41] setlocal 0 .............................. ratio = ms / poptime
+  [ 43] getprop 165 ............................. <home>
+  [ 45] getprop 273 ............................. <poploc>
+  [ 48] getlocal 0 .............................. <ratio>
+  [ 50] mul ..................................... <poploc * ratio>
+  [ 51] add ..................................... <home + (poploc * ratio)>
+  [ 52] setlocal 1 .............................. loc = home + (poploc * ratio)
+  [ 54] pushfloat32 1.0 ......................... <1.0>
+  [ 59] getprop 331 ............................. <popsize>
+  [ 62] getlocal 0 .............................. <ratio>
+  [ 64] mul ..................................... <popsize * ratio>
+  [ 65] add ..................................... <1.0 + (popsize * ratio)>
+  [ 66] setlocal 2 .............................. size = 1.0 + (popsize * ratio)
+  [ 68] getprop 54 .............................. <node>
+  [ 70] getlocal 2 .............................. <size>
+  [ 72] getprop 332 ............................. <nodescale>
+  [ 75] mul ..................................... <size * nodescale>
+  [ 76] pusharglistnoret 2 ...................... <node, size * nodescale>
+  [ 78] objcall 336 ............................. node.setScale(size * nodescale)
+  [ 81] getprop 54 .............................. <node>
+  [ 83] getlocal 1 .............................. <loc>
+  [ 85] pusharglistnoret 2 ...................... <node, loc>
+  [ 87] objcall 102 ............................. node.setLoc(loc)
+  [ 89] ret
+end
+
+on stop me
+  [  0] getprop 181 ............................. <callback>
+  [  2] pusharglist 1 ........................... <callback>
+  [  4] extcall 39 .............................. <voidp(callback)>
+  [  6] not ..................................... <not voidp(callback)>
+  [  7] jmpifz [ 30] ............................ if not voidp(callback) then
+  [ 10] getprop 181 ............................. <callback>
+  [ 12] getobjprop 60 ........................... <callback.handler>
+  [ 14] getprop 181 ............................. <callback>
+  [ 16] getobjprop 59 ........................... <callback.target>
+  [ 18] getprop 181 ............................. <callback>
+  [ 20] pushsymb 99 ............................. <#Args>
+  [ 22] pusharglist 2 ........................... <callback, #Args>
+  [ 24] objcall 31 .............................. <callback[#Args]>
+  [ 26] pusharglistnoret 3 ...................... <callback.handler, callback.target, callback[#Args]>
+  [ 28] extcall 36 .............................. call(callback.handler, callback.target, callback[#Args])
+  [ 30] getparam 0 .............................. <me>
+  [ 32] pushsymb 328 ............................ <#exitFrame>
+  [ 35] getprop 274 ............................. <timergroup>
+  [ 38] pusharglistnoret 3 ...................... <me, #exitFrame, timergroup>
+  [ 40] extcall 301 ............................. unsubscribe(me, #exitFrame, timergroup)
+  [ 43] getprop 54 .............................. <node>
+  [ 45] getprop 165 ............................. <home>
+  [ 47] pusharglistnoret 2 ...................... <node, home>
+  [ 49] objcall 102 ............................. node.setLoc(home)
+  [ 51] getprop 54 .............................. <node>
+  [ 53] getprop 332 ............................. <nodescale>
+  [ 56] pusharglistnoret 2 ...................... <node, nodescale>
+  [ 58] objcall 336 ............................. node.setScale(nodescale)
+  [ 61] pusharglist 0 ........................... <>
+  [ 63] extcall 38 .............................. <VOID>
+  [ 65] setprop 54 .............................. node = VOID
+  [ 67] ret
+end

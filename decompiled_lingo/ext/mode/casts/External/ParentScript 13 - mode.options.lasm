@@ -1,0 +1,500 @@
+property mgr, name, save_mgr, node_mgr, node, grp, screen, buttons, okbutton, home, offscreen, lastMode, initialized
+global glob
+
+on new me, m
+  [  0] getparam 1 .............................. <m>
+  [  2] setprop 52 .............................. mgr = m
+  [  4] getparam 1 .............................. <m>
+  [  6] getchainedprop 4 ........................ <m.glob>
+  [  8] getchainedprop 6 ........................ <m.glob.managers>
+  [ 10] getobjprop 54 ........................... <m.glob.managers.node>
+  [ 12] setprop 53 .............................. node_mgr = m.glob.managers.node
+  [ 14] pushint16 5000 .......................... <5000>
+  [ 17] inv ..................................... <-5000>
+  [ 18] pushint16 5000 .......................... <5000>
+  [ 21] inv ..................................... <-5000>
+  [ 22] pusharglist 2 ........................... <-5000, -5000>
+  [ 24] extcall 101 ............................. <point(-5000, -5000)>
+  [ 26] setprop 166 ............................. offscreen = point(-5000, -5000)
+  [ 28] pushsymb 29 ............................. <#options>
+  [ 30] setprop 63 .............................. name = #options
+  [ 32] getparam 0 .............................. <me>
+  [ 34] pusharglistnoret 1 ...................... <me>
+  [ 36] extcall 9 ............................... return me
+  [ 38] ret
+end
+
+on init me
+  [  0] getprop 64 .............................. <initialized>
+  [  2] jmpifz [  9] ............................ if initialized then
+  [  5] pusharglistnoret 0 ...................... <>
+  [  7] extcall 9 ............................... return 
+  [  9] pushint8 1 .............................. <1>
+  [ 11] setprop 64 .............................. initialized = 1
+  [ 13] getprop 53 .............................. <node_mgr>
+  [ 15] pushcons 0 .............................. <"titles">
+  [ 17] pusharglist 2 ........................... <node_mgr, "titles">
+  [ 19] objcall 65 .............................. <node_mgr.getGroup("titles")>
+  [ 21] setprop 83 .............................. grp = node_mgr.getGroup("titles")
+  [ 23] getprop 83 .............................. <grp>
+  [ 25] pushcons 1 .............................. <"options">
+  [ 27] pusharglist 1 ........................... <"options">
+  [ 29] extcall 66 .............................. <getNodeData("options")>
+  [ 31] pusharglist 2 ........................... <grp, getNodeData("options")>
+  [ 33] objcall 67 .............................. <grp.newNode(getNodeData("options"))>
+  [ 35] setprop 54 .............................. node = grp.newNode(getNodeData("options"))
+  [ 37] getprop 54 .............................. <node>
+  [ 39] pusharglist 1 ........................... <node>
+  [ 41] objcall 160 ............................. <node.getLoc()>
+  [ 43] setprop 165 ............................. home = node.getLoc()
+  [ 45] getprop 54 .............................. <node>
+  [ 47] pushzero ................................ <0>
+  [ 48] pusharglistnoret 2 ...................... <node, 0>
+  [ 50] objcall 95 .............................. node.setVisible(0)
+  [ 52] getprop 54 .............................. <node>
+  [ 54] getprop 166 ............................. <offscreen>
+  [ 56] pusharglistnoret 2 ...................... <node, offscreen>
+  [ 58] objcall 102 ............................. node.setLoc(offscreen)
+  [ 60] getprop 54 .............................. <node>
+  [ 62] pushint32 999999 ........................ <999999>
+  [ 67] pusharglistnoret 2 ...................... <node, 999999>
+  [ 69] objcall 68 .............................. node.setZOffset(999999)
+  [ 71] getglobal 4 ............................. <glob>
+  [ 73] getchainedprop 6 ........................ <glob.managers>
+  [ 75] getobjprop 56 ........................... <glob.managers.savegame>
+  [ 77] setprop 55 .............................. save_mgr = glob.managers.savegame
+  [ 79] pusharglist 0 ........................... <[:]>
+  [ 81] pushproplist ............................ <[:]>
+  [ 82] setprop 71 .............................. buttons = [:]
+  [ 84] pushcons 2 .............................. <"music">
+  [ 86] pushcons 3 .............................. <"sfx">
+  [ 88] pushcons 4 .............................. <"fs">
+  [ 90] pusharglist 3 ........................... <["music", "sfx", "fs"]>
+  [ 92] pushlist ................................ <["music", "sfx", "fs"]>
+  [ 93] peek 0
+  [ 95] pusharglist 1
+  [ 97] extcall 30
+  [ 99] pushint8 1
+  [101] peek 0
+  [103] peek 2
+  [105] lteq
+  [106] jmpifz [297] ............................ repeat with i in ["music", "sfx", "fs"]
+  [109] peek 2
+  [111] peek 1
+  [113] pusharglist 2
+  [115] extcall 31
+  [117] setlocal 0
+  [119] pusharglist 0 ........................... <[:]>
+  [121] pushproplist ............................ <[:]>
+  [122] setlocal 1 .............................. bls = [:]
+  [124] pushcons 5 .............................. <"off">
+  [126] pushcons 6 .............................. <"on">
+  [128] pusharglist 2 ........................... <["off", "on"]>
+  [130] pushlist ................................ <["off", "on"]>
+  [131] peek 0
+  [133] pusharglist 1
+  [135] extcall 30
+  [137] pushint8 1
+  [139] peek 0
+  [141] peek 2
+  [143] lteq
+  [144] jmpifz [280] ............................ repeat with j in ["off", "on"]
+  [147] peek 2
+  [149] peek 1
+  [151] pusharglist 2
+  [153] extcall 31
+  [155] setlocal 2
+  [157] getprop 54 .............................. <node>
+  [159] getlocal 0 .............................. <i>
+  [161] pushcons 7 .............................. <"_">
+  [163] joinstr ................................. <i & "_">
+  [164] getlocal 2 .............................. <j>
+  [166] joinstr ................................. <i & "_" & j>
+  [167] pusharglist 2 ........................... <node, i & "_" & j>
+  [169] objcall 31 .............................. <node[i & "_" & j]>
+  [171] setlocal 3 .............................. bn = node[i & "_" & j]
+  [173] getlocal 0 .............................. <i>
+  [175] getlocal 2 .............................. <j>
+  [177] pusharglist 2 ........................... <[i, j]>
+  [179] pushlist ................................ <[i, j]>
+  [180] setlocal 4 .............................. dat = [i, j]
+  [182] pushcons 8 .............................. <"opt_">
+  [184] getlocal 2 .............................. <j>
+  [186] joinstr ................................. <"opt_" & j>
+  [187] pushcons 9 .............................. <"_hilite">
+  [189] joinstr ................................. <"opt_" & j & "_hilite">
+  [190] pushcons 10 ............................. <"gfx.screens">
+  [192] pusharglist 2 ........................... <"opt_" & j & "_hilite", "gfx.screens">
+  [194] extcall 75 .............................. <member("opt_" & j & "_hilite", "gfx.screens")>
+  [196] setlocal 5 .............................. hmem = member("opt_" & j & "_hilite", "gfx.screens")
+  [198] pushsymb 54 ............................. <#node>
+  [200] getlocal 3 .............................. <bn>
+  [202] pushsymb 77 ............................. <#members>
+  [204] pushsymb 74 ............................. <#normal>
+  [206] pushcons 8 .............................. <"opt_">
+  [208] getlocal 2 .............................. <j>
+  [210] joinstr ................................. <"opt_" & j>
+  [211] pushcons 10 ............................. <"gfx.screens">
+  [213] pusharglist 2 ........................... <"opt_" & j, "gfx.screens">
+  [215] extcall 75 .............................. <member("opt_" & j, "gfx.screens")>
+  [217] pushsymb 72 ............................. <#rollover>
+  [219] getlocal 5 .............................. <hmem>
+  [221] pushsymb 216 ............................ <#disabled>
+  [223] getlocal 5 .............................. <hmem>
+  [225] pusharglist 6 ........................... <[#normal: member("opt_" & j, "gfx.screens"), #rollover: hmem, #disabled: hmem]>
+  [227] pushproplist ............................ <[#normal: member("opt_" & j, "gfx.screens"), #rollover: hmem, #disabled: hmem]>
+  [228] pushsymb 181 ............................ <#callback>
+  [230] pushsymb 59 ............................. <#target>
+  [232] getparam 0 .............................. <me>
+  [234] pushsymb 60 ............................. <#handler>
+  [236] pushcons 11 ............................. <"set">
+  [238] getlocal 0 .............................. <i>
+  [240] joinstr ................................. <"set" & i>
+  [241] pusharglist 1 ........................... <"set" & i>
+  [243] extcall 263 ............................. <symbol("set" & i)>
+  [246] pushsymb 99 ............................. <#Args>
+  [248] getlocal 2 .............................. <j>
+  [250] pushcons 6 .............................. <"on">
+  [252] eq ...................................... <j = "on">
+  [253] pusharglist 6 ........................... <[#target: me, #handler: symbol("set" & i), #Args: j = "on"]>
+  [255] pushproplist ............................ <[#target: me, #handler: symbol("set" & i), #Args: j = "on"]>
+  [256] pusharglist 6 ........................... <[#node: bn, #members: [#normal: member("opt_" & j, "gfx.screens"), #rollover: hmem, #disabled: hmem], #callback: [#target: me, #handler: symbol("set" & i), #Args: j = "on"]]>
+  [258] pushproplist ............................ <[#node: bn, #members: [#normal: member("opt_" & j, "gfx.screens"), #rollover: hmem, #disabled: hmem], #callback: [#target: me, #handler: symbol("set" & i), #Args: j = "on"]]>
+  [259] pusharglist 1 ........................... <[#node: bn, #members: [#normal: member("opt_" & j, "gfx.screens"), #rollover: hmem, #disabled: hmem], #callback: [#target: me, #handler: symbol("set" & i), #Args: j = "on"]]>
+  [261] extcall 76 .............................. <newButton([#node: bn, #members: [#normal: member("opt_" & j, "gfx.screens"), #rollover: hmem, #disabled: hmem], #callback: [#target: me, #handler: symbol("set" & i), #Args: j = "on"]])>
+  [263] setlocal 6 .............................. b = newButton([#node: bn, #members: [#normal: member("opt_" & j, "gfx.screens"), #rollover: hmem, #disabled: hmem], #callback: [#target: me, #handler: symbol("set" & i), #Args: j = "on"]])
+  [265] getlocal 1 .............................. <bls>
+  [267] getlocal 2 .............................. <j>
+  [269] getlocal 6 .............................. <b>
+  [271] pusharglistnoret 3 ...................... <bls, j, b>
+  [273] objcall 34 .............................. bls[j] = b
+  [275] pushint8 1
+  [277] add
+  [278] endrepeat [139]
+  [280] pop 3
+  [282] getprop 71 .............................. <buttons>
+  [284] getlocal 0 .............................. <i>
+  [286] getlocal 1 .............................. <bls>
+  [288] pusharglistnoret 3 ...................... <buttons, i, bls>
+  [290] objcall 34 .............................. buttons[i] = bls
+  [292] pushint8 1
+  [294] add
+  [295] endrepeat [101]
+  [297] pop 3
+  [299] getprop 54 .............................. <node>
+  [301] pushcons 12 ............................. <"okbutton">
+  [303] pusharglist 2 ........................... <node, "okbutton">
+  [305] objcall 31 .............................. <node["okbutton"]>
+  [307] setlocal 7 .............................. Ok = node["okbutton"]
+  [309] pushsymb 54 ............................. <#node>
+  [311] getlocal 7 .............................. <Ok>
+  [313] pushsymb 77 ............................. <#members>
+  [315] pushsymb 74 ............................. <#normal>
+  [317] pushcons 13 ............................. <"opt_ok">
+  [319] pushcons 10 ............................. <"gfx.screens">
+  [321] pusharglist 2 ........................... <"opt_ok", "gfx.screens">
+  [323] extcall 75 .............................. <member("opt_ok", "gfx.screens")>
+  [325] pushsymb 72 ............................. <#rollover>
+  [327] pushcons 14 ............................. <"opt_ok_rollover">
+  [329] pushcons 10 ............................. <"gfx.screens">
+  [331] pusharglist 2 ........................... <"opt_ok_rollover", "gfx.screens">
+  [333] extcall 75 .............................. <member("opt_ok_rollover", "gfx.screens")>
+  [335] pusharglist 4 ........................... <[#normal: member("opt_ok", "gfx.screens"), #rollover: member("opt_ok_rollover", "gfx.screens")]>
+  [337] pushproplist ............................ <[#normal: member("opt_ok", "gfx.screens"), #rollover: member("opt_ok_rollover", "gfx.screens")]>
+  [338] pushsymb 181 ............................ <#callback>
+  [340] pushsymb 59 ............................. <#target>
+  [342] getparam 0 .............................. <me>
+  [344] pushsymb 60 ............................. <#handler>
+  [346] pushsymb 315 ............................ <#hide>
+  [349] pusharglist 4 ........................... <[#target: me, #handler: #hide]>
+  [351] pushproplist ............................ <[#target: me, #handler: #hide]>
+  [352] pusharglist 6 ........................... <[#node: Ok, #members: [#normal: member("opt_ok", "gfx.screens"), #rollover: member("opt_ok_rollover", "gfx.screens")], #callback: [#target: me, #handler: #hide]]>
+  [354] pushproplist ............................ <[#node: Ok, #members: [#normal: member("opt_ok", "gfx.screens"), #rollover: member("opt_ok_rollover", "gfx.screens")], #callback: [#target: me, #handler: #hide]]>
+  [355] pusharglist 1 ........................... <[#node: Ok, #members: [#normal: member("opt_ok", "gfx.screens"), #rollover: member("opt_ok_rollover", "gfx.screens")], #callback: [#target: me, #handler: #hide]]>
+  [357] extcall 76 .............................. <newButton([#node: Ok, #members: [#normal: member("opt_ok", "gfx.screens"), #rollover: member("opt_ok_rollover", "gfx.screens")], #callback: [#target: me, #handler: #hide]])>
+  [359] setprop 316 ............................. okbutton = newButton([#node: Ok, #members: [#normal: member("opt_ok", "gfx.screens"), #rollover: member("opt_ok_rollover", "gfx.screens")], #callback: [#target: me, #handler: #hide]])
+  [362] ret
+end
+
+on clickButton me, Args
+  [  0] ret
+end
+
+on setMusic me, b
+  [  0] getprop 71 .............................. <buttons>
+  [  2] pushcons 2 .............................. <"music">
+  [  4] pusharglist 2 ........................... <buttons, "music">
+  [  6] objcall 31 .............................. <buttons["music"]>
+  [  8] pushcons 6 .............................. <"on">
+  [ 10] pusharglist 2 ........................... <buttons["music"], "on">
+  [ 12] objcall 31 .............................. <buttons["music"]["on"]>
+  [ 14] getparam 1 .............................. <b>
+  [ 16] pusharglistnoret 2 ...................... <buttons["music"]["on"], b>
+  [ 18] objcall 194 ............................. buttons["music"]["on"].setDisabled(b)
+  [ 20] getprop 71 .............................. <buttons>
+  [ 22] pushcons 2 .............................. <"music">
+  [ 24] pusharglist 2 ........................... <buttons, "music">
+  [ 26] objcall 31 .............................. <buttons["music"]>
+  [ 28] pushcons 5 .............................. <"off">
+  [ 30] pusharglist 2 ........................... <buttons["music"], "off">
+  [ 32] objcall 31 .............................. <buttons["music"]["off"]>
+  [ 34] getparam 1 .............................. <b>
+  [ 36] not ..................................... <not b>
+  [ 37] pusharglistnoret 2 ...................... <buttons["music"]["off"], not b>
+  [ 39] objcall 194 ............................. buttons["music"]["off"].setDisabled(not b)
+  [ 41] getprop 55 .............................. <save_mgr>
+  [ 43] getchainedprop 29 ....................... <save_mgr.options>
+  [ 45] getparam 1 .............................. <b>
+  [ 47] setobjprop 322 .......................... save_mgr.options.music = b
+  [ 50] getprop 55 .............................. <save_mgr>
+  [ 52] pusharglistnoret 1 ...................... <save_mgr>
+  [ 54] objcall 323 ............................. save_mgr.updateOptions()
+  [ 57] getprop 55 .............................. <save_mgr>
+  [ 59] pusharglistnoret 1 ...................... <save_mgr>
+  [ 61] objcall 324 ............................. save_mgr.saveState()
+  [ 64] ret
+end
+
+on setSFX me, b
+  [  0] getprop 71 .............................. <buttons>
+  [  2] pushcons 3 .............................. <"sfx">
+  [  4] pusharglist 2 ........................... <buttons, "sfx">
+  [  6] objcall 31 .............................. <buttons["sfx"]>
+  [  8] pushcons 6 .............................. <"on">
+  [ 10] pusharglist 2 ........................... <buttons["sfx"], "on">
+  [ 12] objcall 31 .............................. <buttons["sfx"]["on"]>
+  [ 14] getparam 1 .............................. <b>
+  [ 16] pusharglistnoret 2 ...................... <buttons["sfx"]["on"], b>
+  [ 18] objcall 194 ............................. buttons["sfx"]["on"].setDisabled(b)
+  [ 20] getprop 71 .............................. <buttons>
+  [ 22] pushcons 3 .............................. <"sfx">
+  [ 24] pusharglist 2 ........................... <buttons, "sfx">
+  [ 26] objcall 31 .............................. <buttons["sfx"]>
+  [ 28] pushcons 5 .............................. <"off">
+  [ 30] pusharglist 2 ........................... <buttons["sfx"], "off">
+  [ 32] objcall 31 .............................. <buttons["sfx"]["off"]>
+  [ 34] getparam 1 .............................. <b>
+  [ 36] not ..................................... <not b>
+  [ 37] pusharglistnoret 2 ...................... <buttons["sfx"]["off"], not b>
+  [ 39] objcall 194 ............................. buttons["sfx"]["off"].setDisabled(not b)
+  [ 41] getprop 55 .............................. <save_mgr>
+  [ 43] getchainedprop 29 ....................... <save_mgr.options>
+  [ 45] getparam 1 .............................. <b>
+  [ 47] setobjprop 325 .......................... save_mgr.options.sfx = b
+  [ 50] getprop 55 .............................. <save_mgr>
+  [ 52] pusharglistnoret 1 ...................... <save_mgr>
+  [ 54] objcall 323 ............................. save_mgr.updateOptions()
+  [ 57] getprop 55 .............................. <save_mgr>
+  [ 59] pusharglistnoret 1 ...................... <save_mgr>
+  [ 61] objcall 324 ............................. save_mgr.saveState()
+  [ 64] ret
+end
+
+on setFS me, b
+  [  0] getprop 71 .............................. <buttons>
+  [  2] pushcons 4 .............................. <"fs">
+  [  4] pusharglist 2 ........................... <buttons, "fs">
+  [  6] objcall 31 .............................. <buttons["fs"]>
+  [  8] pushcons 6 .............................. <"on">
+  [ 10] pusharglist 2 ........................... <buttons["fs"], "on">
+  [ 12] objcall 31 .............................. <buttons["fs"]["on"]>
+  [ 14] getparam 1 .............................. <b>
+  [ 16] pusharglistnoret 2 ...................... <buttons["fs"]["on"], b>
+  [ 18] objcall 194 ............................. buttons["fs"]["on"].setDisabled(b)
+  [ 20] getprop 71 .............................. <buttons>
+  [ 22] pushcons 4 .............................. <"fs">
+  [ 24] pusharglist 2 ........................... <buttons, "fs">
+  [ 26] objcall 31 .............................. <buttons["fs"]>
+  [ 28] pushcons 5 .............................. <"off">
+  [ 30] pusharglist 2 ........................... <buttons["fs"], "off">
+  [ 32] objcall 31 .............................. <buttons["fs"]["off"]>
+  [ 34] getparam 1 .............................. <b>
+  [ 36] not ..................................... <not b>
+  [ 37] pusharglistnoret 2 ...................... <buttons["fs"]["off"], not b>
+  [ 39] objcall 194 ............................. buttons["fs"]["off"].setDisabled(not b)
+  [ 41] getprop 55 .............................. <save_mgr>
+  [ 43] getchainedprop 29 ....................... <save_mgr.options>
+  [ 45] getparam 1 .............................. <b>
+  [ 47] setobjprop 326 .......................... save_mgr.options.fullscreen = b
+  [ 50] getprop 55 .............................. <save_mgr>
+  [ 52] pusharglistnoret 1 ...................... <save_mgr>
+  [ 54] objcall 323 ............................. save_mgr.updateOptions()
+  [ 57] getprop 55 .............................. <save_mgr>
+  [ 59] pusharglistnoret 1 ...................... <save_mgr>
+  [ 61] objcall 324 ............................. save_mgr.saveState()
+  [ 64] ret
+end
+
+on hide me
+  [  0] getprop 52 .............................. <mgr>
+  [  2] getprop 252 ............................. <lastMode>
+  [  4] pusharglistnoret 2 ...................... <mgr, lastMode>
+  [  6] objcall 3 ............................... mgr.setMode(lastMode)
+  [  8] ret
+end
+
+on destroy me
+  [  0] getprop 64 .............................. <initialized>
+  [  2] jmpifz [ 67] ............................ if initialized then
+  [  5] getprop 71 .............................. <buttons>
+  [  7] peek 0
+  [  9] pusharglist 1
+  [ 11] extcall 30
+  [ 13] pushint8 1
+  [ 15] peek 0
+  [ 17] peek 2
+  [ 19] lteq
+  [ 20] jmpifz [ 52] ............................ repeat with i in buttons
+  [ 23] peek 2
+  [ 25] peek 1
+  [ 27] pusharglist 2
+  [ 29] extcall 31
+  [ 31] setlocal 0
+  [ 33] pushsymb 2 .............................. <#destroy>
+  [ 35] getlocal 0 .............................. <i>
+  [ 37] pusharglistnoret 2 ...................... <#destroy, i>
+  [ 39] extcall 36 .............................. call(#destroy, i)
+  [ 41] getlocal 0 .............................. <i>
+  [ 43] pusharglistnoret 1 ...................... <i>
+  [ 45] objcall 37 .............................. i.deleteAll()
+  [ 47] pushint8 1
+  [ 49] add
+  [ 50] endrepeat [ 15]
+  [ 52] pop 3
+  [ 54] getprop 316 ............................. <okbutton>
+  [ 57] pusharglistnoret 1 ...................... <okbutton>
+  [ 59] objcall 2 ............................... okbutton.destroy()
+  [ 61] getprop 54 .............................. <node>
+  [ 63] pusharglistnoret 1 ...................... <node>
+  [ 65] objcall 2 ............................... node.destroy()
+  [ 67] getparam 0 .............................. <me>
+  [ 69] pusharglistnoret 1 ...................... <me>
+  [ 71] extcall 84 .............................. voidRefs(me)
+  [ 73] ret
+end
+
+on enterMode me, previousMode
+  [  0] getprop 64 .............................. <initialized>
+  [  2] not ..................................... <not initialized>
+  [  3] jmpifz [ 15] ............................ if not initialized then / else
+  [  6] getparam 0 .............................. <me>
+  [  8] pusharglistnoret 1 ...................... <me>
+  [ 10] objcall 1 ............................... me.init()
+  [ 12] jmp [ 21]
+  [ 15] getprop 54 .............................. <node>
+  [ 17] pusharglistnoret 1 ...................... <node>
+  [ 19] objcall 96 .............................. node.embody()
+  [ 21] getprop 54 .............................. <node>
+  [ 23] pusharglistnoret 1 ...................... <node>
+  [ 25] objcall 97 .............................. node.updateLocZ()
+  [ 27] getparam 1 .............................. <previousMode>
+  [ 29] getobjprop 63 ........................... <previousMode.name>
+  [ 31] setprop 252 ............................. lastMode = previousMode.name
+  [ 33] getprop 55 .............................. <save_mgr>
+  [ 35] getobjprop 29 ........................... <save_mgr.options>
+  [ 37] setlocal 0 .............................. opt = save_mgr.options
+  [ 39] getprop 71 .............................. <buttons>
+  [ 41] pushcons 2 .............................. <"music">
+  [ 43] pusharglist 2 ........................... <buttons, "music">
+  [ 45] objcall 31 .............................. <buttons["music"]>
+  [ 47] pushcons 6 .............................. <"on">
+  [ 49] pusharglist 2 ........................... <buttons["music"], "on">
+  [ 51] objcall 31 .............................. <buttons["music"]["on"]>
+  [ 53] getlocal 0 .............................. <opt>
+  [ 55] getobjprop 322 .......................... <opt.music>
+  [ 58] pusharglistnoret 2 ...................... <buttons["music"]["on"], opt.music>
+  [ 60] objcall 194 ............................. buttons["music"]["on"].setDisabled(opt.music)
+  [ 62] getprop 71 .............................. <buttons>
+  [ 64] pushcons 2 .............................. <"music">
+  [ 66] pusharglist 2 ........................... <buttons, "music">
+  [ 68] objcall 31 .............................. <buttons["music"]>
+  [ 70] pushcons 5 .............................. <"off">
+  [ 72] pusharglist 2 ........................... <buttons["music"], "off">
+  [ 74] objcall 31 .............................. <buttons["music"]["off"]>
+  [ 76] getlocal 0 .............................. <opt>
+  [ 78] getobjprop 322 .......................... <opt.music>
+  [ 81] not ..................................... <not opt.music>
+  [ 82] pusharglistnoret 2 ...................... <buttons["music"]["off"], not opt.music>
+  [ 84] objcall 194 ............................. buttons["music"]["off"].setDisabled(not opt.music)
+  [ 86] getprop 71 .............................. <buttons>
+  [ 88] pushcons 3 .............................. <"sfx">
+  [ 90] pusharglist 2 ........................... <buttons, "sfx">
+  [ 92] objcall 31 .............................. <buttons["sfx"]>
+  [ 94] pushcons 6 .............................. <"on">
+  [ 96] pusharglist 2 ........................... <buttons["sfx"], "on">
+  [ 98] objcall 31 .............................. <buttons["sfx"]["on"]>
+  [100] getlocal 0 .............................. <opt>
+  [102] getobjprop 325 .......................... <opt.sfx>
+  [105] pusharglistnoret 2 ...................... <buttons["sfx"]["on"], opt.sfx>
+  [107] objcall 194 ............................. buttons["sfx"]["on"].setDisabled(opt.sfx)
+  [109] getprop 71 .............................. <buttons>
+  [111] pushcons 3 .............................. <"sfx">
+  [113] pusharglist 2 ........................... <buttons, "sfx">
+  [115] objcall 31 .............................. <buttons["sfx"]>
+  [117] pushcons 5 .............................. <"off">
+  [119] pusharglist 2 ........................... <buttons["sfx"], "off">
+  [121] objcall 31 .............................. <buttons["sfx"]["off"]>
+  [123] getlocal 0 .............................. <opt>
+  [125] getobjprop 325 .......................... <opt.sfx>
+  [128] not ..................................... <not opt.sfx>
+  [129] pusharglistnoret 2 ...................... <buttons["sfx"]["off"], not opt.sfx>
+  [131] objcall 194 ............................. buttons["sfx"]["off"].setDisabled(not opt.sfx)
+  [133] getprop 71 .............................. <buttons>
+  [135] pushcons 4 .............................. <"fs">
+  [137] pusharglist 2 ........................... <buttons, "fs">
+  [139] objcall 31 .............................. <buttons["fs"]>
+  [141] pushcons 6 .............................. <"on">
+  [143] pusharglist 2 ........................... <buttons["fs"], "on">
+  [145] objcall 31 .............................. <buttons["fs"]["on"]>
+  [147] getlocal 0 .............................. <opt>
+  [149] getobjprop 326 .......................... <opt.fullscreen>
+  [152] pusharglistnoret 2 ...................... <buttons["fs"]["on"], opt.fullscreen>
+  [154] objcall 194 ............................. buttons["fs"]["on"].setDisabled(opt.fullscreen)
+  [156] getprop 71 .............................. <buttons>
+  [158] pushcons 4 .............................. <"fs">
+  [160] pusharglist 2 ........................... <buttons, "fs">
+  [162] objcall 31 .............................. <buttons["fs"]>
+  [164] pushcons 5 .............................. <"off">
+  [166] pusharglist 2 ........................... <buttons["fs"], "off">
+  [168] objcall 31 .............................. <buttons["fs"]["off"]>
+  [170] getlocal 0 .............................. <opt>
+  [172] getobjprop 326 .......................... <opt.fullscreen>
+  [175] not ..................................... <not opt.fullscreen>
+  [176] pusharglistnoret 2 ...................... <buttons["fs"]["off"], not opt.fullscreen>
+  [178] objcall 194 ............................. buttons["fs"]["off"].setDisabled(not opt.fullscreen)
+  [180] getprop 83 .............................. <grp>
+  [182] pushint8 1 .............................. <1>
+  [184] pusharglistnoret 2 ...................... <grp, 1>
+  [186] objcall 95 .............................. grp.setVisible(1)
+  [188] getprop 54 .............................. <node>
+  [190] pushint8 1 .............................. <1>
+  [192] pusharglistnoret 2 ...................... <node, 1>
+  [194] objcall 95 .............................. node.setVisible(1)
+  [196] getprop 54 .............................. <node>
+  [198] getprop 165 ............................. <home>
+  [200] pusharglistnoret 2 ...................... <node, home>
+  [202] objcall 102 ............................. node.setLoc(home)
+  [204] ret
+end
+
+on event me, sym
+  [  0] ret
+end
+
+on leaveMode me, nextMode
+  [  0] getprop 54 .............................. <node>
+  [  2] pusharglistnoret 1 ...................... <node>
+  [  4] objcall 108 ............................. node.disembody()
+  [  6] getprop 54 .............................. <node>
+  [  8] pushzero ................................ <0>
+  [  9] pusharglistnoret 2 ...................... <node, 0>
+  [ 11] objcall 95 .............................. node.setVisible(0)
+  [ 13] getprop 54 .............................. <node>
+  [ 15] getprop 166 ............................. <offscreen>
+  [ 17] pusharglistnoret 2 ...................... <node, offscreen>
+  [ 19] objcall 102 ............................. node.setLoc(offscreen)
+  [ 21] getprop 55 .............................. <save_mgr>
+  [ 23] pusharglistnoret 1 ...................... <save_mgr>
+  [ 25] objcall 323 ............................. save_mgr.updateOptions()
+  [ 28] ret
+end

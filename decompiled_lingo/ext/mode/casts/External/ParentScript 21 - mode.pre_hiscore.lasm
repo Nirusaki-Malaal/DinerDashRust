@@ -1,0 +1,219 @@
+property mgr, name, screen, node, grp, gameNode, buttons, initialized, submittedRank, comicNode
+
+on new me, m
+  [  0] getparam 1 .............................. <m>
+  [  2] setprop 52 .............................. mgr = m
+  [  4] pushcons 0 .............................. <"titles">
+  [  6] pusharglist 1 ........................... <"titles">
+  [  8] extcall 483 ............................. <getNodeGroup("titles")>
+  [ 11] setprop 83 .............................. grp = getNodeGroup("titles")
+  [ 13] pushsymb 27 ............................. <#pre_hiscore>
+  [ 15] setprop 63 .............................. name = #pre_hiscore
+  [ 17] getparam 0 .............................. <me>
+  [ 19] pusharglistnoret 1 ...................... <me>
+  [ 21] extcall 9 ............................... return me
+  [ 23] ret
+end
+
+on init me
+  [  0] getprop 64 .............................. <initialized>
+  [  2] jmpifz [  9] ............................ if initialized then
+  [  5] pusharglistnoret 0 ...................... <>
+  [  7] extcall 9 ............................... return 
+  [  9] pushint8 1 .............................. <1>
+  [ 11] setprop 64 .............................. initialized = 1
+  [ 13] getprop 83 .............................. <grp>
+  [ 15] pushcons 1 .............................. <"hiscore_popup">
+  [ 17] pusharglist 1 ........................... <"hiscore_popup">
+  [ 19] extcall 66 .............................. <getNodeData("hiscore_popup")>
+  [ 21] pusharglist 2 ........................... <grp, getNodeData("hiscore_popup")>
+  [ 23] objcall 67 .............................. <grp.newNode(getNodeData("hiscore_popup"))>
+  [ 25] setprop 54 .............................. node = grp.newNode(getNodeData("hiscore_popup"))
+  [ 27] getprop 54 .............................. <node>
+  [ 29] pushzero ................................ <0>
+  [ 30] pusharglistnoret 2 ...................... <node, 0>
+  [ 32] objcall 95 .............................. node.setVisible(0)
+  [ 34] getprop 54 .............................. <node>
+  [ 36] pushint32 1000000 ....................... <1000000>
+  [ 41] pusharglistnoret 2 ...................... <node, 1000000>
+  [ 43] objcall 68 .............................. node.setZOffset(1000000)
+  [ 45] pusharglist 0 ........................... <[:]>
+  [ 47] pushproplist ............................ <[:]>
+  [ 48] setprop 71 .............................. buttons = [:]
+  [ 50] pushsymb 20 ............................. <#hiscore>
+  [ 52] pushsymb 13 ............................. <#menu>
+  [ 54] pusharglist 2 ........................... <[#hiscore, #menu]>
+  [ 56] pushlist ................................ <[#hiscore, #menu]>
+  [ 57] peek 0
+  [ 59] pusharglist 1
+  [ 61] extcall 30
+  [ 63] pushint8 1
+  [ 65] peek 0
+  [ 67] peek 2
+  [ 69] lteq
+  [ 70] jmpifz [155] ............................ repeat with i in [#hiscore, #menu]
+  [ 73] peek 2
+  [ 75] peek 1
+  [ 77] pusharglist 2
+  [ 79] extcall 31
+  [ 81] setlocal 0
+  [ 83] getprop 71 .............................. <buttons>
+  [ 85] getlocal 0 .............................. <i>
+  [ 87] pushsymb 54 ............................. <#node>
+  [ 89] getprop 54 .............................. <node>
+  [ 91] getlocal 0 .............................. <i>
+  [ 93] pusharglist 1 ........................... <i>
+  [ 95] extcall 33 .............................. <string(i)>
+  [ 97] pusharglist 2 ........................... <node, string(i)>
+  [ 99] objcall 31 .............................. <node[string(i)]>
+  [101] pushsymb 181 ............................ <#callback>
+  [103] pushsymb 59 ............................. <#target>
+  [105] getparam 0 .............................. <me>
+  [107] pushsymb 60 ............................. <#handler>
+  [109] pushsymb 48 ............................. <#goMode>
+  [111] pushsymb 99 ............................. <#Args>
+  [113] getlocal 0 .............................. <i>
+  [115] pusharglist 6 ........................... <[#target: me, #handler: #goMode, #Args: i]>
+  [117] pushproplist ............................ <[#target: me, #handler: #goMode, #Args: i]>
+  [118] pushsymb 77 ............................. <#members>
+  [120] pushsymb 72 ............................. <#rollover>
+  [122] pushcons 2 .............................. <"hsp_">
+  [124] getlocal 0 .............................. <i>
+  [126] joinstr ................................. <"hsp_" & i>
+  [127] pushcons 3 .............................. <"_on">
+  [129] joinstr ................................. <"hsp_" & i & "_on">
+  [130] pushcons 4 .............................. <"gfx.screens">
+  [132] pusharglist 2 ........................... <"hsp_" & i & "_on", "gfx.screens">
+  [134] extcall 75 .............................. <member("hsp_" & i & "_on", "gfx.screens")>
+  [136] pusharglist 2 ........................... <[#rollover: member("hsp_" & i & "_on", "gfx.screens")]>
+  [138] pushproplist ............................ <[#rollover: member("hsp_" & i & "_on", "gfx.screens")]>
+  [139] pusharglist 6 ........................... <[#node: node[string(i)], #callback: [#target: me, #handler: #goMode, #Args: i], #members: [#rollover: member("hsp_" & i & "_on", "gfx.screens")]]>
+  [141] pushproplist ............................ <[#node: node[string(i)], #callback: [#target: me, #handler: #goMode, #Args: i], #members: [#rollover: member("hsp_" & i & "_on", "gfx.screens")]]>
+  [142] pusharglist 1 ........................... <[#node: node[string(i)], #callback: [#target: me, #handler: #goMode, #Args: i], #members: [#rollover: member("hsp_" & i & "_on", "gfx.screens")]]>
+  [144] extcall 76 .............................. <newButton([#node: node[string(i)], #callback: [#target: me, #handler: #goMode, #Args: i], #members: [#rollover: member("hsp_" & i & "_on", "gfx.screens")]])>
+  [146] pusharglistnoret 3 ...................... <buttons, i, newButton([#node: node[string(i)], #callback: [#target: me, #handler: #goMode, #Args: i], #members: [#rollover: member("hsp_" & i & "_on", "gfx.screens")]])>
+  [148] objcall 34 .............................. buttons[i] = newButton([#node: node[string(i)], #callback: [#target: me, #handler: #goMode, #Args: i], #members: [#rollover: member("hsp_" & i & "_on", "gfx.screens")]])
+  [150] pushint8 1
+  [152] add
+  [153] endrepeat [ 65]
+  [155] pop 3
+  [157] ret
+end
+
+on clickButton me
+  [  0] ret
+end
+
+on destroy me
+  [  0] getprop 64 .............................. <initialized>
+  [  2] jmpifz [ 19] ............................ if initialized then
+  [  5] pushsymb 2 .............................. <#destroy>
+  [  7] getprop 71 .............................. <buttons>
+  [  9] pusharglistnoret 2 ...................... <#destroy, buttons>
+  [ 11] extcall 36 .............................. call(#destroy, buttons)
+  [ 13] getprop 54 .............................. <node>
+  [ 15] pusharglistnoret 1 ...................... <node>
+  [ 17] objcall 2 ............................... node.destroy()
+  [ 19] getparam 0 .............................. <me>
+  [ 21] pusharglistnoret 1 ...................... <me>
+  [ 23] extcall 84 .............................. voidRefs(me)
+  [ 25] ret
+end
+
+on goMode me, m
+  [  0] getparam 1 .............................. <m>
+  [  2] pushsymb 20 ............................. <#hiscore>
+  [  4] eq ...................................... <m = #hiscore>
+  [  5] jmpifz [ 20] ............................ if m = #hiscore then / else
+  [  8] pushsymb 20 ............................. <#hiscore>
+  [ 10] getprop 357 ............................. <submittedRank>
+  [ 13] pusharglistnoret 2 ...................... <#hiscore, submittedRank>
+  [ 15] extcall 3 ............................... setMode(#hiscore, submittedRank)
+  [ 17] jmp [ 34]
+  [ 20] getparam 1 .............................. <m>
+  [ 22] pushsymb 13 ............................. <#menu>
+  [ 24] eq ...................................... <m = #menu>
+  [ 25] jmpifz [ 34] ............................ if m = #menu then
+  [ 28] pushsymb 13 ............................. <#menu>
+  [ 30] pusharglistnoret 1 ...................... <#menu>
+  [ 32] extcall 3 ............................... setMode(#menu)
+  [ 34] ret
+end
+
+on enterMode me, previousMode, sr
+  [  0] getparam 1 .............................. <previousMode>
+  [  2] getobjprop 63 ........................... <previousMode.name>
+  [  4] pushsymb 15 ............................. <#end_comic>
+  [  6] eq ...................................... <previousMode.name = #end_comic>
+  [  7] jmpifz [ 20] ............................ if previousMode.name = #end_comic then / else
+  [ 10] getparam 1 .............................. <previousMode>
+  [ 12] getobjprop 54 ........................... <previousMode.node>
+  [ 14] setprop 503 ............................. comicNode = previousMode.node
+  [ 17] jmp [ 27]
+  [ 20] pusharglist 0 ........................... <>
+  [ 22] extcall 38 .............................. <VOID>
+  [ 24] setprop 503 ............................. comicNode = VOID
+  [ 27] getparam 2 .............................. <sr>
+  [ 29] setprop 357 ............................. submittedRank = sr
+  [ 32] getprop 64 .............................. <initialized>
+  [ 34] not ..................................... <not initialized>
+  [ 35] jmpifz [ 47] ............................ if not initialized then / else
+  [ 38] getparam 0 .............................. <me>
+  [ 40] pusharglistnoret 1 ...................... <me>
+  [ 42] objcall 1 ............................... me.init()
+  [ 44] jmp [ 53]
+  [ 47] getprop 54 .............................. <node>
+  [ 49] pusharglistnoret 1 ...................... <node>
+  [ 51] objcall 96 .............................. node.embody()
+  [ 53] getprop 54 .............................. <node>
+  [ 55] pusharglistnoret 1 ...................... <node>
+  [ 57] objcall 97 .............................. node.updateLocZ()
+  [ 59] getprop 83 .............................. <grp>
+  [ 61] pusharglistnoret 1 ...................... <grp>
+  [ 63] objcall 167 ............................. grp.moveToFront()
+  [ 65] getprop 54 .............................. <node>
+  [ 67] pusharglistnoret 1 ...................... <node>
+  [ 69] objcall 167 ............................. node.moveToFront()
+  [ 71] getprop 83 .............................. <grp>
+  [ 73] pushint8 1 .............................. <1>
+  [ 75] pusharglistnoret 2 ...................... <grp, 1>
+  [ 77] objcall 95 .............................. grp.setVisible(1)
+  [ 79] getprop 54 .............................. <node>
+  [ 81] pushint8 1 .............................. <1>
+  [ 83] pusharglistnoret 2 ...................... <node, 1>
+  [ 85] objcall 95 .............................. node.setVisible(1)
+  [ 87] ret
+end
+
+on event me, sym
+  [  0] ret
+end
+
+on leaveMode me, nextMode
+  [  0] getprop 503 ............................. <comicNode>
+  [  3] pusharglist 1 ........................... <comicNode>
+  [  5] extcall 39 .............................. <voidp(comicNode)>
+  [  7] not ..................................... <not voidp(comicNode)>
+  [  8] jmpifz [ 26] ............................ if not voidp(comicNode) then
+  [ 11] getprop 503 ............................. <comicNode>
+  [ 14] pushzero ................................ <0>
+  [ 15] pusharglistnoret 2 ...................... <comicNode, 0>
+  [ 17] objcall 95 .............................. comicNode.setVisible(0)
+  [ 19] getprop 503 ............................. <comicNode>
+  [ 22] pusharglistnoret 1 ...................... <comicNode>
+  [ 24] objcall 108 ............................. comicNode.disembody()
+  [ 26] pushcons 5 .............................. <"game">
+  [ 28] pusharglist 1 ........................... <"game">
+  [ 30] extcall 483 ............................. <getNodeGroup("game")>
+  [ 33] pushzero ................................ <0>
+  [ 34] pusharglistnoret 2 ...................... <getNodeGroup("game"), 0>
+  [ 36] objcall 95 .............................. getNodeGroup("game").setVisible(0)
+  [ 38] getprop 54 .............................. <node>
+  [ 40] pushzero ................................ <0>
+  [ 41] pusharglistnoret 2 ...................... <node, 0>
+  [ 43] objcall 95 .............................. node.setVisible(0)
+  [ 45] getprop 54 .............................. <node>
+  [ 47] pusharglistnoret 1 ...................... <node>
+  [ 49] objcall 108 ............................. node.disembody()
+  [ 51] ret
+end
