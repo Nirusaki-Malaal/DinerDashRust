@@ -1,0 +1,106 @@
+property mgr, name, node_mgr, game_mgr, gameGrp, titleGrp, stageSounds
+
+on new me, m
+  [  0] getparam 1 .............................. <m>
+  [  2] setprop 52 .............................. mgr = m
+  [  4] getparam 1 .............................. <m>
+  [  6] getchainedprop 4 ........................ <m.glob>
+  [  8] getchainedprop 6 ........................ <m.glob.managers>
+  [ 10] getobjprop 54 ........................... <m.glob.managers.node>
+  [ 12] setprop 53 .............................. node_mgr = m.glob.managers.node
+  [ 14] getprop 53 .............................. <node_mgr>
+  [ 16] pushcons 0 .............................. <"game">
+  [ 18] pusharglist 2 ........................... <node_mgr, "game">
+  [ 20] objcall 65 .............................. <node_mgr.getGroup("game")>
+  [ 22] setprop 156 ............................. gameGrp = node_mgr.getGroup("game")
+  [ 24] getprop 53 .............................. <node_mgr>
+  [ 26] pushcons 1 .............................. <"titles">
+  [ 28] pusharglist 2 ........................... <node_mgr, "titles">
+  [ 30] objcall 65 .............................. <node_mgr.getGroup("titles")>
+  [ 32] setprop 186 ............................. titleGrp = node_mgr.getGroup("titles")
+  [ 34] getparam 1 .............................. <m>
+  [ 36] getobjprop 5 ............................ <m.game_mgr>
+  [ 38] setprop 5 ............................... game_mgr = m.game_mgr
+  [ 40] pushcons 2 .............................. <"sfx_r_diner">
+  [ 42] pushcons 3 .............................. <"sfx_r_tiki">
+  [ 44] pushcons 4 .............................. <"sfx_r_seafood">
+  [ 46] pushcons 5 .............................. <"sfx_r_chez">
+  [ 48] pushcons 6 .............................. <"sfx_r_goddess">
+  [ 50] pusharglist 5 ........................... <["sfx_r_diner", "sfx_r_tiki", "sfx_r_seafood", "sfx_r_chez", "sfx_r_goddess"]>
+  [ 52] pushlist ................................ <["sfx_r_diner", "sfx_r_tiki", "sfx_r_seafood", "sfx_r_chez", "sfx_r_goddess"]>
+  [ 53] setprop 157 ............................. stageSounds = ["sfx_r_diner", "sfx_r_tiki", "sfx_r_seafood", "sfx_r_chez", "sfx_r_goddess"]
+  [ 55] pushsymb 23 ............................. <#play>
+  [ 57] setprop 63 .............................. name = #play
+  [ 59] getparam 0 .............................. <me>
+  [ 61] pusharglistnoret 1 ...................... <me>
+  [ 63] extcall 9 ............................... return me
+  [ 65] ret
+end
+
+on destroy me
+  [  0] pusharglist 0 ........................... <>
+  [  2] extcall 38 .............................. <VOID>
+  [  4] setprop 52 .............................. mgr = VOID
+  [  6] pusharglist 0 ........................... <>
+  [  8] extcall 38 .............................. <VOID>
+  [ 10] setprop 53 .............................. node_mgr = VOID
+  [ 12] ret
+end
+
+on enterMode me, previousMode
+  [  0] getprop 186 ............................. <titleGrp>
+  [  2] pushzero ................................ <0>
+  [  3] pusharglistnoret 2 ...................... <titleGrp, 0>
+  [  5] objcall 95 .............................. titleGrp.setVisible(0)
+  [  7] getprop 5 ............................... <game_mgr>
+  [  9] pushzero ................................ <0>
+  [ 10] pusharglistnoret 2 ...................... <game_mgr, 0>
+  [ 12] objcall 187 ............................. game_mgr.setPaused(0)
+  [ 14] getparam 1 .............................. <previousMode>
+  [ 16] getobjprop 63 ........................... <previousMode.name>
+  [ 18] setlocal 0 .............................. pm = previousMode.name
+  [ 20] getlocal 0 .............................. <pm>
+  [ 22] pushsymb 22 ............................. <#startLevel>
+  [ 24] eq ...................................... <pm = #startLevel>
+  [ 25] jmpifz [ 37] ............................ if pm = #startLevel then / else
+  [ 28] getprop 5 ............................... <game_mgr>
+  [ 30] pusharglistnoret 1 ...................... <game_mgr>
+  [ 32] objcall 22 .............................. game_mgr.startLevel()
+  [ 34] jmp [ 90]
+  [ 37] getlocal 0 .............................. <pm>
+  [ 39] pushsymb 25 ............................. <#quit>
+  [ 41] eq ...................................... <pm = #quit>
+  [ 42] getlocal 0 .............................. <pm>
+  [ 44] pushsymb 18 ............................. <#endless_shop>
+  [ 46] eq ...................................... <pm = #endless_shop>
+  [ 47] or ...................................... <(pm = #quit) or (pm = #endless_shop)>
+  [ 48] jmpifz [ 58] ............................ if (pm = #quit) or (pm = #endless_shop) then / else
+  [ 51] pusharglistnoret 0 ...................... <>
+  [ 53] extcall 188 ............................. nothing()
+  [ 55] jmp [ 90]
+  [ 58] getprop 5 ............................... <game_mgr>
+  [ 60] pusharglistnoret 1 ...................... <game_mgr>
+  [ 62] objcall 189 ............................. game_mgr.startGame()
+  [ 64] getprop 157 ............................. <stageSounds>
+  [ 66] pushint8 1 .............................. <1>
+  [ 68] getprop 5 ............................... <game_mgr>
+  [ 70] getobjprop 127 .......................... <game_mgr.currentStage>
+  [ 72] pushint8 4 .............................. <4>
+  [ 74] pusharglist 2 ........................... <game_mgr.currentStage, 4>
+  [ 76] extcall 191 ............................. <min(game_mgr.currentStage, 4)>
+  [ 78] pusharglist 2 ........................... <1, min(game_mgr.currentStage, 4)>
+  [ 80] extcall 190 ............................. <max(1, min(game_mgr.currentStage, 4))>
+  [ 82] pusharglist 2 ........................... <stageSounds, max(1, min(game_mgr.currentStage, 4))>
+  [ 84] objcall 31 .............................. <stageSounds[max(1, min(game_mgr.currentStage, 4))]>
+  [ 86] pusharglistnoret 1 ...................... <stageSounds[max(1, min(game_mgr.currentStage, 4))]>
+  [ 88] extcall 176 ............................. SndSFX(stageSounds[max(1, min(game_mgr.currentStage, 4))])
+  [ 90] ret
+end
+
+on event me, sym
+  [  0] ret
+end
+
+on leaveMode me, nextMode
+  [  0] ret
+end

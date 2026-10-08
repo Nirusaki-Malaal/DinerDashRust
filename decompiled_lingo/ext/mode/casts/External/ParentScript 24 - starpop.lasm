@@ -1,0 +1,125 @@
+property node, scale, poptime, ms, startscale, tween
+
+on new me, n
+  [  0] getparam 1 .............................. <n>
+  [  2] setprop 54 .............................. node = n
+  [  4] getparam 1 .............................. <n>
+  [  6] pusharglist 1 ........................... <n>
+  [  8] objcall 333 ............................. <n.getScale()>
+  [ 11] setprop 507 ............................. startscale = n.getScale()
+  [ 14] pushcons 0 .............................. <1.19999999999999996>
+  [ 16] setprop 508 ............................. scale = 1.19999999999999996
+  [ 19] pushint16 150 ........................... <150>
+  [ 22] setprop 330 ............................. poptime = 150
+  [ 25] getparam 0 .............................. <me>
+  [ 27] pusharglistnoret 1 ...................... <me>
+  [ 29] objcall 505 ............................. me.grow()
+  [ 32] ret
+end
+
+on grow me
+  [  0] getprop 54 .............................. <node>
+  [  2] getprop 507 ............................. <startscale>
+  [  5] getprop 508 ............................. <scale>
+  [  8] mul ..................................... <startscale * scale>
+  [  9] pusharglistnoret 2 ...................... <node, startscale * scale>
+  [ 11] objcall 336 ............................. node.setScale(startscale * scale)
+  [ 14] pushsymb 509 ............................ <#expanding>
+  [ 17] setlocal 0 .............................. state = #expanding
+  [ 19] pushcons 1 .............................. <"node_tween">
+  [ 21] pusharglist 1 ........................... <"node_tween">
+  [ 23] extcall 32 .............................. <script("node_tween")>
+  [ 25] pusharglist 1 ........................... <script("node_tween")>
+  [ 27] objcall 0 ............................... <script("node_tween").new()>
+  [ 29] setprop 183 ............................. tween = script("node_tween").new()
+  [ 31] pushsymb 59 ............................. <#target>
+  [ 33] getparam 0 .............................. <me>
+  [ 35] pushsymb 60 ............................. <#handler>
+  [ 37] pushsymb 506 ............................ <#shrink>
+  [ 40] pusharglist 4 ........................... <[#target: me, #handler: #shrink]>
+  [ 42] pushproplist ............................ <[#target: me, #handler: #shrink]>
+  [ 43] setlocal 1 .............................. cb = [#target: me, #handler: #shrink]
+  [ 45] getprop 183 ............................. <tween>
+  [ 47] pushsymb 54 ............................. <#node>
+  [ 49] getprop 54 .............................. <node>
+  [ 51] pushsymb 177 ............................ <#setter>
+  [ 53] pushsymb 336 ............................ <#setScale>
+  [ 56] pushsymb 180 ............................ <#group>
+  [ 58] pushcons 2 .............................. <"titles">
+  [ 60] pushsymb 92 ............................. <#start>
+  [ 62] getprop 507 ............................. <startscale>
+  [ 65] pushsymb 178 ............................ <#end>
+  [ 67] getprop 507 ............................. <startscale>
+  [ 70] getprop 508 ............................. <scale>
+  [ 73] mul ..................................... <startscale * scale>
+  [ 74] pushsymb 179 ............................ <#ms>
+  [ 76] getprop 330 ............................. <poptime>
+  [ 79] pushsymb 181 ............................ <#callback>
+  [ 81] getlocal 1 .............................. <cb>
+  [ 83] pusharglist 14 .......................... <[#node: node, #setter: #setScale, #group: "titles", #start: startscale, #end: startscale * scale, #ms: poptime, #callback: cb]>
+  [ 85] pushproplist ............................ <[#node: node, #setter: #setScale, #group: "titles", #start: startscale, #end: startscale * scale, #ms: poptime, #callback: cb]>
+  [ 86] pusharglistnoret 2 ...................... <tween, [#node: node, #setter: #setScale, #group: "titles", #start: startscale, #end: startscale * scale, #ms: poptime, #callback: cb]>
+  [ 88] objcall 154 ............................. tween.startTween([#node: node, #setter: #setScale, #group: "titles", #start: startscale, #end: startscale * scale, #ms: poptime, #callback: cb])
+  [ 90] ret
+end
+
+on shrink me
+  [  0] getprop 183 ............................. <tween>
+  [  2] pusharglist 1 ........................... <tween>
+  [  4] extcall 39 .............................. <voidp(tween)>
+  [  6] not ..................................... <not voidp(tween)>
+  [  7] jmpifz [ 16] ............................ if not voidp(tween) then
+  [ 10] getprop 183 ............................. <tween>
+  [ 12] pusharglistnoret 1 ...................... <tween>
+  [ 14] objcall 2 ............................... tween.destroy()
+  [ 16] pushcons 1 .............................. <"node_tween">
+  [ 18] pusharglist 1 ........................... <"node_tween">
+  [ 20] extcall 32 .............................. <script("node_tween")>
+  [ 22] pusharglist 1 ........................... <script("node_tween")>
+  [ 24] objcall 0 ............................... <script("node_tween").new()>
+  [ 26] setprop 183 ............................. tween = script("node_tween").new()
+  [ 28] pushsymb 59 ............................. <#target>
+  [ 30] getparam 0 .............................. <me>
+  [ 32] pushsymb 60 ............................. <#handler>
+  [ 34] pushsymb 2 .............................. <#destroy>
+  [ 36] pusharglist 4 ........................... <[#target: me, #handler: #destroy]>
+  [ 38] pushproplist ............................ <[#target: me, #handler: #destroy]>
+  [ 39] setlocal 0 .............................. cb = [#target: me, #handler: #destroy]
+  [ 41] getprop 183 ............................. <tween>
+  [ 43] pushsymb 54 ............................. <#node>
+  [ 45] getprop 54 .............................. <node>
+  [ 47] pushsymb 177 ............................ <#setter>
+  [ 49] pushsymb 336 ............................ <#setScale>
+  [ 52] pushsymb 180 ............................ <#group>
+  [ 54] pushcons 2 .............................. <"titles">
+  [ 56] pushsymb 92 ............................. <#start>
+  [ 58] getprop 507 ............................. <startscale>
+  [ 61] getprop 508 ............................. <scale>
+  [ 64] mul ..................................... <startscale * scale>
+  [ 65] pushsymb 178 ............................ <#end>
+  [ 67] getprop 507 ............................. <startscale>
+  [ 70] pushsymb 179 ............................ <#ms>
+  [ 72] getprop 330 ............................. <poptime>
+  [ 75] pushsymb 181 ............................ <#callback>
+  [ 77] getlocal 0 .............................. <cb>
+  [ 79] pusharglist 14 .......................... <[#node: node, #setter: #setScale, #group: "titles", #start: startscale * scale, #end: startscale, #ms: poptime, #callback: cb]>
+  [ 81] pushproplist ............................ <[#node: node, #setter: #setScale, #group: "titles", #start: startscale * scale, #end: startscale, #ms: poptime, #callback: cb]>
+  [ 82] pusharglistnoret 2 ...................... <tween, [#node: node, #setter: #setScale, #group: "titles", #start: startscale * scale, #end: startscale, #ms: poptime, #callback: cb]>
+  [ 84] objcall 154 ............................. tween.startTween([#node: node, #setter: #setScale, #group: "titles", #start: startscale * scale, #end: startscale, #ms: poptime, #callback: cb])
+  [ 86] ret
+end
+
+on destroy me
+  [  0] getprop 183 ............................. <tween>
+  [  2] pusharglist 1 ........................... <tween>
+  [  4] extcall 39 .............................. <voidp(tween)>
+  [  6] not ..................................... <not voidp(tween)>
+  [  7] jmpifz [ 16] ............................ if not voidp(tween) then
+  [ 10] getprop 183 ............................. <tween>
+  [ 12] pusharglistnoret 1 ...................... <tween>
+  [ 14] objcall 2 ............................... tween.destroy()
+  [ 16] getparam 0 .............................. <me>
+  [ 18] pusharglistnoret 1 ...................... <me>
+  [ 20] extcall 84 .............................. voidRefs(me)
+  [ 22] ret
+end

@@ -1,0 +1,500 @@
+property mgr, name, node_mgr, save_mgr, node, buttons, username_txt, initialized, hairtimer, eyetimer, hair, eyes
+
+on new me, m
+  [  0] getparam 1 .............................. <m>
+  [  2] setprop 52 .............................. mgr = m
+  [  4] getparam 1 .............................. <m>
+  [  6] getchainedprop 4 ........................ <m.glob>
+  [  8] getchainedprop 6 ........................ <m.glob.managers>
+  [ 10] getobjprop 54 ........................... <m.glob.managers.node>
+  [ 12] setprop 53 .............................. node_mgr = m.glob.managers.node
+  [ 14] getparam 1 .............................. <m>
+  [ 16] getchainedprop 4 ........................ <m.glob>
+  [ 18] getchainedprop 6 ........................ <m.glob.managers>
+  [ 20] getobjprop 56 ........................... <m.glob.managers.savegame>
+  [ 22] setprop 55 .............................. save_mgr = m.glob.managers.savegame
+  [ 24] pushcons 0 .............................. <"timeout">
+  [ 26] pusharglist 1 ........................... <"timeout">
+  [ 28] extcall 32 .............................. <script("timeout")>
+  [ 30] pusharglist 1 ........................... <script("timeout")>
+  [ 32] objcall 0 ............................... <script("timeout").new()>
+  [ 34] setprop 57 .............................. eyetimer = script("timeout").new()
+  [ 36] getprop 57 .............................. <eyetimer>
+  [ 38] pushcons 1 .............................. <"titles">
+  [ 40] pusharglistnoret 2 ...................... <eyetimer, "titles">
+  [ 42] objcall 58 .............................. eyetimer.setGroup("titles")
+  [ 44] getprop 57 .............................. <eyetimer>
+  [ 46] pushsymb 59 ............................. <#target>
+  [ 48] getparam 0 .............................. <me>
+  [ 50] pushsymb 60 ............................. <#handler>
+  [ 52] pushsymb 50 ............................. <#doEyeAnim>
+  [ 54] pusharglist 4 ........................... <[#target: me, #handler: #doEyeAnim]>
+  [ 56] pushproplist ............................ <[#target: me, #handler: #doEyeAnim]>
+  [ 57] pusharglistnoret 2 ...................... <eyetimer, [#target: me, #handler: #doEyeAnim]>
+  [ 59] objcall 61 .............................. eyetimer.setCallback([#target: me, #handler: #doEyeAnim])
+  [ 61] pushcons 0 .............................. <"timeout">
+  [ 63] pusharglist 1 ........................... <"timeout">
+  [ 65] extcall 32 .............................. <script("timeout")>
+  [ 67] pusharglist 1 ........................... <script("timeout")>
+  [ 69] objcall 0 ............................... <script("timeout").new()>
+  [ 71] setprop 62 .............................. hairtimer = script("timeout").new()
+  [ 73] getprop 62 .............................. <hairtimer>
+  [ 75] pushcons 1 .............................. <"titles">
+  [ 77] pusharglistnoret 2 ...................... <hairtimer, "titles">
+  [ 79] objcall 58 .............................. hairtimer.setGroup("titles")
+  [ 81] getprop 62 .............................. <hairtimer>
+  [ 83] pushsymb 59 ............................. <#target>
+  [ 85] getparam 0 .............................. <me>
+  [ 87] pushsymb 60 ............................. <#handler>
+  [ 89] pushsymb 49 ............................. <#doHairAnim>
+  [ 91] pusharglist 4 ........................... <[#target: me, #handler: #doHairAnim]>
+  [ 93] pushproplist ............................ <[#target: me, #handler: #doHairAnim]>
+  [ 94] pusharglistnoret 2 ...................... <hairtimer, [#target: me, #handler: #doHairAnim]>
+  [ 96] objcall 61 .............................. hairtimer.setCallback([#target: me, #handler: #doHairAnim])
+  [ 98] pushsymb 13 ............................. <#menu>
+  [100] setprop 63 .............................. name = #menu
+  [102] getparam 0 .............................. <me>
+  [104] pusharglistnoret 1 ...................... <me>
+  [106] extcall 9 ............................... return me
+  [108] ret
+end
+
+on init me
+  [  0] getprop 64 .............................. <initialized>
+  [  2] jmpifz [  9] ............................ if initialized then
+  [  5] pusharglistnoret 0 ...................... <>
+  [  7] extcall 9 ............................... return 
+  [  9] pushint8 1 .............................. <1>
+  [ 11] setprop 64 .............................. initialized = 1
+  [ 13] getprop 53 .............................. <node_mgr>
+  [ 15] pushcons 1 .............................. <"titles">
+  [ 17] pusharglist 2 ........................... <node_mgr, "titles">
+  [ 19] objcall 65 .............................. <node_mgr.getGroup("titles")>
+  [ 21] setlocal 0 .............................. grp = node_mgr.getGroup("titles")
+  [ 23] getlocal 0 .............................. <grp>
+  [ 25] pushcons 2 .............................. <"title_screen">
+  [ 27] pusharglist 1 ........................... <"title_screen">
+  [ 29] extcall 66 .............................. <getNodeData("title_screen")>
+  [ 31] pusharglist 2 ........................... <grp, getNodeData("title_screen")>
+  [ 33] objcall 67 .............................. <grp.newNode(getNodeData("title_screen"))>
+  [ 35] setprop 54 .............................. node = grp.newNode(getNodeData("title_screen"))
+  [ 37] getprop 54 .............................. <node>
+  [ 39] pushint32 500000 ........................ <500000>
+  [ 44] pusharglistnoret 2 ...................... <node, 500000>
+  [ 46] objcall 68 .............................. node.setZOffset(500000)
+  [ 48] getprop 54 .............................. <node>
+  [ 50] pushcons 3 .............................. <"hair">
+  [ 52] pusharglist 2 ........................... <node, "hair">
+  [ 54] objcall 31 .............................. <node["hair"]>
+  [ 56] setprop 69 .............................. hair = node["hair"]
+  [ 58] getprop 54 .............................. <node>
+  [ 60] pushcons 4 .............................. <"eyes">
+  [ 62] pusharglist 2 ........................... <node, "eyes">
+  [ 64] objcall 31 .............................. <node["eyes"]>
+  [ 66] setprop 70 .............................. eyes = node["eyes"]
+  [ 68] pusharglist 0 ........................... <[:]>
+  [ 70] pushproplist ............................ <[:]>
+  [ 71] setprop 71 .............................. buttons = [:]
+  [ 73] pushsymb 72 ............................. <#rollover>
+  [ 75] pushcons 5 .............................. <"sfx_menu_rollover">
+  [ 77] pushsymb 73 ............................. <#press>
+  [ 79] pushcons 6 .............................. <"sfx_menu_select">
+  [ 81] pusharglist 4 ........................... <[#rollover: "sfx_menu_rollover", #press: "sfx_menu_select"]>
+  [ 83] pushproplist ............................ <[#rollover: "sfx_menu_rollover", #press: "sfx_menu_select"]>
+  [ 84] setlocal 1 .............................. snds = [#rollover: "sfx_menu_rollover", #press: "sfx_menu_select"]
+  [ 86] pushsymb 19 ............................. <#career>
+  [ 88] pushsymb 16 ............................. <#endless>
+  [ 90] pushsymb 28 ............................. <#help>
+  [ 92] pushsymb 20 ............................. <#hiscore>
+  [ 94] pushsymb 29 ............................. <#options>
+  [ 96] pushsymb 25 ............................. <#quit>
+  [ 98] pushsymb 17 ............................. <#login>
+  [100] pusharglist 7 ........................... <[#career, #endless, #help, #hiscore, #options, #quit, #login]>
+  [102] pushlist ................................ <[#career, #endless, #help, #hiscore, #options, #quit, #login]>
+  [103] peek 0
+  [105] pusharglist 1
+  [107] extcall 30
+  [109] pushint8 1
+  [111] peek 0
+  [113] peek 2
+  [115] lteq
+  [116] jmpifz [212] ............................ repeat with i in [#career, #endless, #help, #hiscore, #options, #quit, #login]
+  [119] peek 2
+  [121] peek 1
+  [123] pusharglist 2
+  [125] extcall 31
+  [127] setlocal 2
+  [129] pushsymb 74 ............................. <#normal>
+  [131] pushcons 7 .............................. <"button_">
+  [133] getlocal 2 .............................. <i>
+  [135] joinstr ................................. <"button_" & i>
+  [136] pushcons 8 .............................. <"gfx.screens">
+  [138] pusharglist 2 ........................... <"button_" & i, "gfx.screens">
+  [140] extcall 75 .............................. <member("button_" & i, "gfx.screens")>
+  [142] pushsymb 72 ............................. <#rollover>
+  [144] pushcons 7 .............................. <"button_">
+  [146] getlocal 2 .............................. <i>
+  [148] joinstr ................................. <"button_" & i>
+  [149] pushcons 9 .............................. <"_on">
+  [151] joinstr ................................. <"button_" & i & "_on">
+  [152] pushcons 8 .............................. <"gfx.screens">
+  [154] pusharglist 2 ........................... <"button_" & i & "_on", "gfx.screens">
+  [156] extcall 75 .............................. <member("button_" & i & "_on", "gfx.screens")>
+  [158] pusharglist 4 ........................... <[#normal: member("button_" & i, "gfx.screens"), #rollover: member("button_" & i & "_on", "gfx.screens")]>
+  [160] pushproplist ............................ <[#normal: member("button_" & i, "gfx.screens"), #rollover: member("button_" & i & "_on", "gfx.screens")]>
+  [161] setlocal 3 .............................. mems = [#normal: member("button_" & i, "gfx.screens"), #rollover: member("button_" & i & "_on", "gfx.screens")]
+  [163] getprop 54 .............................. <node>
+  [165] getlocal 2 .............................. <i>
+  [167] pusharglist 1 ........................... <i>
+  [169] extcall 33 .............................. <string(i)>
+  [171] pushcons 10 ............................. <"_button">
+  [173] joinstr ................................. <string(i) & "_button">
+  [174] pusharglist 2 ........................... <node, string(i) & "_button">
+  [176] objcall 31 .............................. <node[string(i) & "_button"]>
+  [178] setlocal 4 .............................. bnode = node[string(i) & "_button"]
+  [180] getprop 71 .............................. <buttons>
+  [182] getlocal 2 .............................. <i>
+  [184] pushsymb 54 ............................. <#node>
+  [186] getlocal 4 .............................. <bnode>
+  [188] pushsymb 77 ............................. <#members>
+  [190] getlocal 3 .............................. <mems>
+  [192] pushsymb 78 ............................. <#sounds>
+  [194] getlocal 1 .............................. <snds>
+  [196] pusharglist 6 ........................... <[#node: bnode, #members: mems, #sounds: snds]>
+  [198] pushproplist ............................ <[#node: bnode, #members: mems, #sounds: snds]>
+  [199] pusharglist 1 ........................... <[#node: bnode, #members: mems, #sounds: snds]>
+  [201] extcall 76 .............................. <newButton([#node: bnode, #members: mems, #sounds: snds])>
+  [203] pusharglistnoret 3 ...................... <buttons, i, newButton([#node: bnode, #members: mems, #sounds: snds])>
+  [205] objcall 34 .............................. buttons[i] = newButton([#node: bnode, #members: mems, #sounds: snds])
+  [207] pushint8 1
+  [209] add
+  [210] endrepeat [111]
+  [212] pop 3
+  [214] getprop 54 .............................. <node>
+  [216] pushcons 11 ............................. <"username_txt">
+  [218] pusharglist 2 ........................... <node, "username_txt">
+  [220] objcall 31 .............................. <node["username_txt"]>
+  [222] setprop 79 .............................. username_txt = node["username_txt"]
+  [224] ret
+end
+
+on destroy me
+  [  0] getprop 64 .............................. <initialized>
+  [  2] jmpifz [ 31] ............................ if initialized then
+  [  5] pushsymb 2 .............................. <#destroy>
+  [  7] getprop 71 .............................. <buttons>
+  [  9] pusharglistnoret 2 ...................... <#destroy, buttons>
+  [ 11] extcall 36 .............................. call(#destroy, buttons)
+  [ 13] getprop 54 .............................. <node>
+  [ 15] pusharglistnoret 1 ...................... <node>
+  [ 17] objcall 2 ............................... node.destroy()
+  [ 19] getprop 62 .............................. <hairtimer>
+  [ 21] pusharglistnoret 1 ...................... <hairtimer>
+  [ 23] objcall 2 ............................... hairtimer.destroy()
+  [ 25] getprop 57 .............................. <eyetimer>
+  [ 27] pusharglistnoret 1 ...................... <eyetimer>
+  [ 29] objcall 2 ............................... eyetimer.destroy()
+  [ 31] getparam 0 .............................. <me>
+  [ 33] pusharglistnoret 1 ...................... <me>
+  [ 35] extcall 84 .............................. voidRefs(me)
+  [ 37] ret
+end
+
+on goMode me, sym
+  [  0] getparam 1 .............................. <sym>
+  [  2] pushsymb 19 ............................. <#career>
+  [  4] eq ...................................... <sym = #career>
+  [  5] getparam 1 .............................. <sym>
+  [  7] pushsymb 16 ............................. <#endless>
+  [  9] eq ...................................... <sym = #endless>
+  [ 10] or ...................................... <(sym = #career) or (sym = #endless)>
+  [ 11] getprop 55 .............................. <save_mgr>
+  [ 13] getobjprop 85 ........................... <save_mgr.currentProfile>
+  [ 15] pusharglist 1 ........................... <save_mgr.currentProfile>
+  [ 17] extcall 39 .............................. <voidp(save_mgr.currentProfile)>
+  [ 19] and ..................................... <((sym = #career) or (sym = #endless)) and voidp(save_mgr.currentProfile)>
+  [ 20] jmpifz [ 37] ............................ if ((sym = #career) or (sym = #endless)) and voidp(save_mgr.currentProfile) then
+  [ 23] getprop 52 .............................. <mgr>
+  [ 25] pushsymb 17 ............................. <#login>
+  [ 27] getparam 1 .............................. <sym>
+  [ 29] pusharglistnoret 3 ...................... <mgr, #login, sym>
+  [ 31] objcall 3 ............................... mgr.setMode(#login, sym)
+  [ 33] pusharglistnoret 0 ...................... <>
+  [ 35] extcall 9 ............................... return 
+  [ 37] getprop 52 .............................. <mgr>
+  [ 39] getparam 1 .............................. <sym>
+  [ 41] pusharglistnoret 2 ...................... <mgr, sym>
+  [ 43] objcall 3 ............................... mgr.setMode(sym)
+  [ 45] ret
+end
+
+on doHairAnim me
+  [  0] getprop 62 .............................. <hairtimer>
+  [  2] pusharglistnoret 1 ...................... <hairtimer>
+  [  4] objcall 86 .............................. hairtimer.stop()
+  [  6] getprop 69 .............................. <hair>
+  [  8] pushcons 12 ............................. <"wave">
+  [ 10] pushsymb 87 ............................. <#loopCount>
+  [ 12] pushint8 1 .............................. <1>
+  [ 14] pushint8 2 .............................. <2>
+  [ 16] pusharglist 1 ........................... <2>
+  [ 18] extcall 88 .............................. <random(2)>
+  [ 20] add ..................................... <1 + random(2)>
+  [ 21] pushsymb 89 ............................. <#frameMS>
+  [ 23] pushint16 200 ........................... <200>
+  [ 26] pusharglist 4 ........................... <[#loopCount: 1 + random(2), #frameMS: 200]>
+  [ 28] pushproplist ............................ <[#loopCount: 1 + random(2), #frameMS: 200]>
+  [ 29] pusharglistnoret 3 ...................... <hair, "wave", [#loopCount: 1 + random(2), #frameMS: 200]>
+  [ 31] objcall 90 .............................. hair.setAnimation("wave", [#loopCount: 1 + random(2), #frameMS: 200])
+  [ 33] getprop 62 .............................. <hairtimer>
+  [ 35] pushint16 1000 .......................... <1000>
+  [ 38] pushint16 1000 .......................... <1000>
+  [ 41] pusharglist 1 ........................... <1000>
+  [ 43] extcall 88 .............................. <random(1000)>
+  [ 45] add ..................................... <1000 + random(1000)>
+  [ 46] pusharglistnoret 2 ...................... <hairtimer, 1000 + random(1000)>
+  [ 48] objcall 91 .............................. hairtimer.setPeriod(1000 + random(1000))
+  [ 50] getprop 62 .............................. <hairtimer>
+  [ 52] pusharglistnoret 1 ...................... <hairtimer>
+  [ 54] objcall 92 .............................. hairtimer.start()
+  [ 56] ret
+end
+
+on doEyeAnim me
+  [  0] getprop 57 .............................. <eyetimer>
+  [  2] pusharglistnoret 1 ...................... <eyetimer>
+  [  4] objcall 86 .............................. eyetimer.stop()
+  [  6] getprop 70 .............................. <eyes>
+  [  8] pushcons 13 ............................. <"blink">
+  [ 10] pushsymb 87 ............................. <#loopCount>
+  [ 12] pushint8 2 .............................. <2>
+  [ 14] pusharglist 1 ........................... <2>
+  [ 16] extcall 88 .............................. <random(2)>
+  [ 18] pushsymb 89 ............................. <#frameMS>
+  [ 20] pushint8 40 ............................. <40>
+  [ 22] pusharglist 4 ........................... <[#loopCount: random(2), #frameMS: 40]>
+  [ 24] pushproplist ............................ <[#loopCount: random(2), #frameMS: 40]>
+  [ 25] pusharglistnoret 3 ...................... <eyes, "blink", [#loopCount: random(2), #frameMS: 40]>
+  [ 27] objcall 90 .............................. eyes.setAnimation("blink", [#loopCount: random(2), #frameMS: 40])
+  [ 29] getprop 57 .............................. <eyetimer>
+  [ 31] pushint16 1500 .......................... <1500>
+  [ 34] pushint16 2000 .......................... <2000>
+  [ 37] pusharglist 1 ........................... <2000>
+  [ 39] extcall 88 .............................. <random(2000)>
+  [ 41] add ..................................... <1500 + random(2000)>
+  [ 42] pusharglistnoret 2 ...................... <eyetimer, 1500 + random(2000)>
+  [ 44] objcall 91 .............................. eyetimer.setPeriod(1500 + random(2000))
+  [ 46] getprop 57 .............................. <eyetimer>
+  [ 48] pusharglistnoret 1 ...................... <eyetimer>
+  [ 50] objcall 92 .............................. eyetimer.start()
+  [ 52] ret
+end
+
+on enterMode me, previousMode
+  [  0] getprop 64 .............................. <initialized>
+  [  2] not ..................................... <not initialized>
+  [  3] jmpifz [ 12] ............................ if not initialized then
+  [  6] getparam 0 .............................. <me>
+  [  8] pusharglistnoret 1 ...................... <me>
+  [ 10] objcall 1 ............................... me.init()
+  [ 12] getprop 55 .............................. <save_mgr>
+  [ 14] pusharglist 1 ........................... <save_mgr>
+  [ 16] objcall 93 .............................. <save_mgr.getCurrentProfile()>
+  [ 18] setlocal 0 .............................. uname = save_mgr.getCurrentProfile()
+  [ 20] getlocal 0 .............................. <uname>
+  [ 22] pusharglist 1 ........................... <uname>
+  [ 24] extcall 39 .............................. <voidp(uname)>
+  [ 26] not ..................................... <not voidp(uname)>
+  [ 27] jmpifz [ 73] ............................ if not voidp(uname) then / else
+  [ 30] getprop 79 .............................. <username_txt>
+  [ 32] getlocal 0 .............................. <uname>
+  [ 34] pusharglistnoret 2 ...................... <username_txt, uname>
+  [ 36] objcall 94 .............................. username_txt.setText(uname)
+  [ 38] getprop 79 .............................. <username_txt>
+  [ 40] pushint8 1 .............................. <1>
+  [ 42] pusharglistnoret 2 ...................... <username_txt, 1>
+  [ 44] objcall 95 .............................. username_txt.setVisible(1)
+  [ 46] getprop 54 .............................. <node>
+  [ 48] pushcons 14 ............................. <"user_bg">
+  [ 50] pusharglist 2 ........................... <node, "user_bg">
+  [ 52] objcall 31 .............................. <node["user_bg"]>
+  [ 54] pushint8 1 .............................. <1>
+  [ 56] pusharglistnoret 2 ...................... <node["user_bg"], 1>
+  [ 58] objcall 95 .............................. node["user_bg"].setVisible(1)
+  [ 60] getprop 71 .............................. <buttons>
+  [ 62] getchainedprop 17 ....................... <buttons.login>
+  [ 64] pushint8 1 .............................. <1>
+  [ 66] pusharglistnoret 2 ...................... <buttons.login, 1>
+  [ 68] objcall 95 .............................. buttons.login.setVisible(1)
+  [ 70] jmp [102]
+  [ 73] getprop 54 .............................. <node>
+  [ 75] pushcons 14 ............................. <"user_bg">
+  [ 77] pusharglist 2 ........................... <node, "user_bg">
+  [ 79] objcall 31 .............................. <node["user_bg"]>
+  [ 81] pushzero ................................ <0>
+  [ 82] pusharglistnoret 2 ...................... <node["user_bg"], 0>
+  [ 84] objcall 95 .............................. node["user_bg"].setVisible(0)
+  [ 86] getprop 79 .............................. <username_txt>
+  [ 88] pushzero ................................ <0>
+  [ 89] pusharglistnoret 2 ...................... <username_txt, 0>
+  [ 91] objcall 95 .............................. username_txt.setVisible(0)
+  [ 93] getprop 71 .............................. <buttons>
+  [ 95] getchainedprop 17 ....................... <buttons.login>
+  [ 97] pushzero ................................ <0>
+  [ 98] pusharglistnoret 2 ...................... <buttons.login, 0>
+  [100] objcall 95 .............................. buttons.login.setVisible(0)
+  [102] getprop 64 .............................. <initialized>
+  [104] not ..................................... <not initialized>
+  [105] jmpifz [117] ............................ if not initialized then / else
+  [108] getparam 0 .............................. <me>
+  [110] pusharglistnoret 1 ...................... <me>
+  [112] objcall 1 ............................... me.init()
+  [114] jmp [123]
+  [117] getprop 54 .............................. <node>
+  [119] pusharglistnoret 1 ...................... <node>
+  [121] objcall 96 .............................. node.embody()
+  [123] getprop 54 .............................. <node>
+  [125] pusharglistnoret 1 ...................... <node>
+  [127] objcall 97 .............................. node.updateLocZ()
+  [129] pushint8 1 .............................. <1>
+  [131] setlocal 1
+  [133] getlocal 1
+  [135] getprop 71 .............................. <buttons>
+  [137] getobjprop 30 ........................... <buttons.count>
+  [139] lteq
+  [140] jmpifz [189] ............................ repeat with i = 1 to buttons.count
+  [143] getprop 71 .............................. <buttons>
+  [145] getlocal 1 .............................. <i>
+  [147] pusharglist 2 ........................... <buttons, i>
+  [149] objcall 98 .............................. <buttons.getPropAt(i)>
+  [151] setlocal 2 .............................. p = buttons.getPropAt(i)
+  [153] getprop 71 .............................. <buttons>
+  [155] getlocal 1 .............................. <i>
+  [157] pusharglist 2 ........................... <buttons, i>
+  [159] objcall 31 .............................. <buttons[i]>
+  [161] pushsymb 59 ............................. <#target>
+  [163] getparam 0 .............................. <me>
+  [165] pushsymb 60 ............................. <#handler>
+  [167] pushsymb 48 ............................. <#goMode>
+  [169] pushsymb 99 ............................. <#Args>
+  [171] getlocal 2 .............................. <p>
+  [173] pusharglist 6 ........................... <[#target: me, #handler: #goMode, #Args: p]>
+  [175] pushproplist ............................ <[#target: me, #handler: #goMode, #Args: p]>
+  [176] pusharglistnoret 2 ...................... <buttons[i], [#target: me, #handler: #goMode, #Args: p]>
+  [178] objcall 61 .............................. buttons[i].setCallback([#target: me, #handler: #goMode, #Args: p])
+  [180] pushint8 1
+  [182] getlocal 1
+  [184] add
+  [185] setlocal 1
+  [187] endrepeat [133]
+  [189] pushcons 15 ............................. <"music_intro">
+  [191] pusharglistnoret 1 ...................... <"music_intro">
+  [193] extcall 100 ............................. SndMusicStart("music_intro")
+  [195] getprop 53 .............................. <node_mgr>
+  [197] pushcons 16 ............................. <"game">
+  [199] pusharglist 2 ........................... <node_mgr, "game">
+  [201] objcall 65 .............................. <node_mgr.getGroup("game")>
+  [203] pushzero ................................ <0>
+  [204] pusharglistnoret 2 ...................... <node_mgr.getGroup("game"), 0>
+  [206] objcall 95 .............................. node_mgr.getGroup("game").setVisible(0)
+  [208] getprop 53 .............................. <node_mgr>
+  [210] pushcons 1 .............................. <"titles">
+  [212] pusharglist 2 ........................... <node_mgr, "titles">
+  [214] objcall 65 .............................. <node_mgr.getGroup("titles")>
+  [216] pushint8 1 .............................. <1>
+  [218] pusharglistnoret 2 ...................... <node_mgr.getGroup("titles"), 1>
+  [220] objcall 95 .............................. node_mgr.getGroup("titles").setVisible(1)
+  [222] getprop 54 .............................. <node>
+  [224] pushint8 1 .............................. <1>
+  [226] pusharglistnoret 2 ...................... <node, 1>
+  [228] objcall 95 .............................. node.setVisible(1)
+  [230] getprop 54 .............................. <node>
+  [232] pushzero ................................ <0>
+  [233] pushzero ................................ <0>
+  [234] pusharglist 2 ........................... <0, 0>
+  [236] extcall 101 ............................. <point(0, 0)>
+  [238] pusharglistnoret 2 ...................... <node, point(0, 0)>
+  [240] objcall 102 ............................. node.setLoc(point(0, 0))
+  [242] getprop 62 .............................. <hairtimer>
+  [244] pushint16 500 ........................... <500>
+  [247] pushint16 1000 .......................... <1000>
+  [250] pusharglist 1 ........................... <1000>
+  [252] extcall 88 .............................. <random(1000)>
+  [254] add ..................................... <500 + random(1000)>
+  [255] pusharglistnoret 2 ...................... <hairtimer, 500 + random(1000)>
+  [257] objcall 91 .............................. hairtimer.setPeriod(500 + random(1000))
+  [259] getprop 62 .............................. <hairtimer>
+  [261] pusharglistnoret 1 ...................... <hairtimer>
+  [263] objcall 92 .............................. hairtimer.start()
+  [265] getprop 57 .............................. <eyetimer>
+  [267] pushint16 500 ........................... <500>
+  [270] pushint16 1000 .......................... <1000>
+  [273] pusharglist 1 ........................... <1000>
+  [275] extcall 88 .............................. <random(1000)>
+  [277] add ..................................... <500 + random(1000)>
+  [278] pusharglistnoret 2 ...................... <eyetimer, 500 + random(1000)>
+  [280] objcall 91 .............................. eyetimer.setPeriod(500 + random(1000))
+  [282] getprop 57 .............................. <eyetimer>
+  [284] pusharglistnoret 1 ...................... <eyetimer>
+  [286] objcall 92 .............................. eyetimer.start()
+  [288] ret
+end
+
+on event me, sym
+  [  0] ret
+end
+
+on leaveMode me, nextMode
+  [  0] getprop 57 .............................. <eyetimer>
+  [  2] pusharglistnoret 1 ...................... <eyetimer>
+  [  4] objcall 86 .............................. eyetimer.stop()
+  [  6] getprop 62 .............................. <hairtimer>
+  [  8] pusharglistnoret 1 ...................... <hairtimer>
+  [ 10] objcall 86 .............................. hairtimer.stop()
+  [ 12] getprop 69 .............................. <hair>
+  [ 14] getchainedprop 106 ...................... <hair.animator>
+  [ 16] pusharglistnoret 1 ...................... <hair.animator>
+  [ 18] objcall 86 .............................. hair.animator.stop()
+  [ 20] getprop 70 .............................. <eyes>
+  [ 22] getchainedprop 106 ...................... <eyes.animator>
+  [ 24] pusharglistnoret 1 ...................... <eyes.animator>
+  [ 26] objcall 86 .............................. eyes.animator.stop()
+  [ 28] pushsymb 61 ............................. <#setCallback>
+  [ 30] getprop 71 .............................. <buttons>
+  [ 32] pusharglist 0 ........................... <>
+  [ 34] extcall 38 .............................. <VOID>
+  [ 36] pusharglistnoret 3 ...................... <#setCallback, buttons, VOID>
+  [ 38] extcall 36 .............................. call(#setCallback, buttons, VOID)
+  [ 40] pushsymb 107 ............................ <#mouseLeave>
+  [ 42] getprop 71 .............................. <buttons>
+  [ 44] pusharglistnoret 2 ...................... <#mouseLeave, buttons>
+  [ 46] extcall 36 .............................. call(#mouseLeave, buttons)
+  [ 48] getparam 1 .............................. <nextMode>
+  [ 50] getobjprop 63 ........................... <nextMode.name>
+  [ 52] setlocal 0 .............................. n = nextMode.name
+  [ 54] getlocal 0 .............................. <n>
+  [ 56] pushsymb 29 ............................. <#options>
+  [ 58] nteq .................................... <n <> #options>
+  [ 59] getlocal 0 .............................. <n>
+  [ 61] pushsymb 25 ............................. <#quit>
+  [ 63] nteq .................................... <n <> #quit>
+  [ 64] and ..................................... <(n <> #options) and (n <> #quit)>
+  [ 65] jmpifz [ 99] ............................ if (n <> #options) and (n <> #quit) then
+  [ 68] getprop 54 .............................. <node>
+  [ 70] pushzero ................................ <0>
+  [ 71] pusharglistnoret 2 ...................... <node, 0>
+  [ 73] objcall 95 .............................. node.setVisible(0)
+  [ 75] getprop 54 .............................. <node>
+  [ 77] pushint16 5000 .......................... <5000>
+  [ 80] inv ..................................... <-5000>
+  [ 81] pushint16 5000 .......................... <5000>
+  [ 84] inv ..................................... <-5000>
+  [ 85] pusharglist 2 ........................... <-5000, -5000>
+  [ 87] extcall 101 ............................. <point(-5000, -5000)>
+  [ 89] pusharglistnoret 2 ...................... <node, point(-5000, -5000)>
+  [ 91] objcall 102 ............................. node.setLoc(point(-5000, -5000))
+  [ 93] getprop 54 .............................. <node>
+  [ 95] pusharglistnoret 1 ...................... <node>
+  [ 97] objcall 108 ............................. node.disembody()
+  [ 99] ret
+end

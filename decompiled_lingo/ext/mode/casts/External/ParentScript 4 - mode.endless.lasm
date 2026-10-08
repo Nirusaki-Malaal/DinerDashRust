@@ -1,0 +1,524 @@
+property mgr, name, node_mgr, game_mgr, gameNode, titleNode, node, buttons, stageButtons, hilite, save_mgr, highestStage, diffDialog, diffButtons, mousetrap, stagedata, currentStage, leveldata, statueCover, sparkles, initialized
+global glob
+
+on new me, m
+  [  0] getparam 1 .............................. <m>
+  [  2] setprop 52 .............................. mgr = m
+  [  4] getparam 1 .............................. <m>
+  [  6] getchainedprop 4 ........................ <m.glob>
+  [  8] getchainedprop 6 ........................ <m.glob.managers>
+  [ 10] getobjprop 54 ........................... <m.glob.managers.node>
+  [ 12] setprop 53 .............................. node_mgr = m.glob.managers.node
+  [ 14] getparam 1 .............................. <m>
+  [ 16] getchainedprop 4 ........................ <m.glob>
+  [ 18] getchainedprop 6 ........................ <m.glob.managers>
+  [ 20] getobjprop 7 ............................ <m.glob.managers.game>
+  [ 22] setprop 5 ............................... game_mgr = m.glob.managers.game
+  [ 24] getparam 1 .............................. <m>
+  [ 26] getchainedprop 4 ........................ <m.glob>
+  [ 28] getchainedprop 6 ........................ <m.glob.managers>
+  [ 30] getobjprop 56 ........................... <m.glob.managers.savegame>
+  [ 32] setprop 55 .............................. save_mgr = m.glob.managers.savegame
+  [ 34] getprop 53 .............................. <node_mgr>
+  [ 36] pushcons 0 .............................. <"game">
+  [ 38] pusharglist 2 ........................... <node_mgr, "game">
+  [ 40] objcall 65 .............................. <node_mgr.getGroup("game")>
+  [ 42] setprop 116 ............................. gameNode = node_mgr.getGroup("game")
+  [ 44] getprop 53 .............................. <node_mgr>
+  [ 46] pushcons 1 .............................. <"titles">
+  [ 48] pusharglist 2 ........................... <node_mgr, "titles">
+  [ 50] objcall 65 .............................. <node_mgr.getGroup("titles")>
+  [ 52] setprop 117 ............................. titleNode = node_mgr.getGroup("titles")
+  [ 54] pushsymb 16 ............................. <#endless>
+  [ 56] setprop 63 .............................. name = #endless
+  [ 58] getparam 0 .............................. <me>
+  [ 60] pusharglistnoret 1 ...................... <me>
+  [ 62] extcall 9 ............................... return me
+  [ 64] ret
+end
+
+on init me
+  [  0] getprop 64 .............................. <initialized>
+  [  2] jmpifz [  9] ............................ if initialized then
+  [  5] pusharglistnoret 0 ...................... <>
+  [  7] extcall 9 ............................... return 
+  [  9] pushint8 1 .............................. <1>
+  [ 11] setprop 64 .............................. initialized = 1
+  [ 13] getprop 117 ............................. <titleNode>
+  [ 15] pushcons 2 .............................. <"endless_setup">
+  [ 17] pusharglist 1 ........................... <"endless_setup">
+  [ 19] extcall 66 .............................. <getNodeData("endless_setup")>
+  [ 21] pusharglist 2 ........................... <titleNode, getNodeData("endless_setup")>
+  [ 23] objcall 67 .............................. <titleNode.newNode(getNodeData("endless_setup"))>
+  [ 25] setprop 54 .............................. node = titleNode.newNode(getNodeData("endless_setup"))
+  [ 27] getprop 54 .............................. <node>
+  [ 29] pushzero ................................ <0>
+  [ 30] pusharglistnoret 2 ...................... <node, 0>
+  [ 32] objcall 95 .............................. node.setVisible(0)
+  [ 34] pusharglist 0 ........................... <[:]>
+  [ 36] pushproplist ............................ <[:]>
+  [ 37] setprop 71 .............................. buttons = [:]
+  [ 39] getprop 54 .............................. <node>
+  [ 41] pushcons 3 .............................. <"statue_cover">
+  [ 43] pusharglist 2 ........................... <node, "statue_cover">
+  [ 45] objcall 31 .............................. <node["statue_cover"]>
+  [ 47] setprop 118 ............................. statueCover = node["statue_cover"]
+  [ 49] getprop 71 .............................. <buttons>
+  [ 51] pushsymb 13 ............................. <#menu>
+  [ 53] pushsymb 54 ............................. <#node>
+  [ 55] getprop 54 .............................. <node>
+  [ 57] pushcons 4 .............................. <"menu_button">
+  [ 59] pusharglist 2 ........................... <node, "menu_button">
+  [ 61] objcall 31 .............................. <node["menu_button"]>
+  [ 63] pusharglist 2 ........................... <[#node: node["menu_button"]]>
+  [ 65] pushproplist ............................ <[#node: node["menu_button"]]>
+  [ 66] pusharglist 1 ........................... <[#node: node["menu_button"]]>
+  [ 68] extcall 76 .............................. <newButton([#node: node["menu_button"]])>
+  [ 70] pusharglistnoret 3 ...................... <buttons, #menu, newButton([#node: node["menu_button"]])>
+  [ 72] objcall 34 .............................. buttons[#menu] = newButton([#node: node["menu_button"]])
+  [ 74] getprop 54 .............................. <node>
+  [ 76] pushcons 5 .............................. <"diff_dialog">
+  [ 78] pusharglist 2 ........................... <node, "diff_dialog">
+  [ 80] objcall 31 .............................. <node["diff_dialog"]>
+  [ 82] setprop 119 ............................. diffDialog = node["diff_dialog"]
+  [ 84] pusharglist 0 ........................... <[]>
+  [ 86] pushlist ................................ <[]>
+  [ 87] setprop 120 ............................. diffButtons = []
+  [ 89] pushint8 1 .............................. <1>
+  [ 91] setlocal 0
+  [ 93] getlocal 0
+  [ 95] pushint8 3 .............................. <3>
+  [ 97] lteq
+  [ 98] jmpifz [167] ............................ repeat with i = 1 to 3
+  [101] pushcons 6 .............................. <"diff_">
+  [103] getlocal 0 .............................. <i>
+  [105] joinstr ................................. <"diff_" & i>
+  [106] setlocal 1 .............................. z = "diff_" & i
+  [108] getprop 120 ............................. <diffButtons>
+  [110] pushsymb 54 ............................. <#node>
+  [112] getprop 119 ............................. <diffDialog>
+  [114] getlocal 1 .............................. <z>
+  [116] pusharglist 2 ........................... <diffDialog, z>
+  [118] objcall 31 .............................. <diffDialog[z]>
+  [120] pushsymb 77 ............................. <#members>
+  [122] pushsymb 74 ............................. <#normal>
+  [124] getlocal 1 .............................. <z>
+  [126] pushcons 7 .............................. <"_off">
+  [128] joinstr ................................. <z & "_off">
+  [129] pusharglist 1 ........................... <z & "_off">
+  [131] extcall 75 .............................. <member(z & "_off")>
+  [133] pushsymb 72 ............................. <#rollover>
+  [135] getlocal 1 .............................. <z>
+  [137] pushcons 8 .............................. <"_on">
+  [139] joinstr ................................. <z & "_on">
+  [140] pusharglist 1 ........................... <z & "_on">
+  [142] extcall 75 .............................. <member(z & "_on")>
+  [144] pusharglist 4 ........................... <[#normal: member(z & "_off"), #rollover: member(z & "_on")]>
+  [146] pushproplist ............................ <[#normal: member(z & "_off"), #rollover: member(z & "_on")]>
+  [147] pusharglist 4 ........................... <[#node: diffDialog[z], #members: [#normal: member(z & "_off"), #rollover: member(z & "_on")]]>
+  [149] pushproplist ............................ <[#node: diffDialog[z], #members: [#normal: member(z & "_off"), #rollover: member(z & "_on")]]>
+  [150] pusharglist 1 ........................... <[#node: diffDialog[z], #members: [#normal: member(z & "_off"), #rollover: member(z & "_on")]]>
+  [152] extcall 76 .............................. <newButton([#node: diffDialog[z], #members: [#normal: member(z & "_off"), #rollover: member(z & "_on")]])>
+  [154] pusharglistnoret 2 ...................... <diffButtons, newButton([#node: diffDialog[z], #members: [#normal: member(z & "_off"), #rollover: member(z & "_on")]])>
+  [156] objcall 121 ............................. diffButtons.add(newButton([#node: diffDialog[z], #members: [#normal: member(z & "_off"), #rollover: member(z & "_on")]]))
+  [158] pushint8 1
+  [160] getlocal 0
+  [162] add
+  [163] setlocal 0
+  [165] endrepeat [ 93]
+  [167] pushsymb 54 ............................. <#node>
+  [169] getprop 119 ............................. <diffDialog>
+  [171] pushcons 9 .............................. <"mousetrap">
+  [173] pusharglist 2 ........................... <diffDialog, "mousetrap">
+  [175] objcall 31 .............................. <diffDialog["mousetrap"]>
+  [177] pusharglist 2 ........................... <[#node: diffDialog["mousetrap"]]>
+  [179] pushproplist ............................ <[#node: diffDialog["mousetrap"]]>
+  [180] pusharglist 1 ........................... <[#node: diffDialog["mousetrap"]]>
+  [182] extcall 123 ............................. <newMouseListener([#node: diffDialog["mousetrap"]])>
+  [184] setprop 122 ............................. mousetrap = newMouseListener([#node: diffDialog["mousetrap"]])
+  [186] getprop 71 .............................. <buttons>
+  [188] pushsymb 113 ............................ <#closeDiff>
+  [190] pushsymb 54 ............................. <#node>
+  [192] getprop 119 ............................. <diffDialog>
+  [194] pushcons 10 ............................. <"closediff">
+  [196] pusharglist 2 ........................... <diffDialog, "closediff">
+  [198] objcall 31 .............................. <diffDialog["closediff"]>
+  [200] pusharglist 2 ........................... <[#node: diffDialog["closediff"]]>
+  [202] pushproplist ............................ <[#node: diffDialog["closediff"]]>
+  [203] pusharglist 1 ........................... <[#node: diffDialog["closediff"]]>
+  [205] extcall 76 .............................. <newButton([#node: diffDialog["closediff"]])>
+  [207] pusharglistnoret 3 ...................... <buttons, #closeDiff, newButton([#node: diffDialog["closediff"]])>
+  [209] objcall 34 .............................. buttons[#closeDiff] = newButton([#node: diffDialog["closediff"]])
+  [211] getglobal 4 ............................. <glob>
+  [213] getchainedprop 6 ........................ <glob.managers>
+  [215] getchainedprop 125 ...................... <glob.managers.config>
+  [217] getchainedprop 7 ........................ <glob.managers.config.game>
+  [219] getchainedprop 16 ....................... <glob.managers.config.game.endless>
+  [221] getobjprop 126 .......................... <glob.managers.config.game.endless.stages>
+  [223] setprop 124 ............................. stagedata = glob.managers.config.game.endless.stages
+  [225] pushint8 1 .............................. <1>
+  [227] setprop 127 ............................. currentStage = 1
+  [229] pusharglist 0 ........................... <[]>
+  [231] pushlist ................................ <[]>
+  [232] setprop 128 ............................. stageButtons = []
+  [234] pushint8 1 .............................. <1>
+  [236] setlocal 0
+  [238] getlocal 0
+  [240] pushint8 5 .............................. <5>
+  [242] lteq
+  [243] jmpifz [302] ............................ repeat with i = 1 to 5
+  [246] getprop 128 ............................. <stageButtons>
+  [248] pushcons 11 ............................. <"endless_stagebutton">
+  [250] pushcons 12 ............................. <"scripts.mode">
+  [252] pusharglist 2 ........................... <"endless_stagebutton", "scripts.mode">
+  [254] extcall 32 .............................. <script("endless_stagebutton", "scripts.mode")>
+  [256] pushsymb 54 ............................. <#node>
+  [258] getprop 54 .............................. <node>
+  [260] pushcons 13 ............................. <"rest_">
+  [262] getlocal 0 .............................. <i>
+  [264] joinstr ................................. <"rest_" & i>
+  [265] pusharglist 2 ........................... <node, "rest_" & i>
+  [267] objcall 31 .............................. <node["rest_" & i]>
+  [269] pushsymb 129 ............................ <#sparkle>
+  [271] getprop 54 .............................. <node>
+  [273] pushcons 14 ............................. <"sparkle_">
+  [275] getlocal 0 .............................. <i>
+  [277] joinstr ................................. <"sparkle_" & i>
+  [278] pusharglist 2 ........................... <node, "sparkle_" & i>
+  [280] objcall 31 .............................. <node["sparkle_" & i]>
+  [282] pusharglist 4 ........................... <[#node: node["rest_" & i], #sparkle: node["sparkle_" & i]]>
+  [284] pushproplist ............................ <[#node: node["rest_" & i], #sparkle: node["sparkle_" & i]]>
+  [285] pusharglist 2 ........................... <script("endless_stagebutton", "scripts.mode"), [#node: node["rest_" & i], #sparkle: node["sparkle_" & i]]>
+  [287] objcall 0 ............................... <script("endless_stagebutton", "scripts.mode").new([#node: node["rest_" & i], #sparkle: node["sparkle_" & i]])>
+  [289] pusharglistnoret 2 ...................... <stageButtons, script("endless_stagebutton", "scripts.mode").new([#node: node["rest_" & i], #sparkle: node["sparkle_" & i]])>
+  [291] objcall 121 ............................. stageButtons.add(script("endless_stagebutton", "scripts.mode").new([#node: node["rest_" & i], #sparkle: node["sparkle_" & i]]))
+  [293] pushint8 1
+  [295] getlocal 0
+  [297] add
+  [298] setlocal 0
+  [300] endrepeat [238]
+  [302] ret
+end
+
+on destroy me
+  [  0] getprop 64 .............................. <initialized>
+  [  2] jmpifz [ 41] ............................ if initialized then
+  [  5] pushsymb 2 .............................. <#destroy>
+  [  7] getprop 71 .............................. <buttons>
+  [  9] pusharglistnoret 2 ...................... <#destroy, buttons>
+  [ 11] extcall 36 .............................. call(#destroy, buttons)
+  [ 13] getprop 122 ............................. <mousetrap>
+  [ 15] pusharglistnoret 1 ...................... <mousetrap>
+  [ 17] objcall 2 ............................... mousetrap.destroy()
+  [ 19] pushsymb 2 .............................. <#destroy>
+  [ 21] getprop 128 ............................. <stageButtons>
+  [ 23] pusharglistnoret 2 ...................... <#destroy, stageButtons>
+  [ 25] extcall 36 .............................. call(#destroy, stageButtons)
+  [ 27] pushsymb 2 .............................. <#destroy>
+  [ 29] getprop 120 ............................. <diffButtons>
+  [ 31] pusharglistnoret 2 ...................... <#destroy, diffButtons>
+  [ 33] extcall 36 .............................. call(#destroy, diffButtons)
+  [ 35] getprop 54 .............................. <node>
+  [ 37] pusharglistnoret 1 ...................... <node>
+  [ 39] objcall 2 ............................... node.destroy()
+  [ 41] getparam 0 .............................. <me>
+  [ 43] pusharglistnoret 1 ...................... <me>
+  [ 45] extcall 84 .............................. voidRefs(me)
+  [ 47] ret
+end
+
+on enterMode me, previousMode
+  [  0] getprop 64 .............................. <initialized>
+  [  2] not ..................................... <not initialized>
+  [  3] jmpifz [ 15] ............................ if not initialized then / else
+  [  6] getparam 0 .............................. <me>
+  [  8] pusharglistnoret 1 ...................... <me>
+  [ 10] objcall 1 ............................... me.init()
+  [ 12] jmp [ 21]
+  [ 15] getprop 54 .............................. <node>
+  [ 17] pusharglistnoret 1 ...................... <node>
+  [ 19] objcall 96 .............................. node.embody()
+  [ 21] getprop 54 .............................. <node>
+  [ 23] pusharglistnoret 1 ...................... <node>
+  [ 25] objcall 97 .............................. node.updateLocZ()
+  [ 27] getprop 119 ............................. <diffDialog>
+  [ 29] pushzero ................................ <0>
+  [ 30] pusharglistnoret 2 ...................... <diffDialog, 0>
+  [ 32] objcall 95 .............................. diffDialog.setVisible(0)
+  [ 34] getprop 55 .............................. <save_mgr>
+  [ 36] getobjprop 126 .......................... <save_mgr.stages>
+  [ 38] setlocal 0 .............................. st = save_mgr.stages
+  [ 40] pushint8 1 .............................. <1>
+  [ 42] setprop 131 ............................. highestStage = 1
+  [ 44] pushint8 1 .............................. <1>
+  [ 46] setlocal 1
+  [ 48] getlocal 1
+  [ 50] getlocal 0 .............................. <st>
+  [ 52] getobjprop 30 ........................... <st.count>
+  [ 54] lteq
+  [ 55] jmpifz [142] ............................ repeat with i = 1 to st.count
+  [ 58] getlocal 0 .............................. <st>
+  [ 60] getlocal 1 .............................. <i>
+  [ 62] pusharglist 2 ........................... <st, i>
+  [ 64] objcall 31 .............................. <st[i]>
+  [ 66] setlocal 2 .............................. lvl = st[i]
+  [ 68] pushzero ................................ <0>
+  [ 69] setlocal 3 .............................. unlck = 0
+  [ 71] getlocal 2 .............................. <lvl>
+  [ 73] peek 0
+  [ 75] pusharglist 1
+  [ 77] extcall 30
+  [ 79] pushint8 1
+  [ 81] peek 0
+  [ 83] peek 2
+  [ 85] lteq
+  [ 86] jmpifz [118] ............................ repeat with j in lvl
+  [ 89] peek 2
+  [ 91] peek 1
+  [ 93] pusharglist 2
+  [ 95] extcall 31
+  [ 97] setlocal 4
+  [ 99] getlocal 4 .............................. <j>
+  [101] getobjprop 132 .......................... <j.unlocked>
+  [103] jmpifz [113] ............................ if j.unlocked then
+  [106] pushint8 1 .............................. <1>
+  [108] setlocal 3 .............................. unlck = 1
+  [110] jmp [118] ............................... exit repeat
+  [113] pushint8 1
+  [115] add
+  [116] endrepeat [ 81]
+  [118] pop 3
+  [120] getlocal 3 .............................. <unlck>
+  [122] not ..................................... <not unlck>
+  [123] jmpifz [129] ............................ if not unlck then
+  [126] jmp [142] ............................... exit repeat
+  [129] getlocal 1 .............................. <i>
+  [131] setprop 131 ............................. highestStage = i
+  [133] pushint8 1
+  [135] getlocal 1
+  [137] add
+  [138] setlocal 1
+  [140] endrepeat [ 48]
+  [142] getprop 116 ............................. <gameNode>
+  [144] pushzero ................................ <0>
+  [145] pusharglistnoret 2 ...................... <gameNode, 0>
+  [147] objcall 95 .............................. gameNode.setVisible(0)
+  [149] getprop 117 ............................. <titleNode>
+  [151] pushint8 1 .............................. <1>
+  [153] pusharglistnoret 2 ...................... <titleNode, 1>
+  [155] objcall 95 .............................. titleNode.setVisible(1)
+  [157] getprop 54 .............................. <node>
+  [159] pushint8 1 .............................. <1>
+  [161] pusharglistnoret 2 ...................... <node, 1>
+  [163] objcall 95 .............................. node.setVisible(1)
+  [165] getprop 54 .............................. <node>
+  [167] pushzero ................................ <0>
+  [168] pushzero ................................ <0>
+  [169] pusharglist 2 ........................... <0, 0>
+  [171] extcall 101 ............................. <point(0, 0)>
+  [173] pusharglistnoret 2 ...................... <node, point(0, 0)>
+  [175] objcall 102 ............................. node.setLoc(point(0, 0))
+  [177] getprop 5 ............................... <game_mgr>
+  [179] pushsymb 16 ............................. <#endless>
+  [181] pusharglistnoret 2 ...................... <game_mgr, #endless>
+  [183] objcall 133 ............................. game_mgr.setPlayMode(#endless)
+  [185] getprop 71 .............................. <buttons>
+  [187] getchainedprop 13 ....................... <buttons.menu>
+  [189] pushsymb 59 ............................. <#target>
+  [191] getprop 52 .............................. <mgr>
+  [193] pushsymb 60 ............................. <#handler>
+  [195] pushsymb 3 .............................. <#setMode>
+  [197] pushsymb 99 ............................. <#Args>
+  [199] pushsymb 13 ............................. <#menu>
+  [201] pusharglist 6 ........................... <[#target: mgr, #handler: #setMode, #Args: #menu]>
+  [203] pushproplist ............................ <[#target: mgr, #handler: #setMode, #Args: #menu]>
+  [204] pusharglistnoret 2 ...................... <buttons.menu, [#target: mgr, #handler: #setMode, #Args: #menu]>
+  [206] objcall 61 .............................. buttons.menu.setCallback([#target: mgr, #handler: #setMode, #Args: #menu])
+  [208] getparam 0 .............................. <me>
+  [210] pusharglistnoret 1 ...................... <me>
+  [212] objcall 111 ............................. me.setupStages()
+  [214] getparam 0 .............................. <me>
+  [216] pusharglistnoret 1 ...................... <me>
+  [218] objcall 112 ............................. me.setupLevels()
+  [220] ret
+end
+
+on setupStages me
+  [  0] pushint8 1 .............................. <1>
+  [  2] setlocal 0
+  [  4] getlocal 0
+  [  6] pushint8 5 .............................. <5>
+  [  8] lteq
+  [  9] jmpifz [ 88] ............................ repeat with i = 1 to 5
+  [ 12] getprop 128 ............................. <stageButtons>
+  [ 14] getlocal 0 .............................. <i>
+  [ 16] pusharglist 2 ........................... <stageButtons, i>
+  [ 18] objcall 31 .............................. <stageButtons[i]>
+  [ 20] setlocal 1 .............................. sb = stageButtons[i]
+  [ 22] getlocal 0 .............................. <i>
+  [ 24] getprop 131 ............................. <highestStage>
+  [ 26] gt ...................................... <i > highestStage>
+  [ 27] jmpifz [ 50] ............................ if i > highestStage then
+  [ 30] getlocal 1 .............................. <sb>
+  [ 32] pusharglist 0 ........................... <>
+  [ 34] extcall 38 .............................. <VOID>
+  [ 36] pusharglistnoret 2 ...................... <sb, VOID>
+  [ 38] objcall 61 .............................. sb.setCallback(VOID)
+  [ 40] getlocal 1 .............................. <sb>
+  [ 42] pushzero ................................ <0>
+  [ 43] pusharglistnoret 2 ...................... <sb, 0>
+  [ 45] objcall 95 .............................. sb.setVisible(0)
+  [ 47] jmp [ 79] ............................... next repeat
+  [ 50] getlocal 1 .............................. <sb>
+  [ 52] pushsymb 59 ............................. <#target>
+  [ 54] getparam 0 .............................. <me>
+  [ 56] pushsymb 60 ............................. <#handler>
+  [ 58] pushsymb 114 ............................ <#clickStage>
+  [ 60] pushsymb 99 ............................. <#Args>
+  [ 62] getlocal 0 .............................. <i>
+  [ 64] pusharglist 6 ........................... <[#target: me, #handler: #clickStage, #Args: i]>
+  [ 66] pushproplist ............................ <[#target: me, #handler: #clickStage, #Args: i]>
+  [ 67] pusharglistnoret 2 ...................... <sb, [#target: me, #handler: #clickStage, #Args: i]>
+  [ 69] objcall 61 .............................. sb.setCallback([#target: me, #handler: #clickStage, #Args: i])
+  [ 71] getlocal 1 .............................. <sb>
+  [ 73] pushint8 1 .............................. <1>
+  [ 75] pusharglistnoret 2 ...................... <sb, 1>
+  [ 77] objcall 95 .............................. sb.setVisible(1)
+  [ 79] pushint8 1
+  [ 81] getlocal 0
+  [ 83] add
+  [ 84] setlocal 0
+  [ 86] endrepeat [  4]
+  [ 88] getprop 118 ............................. <statueCover>
+  [ 90] getprop 131 ............................. <highestStage>
+  [ 92] pushint8 5 .............................. <5>
+  [ 94] eq ...................................... <highestStage = 5>
+  [ 95] pusharglistnoret 2 ...................... <statueCover, highestStage = 5>
+  [ 97] objcall 95 .............................. statueCover.setVisible(highestStage = 5)
+  [ 99] ret
+end
+
+on setupLevels me
+  [  0] pushint8 1 .............................. <1>
+  [  2] setlocal 0
+  [  4] getlocal 0
+  [  6] pushint8 3 .............................. <3>
+  [  8] lteq
+  [  9] jmpifz [ 48] ............................ repeat with i = 1 to 3
+  [ 12] getprop 120 ............................. <diffButtons>
+  [ 14] getlocal 0 .............................. <i>
+  [ 16] pusharglist 2 ........................... <diffButtons, i>
+  [ 18] objcall 31 .............................. <diffButtons[i]>
+  [ 20] pushsymb 59 ............................. <#target>
+  [ 22] getparam 0 .............................. <me>
+  [ 24] pushsymb 60 ............................. <#handler>
+  [ 26] pushsymb 115 ............................ <#clickLevel>
+  [ 28] pushsymb 99 ............................. <#Args>
+  [ 30] getlocal 0 .............................. <i>
+  [ 32] pusharglist 6 ........................... <[#target: me, #handler: #clickLevel, #Args: i]>
+  [ 34] pushproplist ............................ <[#target: me, #handler: #clickLevel, #Args: i]>
+  [ 35] pusharglistnoret 2 ...................... <diffButtons[i], [#target: me, #handler: #clickLevel, #Args: i]>
+  [ 37] objcall 61 .............................. diffButtons[i].setCallback([#target: me, #handler: #clickLevel, #Args: i])
+  [ 39] pushint8 1
+  [ 41] getlocal 0
+  [ 43] add
+  [ 44] setlocal 0
+  [ 46] endrepeat [  4]
+  [ 48] getprop 71 .............................. <buttons>
+  [ 50] pushsymb 113 ............................ <#closeDiff>
+  [ 52] pusharglist 2 ........................... <buttons, #closeDiff>
+  [ 54] objcall 31 .............................. <buttons[#closeDiff]>
+  [ 56] pushsymb 59 ............................. <#target>
+  [ 58] getparam 0 .............................. <me>
+  [ 60] pushsymb 60 ............................. <#handler>
+  [ 62] pushsymb 113 ............................ <#closeDiff>
+  [ 64] pusharglist 4 ........................... <[#target: me, #handler: #closeDiff]>
+  [ 66] pushproplist ............................ <[#target: me, #handler: #closeDiff]>
+  [ 67] pusharglistnoret 2 ...................... <buttons[#closeDiff], [#target: me, #handler: #closeDiff]>
+  [ 69] objcall 61 .............................. buttons[#closeDiff].setCallback([#target: me, #handler: #closeDiff])
+  [ 71] ret
+end
+
+on closeDiff me
+  [  0] getprop 119 ............................. <diffDialog>
+  [  2] pushzero ................................ <0>
+  [  3] pusharglistnoret 2 ...................... <diffDialog, 0>
+  [  5] objcall 95 .............................. diffDialog.setVisible(0)
+  [  7] ret
+end
+
+on clickStage me, num
+  [  0] getparam 1 .............................. <num>
+  [  2] setprop 127 ............................. currentStage = num
+  [  4] getprop 119 ............................. <diffDialog>
+  [  6] pushint8 1 .............................. <1>
+  [  8] pusharglistnoret 2 ...................... <diffDialog, 1>
+  [ 10] objcall 95 .............................. diffDialog.setVisible(1)
+  [ 12] ret
+end
+
+on clickLevel me, lvl
+  [  0] getprop 5 ............................... <game_mgr>
+  [  2] pushsymb 140 ............................ <#stage>
+  [  4] getprop 127 ............................. <currentStage>
+  [  6] pushsymb 141 ............................ <#difficulty>
+  [  8] getparam 1 .............................. <lvl>
+  [ 10] pushsymb 142 ............................ <#mode>
+  [ 12] pushsymb 16 ............................. <#endless>
+  [ 14] pusharglist 6 ........................... <[#stage: currentStage, #difficulty: lvl, #mode: #endless]>
+  [ 16] pushproplist ............................ <[#stage: currentStage, #difficulty: lvl, #mode: #endless]>
+  [ 17] pusharglistnoret 2 ...................... <game_mgr, [#stage: currentStage, #difficulty: lvl, #mode: #endless]>
+  [ 19] objcall 143 ............................. game_mgr.newGame([#stage: currentStage, #difficulty: lvl, #mode: #endless])
+  [ 21] getprop 5 ............................... <game_mgr>
+  [ 23] pusharglistnoret 1 ...................... <game_mgr>
+  [ 25] objcall 144 ............................. game_mgr.loadLevel()
+  [ 27] getprop 52 .............................. <mgr>
+  [ 29] pushsymb 22 ............................. <#startLevel>
+  [ 31] pusharglistnoret 2 ...................... <mgr, #startLevel>
+  [ 33] objcall 3 ............................... mgr.setMode(#startLevel)
+  [ 35] ret
+end
+
+on event me, sym
+  [  0] ret
+end
+
+on leaveMode me, nextMode
+  [  0] getprop 54 .............................. <node>
+  [  2] pusharglistnoret 1 ...................... <node>
+  [  4] objcall 108 ............................. node.disembody()
+  [  6] pushsymb 61 ............................. <#setCallback>
+  [  8] getprop 128 ............................. <stageButtons>
+  [ 10] pusharglist 0 ........................... <>
+  [ 12] extcall 38 .............................. <VOID>
+  [ 14] pusharglistnoret 3 ...................... <#setCallback, stageButtons, VOID>
+  [ 16] extcall 36 .............................. call(#setCallback, stageButtons, VOID)
+  [ 18] pushsymb 107 ............................ <#mouseLeave>
+  [ 20] getprop 128 ............................. <stageButtons>
+  [ 22] pusharglistnoret 2 ...................... <#mouseLeave, stageButtons>
+  [ 24] extcall 36 .............................. call(#mouseLeave, stageButtons)
+  [ 26] pushsymb 61 ............................. <#setCallback>
+  [ 28] getprop 120 ............................. <diffButtons>
+  [ 30] pusharglist 0 ........................... <>
+  [ 32] extcall 38 .............................. <VOID>
+  [ 34] pusharglistnoret 3 ...................... <#setCallback, diffButtons, VOID>
+  [ 36] extcall 36 .............................. call(#setCallback, diffButtons, VOID)
+  [ 38] pushsymb 107 ............................ <#mouseLeave>
+  [ 40] getprop 120 ............................. <diffButtons>
+  [ 42] pusharglistnoret 2 ...................... <#mouseLeave, diffButtons>
+  [ 44] extcall 36 .............................. call(#mouseLeave, diffButtons)
+  [ 46] getprop 54 .............................. <node>
+  [ 48] pushint16 5000 .......................... <5000>
+  [ 51] inv ..................................... <-5000>
+  [ 52] pushint16 5000 .......................... <5000>
+  [ 55] inv ..................................... <-5000>
+  [ 56] pusharglist 2 ........................... <-5000, -5000>
+  [ 58] extcall 101 ............................. <point(-5000, -5000)>
+  [ 60] pusharglistnoret 2 ...................... <node, point(-5000, -5000)>
+  [ 62] objcall 102 ............................. node.setLoc(point(-5000, -5000))
+  [ 64] getprop 54 .............................. <node>
+  [ 66] pushzero ................................ <0>
+  [ 67] pusharglistnoret 2 ...................... <node, 0>
+  [ 69] objcall 95 .............................. node.setVisible(0)
+  [ 71] ret
+end

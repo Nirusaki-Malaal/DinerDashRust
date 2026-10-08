@@ -1,0 +1,526 @@
+property mgr, name, node, win, node_mgr, grp, home, offscreen, textBox, dialogY, game_mgr, button, mousetrap, timer, bg, otherstuff, gameGrp, initialized, menubutton, tween, stageSounds
+
+on new me, m
+  [  0] getparam 1 .............................. <m>
+  [  2] setprop 52 .............................. mgr = m
+  [  4] getparam 1 .............................. <m>
+  [  6] getchainedprop 4 ........................ <m.glob>
+  [  8] getchainedprop 6 ........................ <m.glob.managers>
+  [ 10] getobjprop 54 ........................... <m.glob.managers.node>
+  [ 12] setprop 53 .............................. node_mgr = m.glob.managers.node
+  [ 14] getparam 1 .............................. <m>
+  [ 16] getchainedprop 4 ........................ <m.glob>
+  [ 18] getchainedprop 6 ........................ <m.glob.managers>
+  [ 20] getobjprop 7 ............................ <m.glob.managers.game>
+  [ 22] setprop 5 ............................... game_mgr = m.glob.managers.game
+  [ 24] getprop 53 .............................. <node_mgr>
+  [ 26] pushcons 0 .............................. <"game">
+  [ 28] pusharglist 2 ........................... <node_mgr, "game">
+  [ 30] objcall 65 .............................. <node_mgr.getGroup("game")>
+  [ 32] setprop 156 ............................. gameGrp = node_mgr.getGroup("game")
+  [ 34] pushcons 1 .............................. <"sfx_r_diner">
+  [ 36] pushcons 2 .............................. <"sfx_r_tiki">
+  [ 38] pushcons 3 .............................. <"sfx_r_seafood">
+  [ 40] pushcons 4 .............................. <"sfx_r_chez">
+  [ 42] pushcons 5 .............................. <"sfx_r_goddess">
+  [ 44] pusharglist 5 ........................... <["sfx_r_diner", "sfx_r_tiki", "sfx_r_seafood", "sfx_r_chez", "sfx_r_goddess"]>
+  [ 46] pushlist ................................ <["sfx_r_diner", "sfx_r_tiki", "sfx_r_seafood", "sfx_r_chez", "sfx_r_goddess"]>
+  [ 47] setprop 157 ............................. stageSounds = ["sfx_r_diner", "sfx_r_tiki", "sfx_r_seafood", "sfx_r_chez", "sfx_r_goddess"]
+  [ 49] pushsymb 22 ............................. <#startLevel>
+  [ 51] setprop 63 .............................. name = #startLevel
+  [ 53] getparam 0 .............................. <me>
+  [ 55] pusharglistnoret 1 ...................... <me>
+  [ 57] objcall 1 ............................... me.init()
+  [ 59] getparam 0 .............................. <me>
+  [ 61] pusharglistnoret 1 ...................... <me>
+  [ 63] extcall 9 ............................... return me
+  [ 65] ret
+end
+
+on init me
+  [  0] getprop 64 .............................. <initialized>
+  [  2] jmpifz [  9] ............................ if initialized then
+  [  5] pusharglistnoret 0 ...................... <>
+  [  7] extcall 9 ............................... return 
+  [  9] pushint8 1 .............................. <1>
+  [ 11] setprop 64 .............................. initialized = 1
+  [ 13] getprop 53 .............................. <node_mgr>
+  [ 15] pushcons 6 .............................. <"titles">
+  [ 17] pusharglist 2 ........................... <node_mgr, "titles">
+  [ 19] objcall 65 .............................. <node_mgr.getGroup("titles")>
+  [ 21] setprop 83 .............................. grp = node_mgr.getGroup("titles")
+  [ 23] getprop 83 .............................. <grp>
+  [ 25] pushcons 7 .............................. <"startlevel">
+  [ 27] pusharglist 1 ........................... <"startlevel">
+  [ 29] extcall 66 .............................. <getNodeData("startlevel")>
+  [ 31] pusharglist 2 ........................... <grp, getNodeData("startlevel")>
+  [ 33] objcall 67 .............................. <grp.newNode(getNodeData("startlevel"))>
+  [ 35] setprop 54 .............................. node = grp.newNode(getNodeData("startlevel"))
+  [ 37] getprop 54 .............................. <node>
+  [ 39] pushcons 8 .............................. <"window">
+  [ 41] pusharglist 2 ........................... <node, "window">
+  [ 43] objcall 31 .............................. <node["window"]>
+  [ 45] setprop 158 ............................. win = node["window"]
+  [ 47] getprop 158 ............................. <win>
+  [ 49] pusharglist 1 ........................... <win>
+  [ 51] objcall 160 ............................. <win.getLoc()>
+  [ 53] pushint8 2 .............................. <2>
+  [ 55] pusharglist 2 ........................... <win.getLoc(), 2>
+  [ 57] objcall 31 .............................. <win.getLoc()[2]>
+  [ 59] setprop 159 ............................. dialogY = win.getLoc()[2]
+  [ 61] getprop 54 .............................. <node>
+  [ 63] pushcons 9 .............................. <"mousetrap">
+  [ 65] pusharglist 2 ........................... <node, "mousetrap">
+  [ 67] objcall 31 .............................. <node["mousetrap"]>
+  [ 69] setprop 161 ............................. bg = node["mousetrap"]
+  [ 71] pushsymb 74 ............................. <#normal>
+  [ 73] pushcons 10 ............................. <"lets_play_normal">
+  [ 75] pushcons 11 ............................. <"gfx.screens">
+  [ 77] pusharglist 2 ........................... <"lets_play_normal", "gfx.screens">
+  [ 79] extcall 75 .............................. <member("lets_play_normal", "gfx.screens")>
+  [ 81] pushsymb 72 ............................. <#rollover>
+  [ 83] pushcons 12 ............................. <"lets_play_rollover">
+  [ 85] pushcons 11 ............................. <"gfx.screens">
+  [ 87] pusharglist 2 ........................... <"lets_play_rollover", "gfx.screens">
+  [ 89] extcall 75 .............................. <member("lets_play_rollover", "gfx.screens")>
+  [ 91] pusharglist 4 ........................... <[#normal: member("lets_play_normal", "gfx.screens"), #rollover: member("lets_play_rollover", "gfx.screens")]>
+  [ 93] pushproplist ............................ <[#normal: member("lets_play_normal", "gfx.screens"), #rollover: member("lets_play_rollover", "gfx.screens")]>
+  [ 94] setlocal 0 .............................. mems = [#normal: member("lets_play_normal", "gfx.screens"), #rollover: member("lets_play_rollover", "gfx.screens")]
+  [ 96] pushsymb 54 ............................. <#node>
+  [ 98] getprop 158 ............................. <win>
+  [100] pushcons 13 ............................. <"okbutton">
+  [102] pusharglist 2 ........................... <win, "okbutton">
+  [104] objcall 31 .............................. <win["okbutton"]>
+  [106] pushsymb 77 ............................. <#members>
+  [108] getlocal 0 .............................. <mems>
+  [110] pusharglist 4 ........................... <[#node: win["okbutton"], #members: mems]>
+  [112] pushproplist ............................ <[#node: win["okbutton"], #members: mems]>
+  [113] pusharglist 1 ........................... <[#node: win["okbutton"], #members: mems]>
+  [115] extcall 76 .............................. <newButton([#node: win["okbutton"], #members: mems])>
+  [117] setprop 162 ............................. button = newButton([#node: win["okbutton"], #members: mems])
+  [119] pushsymb 54 ............................. <#node>
+  [121] getprop 54 .............................. <node>
+  [123] pushcons 9 .............................. <"mousetrap">
+  [125] pusharglist 2 ........................... <node, "mousetrap">
+  [127] objcall 31 .............................. <node["mousetrap"]>
+  [129] pusharglist 2 ........................... <[#node: node["mousetrap"]]>
+  [131] pushproplist ............................ <[#node: node["mousetrap"]]>
+  [132] pusharglist 1 ........................... <[#node: node["mousetrap"]]>
+  [134] extcall 123 ............................. <newMouseListener([#node: node["mousetrap"]])>
+  [136] setprop 122 ............................. mousetrap = newMouseListener([#node: node["mousetrap"]])
+  [138] getprop 54 .............................. <node>
+  [140] pushzero ................................ <0>
+  [141] pusharglistnoret 2 ...................... <node, 0>
+  [143] objcall 95 .............................. node.setVisible(0)
+  [145] getprop 5 ............................... <game_mgr>
+  [147] getchainedprop 71 ....................... <game_mgr.buttons>
+  [149] getobjprop 164 .......................... <game_mgr.buttons.quitgame>
+  [151] setprop 163 ............................. menubutton = game_mgr.buttons.quitgame
+  [153] pushzero ................................ <0>
+  [154] pushzero ................................ <0>
+  [155] pusharglist 2 ........................... <0, 0>
+  [157] extcall 101 ............................. <point(0, 0)>
+  [159] setprop 165 ............................. home = point(0, 0)
+  [161] pushint16 5000 .......................... <5000>
+  [164] inv ..................................... <-5000>
+  [165] pushint16 5000 .......................... <5000>
+  [168] inv ..................................... <-5000>
+  [169] pusharglist 2 ........................... <-5000, -5000>
+  [171] extcall 101 ............................. <point(-5000, -5000)>
+  [173] setprop 166 ............................. offscreen = point(-5000, -5000)
+  [175] getprop 54 .............................. <node>
+  [177] pushint32 999999 ........................ <999999>
+  [182] pusharglistnoret 2 ...................... <node, 999999>
+  [184] objcall 68 .............................. node.setZOffset(999999)
+  [186] getprop 54 .............................. <node>
+  [188] pusharglistnoret 1 ...................... <node>
+  [190] objcall 167 ............................. node.moveToFront()
+  [192] ret
+end
+
+on destroy me
+  [  0] getprop 64 .............................. <initialized>
+  [  2] jmpifz [ 29] ............................ if initialized then
+  [  5] getparam 0 .............................. <me>
+  [  7] pusharglistnoret 1 ...................... <me>
+  [  9] objcall 148 ............................. me.destroyTimer()
+  [ 11] getprop 162 ............................. <button>
+  [ 13] pusharglistnoret 1 ...................... <button>
+  [ 15] objcall 2 ............................... button.destroy()
+  [ 17] getprop 122 ............................. <mousetrap>
+  [ 19] pusharglistnoret 1 ...................... <mousetrap>
+  [ 21] objcall 2 ............................... mousetrap.destroy()
+  [ 23] getprop 54 .............................. <node>
+  [ 25] pusharglistnoret 1 ...................... <node>
+  [ 27] objcall 2 ............................... node.destroy()
+  [ 29] getparam 0 .............................. <me>
+  [ 31] pusharglistnoret 1 ...................... <me>
+  [ 33] extcall 84 .............................. voidRefs(me)
+  [ 35] ret
+end
+
+on destroyTimer me
+  [  0] getprop 168 ............................. <timer>
+  [  2] pusharglist 1 ........................... <timer>
+  [  4] extcall 39 .............................. <voidp(timer)>
+  [  6] not ..................................... <not voidp(timer)>
+  [  7] jmpifz [ 22] ............................ if not voidp(timer) then
+  [ 10] getprop 168 ............................. <timer>
+  [ 12] pusharglistnoret 1 ...................... <timer>
+  [ 14] objcall 2 ............................... timer.destroy()
+  [ 16] pusharglist 0 ........................... <>
+  [ 18] extcall 38 .............................. <VOID>
+  [ 20] setprop 168 ............................. timer = VOID
+  [ 22] ret
+end
+
+on enterMode me, previousMode, data
+  [  0] getprop 156 ............................. <gameGrp>
+  [  2] pushint8 1 .............................. <1>
+  [  4] pusharglistnoret 2 ...................... <gameGrp, 1>
+  [  6] objcall 95 .............................. gameGrp.setVisible(1)
+  [  8] getprop 163 ............................. <menubutton>
+  [ 10] getchainedprop 54 ....................... <menubutton.node>
+  [ 12] pushint32 50000000 ...................... <50000000>
+  [ 17] pusharglistnoret 2 ...................... <menubutton.node, 50000000>
+  [ 19] objcall 68 .............................. menubutton.node.setZOffset(50000000)
+  [ 21] getprop 5 ............................... <game_mgr>
+  [ 23] getobjprop 169 .......................... <game_mgr.playMode>
+  [ 25] pushsymb 19 ............................. <#career>
+  [ 27] eq ...................................... <game_mgr.playMode = #career>
+  [ 28] jmpifz [138] ............................ if game_mgr.playMode = #career then / else
+  [ 31] pushcons 14 ............................. <"startlvl_text_">
+  [ 33] getprop 5 ............................... <game_mgr>
+  [ 35] getobjprop 127 .......................... <game_mgr.currentStage>
+  [ 37] joinstr ................................. <"startlvl_text_" & game_mgr.currentStage>
+  [ 38] pushcons 15 ............................. <"-">
+  [ 40] joinstr ................................. <"startlvl_text_" & game_mgr.currentStage & "-">
+  [ 41] getprop 5 ............................... <game_mgr>
+  [ 43] getobjprop 170 .......................... <game_mgr.currentLevel>
+  [ 45] joinstr ................................. <"startlvl_text_" & game_mgr.currentStage & "-" & game_mgr.currentLevel>
+  [ 46] pushcons 16 ............................. <"leveltext">
+  [ 48] pusharglist 2 ........................... <"startlvl_text_" & game_mgr.currentStage & "-" & game_mgr.currentLevel, "leveltext">
+  [ 50] extcall 75 .............................. <member("startlvl_text_" & game_mgr.currentStage & "-" & game_mgr.currentLevel, "leveltext")>
+  [ 52] pusharglist 1 ........................... <member("startlvl_text_" & game_mgr.currentStage & "-" & game_mgr.currentLevel, "leveltext")>
+  [ 54] extcall 75 .............................. <member(member("startlvl_text_" & game_mgr.currentStage & "-" & game_mgr.currentLevel, "leveltext"))>
+  [ 56] setlocal 0 .............................. m = member(member("startlvl_text_" & game_mgr.currentStage & "-" & game_mgr.currentLevel, "leveltext"))
+  [ 58] getlocal 0 .............................. <m>
+  [ 60] getobjprop 171 .......................... <m.number>
+  [ 62] pushint8 1 .............................. <1>
+  [ 64] inv ..................................... <-1>
+  [ 65] nteq .................................... <m.number <> -1>
+  [ 66] jmpifz [ 83] ............................ if m.number <> -1 then
+  [ 69] getprop 158 ............................. <win>
+  [ 71] pushcons 17 ............................. <"text">
+  [ 73] pusharglist 2 ........................... <win, "text">
+  [ 75] objcall 31 .............................. <win["text"]>
+  [ 77] getlocal 0 .............................. <m>
+  [ 79] pusharglistnoret 2 ...................... <win["text"], m>
+  [ 81] objcall 172 ............................. win["text"].setMember(m)
+  [ 83] pushcons 18 ............................. <"level_">
+  [ 85] getprop 5 ............................... <game_mgr>
+  [ 87] getobjprop 127 .......................... <game_mgr.currentStage>
+  [ 89] joinstr ................................. <"level_" & game_mgr.currentStage>
+  [ 90] pushcons 19 ............................. <"_">
+  [ 92] joinstr ................................. <"level_" & game_mgr.currentStage & "_">
+  [ 93] getprop 5 ............................... <game_mgr>
+  [ 95] getobjprop 170 .......................... <game_mgr.currentLevel>
+  [ 97] joinstr ................................. <"level_" & game_mgr.currentStage & "_" & game_mgr.currentLevel>
+  [ 98] setlocal 1 .............................. str = "level_" & game_mgr.currentStage & "_" & game_mgr.currentLevel
+  [100] getprop 158 ............................. <win>
+  [102] pushcons 20 ............................. <"pic">
+  [104] pusharglist 2 ........................... <win, "pic">
+  [106] objcall 31 .............................. <win["pic"]>
+  [108] getlocal 1 .............................. <str>
+  [110] pushsymb 87 ............................. <#loopCount>
+  [112] pushint8 1 .............................. <1>
+  [114] pusharglist 2 ........................... <[#loopCount: 1]>
+  [116] pushproplist ............................ <[#loopCount: 1]>
+  [117] pusharglistnoret 3 ...................... <win["pic"], str, [#loopCount: 1]>
+  [119] objcall 90 .............................. win["pic"].setAnimation(str, [#loopCount: 1])
+  [121] getprop 158 ............................. <win>
+  [123] pushcons 20 ............................. <"pic">
+  [125] pusharglist 2 ........................... <win, "pic">
+  [127] objcall 31 .............................. <win["pic"]>
+  [129] pushint8 1 .............................. <1>
+  [131] pusharglistnoret 2 ...................... <win["pic"], 1>
+  [133] objcall 95 .............................. win["pic"].setVisible(1)
+  [135] jmp [171]
+  [138] getprop 158 ............................. <win>
+  [140] pushcons 17 ............................. <"text">
+  [142] pusharglist 2 ........................... <win, "text">
+  [144] objcall 31 .............................. <win["text"]>
+  [146] pushcons 21 ............................. <"startlvl_text_endless">
+  [148] pushcons 16 ............................. <"leveltext">
+  [150] pusharglist 2 ........................... <"startlvl_text_endless", "leveltext">
+  [152] extcall 75 .............................. <member("startlvl_text_endless", "leveltext")>
+  [154] pusharglistnoret 2 ...................... <win["text"], member("startlvl_text_endless", "leveltext")>
+  [156] objcall 172 ............................. win["text"].setMember(member("startlvl_text_endless", "leveltext"))
+  [158] getprop 158 ............................. <win>
+  [160] pushcons 20 ............................. <"pic">
+  [162] pusharglist 2 ........................... <win, "pic">
+  [164] objcall 31 .............................. <win["pic"]>
+  [166] pushzero ................................ <0>
+  [167] pusharglistnoret 2 ...................... <win["pic"], 0>
+  [169] objcall 95 .............................. win["pic"].setVisible(0)
+  [171] getprop 83 .............................. <grp>
+  [173] pushint8 1 .............................. <1>
+  [175] pusharglistnoret 2 ...................... <grp, 1>
+  [177] objcall 95 .............................. grp.setVisible(1)
+  [179] getprop 161 ............................. <bg>
+  [181] pushint8 1 .............................. <1>
+  [183] pusharglistnoret 2 ...................... <bg, 1>
+  [185] objcall 95 .............................. bg.setVisible(1)
+  [187] getprop 158 ............................. <win>
+  [189] pushint8 1 .............................. <1>
+  [191] pusharglistnoret 2 ...................... <win, 1>
+  [193] objcall 95 .............................. win.setVisible(1)
+  [195] getprop 158 ............................. <win>
+  [197] getprop 159 ............................. <dialogY>
+  [199] pushint16 600 ........................... <600>
+  [202] sub ..................................... <dialogY - 600>
+  [203] pusharglistnoret 2 ...................... <win, dialogY - 600>
+  [205] objcall 173 ............................. win.setY(dialogY - 600)
+  [207] getprop 161 ............................. <bg>
+  [209] pushint8 50 ............................. <50>
+  [211] pusharglistnoret 2 ...................... <bg, 50>
+  [213] objcall 174 ............................. bg.setAlpha(50)
+  [215] getprop 54 .............................. <node>
+  [217] pushint8 1 .............................. <1>
+  [219] pusharglistnoret 2 ...................... <node, 1>
+  [221] objcall 95 .............................. node.setVisible(1)
+  [223] getprop 54 .............................. <node>
+  [225] getprop 165 ............................. <home>
+  [227] pusharglistnoret 2 ...................... <node, home>
+  [229] objcall 102 ............................. node.setLoc(home)
+  [231] getparam 1 .............................. <previousMode>
+  [233] getobjprop 63 ........................... <previousMode.name>
+  [235] setlocal 2 .............................. n = previousMode.name
+  [237] getlocal 2 .............................. <n>
+  [239] pushsymb 24 ............................. <#endlevel>
+  [241] nteq .................................... <n <> #endlevel>
+  [242] jmpifz [254] ............................ if n <> #endlevel then / else
+  [245] getparam 0 .............................. <me>
+  [247] pusharglistnoret 1 ...................... <me>
+  [249] objcall 149 ............................. me.showDialog()
+  [251] jmp [260]
+  [254] getparam 0 .............................. <me>
+  [256] pusharglistnoret 1 ...................... <me>
+  [258] objcall 149 ............................. me.showDialog()
+  [260] ret
+end
+
+on showDialog me
+  [  0] getprop 5 ............................... <game_mgr>
+  [  2] getobjprop 127 .......................... <game_mgr.currentStage>
+  [  4] setlocal 0 .............................. st = game_mgr.currentStage
+  [  6] getlocal 0 .............................. <st>
+  [  8] getprop 157 ............................. <stageSounds>
+  [ 10] getobjprop 30 ........................... <stageSounds.count>
+  [ 12] lt ...................................... <st < stageSounds.count>
+  [ 13] jmpifz [ 28] ............................ if st < stageSounds.count then
+  [ 16] getprop 157 ............................. <stageSounds>
+  [ 18] getlocal 0 .............................. <st>
+  [ 20] pusharglist 2 ........................... <stageSounds, st>
+  [ 22] objcall 31 .............................. <stageSounds[st]>
+  [ 24] pusharglistnoret 1 ...................... <stageSounds[st]>
+  [ 26] extcall 176 ............................. SndSFX(stageSounds[st])
+  [ 28] pushsymb 54 ............................. <#node>
+  [ 30] getprop 158 ............................. <win>
+  [ 32] pushsymb 177 ............................ <#setter>
+  [ 34] pushsymb 173 ............................ <#setY>
+  [ 36] pushsymb 92 ............................. <#start>
+  [ 38] getprop 159 ............................. <dialogY>
+  [ 40] pushint16 600 ........................... <600>
+  [ 43] sub ..................................... <dialogY - 600>
+  [ 44] pushsymb 178 ............................ <#end>
+  [ 46] getprop 159 ............................. <dialogY>
+  [ 48] pushsymb 179 ............................ <#ms>
+  [ 50] pushint16 500 ........................... <500>
+  [ 53] pushsymb 180 ............................ <#group>
+  [ 55] pushcons 6 .............................. <"titles">
+  [ 57] pushsymb 181 ............................ <#callback>
+  [ 59] pushsymb 59 ............................. <#target>
+  [ 61] getparam 0 .............................. <me>
+  [ 63] pushsymb 60 ............................. <#handler>
+  [ 65] pushsymb 150 ............................ <#activateDialog>
+  [ 67] pusharglist 4 ........................... <[#target: me, #handler: #activateDialog]>
+  [ 69] pushproplist ............................ <[#target: me, #handler: #activateDialog]>
+  [ 70] pusharglist 14 .......................... <[#node: win, #setter: #setY, #start: dialogY - 600, #end: dialogY, #ms: 500, #group: "titles", #callback: [#target: me, #handler: #activateDialog]]>
+  [ 72] pushproplist ............................ <[#node: win, #setter: #setY, #start: dialogY - 600, #end: dialogY, #ms: 500, #group: "titles", #callback: [#target: me, #handler: #activateDialog]]>
+  [ 73] setlocal 1 .............................. Args = [#node: win, #setter: #setY, #start: dialogY - 600, #end: dialogY, #ms: 500, #group: "titles", #callback: [#target: me, #handler: #activateDialog]]
+  [ 75] getparam 0 .............................. <me>
+  [ 77] pusharglistnoret 1 ...................... <me>
+  [ 79] objcall 148 ............................. me.destroyTimer()
+  [ 81] pushint16 500 ........................... <500>
+  [ 84] pushsymb 59 ............................. <#target>
+  [ 86] getparam 0 .............................. <me>
+  [ 88] pushsymb 60 ............................. <#handler>
+  [ 90] pushsymb 154 ............................ <#startTween>
+  [ 92] pushsymb 99 ............................. <#Args>
+  [ 94] getlocal 1 .............................. <Args>
+  [ 96] pusharglist 6 ........................... <[#target: me, #handler: #startTween, #Args: Args]>
+  [ 98] pushproplist ............................ <[#target: me, #handler: #startTween, #Args: Args]>
+  [ 99] pushcons 6 .............................. <"titles">
+  [101] pusharglist 3 ........................... <500, [#target: me, #handler: #startTween, #Args: Args], "titles">
+  [103] extcall 182 ............................. <timedCall(500, [#target: me, #handler: #startTween, #Args: Args], "titles")>
+  [105] setprop 168 ............................. timer = timedCall(500, [#target: me, #handler: #startTween, #Args: Args], "titles")
+  [107] ret
+end
+
+on activateDialog me
+  [  0] getprop 162 ............................. <button>
+  [  2] pushsymb 59 ............................. <#target>
+  [  4] getparam 0 .............................. <me>
+  [  6] pushsymb 60 ............................. <#handler>
+  [  8] pushsymb 151 ............................ <#clickOK>
+  [ 10] pusharglist 4 ........................... <[#target: me, #handler: #clickOK]>
+  [ 12] pushproplist ............................ <[#target: me, #handler: #clickOK]>
+  [ 13] pusharglistnoret 2 ...................... <button, [#target: me, #handler: #clickOK]>
+  [ 15] objcall 61 .............................. button.setCallback([#target: me, #handler: #clickOK])
+  [ 17] ret
+end
+
+on clickOK me
+  [  0] getparam 0 .............................. <me>
+  [  2] pusharglistnoret 1 ...................... <me>
+  [  4] objcall 152 ............................. me.hideDialog()
+  [  6] ret
+end
+
+on hideDialog me
+  [  0] pushsymb 54 ............................. <#node>
+  [  2] getprop 158 ............................. <win>
+  [  4] pushsymb 177 ............................ <#setter>
+  [  6] pushsymb 173 ............................ <#setY>
+  [  8] pushsymb 92 ............................. <#start>
+  [ 10] getprop 159 ............................. <dialogY>
+  [ 12] pushsymb 178 ............................ <#end>
+  [ 14] getprop 159 ............................. <dialogY>
+  [ 16] pushint16 600 ........................... <600>
+  [ 19] sub ..................................... <dialogY - 600>
+  [ 20] pushsymb 179 ............................ <#ms>
+  [ 22] pushint16 500 ........................... <500>
+  [ 25] pushsymb 180 ............................ <#group>
+  [ 27] pushcons 6 .............................. <"titles">
+  [ 29] pushsymb 181 ............................ <#callback>
+  [ 31] pushsymb 59 ............................. <#target>
+  [ 33] getparam 0 .............................. <me>
+  [ 35] pushsymb 60 ............................. <#handler>
+  [ 37] pushsymb 153 ............................ <#fadeUp>
+  [ 39] pusharglist 4 ........................... <[#target: me, #handler: #fadeUp]>
+  [ 41] pushproplist ............................ <[#target: me, #handler: #fadeUp]>
+  [ 42] pusharglist 14 .......................... <[#node: win, #setter: #setY, #start: dialogY, #end: dialogY - 600, #ms: 500, #group: "titles", #callback: [#target: me, #handler: #fadeUp]]>
+  [ 44] pushproplist ............................ <[#node: win, #setter: #setY, #start: dialogY, #end: dialogY - 600, #ms: 500, #group: "titles", #callback: [#target: me, #handler: #fadeUp]]>
+  [ 45] setlocal 0 .............................. Args = [#node: win, #setter: #setY, #start: dialogY, #end: dialogY - 600, #ms: 500, #group: "titles", #callback: [#target: me, #handler: #fadeUp]]
+  [ 47] getparam 0 .............................. <me>
+  [ 49] getlocal 0 .............................. <Args>
+  [ 51] pusharglistnoret 2 ...................... <me, Args>
+  [ 53] objcall 154 ............................. me.startTween(Args)
+  [ 55] ret
+end
+
+on fadeUp me
+  [  0] pushsymb 54 ............................. <#node>
+  [  2] getprop 161 ............................. <bg>
+  [  4] pushsymb 177 ............................ <#setter>
+  [  6] pushsymb 174 ............................ <#setAlpha>
+  [  8] pushsymb 92 ............................. <#start>
+  [ 10] pushint8 50 ............................. <50>
+  [ 12] pushsymb 178 ............................ <#end>
+  [ 14] pushzero ................................ <0>
+  [ 15] pushsymb 179 ............................ <#ms>
+  [ 17] pushint16 500 ........................... <500>
+  [ 20] pushsymb 180 ............................ <#group>
+  [ 22] pushcons 6 .............................. <"titles">
+  [ 24] pushsymb 181 ............................ <#callback>
+  [ 26] pushsymb 59 ............................. <#target>
+  [ 28] getparam 0 .............................. <me>
+  [ 30] pushsymb 60 ............................. <#handler>
+  [ 32] pushsymb 155 ............................ <#goPlay>
+  [ 34] pusharglist 4 ........................... <[#target: me, #handler: #goPlay]>
+  [ 36] pushproplist ............................ <[#target: me, #handler: #goPlay]>
+  [ 37] pusharglist 14 .......................... <[#node: bg, #setter: #setAlpha, #start: 50, #end: 0, #ms: 500, #group: "titles", #callback: [#target: me, #handler: #goPlay]]>
+  [ 39] pushproplist ............................ <[#node: bg, #setter: #setAlpha, #start: 50, #end: 0, #ms: 500, #group: "titles", #callback: [#target: me, #handler: #goPlay]]>
+  [ 40] setlocal 0 .............................. Args = [#node: bg, #setter: #setAlpha, #start: 50, #end: 0, #ms: 500, #group: "titles", #callback: [#target: me, #handler: #goPlay]]
+  [ 42] getparam 0 .............................. <me>
+  [ 44] getlocal 0 .............................. <Args>
+  [ 46] pusharglistnoret 2 ...................... <me, Args>
+  [ 48] objcall 154 ............................. me.startTween(Args)
+  [ 50] ret
+end
+
+on startTween me, Args
+  [  0] getprop 183 ............................. <tween>
+  [  2] pusharglist 1 ........................... <tween>
+  [  4] extcall 39 .............................. <voidp(tween)>
+  [  6] not ..................................... <not voidp(tween)>
+  [  7] jmpifz [ 16] ............................ if not voidp(tween) then
+  [ 10] getprop 183 ............................. <tween>
+  [ 12] pusharglistnoret 1 ...................... <tween>
+  [ 14] objcall 2 ............................... tween.destroy()
+  [ 16] pushcons 22 ............................. <"node_tween">
+  [ 18] pusharglist 1 ........................... <"node_tween">
+  [ 20] extcall 32 .............................. <script("node_tween")>
+  [ 22] getparam 1 .............................. <Args>
+  [ 24] pusharglist 2 ........................... <script("node_tween"), Args>
+  [ 26] objcall 0 ............................... <script("node_tween").new(Args)>
+  [ 28] setprop 183 ............................. tween = script("node_tween").new(Args)
+  [ 30] ret
+end
+
+on goPlay me
+  [  0] getparam 0 .............................. <me>
+  [  2] pusharglistnoret 1 ...................... <me>
+  [  4] objcall 148 ............................. me.destroyTimer()
+  [  6] getprop 54 .............................. <node>
+  [  8] pushzero ................................ <0>
+  [  9] pusharglistnoret 2 ...................... <node, 0>
+  [ 11] objcall 95 .............................. node.setVisible(0)
+  [ 13] getprop 54 .............................. <node>
+  [ 15] getprop 166 ............................. <offscreen>
+  [ 17] pusharglistnoret 2 ...................... <node, offscreen>
+  [ 19] objcall 102 ............................. node.setLoc(offscreen)
+  [ 21] getprop 52 .............................. <mgr>
+  [ 23] pushsymb 23 ............................. <#play>
+  [ 25] pusharglistnoret 2 ...................... <mgr, #play>
+  [ 27] objcall 3 ............................... mgr.setMode(#play)
+  [ 29] ret
+end
+
+on event me, sym
+  [  0] ret
+end
+
+on leaveMode me, nextMode
+  [  0] getprop 183 ............................. <tween>
+  [  2] pusharglist 1 ........................... <tween>
+  [  4] extcall 39 .............................. <voidp(tween)>
+  [  6] not ..................................... <not voidp(tween)>
+  [  7] jmpifz [ 16] ............................ if not voidp(tween) then
+  [ 10] getprop 183 ............................. <tween>
+  [ 12] pusharglistnoret 1 ...................... <tween>
+  [ 14] objcall 2 ............................... tween.destroy()
+  [ 16] getprop 163 ............................. <menubutton>
+  [ 18] getchainedprop 54 ....................... <menubutton.node>
+  [ 20] pushzero ................................ <0>
+  [ 21] pusharglistnoret 2 ...................... <menubutton.node, 0>
+  [ 23] objcall 68 .............................. menubutton.node.setZOffset(0)
+  [ 25] getprop 162 ............................. <button>
+  [ 27] pusharglist 0 ........................... <>
+  [ 29] extcall 38 .............................. <VOID>
+  [ 31] pusharglistnoret 2 ...................... <button, VOID>
+  [ 33] objcall 61 .............................. button.setCallback(VOID)
+  [ 35] getprop 54 .............................. <node>
+  [ 37] pushzero ................................ <0>
+  [ 38] pusharglistnoret 2 ...................... <node, 0>
+  [ 40] objcall 95 .............................. node.setVisible(0)
+  [ 42] getprop 54 .............................. <node>
+  [ 44] getprop 166 ............................. <offscreen>
+  [ 46] pusharglistnoret 2 ...................... <node, offscreen>
+  [ 48] objcall 102 ............................. node.setLoc(offscreen)
+  [ 50] getparam 0 .............................. <me>
+  [ 52] pusharglistnoret 1 ...................... <me>
+  [ 54] objcall 148 ............................. me.destroyTimer()
+  [ 56] ret
+end

@@ -1,0 +1,126 @@
+property button, sparkle, node, animArgs
+
+on new me, Args
+  [  0] getparam 1 .............................. <Args>
+  [  2] pusharglist 1 ........................... <Args>
+  [  4] extcall 76 .............................. <newButton(Args)>
+  [  6] setprop 162 ............................. button = newButton(Args)
+  [  8] getparam 1 .............................. <Args>
+  [ 10] getobjprop 54 ........................... <Args.node>
+  [ 12] setprop 54 .............................. node = Args.node
+  [ 14] getparam 1 .............................. <Args>
+  [ 16] getchainedprop 129 ...................... <Args.sparkle>
+  [ 18] pushsymb 195 ............................ <#children>
+  [ 20] pushint8 1 .............................. <1>
+  [ 22] pusharglist 3 ........................... <Args.sparkle, #children, 1>
+  [ 24] objcall 196 ............................. <Args.sparkle.children[1]>
+  [ 26] setprop 129 ............................. sparkle = Args.sparkle.children[1]
+  [ 28] getprop 129 ............................. <sparkle>
+  [ 30] pushzero ................................ <0>
+  [ 31] pusharglistnoret 2 ...................... <sparkle, 0>
+  [ 33] objcall 95 .............................. sparkle.setVisible(0)
+  [ 35] getprop 129 ............................. <sparkle>
+  [ 37] getchainedprop 106 ...................... <sparkle.animator>
+  [ 39] pushcons 0 .............................. <"sparkle">
+  [ 41] pusharglistnoret 2 ...................... <sparkle.animator, "sparkle">
+  [ 43] objcall 58 .............................. sparkle.animator.setGroup("sparkle")
+  [ 45] getparam 1 .............................. <Args>
+  [ 47] getchainedprop 54 ....................... <Args.node>
+  [ 49] getparam 0 .............................. <me>
+  [ 51] pusharglistnoret 2 ...................... <Args.node, me>
+  [ 53] objcall 197 ............................. Args.node.addMouseListener(me)
+  [ 55] pushsymb 87 ............................. <#loopCount>
+  [ 57] pushzero ................................ <0>
+  [ 58] pushsymb 181 ............................ <#callback>
+  [ 60] pushsymb 59 ............................. <#target>
+  [ 62] getparam 0 .............................. <me>
+  [ 64] pushsymb 89 ............................. <#frameMS>
+  [ 66] pushint8 100 ............................ <100>
+  [ 68] pushsymb 60 ............................. <#handler>
+  [ 70] pushsymb 199 ............................ <#animEnd>
+  [ 72] pusharglist 6 ........................... <[#target: me, #frameMS: 100, #handler: #animEnd]>
+  [ 74] pushproplist ............................ <[#target: me, #frameMS: 100, #handler: #animEnd]>
+  [ 75] pusharglist 4 ........................... <[#loopCount: 0, #callback: [#target: me, #frameMS: 100, #handler: #animEnd]]>
+  [ 77] pushproplist ............................ <[#loopCount: 0, #callback: [#target: me, #frameMS: 100, #handler: #animEnd]]>
+  [ 78] setprop 198 ............................. animArgs = [#loopCount: 0, #callback: [#target: me, #frameMS: 100, #handler: #animEnd]]
+  [ 80] getparam 0 .............................. <me>
+  [ 82] pusharglistnoret 1 ...................... <me>
+  [ 84] extcall 9 ............................... return me
+  [ 86] ret
+end
+
+on mouseEnter me
+  [  0] getprop 129 ............................. <sparkle>
+  [  2] pushint8 1 .............................. <1>
+  [  4] pusharglistnoret 2 ...................... <sparkle, 1>
+  [  6] objcall 95 .............................. sparkle.setVisible(1)
+  [  8] getprop 129 ............................. <sparkle>
+  [ 10] pushcons 0 .............................. <"sparkle">
+  [ 12] pusharglistnoret 2 ...................... <sparkle, "sparkle">
+  [ 14] objcall 90 .............................. sparkle.setAnimation("sparkle")
+  [ 16] ret
+end
+
+on mouseLeave me
+  [  0] getprop 129 ............................. <sparkle>
+  [  2] getchainedprop 106 ...................... <sparkle.animator>
+  [  4] pusharglistnoret 1 ...................... <sparkle.animator>
+  [  6] objcall 86 .............................. sparkle.animator.stop()
+  [  8] getprop 129 ............................. <sparkle>
+  [ 10] pushzero ................................ <0>
+  [ 11] pusharglistnoret 2 ...................... <sparkle, 0>
+  [ 13] objcall 95 .............................. sparkle.setVisible(0)
+  [ 15] ret
+end
+
+on destroy me
+  [  0] getprop 162 ............................. <button>
+  [  2] pusharglistnoret 1 ...................... <button>
+  [  4] objcall 2 ............................... button.destroy()
+  [  6] pusharglist 0 ........................... <>
+  [  8] extcall 38 .............................. <VOID>
+  [ 10] setprop 162 ............................. button = VOID
+  [ 12] getprop 54 .............................. <node>
+  [ 14] getparam 0 .............................. <me>
+  [ 16] pusharglistnoret 2 ...................... <node, me>
+  [ 18] objcall 200 ............................. node.removeMouseListener(me)
+  [ 20] pusharglist 0 ........................... <>
+  [ 22] extcall 38 .............................. <VOID>
+  [ 24] setprop 54 .............................. node = VOID
+  [ 26] pusharglist 0 ........................... <>
+  [ 28] extcall 38 .............................. <VOID>
+  [ 30] setprop 129 ............................. sparkle = VOID
+  [ 32] ret
+end
+
+on setCallback me, cb
+  [  0] getprop 162 ............................. <button>
+  [  2] getparam 1 .............................. <cb>
+  [  4] pusharglistnoret 2 ...................... <button, cb>
+  [  6] objcall 61 .............................. button.setCallback(cb)
+  [  8] ret
+end
+
+on setDisabled me, d
+  [  0] getprop 162 ............................. <button>
+  [  2] getparam 1 .............................. <d>
+  [  4] pusharglistnoret 2 ...................... <button, d>
+  [  6] objcall 194 ............................. button.setDisabled(d)
+  [  8] getprop 129 ............................. <sparkle>
+  [ 10] pushzero ................................ <0>
+  [ 11] pusharglistnoret 2 ...................... <sparkle, 0>
+  [ 13] objcall 95 .............................. sparkle.setVisible(0)
+  [ 15] ret
+end
+
+on setVisible me, v
+  [  0] getprop 162 ............................. <button>
+  [  2] getparam 1 .............................. <v>
+  [  4] pusharglistnoret 2 ...................... <button, v>
+  [  6] objcall 95 .............................. button.setVisible(v)
+  [  8] getprop 129 ............................. <sparkle>
+  [ 10] pushzero ................................ <0>
+  [ 11] pusharglistnoret 2 ...................... <sparkle, 0>
+  [ 13] objcall 95 .............................. sparkle.setVisible(0)
+  [ 15] ret
+end
