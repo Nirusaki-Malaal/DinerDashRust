@@ -1,0 +1,1 @@
+[#nodeID: "endless", #loc: point(0, 0), #z: 0, #children: ["hilite": [#scripts: [[(member 6 of castLib 2), [#nodeID: "hilite", #dummyID: ""]]], #nodeID: "hilite", #noSprite: Void, #frames: [], #children: []]]]

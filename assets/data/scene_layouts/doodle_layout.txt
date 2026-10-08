@@ -1,0 +1,1 @@
+[#nodeID: "doodle", #loc: point(0, 0), #z: 0, #children: ["text_podium": [#scripts: [[(member 6 of castLib 2), [#nodeID: "text_podium", #dummyID: "", #animID: "", #noSprite: 0, #exclude: 0]]], #nodeID: "text_podium", #noSprite: 0, #frames: [], #children: []]]]

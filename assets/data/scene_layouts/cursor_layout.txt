@@ -1,0 +1,1 @@
+[#nodeID: "cursor", #loc: point(0, 0), #z: 0, #children: ["": [#scripts: [], #nodeID: "", #frames: [[#regPoint: point(0, 2), #rect: rect(400, 298, 432, 338), #blend: 100, #xflip: 0, #yflip: 0, #rotation: 0.0000, #scale: point(1.0000, 1.0000), #z: 1, #loc: point(0, 2), #member: "cursor_arrow", #cast: "gfx.screens", #ink: 9, #backColor: 0, #foreColor: 255]], #children: []]]]
