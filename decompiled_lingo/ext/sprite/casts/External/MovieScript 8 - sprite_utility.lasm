@@ -1,0 +1,166 @@
+on findMember mem, node
+  [  0] getparam 1 .............................. <node>
+  [  2] getobjprop 28 ........................... <node.type>
+  [  4] pushsymb 29 ............................. <#Branch>
+  [  6] nteq .................................... <node.type <> #Branch>
+  [  7] jmpifz [ 31] ............................ if node.type <> #Branch then / else
+  [ 10] getparam 1 .............................. <node>
+  [ 12] pusharglist 1 ........................... <node>
+  [ 14] objcall 105 ............................. <node.getMember()>
+  [ 16] getparam 0 .............................. <mem>
+  [ 18] eq ...................................... <node.getMember() = mem>
+  [ 19] jmpifz [ 28] ............................ if node.getMember() = mem then
+  [ 22] getparam 1 .............................. <node>
+  [ 24] pusharglistnoret 1 ...................... <node>
+  [ 26] extcall 19 .............................. return node
+  [ 28] jmp [ 94]
+  [ 31] getparam 1 .............................. <node>
+  [ 33] getobjprop 34 ........................... <node.children>
+  [ 35] peek 0
+  [ 37] pusharglist 1
+  [ 39] extcall 48
+  [ 41] pushint8 1
+  [ 43] peek 0
+  [ 45] peek 2
+  [ 47] lteq
+  [ 48] jmpifz [ 92] ............................ repeat with i in node.children
+  [ 51] peek 2
+  [ 53] peek 1
+  [ 55] pusharglist 2
+  [ 57] extcall 44
+  [ 59] setlocal 0
+  [ 61] getparam 0 .............................. <mem>
+  [ 63] getlocal 0 .............................. <i>
+  [ 65] pusharglist 2 ........................... <mem, i>
+  [ 67] localcall 0 ............................. <findMember(mem, i)>
+  [ 69] setlocal 1 .............................. n = findMember(mem, i)
+  [ 71] getlocal 1 .............................. <n>
+  [ 73] pusharglist 1 ........................... <n>
+  [ 75] extcall 41 .............................. <voidp(n)>
+  [ 77] not ..................................... <not voidp(n)>
+  [ 78] jmpifz [ 87] ............................ if not voidp(n) then
+  [ 81] getlocal 1 .............................. <n>
+  [ 83] pusharglistnoret 1 ...................... <n>
+  [ 85] extcall 19 .............................. return n
+  [ 87] pushint8 1
+  [ 89] add
+  [ 90] endrepeat [ 43]
+  [ 92] pop 3
+  [ 94] ret
+end
+
+on findSprite mem
+  [  0] pushint8 1 .............................. <1>
+  [  2] setlocal 0
+  [  4] getlocal 0
+  [  6] getmovieprop 107 ........................ <the lastChannel>
+  [  8] lteq
+  [  9] jmpifz [ 41] ............................ repeat with i = 1 to the lastChannel
+  [ 12] getlocal 0 .............................. <i>
+  [ 14] pusharglist 1 ........................... <i>
+  [ 16] extcall 108 ............................. <sprite(i)>
+  [ 18] getobjprop 99 ........................... <sprite(i).member>
+  [ 20] getparam 0 .............................. <mem>
+  [ 22] eq ...................................... <sprite(i).member = mem>
+  [ 23] jmpifz [ 32] ............................ if sprite(i).member = mem then
+  [ 26] getlocal 0 .............................. <i>
+  [ 28] pusharglistnoret 1 ...................... <i>
+  [ 30] extcall 19 .............................. return i
+  [ 32] pushint8 1
+  [ 34] getlocal 0
+  [ 36] add
+  [ 37] setlocal 0
+  [ 39] endrepeat [  4]
+  [ 41] pushcons 0 .............................. <"no sprite found with member">
+  [ 43] getparam 0 .............................. <mem>
+  [ 45] joinpadstr .............................. <"no sprite found with member" && mem>
+  [ 46] pusharglistnoret 1 ...................... <"no sprite found with member" && mem>
+  [ 48] extcall 79 .............................. put "no sprite found with member" && mem
+  [ 50] ret
+end
+
+on findLeaf spr, node
+  [  0] getparam 1 .............................. <node>
+  [  2] getobjprop 28 ........................... <node.type>
+  [  4] pushsymb 109 ............................ <#leaf>
+  [  6] eq ...................................... <node.type = #leaf>
+  [  7] jmpifz [ 31] ............................ if node.type = #leaf then / else
+  [ 10] getparam 1 .............................. <node>
+  [ 12] getchainedprop 110 ...................... <node.pSprite>
+  [ 14] getobjprop 111 .......................... <node.pSprite.spriteNum>
+  [ 16] getparam 0 .............................. <spr>
+  [ 18] eq ...................................... <node.pSprite.spriteNum = spr>
+  [ 19] jmpifz [ 28] ............................ if node.pSprite.spriteNum = spr then
+  [ 22] getparam 1 .............................. <node>
+  [ 24] pusharglistnoret 1 ...................... <node>
+  [ 26] extcall 19 .............................. return node
+  [ 28] jmp [ 94]
+  [ 31] getparam 1 .............................. <node>
+  [ 33] getobjprop 34 ........................... <node.children>
+  [ 35] peek 0
+  [ 37] pusharglist 1
+  [ 39] extcall 48
+  [ 41] pushint8 1
+  [ 43] peek 0
+  [ 45] peek 2
+  [ 47] lteq
+  [ 48] jmpifz [ 92] ............................ repeat with i in node.children
+  [ 51] peek 2
+  [ 53] peek 1
+  [ 55] pusharglist 2
+  [ 57] extcall 44
+  [ 59] setlocal 0
+  [ 61] getparam 0 .............................. <spr>
+  [ 63] getlocal 0 .............................. <i>
+  [ 65] pusharglist 2 ........................... <spr, i>
+  [ 67] localcall 2 ............................. <findLeaf(spr, i)>
+  [ 69] setlocal 1 .............................. n = findLeaf(spr, i)
+  [ 71] getlocal 1 .............................. <n>
+  [ 73] pusharglist 1 ........................... <n>
+  [ 75] extcall 41 .............................. <voidp(n)>
+  [ 77] not ..................................... <not voidp(n)>
+  [ 78] jmpifz [ 87] ............................ if not voidp(n) then
+  [ 81] getlocal 1 .............................. <n>
+  [ 83] pusharglistnoret 1 ...................... <n>
+  [ 85] extcall 19 .............................. return n
+  [ 87] pushint8 1
+  [ 89] add
+  [ 90] endrepeat [ 43]
+  [ 92] pop 3
+  [ 94] ret
+end
+
+on setSpriteVis vis, rng
+  [  0] getparam 1 .............................. <rng>
+  [  2] pusharglist 1 ........................... <rng>
+  [  4] extcall 41 .............................. <voidp(rng)>
+  [  6] jmpifz [ 18] ............................ if voidp(rng) then
+  [  9] pushint8 1 .............................. <1>
+  [ 11] getmovieprop 107 ........................ <the lastChannel>
+  [ 13] pusharglist 2 ........................... <[1, the lastChannel]>
+  [ 15] pushlist ................................ <[1, the lastChannel]>
+  [ 16] setparam 1 .............................. rng = [1, the lastChannel]
+  [ 18] getparam 1 .............................. <rng>
+  [ 20] pushint8 1 .............................. <1>
+  [ 22] pusharglist 2 ........................... <rng, 1>
+  [ 24] objcall 44 .............................. <rng[1]>
+  [ 26] setlocal 0
+  [ 28] getlocal 0
+  [ 30] getparam 1 .............................. <rng>
+  [ 32] pushint8 2 .............................. <2>
+  [ 34] pusharglist 2 ........................... <rng, 2>
+  [ 36] objcall 44 .............................. <rng[2]>
+  [ 38] lteq
+  [ 39] jmpifz [ 61] ............................ repeat with i = rng[1] to rng[2]
+  [ 42] getlocal 0 .............................. <i>
+  [ 44] pusharglist 1 ........................... <i>
+  [ 46] extcall 108 ............................. <sprite(i)>
+  [ 48] getparam 0 .............................. <vis>
+  [ 50] setobjprop 113 .......................... sprite(i).visible = vis
+  [ 52] pushint8 1
+  [ 54] getlocal 0
+  [ 56] add
+  [ 57] setlocal 0
+  [ 59] endrepeat [ 28]
+  [ 61] ret
+end

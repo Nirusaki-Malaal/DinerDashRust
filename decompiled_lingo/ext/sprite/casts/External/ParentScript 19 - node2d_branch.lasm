@@ -1,0 +1,2055 @@
+property y, z, x, xscale, yscale, rect, visible, rotation, xflip, yflip, parentXFlip, parentYFlip, screenProps, parentProps, baseXReg, baseYReg, zdirty, alpha, parentAlpha, parentVisible, offscreen, sprite_mgr, pSprite, alphamod, xAxis, yAxis, zAxis, parent, children, namedChildren, localID, count, stringme, zoffset, type, animator, dummyID, dirty, embodied
+global glob
+
+on new me, sm, alldata
+  [  0] pushsymb 29 ............................. <#Branch>
+  [  2] setprop 28 .............................. type = #Branch
+  [  4] getparam 2 .............................. <alldata>
+  [  6] pusharglist 1 ........................... <alldata>
+  [  8] extcall 41 .............................. <voidp(alldata)>
+  [ 10] jmpifz [ 26] ............................ if voidp(alldata) then
+  [ 13] pushsymb 30 ............................. <#frames>
+  [ 15] pusharglist 0 ........................... <[:]>
+  [ 17] pushproplist ............................ <[:]>
+  [ 18] pusharglist 1 ........................... <[[:]]>
+  [ 20] pushlist ................................ <[[:]]>
+  [ 21] pusharglist 2 ........................... <[#frames: [[:]]]>
+  [ 23] pushproplist ............................ <[#frames: [[:]]]>
+  [ 24] setparam 2 .............................. alldata = [#frames: [[:]]]
+  [ 26] getparam 2 .............................. <alldata>
+  [ 28] pushsymb 30 ............................. <#frames>
+  [ 30] pusharglist 2 ........................... <alldata, #frames>
+  [ 32] objcall 44 .............................. <alldata[#frames]>
+  [ 34] pusharglist 1 ........................... <alldata[#frames]>
+  [ 36] extcall 41 .............................. <voidp(alldata[#frames])>
+  [ 38] jmpifz [ 55] ............................ if voidp(alldata[#frames]) then
+  [ 41] getparam 2 .............................. <alldata>
+  [ 43] pushsymb 30 ............................. <#frames>
+  [ 45] pusharglist 0 ........................... <[:]>
+  [ 47] pushproplist ............................ <[:]>
+  [ 48] pusharglist 1 ........................... <[[:]]>
+  [ 50] pushlist ................................ <[[:]]>
+  [ 51] pusharglistnoret 3 ...................... <alldata, #frames, [[:]]>
+  [ 53] objcall 84 .............................. alldata[#frames] = [[:]]
+  [ 55] getparam 2 .............................. <alldata>
+  [ 57] pushsymb 27 ............................. <#nodeID>
+  [ 59] pusharglist 2 ........................... <alldata, #nodeID>
+  [ 61] objcall 44 .............................. <alldata[#nodeID]>
+  [ 63] pusharglist 1 ........................... <alldata[#nodeID]>
+  [ 65] extcall 86 .............................. <string(alldata[#nodeID])>
+  [ 67] setprop 219 ............................. localID = string(alldata[#nodeID])
+  [ 69] getparam 1 .............................. <sm>
+  [ 71] setprop 26 .............................. sprite_mgr = sm
+  [ 73] pusharglist 0 ........................... <[]>
+  [ 75] pushlist ................................ <[]>
+  [ 76] setprop 34 .............................. children = []
+  [ 78] pusharglist 0 ........................... <[:]>
+  [ 80] pushproplist ............................ <[:]>
+  [ 81] setprop 220 ............................. namedChildren = [:]
+  [ 83] pusharglist 0 ........................... <[]>
+  [ 85] pushlist ................................ <[]>
+  [ 86] setlocal 0 .............................. mouseListeners = []
+  [ 88] pushzero ................................ <0>
+  [ 89] pushzero ................................ <0>
+  [ 90] pushint8 1 .............................. <1>
+  [ 92] pusharglist 3 ........................... <0, 0, 1>
+  [ 94] extcall 222 ............................. <vector(0, 0, 1)>
+  [ 96] setprop 221 ............................. zAxis = vector(0, 0, 1)
+  [ 98] pushzero ................................ <0>
+  [ 99] setprop 48 .............................. count = 0
+  [101] getparam 0 .............................. <me>
+  [103] pusharglist 1 ........................... <me>
+  [105] extcall 86 .............................. <string(me)>
+  [107] setprop 223 ............................. stringme = string(me)
+  [109] pushint8 100 ............................ <100>
+  [111] setprop 224 ............................. alpha = 100
+  [113] getparam 0 .............................. <me>
+  [115] getparam 2 .............................. <alldata>
+  [117] pusharglistnoret 2 ...................... <me, alldata>
+  [119] objcall 163 ............................. me.setNodeData(alldata)
+  [121] pusharglist 0 ........................... <[:]>
+  [123] pushproplist ............................ <[:]>
+  [124] setprop 225 ............................. screenProps = [:]
+  [126] pushsymb 158 ............................ <#x>
+  [128] pushsymb 226 ............................ <#y>
+  [130] pushsymb 33 ............................. <#z>
+  [132] pushsymb 224 ............................ <#alpha>
+  [134] pushsymb 113 ............................ <#visible>
+  [136] pushsymb 227 ............................ <#xflip>
+  [138] pushsymb 228 ............................ <#yflip>
+  [140] pushsymb 229 ............................ <#xscale>
+  [142] pushsymb 230 ............................ <#yscale>
+  [144] pushsymb 117 ............................ <#rotation>
+  [146] pusharglist 10 .......................... <[#x, #y, #z, #alpha, #visible, #xflip, #yflip, #xscale, #yscale, #rotation]>
+  [148] pushlist ................................ <[#x, #y, #z, #alpha, #visible, #xflip, #yflip, #xscale, #yscale, #rotation]>
+  [149] peek 0
+  [151] pusharglist 1
+  [153] extcall 48
+  [155] pushint8 1
+  [157] peek 0
+  [159] peek 2
+  [161] lteq
+  [162] jmpifz [196] ............................ repeat with i in [#x, #y, #z, #alpha, #visible, #xflip, #yflip, #xscale, #yscale, #rotation]
+  [165] peek 2
+  [167] peek 1
+  [169] pusharglist 2
+  [171] extcall 44
+  [173] setlocal 1
+  [175] getprop 225 ............................. <screenProps>
+  [177] getlocal 1 .............................. <i>
+  [179] getparam 0 .............................. <me>
+  [181] getlocal 1 .............................. <i>
+  [183] pusharglist 2 ........................... <me, i>
+  [185] objcall 75 .............................. <me.getProp(i)>
+  [187] pusharglistnoret 3 ...................... <screenProps, i, me.getProp(i)>
+  [189] objcall 84 .............................. screenProps[i] = me.getProp(i)
+  [191] pushint8 1
+  [193] add
+  [194] endrepeat [157]
+  [196] pop 3
+  [198] getprop 219 ............................. <localID>
+  [200] pushcons 0 .............................. <"floor">
+  [202] eq ...................................... <localID = "floor">
+  [203] jmpifz [210] ............................ if localID = "floor" then
+  [206] pusharglistnoret 0 ...................... <>
+  [208] extcall 142 ............................. nothing()
+  [210] getparam 0 .............................. <me>
+  [212] pusharglistnoret 1 ...................... <me>
+  [214] extcall 19 .............................. return me
+  [216] ret
+end
+
+on setAnimData me, ad, ap
+  [  0] getprop 232 ............................. <animator>
+  [  2] pusharglist 1 ........................... <animator>
+  [  4] extcall 41 .............................. <voidp(animator)>
+  [  6] not ..................................... <not voidp(animator)>
+  [  7] jmpifz [ 22] ............................ if not voidp(animator) then
+  [ 10] getprop 232 ............................. <animator>
+  [ 12] pusharglistnoret 1 ...................... <animator>
+  [ 14] objcall 5 ............................... animator.destroy()
+  [ 16] pusharglist 0 ........................... <>
+  [ 18] extcall 40 .............................. <VOID>
+  [ 20] setprop 232 ............................. animator = VOID
+  [ 22] getparam 1 .............................. <ad>
+  [ 24] getobjprop 48 ........................... <ad.count>
+  [ 26] jmpifz [ 52] ............................ if ad.count then
+  [ 29] pushcons 1 .............................. <"node_anim">
+  [ 31] pusharglist 1 ........................... <"node_anim">
+  [ 33] extcall 24 .............................. <script("node_anim")>
+  [ 35] pushsymb 51 ............................. <#node>
+  [ 37] getparam 0 .............................. <me>
+  [ 39] pushsymb 233 ............................ <#data>
+  [ 41] getparam 1 .............................. <ad>
+  [ 43] pusharglist 4 ........................... <[#node: me, #data: ad]>
+  [ 45] pushproplist ............................ <[#node: me, #data: ad]>
+  [ 46] pusharglist 2 ........................... <script("node_anim"), [#node: me, #data: ad]>
+  [ 48] objcall 0 ............................... <script("node_anim").new([#node: me, #data: ad])>
+  [ 50] setprop 232 ............................. animator = script("node_anim").new([#node: me, #data: ad])
+  [ 52] getparam 2 .............................. <ap>
+  [ 54] pushsymb 234 ............................ <#list>
+  [ 56] pusharglist 2 ........................... <ap, #list>
+  [ 58] extcall 139 ............................. <ilk(ap, #list)>
+  [ 60] jmpifz [ 71] ............................ if ilk(ap, #list) then
+  [ 63] getprop 232 ............................. <animator>
+  [ 65] getparam 2 .............................. <ap>
+  [ 67] pusharglistnoret 2 ...................... <animator, ap>
+  [ 69] objcall 235 ............................. animator.setAnimProps(ap)
+  [ 71] ret
+end
+
+on setAnimGroup me, gr
+  [  0] getprop 232 ............................. <animator>
+  [  2] pusharglist 1 ........................... <animator>
+  [  4] extcall 41 .............................. <voidp(animator)>
+  [  6] not ..................................... <not voidp(animator)>
+  [  7] jmpifz [ 18] ............................ if not voidp(animator) then
+  [ 10] getprop 232 ............................. <animator>
+  [ 12] getparam 1 .............................. <gr>
+  [ 14] pusharglistnoret 2 ...................... <animator, gr>
+  [ 16] objcall 238 ............................. animator.setGroup(gr)
+  [ 18] pushsymb 160 ............................ <#setAnimGroup>
+  [ 20] getprop 34 .............................. <children>
+  [ 22] getparam 1 .............................. <gr>
+  [ 24] pusharglistnoret 3 ...................... <#setAnimGroup, children, gr>
+  [ 26] extcall 154 ............................. call(#setAnimGroup, children, gr)
+  [ 28] ret
+end
+
+on disembody me
+  [  0] getprop 240 ............................. <embodied>
+  [  2] not ..................................... <not embodied>
+  [  3] jmpifz [ 10] ............................ if not embodied then
+  [  6] pusharglistnoret 0 ...................... <>
+  [  8] extcall 19 .............................. return 
+  [ 10] pushzero ................................ <0>
+  [ 11] setprop 240 ............................. embodied = 0
+  [ 13] pushsymb 161 ............................ <#disembody>
+  [ 15] getprop 34 .............................. <children>
+  [ 17] pusharglistnoret 2 ...................... <#disembody, children>
+  [ 19] extcall 154 ............................. call(#disembody, children)
+  [ 21] ret
+end
+
+on embody me, noupdate
+  [  0] getprop 240 ............................. <embodied>
+  [  2] jmpifz [  9] ............................ if embodied then
+  [  5] pusharglistnoret 0 ...................... <>
+  [  7] extcall 19 .............................. return 
+  [  9] pushint8 1 .............................. <1>
+  [ 11] setprop 240 ............................. embodied = 1
+  [ 13] pushint8 1 .............................. <1>
+  [ 15] setprop 81 .............................. zdirty = 1
+  [ 17] pushsymb 162 ............................ <#embody>
+  [ 19] getprop 34 .............................. <children>
+  [ 21] pushint8 1 .............................. <1>
+  [ 23] pusharglistnoret 3 ...................... <#embody, children, 1>
+  [ 25] extcall 154 ............................. call(#embody, children, 1)
+  [ 27] getparam 1 .............................. <noupdate>
+  [ 29] not ..................................... <not noupdate>
+  [ 30] jmpifz [ 39] ............................ if not noupdate then
+  [ 33] getparam 0 .............................. <me>
+  [ 35] pusharglistnoret 1 ...................... <me>
+  [ 37] objcall 36 .............................. me.updateLocZ()
+  [ 39] ret
+end
+
+on setNodeData me, alldata
+  [  0] getparam 1 .............................. <alldata>
+  [  2] pusharglist 1 ........................... <alldata>
+  [  4] extcall 41 .............................. <voidp(alldata)>
+  [  6] jmpifz [ 22] ............................ if voidp(alldata) then
+  [  9] pushsymb 30 ............................. <#frames>
+  [ 11] pusharglist 0 ........................... <[:]>
+  [ 13] pushproplist ............................ <[:]>
+  [ 14] pusharglist 1 ........................... <[[:]]>
+  [ 16] pushlist ................................ <[[:]]>
+  [ 17] pusharglist 2 ........................... <[#frames: [[:]]]>
+  [ 19] pushproplist ............................ <[#frames: [[:]]]>
+  [ 20] setparam 1 .............................. alldata = [#frames: [[:]]]
+  [ 22] getparam 1 .............................. <alldata>
+  [ 24] pushsymb 30 ............................. <#frames>
+  [ 26] pusharglist 2 ........................... <alldata, #frames>
+  [ 28] objcall 44 .............................. <alldata[#frames]>
+  [ 30] pusharglist 1 ........................... <alldata[#frames]>
+  [ 32] extcall 41 .............................. <voidp(alldata[#frames])>
+  [ 34] jmpifz [ 51] ............................ if voidp(alldata[#frames]) then
+  [ 37] getparam 1 .............................. <alldata>
+  [ 39] pushsymb 30 ............................. <#frames>
+  [ 41] pusharglist 0 ........................... <[:]>
+  [ 43] pushproplist ............................ <[:]>
+  [ 44] pusharglist 1 ........................... <[[:]]>
+  [ 46] pushlist ................................ <[[:]]>
+  [ 47] pusharglistnoret 3 ...................... <alldata, #frames, [[:]]>
+  [ 49] objcall 84 .............................. alldata[#frames] = [[:]]
+  [ 51] getparam 1 .............................. <alldata>
+  [ 53] getobjprop 30 ........................... <alldata.frames>
+  [ 55] pusharglist 0 ........................... <[]>
+  [ 57] pushlist ................................ <[]>
+  [ 58] eq ...................................... <alldata.frames = []>
+  [ 59] jmpifz [ 76] ............................ if alldata.frames = [] then
+  [ 62] getparam 1 .............................. <alldata>
+  [ 64] pushsymb 30 ............................. <#frames>
+  [ 66] pusharglist 0 ........................... <[:]>
+  [ 68] pushproplist ............................ <[:]>
+  [ 69] pusharglist 1 ........................... <[[:]]>
+  [ 71] pushlist ................................ <[[:]]>
+  [ 72] pusharglistnoret 3 ...................... <alldata, #frames, [[:]]>
+  [ 74] objcall 84 .............................. alldata[#frames] = [[:]]
+  [ 76] getprop 219 ............................. <localID>
+  [ 78] pushcons 0 .............................. <"floor">
+  [ 80] eq ...................................... <localID = "floor">
+  [ 81] jmpifz [ 88] ............................ if localID = "floor" then
+  [ 84] pusharglistnoret 0 ...................... <>
+  [ 86] extcall 142 ............................. nothing()
+  [ 88] getparam 1 .............................. <alldata>
+  [ 90] pushsymb 30 ............................. <#frames>
+  [ 92] pushint8 1 .............................. <1>
+  [ 94] pusharglist 3 ........................... <alldata, #frames, 1>
+  [ 96] objcall 75 .............................. <alldata.frames[1]>
+  [ 98] setlocal 0 .............................. data = alldata.frames[1]
+  [100] pushint16 5000 .......................... <5000>
+  [103] inv ..................................... <-5000>
+  [104] pushint16 5000 .......................... <5000>
+  [107] inv ..................................... <-5000>
+  [108] pusharglist 2 ........................... <-5000, -5000>
+  [110] extcall 32 .............................. <point(-5000, -5000)>
+  [112] setprop 124 ............................. offscreen = point(-5000, -5000)
+  [114] pushint8 100 ............................ <100>
+  [116] setprop 242 ............................. parentAlpha = 100
+  [118] pushint8 1 .............................. <1>
+  [120] setprop 243 ............................. parentVisible = 1
+  [122] pushint8 1 .............................. <1>
+  [124] setprop 113 ............................. visible = 1
+  [126] getlocal 0 .............................. <data>
+  [128] pushsymb 244 ............................ <#blend>
+  [130] pusharglist 2 ........................... <data, #blend>
+  [132] objcall 44 .............................. <data[#blend]>
+  [134] pusharglist 1 ........................... <data[#blend]>
+  [136] extcall 41 .............................. <voidp(data[#blend])>
+  [138] not ..................................... <not voidp(data[#blend])>
+  [139] jmpifz [155] ............................ if not voidp(data[#blend]) then / else
+  [142] getlocal 0 .............................. <data>
+  [144] pushsymb 244 ............................ <#blend>
+  [146] pusharglist 2 ........................... <data, #blend>
+  [148] objcall 44 .............................. <data[#blend]>
+  [150] setprop 224 ............................. alpha = data[#blend]
+  [152] jmp [159]
+  [155] pushint8 100 ............................ <100>
+  [157] setprop 224 ............................. alpha = 100
+  [159] pushfloat32 1.0 ......................... <1.0>
+  [164] setprop 245 ............................. alphamod = 1.0
+  [166] pushzero ................................ <0>
+  [167] setprop 33 .............................. z = 0
+  [169] pushint8 1 .............................. <1>
+  [171] setprop 81 .............................. zdirty = 1
+  [173] getlocal 0 .............................. <data>
+  [175] pushsymb 246 ............................ <#scale>
+  [177] pusharglist 2 ........................... <data, #scale>
+  [179] objcall 44 .............................. <data[#scale]>
+  [181] pusharglist 1 ........................... <data[#scale]>
+  [183] extcall 41 .............................. <voidp(data[#scale])>
+  [185] not ..................................... <not voidp(data[#scale])>
+  [186] jmpifz [216] ............................ if not voidp(data[#scale]) then / else
+  [189] getlocal 0 .............................. <data>
+  [191] pushsymb 246 ............................ <#scale>
+  [193] pushint8 1 .............................. <1>
+  [195] pusharglist 3 ........................... <data, #scale, 1>
+  [197] objcall 75 .............................. <data.scale[1]>
+  [199] setprop 229 ............................. xscale = data.scale[1]
+  [201] getlocal 0 .............................. <data>
+  [203] pushsymb 246 ............................ <#scale>
+  [205] pushint8 2 .............................. <2>
+  [207] pusharglist 3 ........................... <data, #scale, 2>
+  [209] objcall 75 .............................. <data.scale[2]>
+  [211] setprop 230 ............................. yscale = data.scale[2]
+  [213] jmp [230]
+  [216] pushfloat32 1.0 ......................... <1.0>
+  [221] setprop 229 ............................. xscale = 1.0
+  [223] pushfloat32 1.0 ......................... <1.0>
+  [228] setprop 230 ............................. yscale = 1.0
+  [230] getlocal 0 .............................. <data>
+  [232] pushsymb 116 ............................ <#regPoint>
+  [234] pusharglist 2 ........................... <data, #regPoint>
+  [236] objcall 44 .............................. <data[#regPoint]>
+  [238] setlocal 1 .............................. rp = data[#regPoint]
+  [240] getlocal 1 .............................. <rp>
+  [242] pusharglist 1 ........................... <rp>
+  [244] extcall 41 .............................. <voidp(rp)>
+  [246] jmpifz [265] ............................ if voidp(rp) then
+  [249] pushfloat32 0.0 ......................... <0.0>
+  [254] pushfloat32 0.0 ......................... <0.0>
+  [259] pusharglist 2 ........................... <0.0, 0.0>
+  [261] extcall 32 .............................. <point(0.0, 0.0)>
+  [263] setlocal 1 .............................. rp = point(0.0, 0.0)
+  [265] getlocal 1 .............................. <rp>
+  [267] pushint8 1 .............................. <1>
+  [269] pusharglist 2 ........................... <rp, 1>
+  [271] objcall 44 .............................. <rp[1]>
+  [273] setprop 247 ............................. baseXReg = rp[1]
+  [275] getlocal 1 .............................. <rp>
+  [277] pushint8 2 .............................. <2>
+  [279] pusharglist 2 ........................... <rp, 2>
+  [281] objcall 44 .............................. <rp[2]>
+  [283] setprop 248 ............................. baseYReg = rp[2]
+  [285] pushzero ................................ <0>
+  [286] pushzero ................................ <0>
+  [287] pushint8 1 .............................. <1>
+  [289] pusharglist 3 ........................... <0, 0, 1>
+  [291] extcall 222 ............................. <vector(0, 0, 1)>
+  [293] setprop 221 ............................. zAxis = vector(0, 0, 1)
+  [295] pushzero ................................ <0>
+  [296] setlocal 2 .............................. baseWidth = 0
+  [298] pushzero ................................ <0>
+  [299] setlocal 3 .............................. baseHeight = 0
+  [301] pushfloat32 0.0 ......................... <0.0>
+  [306] setlocal 4 .............................. width = 0.0
+  [308] pushfloat32 0.0 ......................... <0.0>
+  [313] setlocal 5 .............................. height = 0.0
+  [315] getlocal 0 .............................. <data>
+  [317] pushsymb 117 ............................ <#rotation>
+  [319] pusharglist 2 ........................... <data, #rotation>
+  [321] objcall 44 .............................. <data[#rotation]>
+  [323] pusharglist 1 ........................... <data[#rotation]>
+  [325] extcall 41 .............................. <voidp(data[#rotation])>
+  [327] not ..................................... <not voidp(data[#rotation])>
+  [328] jmpifz [345] ............................ if not voidp(data[#rotation]) then
+  [331] getlocal 0 .............................. <data>
+  [333] pushsymb 117 ............................ <#rotation>
+  [335] pusharglist 2 ........................... <data, #rotation>
+  [337] objcall 44 .............................. <data[#rotation]>
+  [339] pusharglist 1 ........................... <data[#rotation]>
+  [341] extcall 249 ............................. <integer(data[#rotation])>
+  [343] setprop 117 ............................. rotation = integer(data[#rotation])
+  [345] getlocal 0 .............................. <data>
+  [347] pushsymb 31 ............................. <#loc>
+  [349] pusharglist 2 ........................... <data, #loc>
+  [351] objcall 44 .............................. <data[#loc]>
+  [353] pusharglist 1 ........................... <data[#loc]>
+  [355] extcall 41 .............................. <voidp(data[#loc])>
+  [357] not ..................................... <not voidp(data[#loc])>
+  [358] jmpifz [388] ............................ if not voidp(data[#loc]) then / else
+  [361] getlocal 0 .............................. <data>
+  [363] pushsymb 31 ............................. <#loc>
+  [365] pushint8 1 .............................. <1>
+  [367] pusharglist 3 ........................... <data, #loc, 1>
+  [369] objcall 75 .............................. <data.loc[1]>
+  [371] setprop 158 ............................. x = data.loc[1]
+  [373] getlocal 0 .............................. <data>
+  [375] pushsymb 31 ............................. <#loc>
+  [377] pushint8 2 .............................. <2>
+  [379] pusharglist 3 ........................... <data, #loc, 2>
+  [381] objcall 75 .............................. <data.loc[2]>
+  [383] setprop 226 ............................. y = data.loc[2]
+  [385] jmp [402]
+  [388] pushfloat32 0.0 ......................... <0.0>
+  [393] setprop 158 ............................. x = 0.0
+  [395] pushfloat32 0.0 ......................... <0.0>
+  [400] setprop 226 ............................. y = 0.0
+  [402] getlocal 0 .............................. <data>
+  [404] pushsymb 227 ............................ <#xflip>
+  [406] pusharglist 2 ........................... <data, #xflip>
+  [408] objcall 44 .............................. <data[#xflip]>
+  [410] pusharglist 1 ........................... <data[#xflip]>
+  [412] extcall 249 ............................. <integer(data[#xflip])>
+  [414] setprop 227 ............................. xflip = integer(data[#xflip])
+  [416] getlocal 0 .............................. <data>
+  [418] pushsymb 228 ............................ <#yflip>
+  [420] pusharglist 2 ........................... <data, #yflip>
+  [422] objcall 44 .............................. <data[#yflip]>
+  [424] pusharglist 1 ........................... <data[#yflip]>
+  [426] extcall 249 ............................. <integer(data[#yflip])>
+  [428] setprop 228 ............................. yflip = integer(data[#yflip])
+  [430] getparam 0 .............................. <me>
+  [432] getparam 1 .............................. <alldata>
+  [434] getobjprop 30 ........................... <alldata.frames>
+  [436] pusharglist 1 ........................... <alldata.frames>
+  [438] extcall 250 ............................. <getAnimData(alldata.frames)>
+  [440] pusharglistnoret 2 ...................... <me, getAnimData(alldata.frames)>
+  [442] objcall 159 ............................. me.setAnimData(getAnimData(alldata.frames))
+  [444] getlocal 0 .............................. <data>
+  [446] pushsymb 99 ............................. <#member>
+  [448] pusharglist 2 ........................... <data, #member>
+  [450] objcall 44 .............................. <data[#member]>
+  [452] pusharglist 1 ........................... <data[#member]>
+  [454] extcall 41 .............................. <voidp(data[#member])>
+  [456] not ..................................... <not voidp(data[#member])>
+  [457] jmpifz [466] ............................ if not voidp(data[#member]) then
+  [460] pushcons 2 .............................. <"can't assign member to a branch node">
+  [462] pusharglistnoret 1 ...................... <"can't assign member to a branch node">
+  [464] extcall 132 ............................. complain("can't assign member to a branch node")
+  [466] ret
+end
+
+on newNode me, layerinfo, noupdatez
+  [  0] getparam 1 .............................. <layerinfo>
+  [  2] pusharglist 1 ........................... <layerinfo>
+  [  4] extcall 41 .............................. <voidp(layerinfo)>
+  [  6] not ..................................... <not voidp(layerinfo)>
+  [  7] jmpifz [151] ............................ if not voidp(layerinfo) then / else
+  [ 10] getparam 1 .............................. <layerinfo>
+  [ 12] pushsymb 34 ............................. <#children>
+  [ 14] pusharglist 2 ........................... <layerinfo, #children>
+  [ 16] objcall 48 .............................. <layerinfo.children.count>
+  [ 18] getparam 1 .............................. <layerinfo>
+  [ 20] pushsymb 92 ............................. <#noSprite>
+  [ 22] pusharglist 2 ........................... <layerinfo, #noSprite>
+  [ 24] objcall 44 .............................. <layerinfo[#noSprite]>
+  [ 26] or ...................................... <layerinfo.children.count or layerinfo[#noSprite]>
+  [ 27] jmpifz [114] ............................ if layerinfo.children.count or layerinfo[#noSprite] then / else
+  [ 30] pushcons 3 .............................. <"node2d_branch">
+  [ 32] pusharglist 1 ........................... <"node2d_branch">
+  [ 34] extcall 24 .............................. <script("node2d_branch")>
+  [ 36] getprop 26 .............................. <sprite_mgr>
+  [ 38] getparam 1 .............................. <layerinfo>
+  [ 40] pusharglist 3 ........................... <script("node2d_branch"), sprite_mgr, layerinfo>
+  [ 42] objcall 0 ............................... <script("node2d_branch").new(sprite_mgr, layerinfo)>
+  [ 44] setlocal 0 .............................. node = script("node2d_branch").new(sprite_mgr, layerinfo)
+  [ 46] getparam 0 .............................. <me>
+  [ 48] getlocal 0 .............................. <node>
+  [ 50] pusharglist 0 ........................... <>
+  [ 52] extcall 40 .............................. <VOID>
+  [ 54] pusharglist 0 ........................... <>
+  [ 56] extcall 40 .............................. <VOID>
+  [ 58] pushint8 1 .............................. <1>
+  [ 60] pusharglistnoret 5 ...................... <me, node, VOID, VOID, 1>
+  [ 62] objcall 45 .............................. me.addChild(node, VOID, VOID, 1)
+  [ 64] getparam 1 .............................. <layerinfo>
+  [ 66] getobjprop 34 ........................... <layerinfo.children>
+  [ 68] peek 0
+  [ 70] pusharglist 1
+  [ 72] extcall 48
+  [ 74] pushint8 1
+  [ 76] peek 0
+  [ 78] peek 2
+  [ 80] lteq
+  [ 81] jmpifz [109] ............................ repeat with i in layerinfo.children
+  [ 84] peek 2
+  [ 86] peek 1
+  [ 88] pusharglist 2
+  [ 90] extcall 44
+  [ 92] setlocal 1
+  [ 94] getlocal 0 .............................. <node>
+  [ 96] getlocal 1 .............................. <i>
+  [ 98] pushint8 1 .............................. <1>
+  [100] pusharglistnoret 3 ...................... <node, i, 1>
+  [102] objcall 9 ............................... node.newNode(i, 1)
+  [104] pushint8 1
+  [106] add
+  [107] endrepeat [ 76]
+  [109] pop 3
+  [111] jmp [148]
+  [114] pushcons 4 .............................. <"node2d_leaf">
+  [116] pusharglist 1 ........................... <"node2d_leaf">
+  [118] extcall 24 .............................. <script("node2d_leaf")>
+  [120] getprop 26 .............................. <sprite_mgr>
+  [122] getparam 1 .............................. <layerinfo>
+  [124] pusharglist 3 ........................... <script("node2d_leaf"), sprite_mgr, layerinfo>
+  [126] objcall 0 ............................... <script("node2d_leaf").new(sprite_mgr, layerinfo)>
+  [128] setlocal 0 .............................. node = script("node2d_leaf").new(sprite_mgr, layerinfo)
+  [130] getparam 0 .............................. <me>
+  [132] getlocal 0 .............................. <node>
+  [134] pusharglist 0 ........................... <>
+  [136] extcall 40 .............................. <VOID>
+  [138] pusharglist 0 ........................... <>
+  [140] extcall 40 .............................. <VOID>
+  [142] pushint8 1 .............................. <1>
+  [144] pusharglistnoret 5 ...................... <me, node, VOID, VOID, 1>
+  [146] objcall 45 .............................. me.addChild(node, VOID, VOID, 1)
+  [148] jmp [185]
+  [151] pushcons 3 .............................. <"node2d_branch">
+  [153] pusharglist 1 ........................... <"node2d_branch">
+  [155] extcall 24 .............................. <script("node2d_branch")>
+  [157] getprop 26 .............................. <sprite_mgr>
+  [159] getparam 1 .............................. <layerinfo>
+  [161] pusharglist 3 ........................... <script("node2d_branch"), sprite_mgr, layerinfo>
+  [163] objcall 0 ............................... <script("node2d_branch").new(sprite_mgr, layerinfo)>
+  [165] setlocal 0 .............................. node = script("node2d_branch").new(sprite_mgr, layerinfo)
+  [167] getparam 0 .............................. <me>
+  [169] getlocal 0 .............................. <node>
+  [171] pusharglist 0 ........................... <>
+  [173] extcall 40 .............................. <VOID>
+  [175] pusharglist 0 ........................... <>
+  [177] extcall 40 .............................. <VOID>
+  [179] pushint8 1 .............................. <1>
+  [181] pusharglistnoret 5 ...................... <me, node, VOID, VOID, 1>
+  [183] objcall 45 .............................. me.addChild(node, VOID, VOID, 1)
+  [185] getparam 2 .............................. <noupdatez>
+  [187] jmpifz [196] ............................ if noupdatez then
+  [190] getlocal 0 .............................. <node>
+  [192] pusharglistnoret 1 ...................... <node>
+  [194] extcall 19 .............................. return node
+  [196] getparam 0 .............................. <me>
+  [198] pusharglistnoret 1 ...................... <me>
+  [200] objcall 36 .............................. me.updateLocZ()
+  [202] getlocal 0 .............................. <node>
+  [204] pusharglistnoret 1 ...................... <node>
+  [206] extcall 19 .............................. return node
+  [208] ret
+end
+
+on addChild me, nd, prev_nd, bfore, noupdatez
+  [  0] getparam 1 .............................. <nd>
+  [  2] getparam 2 .............................. <prev_nd>
+  [  4] eq ...................................... <nd = prev_nd>
+  [  5] jmpifz [ 12] ............................ if nd = prev_nd then
+  [  8] pusharglistnoret 0 ...................... <>
+  [ 10] extcall 19 .............................. return 
+  [ 12] getprop 34 .............................. <children>
+  [ 14] getparam 1 .............................. <nd>
+  [ 16] pusharglist 2 ........................... <children, nd>
+  [ 18] objcall 140 ............................. <children.getOne(nd)>
+  [ 20] pushzero ................................ <0>
+  [ 21] nteq .................................... <children.getOne(nd) <> 0>
+  [ 22] jmpifz [ 34] ............................ if children.getOne(nd) <> 0 then
+  [ 25] getprop 34 .............................. <children>
+  [ 27] getparam 1 .............................. <nd>
+  [ 29] pusharglistnoret 2 ...................... <children, nd>
+  [ 31] objcall 257 ............................. children.deleteOne(nd)
+  [ 34] getparam 2 .............................. <prev_nd>
+  [ 36] pusharglist 1 ........................... <prev_nd>
+  [ 38] extcall 41 .............................. <voidp(prev_nd)>
+  [ 40] jmpifz [ 52] ............................ if voidp(prev_nd) then / else
+  [ 43] getprop 34 .............................. <children>
+  [ 45] getobjprop 48 ........................... <children.count>
+  [ 47] setlocal 0 .............................. indx = children.count
+  [ 49] jmp [ 75]
+  [ 52] getprop 34 .............................. <children>
+  [ 54] getparam 2 .............................. <prev_nd>
+  [ 56] pusharglist 2 ........................... <children, prev_nd>
+  [ 58] objcall 140 ............................. <children.getOne(prev_nd)>
+  [ 60] setlocal 0 .............................. indx = children.getOne(prev_nd)
+  [ 62] getlocal 0 .............................. <indx>
+  [ 64] pushzero ................................ <0>
+  [ 65] eq ...................................... <indx = 0>
+  [ 66] jmpifz [ 75] ............................ if indx = 0 then
+  [ 69] getprop 34 .............................. <children>
+  [ 71] getobjprop 48 ........................... <children.count>
+  [ 73] setlocal 0 .............................. indx = children.count
+  [ 75] getprop 34 .............................. <children>
+  [ 77] getobjprop 48 ........................... <children.count>
+  [ 79] pushzero ................................ <0>
+  [ 80] eq ...................................... <children.count = 0>
+  [ 81] jmpifz [ 95] ............................ if children.count = 0 then / else
+  [ 84] getprop 34 .............................. <children>
+  [ 86] getparam 1 .............................. <nd>
+  [ 88] pusharglistnoret 2 ...................... <children, nd>
+  [ 90] objcall 129 ............................. children.add(nd)
+  [ 92] jmp [110]
+  [ 95] getprop 34 .............................. <children>
+  [ 97] getlocal 0 .............................. <indx>
+  [ 99] getparam 3 .............................. <bfore>
+  [101] not ..................................... <not bfore>
+  [102] add ..................................... <indx + not bfore>
+  [103] getparam 1 .............................. <nd>
+  [105] pusharglistnoret 3 ...................... <children, indx + not bfore, nd>
+  [107] objcall 258 ............................. children.addAt(indx + not bfore, nd)
+  [110] getparam 1 .............................. <nd>
+  [112] getobjprop 219 .......................... <nd.localID>
+  [114] pushcons 5 .............................. <EMPTY>
+  [116] nteq .................................... <nd.localID <> EMPTY>
+  [117] jmpifz [132] ............................ if nd.localID <> EMPTY then
+  [120] getprop 220 ............................. <namedChildren>
+  [122] getparam 1 .............................. <nd>
+  [124] getobjprop 219 .......................... <nd.localID>
+  [126] getparam 1 .............................. <nd>
+  [128] pusharglistnoret 3 ...................... <namedChildren, nd.localID, nd>
+  [130] objcall 84 .............................. namedChildren[nd.localID] = nd
+  [132] getprop 34 .............................. <children>
+  [134] getobjprop 48 ........................... <children.count>
+  [136] setprop 48 .............................. count = children.count
+  [138] getparam 1 .............................. <nd>
+  [140] getparam 0 .............................. <me>
+  [142] pusharglistnoret 2 ...................... <nd, me>
+  [144] objcall 165 ............................. nd.setParent(me)
+  [146] getparam 0 .............................. <me>
+  [148] getparam 4 .............................. <noupdatez>
+  [150] pusharglistnoret 2 ...................... <me, noupdatez>
+  [152] objcall 35 .............................. me.setZDirty(noupdatez)
+  [154] getparam 4 .............................. <noupdatez>
+  [156] jmpifz [163] ............................ if noupdatez then
+  [159] pusharglistnoret 0 ...................... <>
+  [161] extcall 19 .............................. return 
+  [163] getparam 0 .............................. <me>
+  [165] pusharglistnoret 1 ...................... <me>
+  [167] objcall 36 .............................. me.updateLocZ()
+  [169] ret
+end
+
+on removeChild me, nd
+  [  0] getprop 34 .............................. <children>
+  [  2] getparam 1 .............................. <nd>
+  [  4] pusharglistnoret 2 ...................... <children, nd>
+  [  6] objcall 257 ............................. children.deleteOne(nd)
+  [  9] getprop 220 ............................. <namedChildren>
+  [ 11] getparam 1 .............................. <nd>
+  [ 13] pusharglistnoret 2 ...................... <namedChildren, nd>
+  [ 15] objcall 257 ............................. namedChildren.deleteOne(nd)
+  [ 18] getprop 34 .............................. <children>
+  [ 20] getobjprop 48 ........................... <children.count>
+  [ 22] setprop 48 .............................. count = children.count
+  [ 24] ret
+end
+
+on setParent me, cl
+  [  0] getparam 1 .............................. <cl>
+  [  2] getprop 262 ............................. <parent>
+  [  5] eq ...................................... <cl = parent>
+  [  6] jmpifz [ 13] ............................ if cl = parent then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 19 .............................. return 
+  [ 13] getprop 262 ............................. <parent>
+  [ 16] pusharglist 1 ........................... <parent>
+  [ 18] extcall 41 .............................. <voidp(parent)>
+  [ 20] not ..................................... <not voidp(parent)>
+  [ 21] jmpifz [ 40] ............................ if not voidp(parent) then
+  [ 24] getprop 262 ............................. <parent>
+  [ 27] getparam 0 .............................. <me>
+  [ 29] pusharglistnoret 2 ...................... <parent, me>
+  [ 31] objcall 164 ............................. parent.removeChild(me)
+  [ 33] pusharglist 0 ........................... <>
+  [ 35] extcall 40 .............................. <VOID>
+  [ 37] setprop 262 ............................. parent = VOID
+  [ 40] getparam 1 .............................. <cl>
+  [ 42] setprop 262 ............................. parent = cl
+  [ 45] ret
+end
+
+on getLocalID me
+  [  0] getprop 219 ............................. <localID>
+  [  2] pusharglistnoret 1 ...................... <localID>
+  [  4] extcall 19 .............................. return localID
+  [  6] ret
+end
+
+on getWorldID me
+  [  0] getprop 262 ............................. <parent>
+  [  3] getobjprop 264 .......................... <parent.worldID>
+  [  6] pushcons 6 .............................. <".">
+  [  8] joinstr ................................. <parent.worldID & ".">
+  [  9] getprop 219 ............................. <localID>
+  [ 11] joinstr ................................. <parent.worldID & "." & localID>
+  [ 12] pusharglistnoret 1 ...................... <parent.worldID & "." & localID>
+  [ 14] extcall 19 .............................. return parent.worldID & "." & localID
+  [ 16] ret
+end
+
+on putInFrontOf me, nd
+  [  0] getparam 1 .............................. <nd>
+  [  2] getobjprop 262 .......................... <nd.parent>
+  [  5] pusharglist 1 ........................... <nd.parent>
+  [  7] extcall 41 .............................. <voidp(nd.parent)>
+  [  9] jmpifz [ 16] ............................ if voidp(nd.parent) then
+  [ 12] pusharglistnoret 0 ...................... <>
+  [ 14] extcall 19 .............................. return 
+  [ 16] getparam 1 .............................. <nd>
+  [ 18] getchainedprop 262 ...................... <nd.parent>
+  [ 21] getparam 0 .............................. <me>
+  [ 23] getparam 1 .............................. <nd>
+  [ 25] pusharglistnoret 3 ...................... <nd.parent, me, nd>
+  [ 27] objcall 45 .............................. nd.parent.addChild(me, nd)
+  [ 29] ret
+end
+
+on putBehind me, nd
+  [  0] getparam 1 .............................. <nd>
+  [  2] getobjprop 262 .......................... <nd.parent>
+  [  5] pusharglist 1 ........................... <nd.parent>
+  [  7] extcall 41 .............................. <voidp(nd.parent)>
+  [  9] jmpifz [ 16] ............................ if voidp(nd.parent) then
+  [ 12] pusharglistnoret 0 ...................... <>
+  [ 14] extcall 19 .............................. return 
+  [ 16] getparam 1 .............................. <nd>
+  [ 18] getchainedprop 262 ...................... <nd.parent>
+  [ 21] getparam 0 .............................. <me>
+  [ 23] getparam 1 .............................. <nd>
+  [ 25] getparam 1 .............................. <nd>
+  [ 27] pushint8 1 .............................. <1>
+  [ 29] pusharglistnoret 5 ...................... <nd.parent, me, nd, nd, 1>
+  [ 31] objcall 45 .............................. nd.parent.addChild(me, nd, nd, 1)
+  [ 33] ret
+end
+
+on moveToFront me
+  [  0] getprop 262 ............................. <parent>
+  [  3] pusharglist 1 ........................... <parent>
+  [  5] extcall 41 .............................. <voidp(parent)>
+  [  7] jmpifz [ 14] ............................ if voidp(parent) then
+  [ 10] pusharglistnoret 0 ...................... <>
+  [ 12] extcall 19 .............................. return 
+  [ 14] getprop 262 ............................. <parent>
+  [ 17] getparam 0 .............................. <me>
+  [ 19] pusharglistnoret 2 ...................... <parent, me>
+  [ 21] objcall 45 .............................. parent.addChild(me)
+  [ 23] getparam 0 .............................. <me>
+  [ 25] pusharglistnoret 1 ...................... <me>
+  [ 27] objcall 35 .............................. me.setZDirty()
+  [ 29] ret
+end
+
+on moveToBack me
+  [  0] getprop 262 ............................. <parent>
+  [  3] pusharglist 1 ........................... <parent>
+  [  5] extcall 41 .............................. <voidp(parent)>
+  [  7] jmpifz [ 14] ............................ if voidp(parent) then
+  [ 10] pusharglistnoret 0 ...................... <>
+  [ 12] extcall 19 .............................. return 
+  [ 14] getprop 262 ............................. <parent>
+  [ 17] getparam 0 .............................. <me>
+  [ 19] getprop 262 ............................. <parent>
+  [ 22] pusharglist 1 ........................... <parent>
+  [ 24] objcall 170 ............................. <parent.getBackChild()>
+  [ 26] pushint8 1 .............................. <1>
+  [ 28] pusharglistnoret 4 ...................... <parent, me, parent.getBackChild(), 1>
+  [ 30] objcall 45 .............................. parent.addChild(me, parent.getBackChild(), 1)
+  [ 32] getparam 0 .............................. <me>
+  [ 34] pusharglistnoret 1 ...................... <me>
+  [ 36] objcall 35 .............................. me.setZDirty()
+  [ 38] ret
+end
+
+on getFrontChild me
+  [  0] getprop 34 .............................. <children>
+  [  2] getobjprop 48 ........................... <children.count>
+  [  4] pushzero ................................ <0>
+  [  5] eq ...................................... <children.count = 0>
+  [  6] jmpifz [ 13] ............................ if children.count = 0 then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 19 .............................. return 
+  [ 13] getprop 34 .............................. <children>
+  [ 15] getprop 34 .............................. <children>
+  [ 17] getobjprop 48 ........................... <children.count>
+  [ 19] pusharglist 2 ........................... <children, children.count>
+  [ 21] objcall 44 .............................. <children[children.count]>
+  [ 23] pusharglistnoret 1 ...................... <children[children.count]>
+  [ 25] extcall 19 .............................. return children[children.count]
+  [ 27] ret
+end
+
+on getBackChild me
+  [  0] getprop 34 .............................. <children>
+  [  2] getobjprop 48 ........................... <children.count>
+  [  4] pushzero ................................ <0>
+  [  5] eq ...................................... <children.count = 0>
+  [  6] jmpifz [ 13] ............................ if children.count = 0 then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 19 .............................. return 
+  [ 13] getprop 34 .............................. <children>
+  [ 15] pushint8 1 .............................. <1>
+  [ 17] pusharglist 2 ........................... <children, 1>
+  [ 19] objcall 44 .............................. <children[1]>
+  [ 21] pusharglistnoret 1 ...................... <children[1]>
+  [ 23] extcall 19 .............................. return children[1]
+  [ 25] ret
+end
+
+on destroy me
+  [  0] getprop 232 ............................. <animator>
+  [  2] pusharglist 1 ........................... <animator>
+  [  4] extcall 41 .............................. <voidp(animator)>
+  [  6] not ..................................... <not voidp(animator)>
+  [  7] jmpifz [ 22] ............................ if not voidp(animator) then
+  [ 10] getprop 232 ............................. <animator>
+  [ 12] pusharglistnoret 1 ...................... <animator>
+  [ 14] objcall 5 ............................... animator.destroy()
+  [ 16] pusharglist 0 ........................... <>
+  [ 18] extcall 40 .............................. <VOID>
+  [ 20] setprop 232 ............................. animator = VOID
+  [ 22] pushsymb 5 .............................. <#destroy>
+  [ 24] getprop 34 .............................. <children>
+  [ 26] pusharglist 1 ........................... <children>
+  [ 28] objcall 265 ............................. <children.duplicate()>
+  [ 31] pusharglistnoret 2 ...................... <#destroy, children.duplicate()>
+  [ 33] extcall 154 ............................. call(#destroy, children.duplicate())
+  [ 35] getprop 34 .............................. <children>
+  [ 37] pusharglistnoret 1 ...................... <children>
+  [ 39] objcall 144 ............................. children.deleteAll()
+  [ 41] getprop 220 ............................. <namedChildren>
+  [ 43] pusharglistnoret 1 ...................... <namedChildren>
+  [ 45] objcall 144 ............................. namedChildren.deleteAll()
+  [ 47] pushzero ................................ <0>
+  [ 48] setprop 48 .............................. count = 0
+  [ 50] getprop 262 ............................. <parent>
+  [ 53] pusharglist 1 ........................... <parent>
+  [ 55] extcall 41 .............................. <voidp(parent)>
+  [ 57] not ..................................... <not voidp(parent)>
+  [ 58] jmpifz [ 70] ............................ if not voidp(parent) then
+  [ 61] getprop 262 ............................. <parent>
+  [ 64] getparam 0 .............................. <me>
+  [ 66] pusharglistnoret 2 ...................... <parent, me>
+  [ 68] objcall 164 ............................. parent.removeChild(me)
+  [ 70] pusharglist 0 ........................... <>
+  [ 72] extcall 40 .............................. <VOID>
+  [ 74] setprop 26 .............................. sprite_mgr = VOID
+  [ 76] ret
+end
+
+on setMember me
+  [  0] pushcons 7 .............................. <"can't set member of a branch node">
+  [  2] pusharglistnoret 1 ...................... <"can't set member of a branch node">
+  [  4] extcall 132 ............................. complain("can't set member of a branch node")
+  [  6] ret
+end
+
+on printZ me
+  [  0] pushsymb 172 ............................ <#printZ>
+  [  2] getprop 34 .............................. <children>
+  [  4] pusharglistnoret 2 ...................... <#printZ, children>
+  [  6] extcall 154 ............................. call(#printZ, children)
+  [  8] ret
+end
+
+on setAnimPaused me, p
+  [  0] pushsymb 173 ............................ <#setAnimPaused>
+  [  2] getprop 34 .............................. <children>
+  [  4] getparam 1 .............................. <p>
+  [  6] pusharglistnoret 3 ...................... <#setAnimPaused, children, p>
+  [  8] extcall 154 ............................. call(#setAnimPaused, children, p)
+  [ 10] ret
+end
+
+on setAnimation me, str, Args
+  [  0] pushsymb 174 ............................ <#setAnimation>
+  [  2] getprop 34 .............................. <children>
+  [  4] getparam 1 .............................. <str>
+  [  6] getparam 2 .............................. <Args>
+  [  8] pusharglistnoret 4 ...................... <#setAnimation, children, str, Args>
+  [ 10] extcall 154 ............................. call(#setAnimation, children, str, Args)
+  [ 12] getprop 232 ............................. <animator>
+  [ 14] pusharglist 1 ........................... <animator>
+  [ 16] extcall 41 .............................. <voidp(animator)>
+  [ 18] jmpifz [ 25] ............................ if voidp(animator) then
+  [ 21] pusharglistnoret 0 ...................... <>
+  [ 23] extcall 19 .............................. return 
+  [ 25] getprop 232 ............................. <animator>
+  [ 27] getparam 1 .............................. <str>
+  [ 29] getparam 2 .............................. <Args>
+  [ 31] pusharglistnoret 3 ...................... <animator, str, Args>
+  [ 33] objcall 174 ............................. animator.setAnimation(str, Args)
+  [ 35] ret
+end
+
+on queueAnimation me, str, Args
+  [  0] pushsymb 175 ............................ <#queueAnimation>
+  [  2] getprop 34 .............................. <children>
+  [  4] getparam 1 .............................. <str>
+  [  6] getparam 2 .............................. <Args>
+  [  8] pusharglistnoret 4 ...................... <#queueAnimation, children, str, Args>
+  [ 10] extcall 154 ............................. call(#queueAnimation, children, str, Args)
+  [ 12] getprop 232 ............................. <animator>
+  [ 14] pusharglist 1 ........................... <animator>
+  [ 16] extcall 41 .............................. <voidp(animator)>
+  [ 18] jmpifz [ 25] ............................ if voidp(animator) then
+  [ 21] pusharglistnoret 0 ...................... <>
+  [ 23] extcall 19 .............................. return 
+  [ 25] getprop 232 ............................. <animator>
+  [ 27] getparam 1 .............................. <str>
+  [ 29] getparam 2 .............................. <Args>
+  [ 31] pusharglistnoret 3 ...................... <animator, str, Args>
+  [ 33] objcall 175 ............................. animator.queueAnimation(str, Args)
+  [ 35] ret
+end
+
+on setDummyID me, str
+  [  0] getparam 1 .............................. <str>
+  [  2] getprop 89 .............................. <dummyID>
+  [  4] eq ...................................... <str = dummyID>
+  [  5] jmpifz [ 12] ............................ if str = dummyID then
+  [  8] pusharglistnoret 0 ...................... <>
+  [ 10] extcall 19 .............................. return 
+  [ 12] getparam 1 .............................. <str>
+  [ 14] pusharglist 1 ........................... <str>
+  [ 16] extcall 57 .............................. <getNodeData(str)>
+  [ 18] setlocal 0 .............................. dat = getNodeData(str)
+  [ 20] getlocal 0 .............................. <dat>
+  [ 22] pusharglist 1 ........................... <dat>
+  [ 24] extcall 41 .............................. <voidp(dat)>
+  [ 26] jmpifz [ 33] ............................ if voidp(dat) then
+  [ 29] pusharglistnoret 0 ...................... <>
+  [ 31] extcall 19 .............................. return 
+  [ 33] pushsymb 5 .............................. <#destroy>
+  [ 35] getprop 34 .............................. <children>
+  [ 37] pusharglist 1 ........................... <children>
+  [ 39] objcall 265 ............................. <children.duplicate()>
+  [ 42] pusharglistnoret 2 ...................... <#destroy, children.duplicate()>
+  [ 44] extcall 154 ............................. call(#destroy, children.duplicate())
+  [ 46] getprop 34 .............................. <children>
+  [ 48] pusharglistnoret 1 ...................... <children>
+  [ 50] objcall 144 ............................. children.deleteAll()
+  [ 52] getprop 220 ............................. <namedChildren>
+  [ 54] pusharglistnoret 1 ...................... <namedChildren>
+  [ 56] objcall 144 ............................. namedChildren.deleteAll()
+  [ 58] getparam 0 .............................. <me>
+  [ 60] getlocal 0 .............................. <dat>
+  [ 62] pusharglistnoret 2 ...................... <me, dat>
+  [ 64] objcall 163 ............................. me.setNodeData(dat)
+  [ 66] getlocal 0 .............................. <dat>
+  [ 68] getobjprop 34 ........................... <dat.children>
+  [ 70] peek 0
+  [ 72] pusharglist 1
+  [ 74] extcall 48
+  [ 76] pushint8 1
+  [ 78] peek 0
+  [ 80] peek 2
+  [ 82] lteq
+  [ 83] jmpifz [109] ............................ repeat with i in dat.children
+  [ 86] peek 2
+  [ 88] peek 1
+  [ 90] pusharglist 2
+  [ 92] extcall 44
+  [ 94] setlocal 1
+  [ 96] getparam 0 .............................. <me>
+  [ 98] getlocal 1 .............................. <i>
+  [100] pusharglistnoret 2 ...................... <me, i>
+  [102] objcall 9 ............................... me.newNode(i)
+  [104] pushint8 1
+  [106] add
+  [107] endrepeat [ 78]
+  [109] pop 3
+  [111] ret
+end
+
+on getMember me
+  [  0] pushcons 8 .............................. <"can't get member of a branch node">
+  [  2] pusharglistnoret 1 ...................... <"can't get member of a branch node">
+  [  4] extcall 132 ............................. complain("can't get member of a branch node")
+  [  6] ret
+end
+
+on setText me
+  [  0] pushcons 9 .............................. <"can't set text of a branch node">
+  [  2] pusharglistnoret 1 ...................... <"can't set text of a branch node">
+  [  4] extcall 132 ............................. complain("can't set text of a branch node")
+  [  6] ret
+end
+
+on setParentFlip me, fl
+  [  0] getparam 1 .............................. <fl>
+  [  2] pushint8 1 .............................. <1>
+  [  4] pusharglist 2 ........................... <fl, 1>
+  [  6] objcall 44 .............................. <fl[1]>
+  [  8] setprop 267 ............................. parentXFlip = fl[1]
+  [ 11] getparam 1 .............................. <fl>
+  [ 13] pushint8 2 .............................. <2>
+  [ 15] pusharglist 2 ........................... <fl, 2>
+  [ 17] objcall 44 .............................. <fl[2]>
+  [ 19] setprop 268 ............................. parentYFlip = fl[2]
+  [ 22] getparam 0 .............................. <me>
+  [ 24] getprop 227 ............................. <xflip>
+  [ 26] pusharglistnoret 2 ...................... <me, xflip>
+  [ 28] objcall 180 ............................. me.setXFlip(xflip)
+  [ 30] getparam 0 .............................. <me>
+  [ 32] getprop 228 ............................. <yflip>
+  [ 34] pusharglistnoret 2 ...................... <me, yflip>
+  [ 36] objcall 181 ............................. me.setYFlip(yflip)
+  [ 38] ret
+end
+
+on setParentXFlip me, b
+  [  0] getprop 267 ............................. <parentXFlip>
+  [  3] getparam 1 .............................. <b>
+  [  5] eq ...................................... <parentXFlip = b>
+  [  6] jmpifz [ 13] ............................ if parentXFlip = b then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 19 .............................. return 
+  [ 13] getparam 1 .............................. <b>
+  [ 15] setprop 267 ............................. parentXFlip = b
+  [ 18] getparam 0 .............................. <me>
+  [ 20] getprop 227 ............................. <xflip>
+  [ 22] pusharglistnoret 2 ...................... <me, xflip>
+  [ 24] objcall 180 ............................. me.setXFlip(xflip)
+  [ 26] ret
+end
+
+on setParentYFlip me, b
+  [  0] getprop 268 ............................. <parentYFlip>
+  [  3] getparam 1 .............................. <b>
+  [  5] eq ...................................... <parentYFlip = b>
+  [  6] jmpifz [ 13] ............................ if parentYFlip = b then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 19 .............................. return 
+  [ 13] getparam 1 .............................. <b>
+  [ 15] setprop 268 ............................. parentYFlip = b
+  [ 18] getparam 0 .............................. <me>
+  [ 20] getprop 228 ............................. <yflip>
+  [ 22] pusharglistnoret 2 ...................... <me, yflip>
+  [ 24] objcall 181 ............................. me.setYFlip(yflip)
+  [ 26] ret
+end
+
+on setXFlip me, b
+  [  0] getprop 227 ............................. <xflip>
+  [  2] getparam 1 .............................. <b>
+  [  4] eq ...................................... <xflip = b>
+  [  5] jmpifz [ 12] ............................ if xflip = b then
+  [  8] pusharglistnoret 0 ...................... <>
+  [ 10] extcall 19 .............................. return 
+  [ 12] getparam 1 .............................. <b>
+  [ 14] setprop 227 ............................. xflip = b
+  [ 16] getprop 267 ............................. <parentXFlip>
+  [ 19] getprop 227 ............................. <xflip>
+  [ 21] or ...................................... <parentXFlip or xflip>
+  [ 22] getprop 267 ............................. <parentXFlip>
+  [ 25] getprop 227 ............................. <xflip>
+  [ 27] and ..................................... <parentXFlip and xflip>
+  [ 28] not ..................................... <not (parentXFlip and xflip)>
+  [ 29] and ..................................... <(parentXFlip or xflip) and not (parentXFlip and xflip)>
+  [ 30] setlocal 0 .............................. wf = (parentXFlip or xflip) and not (parentXFlip and xflip)
+  [ 32] pushsymb 178 ............................ <#setParentXFlip>
+  [ 34] getprop 34 .............................. <children>
+  [ 36] getlocal 0 .............................. <wf>
+  [ 38] pusharglistnoret 3 ...................... <#setParentXFlip, children, wf>
+  [ 40] extcall 154 ............................. call(#setParentXFlip, children, wf)
+  [ 42] getparam 0 .............................. <me>
+  [ 44] pusharglistnoret 1 ...................... <me>
+  [ 46] objcall 78 .............................. me.updateTransform()
+  [ 48] ret
+end
+
+on setYFlip me, b
+  [  0] getprop 228 ............................. <yflip>
+  [  2] getparam 1 .............................. <b>
+  [  4] eq ...................................... <yflip = b>
+  [  5] jmpifz [ 12] ............................ if yflip = b then
+  [  8] pusharglistnoret 0 ...................... <>
+  [ 10] extcall 19 .............................. return 
+  [ 12] getparam 1 .............................. <b>
+  [ 14] setprop 228 ............................. yflip = b
+  [ 16] getprop 268 ............................. <parentYFlip>
+  [ 19] getprop 228 ............................. <yflip>
+  [ 21] or ...................................... <parentYFlip or yflip>
+  [ 22] getprop 268 ............................. <parentYFlip>
+  [ 25] getprop 228 ............................. <yflip>
+  [ 27] and ..................................... <parentYFlip and yflip>
+  [ 28] not ..................................... <not (parentYFlip and yflip)>
+  [ 29] and ..................................... <(parentYFlip or yflip) and not (parentYFlip and yflip)>
+  [ 30] setlocal 0 .............................. wf = (parentYFlip or yflip) and not (parentYFlip and yflip)
+  [ 32] pushsymb 179 ............................ <#setParentYFlip>
+  [ 34] getprop 34 .............................. <children>
+  [ 36] getlocal 0 .............................. <wf>
+  [ 38] pusharglistnoret 3 ...................... <#setParentYFlip, children, wf>
+  [ 40] extcall 154 ............................. call(#setParentYFlip, children, wf)
+  [ 42] getparam 0 .............................. <me>
+  [ 44] pusharglistnoret 1 ...................... <me>
+  [ 46] objcall 78 .............................. me.updateTransform()
+  [ 48] ret
+end
+
+on getHeight me
+  [  0] ret
+end
+
+on setHeight me, h
+  [  0] ret
+end
+
+on getWidth me
+  [  0] ret
+end
+
+on setWidth me, w
+  [  0] ret
+end
+
+on setRect me, r
+  [  0] ret
+end
+
+on getRect me
+  [  0] getprop 158 ............................. <x>
+  [  2] getprop 226 ............................. <y>
+  [  4] getprop 158 ............................. <x>
+  [  6] getprop 226 ............................. <y>
+  [  8] pusharglist 4 ........................... <x, y, x, y>
+  [ 10] extcall 273 ............................. <rect(x, y, x, y)>
+  [ 13] setlocal 0 .............................. r = rect(x, y, x, y)
+  [ 15] getprop 34 .............................. <children>
+  [ 17] peek 0
+  [ 19] pusharglist 1
+  [ 21] extcall 48
+  [ 23] pushint8 1
+  [ 25] peek 0
+  [ 27] peek 2
+  [ 29] lteq
+  [ 30] jmpifz [ 63] ............................ repeat with i in children
+  [ 33] peek 2
+  [ 35] peek 1
+  [ 37] pusharglist 2
+  [ 39] extcall 44
+  [ 41] setlocal 1
+  [ 43] getlocal 0 .............................. <r>
+  [ 45] getlocal 1 .............................. <i>
+  [ 47] pusharglist 1 ........................... <i>
+  [ 49] objcall 187 ............................. <i.getRect()>
+  [ 51] pusharglist 2 ........................... <r, i.getRect()>
+  [ 53] extcall 274 ............................. <union(r, i.getRect())>
+  [ 56] setlocal 0 .............................. r = union(r, i.getRect())
+  [ 58] pushint8 1
+  [ 60] add
+  [ 61] endrepeat [ 25]
+  [ 63] pop 3
+  [ 65] getlocal 0 .............................. <r>
+  [ 67] pusharglistnoret 1 ...................... <r>
+  [ 69] extcall 19 .............................. return r
+  [ 71] ret
+end
+
+on setLoc me, pt
+  [  0] getparam 1 .............................. <pt>
+  [  2] pushint8 1 .............................. <1>
+  [  4] pusharglist 2 ........................... <pt, 1>
+  [  6] objcall 44 .............................. <pt[1]>
+  [  8] setprop 158 ............................. x = pt[1]
+  [ 10] getparam 1 .............................. <pt>
+  [ 12] pushint8 2 .............................. <2>
+  [ 14] pusharglist 2 ........................... <pt, 2>
+  [ 16] objcall 44 .............................. <pt[2]>
+  [ 18] setprop 226 ............................. y = pt[2]
+  [ 20] getparam 0 .............................. <me>
+  [ 22] pusharglistnoret 1 ...................... <me>
+  [ 24] objcall 78 .............................. me.updateTransform()
+  [ 26] ret
+end
+
+on getLoc me
+  [  0] getprop 158 ............................. <x>
+  [  2] getprop 226 ............................. <y>
+  [  4] pusharglist 2 ........................... <x, y>
+  [  6] extcall 32 .............................. <point(x, y)>
+  [  8] pusharglistnoret 1 ...................... <point(x, y)>
+  [ 10] extcall 19 .............................. return point(x, y)
+  [ 12] ret
+end
+
+on setY me, c
+  [  0] getparam 1 .............................. <c>
+  [  2] setprop 226 ............................. y = c
+  [  4] getparam 0 .............................. <me>
+  [  6] pusharglistnoret 1 ...................... <me>
+  [  8] objcall 78 .............................. me.updateTransform()
+  [ 10] ret
+end
+
+on setX me, c
+  [  0] getparam 1 .............................. <c>
+  [  2] setprop 158 ............................. x = c
+  [  4] getparam 0 .............................. <me>
+  [  6] pusharglistnoret 1 ...................... <me>
+  [  8] objcall 78 .............................. me.updateTransform()
+  [ 10] ret
+end
+
+on getLocRel me, othernode
+  [  0] getparam 1 .............................. <othernode>
+  [  2] pusharglist 1 ........................... <othernode>
+  [  4] extcall 41 .............................. <voidp(othernode)>
+  [  6] jmpifz [ 20] ............................ if voidp(othernode) then
+  [  9] getglobal 42 ............................ <glob>
+  [ 11] getchainedprop 275 ...................... <glob.managers>
+  [ 14] getchainedprop 51 ....................... <glob.managers.node>
+  [ 16] getobjprop 25 ........................... <glob.managers.node.ROOT>
+  [ 18] setparam 1 .............................. othernode = glob.managers.node.ROOT
+  [ 20] getparam 1 .............................. <othernode>
+  [ 22] getobjprop 225 .......................... <othernode.screenProps>
+  [ 24] setlocal 0 .............................. op = othernode.screenProps
+  [ 26] getprop 225 ............................. <screenProps>
+  [ 28] getobjprop 158 .......................... <screenProps.x>
+  [ 30] getprop 225 ............................. <screenProps>
+  [ 32] getobjprop 226 .......................... <screenProps.y>
+  [ 34] pusharglist 2 ........................... <screenProps.x, screenProps.y>
+  [ 36] extcall 32 .............................. <point(screenProps.x, screenProps.y)>
+  [ 38] getlocal 0 .............................. <op>
+  [ 40] getobjprop 158 .......................... <op.x>
+  [ 42] getlocal 0 .............................. <op>
+  [ 44] getobjprop 226 .......................... <op.y>
+  [ 46] pusharglist 2 ........................... <op.x, op.y>
+  [ 48] extcall 32 .............................. <point(op.x, op.y)>
+  [ 50] sub ..................................... <point(screenProps.x, screenProps.y) - point(op.x, op.y)>
+  [ 51] setlocal 1 .............................. diff = point(screenProps.x, screenProps.y) - point(op.x, op.y)
+  [ 53] getparam 0 .............................. <me>
+  [ 55] pusharglist 1 ........................... <me>
+  [ 57] objcall 212 ............................. <me.getRegPoint()>
+  [ 59] getparam 1 .............................. <othernode>
+  [ 61] pusharglist 1 ........................... <othernode>
+  [ 63] objcall 212 ............................. <othernode.getRegPoint()>
+  [ 65] sub ..................................... <me.getRegPoint() - othernode.getRegPoint()>
+  [ 66] setlocal 2 .............................. rpdiff = me.getRegPoint() - othernode.getRegPoint()
+  [ 68] getlocal 1 .............................. <diff>
+  [ 70] pushint8 1 .............................. <1>
+  [ 72] pusharglist 2 ........................... <diff, 1>
+  [ 74] objcall 44 .............................. <diff[1]>
+  [ 76] getlocal 2 .............................. <rpdiff>
+  [ 78] pushint8 1 .............................. <1>
+  [ 80] pusharglist 2 ........................... <rpdiff, 1>
+  [ 82] objcall 44 .............................. <rpdiff[1]>
+  [ 84] add ..................................... <diff[1] + rpdiff[1]>
+  [ 85] getlocal 1 .............................. <diff>
+  [ 87] pushint8 2 .............................. <2>
+  [ 89] pusharglist 2 ........................... <diff, 2>
+  [ 91] objcall 44 .............................. <diff[2]>
+  [ 93] getlocal 2 .............................. <rpdiff>
+  [ 95] pushint8 2 .............................. <2>
+  [ 97] pusharglist 2 ........................... <rpdiff, 2>
+  [ 99] objcall 44 .............................. <rpdiff[2]>
+  [101] add ..................................... <diff[2] + rpdiff[2]>
+  [102] pusharglist 2 ........................... <diff[1] + rpdiff[1], diff[2] + rpdiff[2]>
+  [104] extcall 32 .............................. <point(diff[1] + rpdiff[1], diff[2] + rpdiff[2])>
+  [106] pusharglistnoret 1 ...................... <point(diff[1] + rpdiff[1], diff[2] + rpdiff[2])>
+  [108] extcall 19 .............................. return point(diff[1] + rpdiff[1], diff[2] + rpdiff[2])
+  [110] ret
+end
+
+on setLocRel me, pt, othernode
+  [  0] getparam 2 .............................. <othernode>
+  [  2] pusharglist 1 ........................... <othernode>
+  [  4] extcall 41 .............................. <voidp(othernode)>
+  [  6] jmpifz [ 20] ............................ if voidp(othernode) then
+  [  9] getglobal 42 ............................ <glob>
+  [ 11] getchainedprop 275 ...................... <glob.managers>
+  [ 14] getchainedprop 51 ....................... <glob.managers.node>
+  [ 16] getobjprop 25 ........................... <glob.managers.node.ROOT>
+  [ 18] setparam 2 .............................. othernode = glob.managers.node.ROOT
+  [ 20] getparam 0 .............................. <me>
+  [ 22] getprop 158 ............................. <x>
+  [ 24] getprop 226 ............................. <y>
+  [ 26] pusharglist 2 ........................... <x, y>
+  [ 28] extcall 32 .............................. <point(x, y)>
+  [ 30] getparam 1 .............................. <pt>
+  [ 32] add ..................................... <point(x, y) + pt>
+  [ 33] getparam 0 .............................. <me>
+  [ 35] getparam 2 .............................. <othernode>
+  [ 37] pusharglist 2 ........................... <me, othernode>
+  [ 39] objcall 191 ............................. <me.getLocRel(othernode)>
+  [ 41] sub ..................................... <point(x, y) + pt - me.getLocRel(othernode)>
+  [ 42] pusharglistnoret 2 ...................... <me, point(x, y) + pt - me.getLocRel(othernode)>
+  [ 44] objcall 58 .............................. me.setLoc(point(x, y) + pt - me.getLocRel(othernode))
+  [ 46] ret
+end
+
+on getStageLoc me
+  [  0] getprop 262 ............................. <parent>
+  [  3] pusharglist 1 ........................... <parent>
+  [  5] extcall 41 .............................. <voidp(parent)>
+  [  7] not ..................................... <not voidp(parent)>
+  [  8] jmpifz [ 23] ............................ if not voidp(parent) then / else
+  [ 11] getprop 262 ............................. <parent>
+  [ 14] pusharglist 1 ........................... <parent>
+  [ 16] objcall 192 ............................. <parent.getStageLoc()>
+  [ 18] setlocal 0 .............................. par = parent.getStageLoc()
+  [ 20] jmp [ 31]
+  [ 23] pushzero ................................ <0>
+  [ 24] pushzero ................................ <0>
+  [ 25] pusharglist 2 ........................... <0, 0>
+  [ 27] extcall 32 .............................. <point(0, 0)>
+  [ 29] setlocal 0 .............................. par = point(0, 0)
+  [ 31] getlocal 0 .............................. <par>
+  [ 33] getprop 158 ............................. <x>
+  [ 35] getprop 226 ............................. <y>
+  [ 37] pusharglist 2 ........................... <x, y>
+  [ 39] extcall 32 .............................. <point(x, y)>
+  [ 41] add ..................................... <par + point(x, y)>
+  [ 42] pusharglistnoret 1 ...................... <par + point(x, y)>
+  [ 44] extcall 19 .............................. return par + point(x, y)
+  [ 46] ret
+end
+
+on setStageLoc me, pt
+  [  0] getparam 0 .............................. <me>
+  [  2] getprop 158 ............................. <x>
+  [  4] getprop 226 ............................. <y>
+  [  6] pusharglist 2 ........................... <x, y>
+  [  8] extcall 32 .............................. <point(x, y)>
+  [ 10] getparam 1 .............................. <pt>
+  [ 12] add ..................................... <point(x, y) + pt>
+  [ 13] getparam 0 .............................. <me>
+  [ 15] pusharglist 1 ........................... <me>
+  [ 17] objcall 192 ............................. <me.getStageLoc()>
+  [ 19] sub ..................................... <point(x, y) + pt - me.getStageLoc()>
+  [ 20] pusharglistnoret 2 ...................... <me, point(x, y) + pt - me.getStageLoc()>
+  [ 22] objcall 58 .............................. me.setLoc(point(x, y) + pt - me.getStageLoc())
+  [ 24] ret
+end
+
+on setZ me, num
+  [  0] getprop 33 .............................. <z>
+  [  2] getparam 1 .............................. <num>
+  [  4] eq ...................................... <z = num>
+  [  5] getprop 33 .............................. <z>
+  [  7] pusharglist 1 ........................... <z>
+  [  9] extcall 41 .............................. <voidp(z)>
+  [ 11] not ..................................... <not voidp(z)>
+  [ 12] and ..................................... <(z = num) and not voidp(z)>
+  [ 13] jmpifz [ 20] ............................ if (z = num) and not voidp(z) then
+  [ 16] pusharglistnoret 0 ...................... <>
+  [ 18] extcall 19 .............................. return 
+  [ 20] getparam 1 .............................. <num>
+  [ 22] setprop 33 .............................. z = num
+  [ 24] pushint8 1 .............................. <1>
+  [ 26] setprop 81 .............................. zdirty = 1
+  [ 28] getparam 0 .............................. <me>
+  [ 30] pusharglistnoret 1 ...................... <me>
+  [ 32] objcall 36 .............................. me.updateLocZ()
+  [ 34] getparam 0 .............................. <me>
+  [ 36] pusharglistnoret 1 ...................... <me>
+  [ 38] objcall 78 .............................. me.updateTransform()
+  [ 40] ret
+end
+
+on getZ me
+  [  0] getprop 33 .............................. <z>
+  [  2] pusharglistnoret 1 ...................... <z>
+  [  4] extcall 19 .............................. return z
+  [  6] ret
+end
+
+on getNumLayers me
+  [  0] pushint8 1 .............................. <1>
+  [  2] setlocal 0 .............................. s = 1
+  [  4] getprop 34 .............................. <children>
+  [  6] peek 0
+  [  8] pusharglist 1
+  [ 10] extcall 48
+  [ 12] pushint8 1
+  [ 14] peek 0
+  [ 16] peek 2
+  [ 18] lteq
+  [ 19] jmpifz [ 48] ............................ repeat with i in children
+  [ 22] peek 2
+  [ 24] peek 1
+  [ 26] pusharglist 2
+  [ 28] extcall 44
+  [ 30] setlocal 1
+  [ 32] getlocal 0 .............................. <s>
+  [ 34] getlocal 1 .............................. <i>
+  [ 36] pusharglist 1 ........................... <i>
+  [ 38] objcall 196 ............................. <i.getNumLayers()>
+  [ 40] add ..................................... <s + i.getNumLayers()>
+  [ 41] setlocal 0 .............................. s = s + i.getNumLayers()
+  [ 43] pushint8 1
+  [ 45] add
+  [ 46] endrepeat [ 14]
+  [ 48] pop 3
+  [ 50] getlocal 0 .............................. <s>
+  [ 52] pusharglistnoret 1 ...................... <s>
+  [ 54] extcall 19 .............................. return s
+  [ 56] ret
+end
+
+on getNumLeaves me
+  [  0] getprop 34 .............................. <children>
+  [  2] peek 0
+  [  4] pusharglist 1
+  [  6] extcall 48
+  [  8] pushint8 1
+  [ 10] peek 0
+  [ 12] peek 2
+  [ 14] lteq
+  [ 15] jmpifz [ 45] ............................ repeat with i in children
+  [ 18] peek 2
+  [ 20] peek 1
+  [ 22] pusharglist 2
+  [ 24] extcall 44
+  [ 26] setlocal 0
+  [ 28] getlocal 1 .............................. <s>
+  [ 30] getlocal 0 .............................. <i>
+  [ 32] getobjprop 28 ........................... <i.type>
+  [ 34] pushsymb 109 ............................ <#leaf>
+  [ 36] eq ...................................... <i.type = #leaf>
+  [ 37] add ..................................... <s + (i.type = #leaf)>
+  [ 38] setlocal 1 .............................. s = s + (i.type = #leaf)
+  [ 40] pushint8 1
+  [ 42] add
+  [ 43] endrepeat [ 10]
+  [ 45] pop 3
+  [ 47] getlocal 1 .............................. <s>
+  [ 49] pusharglistnoret 1 ...................... <s>
+  [ 51] extcall 19 .............................. return s
+  [ 53] ret
+end
+
+on updateLocZ me
+  [  0] getprop 81 .............................. <zdirty>
+  [  2] not ..................................... <not zdirty>
+  [  3] jmpifz [ 10] ............................ if not zdirty then
+  [  6] pusharglistnoret 0 ...................... <>
+  [  8] extcall 19 .............................. return 
+  [ 10] getprop 33 .............................. <z>
+  [ 12] setlocal 0 .............................. myz = z
+  [ 14] getprop 34 .............................. <children>
+  [ 16] peek 0
+  [ 18] pusharglist 1
+  [ 20] extcall 48
+  [ 22] pushint8 1
+  [ 24] peek 0
+  [ 26] peek 2
+  [ 28] lteq
+  [ 29] jmpifz [ 66] ............................ repeat with i in children
+  [ 32] peek 2
+  [ 34] peek 1
+  [ 36] pusharglist 2
+  [ 38] extcall 44
+  [ 40] setlocal 1
+  [ 42] getlocal 1 .............................. <i>
+  [ 44] getlocal 0 .............................. <myz>
+  [ 46] pusharglistnoret 2 ...................... <i, myz>
+  [ 48] objcall 194 ............................. i.setZ(myz)
+  [ 50] getlocal 0 .............................. <myz>
+  [ 52] getlocal 1 .............................. <i>
+  [ 54] pusharglist 1 ........................... <i>
+  [ 56] objcall 196 ............................. <i.getNumLayers()>
+  [ 58] add ..................................... <myz + i.getNumLayers()>
+  [ 59] setlocal 0 .............................. myz = myz + i.getNumLayers()
+  [ 61] pushint8 1
+  [ 63] add
+  [ 64] endrepeat [ 24]
+  [ 66] pop 3
+  [ 68] pushzero ................................ <0>
+  [ 69] setprop 81 .............................. zdirty = 0
+  [ 71] getparam 0 .............................. <me>
+  [ 73] pusharglistnoret 1 ...................... <me>
+  [ 75] objcall 78 .............................. me.updateTransform()
+  [ 77] ret
+end
+
+on setZDirty me
+  [  0] getprop 81 .............................. <zdirty>
+  [  2] jmpifz [  9] ............................ if zdirty then
+  [  5] pusharglistnoret 0 ...................... <>
+  [  7] extcall 19 .............................. return 
+  [  9] pushint8 1 .............................. <1>
+  [ 11] setprop 81 .............................. zdirty = 1
+  [ 13] getprop 262 ............................. <parent>
+  [ 16] pusharglist 1 ........................... <parent>
+  [ 18] extcall 41 .............................. <voidp(parent)>
+  [ 20] not ..................................... <not voidp(parent)>
+  [ 21] jmpifz [ 34] ............................ if not voidp(parent) then / else
+  [ 24] getprop 262 ............................. <parent>
+  [ 27] pusharglistnoret 1 ...................... <parent>
+  [ 29] objcall 35 .............................. parent.setZDirty()
+  [ 31] jmp [ 40]
+  [ 34] getparam 0 .............................. <me>
+  [ 36] pusharglistnoret 1 ...................... <me>
+  [ 38] objcall 36 .............................. me.updateLocZ()
+  [ 40] ret
+end
+
+on miniprintz me
+  [  0] getprop 34 .............................. <children>
+  [  2] peek 0
+  [  4] pusharglist 1
+  [  6] extcall 48
+  [  8] pushint8 1
+  [ 10] peek 0
+  [ 12] peek 2
+  [ 14] lteq
+  [ 15] jmpifz [ 69] ............................ repeat with i in children
+  [ 18] peek 2
+  [ 20] peek 1
+  [ 22] pusharglist 2
+  [ 24] extcall 44
+  [ 26] setlocal 0
+  [ 28] pushcons 10 ............................. <"z:">
+  [ 30] getlocal 0 .............................. <i>
+  [ 32] getobjprop 33 ........................... <i.z>
+  [ 34] joinstr ................................. <"z:" & i.z>
+  [ 35] pushcons 11 ............................. <"+ lrs:">
+  [ 37] joinpadstr .............................. <"z:" & i.z && "+ lrs:">
+  [ 38] getlocal 0 .............................. <i>
+  [ 40] pusharglist 1 ........................... <i>
+  [ 42] objcall 196 ............................. <i.getNumLayers()>
+  [ 44] joinstr ................................. <"z:" & i.z && "+ lrs:" & i.getNumLayers()>
+  [ 45] pushcons 12 ............................. <" = ">
+  [ 47] joinpadstr .............................. <"z:" & i.z && "+ lrs:" & i.getNumLayers() && " = ">
+  [ 48] getlocal 0 .............................. <i>
+  [ 50] getobjprop 33 ........................... <i.z>
+  [ 52] getlocal 0 .............................. <i>
+  [ 54] pusharglist 1 ........................... <i>
+  [ 56] objcall 196 ............................. <i.getNumLayers()>
+  [ 58] add ..................................... <i.z + i.getNumLayers()>
+  [ 59] joinstr ................................. <"z:" & i.z && "+ lrs:" & i.getNumLayers() && " = " & i.z + i.getNumLayers()>
+  [ 60] pusharglistnoret 1 ...................... <"z:" & i.z && "+ lrs:" & i.getNumLayers() && " = " & i.z + i.getNumLayers()>
+  [ 62] extcall 79 .............................. put "z:" & i.z && "+ lrs:" & i.getNumLayers() && " = " & i.z + i.getNumLayers()
+  [ 64] pushint8 1
+  [ 66] add
+  [ 67] endrepeat [ 10]
+  [ 69] pop 3
+  [ 71] ret
+end
+
+on setScale me, arg1, arg2
+  [  0] getparam 1 .............................. <arg1>
+  [  2] pushsymb 32 ............................. <#point>
+  [  4] pusharglist 2 ........................... <arg1, #point>
+  [  6] extcall 139 ............................. <ilk(arg1, #point)>
+  [  8] jmpifz [ 34] ............................ if ilk(arg1, #point) then / else
+  [ 11] getparam 1 .............................. <arg1>
+  [ 13] pushint8 1 .............................. <1>
+  [ 15] pusharglist 2 ........................... <arg1, 1>
+  [ 17] objcall 44 .............................. <arg1[1]>
+  [ 19] setprop 229 ............................. xscale = arg1[1]
+  [ 21] getparam 1 .............................. <arg1>
+  [ 23] pushint8 2 .............................. <2>
+  [ 25] pusharglist 2 ........................... <arg1, 2>
+  [ 27] objcall 44 .............................. <arg1[2]>
+  [ 29] setprop 230 ............................. yscale = arg1[2]
+  [ 31] jmp [ 73]
+  [ 34] getparam 1 .............................. <arg1>
+  [ 36] pushsymb 282 ............................ <#number>
+  [ 39] pusharglist 2 ........................... <arg1, #number>
+  [ 41] extcall 139 ............................. <ilk(arg1, #number)>
+  [ 43] jmpifz [ 73] ............................ if ilk(arg1, #number) then
+  [ 46] getparam 1 .............................. <arg1>
+  [ 48] setprop 229 ............................. xscale = arg1
+  [ 50] getparam 2 .............................. <arg2>
+  [ 52] pushsymb 282 ............................ <#number>
+  [ 55] pusharglist 2 ........................... <arg2, #number>
+  [ 57] extcall 139 ............................. <ilk(arg2, #number)>
+  [ 59] jmpifz [ 69] ............................ if ilk(arg2, #number) then / else
+  [ 62] getparam 2 .............................. <arg2>
+  [ 64] setprop 230 ............................. yscale = arg2
+  [ 66] jmp [ 73]
+  [ 69] getparam 1 .............................. <arg1>
+  [ 71] setprop 230 ............................. yscale = arg1
+  [ 73] getparam 0 .............................. <me>
+  [ 75] pusharglistnoret 1 ...................... <me>
+  [ 77] objcall 78 .............................. me.updateTransform()
+  [ 79] ret
+end
+
+on setXScale me, xs
+  [  0] getparam 1 .............................. <xs>
+  [  2] setprop 229 ............................. xscale = xs
+  [  4] getparam 0 .............................. <me>
+  [  6] pusharglistnoret 1 ...................... <me>
+  [  8] objcall 78 .............................. me.updateTransform()
+  [ 10] ret
+end
+
+on setYScale me, ys
+  [  0] getparam 1 .............................. <ys>
+  [  2] setprop 230 ............................. yscale = ys
+  [  4] getparam 0 .............................. <me>
+  [  6] pusharglistnoret 1 ...................... <me>
+  [  8] objcall 78 .............................. me.updateTransform()
+  [ 10] ret
+end
+
+on getScale me
+  [  0] getprop 229 ............................. <xscale>
+  [  2] getprop 230 ............................. <yscale>
+  [  4] pusharglist 2 ........................... <xscale, yscale>
+  [  6] extcall 32 .............................. <point(xscale, yscale)>
+  [  8] pusharglistnoret 1 ...................... <point(xscale, yscale)>
+  [ 10] extcall 19 .............................. return point(xscale, yscale)
+  [ 12] ret
+end
+
+on getXScale me
+  [  0] getprop 229 ............................. <xscale>
+  [  2] pusharglistnoret 1 ...................... <xscale>
+  [  4] extcall 19 .............................. return xscale
+  [  6] ret
+end
+
+on getYScale me
+  [  0] getprop 230 ............................. <yscale>
+  [  2] pusharglistnoret 1 ...................... <yscale>
+  [  4] extcall 19 .............................. return yscale
+  [  6] ret
+end
+
+on normalizeRotation me
+  [  0] getprop 117 ............................. <rotation>
+  [  2] setlocal 0 .............................. r = rotation
+  [  4] getlocal 0 .............................. <r>
+  [  6] pushzero ................................ <0>
+  [  7] lt ...................................... <r < 0>
+  [  8] getlocal 0 .............................. <r>
+  [ 10] pushint16 359 ........................... <359>
+  [ 13] gt ...................................... <r > 359>
+  [ 14] or ...................................... <(r < 0) or (r > 359)>
+  [ 15] jmpifz [ 32] ............................ repeat while (r < 0) or (r > 359)
+  [ 18] getlocal 0 .............................. <r>
+  [ 20] pushint16 360 ........................... <360>
+  [ 23] add ..................................... <r + 360>
+  [ 24] pushint16 360 ........................... <360>
+  [ 27] mod ..................................... <(r + 360) mod 360>
+  [ 28] setlocal 0 .............................. r = (r + 360) mod 360
+  [ 30] endrepeat [  4]
+  [ 32] getlocal 0 .............................. <r>
+  [ 34] getprop 117 ............................. <rotation>
+  [ 36] nteq .................................... <r <> rotation>
+  [ 37] jmpifz [ 48] ............................ if r <> rotation then
+  [ 40] getparam 0 .............................. <me>
+  [ 42] getlocal 0 .............................. <r>
+  [ 44] pusharglistnoret 2 ...................... <me, r>
+  [ 46] objcall 70 .............................. me.setRotation(r)
+  [ 48] ret
+end
+
+on setRotation me, r
+  [  0] getparam 1 .............................. <r>
+  [  2] setprop 117 ............................. rotation = r
+  [  4] getparam 0 .............................. <me>
+  [  6] pusharglistnoret 1 ...................... <me>
+  [  8] objcall 78 .............................. me.updateTransform()
+  [ 10] ret
+end
+
+on getRotation me
+  [  0] getprop 117 ............................. <rotation>
+  [  2] pusharglistnoret 1 ...................... <rotation>
+  [  4] extcall 19 .............................. return rotation
+  [  6] ret
+end
+
+on setRotationRel me, r, othernode
+  [  0] getparam 2 .............................. <othernode>
+  [  2] pusharglist 1 ........................... <othernode>
+  [  4] extcall 41 .............................. <voidp(othernode)>
+  [  6] jmpifz [ 20] ............................ if voidp(othernode) then
+  [  9] getglobal 42 ............................ <glob>
+  [ 11] getchainedprop 275 ...................... <glob.managers>
+  [ 14] getchainedprop 51 ....................... <glob.managers.node>
+  [ 16] getobjprop 25 ........................... <glob.managers.node.ROOT>
+  [ 18] setparam 2 .............................. othernode = glob.managers.node.ROOT
+  [ 20] getparam 0 .............................. <me>
+  [ 22] getprop 117 ............................. <rotation>
+  [ 24] getparam 1 .............................. <r>
+  [ 26] add ..................................... <rotation + r>
+  [ 27] getparam 0 .............................. <me>
+  [ 29] getparam 2 .............................. <othernode>
+  [ 31] pusharglist 2 ........................... <me, othernode>
+  [ 33] objcall 207 ............................. <me.getRotationRel(othernode)>
+  [ 35] sub ..................................... <rotation + r - me.getRotationRel(othernode)>
+  [ 36] pusharglistnoret 2 ...................... <me, rotation + r - me.getRotationRel(othernode)>
+  [ 38] objcall 70 .............................. me.setRotation(rotation + r - me.getRotationRel(othernode))
+  [ 40] ret
+end
+
+on getRotationRel me, othernode
+  [  0] getparam 1 .............................. <othernode>
+  [  2] pusharglist 1 ........................... <othernode>
+  [  4] extcall 41 .............................. <voidp(othernode)>
+  [  6] jmpifz [ 20] ............................ if voidp(othernode) then
+  [  9] getglobal 42 ............................ <glob>
+  [ 11] getchainedprop 275 ...................... <glob.managers>
+  [ 14] getchainedprop 51 ....................... <glob.managers.node>
+  [ 16] getobjprop 25 ........................... <glob.managers.node.ROOT>
+  [ 18] setparam 1 .............................. othernode = glob.managers.node.ROOT
+  [ 20] getprop 225 ............................. <screenProps>
+  [ 22] getobjprop 117 .......................... <screenProps.rotation>
+  [ 24] getparam 1 .............................. <othernode>
+  [ 26] getchainedprop 225 ...................... <othernode.screenProps>
+  [ 28] getobjprop 117 .......................... <othernode.screenProps.rotation>
+  [ 30] sub ..................................... <screenProps.rotation - othernode.screenProps.rotation>
+  [ 31] pusharglistnoret 1 ...................... <screenProps.rotation - othernode.screenProps.rotation>
+  [ 33] extcall 19 .............................. return screenProps.rotation - othernode.screenProps.rotation
+  [ 35] ret
+end
+
+on setAlpha me, a
+  [  0] getparam 1 .............................. <a>
+  [  2] setprop 224 ............................. alpha = a
+  [  4] getparam 0 .............................. <me>
+  [  6] pusharglistnoret 1 ...................... <me>
+  [  8] objcall 78 .............................. me.updateTransform()
+  [ 10] ret
+end
+
+on getAlpha me
+  [  0] getprop 224 ............................. <alpha>
+  [  2] pusharglistnoret 1 ...................... <alpha>
+  [  4] extcall 19 .............................. return alpha
+  [  6] ret
+end
+
+on addMouseListener me, obj
+  [  0] pushsymb 150 ............................ <#addMouseListener>
+  [  2] getprop 34 .............................. <children>
+  [  4] getparam 1 .............................. <obj>
+  [  6] pusharglistnoret 3 ...................... <#addMouseListener, children, obj>
+  [  8] extcall 154 ............................. call(#addMouseListener, children, obj)
+  [ 10] ret
+end
+
+on removeMouseListener me, obj
+  [  0] pushsymb 151 ............................ <#removeMouseListener>
+  [  2] getprop 34 .............................. <children>
+  [  4] getparam 1 .............................. <obj>
+  [  6] pusharglistnoret 3 ...................... <#removeMouseListener, children, obj>
+  [  8] extcall 154 ............................. call(#removeMouseListener, children, obj)
+  [ 10] ret
+end
+
+on mouseWithin me
+  [  0] getprop 34 .............................. <children>
+  [  2] peek 0
+  [  4] pusharglist 1
+  [  6] extcall 48
+  [  8] pushint8 1
+  [ 10] peek 0
+  [ 12] peek 2
+  [ 14] lteq
+  [ 15] jmpifz [ 48] ............................ repeat with i in children
+  [ 18] peek 2
+  [ 20] peek 1
+  [ 22] pusharglist 2
+  [ 24] extcall 44
+  [ 26] setlocal 0
+  [ 28] getlocal 0 .............................. <i>
+  [ 30] pusharglist 1 ........................... <i>
+  [ 32] objcall 149 ............................. <i.mouseWithin()>
+  [ 34] jmpifz [ 43] ............................ if i.mouseWithin() then
+  [ 37] pushint8 1 .............................. <1>
+  [ 39] pusharglistnoret 1 ...................... <1>
+  [ 41] extcall 19 .............................. return 1
+  [ 43] pushint8 1
+  [ 45] add
+  [ 46] endrepeat [ 10]
+  [ 48] pop 3
+  [ 50] ret
+end
+
+on setVisible me, vis
+  [  0] getparam 1 .............................. <vis>
+  [  2] setprop 113 ............................. visible = vis
+  [  4] pushsymb 288 ............................ <#setParentVisible>
+  [  7] getprop 34 .............................. <children>
+  [  9] getparam 1 .............................. <vis>
+  [ 11] pusharglistnoret 3 ...................... <#setParentVisible, children, vis>
+  [ 13] extcall 154 ............................. call(#setParentVisible, children, vis)
+  [ 15] getparam 0 .............................. <me>
+  [ 17] pusharglistnoret 1 ...................... <me>
+  [ 19] objcall 78 .............................. me.updateTransform()
+  [ 21] ret
+end
+
+on getVisible me
+  [  0] getprop 113 ............................. <visible>
+  [  2] pusharglistnoret 1 ...................... <visible>
+  [  4] extcall 19 .............................. return visible
+  [  6] ret
+end
+
+on updateTransform me
+  [  0] getprop 262 ............................. <parent>
+  [  3] pusharglist 1 ........................... <parent>
+  [  5] extcall 41 .............................. <voidp(parent)>
+  [  7] not ..................................... <not voidp(parent)>
+  [  8] jmpifz [224] ............................ if not voidp(parent) then / else
+  [ 11] getprop 262 ............................. <parent>
+  [ 14] getobjprop 225 .......................... <parent.screenProps>
+  [ 16] setlocal 0 .............................. psp = parent.screenProps
+  [ 18] getprop 225 ............................. <screenProps>
+  [ 20] getprop 33 .............................. <z>
+  [ 22] getprop 289 ............................. <zoffset>
+  [ 25] add ..................................... <z + zoffset>
+  [ 26] setobjprop 33 ........................... screenProps.z = z + zoffset
+  [ 28] getprop 225 ............................. <screenProps>
+  [ 30] pushint8 100 ............................ <100>
+  [ 32] pushzero ................................ <0>
+  [ 33] getprop 224 ............................. <alpha>
+  [ 35] getlocal 0 .............................. <psp>
+  [ 37] getobjprop 224 .......................... <psp.alpha>
+  [ 39] mul ..................................... <alpha * psp.alpha>
+  [ 40] pushcons 13 ............................. <0.01>
+  [ 42] mul ..................................... <alpha * psp.alpha * 0.01>
+  [ 43] pusharglist 2 ........................... <0, alpha * psp.alpha * 0.01>
+  [ 45] extcall 291 ............................. <max(0, alpha * psp.alpha * 0.01)>
+  [ 48] pusharglist 2 ........................... <100, max(0, alpha * psp.alpha * 0.01)>
+  [ 50] extcall 290 ............................. <min(100, max(0, alpha * psp.alpha * 0.01))>
+  [ 53] setobjprop 224 .......................... screenProps.alpha = min(100, max(0, alpha * psp.alpha * 0.01))
+  [ 55] getprop 225 ............................. <screenProps>
+  [ 57] getprop 113 ............................. <visible>
+  [ 59] getlocal 0 .............................. <psp>
+  [ 61] getobjprop 113 .......................... <psp.visible>
+  [ 63] and ..................................... <visible and psp.visible>
+  [ 64] setobjprop 113 .......................... screenProps.visible = visible and psp.visible
+  [ 66] getprop 225 ............................. <screenProps>
+  [ 68] getlocal 0 .............................. <psp>
+  [ 70] getobjprop 117 .......................... <psp.rotation>
+  [ 72] getprop 117 ............................. <rotation>
+  [ 74] add ..................................... <psp.rotation + rotation>
+  [ 75] setobjprop 117 .......................... screenProps.rotation = psp.rotation + rotation
+  [ 77] getprop 225 ............................. <screenProps>
+  [ 79] getprop 229 ............................. <xscale>
+  [ 81] getlocal 0 .............................. <psp>
+  [ 83] getobjprop 229 .......................... <psp.xscale>
+  [ 85] mul ..................................... <xscale * psp.xscale>
+  [ 86] setobjprop 229 .......................... screenProps.xscale = xscale * psp.xscale
+  [ 88] getprop 225 ............................. <screenProps>
+  [ 90] getprop 230 ............................. <yscale>
+  [ 92] getlocal 0 .............................. <psp>
+  [ 94] getobjprop 230 .......................... <psp.yscale>
+  [ 96] mul ..................................... <yscale * psp.yscale>
+  [ 97] setobjprop 230 .......................... screenProps.yscale = yscale * psp.yscale
+  [ 99] getprop 225 ............................. <screenProps>
+  [101] getprop 267 ............................. <parentXFlip>
+  [104] getprop 227 ............................. <xflip>
+  [106] or ...................................... <parentXFlip or xflip>
+  [107] getprop 267 ............................. <parentXFlip>
+  [110] getprop 227 ............................. <xflip>
+  [112] and ..................................... <parentXFlip and xflip>
+  [113] not ..................................... <not (parentXFlip and xflip)>
+  [114] and ..................................... <(parentXFlip or xflip) and not (parentXFlip and xflip)>
+  [115] setobjprop 227 .......................... screenProps.xflip = (parentXFlip or xflip) and not (parentXFlip and xflip)
+  [117] getprop 225 ............................. <screenProps>
+  [119] getprop 268 ............................. <parentYFlip>
+  [122] getprop 228 ............................. <yflip>
+  [124] or ...................................... <parentYFlip or yflip>
+  [125] getprop 268 ............................. <parentYFlip>
+  [128] getprop 228 ............................. <yflip>
+  [130] and ..................................... <parentYFlip and yflip>
+  [131] not ..................................... <not (parentYFlip and yflip)>
+  [132] and ..................................... <(parentYFlip or yflip) and not (parentYFlip and yflip)>
+  [133] setobjprop 228 .......................... screenProps.yflip = (parentYFlip or yflip) and not (parentYFlip and yflip)
+  [135] getprop 158 ............................. <x>
+  [137] setlocal 1 .............................. myx = x
+  [139] getprop 226 ............................. <y>
+  [141] setlocal 2 .............................. myY = y
+  [143] getprop 267 ............................. <parentXFlip>
+  [146] jmpifz [154] ............................ if parentXFlip then
+  [149] getprop 158 ............................. <x>
+  [151] inv ..................................... <-x>
+  [152] setlocal 1 .............................. myx = -x
+  [154] getprop 268 ............................. <parentYFlip>
+  [157] jmpifz [165] ............................ if parentYFlip then
+  [160] getprop 226 ............................. <y>
+  [162] inv ..................................... <-y>
+  [163] setlocal 2 .............................. myY = -y
+  [165] getprop 225 ............................. <screenProps>
+  [167] getlocal 0 .............................. <psp>
+  [169] getobjprop 158 .......................... <psp.x>
+  [171] getlocal 1 .............................. <myx>
+  [173] add ..................................... <psp.x + myx>
+  [174] pushint8 1 .............................. <1>
+  [176] pushint8 2 .............................. <2>
+  [178] getprop 227 ............................. <xflip>
+  [180] mul ..................................... <2 * xflip>
+  [181] sub ..................................... <1 - (2 * xflip)>
+  [182] getprop 247 ............................. <baseXReg>
+  [184] getprop 225 ............................. <screenProps>
+  [186] getobjprop 229 .......................... <screenProps.xscale>
+  [188] mul ..................................... <baseXReg * screenProps.xscale>
+  [189] mul ..................................... <(1 - (2 * xflip)) * (baseXReg * screenProps.xscale)>
+  [190] sub ..................................... <psp.x + myx - ((1 - (2 * xflip)) * (baseXReg * screenProps.xscale))>
+  [191] setobjprop 158 .......................... screenProps.x = psp.x + myx - ((1 - (2 * xflip)) * (baseXReg * screenProps.xscale))
+  [193] getprop 225 ............................. <screenProps>
+  [195] getlocal 0 .............................. <psp>
+  [197] getobjprop 226 .......................... <psp.y>
+  [199] getlocal 2 .............................. <myY>
+  [201] add ..................................... <psp.y + myY>
+  [202] pushint8 1 .............................. <1>
+  [204] pushint8 2 .............................. <2>
+  [206] getprop 228 ............................. <yflip>
+  [208] mul ..................................... <2 * yflip>
+  [209] sub ..................................... <1 - (2 * yflip)>
+  [210] getprop 248 ............................. <baseYReg>
+  [212] getprop 225 ............................. <screenProps>
+  [214] getobjprop 230 .......................... <screenProps.yscale>
+  [216] mul ..................................... <baseYReg * screenProps.yscale>
+  [217] mul ..................................... <(1 - (2 * yflip)) * (baseYReg * screenProps.yscale)>
+  [218] sub ..................................... <psp.y + myY - ((1 - (2 * yflip)) * (baseYReg * screenProps.yscale))>
+  [219] setobjprop 226 .......................... screenProps.y = psp.y + myY - ((1 - (2 * yflip)) * (baseYReg * screenProps.yscale))
+  [221] jmp [228]
+  [224] getparam 0 .............................. <me>
+  [226] setprop 225 ............................. screenProps = me
+  [228] pushsymb 78 ............................. <#updateTransform>
+  [230] getprop 34 .............................. <children>
+  [232] pusharglistnoret 2 ...................... <#updateTransform, children>
+  [234] extcall 154 ............................. call(#updateTransform, children)
+  [236] ret
+end
+
+on updateSprite me
+  [  0] pushsymb 210 ............................ <#updateSprite>
+  [  2] getprop 34 .............................. <children>
+  [  4] pusharglistnoret 2 ...................... <#updateSprite, children>
+  [  6] extcall 154 ............................. call(#updateSprite, children)
+  [  8] ret
+end
+
+on setRegPoint me, pt
+  [  0] getparam 1 .............................. <pt>
+  [  2] pushint8 1 .............................. <1>
+  [  4] pusharglist 2 ........................... <pt, 1>
+  [  6] objcall 44 .............................. <pt[1]>
+  [  8] setprop 247 ............................. baseXReg = pt[1]
+  [ 10] getparam 1 .............................. <pt>
+  [ 12] pushint8 2 .............................. <2>
+  [ 14] pusharglist 2 ........................... <pt, 2>
+  [ 16] objcall 44 .............................. <pt[2]>
+  [ 18] setprop 248 ............................. baseYReg = pt[2]
+  [ 20] getparam 0 .............................. <me>
+  [ 22] pusharglistnoret 1 ...................... <me>
+  [ 24] objcall 78 .............................. me.updateTransform()
+  [ 26] ret
+end
+
+on getRegPoint me
+  [  0] getprop 247 ............................. <baseXReg>
+  [  2] getprop 248 ............................. <baseYReg>
+  [  4] pusharglist 2 ........................... <baseXReg, baseYReg>
+  [  6] extcall 32 .............................. <point(baseXReg, baseYReg)>
+  [  8] pusharglistnoret 1 ...................... <point(baseXReg, baseYReg)>
+  [ 10] extcall 19 .............................. return point(baseXReg, baseYReg)
+  [ 12] ret
+end
+
+on setXReg me, num
+  [  0] getparam 1 .............................. <num>
+  [  2] setprop 247 ............................. baseXReg = num
+  [  4] getparam 0 .............................. <me>
+  [  6] pusharglistnoret 1 ...................... <me>
+  [  8] objcall 78 .............................. me.updateTransform()
+  [ 10] ret
+end
+
+on getXReg me
+  [  0] getprop 247 ............................. <baseXReg>
+  [  2] pusharglistnoret 1 ...................... <baseXReg>
+  [  4] extcall 19 .............................. return baseXReg
+  [  6] ret
+end
+
+on setYReg me, num
+  [  0] getparam 1 .............................. <num>
+  [  2] setprop 248 ............................. baseYReg = num
+  [  4] getparam 0 .............................. <me>
+  [  6] pusharglistnoret 1 ...................... <me>
+  [  8] objcall 78 .............................. me.updateTransform()
+  [ 10] ret
+end
+
+on getYReg me, num
+  [  0] getprop 248 ............................. <baseYReg>
+  [  2] pusharglistnoret 1 ...................... <baseYReg>
+  [  4] extcall 19 .............................. return baseYReg
+  [  6] ret
+end
+
+on setZOffset me, num
+  [  0] getparam 1 .............................. <num>
+  [  2] setprop 289 ............................. zoffset = num
+  [  5] getparam 0 .............................. <me>
+  [  7] pusharglistnoret 1 ...................... <me>
+  [  9] objcall 78 .............................. me.updateTransform()
+  [ 11] pushsymb 217 ............................ <#setZOffset>
+  [ 13] getprop 34 .............................. <children>
+  [ 15] getparam 1 .............................. <num>
+  [ 17] pusharglistnoret 3 ...................... <#setZOffset, children, num>
+  [ 19] extcall 154 ............................. call(#setZOffset, children, num)
+  [ 21] ret
+end
+
+on getAt me, idstr
+  [  0] getparam 1 .............................. <idstr>
+  [  2] getobjprop 295 .......................... <idstr.integerp>
+  [  5] jmpifz [ 34] ............................ if idstr.integerp then
+  [  8] getparam 1 .............................. <idstr>
+  [ 10] getprop 34 .............................. <children>
+  [ 12] getobjprop 48 ........................... <children.count>
+  [ 14] lteq .................................... <idstr <= children.count>
+  [ 15] jmpifz [ 30] ............................ if idstr <= children.count then
+  [ 18] getprop 34 .............................. <children>
+  [ 20] getparam 1 .............................. <idstr>
+  [ 22] pusharglist 2 ........................... <children, idstr>
+  [ 24] objcall 44 .............................. <children[idstr]>
+  [ 26] pusharglistnoret 1 ...................... <children[idstr]>
+  [ 28] extcall 19 .............................. return children[idstr]
+  [ 30] pusharglistnoret 0 ...................... <>
+  [ 32] extcall 19 .............................. return 
+  [ 34] getprop 220 ............................. <namedChildren>
+  [ 36] getparam 1 .............................. <idstr>
+  [ 38] pusharglist 2 ........................... <namedChildren, idstr>
+  [ 40] objcall 44 .............................. <namedChildren[idstr]>
+  [ 42] pusharglistnoret 1 ...................... <namedChildren[idstr]>
+  [ 44] extcall 19 .............................. return namedChildren[idstr]
+  [ 46] ret
+end
+
+on getPropAt me, indx
+  [  0] getparam 1 .............................. <indx>
+  [  2] getprop 34 .............................. <children>
+  [  4] getobjprop 48 ........................... <children.count>
+  [  6] gt ...................................... <indx > children.count>
+  [  7] getparam 1 .............................. <indx>
+  [  9] getobjprop 295 .......................... <indx.integerp>
+  [ 12] not ..................................... <not indx.integerp>
+  [ 13] or ...................................... <(indx > children.count) or not indx.integerp>
+  [ 14] jmpifz [ 27] ............................ if (indx > children.count) or not indx.integerp then
+  [ 17] pushcons 14 ............................. <"index out of range">
+  [ 19] pusharglistnoret 1 ...................... <"index out of range">
+  [ 21] extcall 132 ............................. complain("index out of range")
+  [ 23] pusharglistnoret 0 ...................... <>
+  [ 25] extcall 19 .............................. return 
+  [ 27] getprop 34 .............................. <children>
+  [ 29] getparam 1 .............................. <indx>
+  [ 31] pusharglist 2 ........................... <children, indx>
+  [ 33] objcall 44 .............................. <children[indx]>
+  [ 35] getobjprop 219 .......................... <children[indx].localID>
+  [ 37] pusharglistnoret 1 ...................... <children[indx].localID>
+  [ 39] extcall 19 .............................. return children[indx].localID
+  [ 41] ret
+end

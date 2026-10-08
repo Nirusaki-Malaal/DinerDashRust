@@ -1,0 +1,129 @@
+property nodeID
+
+on getPropertyDescriptionList me
+  [  0] pusharglist 0 ........................... <[:]>
+  [  2] pushproplist ............................ <[:]>
+  [  3] setlocal 0 .............................. e = [:]
+  [  5] getlocal 0 .............................. <e>
+  [  7] pushsymb 83 ............................. <#comment>
+  [  9] pushcons 0 .............................. <"this is a frame of animation:">
+  [ 11] pusharglistnoret 3 ...................... <e, #comment, "this is a frame of animation:">
+  [ 13] objcall 84 .............................. e[#comment] = "this is a frame of animation:"
+  [ 15] getlocal 0 .............................. <e>
+  [ 17] pushsymb 85 ............................. <#format>
+  [ 19] pushsymb 86 ............................. <#string>
+  [ 21] pusharglistnoret 3 ...................... <e, #format, #string>
+  [ 23] objcall 84 .............................. e[#format] = #string
+  [ 25] getlocal 0 .............................. <e>
+  [ 27] pushsymb 87 ............................. <#default>
+  [ 29] pushcons 1 .............................. <EMPTY>
+  [ 31] pusharglistnoret 3 ...................... <e, #default, EMPTY>
+  [ 33] objcall 84 .............................. e[#default] = EMPTY
+  [ 35] pusharglist 0 ........................... <[:]>
+  [ 37] pushproplist ............................ <[:]>
+  [ 38] setlocal 1 .............................. a = [:]
+  [ 40] getlocal 1 .............................. <a>
+  [ 42] pushsymb 83 ............................. <#comment>
+  [ 44] pushcons 2 .............................. <"regpoint">
+  [ 46] pusharglistnoret 3 ...................... <a, #comment, "regpoint">
+  [ 48] objcall 84 .............................. a[#comment] = "regpoint"
+  [ 50] getlocal 1 .............................. <a>
+  [ 52] pushsymb 85 ............................. <#format>
+  [ 54] pushsymb 88 ............................. <#boolean>
+  [ 56] pusharglistnoret 3 ...................... <a, #format, #boolean>
+  [ 58] objcall 84 .............................. a[#format] = #boolean
+  [ 60] getlocal 1 .............................. <a>
+  [ 62] pushsymb 87 ............................. <#default>
+  [ 64] pushzero ................................ <0>
+  [ 65] pusharglistnoret 3 ...................... <a, #default, 0>
+  [ 67] objcall 84 .............................. a[#default] = 0
+  [ 69] pusharglist 0 ........................... <[:]>
+  [ 71] pushproplist ............................ <[:]>
+  [ 72] setlocal 2 .............................. b = [:]
+  [ 74] getlocal 2 .............................. <b>
+  [ 76] pushsymb 83 ............................. <#comment>
+  [ 78] pushcons 3 .............................. <"member">
+  [ 80] pusharglistnoret 3 ...................... <b, #comment, "member">
+  [ 82] objcall 84 .............................. b[#comment] = "member"
+  [ 84] getlocal 2 .............................. <b>
+  [ 86] pushsymb 85 ............................. <#format>
+  [ 88] pushsymb 88 ............................. <#boolean>
+  [ 90] pusharglistnoret 3 ...................... <b, #format, #boolean>
+  [ 92] objcall 84 .............................. b[#format] = #boolean
+  [ 94] getlocal 2 .............................. <b>
+  [ 96] pushsymb 87 ............................. <#default>
+  [ 98] pushzero ................................ <0>
+  [ 99] pusharglistnoret 3 ...................... <b, #default, 0>
+  [101] objcall 84 .............................. b[#default] = 0
+  [103] pusharglist 0 ........................... <[:]>
+  [105] pushproplist ............................ <[:]>
+  [106] setlocal 3 .............................. c = [:]
+  [108] getlocal 3 .............................. <c>
+  [110] pushsymb 83 ............................. <#comment>
+  [112] pushcons 4 .............................. <"loc">
+  [114] pusharglistnoret 3 ...................... <c, #comment, "loc">
+  [116] objcall 84 .............................. c[#comment] = "loc"
+  [118] getlocal 3 .............................. <c>
+  [120] pushsymb 85 ............................. <#format>
+  [122] pushsymb 88 ............................. <#boolean>
+  [124] pusharglistnoret 3 ...................... <c, #format, #boolean>
+  [126] objcall 84 .............................. c[#format] = #boolean
+  [128] getlocal 3 .............................. <c>
+  [130] pushsymb 87 ............................. <#default>
+  [132] pushzero ................................ <0>
+  [133] pusharglistnoret 3 ...................... <c, #default, 0>
+  [135] objcall 84 .............................. c[#default] = 0
+  [137] pusharglist 0 ........................... <[:]>
+  [139] pushproplist ............................ <[:]>
+  [140] setlocal 4 .............................. d = [:]
+  [142] getlocal 4 .............................. <d>
+  [144] pushsymb 83 ............................. <#comment>
+  [146] pushcons 5 .............................. <"rotation">
+  [148] pusharglistnoret 3 ...................... <d, #comment, "rotation">
+  [150] objcall 84 .............................. d[#comment] = "rotation"
+  [152] getlocal 4 .............................. <d>
+  [154] pushsymb 85 ............................. <#format>
+  [156] pushsymb 88 ............................. <#boolean>
+  [158] pusharglistnoret 3 ...................... <d, #format, #boolean>
+  [160] objcall 84 .............................. d[#format] = #boolean
+  [162] getlocal 4 .............................. <d>
+  [164] pushsymb 87 ............................. <#default>
+  [166] pushzero ................................ <0>
+  [167] pusharglistnoret 3 ...................... <d, #default, 0>
+  [169] objcall 84 .............................. d[#default] = 0
+  [171] pusharglist 0 ........................... <[:]>
+  [173] pushproplist ............................ <[:]>
+  [174] setlocal 0 .............................. e = [:]
+  [176] getlocal 0 .............................. <e>
+  [178] pushsymb 83 ............................. <#comment>
+  [180] pushcons 6 .............................. <"flip">
+  [182] pusharglistnoret 3 ...................... <e, #comment, "flip">
+  [184] objcall 84 .............................. e[#comment] = "flip"
+  [186] getlocal 0 .............................. <e>
+  [188] pushsymb 85 ............................. <#format>
+  [190] pushsymb 88 ............................. <#boolean>
+  [192] pusharglistnoret 3 ...................... <e, #format, #boolean>
+  [194] objcall 84 .............................. e[#format] = #boolean
+  [196] getlocal 0 .............................. <e>
+  [198] pushsymb 87 ............................. <#default>
+  [200] pushzero ................................ <0>
+  [201] pusharglistnoret 3 ...................... <e, #default, 0>
+  [203] objcall 84 .............................. e[#default] = 0
+  [205] pushsymb 90 ............................. <#animID>
+  [207] getlocal 0 .............................. <e>
+  [209] pushsymb 116 ............................ <#regPoint>
+  [211] getlocal 1 .............................. <a>
+  [213] pushsymb 99 ............................. <#member>
+  [215] getlocal 2 .............................. <b>
+  [217] pushsymb 31 ............................. <#loc>
+  [219] getlocal 3 .............................. <c>
+  [221] pushsymb 117 ............................ <#rotation>
+  [223] getlocal 4 .............................. <d>
+  [225] pushsymb 118 ............................ <#flip>
+  [227] getlocal 0 .............................. <e>
+  [229] pusharglist 12 .......................... <[#animID: e, #regPoint: a, #member: b, #loc: c, #rotation: d, #flip: e]>
+  [231] pushproplist ............................ <[#animID: e, #regPoint: a, #member: b, #loc: c, #rotation: d, #flip: e]>
+  [232] pusharglistnoret 1 ...................... <[#animID: e, #regPoint: a, #member: b, #loc: c, #rotation: d, #flip: e]>
+  [234] extcall 19 .............................. return [#animID: e, #regPoint: a, #member: b, #loc: c, #rotation: d, #flip: e]
+  [236] ret
+end

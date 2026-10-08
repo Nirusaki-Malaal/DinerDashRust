@@ -1,0 +1,129 @@
+property nodeID
+
+on getPropertyDescriptionList me
+  [  0] pusharglist 0 ........................... <[:]>
+  [  2] pushproplist ............................ <[:]>
+  [  3] setlocal 0 .............................. c = [:]
+  [  5] getlocal 0 .............................. <c>
+  [  7] pushsymb 83 ............................. <#comment>
+  [  9] pushcons 0 .............................. <"node ID">
+  [ 11] pusharglistnoret 3 ...................... <c, #comment, "node ID">
+  [ 13] objcall 84 .............................. c[#comment] = "node ID"
+  [ 15] getlocal 0 .............................. <c>
+  [ 17] pushsymb 85 ............................. <#format>
+  [ 19] pushsymb 86 ............................. <#string>
+  [ 21] pusharglistnoret 3 ...................... <c, #format, #string>
+  [ 23] objcall 84 .............................. c[#format] = #string
+  [ 25] getlocal 0 .............................. <c>
+  [ 27] pushsymb 87 ............................. <#default>
+  [ 29] pushcons 1 .............................. <EMPTY>
+  [ 31] pusharglistnoret 3 ...................... <c, #default, EMPTY>
+  [ 33] objcall 84 .............................. c[#default] = EMPTY
+  [ 35] pusharglist 0 ........................... <[:]>
+  [ 37] pushproplist ............................ <[:]>
+  [ 38] setlocal 1 .............................. d = [:]
+  [ 40] getlocal 1 .............................. <d>
+  [ 42] pushsymb 83 ............................. <#comment>
+  [ 44] pushcons 2 .............................. <"this is a dummy of:">
+  [ 46] pusharglistnoret 3 ...................... <d, #comment, "this is a dummy of:">
+  [ 48] objcall 84 .............................. d[#comment] = "this is a dummy of:"
+  [ 50] getlocal 1 .............................. <d>
+  [ 52] pushsymb 85 ............................. <#format>
+  [ 54] pushsymb 86 ............................. <#string>
+  [ 56] pusharglistnoret 3 ...................... <d, #format, #string>
+  [ 58] objcall 84 .............................. d[#format] = #string
+  [ 60] getlocal 1 .............................. <d>
+  [ 62] pushsymb 87 ............................. <#default>
+  [ 64] pushcons 1 .............................. <EMPTY>
+  [ 66] pusharglistnoret 3 ...................... <d, #default, EMPTY>
+  [ 68] objcall 84 .............................. d[#default] = EMPTY
+  [ 70] pusharglist 0 ........................... <[:]>
+  [ 72] pushproplist ............................ <[:]>
+  [ 73] setlocal 2 .............................. e = [:]
+  [ 75] getlocal 2 .............................. <e>
+  [ 77] pushsymb 83 ............................. <#comment>
+  [ 79] pushcons 3 .............................. <"this is a frame of animation:">
+  [ 81] pusharglistnoret 3 ...................... <e, #comment, "this is a frame of animation:">
+  [ 83] objcall 84 .............................. e[#comment] = "this is a frame of animation:"
+  [ 85] getlocal 2 .............................. <e>
+  [ 87] pushsymb 85 ............................. <#format>
+  [ 89] pushsymb 86 ............................. <#string>
+  [ 91] pusharglistnoret 3 ...................... <e, #format, #string>
+  [ 93] objcall 84 .............................. e[#format] = #string
+  [ 95] getlocal 2 .............................. <e>
+  [ 97] pushsymb 87 ............................. <#default>
+  [ 99] pushcons 1 .............................. <EMPTY>
+  [101] pusharglistnoret 3 ...................... <e, #default, EMPTY>
+  [103] objcall 84 .............................. e[#default] = EMPTY
+  [105] pusharglist 0 ........................... <[:]>
+  [107] pushproplist ............................ <[:]>
+  [108] setlocal 3 .............................. h = [:]
+  [110] getlocal 3 .............................. <h>
+  [112] pushsymb 83 ............................. <#comment>
+  [114] pushcons 4 .............................. <"dynamic text?">
+  [116] pusharglistnoret 3 ...................... <h, #comment, "dynamic text?">
+  [118] objcall 84 .............................. h[#comment] = "dynamic text?"
+  [120] getlocal 3 .............................. <h>
+  [122] pushsymb 85 ............................. <#format>
+  [124] pushsymb 88 ............................. <#boolean>
+  [126] pusharglistnoret 3 ...................... <h, #format, #boolean>
+  [128] objcall 84 .............................. h[#format] = #boolean
+  [130] getlocal 3 .............................. <h>
+  [132] pushsymb 87 ............................. <#default>
+  [134] pushzero ................................ <0>
+  [135] pusharglistnoret 3 ...................... <h, #default, 0>
+  [137] objcall 84 .............................. h[#default] = 0
+  [139] pusharglist 0 ........................... <[:]>
+  [141] pushproplist ............................ <[:]>
+  [142] setlocal 4 .............................. f = [:]
+  [144] getlocal 4 .............................. <f>
+  [146] pushsymb 83 ............................. <#comment>
+  [148] pushcons 5 .............................. <"no sprite">
+  [150] pusharglistnoret 3 ...................... <f, #comment, "no sprite">
+  [152] objcall 84 .............................. f[#comment] = "no sprite"
+  [154] getlocal 4 .............................. <f>
+  [156] pushsymb 85 ............................. <#format>
+  [158] pushsymb 88 ............................. <#boolean>
+  [160] pusharglistnoret 3 ...................... <f, #format, #boolean>
+  [162] objcall 84 .............................. f[#format] = #boolean
+  [164] getlocal 4 .............................. <f>
+  [166] pushsymb 87 ............................. <#default>
+  [168] pushzero ................................ <0>
+  [169] pusharglistnoret 3 ...................... <f, #default, 0>
+  [171] objcall 84 .............................. f[#default] = 0
+  [173] pusharglist 0 ........................... <[:]>
+  [175] pushproplist ............................ <[:]>
+  [176] setlocal 5 .............................. g = [:]
+  [178] getlocal 5 .............................. <g>
+  [180] pushsymb 83 ............................. <#comment>
+  [182] pushcons 6 .............................. <"exclude">
+  [184] pusharglistnoret 3 ...................... <g, #comment, "exclude">
+  [186] objcall 84 .............................. g[#comment] = "exclude"
+  [188] getlocal 5 .............................. <g>
+  [190] pushsymb 85 ............................. <#format>
+  [192] pushsymb 88 ............................. <#boolean>
+  [194] pusharglistnoret 3 ...................... <g, #format, #boolean>
+  [196] objcall 84 .............................. g[#format] = #boolean
+  [198] getlocal 5 .............................. <g>
+  [200] pushsymb 87 ............................. <#default>
+  [202] pushzero ................................ <0>
+  [203] pusharglistnoret 3 ...................... <g, #default, 0>
+  [205] objcall 84 .............................. g[#default] = 0
+  [207] pushsymb 27 ............................. <#nodeID>
+  [209] getlocal 0 .............................. <c>
+  [211] pushsymb 89 ............................. <#dummyID>
+  [213] getlocal 1 .............................. <d>
+  [215] pushsymb 90 ............................. <#animID>
+  [217] getlocal 2 .............................. <e>
+  [219] pushsymb 91 ............................. <#dynamic>
+  [221] getlocal 3 .............................. <h>
+  [223] pushsymb 92 ............................. <#noSprite>
+  [225] getlocal 4 .............................. <f>
+  [227] pushsymb 93 ............................. <#exclude>
+  [229] getlocal 5 .............................. <g>
+  [231] pusharglist 12 .......................... <[#nodeID: c, #dummyID: d, #animID: e, #dynamic: h, #noSprite: f, #exclude: g]>
+  [233] pushproplist ............................ <[#nodeID: c, #dummyID: d, #animID: e, #dynamic: h, #noSprite: f, #exclude: g]>
+  [234] pusharglistnoret 1 ...................... <[#nodeID: c, #dummyID: d, #animID: e, #dynamic: h, #noSprite: f, #exclude: g]>
+  [236] extcall 19 .............................. return [#nodeID: c, #dummyID: d, #animID: e, #dynamic: h, #noSprite: f, #exclude: g]
+  [238] ret
+end

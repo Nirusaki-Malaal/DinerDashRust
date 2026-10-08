@@ -1,0 +1,101 @@
+property children, mouseListeners, type
+
+on new me, nodeList
+  [  0] pushsymb 29 ............................. <#Branch>
+  [  2] setprop 28 .............................. type = #Branch
+  [  4] getparam 1 .............................. <nodeList>
+  [  6] setprop 34 .............................. children = nodeList
+  [  8] pusharglist 0 ........................... <[]>
+  [ 10] pushlist ................................ <[]>
+  [ 11] setprop 152 ............................. mouseListeners = []
+  [ 13] getparam 0 .............................. <me>
+  [ 15] pusharglistnoret 1 ...................... <me>
+  [ 17] extcall 19 .............................. return me
+  [ 19] ret
+end
+
+on setVisible me, v
+  [  0] pushsymb 59 ............................. <#setVisible>
+  [  2] getprop 34 .............................. <children>
+  [  4] getparam 1 .............................. <v>
+  [  6] pusharglistnoret 3 ...................... <#setVisible, children, v>
+  [  8] extcall 154 ............................. call(#setVisible, children, v)
+  [ 10] ret
+end
+
+on setLoc me, pt
+  [  0] pushsymb 58 ............................. <#setLoc>
+  [  2] getprop 34 .............................. <children>
+  [  4] getparam 1 .............................. <pt>
+  [  6] pusharglistnoret 3 ...................... <#setLoc, children, pt>
+  [  8] extcall 154 ............................. call(#setLoc, children, pt)
+  [ 10] ret
+end
+
+on mouseWithin me
+  [  0] getprop 34 .............................. <children>
+  [  2] peek 0
+  [  4] pusharglist 1
+  [  6] extcall 48
+  [  8] pushint8 1
+  [ 10] peek 0
+  [ 12] peek 2
+  [ 14] lteq
+  [ 15] jmpifz [ 48] ............................ repeat with i in children
+  [ 18] peek 2
+  [ 20] peek 1
+  [ 22] pusharglist 2
+  [ 24] extcall 44
+  [ 26] setlocal 0
+  [ 28] getlocal 0 .............................. <i>
+  [ 30] pusharglist 1 ........................... <i>
+  [ 32] localcall 3 ............................. <mouseWithin(i)>
+  [ 34] jmpifz [ 43] ............................ if mouseWithin(i) then
+  [ 37] pushint8 1 .............................. <1>
+  [ 39] pusharglistnoret 1 ...................... <1>
+  [ 41] extcall 19 .............................. return 1
+  [ 43] pushint8 1
+  [ 45] add
+  [ 46] endrepeat [ 10]
+  [ 48] pop 3
+  [ 50] ret
+end
+
+on destroy me
+  [  0] getprop 34 .............................. <children>
+  [  2] pusharglistnoret 1 ...................... <children>
+  [  4] objcall 144 ............................. children.deleteAll()
+  [  6] pushsymb 157 ............................ <#removeNode>
+  [  8] getprop 152 ............................. <mouseListeners>
+  [ 10] getparam 0 .............................. <me>
+  [ 12] pusharglistnoret 3 ...................... <#removeNode, mouseListeners, me>
+  [ 14] extcall 154 ............................. call(#removeNode, mouseListeners, me)
+  [ 16] ret
+end
+
+on addMouseListener me, x
+  [  0] getprop 152 ............................. <mouseListeners>
+  [  2] getparam 1 .............................. <x>
+  [  4] pusharglist 2 ........................... <mouseListeners, x>
+  [  6] objcall 140 ............................. <mouseListeners.getOne(x)>
+  [  8] pushzero ................................ <0>
+  [  9] nteq .................................... <mouseListeners.getOne(x) <> 0>
+  [ 10] jmpifz [ 17] ............................ if mouseListeners.getOne(x) <> 0 then
+  [ 13] pusharglistnoret 0 ...................... <>
+  [ 15] extcall 19 .............................. return 
+  [ 17] pushsymb 150 ............................ <#addMouseListener>
+  [ 19] getprop 34 .............................. <children>
+  [ 21] getparam 1 .............................. <x>
+  [ 23] pusharglistnoret 3 ...................... <#addMouseListener, children, x>
+  [ 25] extcall 154 ............................. call(#addMouseListener, children, x)
+  [ 27] ret
+end
+
+on removeMouseListener me, x
+  [  0] pushsymb 151 ............................ <#removeMouseListener>
+  [  2] getprop 34 .............................. <children>
+  [  4] getparam 1 .............................. <x>
+  [  6] pusharglistnoret 3 ...................... <#removeMouseListener, children, x>
+  [  8] extcall 154 ............................. call(#removeMouseListener, children, x)
+  [ 10] ret
+end
