@@ -1,0 +1,317 @@
+{
+  "totalLength": 2114,
+  "totalLength2": 2114,
+  "headerLength": 92,
+  "scriptNumber": 2,
+  "unk20": 30,
+  "parentNumber": -1,
+  "scriptFlags": 0,
+  "unk42": 0,
+  "castID": 1572868,
+  "factoryNameID": -1,
+  "handlerVectorsCount": 0,
+  "handlerVectorsOffset": 2114,
+  "handlerVectorsSize": 0,
+  "propertiesCount": 21,
+  "propertiesOffset": 92,
+  "globalsCount": 1,
+  "globalsOffset": 134,
+  "handlersCount": 11,
+  "handlersOffset": 136,
+  "literalsCount": 15,
+  "literalsOffset": 1782,
+  "literalsDataCount": 212,
+  "literalsDataOffset": 1902,
+  "propertyNameIDs": [
+    52,
+    63,
+    53,
+    5,
+    116,
+    117,
+    54,
+    71,
+    128,
+    147,
+    55,
+    131,
+    119,
+    120,
+    122,
+    124,
+    127,
+    146,
+    118,
+    145,
+    64
+  ],
+  "globalNameIDs": [
+    4
+  ],
+  "handlers": [
+    {
+      "nameID": 0,
+      "vectorPos": 65535,
+      "compiledLen": 65,
+      "compiledOffset": 642,
+      "argumentCount": 2,
+      "argumentOffset": 708,
+      "localsCount": 0,
+      "localsOffset": 712,
+      "globalsCount": 0,
+      "globalsOffset": 134,
+      "unknown1": 375,
+      "unknown2": 33,
+      "lineCount": 13,
+      "lineOffset": 712,
+      "stackHeight": 3
+    },
+    {
+      "nameID": 1,
+      "vectorPos": 65535,
+      "compiledLen": 303,
+      "compiledOffset": 726,
+      "argumentCount": 1,
+      "argumentOffset": 1030,
+      "localsCount": 2,
+      "localsOffset": 1032,
+      "globalsCount": 0,
+      "globalsOffset": 134,
+      "unknown1": 636,
+      "unknown2": 49,
+      "lineCount": 28,
+      "lineOffset": 1036,
+      "stackHeight": 9
+    },
+    {
+      "nameID": 2,
+      "vectorPos": 65535,
+      "compiledLen": 48,
+      "compiledOffset": 1064,
+      "argumentCount": 1,
+      "argumentOffset": 1112,
+      "localsCount": 0,
+      "localsOffset": 1114,
+      "globalsCount": 0,
+      "globalsOffset": 134,
+      "unknown1": 1595,
+      "unknown2": 83,
+      "lineCount": 14,
+      "lineOffset": 1114,
+      "stackHeight": 3
+    },
+    {
+      "nameID": 43,
+      "vectorPos": 65535,
+      "compiledLen": 221,
+      "compiledOffset": 1128,
+      "argumentCount": 2,
+      "argumentOffset": 1350,
+      "localsCount": 5,
+      "localsOffset": 1354,
+      "globalsCount": 0,
+      "globalsOffset": 134,
+      "unknown1": 1824,
+      "unknown2": 101,
+      "lineCount": 40,
+      "lineOffset": 1364,
+      "stackHeight": 8
+    },
+    {
+      "nameID": 111,
+      "vectorPos": 65535,
+      "compiledLen": 100,
+      "compiledOffset": 1404,
+      "argumentCount": 1,
+      "argumentOffset": 1504,
+      "localsCount": 2,
+      "localsOffset": 1506,
+      "globalsCount": 0,
+      "globalsOffset": 134,
+      "unknown1": 2559,
+      "unknown2": 145,
+      "lineCount": 15,
+      "lineOffset": 1510,
+      "stackHeight": 8
+    },
+    {
+      "nameID": 112,
+      "vectorPos": 65535,
+      "compiledLen": 72,
+      "compiledOffset": 1526,
+      "argumentCount": 1,
+      "argumentOffset": 1598,
+      "localsCount": 1,
+      "localsOffset": 1600,
+      "globalsCount": 0,
+      "globalsOffset": 134,
+      "unknown1": 2897,
+      "unknown2": 163,
+      "lineCount": 6,
+      "lineOffset": 1602,
+      "stackHeight": 8
+    },
+    {
+      "nameID": 113,
+      "vectorPos": 65535,
+      "compiledLen": 8,
+      "compiledOffset": 1608,
+      "argumentCount": 1,
+      "argumentOffset": 1616,
+      "localsCount": 0,
+      "localsOffset": 1618,
+      "globalsCount": 0,
+      "globalsOffset": 134,
+      "unknown1": 3108,
+      "unknown2": 173,
+      "lineCount": 1,
+      "lineOffset": 1618,
+      "stackHeight": 3
+    },
+    {
+      "nameID": 114,
+      "vectorPos": 65535,
+      "compiledLen": 13,
+      "compiledOffset": 1620,
+      "argumentCount": 2,
+      "argumentOffset": 1634,
+      "localsCount": 0,
+      "localsOffset": 1638,
+      "globalsCount": 0,
+      "globalsOffset": 134,
+      "unknown1": 3159,
+      "unknown2": 178,
+      "lineCount": 3,
+      "lineOffset": 1638,
+      "stackHeight": 3
+    },
+    {
+      "nameID": 115,
+      "vectorPos": 65535,
+      "compiledLen": 36,
+      "compiledOffset": 1642,
+      "argumentCount": 2,
+      "argumentOffset": 1678,
+      "localsCount": 0,
+      "localsOffset": 1682,
+      "globalsCount": 0,
+      "globalsOffset": 134,
+      "unknown1": 3274,
+      "unknown2": 186,
+      "lineCount": 3,
+      "lineOffset": 1682,
+      "stackHeight": 8
+    },
+    {
+      "nameID": 51,
+      "vectorPos": 65535,
+      "compiledLen": 1,
+      "compiledOffset": 1686,
+      "argumentCount": 2,
+      "argumentOffset": 1688,
+      "localsCount": 0,
+      "localsOffset": 1692,
+      "globalsCount": 0,
+      "globalsOffset": 134,
+      "unknown1": 3422,
+      "unknown2": 193,
+      "lineCount": 1,
+      "lineOffset": 1692,
+      "stackHeight": 0
+    },
+    {
+      "nameID": 42,
+      "vectorPos": 65535,
+      "compiledLen": 72,
+      "compiledOffset": 1694,
+      "argumentCount": 2,
+      "argumentOffset": 1766,
+      "localsCount": 0,
+      "localsOffset": 1770,
+      "globalsCount": 0,
+      "globalsOffset": 134,
+      "unknown1": 3452,
+      "unknown2": 198,
+      "lineCount": 12,
+      "lineOffset": 1770,
+      "stackHeight": 4
+    }
+  ],
+  "literals": [
+    {
+      "type": 1,
+      "offset": 0,
+      "value": "game"
+    },
+    {
+      "type": 1,
+      "offset": 10,
+      "value": "titles"
+    },
+    {
+      "type": 1,
+      "offset": 22,
+      "value": "endless_setup"
+    },
+    {
+      "type": 1,
+      "offset": 40,
+      "value": "statue_cover"
+    },
+    {
+      "type": 1,
+      "offset": 58,
+      "value": "menu_button"
+    },
+    {
+      "type": 1,
+      "offset": 74,
+      "value": "diff_dialog"
+    },
+    {
+      "type": 1,
+      "offset": 90,
+      "value": "diff_"
+    },
+    {
+      "type": 1,
+      "offset": 100,
+      "value": "_off"
+    },
+    {
+      "type": 1,
+      "offset": 110,
+      "value": "_on"
+    },
+    {
+      "type": 1,
+      "offset": 118,
+      "value": "mousetrap"
+    },
+    {
+      "type": 1,
+      "offset": 132,
+      "value": "closediff"
+    },
+    {
+      "type": 1,
+      "offset": 146,
+      "value": "endless_stagebutton"
+    },
+    {
+      "type": 1,
+      "offset": 170,
+      "value": "scripts.mode"
+    },
+    {
+      "type": 1,
+      "offset": 188,
+      "value": "rest_"
+    },
+    {
+      "type": 1,
+      "offset": 198,
+      "value": "sparkle_"
+    }
+  ]
+}

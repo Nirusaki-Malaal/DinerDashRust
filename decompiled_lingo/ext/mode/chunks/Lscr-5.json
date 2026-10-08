@@ -1,0 +1,428 @@
+{
+  "totalLength": 3974,
+  "totalLength2": 3974,
+  "headerLength": 92,
+  "scriptNumber": 6,
+  "unk20": 30,
+  "parentNumber": -1,
+  "scriptFlags": 0,
+  "unk42": 0,
+  "castID": 1572872,
+  "factoryNameID": -1,
+  "handlerVectorsCount": 0,
+  "handlerVectorsOffset": 3974,
+  "handlerVectorsSize": 0,
+  "propertiesCount": 25,
+  "propertiesOffset": 92,
+  "globalsCount": 1,
+  "globalsOffset": 142,
+  "handlersCount": 12,
+  "handlersOffset": 144,
+  "literalsCount": 33,
+  "literalsOffset": 3122,
+  "literalsDataCount": 588,
+  "literalsDataOffset": 3386,
+  "propertyNameIDs": [
+    52,
+    63,
+    53,
+    5,
+    116,
+    117,
+    54,
+    71,
+    227,
+    124,
+    235,
+    211,
+    208,
+    210,
+    209,
+    212,
+    213,
+    55,
+    230,
+    234,
+    118,
+    226,
+    225,
+    64,
+    220
+  ],
+  "globalNameIDs": [
+    4
+  ],
+  "handlers": [
+    {
+      "nameID": 0,
+      "vectorPos": 65535,
+      "compiledLen": 240,
+      "compiledOffset": 696,
+      "argumentCount": 2,
+      "argumentOffset": 936,
+      "localsCount": 5,
+      "localsOffset": 940,
+      "globalsCount": 0,
+      "globalsOffset": 142,
+      "unknown1": 436,
+      "unknown2": 29,
+      "lineCount": 32,
+      "lineOffset": 950,
+      "stackHeight": 7
+    },
+    {
+      "nameID": 1,
+      "vectorPos": 65535,
+      "compiledLen": 580,
+      "compiledOffset": 982,
+      "argumentCount": 1,
+      "argumentOffset": 1562,
+      "localsCount": 6,
+      "localsOffset": 1564,
+      "globalsCount": 0,
+      "globalsOffset": 142,
+      "unknown1": 1371,
+      "unknown2": 65,
+      "lineCount": 70,
+      "lineOffset": 1576,
+      "stackHeight": 7
+    },
+    {
+      "nameID": 204,
+      "vectorPos": 65535,
+      "compiledLen": 472,
+      "compiledOffset": 1646,
+      "argumentCount": 2,
+      "argumentOffset": 2118,
+      "localsCount": 9,
+      "localsOffset": 2122,
+      "globalsCount": 0,
+      "globalsOffset": 142,
+      "unknown1": 3297,
+      "unknown2": 139,
+      "lineCount": 79,
+      "lineOffset": 2140,
+      "stackHeight": 11
+    },
+    {
+      "nameID": 115,
+      "vectorPos": 65535,
+      "compiledLen": 97,
+      "compiledOffset": 2220,
+      "argumentCount": 3,
+      "argumentOffset": 2318,
+      "localsCount": 0,
+      "localsOffset": 2324,
+      "globalsCount": 0,
+      "globalsOffset": 142,
+      "unknown1": 5027,
+      "unknown2": 221,
+      "lineCount": 14,
+      "lineOffset": 2324,
+      "stackHeight": 3
+    },
+    {
+      "nameID": 205,
+      "vectorPos": 65535,
+      "compiledLen": 48,
+      "compiledOffset": 2338,
+      "argumentCount": 1,
+      "argumentOffset": 2386,
+      "localsCount": 0,
+      "localsOffset": 2388,
+      "globalsCount": 0,
+      "globalsOffset": 142,
+      "unknown1": 5447,
+      "unknown2": 238,
+      "lineCount": 8,
+      "lineOffset": 2388,
+      "stackHeight": 7
+    },
+    {
+      "nameID": 143,
+      "vectorPos": 65535,
+      "compiledLen": 90,
+      "compiledOffset": 2396,
+      "argumentCount": 1,
+      "argumentOffset": 2486,
+      "localsCount": 1,
+      "localsOffset": 2488,
+      "globalsCount": 0,
+      "globalsOffset": 142,
+      "unknown1": 5685,
+      "unknown2": 249,
+      "lineCount": 11,
+      "lineOffset": 2490,
+      "stackHeight": 4
+    },
+    {
+      "nameID": 2,
+      "vectorPos": 65535,
+      "compiledLen": 81,
+      "compiledOffset": 2502,
+      "argumentCount": 1,
+      "argumentOffset": 2584,
+      "localsCount": 1,
+      "localsOffset": 2586,
+      "globalsCount": 0,
+      "globalsOffset": 142,
+      "unknown1": 6030,
+      "unknown2": 263,
+      "lineCount": 12,
+      "lineOffset": 2588,
+      "stackHeight": 6
+    },
+    {
+      "nameID": 43,
+      "vectorPos": 65535,
+      "compiledLen": 235,
+      "compiledOffset": 2600,
+      "argumentCount": 2,
+      "argumentOffset": 2836,
+      "localsCount": 1,
+      "localsOffset": 2840,
+      "globalsCount": 0,
+      "globalsOffset": 142,
+      "unknown1": 6272,
+      "unknown2": 279,
+      "lineCount": 34,
+      "lineOffset": 2842,
+      "stackHeight": 8
+    },
+    {
+      "nameID": 206,
+      "vectorPos": 65535,
+      "compiledLen": 45,
+      "compiledOffset": 2876,
+      "argumentCount": 1,
+      "argumentOffset": 2922,
+      "localsCount": 0,
+      "localsOffset": 2924,
+      "globalsCount": 0,
+      "globalsOffset": 142,
+      "unknown1": 7228,
+      "unknown2": 316,
+      "lineCount": 5,
+      "lineOffset": 2924,
+      "stackHeight": 5
+    },
+    {
+      "nameID": 207,
+      "vectorPos": 65535,
+      "compiledLen": 45,
+      "compiledOffset": 2930,
+      "argumentCount": 1,
+      "argumentOffset": 2976,
+      "localsCount": 0,
+      "localsOffset": 2978,
+      "globalsCount": 0,
+      "globalsOffset": 142,
+      "unknown1": 7391,
+      "unknown2": 324,
+      "lineCount": 5,
+      "lineOffset": 2978,
+      "stackHeight": 5
+    },
+    {
+      "nameID": 51,
+      "vectorPos": 65535,
+      "compiledLen": 1,
+      "compiledOffset": 2984,
+      "argumentCount": 2,
+      "argumentOffset": 2986,
+      "localsCount": 0,
+      "localsOffset": 2990,
+      "globalsCount": 0,
+      "globalsOffset": 142,
+      "unknown1": 7555,
+      "unknown2": 333,
+      "lineCount": 1,
+      "lineOffset": 2990,
+      "stackHeight": 0
+    },
+    {
+      "nameID": 42,
+      "vectorPos": 65535,
+      "compiledLen": 113,
+      "compiledOffset": 2992,
+      "argumentCount": 2,
+      "argumentOffset": 3106,
+      "localsCount": 1,
+      "localsOffset": 3110,
+      "globalsCount": 0,
+      "globalsOffset": 142,
+      "unknown1": 7585,
+      "unknown2": 338,
+      "lineCount": 10,
+      "lineOffset": 3112,
+      "stackHeight": 7
+    }
+  ],
+  "literals": [
+    {
+      "type": 1,
+      "offset": 0,
+      "value": "game"
+    },
+    {
+      "type": 1,
+      "offset": 10,
+      "value": "titles"
+    },
+    {
+      "type": 1,
+      "offset": 22,
+      "value": "leveldot_selected"
+    },
+    {
+      "type": 1,
+      "offset": 44,
+      "value": "gfx.screens"
+    },
+    {
+      "type": 1,
+      "offset": 60,
+      "value": "leveldot_star_selected"
+    },
+    {
+      "type": 1,
+      "offset": 88,
+      "value": "lvlcontinue_selected"
+    },
+    {
+      "type": 1,
+      "offset": 114,
+      "value": "leveldot_normal"
+    },
+    {
+      "type": 1,
+      "offset": 134,
+      "value": "leveldot_star"
+    },
+    {
+      "type": 1,
+      "offset": 152,
+      "value": "lvlcontinue_normal"
+    },
+    {
+      "type": 1,
+      "offset": 176,
+      "value": "career_setup"
+    },
+    {
+      "type": 1,
+      "offset": 194,
+      "value": "button_back_to_menu_on"
+    },
+    {
+      "type": 1,
+      "offset": 222,
+      "value": "button_back_to_menu"
+    },
+    {
+      "type": 1,
+      "offset": 246,
+      "value": "menu_button"
+    },
+    {
+      "type": 1,
+      "offset": 262,
+      "value": "lockall_button"
+    },
+    {
+      "type": 1,
+      "offset": 282,
+      "value": "unlockall_button"
+    },
+    {
+      "type": 1,
+      "offset": 304,
+      "value": "button_new_game_up"
+    },
+    {
+      "type": 1,
+      "offset": 328,
+      "value": "button_new_game"
+    },
+    {
+      "type": 1,
+      "offset": 348,
+      "value": "newgame_button"
+    },
+    {
+      "type": 1,
+      "offset": 368,
+      "value": "button_continue_on"
+    },
+    {
+      "type": 1,
+      "offset": 392,
+      "value": "button_continue"
+    },
+    {
+      "type": 1,
+      "offset": 412,
+      "value": "play_button"
+    },
+    {
+      "type": 1,
+      "offset": 428,
+      "value": "rest_"
+    },
+    {
+      "type": 1,
+      "offset": 438,
+      "value": "const_"
+    },
+    {
+      "type": 1,
+      "offset": 450,
+      "value": "const_anim_"
+    },
+    {
+      "type": 1,
+      "offset": 466,
+      "value": "statue_1"
+    },
+    {
+      "type": 1,
+      "offset": 480,
+      "value": "statue_2"
+    },
+    {
+      "type": 1,
+      "offset": 494,
+      "value": "fadeout"
+    },
+    {
+      "type": 1,
+      "offset": 506,
+      "value": "rest_5"
+    },
+    {
+      "type": 1,
+      "offset": 518,
+      "value": "statue_cover"
+    },
+    {
+      "type": 1,
+      "offset": 536,
+      "value": "rest5_dots"
+    },
+    {
+      "type": 1,
+      "offset": 552,
+      "value": "sparkle_"
+    },
+    {
+      "type": 1,
+      "offset": 566,
+      "value": "lvlbutton_"
+    },
+    {
+      "type": 1,
+      "offset": 582,
+      "value": "_"
+    }
+  ]
+}

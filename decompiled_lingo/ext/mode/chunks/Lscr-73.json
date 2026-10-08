@@ -1,0 +1,232 @@
+{
+  "totalLength": 1444,
+  "totalLength2": 1444,
+  "headerLength": 92,
+  "scriptNumber": 7,
+  "unk20": 30,
+  "parentNumber": -1,
+  "scriptFlags": 0,
+  "unk42": 0,
+  "castID": 1572873,
+  "factoryNameID": -1,
+  "handlerVectorsCount": 0,
+  "handlerVectorsOffset": 1444,
+  "handlerVectorsSize": 0,
+  "propertiesCount": 14,
+  "propertiesOffset": 92,
+  "globalsCount": 0,
+  "globalsOffset": 120,
+  "handlersCount": 8,
+  "handlersOffset": 120,
+  "literalsCount": 10,
+  "literalsOffset": 1222,
+  "literalsDataCount": 142,
+  "literalsDataOffset": 1302,
+  "propertyNameIDs": [
+    52,
+    63,
+    54,
+    53,
+    5,
+    248,
+    83,
+    165,
+    166,
+    71,
+    122,
+    168,
+    252,
+    64
+  ],
+  "globalNameIDs": [],
+  "handlers": [
+    {
+      "nameID": 0,
+      "vectorPos": 65535,
+      "compiledLen": 41,
+      "compiledOffset": 488,
+      "argumentCount": 2,
+      "argumentOffset": 530,
+      "localsCount": 1,
+      "localsOffset": 534,
+      "globalsCount": 0,
+      "globalsOffset": 120,
+      "unknown1": 225,
+      "unknown2": 18,
+      "lineCount": 8,
+      "lineOffset": 536,
+      "stackHeight": 2
+    },
+    {
+      "nameID": 1,
+      "vectorPos": 65535,
+      "compiledLen": 210,
+      "compiledOffset": 544,
+      "argumentCount": 1,
+      "argumentOffset": 754,
+      "localsCount": 1,
+      "localsOffset": 756,
+      "globalsCount": 0,
+      "globalsOffset": 120,
+      "unknown1": 380,
+      "unknown2": 29,
+      "lineCount": 20,
+      "lineOffset": 758,
+      "stackHeight": 10
+    },
+    {
+      "nameID": 2,
+      "vectorPos": 65535,
+      "compiledLen": 38,
+      "compiledOffset": 778,
+      "argumentCount": 1,
+      "argumentOffset": 816,
+      "localsCount": 0,
+      "localsOffset": 818,
+      "globalsCount": 0,
+      "globalsOffset": 120,
+      "unknown1": 1046,
+      "unknown2": 54,
+      "lineCount": 8,
+      "lineOffset": 818,
+      "stackHeight": 3
+    },
+    {
+      "nameID": 247,
+      "vectorPos": 65535,
+      "compiledLen": 106,
+      "compiledOffset": 826,
+      "argumentCount": 2,
+      "argumentOffset": 932,
+      "localsCount": 0,
+      "localsOffset": 936,
+      "globalsCount": 0,
+      "globalsOffset": 120,
+      "unknown1": 1211,
+      "unknown2": 65,
+      "lineCount": 18,
+      "lineOffset": 936,
+      "stackHeight": 5
+    },
+    {
+      "nameID": 148,
+      "vectorPos": 65535,
+      "compiledLen": 23,
+      "compiledOffset": 954,
+      "argumentCount": 1,
+      "argumentOffset": 978,
+      "localsCount": 0,
+      "localsOffset": 980,
+      "globalsCount": 0,
+      "globalsOffset": 120,
+      "unknown1": 1673,
+      "unknown2": 86,
+      "lineCount": 4,
+      "lineOffset": 980,
+      "stackHeight": 2
+    },
+    {
+      "nameID": 43,
+      "vectorPos": 65535,
+      "compiledLen": 132,
+      "compiledOffset": 984,
+      "argumentCount": 3,
+      "argumentOffset": 1116,
+      "localsCount": 0,
+      "localsOffset": 1122,
+      "globalsCount": 0,
+      "globalsOffset": 120,
+      "unknown1": 1769,
+      "unknown2": 94,
+      "lineCount": 21,
+      "lineOffset": 1122,
+      "stackHeight": 8
+    },
+    {
+      "nameID": 51,
+      "vectorPos": 65535,
+      "compiledLen": 1,
+      "compiledOffset": 1144,
+      "argumentCount": 2,
+      "argumentOffset": 1146,
+      "localsCount": 0,
+      "localsOffset": 1150,
+      "globalsCount": 0,
+      "globalsOffset": 120,
+      "unknown1": 2258,
+      "unknown2": 119,
+      "lineCount": 1,
+      "lineOffset": 1150,
+      "stackHeight": 0
+    },
+    {
+      "nameID": 42,
+      "vectorPos": 65535,
+      "compiledLen": 56,
+      "compiledOffset": 1152,
+      "argumentCount": 2,
+      "argumentOffset": 1208,
+      "localsCount": 0,
+      "localsOffset": 1212,
+      "globalsCount": 0,
+      "globalsOffset": 120,
+      "unknown1": 2288,
+      "unknown2": 124,
+      "lineCount": 9,
+      "lineOffset": 1212,
+      "stackHeight": 4
+    }
+  ],
+  "literals": [
+    {
+      "type": 1,
+      "offset": 0,
+      "value": "titles"
+    },
+    {
+      "type": 1,
+      "offset": 12,
+      "value": "quit"
+    },
+    {
+      "type": 1,
+      "offset": 22,
+      "value": "nobutton"
+    },
+    {
+      "type": 1,
+      "offset": 36,
+      "value": "Quit_No_off"
+    },
+    {
+      "type": 1,
+      "offset": 52,
+      "value": "Quit_No_on"
+    },
+    {
+      "type": 1,
+      "offset": 68,
+      "value": "yesbutton"
+    },
+    {
+      "type": 1,
+      "offset": 82,
+      "value": "Quit_Yes_off"
+    },
+    {
+      "type": 1,
+      "offset": 100,
+      "value": "Quit_Yes_on"
+    },
+    {
+      "type": 1,
+      "offset": 116,
+      "value": "mousetrap"
+    },
+    {
+      "type": 1,
+      "offset": 130,
+      "value": "wnd_bg"
+    }
+  ]
+}

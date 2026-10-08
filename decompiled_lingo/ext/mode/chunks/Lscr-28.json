@@ -1,0 +1,159 @@
+{
+  "totalLength": 728,
+  "totalLength2": 728,
+  "headerLength": 92,
+  "scriptNumber": 4,
+  "unk20": 30,
+  "parentNumber": -1,
+  "scriptFlags": 0,
+  "unk42": 0,
+  "castID": 1572870,
+  "factoryNameID": -1,
+  "handlerVectorsCount": 0,
+  "handlerVectorsOffset": 728,
+  "handlerVectorsSize": 0,
+  "propertiesCount": 7,
+  "propertiesOffset": 92,
+  "globalsCount": 0,
+  "globalsOffset": 106,
+  "handlersCount": 5,
+  "handlersOffset": 106,
+  "literalsCount": 7,
+  "literalsOffset": 566,
+  "literalsDataCount": 106,
+  "literalsDataOffset": 622,
+  "propertyNameIDs": [
+    52,
+    63,
+    53,
+    5,
+    156,
+    186,
+    157
+  ],
+  "globalNameIDs": [],
+  "handlers": [
+    {
+      "nameID": 0,
+      "vectorPos": 65535,
+      "compiledLen": 66,
+      "compiledOffset": 336,
+      "argumentCount": 2,
+      "argumentOffset": 402,
+      "localsCount": 0,
+      "localsOffset": 406,
+      "globalsCount": 0,
+      "globalsOffset": 106,
+      "unknown1": 115,
+      "unknown2": 12,
+      "lineCount": 10,
+      "lineOffset": 406,
+      "stackHeight": 6
+    },
+    {
+      "nameID": 2,
+      "vectorPos": 65535,
+      "compiledLen": 13,
+      "compiledOffset": 416,
+      "argumentCount": 1,
+      "argumentOffset": 430,
+      "localsCount": 0,
+      "localsOffset": 432,
+      "globalsCount": 0,
+      "globalsOffset": 106,
+      "unknown1": 412,
+      "unknown2": 26,
+      "lineCount": 2,
+      "lineOffset": 432,
+      "stackHeight": 1
+    },
+    {
+      "nameID": 43,
+      "vectorPos": 65535,
+      "compiledLen": 91,
+      "compiledOffset": 434,
+      "argumentCount": 2,
+      "argumentOffset": 526,
+      "localsCount": 1,
+      "localsOffset": 530,
+      "globalsCount": 0,
+      "globalsOffset": 106,
+      "unknown1": 465,
+      "unknown2": 32,
+      "lineCount": 17,
+      "lineOffset": 532,
+      "stackHeight": 5
+    },
+    {
+      "nameID": 51,
+      "vectorPos": 65535,
+      "compiledLen": 1,
+      "compiledOffset": 550,
+      "argumentCount": 2,
+      "argumentOffset": 552,
+      "localsCount": 0,
+      "localsOffset": 556,
+      "globalsCount": 0,
+      "globalsOffset": 106,
+      "unknown1": 803,
+      "unknown2": 53,
+      "lineCount": 1,
+      "lineOffset": 556,
+      "stackHeight": 0
+    },
+    {
+      "nameID": 42,
+      "vectorPos": 65535,
+      "compiledLen": 1,
+      "compiledOffset": 558,
+      "argumentCount": 2,
+      "argumentOffset": 560,
+      "localsCount": 0,
+      "localsOffset": 564,
+      "globalsCount": 0,
+      "globalsOffset": 106,
+      "unknown1": 833,
+      "unknown2": 58,
+      "lineCount": 2,
+      "lineOffset": 564,
+      "stackHeight": 0
+    }
+  ],
+  "literals": [
+    {
+      "type": 1,
+      "offset": 0,
+      "value": "game"
+    },
+    {
+      "type": 1,
+      "offset": 10,
+      "value": "titles"
+    },
+    {
+      "type": 1,
+      "offset": 22,
+      "value": "sfx_r_diner"
+    },
+    {
+      "type": 1,
+      "offset": 38,
+      "value": "sfx_r_tiki"
+    },
+    {
+      "type": 1,
+      "offset": 54,
+      "value": "sfx_r_seafood"
+    },
+    {
+      "type": 1,
+      "offset": 72,
+      "value": "sfx_r_chez"
+    },
+    {
+      "type": 1,
+      "offset": 88,
+      "value": "sfx_r_goddess"
+    }
+  ]
+}

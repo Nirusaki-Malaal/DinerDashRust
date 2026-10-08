@@ -1,0 +1,161 @@
+{
+  "unknown0": 0,
+  "unknown1": 0,
+  "entryCount": 24,
+  "entryCount2": 24,
+  "entriesOffset": 96,
+  "unknown2": 12,
+  "unknown3": 0,
+  "unknown4": 0,
+  "unknown5": -1,
+  "lnamSectionID": 34,
+  "validCount": 24,
+  "flags": 5,
+  "freePointer": -1,
+  "sectionMap": [
+    {
+      "unknown0": 101451328,
+      "sectionID": 33,
+      "unknown1": 4,
+      "unknown2": 0
+    },
+    {
+      "unknown0": 101669628,
+      "sectionID": 31,
+      "unknown1": 4,
+      "unknown2": 0
+    },
+    {
+      "unknown0": 101669568,
+      "sectionID": 30,
+      "unknown1": 4,
+      "unknown2": 0
+    },
+    {
+      "unknown0": 116525048,
+      "sectionID": 29,
+      "unknown1": 4,
+      "unknown2": 0
+    },
+    {
+      "unknown0": 101669208,
+      "sectionID": 28,
+      "unknown1": 4,
+      "unknown2": 0
+    },
+    {
+      "unknown0": 101669368,
+      "sectionID": 27,
+      "unknown1": 4,
+      "unknown2": 0
+    },
+    {
+      "unknown0": 101394488,
+      "sectionID": 5,
+      "unknown1": 4,
+      "unknown2": 0
+    },
+    {
+      "unknown0": 101664268,
+      "sectionID": 73,
+      "unknown1": 4,
+      "unknown2": 0
+    },
+    {
+      "unknown0": 2411828,
+      "sectionID": 74,
+      "unknown1": 4,
+      "unknown2": 0
+    },
+    {
+      "unknown0": 101670188,
+      "sectionID": 75,
+      "unknown1": 4,
+      "unknown2": 0
+    },
+    {
+      "unknown0": 101668268,
+      "sectionID": 76,
+      "unknown1": 4,
+      "unknown2": 0
+    },
+    {
+      "unknown0": 101453208,
+      "sectionID": 77,
+      "unknown1": 4,
+      "unknown2": 0
+    },
+    {
+      "unknown0": 101453248,
+      "sectionID": 78,
+      "unknown1": 4,
+      "unknown2": 0
+    },
+    {
+      "unknown0": 101783388,
+      "sectionID": 79,
+      "unknown1": 4,
+      "unknown2": 0
+    },
+    {
+      "unknown0": 101394468,
+      "sectionID": 80,
+      "unknown1": 4,
+      "unknown2": 0
+    },
+    {
+      "unknown0": 101403808,
+      "sectionID": 81,
+      "unknown1": 4,
+      "unknown2": 0
+    },
+    {
+      "unknown0": 101403688,
+      "sectionID": 82,
+      "unknown1": 4,
+      "unknown2": 0
+    },
+    {
+      "unknown0": 101669448,
+      "sectionID": 83,
+      "unknown1": 4,
+      "unknown2": 0
+    },
+    {
+      "unknown0": 101670728,
+      "sectionID": 84,
+      "unknown1": 4,
+      "unknown2": 0
+    },
+    {
+      "unknown0": 101668388,
+      "sectionID": 85,
+      "unknown1": 4,
+      "unknown2": 0
+    },
+    {
+      "unknown0": 101668568,
+      "sectionID": 86,
+      "unknown1": 4,
+      "unknown2": 0
+    },
+    {
+      "unknown0": 101669408,
+      "sectionID": 87,
+      "unknown1": 4,
+      "unknown2": 0
+    },
+    {
+      "unknown0": 101404188,
+      "sectionID": 88,
+      "unknown1": 4,
+      "unknown2": 0
+    },
+    {
+      "unknown0": 101670548,
+      "sectionID": 89,
+      "unknown1": 4,
+      "unknown2": 0
+    }
+  ]
+}
