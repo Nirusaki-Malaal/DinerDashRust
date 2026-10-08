@@ -1,0 +1,1 @@
+[#goal: 42000, #groups: [[#queueTimeMS: 6000, #Frequency: 10, #type: "Endless_Old_Male"], [#queueTimeMS: 6000, #Frequency: 15, #type: "Endless_business_female"], [#queueTimeMS: 6000, #Frequency: 5, #type: "Endless_default"], [#queueTimeMS: 6000, #Frequency: 5, #type: "endless_boy"], [#queueTimeMS: 6000, #Frequency: 5, #type: "endless_man"]], #totalGroupFrequency: 40]
