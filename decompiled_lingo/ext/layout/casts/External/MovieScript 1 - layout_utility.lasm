@@ -1,0 +1,2019 @@
+global glob
+
+on getlayers Args
+  [  0] getparam 0 .............................. <Args>
+  [  2] pushsymb 18 ............................. <#framenum>
+  [  4] pusharglist 2 ........................... <Args, #framenum>
+  [  6] objcall 19 .............................. <Args[#framenum]>
+  [  8] setlocal 0 .............................. framenum = Args[#framenum]
+  [ 10] getparam 0 .............................. <Args>
+  [ 12] pushsymb 20 ............................. <#absoluteLocs>
+  [ 14] pusharglist 2 ........................... <Args, #absoluteLocs>
+  [ 16] objcall 19 .............................. <Args[#absoluteLocs]>
+  [ 18] setlocal 1 .............................. absoluteLocs = Args[#absoluteLocs]
+  [ 20] getparam 0 .............................. <Args>
+  [ 22] pushsymb 21 ............................. <#noDummies>
+  [ 24] pusharglist 2 ........................... <Args, #noDummies>
+  [ 26] objcall 19 .............................. <Args[#noDummies]>
+  [ 28] setlocal 2 .............................. noDummies = Args[#noDummies]
+  [ 30] getparam 0 .............................. <Args>
+  [ 32] pushsymb 22 ............................. <#endFrame>
+  [ 34] pusharglist 2 ........................... <Args, #endFrame>
+  [ 36] objcall 19 .............................. <Args[#endFrame]>
+  [ 38] setlocal 3 .............................. endFrame = Args[#endFrame]
+  [ 40] pushsymb 23 ............................. <#nodeID>
+  [ 42] getlocal 0 .............................. <framenum>
+  [ 44] pusharglist 1 ........................... <framenum>
+  [ 46] extcall 24 .............................. <string(framenum)>
+  [ 48] pushsymb 25 ............................. <#loc>
+  [ 50] pushzero ................................ <0>
+  [ 51] pushzero ................................ <0>
+  [ 52] pusharglist 2 ........................... <0, 0>
+  [ 54] extcall 26 .............................. <point(0, 0)>
+  [ 56] pushsymb 27 ............................. <#z>
+  [ 58] pushzero ................................ <0>
+  [ 59] pusharglist 6 ........................... <[#nodeID: string(framenum), #loc: point(0, 0), #z: 0]>
+  [ 61] pushproplist ............................ <[#nodeID: string(framenum), #loc: point(0, 0), #z: 0]>
+  [ 62] setlocal 4 .............................. Info = [#nodeID: string(framenum), #loc: point(0, 0), #z: 0]
+  [ 64] pusharglist 0 ........................... <>
+  [ 66] thebuiltin 28 ........................... <the frame>
+  [ 68] setlocal 5 .............................. currentFrame = the frame
+  [ 70] pusharglist 0 ........................... <[:]>
+  [ 72] pushproplist ............................ <[:]>
+  [ 73] setlocal 6 .............................. layers = [:]
+  [ 75] getlocal 0 .............................. <framenum>
+  [ 77] pusharglist 1 ........................... <framenum>
+  [ 79] extcall 29 .............................. <stringp(framenum)>
+  [ 81] jmpifz [ 92] ............................ if stringp(framenum) then
+  [ 84] getlocal 0 .............................. <framenum>
+  [ 86] pusharglist 1 ........................... <framenum>
+  [ 88] extcall 30 .............................. <marker(framenum)>
+  [ 90] setlocal 0 .............................. framenum = marker(framenum)
+  [ 92] getlocal 3 .............................. <endFrame>
+  [ 94] pusharglist 1 ........................... <endFrame>
+  [ 96] extcall 29 .............................. <stringp(endFrame)>
+  [ 98] jmpifz [109] ............................ if stringp(endFrame) then
+  [101] getlocal 3 .............................. <endFrame>
+  [103] pusharglist 1 ........................... <endFrame>
+  [105] extcall 30 .............................. <marker(endFrame)>
+  [107] setlocal 3 .............................. endFrame = marker(endFrame)
+  [109] getlocal 3 .............................. <endFrame>
+  [111] pusharglist 1 ........................... <endFrame>
+  [113] extcall 31 .............................. <voidp(endFrame)>
+  [115] jmpifz [122] ............................ if voidp(endFrame) then
+  [118] getlocal 0 .............................. <framenum>
+  [120] setlocal 3 .............................. endFrame = framenum
+  [122] pushint16 5000 .......................... <5000>
+  [125] setlocal 7 .............................. left = 5000
+  [127] pushint16 5000 .......................... <5000>
+  [130] setlocal 8 .............................. top = 5000
+  [132] pushint8 1 .............................. <1>
+  [134] setlocal 9
+  [136] getlocal 9
+  [138] getmovieprop 32 ......................... <the lastChannel>
+  [140] lteq
+  [141] jmpifz [1171] ........................... repeat with i = 1 to the lastChannel
+  [144] getlocal 0 .............................. <framenum>
+  [146] pusharglistnoret 1 ...................... <framenum>
+  [148] extcall 33 .............................. go(framenum)
+  [150] getlocal 9 .............................. <i>
+  [152] pusharglist 1 ........................... <i>
+  [154] extcall 34 .............................. <sprite(i)>
+  [156] getobjprop 35 ........................... <sprite(i).memberNum>
+  [158] pushzero ................................ <0>
+  [159] eq ...................................... <sprite(i).memberNum = 0>
+  [160] jmpifz [166] ............................ if sprite(i).memberNum = 0 then
+  [163] jmp [1161] .............................. next repeat
+  [166] getlocal 9 .............................. <i>
+  [168] pusharglist 1 ........................... <i>
+  [170] extcall 34 .............................. <sprite(i)>
+  [172] setlocal 10 ............................. s = sprite(i)
+  [174] pusharglist 0 ........................... <[:]>
+  [176] pushproplist ............................ <[:]>
+  [177] setlocal 11 ............................. lr = [:]
+  [179] getlocal 11 ............................. <lr>
+  [181] pushsymb 36 ............................. <#scripts>
+  [183] getlocal 10 ............................. <s>
+  [185] getchainedprop 37 ....................... <s.scriptList>
+  [187] pusharglist 1 ........................... <s.scriptList>
+  [189] objcall 38 .............................. <s.scriptList.duplicate()>
+  [191] pusharglistnoret 3 ...................... <lr, #scripts, s.scriptList.duplicate()>
+  [193] objcall 39 .............................. lr[#scripts] = s.scriptList.duplicate()
+  [195] getlocal 11 ............................. <lr>
+  [197] pushsymb 36 ............................. <#scripts>
+  [199] pusharglist 2 ........................... <lr, #scripts>
+  [201] objcall 19 .............................. <lr[#scripts]>
+  [203] peek 0
+  [205] pusharglist 1
+  [207] extcall 40
+  [209] pushint8 1
+  [211] peek 0
+  [213] peek 2
+  [215] lteq
+  [216] jmpifz [258] ............................ repeat with xxx in lr[#scripts]
+  [219] peek 2
+  [221] peek 1
+  [223] pusharglist 2
+  [225] extcall 19
+  [227] setlocal 12
+  [229] getlocal 12 ............................. <xxx>
+  [231] pushint8 2 .............................. <2>
+  [233] getlocal 12 ............................. <xxx>
+  [235] pushint8 2 .............................. <2>
+  [237] pusharglist 2 ........................... <xxx, 2>
+  [239] objcall 19 .............................. <xxx[2]>
+  [241] pusharglist 1 ........................... <xxx[2]>
+  [243] extcall 42 .............................. <devoid(xxx[2])>
+  [245] pusharglist 1 ........................... <devoid(xxx[2])>
+  [247] extcall 41 .............................. <value(devoid(xxx[2]))>
+  [249] pusharglistnoret 3 ...................... <xxx, 2, value(devoid(xxx[2]))>
+  [251] objcall 39 .............................. xxx[2] = value(devoid(xxx[2]))
+  [253] pushint8 1
+  [255] add
+  [256] endrepeat [211]
+  [258] pop 3
+  [260] getlocal 11 ............................. <lr>
+  [262] pushsymb 23 ............................. <#nodeID>
+  [264] pushcons 0 .............................. <EMPTY>
+  [266] pusharglistnoret 3 ...................... <lr, #nodeID, EMPTY>
+  [268] objcall 39 .............................. lr[#nodeID] = EMPTY
+  [270] getlocal 11 ............................. <lr>
+  [272] pushsymb 36 ............................. <#scripts>
+  [274] pusharglist 2 ........................... <lr, #scripts>
+  [276] objcall 19 .............................. <lr[#scripts]>
+  [278] peek 0
+  [280] pusharglist 1
+  [282] extcall 40
+  [284] pushint8 1
+  [286] peek 0
+  [288] peek 2
+  [290] lteq
+  [291] jmpifz [434] ............................ repeat with scr in lr[#scripts]
+  [294] peek 2
+  [296] peek 1
+  [298] pusharglist 2
+  [300] extcall 19
+  [302] setlocal 13
+  [304] getlocal 13 ............................. <scr>
+  [306] pushint8 1 .............................. <1>
+  [308] pusharglist 2 ........................... <scr, 1>
+  [310] objcall 19 .............................. <scr[1]>
+  [312] pushcons 1 .............................. <"nodeID_b">
+  [314] pusharglist 1 ........................... <"nodeID_b">
+  [316] extcall 43 .............................. <member("nodeID_b")>
+  [318] eq ...................................... <scr[1] = member("nodeID_b")>
+  [319] jmpifz [429] ............................ if scr[1] = member("nodeID_b") then
+  [322] getlocal 13 ............................. <scr>
+  [324] pushint8 2 .............................. <2>
+  [326] pusharglist 2 ........................... <scr, 2>
+  [328] objcall 19 .............................. <scr[2]>
+  [330] setlocal 14 ............................. ls = scr[2]
+  [332] getlocal 11 ............................. <lr>
+  [334] pushsymb 23 ............................. <#nodeID>
+  [336] getlocal 14 ............................. <ls>
+  [338] pushsymb 23 ............................. <#nodeID>
+  [340] pusharglist 2 ........................... <ls, #nodeID>
+  [342] objcall 19 .............................. <ls[#nodeID]>
+  [344] pusharglistnoret 3 ...................... <lr, #nodeID, ls[#nodeID]>
+  [346] objcall 39 .............................. lr[#nodeID] = ls[#nodeID]
+  [348] getlocal 14 ............................. <ls>
+  [350] pushsymb 44 ............................. <#dummyID>
+  [352] pusharglist 2 ........................... <ls, #dummyID>
+  [354] objcall 19 .............................. <ls[#dummyID]>
+  [356] setlocal 15 ............................. did = ls[#dummyID]
+  [358] getlocal 15 ............................. <did>
+  [360] pusharglist 1 ........................... <did>
+  [362] extcall 31 .............................. <voidp(did)>
+  [364] getlocal 15 ............................. <did>
+  [366] pushcons 0 .............................. <EMPTY>
+  [368] eq ...................................... <did = EMPTY>
+  [369] or ...................................... <voidp(did) or (did = EMPTY)>
+  [370] not ..................................... <not (voidp(did) or (did = EMPTY))>
+  [371] jmpifz [384] ............................ if not (voidp(did) or (did = EMPTY)) then
+  [374] getlocal 11 ............................. <lr>
+  [376] pushsymb 44 ............................. <#dummyID>
+  [378] getlocal 15 ............................. <did>
+  [380] pusharglistnoret 3 ...................... <lr, #dummyID, did>
+  [382] objcall 39 .............................. lr[#dummyID] = did
+  [384] getlocal 11 ............................. <lr>
+  [386] pushsymb 45 ............................. <#noSprite>
+  [388] getlocal 14 ............................. <ls>
+  [390] pushsymb 45 ............................. <#noSprite>
+  [392] pusharglist 2 ........................... <ls, #noSprite>
+  [394] objcall 19 .............................. <ls[#noSprite]>
+  [396] pusharglistnoret 3 ...................... <lr, #noSprite, ls[#noSprite]>
+  [398] objcall 39 .............................. lr[#noSprite] = ls[#noSprite]
+  [400] getlocal 11 ............................. <lr>
+  [402] pushsymb 46 ............................. <#dynamic>
+  [404] getlocal 14 ............................. <ls>
+  [406] pushsymb 46 ............................. <#dynamic>
+  [408] pusharglist 2 ........................... <ls, #dynamic>
+  [410] objcall 19 .............................. <ls[#dynamic]>
+  [412] pusharglistnoret 3 ...................... <lr, #dynamic, ls[#dynamic]>
+  [414] objcall 39 .............................. lr[#dynamic] = ls[#dynamic]
+  [416] getlocal 14 ............................. <ls>
+  [418] pushsymb 47 ............................. <#exclude>
+  [420] pusharglist 2 ........................... <ls, #exclude>
+  [422] objcall 19 .............................. <ls[#exclude]>
+  [424] setlocal 16 ............................. exclude = ls[#exclude]
+  [426] jmp [434] ............................... exit repeat
+  [429] pushint8 1
+  [431] add
+  [432] endrepeat [286]
+  [434] pop 3
+  [436] getlocal 16 ............................. <exclude>
+  [438] jmpifz [444] ............................ if exclude then
+  [441] jmp [1161] .............................. next repeat
+  [444] getlocal 11 ............................. <lr>
+  [446] pushsymb 44 ............................. <#dummyID>
+  [448] pusharglist 2 ........................... <lr, #dummyID>
+  [450] objcall 19 .............................. <lr[#dummyID]>
+  [452] pusharglist 1 ........................... <lr[#dummyID]>
+  [454] extcall 31 .............................. <voidp(lr[#dummyID])>
+  [456] not ..................................... <not voidp(lr[#dummyID])>
+  [457] getlocal 2 .............................. <noDummies>
+  [459] not ..................................... <not noDummies>
+  [460] and ..................................... <not voidp(lr[#dummyID]) and not noDummies>
+  [461] jmpifz [464] ............................ if not voidp(lr[#dummyID]) and not noDummies then
+  [464] pusharglist 0 ........................... <[]>
+  [466] pushlist ................................ <[]>
+  [467] setlocal 17 ............................. animframes = []
+  [469] getlocal 0 .............................. <framenum>
+  [471] setlocal 18
+  [473] getlocal 18
+  [475] getlocal 3 .............................. <endFrame>
+  [477] lteq
+  [478] jmpifz [1032] ........................... repeat with f = framenum to endFrame
+  [481] getlocal 18 ............................. <f>
+  [483] pusharglistnoret 1 ...................... <f>
+  [485] extcall 33 .............................. go(f)
+  [487] pusharglist 0 ........................... <[:]>
+  [489] pushproplist ............................ <[:]>
+  [490] setlocal 19 ............................. frm = [:]
+  [492] getlocal 10 ............................. <s>
+  [494] getobjprop 43 ........................... <s.member>
+  [496] setlocal 20 ............................. m = s.member
+  [498] getlocal 20 ............................. <m>
+  [500] getobjprop 48 ........................... <m.number>
+  [502] pushint8 1 .............................. <1>
+  [504] lt ...................................... <m.number < 1>
+  [505] jmpifz [511] ............................ if m.number < 1 then
+  [508] jmp [1022] .............................. next repeat
+  [511] getlocal 10 ............................. <s>
+  [513] getchainedprop 37 ....................... <s.scriptList>
+  [515] pusharglist 1 ........................... <s.scriptList>
+  [517] objcall 38 .............................. <s.scriptList.duplicate()>
+  [519] setlocal 21 ............................. scrpts = s.scriptList.duplicate()
+  [521] getlocal 21 ............................. <scrpts>
+  [523] peek 0
+  [525] pusharglist 1
+  [527] extcall 40
+  [529] pushint8 1
+  [531] peek 0
+  [533] peek 2
+  [535] lteq
+  [536] jmpifz [578] ............................ repeat with xxx in scrpts
+  [539] peek 2
+  [541] peek 1
+  [543] pusharglist 2
+  [545] extcall 19
+  [547] setlocal 12
+  [549] getlocal 12 ............................. <xxx>
+  [551] pushint8 2 .............................. <2>
+  [553] getlocal 12 ............................. <xxx>
+  [555] pushint8 2 .............................. <2>
+  [557] pusharglist 2 ........................... <xxx, 2>
+  [559] objcall 19 .............................. <xxx[2]>
+  [561] pusharglist 1 ........................... <xxx[2]>
+  [563] extcall 42 .............................. <devoid(xxx[2])>
+  [565] pusharglist 1 ........................... <devoid(xxx[2])>
+  [567] extcall 41 .............................. <value(devoid(xxx[2]))>
+  [569] pusharglistnoret 3 ...................... <xxx, 2, value(devoid(xxx[2]))>
+  [571] objcall 39 .............................. xxx[2] = value(devoid(xxx[2]))
+  [573] pushint8 1
+  [575] add
+  [576] endrepeat [531]
+  [578] pop 3
+  [580] getlocal 21 ............................. <scrpts>
+  [582] peek 0
+  [584] pusharglist 1
+  [586] extcall 40
+  [588] pushint8 1
+  [590] peek 0
+  [592] peek 2
+  [594] lteq
+  [595] jmpifz [676] ............................ repeat with scr in scrpts
+  [598] peek 2
+  [600] peek 1
+  [602] pusharglist 2
+  [604] extcall 19
+  [606] setlocal 13
+  [608] getlocal 13 ............................. <scr>
+  [610] pushint8 1 .............................. <1>
+  [612] pusharglist 2 ........................... <scr, 1>
+  [614] objcall 19 .............................. <scr[1]>
+  [616] pushcons 1 .............................. <"nodeID_b">
+  [618] pusharglist 1 ........................... <"nodeID_b">
+  [620] extcall 43 .............................. <member("nodeID_b")>
+  [622] eq ...................................... <scr[1] = member("nodeID_b")>
+  [623] jmpifz [671] ............................ if scr[1] = member("nodeID_b") then
+  [626] getlocal 13 ............................. <scr>
+  [628] pushint8 2 .............................. <2>
+  [630] pusharglist 2 ........................... <scr, 2>
+  [632] objcall 19 .............................. <scr[2]>
+  [634] setlocal 14 ............................. ls = scr[2]
+  [636] getlocal 19 ............................. <frm>
+  [638] pushsymb 49 ............................. <#animID>
+  [640] getlocal 14 ............................. <ls>
+  [642] pushsymb 49 ............................. <#animID>
+  [644] pusharglist 2 ........................... <ls, #animID>
+  [646] objcall 19 .............................. <ls[#animID]>
+  [648] pusharglistnoret 3 ...................... <frm, #animID, ls[#animID]>
+  [650] objcall 39 .............................. frm[#animID] = ls[#animID]
+  [652] getlocal 19 ............................. <frm>
+  [654] pushsymb 44 ............................. <#dummyID>
+  [656] getlocal 14 ............................. <ls>
+  [658] pushsymb 44 ............................. <#dummyID>
+  [660] pusharglist 2 ........................... <ls, #dummyID>
+  [662] objcall 19 .............................. <ls[#dummyID]>
+  [664] pusharglistnoret 3 ...................... <frm, #dummyID, ls[#dummyID]>
+  [666] objcall 39 .............................. frm[#dummyID] = ls[#dummyID]
+  [668] jmp [676] ............................... exit repeat
+  [671] pushint8 1
+  [673] add
+  [674] endrepeat [590]
+  [676] pop 3
+  [678] getlocal 19 ............................. <frm>
+  [680] pushsymb 50 ............................. <#regPoint>
+  [682] getlocal 20 ............................. <m>
+  [684] getobjprop 50 ........................... <m.regPoint>
+  [686] pusharglistnoret 3 ...................... <frm, #regPoint, m.regPoint>
+  [688] objcall 39 .............................. frm[#regPoint] = m.regPoint
+  [690] getlocal 19 ............................. <frm>
+  [692] pushsymb 51 ............................. <#rect>
+  [694] getlocal 10 ............................. <s>
+  [696] getobjprop 51 ........................... <s.rect>
+  [698] pusharglistnoret 3 ...................... <frm, #rect, s.rect>
+  [700] objcall 39 .............................. frm[#rect] = s.rect
+  [702] getlocal 19 ............................. <frm>
+  [704] pushsymb 52 ............................. <#blend>
+  [706] getlocal 10 ............................. <s>
+  [708] getobjprop 52 ........................... <s.blend>
+  [710] pusharglistnoret 3 ...................... <frm, #blend, s.blend>
+  [712] objcall 39 .............................. frm[#blend] = s.blend
+  [714] getlocal 19 ............................. <frm>
+  [716] pushsymb 53 ............................. <#xflip>
+  [718] getlocal 10 ............................. <s>
+  [720] getobjprop 54 ........................... <s.flipH>
+  [722] pusharglistnoret 3 ...................... <frm, #xflip, s.flipH>
+  [724] objcall 39 .............................. frm[#xflip] = s.flipH
+  [726] getlocal 19 ............................. <frm>
+  [728] pushsymb 55 ............................. <#yflip>
+  [730] getlocal 10 ............................. <s>
+  [732] getobjprop 56 ........................... <s.flipV>
+  [734] pusharglistnoret 3 ...................... <frm, #yflip, s.flipV>
+  [736] objcall 39 .............................. frm[#yflip] = s.flipV
+  [738] getlocal 19 ............................. <frm>
+  [740] pushsymb 57 ............................. <#rotation>
+  [742] getlocal 10 ............................. <s>
+  [744] getobjprop 57 ........................... <s.rotation>
+  [746] pusharglistnoret 3 ...................... <frm, #rotation, s.rotation>
+  [748] objcall 39 .............................. frm[#rotation] = s.rotation
+  [750] getlocal 19 ............................. <frm>
+  [752] getobjprop 57 ........................... <frm.rotation>
+  [754] pushzero ................................ <0>
+  [755] eq ...................................... <frm.rotation = 0>
+  [756] jmpifz [846] ............................ if frm.rotation = 0 then
+  [759] getlocal 20 ............................. <m>
+  [761] getobjprop 58 ........................... <m.type>
+  [763] pushsymb 59 ............................. <#text>
+  [765] eq ...................................... <m.type = #text>
+  [766] jmpifz [792] ............................ if m.type = #text then / else
+  [769] getlocal 20 ............................. <m>
+  [771] getchainedprop 60 ....................... <m.image>
+  [773] getchainedprop 51 ....................... <m.image.rect>
+  [775] getobjprop 61 ........................... <m.image.rect.width>
+  [777] setlocal 22 ............................. iw = m.image.rect.width
+  [779] getlocal 20 ............................. <m>
+  [781] getchainedprop 60 ....................... <m.image>
+  [783] getchainedprop 51 ....................... <m.image.rect>
+  [785] getobjprop 62 ........................... <m.image.rect.height>
+  [787] setlocal 23 ............................. ih = m.image.rect.height
+  [789] jmp [808]
+  [792] getlocal 20 ............................. <m>
+  [794] getchainedprop 51 ....................... <m.rect>
+  [796] getobjprop 61 ........................... <m.rect.width>
+  [798] setlocal 22 ............................. iw = m.rect.width
+  [800] getlocal 20 ............................. <m>
+  [802] getchainedprop 51 ....................... <m.rect>
+  [804] getobjprop 62 ........................... <m.rect.height>
+  [806] setlocal 23 ............................. ih = m.rect.height
+  [808] getlocal 19 ............................. <frm>
+  [810] pushsymb 63 ............................. <#scale>
+  [812] getlocal 19 ............................. <frm>
+  [814] getchainedprop 51 ....................... <frm.rect>
+  [816] getobjprop 61 ........................... <frm.rect.width>
+  [818] pusharglist 1 ........................... <frm.rect.width>
+  [820] extcall 64 .............................. <float(frm.rect.width)>
+  [822] getlocal 22 ............................. <iw>
+  [824] div ..................................... <float(frm.rect.width) / iw>
+  [825] getlocal 19 ............................. <frm>
+  [827] getchainedprop 51 ....................... <frm.rect>
+  [829] getobjprop 62 ........................... <frm.rect.height>
+  [831] pusharglist 1 ........................... <frm.rect.height>
+  [833] extcall 64 .............................. <float(frm.rect.height)>
+  [835] getlocal 23 ............................. <ih>
+  [837] div ..................................... <float(frm.rect.height) / ih>
+  [838] pusharglist 2 ........................... <float(frm.rect.width) / iw, float(frm.rect.height) / ih>
+  [840] extcall 26 .............................. <point(float(frm.rect.width) / iw, float(frm.rect.height) / ih)>
+  [842] pusharglistnoret 3 ...................... <frm, #scale, point(float(frm.rect.width) / iw, float(frm.rect.height) / ih)>
+  [844] objcall 39 .............................. frm[#scale] = point(float(frm.rect.width) / iw, float(frm.rect.height) / ih)
+  [846] getlocal 19 ............................. <frm>
+  [848] pushsymb 27 ............................. <#z>
+  [850] getlocal 9 .............................. <i>
+  [852] pusharglistnoret 3 ...................... <frm, #z, i>
+  [854] objcall 39 .............................. frm[#z] = i
+  [856] getlocal 19 ............................. <frm>
+  [858] pushsymb 25 ............................. <#loc>
+  [860] getlocal 9 .............................. <i>
+  [862] pusharglist 1 ........................... <i>
+  [864] extcall 34 .............................. <sprite(i)>
+  [866] getobjprop 25 ........................... <sprite(i).loc>
+  [868] pusharglistnoret 3 ...................... <frm, #loc, sprite(i).loc>
+  [870] objcall 39 .............................. frm[#loc] = sprite(i).loc
+  [872] getlocal 11 ............................. <lr>
+  [874] pushsymb 65 ............................. <#children>
+  [876] pusharglist 2 ........................... <lr, #children>
+  [878] objcall 19 .............................. <lr[#children]>
+  [880] pusharglist 1 ........................... <lr[#children]>
+  [882] extcall 31 .............................. <voidp(lr[#children])>
+  [884] jmpifz [1014] ........................... if voidp(lr[#children]) then
+  [887] getlocal 11 ............................. <lr>
+  [889] pushsymb 45 ............................. <#noSprite>
+  [891] pusharglist 2 ........................... <lr, #noSprite>
+  [893] objcall 19 .............................. <lr[#noSprite]>
+  [895] not ..................................... <not lr[#noSprite]>
+  [896] jmpifz [1002] ........................... if not lr[#noSprite] then
+  [899] getlocal 19 ............................. <frm>
+  [901] pushsymb 43 ............................. <#member>
+  [903] getlocal 20 ............................. <m>
+  [905] getobjprop 66 ........................... <m.name>
+  [907] pusharglistnoret 3 ...................... <frm, #member, m.name>
+  [909] objcall 39 .............................. frm[#member] = m.name
+  [911] getlocal 19 ............................. <frm>
+  [913] pushsymb 67 ............................. <#cast>
+  [915] getlocal 20 ............................. <m>
+  [917] getobjprop 69 ........................... <m.castLibNum>
+  [919] pusharglist 1 ........................... <m.castLibNum>
+  [921] extcall 68 .............................. <castLib(m.castLibNum)>
+  [923] getobjprop 66 ........................... <castLib(m.castLibNum).name>
+  [925] pusharglistnoret 3 ...................... <frm, #cast, castLib(m.castLibNum).name>
+  [927] objcall 39 .............................. frm[#cast] = castLib(m.castLibNum).name
+  [929] getlocal 19 ............................. <frm>
+  [931] pushsymb 70 ............................. <#ink>
+  [933] getlocal 10 ............................. <s>
+  [935] getobjprop 70 ........................... <s.ink>
+  [937] pusharglistnoret 3 ...................... <frm, #ink, s.ink>
+  [939] objcall 39 .............................. frm[#ink] = s.ink
+  [941] getlocal 19 ............................. <frm>
+  [943] pushsymb 71 ............................. <#backColor>
+  [945] getlocal 10 ............................. <s>
+  [947] getobjprop 71 ........................... <s.backColor>
+  [949] pusharglistnoret 3 ...................... <frm, #backColor, s.backColor>
+  [951] objcall 39 .............................. frm[#backColor] = s.backColor
+  [953] getlocal 19 ............................. <frm>
+  [955] pushsymb 72 ............................. <#foreColor>
+  [957] getlocal 10 ............................. <s>
+  [959] getobjprop 72 ........................... <s.foreColor>
+  [961] pusharglistnoret 3 ...................... <frm, #foreColor, s.foreColor>
+  [963] objcall 39 .............................. frm[#foreColor] = s.foreColor
+  [965] getlocal 19 ............................. <frm>
+  [967] pushsymb 73 ............................. <#bgColor>
+  [969] getlocal 10 ............................. <s>
+  [971] getobjprop 73 ........................... <s.bgColor>
+  [973] pusharglistnoret 3 ...................... <frm, #bgColor, s.bgColor>
+  [975] objcall 39 .............................. frm[#bgColor] = s.bgColor
+  [977] getlocal 20 ............................. <m>
+  [979] getobjprop 66 ........................... <m.name>
+  [981] pushcons 0 .............................. <EMPTY>
+  [983] eq ...................................... <m.name = EMPTY>
+  [984] jmpifz [1002] ........................... if m.name = EMPTY then
+  [987] pushcons 2 .............................. <"sprite">
+  [989] getlocal 9 .............................. <i>
+  [991] joinpadstr .............................. <"sprite" && i>
+  [992] pushcons 3 .............................. <"has member with no name on frame">
+  [994] joinpadstr .............................. <"sprite" && i && "has member with no name on frame">
+  [995] getlocal 0 .............................. <framenum>
+  [997] joinpadstr .............................. <"sprite" && i && "has member with no name on frame" && framenum>
+  [998] pusharglistnoret 1 ...................... <"sprite" && i && "has member with no name on frame" && framenum>
+  [1000] extcall 74 ............................. alert("sprite" && i && "has member with no name on frame" && framenum)
+  [1002] getlocal 19 ............................ <frm>
+  [1004] pushsymb 50 ............................ <#regPoint>
+  [1006] getlocal 20 ............................ <m>
+  [1008] getobjprop 50 .......................... <m.regPoint>
+  [1010] pusharglistnoret 3 ..................... <frm, #regPoint, m.regPoint>
+  [1012] objcall 39 ............................. frm[#regPoint] = m.regPoint
+  [1014] getlocal 17 ............................ <animframes>
+  [1016] getlocal 19 ............................ <frm>
+  [1018] pusharglistnoret 2 ..................... <animframes, frm>
+  [1020] objcall 75 ............................. animframes.add(frm)
+  [1022] pushint8 1
+  [1024] getlocal 18
+  [1026] add
+  [1027] setlocal 18
+  [1029] endrepeat [473]
+  [1032] getlocal 11 ............................ <lr>
+  [1034] pushsymb 76 ............................ <#frames>
+  [1036] getlocal 17 ............................ <animframes>
+  [1038] pusharglistnoret 3 ..................... <lr, #frames, animframes>
+  [1040] objcall 39 ............................. lr[#frames] = animframes
+  [1042] getlocal 11 ............................ <lr>
+  [1044] pushsymb 65 ............................ <#children>
+  [1046] pusharglist 2 .......................... <lr, #children>
+  [1048] objcall 19 ............................. <lr[#children]>
+  [1050] pusharglist 1 .......................... <lr[#children]>
+  [1052] extcall 31 ............................. <voidp(lr[#children])>
+  [1054] jmpifz [1068] .......................... if voidp(lr[#children]) then
+  [1057] getlocal 11 ............................ <lr>
+  [1059] pushsymb 65 ............................ <#children>
+  [1061] pusharglist 0 .......................... <[]>
+  [1063] pushlist ............................... <[]>
+  [1064] pusharglistnoret 3 ..................... <lr, #children, []>
+  [1066] objcall 39 ............................. lr[#children] = []
+  [1068] getlocal 6 ............................. <layers>
+  [1070] getlocal 11 ............................ <lr>
+  [1072] getobjprop 23 .......................... <lr.nodeID>
+  [1074] getlocal 11 ............................ <lr>
+  [1076] pusharglistnoret 3 ..................... <layers, lr.nodeID, lr>
+  [1078] objcall 77 ............................. layers.addProp(lr.nodeID, lr)
+  [1080] getlocal 11 ............................ <lr>
+  [1082] pushsymb 76 ............................ <#frames>
+  [1084] pusharglist 2 .......................... <lr, #frames>
+  [1086] objcall 40 ............................. <lr.frames.count>
+  [1088] jmpifz [1161] .......................... if lr.frames.count then
+  [1091] getlocal 11 ............................ <lr>
+  [1093] pushsymb 76 ............................ <#frames>
+  [1095] pushint8 1 ............................. <1>
+  [1097] pusharglist 3 .......................... <lr, #frames, 1>
+  [1099] objcall 78 ............................. <lr.frames[1]>
+  [1101] setlocal 24 ............................ fr1 = lr.frames[1]
+  [1103] getlocal 24 ............................ <fr1>
+  [1105] pushsymb 25 ............................ <#loc>
+  [1107] pushint8 1 ............................. <1>
+  [1109] pusharglist 3 .......................... <fr1, #loc, 1>
+  [1111] objcall 78 ............................. <fr1.loc[1]>
+  [1113] getlocal 24 ............................ <fr1>
+  [1115] pushsymb 50 ............................ <#regPoint>
+  [1117] pushint8 1 ............................. <1>
+  [1119] pusharglist 3 .......................... <fr1, #regPoint, 1>
+  [1121] objcall 78 ............................. <fr1.regPoint[1]>
+  [1123] sub .................................... <fr1.loc[1] - fr1.regPoint[1]>
+  [1124] getlocal 7 ............................. <left>
+  [1126] pusharglist 2 .......................... <fr1.loc[1] - fr1.regPoint[1], left>
+  [1128] extcall 79 ............................. <min(fr1.loc[1] - fr1.regPoint[1], left)>
+  [1130] setlocal 7 ............................. left = min(fr1.loc[1] - fr1.regPoint[1], left)
+  [1132] getlocal 24 ............................ <fr1>
+  [1134] pushsymb 25 ............................ <#loc>
+  [1136] pushint8 2 ............................. <2>
+  [1138] pusharglist 3 .......................... <fr1, #loc, 2>
+  [1140] objcall 78 ............................. <fr1.loc[2]>
+  [1142] getlocal 24 ............................ <fr1>
+  [1144] pushsymb 50 ............................ <#regPoint>
+  [1146] pushint8 2 ............................. <2>
+  [1148] pusharglist 3 .......................... <fr1, #regPoint, 2>
+  [1150] objcall 78 ............................. <fr1.regPoint[2]>
+  [1152] sub .................................... <fr1.loc[2] - fr1.regPoint[2]>
+  [1153] getlocal 8 ............................. <top>
+  [1155] pusharglist 2 .......................... <fr1.loc[2] - fr1.regPoint[2], top>
+  [1157] extcall 79 ............................. <min(fr1.loc[2] - fr1.regPoint[2], top)>
+  [1159] setlocal 8 ............................. top = min(fr1.loc[2] - fr1.regPoint[2], top)
+  [1161] pushint8 1
+  [1163] getlocal 9
+  [1165] add
+  [1166] setlocal 9
+  [1168] endrepeat [136]
+  [1171] getlocal 1 ............................. <absoluteLocs>
+  [1173] not .................................... <not absoluteLocs>
+  [1174] jmpifz [1270] .......................... if not absoluteLocs then
+  [1177] getlocal 7 ............................. <left>
+  [1179] getlocal 8 ............................. <top>
+  [1181] pusharglist 2 .......................... <left, top>
+  [1183] extcall 26 ............................. <point(left, top)>
+  [1185] setlocal 25 ............................ myloc = point(left, top)
+  [1187] getlocal 6 ............................. <layers>
+  [1189] peek 0
+  [1191] pusharglist 1
+  [1193] extcall 40
+  [1195] pushint8 1
+  [1197] peek 0
+  [1199] peek 2
+  [1201] lteq
+  [1202] jmpifz [1268] .......................... repeat with j in layers
+  [1205] peek 2
+  [1207] peek 1
+  [1209] pusharglist 2
+  [1211] extcall 19
+  [1213] setlocal 26
+  [1215] getlocal 26 ............................ <j>
+  [1217] getobjprop 76 .......................... <j.frames>
+  [1219] peek 0
+  [1221] pusharglist 1
+  [1223] extcall 40
+  [1225] pushint8 1
+  [1227] peek 0
+  [1229] peek 2
+  [1231] lteq
+  [1232] jmpifz [1261] .......................... repeat with f in j.frames
+  [1235] peek 2
+  [1237] peek 1
+  [1239] pusharglist 2
+  [1241] extcall 19
+  [1243] setlocal 18
+  [1245] getlocal 18 ............................ <f>
+  [1247] getlocal 18 ............................ <f>
+  [1249] getobjprop 25 .......................... <f.loc>
+  [1251] getlocal 25 ............................ <myloc>
+  [1253] sub .................................... <f.loc - myloc>
+  [1254] setobjprop 25 .......................... f.loc = f.loc - myloc
+  [1256] pushint8 1
+  [1258] add
+  [1259] endrepeat [1227]
+  [1261] pop 3
+  [1263] pushint8 1
+  [1265] add
+  [1266] endrepeat [1197]
+  [1268] pop 3
+  [1270] getlocal 5 ............................. <currentFrame>
+  [1272] pusharglistnoret 1 ..................... <currentFrame>
+  [1274] extcall 33 ............................. go(currentFrame)
+  [1276] getlocal 4 ............................. <Info>
+  [1278] pushsymb 65 ............................ <#children>
+  [1280] getlocal 6 ............................. <layers>
+  [1282] pusharglistnoret 3 ..................... <Info, #children, layers>
+  [1284] objcall 39 ............................. Info[#children] = layers
+  [1286] getlocal 4 ............................. <Info>
+  [1288] pusharglistnoret 1 ..................... <Info>
+  [1290] extcall 80 ............................. return Info
+  [1292] ret
+end
+
+on setupGfxData
+  [  0] pusharglistnoret 0 ...................... <>
+  [  2] extcall 104 ............................. clearGlobals()
+  [  4] pusharglist 0 ........................... <[]>
+  [  6] pushlist ................................ <[]>
+  [  7] setlocal 0 .............................. animlist = []
+  [  9] pushcons 4 .............................. <"anim_list">
+  [ 11] pushcons 5 .............................. <"scripts.layout">
+  [ 13] pusharglist 2 ........................... <"anim_list", "scripts.layout">
+  [ 15] extcall 43 .............................. <member("anim_list", "scripts.layout")>
+  [ 17] getobjprop 59 ........................... <member("anim_list", "scripts.layout").text>
+  [ 19] setlocal 1 .............................. animtxt = member("anim_list", "scripts.layout").text
+  [ 21] pushint8 1 .............................. <1>
+  [ 23] setlocal 2
+  [ 25] getlocal 2
+  [ 27] getlocal 1 .............................. <animtxt>
+  [ 29] pushsymb 105 ............................ <#line>
+  [ 31] pusharglist 2 ........................... <animtxt, #line>
+  [ 33] objcall 40 .............................. <animtxt.line.count>
+  [ 35] lteq
+  [ 36] jmpifz [ 72] ............................ repeat with i = 1 to animtxt.line.count
+  [ 39] getlocal 0 .............................. <animlist>
+  [ 41] getlocal 1 .............................. <animtxt>
+  [ 43] pushsymb 105 ............................ <#line>
+  [ 45] getlocal 2 .............................. <i>
+  [ 47] pusharglist 3 ........................... <animtxt, #line, i>
+  [ 49] objcall 106 ............................. <animtxt.line[i]>
+  [ 51] pushsymb 107 ............................ <#word>
+  [ 53] pushint8 1 .............................. <1>
+  [ 55] pusharglist 3 ........................... <animtxt.line[i], #word, 1>
+  [ 57] objcall 78 .............................. <animtxt.line[i].word[1]>
+  [ 59] pusharglistnoret 2 ...................... <animlist, animtxt.line[i].word[1]>
+  [ 61] objcall 75 .............................. animlist.add(animtxt.line[i].word[1])
+  [ 63] pushint8 1
+  [ 65] getlocal 2
+  [ 67] add
+  [ 68] setlocal 2
+  [ 70] endrepeat [ 25]
+  [ 72] pushcons 6 .............................. <"layout_list">
+  [ 74] pushcons 5 .............................. <"scripts.layout">
+  [ 76] pusharglist 2 ........................... <"layout_list", "scripts.layout">
+  [ 78] extcall 43 .............................. <member("layout_list", "scripts.layout")>
+  [ 80] setlocal 3 .............................. txt = member("layout_list", "scripts.layout")
+  [ 82] pushint8 1 .............................. <1>
+  [ 84] setlocal 2
+  [ 86] getlocal 2
+  [ 88] getlocal 3 .............................. <txt>
+  [ 90] pushsymb 105 ............................ <#line>
+  [ 92] pusharglist 2 ........................... <txt, #line>
+  [ 94] objcall 40 .............................. <txt.line.count>
+  [ 96] lteq
+  [ 97] jmpifz [158] ............................ repeat with i = 1 to txt.line.count
+  [100] getlocal 3 .............................. <txt>
+  [102] pushsymb 105 ............................ <#line>
+  [104] getlocal 2 .............................. <i>
+  [106] pusharglist 3 ........................... <txt, #line, i>
+  [108] objcall 106 ............................. <txt.line[i]>
+  [110] pushsymb 107 ............................ <#word>
+  [112] pushint8 1 .............................. <1>
+  [114] pusharglist 3 ........................... <txt.line[i], #word, 1>
+  [116] objcall 78 .............................. <txt.line[i].word[1]>
+  [118] setlocal 4 .............................. fr = txt.line[i].word[1]
+  [120] getlocal 4 .............................. <fr>
+  [122] pusharglistnoret 1 ...................... <fr>
+  [124] extcall 108 ............................. put fr
+  [126] pushsymb 66 ............................. <#name>
+  [128] getlocal 4 .............................. <fr>
+  [130] pushsymb 109 ............................ <#animated>
+  [132] getlocal 0 .............................. <animlist>
+  [134] getlocal 4 .............................. <fr>
+  [136] pusharglist 2 ........................... <animlist, fr>
+  [138] objcall 110 ............................. <animlist.getOne(fr)>
+  [140] pushzero ................................ <0>
+  [141] gt ...................................... <animlist.getOne(fr) > 0>
+  [142] pusharglist 4 ........................... <[#name: fr, #animated: animlist.getOne(fr) > 0]>
+  [144] pushproplist ............................ <[#name: fr, #animated: animlist.getOne(fr) > 0]>
+  [145] pusharglistnoret 1 ...................... <[#name: fr, #animated: animlist.getOne(fr) > 0]>
+  [147] localcall 2 ............................. getSpriteData([#name: fr, #animated: animlist.getOne(fr) > 0])
+  [149] pushint8 1
+  [151] getlocal 2
+  [153] add
+  [154] setlocal 2
+  [156] endrepeat [ 86]
+  [158] pusharglistnoret 0 ...................... <>
+  [160] extcall 111 ............................. makeFlosAnimData()
+  [162] pusharglistnoret 0 ...................... <>
+  [164] localcall 13 ............................ makeColors()
+  [166] ret
+end
+
+on getSpriteData Args, nod
+  [  0] getparam 0 .............................. <Args>
+  [  2] pusharglist 1 ........................... <Args>
+  [  4] extcall 29 .............................. <stringp(Args)>
+  [  6] jmpifz [ 20] ............................ if stringp(Args) then / else
+  [  9] getparam 0 .............................. <Args>
+  [ 11] setlocal 0 .............................. nm = Args
+  [ 13] getparam 1 .............................. <nod>
+  [ 15] setlocal 1 .............................. noDummies = nod
+  [ 17] jmp [ 42]
+  [ 20] getparam 0 .............................. <Args>
+  [ 22] getobjprop 66 ........................... <Args.name>
+  [ 24] setlocal 0 .............................. nm = Args.name
+  [ 26] getparam 0 .............................. <Args>
+  [ 28] pushsymb 21 ............................. <#noDummies>
+  [ 30] pusharglist 2 ........................... <Args, #noDummies>
+  [ 32] objcall 19 .............................. <Args[#noDummies]>
+  [ 34] setlocal 1 .............................. noDummies = Args[#noDummies]
+  [ 36] pusharglist 0 ........................... <>
+  [ 38] extcall 116 ............................. <VOID>
+  [ 40] setlocal 2 .............................. endfr = VOID
+  [ 42] getlocal 0 .............................. <nm>
+  [ 44] getobjprop 29 ........................... <nm.stringp>
+  [ 46] getlocal 0 .............................. <nm>
+  [ 48] pusharglist 1 ........................... <nm>
+  [ 50] extcall 30 .............................. <marker(nm)>
+  [ 52] not ..................................... <not marker(nm)>
+  [ 53] and ..................................... <nm.stringp and not marker(nm)>
+  [ 54] jmpifz [ 61] ............................ if nm.stringp and not marker(nm) then
+  [ 57] pusharglistnoret 0 ...................... <>
+  [ 59] extcall 80 .............................. return 
+  [ 61] pusharglist 0 ........................... <[]>
+  [ 63] pushlist ................................ <[]>
+  [ 64] setlocal 3 .............................. animlist = []
+  [ 66] pushcons 4 .............................. <"anim_list">
+  [ 68] pushcons 5 .............................. <"scripts.layout">
+  [ 70] pusharglist 2 ........................... <"anim_list", "scripts.layout">
+  [ 72] extcall 43 .............................. <member("anim_list", "scripts.layout")>
+  [ 74] getobjprop 59 ........................... <member("anim_list", "scripts.layout").text>
+  [ 76] setlocal 4 .............................. animtxt = member("anim_list", "scripts.layout").text
+  [ 78] pushint8 1 .............................. <1>
+  [ 80] setlocal 5
+  [ 82] getlocal 5
+  [ 84] getlocal 4 .............................. <animtxt>
+  [ 86] pushsymb 105 ............................ <#line>
+  [ 88] pusharglist 2 ........................... <animtxt, #line>
+  [ 90] objcall 40 .............................. <animtxt.line.count>
+  [ 92] lteq
+  [ 93] jmpifz [129] ............................ repeat with i = 1 to animtxt.line.count
+  [ 96] getlocal 3 .............................. <animlist>
+  [ 98] getlocal 4 .............................. <animtxt>
+  [100] pushsymb 105 ............................ <#line>
+  [102] getlocal 5 .............................. <i>
+  [104] pusharglist 3 ........................... <animtxt, #line, i>
+  [106] objcall 106 ............................. <animtxt.line[i]>
+  [108] pushsymb 107 ............................ <#word>
+  [110] pushint8 1 .............................. <1>
+  [112] pusharglist 3 ........................... <animtxt.line[i], #word, 1>
+  [114] objcall 78 .............................. <animtxt.line[i].word[1]>
+  [116] pusharglistnoret 2 ...................... <animlist, animtxt.line[i].word[1]>
+  [118] objcall 75 .............................. animlist.add(animtxt.line[i].word[1])
+  [120] pushint8 1
+  [122] getlocal 5
+  [124] add
+  [125] setlocal 5
+  [127] endrepeat [ 82]
+  [129] getlocal 3 .............................. <animlist>
+  [131] getlocal 0 .............................. <nm>
+  [133] pusharglist 2 ........................... <animlist, nm>
+  [135] objcall 110 ............................. <animlist.getOne(nm)>
+  [137] pushzero ................................ <0>
+  [138] gt ...................................... <animlist.getOne(nm) > 0>
+  [139] setlocal 6 .............................. anim = animlist.getOne(nm) > 0
+  [141] getlocal 6 .............................. <anim>
+  [143] jmpifz [153] ............................ if anim then
+  [146] getlocal 0 .............................. <nm>
+  [148] pushcons 7 .............................. <"_end">
+  [150] joinstr ................................. <nm & "_end">
+  [151] setlocal 2 .............................. endfr = nm & "_end"
+  [153] getlocal 0 .............................. <nm>
+  [155] pushcons 8 .............................. <"_layout">
+  [157] joinstr ................................. <nm & "_layout">
+  [158] pushcons 5 .............................. <"scripts.layout">
+  [160] pusharglist 2 ........................... <nm & "_layout", "scripts.layout">
+  [162] extcall 43 .............................. <member(nm & "_layout", "scripts.layout")>
+  [164] setlocal 7 .............................. m = member(nm & "_layout", "scripts.layout")
+  [166] getlocal 7 .............................. <m>
+  [168] getobjprop 48 ........................... <m.number>
+  [170] pushint8 1 .............................. <1>
+  [172] inv ..................................... <-1>
+  [173] eq ...................................... <m.number = -1>
+  [174] jmpifz [200] ............................ if m.number = -1 then
+  [177] pushsymb 59 ............................. <#text>
+  [179] pushcons 5 .............................. <"scripts.layout">
+  [181] pusharglist 1 ........................... <"scripts.layout">
+  [183] extcall 68 .............................. <castLib("scripts.layout")>
+  [185] pusharglist 2 ........................... <#text, castLib("scripts.layout")>
+  [187] extcall 117 ............................. <new(#text, castLib("scripts.layout"))>
+  [189] setlocal 7 .............................. m = new(#text, castLib("scripts.layout"))
+  [191] getlocal 7 .............................. <m>
+  [193] getlocal 0 .............................. <nm>
+  [195] pushcons 8 .............................. <"_layout">
+  [197] joinstr ................................. <nm & "_layout">
+  [198] setobjprop 66 ........................... m.name = nm & "_layout"
+  [200] pushsymb 18 ............................. <#framenum>
+  [202] getlocal 0 .............................. <nm>
+  [204] pushsymb 21 ............................. <#noDummies>
+  [206] getlocal 1 .............................. <noDummies>
+  [208] pushsymb 22 ............................. <#endFrame>
+  [210] getlocal 2 .............................. <endfr>
+  [212] pusharglist 6 ........................... <[#framenum: nm, #noDummies: noDummies, #endFrame: endfr]>
+  [214] pushproplist ............................ <[#framenum: nm, #noDummies: noDummies, #endFrame: endfr]>
+  [215] pusharglist 1 ........................... <[#framenum: nm, #noDummies: noDummies, #endFrame: endfr]>
+  [217] localcall 0 ............................. <getlayers([#framenum: nm, #noDummies: noDummies, #endFrame: endfr])>
+  [219] setlocal 8 .............................. d = getlayers([#framenum: nm, #noDummies: noDummies, #endFrame: endfr])
+  [221] getlocal 7 .............................. <m>
+  [223] getlocal 8 .............................. <d>
+  [225] pusharglist 1 ........................... <d>
+  [227] extcall 24 .............................. <string(d)>
+  [229] pusharglist 1 ........................... <string(d)>
+  [231] extcall 42 .............................. <devoid(string(d))>
+  [233] setobjprop 59 ........................... m.text = devoid(string(d))
+  [235] getlocal 8 .............................. <d>
+  [237] pusharglistnoret 1 ...................... <d>
+  [239] extcall 80 .............................. return d
+  [241] ret
+end
+
+on getNodeData nm
+  [  0] getglobal 123 ........................... <glob>
+  [  2] pusharglist 1 ........................... <glob>
+  [  4] extcall 31 .............................. <voidp(glob)>
+  [  6] not ..................................... <not voidp(glob)>
+  [  7] jmpifz [ 22] ............................ if not voidp(glob) then
+  [ 10] getglobal 123 ........................... <glob>
+  [ 12] getparam 0 .............................. <nm>
+  [ 14] pusharglist 2 ........................... <glob, nm>
+  [ 16] objcall 3 ............................... <glob.getNodeData(nm)>
+  [ 18] pusharglistnoret 1 ...................... <glob.getNodeData(nm)>
+  [ 20] extcall 80 .............................. return glob.getNodeData(nm)
+  [ 22] getparam 0 .............................. <nm>
+  [ 24] pushcons 8 .............................. <"_layout">
+  [ 26] joinstr ................................. <nm & "_layout">
+  [ 27] pushcons 5 .............................. <"scripts.layout">
+  [ 29] pusharglist 2 ........................... <nm & "_layout", "scripts.layout">
+  [ 31] extcall 43 .............................. <member(nm & "_layout", "scripts.layout")>
+  [ 33] setlocal 0 .............................. m = member(nm & "_layout", "scripts.layout")
+  [ 35] getlocal 0 .............................. <m>
+  [ 37] getobjprop 48 ........................... <m.number>
+  [ 39] pushint8 1 .............................. <1>
+  [ 41] inv ..................................... <-1>
+  [ 42] eq ...................................... <m.number = -1>
+  [ 43] jmpifz [ 50] ............................ if m.number = -1 then
+  [ 46] pusharglistnoret 0 ...................... <>
+  [ 48] extcall 80 .............................. return 
+  [ 50] getlocal 0 .............................. <m>
+  [ 52] getobjprop 59 ........................... <m.text>
+  [ 54] pusharglist 1 ........................... <m.text>
+  [ 56] extcall 42 .............................. <devoid(m.text)>
+  [ 58] pusharglist 1 ........................... <devoid(m.text)>
+  [ 60] extcall 41 .............................. <value(devoid(m.text))>
+  [ 62] setlocal 1 .............................. val = value(devoid(m.text))
+  [ 64] getlocal 1 .............................. <val>
+  [ 66] pusharglistnoret 1 ...................... <val>
+  [ 68] localcall 4 ............................. fillDummies(val)
+  [ 70] getlocal 1 .............................. <val>
+  [ 72] pusharglistnoret 1 ...................... <val>
+  [ 74] extcall 80 .............................. return val
+  [ 76] ret
+end
+
+on fillDummies nd
+  [  0] getparam 0 .............................. <nd>
+  [  2] pusharglist 1 ........................... <nd>
+  [  4] extcall 31 .............................. <voidp(nd)>
+  [  6] jmpifz [ 13] ............................ if voidp(nd) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 80 .............................. return 
+  [ 13] getparam 0 .............................. <nd>
+  [ 15] pushsymb 44 ............................. <#dummyID>
+  [ 17] pusharglist 2 ........................... <nd, #dummyID>
+  [ 19] objcall 19 .............................. <nd[#dummyID]>
+  [ 21] pusharglist 1 ........................... <nd[#dummyID]>
+  [ 23] extcall 31 .............................. <voidp(nd[#dummyID])>
+  [ 25] not ..................................... <not voidp(nd[#dummyID])>
+  [ 26] getparam 0 .............................. <nd>
+  [ 28] pushsymb 44 ............................. <#dummyID>
+  [ 30] pusharglist 2 ........................... <nd, #dummyID>
+  [ 32] objcall 19 .............................. <nd[#dummyID]>
+  [ 34] pushcons 0 .............................. <EMPTY>
+  [ 36] nteq .................................... <nd[#dummyID] <> EMPTY>
+  [ 37] and ..................................... <not voidp(nd[#dummyID]) and (nd[#dummyID] <> EMPTY)>
+  [ 38] jmpifz [100] ............................ if not voidp(nd[#dummyID]) and (nd[#dummyID] <> EMPTY) then
+  [ 41] getparam 0 .............................. <nd>
+  [ 43] getobjprop 44 ........................... <nd.dummyID>
+  [ 45] pusharglist 1 ........................... <nd.dummyID>
+  [ 47] localcall 3 ............................. <getNodeData(nd.dummyID)>
+  [ 49] setlocal 0 .............................. d = getNodeData(nd.dummyID)
+  [ 51] getlocal 0 .............................. <d>
+  [ 53] pusharglist 1 ........................... <d>
+  [ 55] extcall 31 .............................. <voidp(d)>
+  [ 57] not ..................................... <not voidp(d)>
+  [ 58] jmpifz [ 72] ............................ if not voidp(d) then / else
+  [ 61] getparam 0 .............................. <nd>
+  [ 63] getlocal 0 .............................. <d>
+  [ 65] getobjprop 65 ........................... <d.children>
+  [ 67] setobjprop 65 ........................... nd.children = d.children
+  [ 69] jmp [ 76]
+  [ 72] pusharglistnoret 0 ...................... <>
+  [ 74] extcall 125 ............................. nothing()
+  [ 76] getparam 0 .............................. <nd>
+  [ 78] pushsymb 44 ............................. <#dummyID>
+  [ 80] pusharglist 0 ........................... <>
+  [ 82] extcall 116 ............................. <VOID>
+  [ 84] pusharglistnoret 3 ...................... <nd, #dummyID, VOID>
+  [ 86] objcall 39 .............................. nd[#dummyID] = VOID
+  [ 88] getparam 0 .............................. <nd>
+  [ 90] pushsymb 43 ............................. <#member>
+  [ 92] pusharglist 0 ........................... <>
+  [ 94] extcall 116 ............................. <VOID>
+  [ 96] pusharglistnoret 3 ...................... <nd, #member, VOID>
+  [ 98] objcall 39 .............................. nd[#member] = VOID
+  [100] getparam 0 .............................. <nd>
+  [102] pushsymb 65 ............................. <#children>
+  [104] pusharglist 2 ........................... <nd, #children>
+  [106] objcall 19 .............................. <nd[#children]>
+  [108] pusharglist 1 ........................... <nd[#children]>
+  [110] extcall 31 .............................. <voidp(nd[#children])>
+  [112] jmpifz [119] ............................ if voidp(nd[#children]) then
+  [115] pusharglistnoret 0 ...................... <>
+  [117] extcall 80 .............................. return 
+  [119] getparam 0 .............................. <nd>
+  [121] getobjprop 65 ........................... <nd.children>
+  [123] peek 0
+  [125] pusharglist 1
+  [127] extcall 40
+  [129] pushint8 1
+  [131] peek 0
+  [133] peek 2
+  [135] lteq
+  [136] jmpifz [160] ............................ repeat with i in nd.children
+  [139] peek 2
+  [141] peek 1
+  [143] pusharglist 2
+  [145] extcall 19
+  [147] setlocal 1
+  [149] getlocal 1 .............................. <i>
+  [151] pusharglistnoret 1 ...................... <i>
+  [153] localcall 4 ............................. fillDummies(i)
+  [155] pushint8 1
+  [157] add
+  [158] endrepeat [131]
+  [160] pop 3
+  [162] ret
+end
+
+on makeDummy name
+  [  0] pushcons 9 .............................. <"makedummy">
+  [  2] pusharglist 1 ........................... <"makedummy">
+  [  4] extcall 30 .............................. <marker("makedummy")>
+  [  6] pusharglistnoret 1 ...................... <marker("makedummy")>
+  [  8] extcall 33 .............................. go(marker("makedummy"))
+  [ 10] pushcons 10 ............................. <"sprite2d_manager">
+  [ 12] pusharglist 1 ........................... <"sprite2d_manager">
+  [ 14] extcall 127 ............................. <script("sprite2d_manager")>
+  [ 16] pusharglist 1 ........................... <script("sprite2d_manager")>
+  [ 18] objcall 117 ............................. <script("sprite2d_manager").new()>
+  [ 20] setlocal 0 .............................. sm = script("sprite2d_manager").new()
+  [ 22] pushcons 11 ............................. <"node_manager">
+  [ 24] pusharglist 1 ........................... <"node_manager">
+  [ 26] extcall 127 ............................. <script("node_manager")>
+  [ 28] pusharglist 1 ........................... <script("node_manager")>
+  [ 30] objcall 117 ............................. <script("node_manager").new()>
+  [ 32] setlocal 1 .............................. cm = script("node_manager").new()
+  [ 34] getlocal 0 .............................. <sm>
+  [ 36] pusharglistnoret 1 ...................... <sm>
+  [ 38] objcall 128 ............................. sm.init()
+  [ 40] getlocal 1 .............................. <cm>
+  [ 42] getlocal 0 .............................. <sm>
+  [ 44] pusharglistnoret 2 ...................... <cm, sm>
+  [ 46] objcall 129 ............................. cm.setSpriteManager(sm)
+  [ 48] getlocal 1 .............................. <cm>
+  [ 50] pusharglistnoret 1 ...................... <cm>
+  [ 52] objcall 128 ............................. cm.init()
+  [ 54] getlocal 1 .............................. <cm>
+  [ 56] getchainedprop 130 ...................... <cm.ROOT>
+  [ 58] getparam 0 .............................. <name>
+  [ 60] pusharglist 1 ........................... <name>
+  [ 62] localcall 3 ............................. <getNodeData(name)>
+  [ 64] pusharglist 2 ........................... <cm.ROOT, getNodeData(name)>
+  [ 66] objcall 131 ............................. <cm.ROOT.newNode(getNodeData(name))>
+  [ 68] setlocal 2 .............................. c = cm.ROOT.newNode(getNodeData(name))
+  [ 70] getlocal 2 .............................. <c>
+  [ 72] pushint8 1 .............................. <1>
+  [ 74] pusharglistnoret 2 ...................... <c, 1>
+  [ 76] objcall 132 ............................. c.setVisible(1)
+  [ 78] getlocal 2 .............................. <c>
+  [ 80] pushint8 100 ............................ <100>
+  [ 82] pushint8 100 ............................ <100>
+  [ 84] pusharglist 2 ........................... <100, 100>
+  [ 86] extcall 26 .............................. <point(100, 100)>
+  [ 88] pusharglistnoret 2 ...................... <c, point(100, 100)>
+  [ 90] objcall 133 ............................. c.setLoc(point(100, 100))
+  [ 92] pusharglistnoret 0 ...................... <>
+  [ 94] extcall 134 ............................. updateStage()
+  [ 96] getlocal 2 .............................. <c>
+  [ 98] pusharglist 1 ........................... <c>
+  [100] objcall 135 ............................. <c.getRect()>
+  [102] setlocal 3 .............................. r = c.getRect()
+  [104] getlocal 2 .............................. <c>
+  [106] pusharglist 1 ........................... <c>
+  [108] objcall 136 ............................. <c.getRotation()>
+  [110] setlocal 4 .............................. rot = c.getRotation()
+  [112] getlocal 3 .............................. <r>
+  [114] pushint8 1 .............................. <1>
+  [116] pusharglist 2 ........................... <r, 1>
+  [118] objcall 19 .............................. <r[1]>
+  [120] pushzero ................................ <0>
+  [121] lt ...................................... <r[1] < 0>
+  [122] jmpifz [156] ............................ if r[1] < 0 then
+  [125] getlocal 2 .............................. <c>
+  [127] getlocal 3 .............................. <r>
+  [129] pushint8 1 .............................. <1>
+  [131] pusharglist 2 ........................... <r, 1>
+  [133] objcall 19 .............................. <r[1]>
+  [135] inv ..................................... <-r[1]>
+  [136] getlocal 2 .............................. <c>
+  [138] pusharglist 1 ........................... <c>
+  [140] objcall 137 ............................. <c.getLoc()>
+  [142] pushint8 2 .............................. <2>
+  [144] pusharglist 2 ........................... <c.getLoc(), 2>
+  [146] objcall 19 .............................. <c.getLoc()[2]>
+  [148] pusharglist 2 ........................... <-r[1], c.getLoc()[2]>
+  [150] extcall 26 .............................. <point(-r[1], c.getLoc()[2])>
+  [152] pusharglistnoret 2 ...................... <c, point(-r[1], c.getLoc()[2])>
+  [154] objcall 133 ............................. c.setLoc(point(-r[1], c.getLoc()[2]))
+  [156] getlocal 3 .............................. <r>
+  [158] pushint8 2 .............................. <2>
+  [160] pusharglist 2 ........................... <r, 2>
+  [162] objcall 19 .............................. <r[2]>
+  [164] pushzero ................................ <0>
+  [165] lt ...................................... <r[2] < 0>
+  [166] jmpifz [200] ............................ if r[2] < 0 then
+  [169] getlocal 2 .............................. <c>
+  [171] getlocal 2 .............................. <c>
+  [173] pusharglist 1 ........................... <c>
+  [175] objcall 137 ............................. <c.getLoc()>
+  [177] pushint8 1 .............................. <1>
+  [179] pusharglist 2 ........................... <c.getLoc(), 1>
+  [181] objcall 19 .............................. <c.getLoc()[1]>
+  [183] getlocal 3 .............................. <r>
+  [185] pushint8 2 .............................. <2>
+  [187] pusharglist 2 ........................... <r, 2>
+  [189] objcall 19 .............................. <r[2]>
+  [191] inv ..................................... <-r[2]>
+  [192] pusharglist 2 ........................... <c.getLoc()[1], -r[2]>
+  [194] extcall 26 .............................. <point(c.getLoc()[1], -r[2])>
+  [196] pusharglistnoret 2 ...................... <c, point(c.getLoc()[1], -r[2])>
+  [198] objcall 133 ............................. c.setLoc(point(c.getLoc()[1], -r[2]))
+  [200] getlocal 2 .............................. <c>
+  [202] getlocal 4 .............................. <rot>
+  [204] pusharglistnoret 2 ...................... <c, rot>
+  [206] objcall 138 ............................. c.setRotation(rot)
+  [208] pusharglistnoret 0 ...................... <>
+  [210] extcall 134 ............................. updateStage()
+  [212] getlocal 2 .............................. <c>
+  [214] pusharglist 1 ........................... <c>
+  [216] objcall 135 ............................. <c.getRect()>
+  [218] setlocal 3 .............................. r = c.getRect()
+  [220] getlocal 3 .............................. <r>
+  [222] getobjprop 61 ........................... <r.width>
+  [224] getlocal 3 .............................. <r>
+  [226] getobjprop 62 ........................... <r.height>
+  [228] pushint8 32 ............................. <32>
+  [230] pusharglist 3 ........................... <r.width, r.height, 32>
+  [232] extcall 60 .............................. <image(r.width, r.height, 32)>
+  [234] setlocal 5 .............................. img = image(r.width, r.height, 32)
+  [236] getlocal 5 .............................. <img>
+  [238] getmovieprop 139 ........................ <the stage>
+  [240] getobjprop 60 ........................... <(the stage).image>
+  [242] getlocal 5 .............................. <img>
+  [244] getobjprop 51 ........................... <img.rect>
+  [246] getlocal 3 .............................. <r>
+  [248] pusharglistnoret 4 ...................... <img, (the stage).image, img.rect, r>
+  [250] objcall 140 ............................. img.copyPixels((the stage).image, img.rect, r)
+  [252] getlocal 2 .............................. <c>
+  [254] pusharglistnoret 1 ...................... <c>
+  [256] objcall 141 ............................. c.destroy()
+  [258] getlocal 1 .............................. <cm>
+  [260] pusharglistnoret 1 ...................... <cm>
+  [262] objcall 141 ............................. cm.destroy()
+  [264] getlocal 0 .............................. <sm>
+  [266] pusharglistnoret 1 ...................... <sm>
+  [268] objcall 141 ............................. sm.destroy()
+  [270] getparam 0 .............................. <name>
+  [272] pushcons 12 ............................. <"_dummy">
+  [274] joinstr ................................. <name & "_dummy">
+  [275] pushcons 13 ............................. <"gfx.layout">
+  [277] pusharglist 2 ........................... <name & "_dummy", "gfx.layout">
+  [279] extcall 43 .............................. <member(name & "_dummy", "gfx.layout")>
+  [281] setlocal 6 .............................. m = member(name & "_dummy", "gfx.layout")
+  [283] getlocal 6 .............................. <m>
+  [285] getobjprop 48 ........................... <m.number>
+  [287] pushint8 1 .............................. <1>
+  [289] inv ..................................... <-1>
+  [290] eq ...................................... <m.number = -1>
+  [291] jmpifz [322] ............................ if m.number = -1 then
+  [294] pushsymb 142 ............................ <#bitmap>
+  [296] pushcons 13 ............................. <"gfx.layout">
+  [298] pusharglist 1 ........................... <"gfx.layout">
+  [300] extcall 68 .............................. <castLib("gfx.layout")>
+  [302] pusharglist 2 ........................... <#bitmap, castLib("gfx.layout")>
+  [304] extcall 117 ............................. <new(#bitmap, castLib("gfx.layout"))>
+  [306] setlocal 6 .............................. m = new(#bitmap, castLib("gfx.layout"))
+  [308] getlocal 6 .............................. <m>
+  [310] pushzero ................................ <0>
+  [311] setobjprop 143 .......................... m.trimWhiteSpace = 0
+  [313] getlocal 6 .............................. <m>
+  [315] getparam 0 .............................. <name>
+  [317] pushcons 12 ............................. <"_dummy">
+  [319] joinstr ................................. <name & "_dummy">
+  [320] setobjprop 66 ........................... m.name = name & "_dummy"
+  [322] getlocal 6 .............................. <m>
+  [324] getlocal 5 .............................. <img>
+  [326] setobjprop 60 ........................... m.image = img
+  [328] getlocal 6 .............................. <m>
+  [330] pushzero ................................ <0>
+  [331] pushzero ................................ <0>
+  [332] pusharglist 2 ........................... <0, 0>
+  [334] extcall 26 .............................. <point(0, 0)>
+  [336] setobjprop 50 ........................... m.regPoint = point(0, 0)
+  [338] getlocal 6 .............................. <m>
+  [340] pusharglistnoret 1 ...................... <m>
+  [342] extcall 80 .............................. return m
+  [344] ret
+end
+
+on getAnimData framelist
+  [  0] pusharglist 0 ........................... <[:]>
+  [  2] pushproplist ............................ <[:]>
+  [  3] setlocal 0 .............................. anims = [:]
+  [  5] getparam 0 .............................. <framelist>
+  [  7] peek 0
+  [  9] pusharglist 1
+  [ 11] extcall 40
+  [ 13] pushint8 1
+  [ 15] peek 0
+  [ 17] peek 2
+  [ 19] lteq
+  [ 20] jmpifz [160] ............................ repeat with i in framelist
+  [ 23] peek 2
+  [ 25] peek 1
+  [ 27] pusharglist 2
+  [ 29] extcall 19
+  [ 31] setlocal 1
+  [ 33] getlocal 1 .............................. <i>
+  [ 35] pushsymb 49 ............................. <#animID>
+  [ 37] pusharglist 2 ........................... <i, #animID>
+  [ 39] objcall 19 .............................. <i[#animID]>
+  [ 41] setlocal 2 .............................. animID = i[#animID]
+  [ 43] getlocal 2 .............................. <animID>
+  [ 45] pusharglist 1 ........................... <animID>
+  [ 47] extcall 31 .............................. <voidp(animID)>
+  [ 49] jmpifz [ 55] ............................ if voidp(animID) then
+  [ 52] jmp [155] ............................... next repeat
+  [ 55] getlocal 0 .............................. <anims>
+  [ 57] getlocal 2 .............................. <animID>
+  [ 59] pusharglist 2 ........................... <anims, animID>
+  [ 61] objcall 19 .............................. <anims[animID]>
+  [ 63] setlocal 3 .............................. anim = anims[animID]
+  [ 65] getlocal 3 .............................. <anim>
+  [ 67] pusharglist 1 ........................... <anim>
+  [ 69] extcall 31 .............................. <voidp(anim)>
+  [ 71] jmpifz [ 89] ............................ if voidp(anim) then
+  [ 74] pusharglist 0 ........................... <[]>
+  [ 76] pushlist ................................ <[]>
+  [ 77] setlocal 3 .............................. anim = []
+  [ 79] getlocal 0 .............................. <anims>
+  [ 81] getlocal 2 .............................. <animID>
+  [ 83] getlocal 3 .............................. <anim>
+  [ 85] pusharglistnoret 3 ...................... <anims, animID, anim>
+  [ 87] objcall 39 .............................. anims[animID] = anim
+  [ 89] getlocal 1 .............................. <i>
+  [ 91] pushsymb 44 ............................. <#dummyID>
+  [ 93] pusharglist 2 ........................... <i, #dummyID>
+  [ 95] objcall 19 .............................. <i[#dummyID]>
+  [ 97] pusharglist 1 ........................... <i[#dummyID]>
+  [ 99] extcall 24 .............................. <string(i[#dummyID])>
+  [101] pushcons 0 .............................. <EMPTY>
+  [103] eq ...................................... <string(i[#dummyID]) = EMPTY>
+  [104] jmpifz [147] ............................ if string(i[#dummyID]) = EMPTY then
+  [107] getlocal 1 .............................. <i>
+  [109] pushsymb 43 ............................. <#member>
+  [111] pusharglist 2 ........................... <i, #member>
+  [113] objcall 19 .............................. <i[#member]>
+  [115] pusharglist 1 ........................... <i[#member]>
+  [117] extcall 31 .............................. <voidp(i[#member])>
+  [119] not ..................................... <not voidp(i[#member])>
+  [120] jmpifz [147] ............................ if not voidp(i[#member]) then
+  [123] getlocal 1 .............................. <i>
+  [125] getobjprop 43 ........................... <i.member>
+  [127] getlocal 1 .............................. <i>
+  [129] getobjprop 67 ........................... <i.cast>
+  [131] pusharglist 2 ........................... <i.member, i.cast>
+  [133] extcall 43 .............................. <member(i.member, i.cast)>
+  [135] setlocal 4 .............................. m = member(i.member, i.cast)
+  [137] getlocal 1 .............................. <i>
+  [139] pushsymb 43 ............................. <#member>
+  [141] getlocal 4 .............................. <m>
+  [143] pusharglistnoret 3 ...................... <i, #member, m>
+  [145] objcall 39 .............................. i[#member] = m
+  [147] getlocal 3 .............................. <anim>
+  [149] getlocal 1 .............................. <i>
+  [151] pusharglistnoret 2 ...................... <anim, i>
+  [153] objcall 75 .............................. anim.add(i)
+  [155] pushint8 1
+  [157] add
+  [158] endrepeat [ 15]
+  [160] pop 3
+  [162] getlocal 0 .............................. <anims>
+  [164] pusharglistnoret 1 ...................... <anims>
+  [166] extcall 80 .............................. return anims
+  [168] ret
+end
+
+on zeroAllRegPoints
+  [  0] pusharglist 0 ........................... <[:]>
+  [  2] pushproplist ............................ <[:]>
+  [  3] setlocal 0 .............................. mlist = [:]
+  [  5] pushzero ................................ <0>
+  [  6] pushzero ................................ <0>
+  [  7] pusharglist 2 ........................... <0, 0>
+  [  9] extcall 26 .............................. <point(0, 0)>
+  [ 11] setlocal 1 .............................. p = point(0, 0)
+  [ 13] pusharglist 0 ........................... <>
+  [ 15] thebuiltin 28 ........................... <the frame>
+  [ 17] setlocal 2 .............................. f = the frame
+  [ 19] pusharglistnoret 0 ...................... <>
+  [ 21] extcall 152 ............................. beginRecording()
+  [ 23] pushint8 1 .............................. <1>
+  [ 25] setlocal 3
+  [ 27] getlocal 3
+  [ 29] getmovieprop 32 ......................... <the lastChannel>
+  [ 31] lteq
+  [ 32] jmpifz [168] ............................ repeat with i = 1 to the lastChannel
+  [ 35] getlocal 3 .............................. <i>
+  [ 37] pusharglist 1 ........................... <i>
+  [ 39] extcall 34 .............................. <sprite(i)>
+  [ 41] setlocal 4 .............................. s = sprite(i)
+  [ 43] getlocal 4 .............................. <s>
+  [ 45] getobjprop 43 ........................... <s.member>
+  [ 47] setlocal 5 .............................. m = s.member
+  [ 49] getlocal 5 .............................. <m>
+  [ 51] getobjprop 48 ........................... <m.number>
+  [ 53] pushzero ................................ <0>
+  [ 54] gt ...................................... <m.number > 0>
+  [ 55] jmpifz [159] ............................ if m.number > 0 then
+  [ 58] getlocal 0 .............................. <mlist>
+  [ 60] getlocal 5 .............................. <m>
+  [ 62] pusharglist 2 ........................... <mlist, m>
+  [ 64] objcall 153 ............................. <mlist.getaProp(m)>
+  [ 66] pusharglist 1 ........................... <mlist.getaProp(m)>
+  [ 68] extcall 31 .............................. <voidp(mlist.getaProp(m))>
+  [ 70] jmpifz [ 85] ............................ if voidp(mlist.getaProp(m)) then
+  [ 73] getlocal 0 .............................. <mlist>
+  [ 75] getlocal 5 .............................. <m>
+  [ 77] getlocal 5 .............................. <m>
+  [ 79] getobjprop 50 ........................... <m.regPoint>
+  [ 81] pusharglistnoret 3 ...................... <mlist, m, m.regPoint>
+  [ 83] objcall 154 ............................. mlist.setaProp(m, m.regPoint)
+  [ 85] getlocal 0 .............................. <mlist>
+  [ 87] getlocal 5 .............................. <m>
+  [ 89] pusharglist 2 ........................... <mlist, m>
+  [ 91] objcall 153 ............................. <mlist.getaProp(m)>
+  [ 93] setlocal 6 .............................. rp = mlist.getaProp(m)
+  [ 95] getlocal 6 .............................. <rp>
+  [ 97] getlocal 1 .............................. <p>
+  [ 99] nteq .................................... <rp <> p>
+  [100] jmpifz [159] ............................ if rp <> p then
+  [103] getlocal 4 .............................. <s>
+  [105] getobjprop 61 ........................... <s.width>
+  [107] pusharglist 1 ........................... <s.width>
+  [109] extcall 64 .............................. <float(s.width)>
+  [111] getlocal 5 .............................. <m>
+  [113] getchainedprop 51 ....................... <m.rect>
+  [115] getobjprop 61 ........................... <m.rect.width>
+  [117] div ..................................... <float(s.width) / m.rect.width>
+  [118] getlocal 4 .............................. <s>
+  [120] getobjprop 62 ........................... <s.height>
+  [122] pusharglist 1 ........................... <s.height>
+  [124] extcall 64 .............................. <float(s.height)>
+  [126] getlocal 5 .............................. <m>
+  [128] getchainedprop 51 ....................... <m.rect>
+  [130] getobjprop 62 ........................... <m.rect.height>
+  [132] div ..................................... <float(s.height) / m.rect.height>
+  [133] pusharglist 2 ........................... <float(s.width) / m.rect.width, float(s.height) / m.rect.height>
+  [135] extcall 26 .............................. <point(float(s.width) / m.rect.width, float(s.height) / m.rect.height)>
+  [137] setlocal 7 .............................. scale = point(float(s.width) / m.rect.width, float(s.height) / m.rect.height)
+  [139] getlocal 4 .............................. <s>
+  [141] getlocal 4 .............................. <s>
+  [143] getobjprop 25 ........................... <s.loc>
+  [145] getlocal 6 .............................. <rp>
+  [147] getlocal 7 .............................. <scale>
+  [149] mul ..................................... <rp * scale>
+  [150] sub ..................................... <s.loc - (rp * scale)>
+  [151] setobjprop 25 ........................... s.loc = s.loc - (rp * scale)
+  [153] getlocal 5 .............................. <m>
+  [155] getlocal 1 .............................. <p>
+  [157] setobjprop 50 ........................... m.regPoint = p
+  [159] pushint8 1
+  [161] getlocal 3
+  [163] add
+  [164] setlocal 3
+  [166] endrepeat [ 27]
+  [168] pusharglistnoret 0 ...................... <>
+  [170] extcall 155 ............................. endRecording()
+  [172] getlocal 2 .............................. <f>
+  [174] pusharglistnoret 1 ...................... <f>
+  [176] extcall 33 .............................. go(f)
+  [178] ret
+end
+
+on convertToAlpha mem, bgcol
+  [  0] getparam 1 .............................. <bgcol>
+  [  2] pusharglist 1 ........................... <bgcol>
+  [  4] extcall 31 .............................. <voidp(bgcol)>
+  [  6] jmpifz [ 24] ............................ if voidp(bgcol) then
+  [  9] pushint16 255 ........................... <255>
+  [ 12] pushint16 255 ........................... <255>
+  [ 15] pushint16 255 ........................... <255>
+  [ 18] pusharglist 3 ........................... <255, 255, 255>
+  [ 20] extcall 159 ............................. <rgb(255, 255, 255)>
+  [ 22] setparam 1 .............................. bgcol = rgb(255, 255, 255)
+  [ 24] getparam 0 .............................. <mem>
+  [ 26] getchainedprop 60 ....................... <mem.image>
+  [ 28] pusharglist 1 ........................... <mem.image>
+  [ 30] objcall 38 .............................. <mem.image.duplicate()>
+  [ 32] setlocal 0 .............................. img = mem.image.duplicate()
+  [ 34] getlocal 0 .............................. <img>
+  [ 36] pushint8 1 .............................. <1>
+  [ 38] setobjprop 160 .......................... img.useAlpha = 1
+  [ 40] getparam 0 .............................. <mem>
+  [ 42] getobjprop 69 ........................... <mem.castLibNum>
+  [ 44] setlocal 1 .............................. cst = mem.castLibNum
+  [ 46] getparam 0 .............................. <mem>
+  [ 48] getobjprop 48 ........................... <mem.number>
+  [ 50] setlocal 2 .............................. num = mem.number
+  [ 52] getparam 0 .............................. <mem>
+  [ 54] getobjprop 66 ........................... <mem.name>
+  [ 56] setlocal 3 .............................. name = mem.name
+  [ 58] pushsymb 142 ............................ <#bitmap>
+  [ 60] getlocal 1 .............................. <cst>
+  [ 62] pusharglist 1 ........................... <cst>
+  [ 64] extcall 68 .............................. <castLib(cst)>
+  [ 66] pusharglist 2 ........................... <#bitmap, castLib(cst)>
+  [ 68] extcall 117 ............................. <new(#bitmap, castLib(cst))>
+  [ 70] setlocal 4 .............................. newmem = new(#bitmap, castLib(cst))
+  [ 72] getlocal 4 .............................. <newmem>
+  [ 74] getlocal 3 .............................. <name>
+  [ 76] setobjprop 66 ........................... newmem.name = name
+  [ 78] getlocal 4 .............................. <newmem>
+  [ 80] getlocal 0 .............................. <img>
+  [ 82] getchainedprop 51 ....................... <img.rect>
+  [ 84] getobjprop 61 ........................... <img.rect.width>
+  [ 86] getlocal 0 .............................. <img>
+  [ 88] getchainedprop 51 ....................... <img.rect>
+  [ 90] getobjprop 62 ........................... <img.rect.height>
+  [ 92] pushint8 32 ............................. <32>
+  [ 94] pusharglist 3 ........................... <img.rect.width, img.rect.height, 32>
+  [ 96] extcall 60 .............................. <image(img.rect.width, img.rect.height, 32)>
+  [ 98] setobjprop 60 ........................... newmem.image = image(img.rect.width, img.rect.height, 32)
+  [100] getlocal 4 .............................. <newmem>
+  [102] getchainedprop 60 ....................... <newmem.image>
+  [104] getlocal 0 .............................. <img>
+  [106] getchainedprop 51 ....................... <img.rect>
+  [108] getobjprop 61 ........................... <img.rect.width>
+  [110] getlocal 0 .............................. <img>
+  [112] getchainedprop 51 ....................... <img.rect>
+  [114] getobjprop 62 ........................... <img.rect.height>
+  [116] pushint8 8 .............................. <8>
+  [118] pusharglist 3 ........................... <img.rect.width, img.rect.height, 8>
+  [120] extcall 60 .............................. <image(img.rect.width, img.rect.height, 8)>
+  [122] pusharglistnoret 2 ...................... <newmem.image, image(img.rect.width, img.rect.height, 8)>
+  [124] objcall 161 ............................. newmem.image.setAlpha(image(img.rect.width, img.rect.height, 8))
+  [126] getlocal 4 .............................. <newmem>
+  [128] getchainedprop 60 ....................... <newmem.image>
+  [130] getlocal 0 .............................. <img>
+  [132] getlocal 0 .............................. <img>
+  [134] getobjprop 51 ........................... <img.rect>
+  [136] getlocal 0 .............................. <img>
+  [138] getobjprop 51 ........................... <img.rect>
+  [140] pushsymb 70 ............................. <#ink>
+  [142] pushint8 36 ............................. <36>
+  [144] pushsymb 73 ............................. <#bgColor>
+  [146] getparam 1 .............................. <bgcol>
+  [148] pusharglist 4 ........................... <[#ink: 36, #bgColor: bgcol]>
+  [150] pushproplist ............................ <[#ink: 36, #bgColor: bgcol]>
+  [151] pusharglistnoret 5 ...................... <newmem.image, img, img.rect, img.rect, [#ink: 36, #bgColor: bgcol]>
+  [153] objcall 140 ............................. newmem.image.copyPixels(img, img.rect, img.rect, [#ink: 36, #bgColor: bgcol])
+  [155] ret
+end
+
+on getSitterRegPoint sid
+  [  0] getglobal 123 ........................... <glob>
+  [  2] pusharglist 1 ........................... <glob>
+  [  4] extcall 31 .............................. <voidp(glob)>
+  [  6] jmpifz [ 13] ............................ if voidp(glob) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 80 .............................. return 
+  [ 13] getglobal 123 ........................... <glob>
+  [ 15] getchainedprop 167 ...................... <glob.managers>
+  [ 17] getchainedprop 168 ...................... <glob.managers.config>
+  [ 19] pushsymb 169 ............................ <#sitterRegPoints>
+  [ 21] getparam 0 .............................. <sid>
+  [ 23] pusharglist 3 ........................... <glob.managers.config, #sitterRegPoints, sid>
+  [ 25] objcall 78 .............................. <glob.managers.config.sitterRegPoints[sid]>
+  [ 27] pusharglistnoret 1 ...................... <glob.managers.config.sitterRegPoints[sid]>
+  [ 29] extcall 80 .............................. return glob.managers.config.sitterRegPoints[sid]
+  [ 31] ret
+end
+
+on _makecolor alldata, colstr
+  [  0] getparam 0 .............................. <alldata>
+  [  2] pushsymb 76 ............................. <#frames>
+  [  4] pusharglist 2 ........................... <alldata, #frames>
+  [  6] objcall 19 .............................. <alldata[#frames]>
+  [  8] setlocal 0 .............................. fr = alldata[#frames]
+  [ 10] getlocal 0 .............................. <fr>
+  [ 12] pusharglist 1 ........................... <fr>
+  [ 14] extcall 31 .............................. <voidp(fr)>
+  [ 16] not ..................................... <not voidp(fr)>
+  [ 17] jmpifz [140] ............................ if not voidp(fr) then
+  [ 20] getlocal 0 .............................. <fr>
+  [ 22] peek 0
+  [ 24] pusharglist 1
+  [ 26] extcall 40
+  [ 28] pushint8 1
+  [ 30] peek 0
+  [ 32] peek 2
+  [ 34] lteq
+  [ 35] jmpifz [138] ............................ repeat with dat in fr
+  [ 38] peek 2
+  [ 40] peek 1
+  [ 42] pusharglist 2
+  [ 44] extcall 19
+  [ 46] setlocal 1
+  [ 48] getlocal 1 .............................. <dat>
+  [ 50] pushsymb 67 ............................. <#cast>
+  [ 52] pusharglist 2 ........................... <dat, #cast>
+  [ 54] objcall 19 .............................. <dat[#cast]>
+  [ 56] setlocal 2 .............................. c = dat[#cast]
+  [ 58] getlocal 2 .............................. <c>
+  [ 60] pusharglist 1 ........................... <c>
+  [ 62] extcall 31 .............................. <voidp(c)>
+  [ 64] not ..................................... <not voidp(c)>
+  [ 65] jmpifz [133] ............................ if not voidp(c) then
+  [ 68] getlocal 2 .............................. <c>
+  [ 70] pushcons 14 ............................. <"gfx.people.">
+  [ 72] containsstr ............................. <c contains "gfx.people.">
+  [ 73] jmpifz [ 89] ............................ if c contains "gfx.people." then
+  [ 76] getlocal 1 .............................. <dat>
+  [ 78] pushsymb 67 ............................. <#cast>
+  [ 80] pushcons 14 ............................. <"gfx.people.">
+  [ 82] getparam 1 .............................. <colstr>
+  [ 84] joinstr ................................. <"gfx.people." & colstr>
+  [ 85] pusharglistnoret 3 ...................... <dat, #cast, "gfx.people." & colstr>
+  [ 87] objcall 39 .............................. dat[#cast] = "gfx.people." & colstr
+  [ 89] getlocal 1 .............................. <dat>
+  [ 91] getobjprop 43 ........................... <dat.member>
+  [ 93] getlocal 1 .............................. <dat>
+  [ 95] getobjprop 67 ........................... <dat.cast>
+  [ 97] pusharglist 2 ........................... <dat.member, dat.cast>
+  [ 99] extcall 43 .............................. <member(dat.member, dat.cast)>
+  [101] setlocal 3 .............................. m = member(dat.member, dat.cast)
+  [103] getlocal 3 .............................. <m>
+  [105] getobjprop 48 ........................... <m.number>
+  [107] pushint8 1 .............................. <1>
+  [109] inv ..................................... <-1>
+  [110] eq ...................................... <m.number = -1>
+  [111] jmpifz [133] ............................ if m.number = -1 then
+  [114] pushcons 15 ............................. <"misnamed cast member (">
+  [116] getlocal 1 .............................. <dat>
+  [118] getobjprop 43 ........................... <dat.member>
+  [120] joinpadstr .............................. <"misnamed cast member (" && dat.member>
+  [121] getlocal 1 .............................. <dat>
+  [123] getobjprop 67 ........................... <dat.cast>
+  [125] joinpadstr .............................. <"misnamed cast member (" && dat.member && dat.cast>
+  [126] pushcons 16 ............................. <")">
+  [128] joinpadstr .............................. <"misnamed cast member (" && dat.member && dat.cast && ")">
+  [129] pusharglistnoret 1 ...................... <"misnamed cast member (" && dat.member && dat.cast && ")">
+  [131] extcall 171 ............................. complain("misnamed cast member (" && dat.member && dat.cast && ")")
+  [133] pushint8 1
+  [135] add
+  [136] endrepeat [ 30]
+  [138] pop 3
+  [140] getparam 0 .............................. <alldata>
+  [142] getobjprop 65 ........................... <alldata.children>
+  [144] peek 0
+  [146] pusharglist 1
+  [148] extcall 40
+  [150] pushint8 1
+  [152] peek 0
+  [154] peek 2
+  [156] lteq
+  [157] jmpifz [183] ............................ repeat with i in alldata.children
+  [160] peek 2
+  [162] peek 1
+  [164] pusharglist 2
+  [166] extcall 19
+  [168] setlocal 4
+  [170] getlocal 4 .............................. <i>
+  [172] getparam 1 .............................. <colstr>
+  [174] pusharglistnoret 2 ...................... <i, colstr>
+  [176] localcall 10 ............................ _makecolor(i, colstr)
+  [178] pushint8 1
+  [180] add
+  [181] endrepeat [152]
+  [183] pop 3
+  [185] ret
+end
+
+on makeColor str, colstr
+  [  0] getparam 0 .............................. <str>
+  [  2] pusharglist 1 ........................... <str>
+  [  4] localcall 3 ............................. <getNodeData(str)>
+  [  6] pusharglist 1 ........................... <getNodeData(str)>
+  [  8] objcall 38 .............................. <getNodeData(str).duplicate()>
+  [ 10] setlocal 0 .............................. dat = getNodeData(str).duplicate()
+  [ 12] getlocal 0 .............................. <dat>
+  [ 14] getparam 1 .............................. <colstr>
+  [ 16] pusharglistnoret 2 ...................... <dat, colstr>
+  [ 18] localcall 10 ............................ _makecolor(dat, colstr)
+  [ 20] getparam 0 .............................. <str>
+  [ 22] pushcons 17 ............................. <"_">
+  [ 24] joinstr ................................. <str & "_">
+  [ 25] getparam 1 .............................. <colstr>
+  [ 27] joinstr ................................. <str & "_" & colstr>
+  [ 28] pushcons 8 .............................. <"_layout">
+  [ 30] joinstr ................................. <str & "_" & colstr & "_layout">
+  [ 31] setlocal 1 .............................. memname = str & "_" & colstr & "_layout"
+  [ 33] getlocal 1 .............................. <memname>
+  [ 35] pushcons 5 .............................. <"scripts.layout">
+  [ 37] pusharglist 2 ........................... <memname, "scripts.layout">
+  [ 39] extcall 43 .............................. <member(memname, "scripts.layout")>
+  [ 41] setlocal 2 .............................. m = member(memname, "scripts.layout")
+  [ 43] getlocal 2 .............................. <m>
+  [ 45] getobjprop 48 ........................... <m.number>
+  [ 47] pushint8 1 .............................. <1>
+  [ 49] inv ..................................... <-1>
+  [ 50] eq ...................................... <m.number = -1>
+  [ 51] jmpifz [ 74] ............................ if m.number = -1 then
+  [ 54] pushsymb 59 ............................. <#text>
+  [ 56] pushcons 5 .............................. <"scripts.layout">
+  [ 58] pusharglist 1 ........................... <"scripts.layout">
+  [ 60] extcall 68 .............................. <castLib("scripts.layout")>
+  [ 62] pusharglist 2 ........................... <#text, castLib("scripts.layout")>
+  [ 64] extcall 117 ............................. <new(#text, castLib("scripts.layout"))>
+  [ 66] setlocal 2 .............................. m = new(#text, castLib("scripts.layout"))
+  [ 68] getlocal 2 .............................. <m>
+  [ 70] getlocal 1 .............................. <memname>
+  [ 72] setobjprop 66 ........................... m.name = memname
+  [ 74] getlocal 2 .............................. <m>
+  [ 76] getlocal 0 .............................. <dat>
+  [ 78] pusharglist 1 ........................... <dat>
+  [ 80] extcall 24 .............................. <string(dat)>
+  [ 82] pusharglist 1 ........................... <string(dat)>
+  [ 84] extcall 42 .............................. <devoid(string(dat))>
+  [ 86] setobjprop 59 ........................... m.text = devoid(string(dat))
+  [ 88] getparam 0 .............................. <str>
+  [ 90] pushcons 12 ............................. <"_dummy">
+  [ 92] joinstr ................................. <str & "_dummy">
+  [ 93] pushcons 13 ............................. <"gfx.layout">
+  [ 95] pusharglist 1 ........................... <"gfx.layout">
+  [ 97] extcall 68 .............................. <castLib("gfx.layout")>
+  [ 99] pusharglist 2 ........................... <str & "_dummy", castLib("gfx.layout")>
+  [101] extcall 43 .............................. <member(str & "_dummy", castLib("gfx.layout"))>
+  [103] setlocal 3 .............................. dm = member(str & "_dummy", castLib("gfx.layout"))
+  [105] getlocal 3 .............................. <dm>
+  [107] pusharglist 1 ........................... <dm>
+  [109] extcall 31 .............................. <voidp(dm)>
+  [111] jmpifz [122] ............................ if voidp(dm) then
+  [114] getparam 0 .............................. <str>
+  [116] pusharglist 1 ........................... <str>
+  [118] localcall 5 ............................. <makeDummy(str)>
+  [120] setlocal 3 .............................. dm = makeDummy(str)
+  [122] getparam 0 .............................. <str>
+  [124] pushcons 17 ............................. <"_">
+  [126] joinstr ................................. <str & "_">
+  [127] getparam 1 .............................. <colstr>
+  [129] joinstr ................................. <str & "_" & colstr>
+  [130] pusharglist 1 ........................... <str & "_" & colstr>
+  [132] localcall 5 ............................. <makeDummy(str & "_" & colstr)>
+  [134] setlocal 4 .............................. dm2 = makeDummy(str & "_" & colstr)
+  [136] getlocal 4 .............................. <dm2>
+  [138] getlocal 3 .............................. <dm>
+  [140] getobjprop 50 ........................... <dm.regPoint>
+  [142] setobjprop 50 ........................... dm2.regPoint = dm.regPoint
+  [144] getparam 0 .............................. <str>
+  [146] getlocal 3 .............................. <dm>
+  [148] getobjprop 50 ........................... <dm.regPoint>
+  [150] pusharglistnoret 2 ...................... <str, dm.regPoint>
+  [152] localcall 12 ............................ setSitterRegPoint(str, dm.regPoint)
+  [154] getlocal 0 .............................. <dat>
+  [156] pusharglistnoret 1 ...................... <dat>
+  [158] extcall 80 .............................. return dat
+  [160] ret
+end
+
+on setSitterRegPoint id, rp
+  [  0] pushcons 18 ............................. <"sitter_regpoints">
+  [  2] pushcons 5 .............................. <"scripts.layout">
+  [  4] pusharglist 2 ........................... <"sitter_regpoints", "scripts.layout">
+  [  6] extcall 43 .............................. <member("sitter_regpoints", "scripts.layout")>
+  [  8] setlocal 0 .............................. m = member("sitter_regpoints", "scripts.layout")
+  [ 10] getlocal 0 .............................. <m>
+  [ 12] getobjprop 48 ........................... <m.number>
+  [ 14] pushint8 1 .............................. <1>
+  [ 16] inv ..................................... <-1>
+  [ 17] eq ...................................... <m.number = -1>
+  [ 18] jmpifz [ 41] ............................ if m.number = -1 then
+  [ 21] pushsymb 59 ............................. <#text>
+  [ 23] pushcons 5 .............................. <"scripts.layout">
+  [ 25] pusharglist 1 ........................... <"scripts.layout">
+  [ 27] extcall 68 .............................. <castLib("scripts.layout")>
+  [ 29] pusharglist 2 ........................... <#text, castLib("scripts.layout")>
+  [ 31] extcall 117 ............................. <new(#text, castLib("scripts.layout"))>
+  [ 33] setlocal 0 .............................. m = new(#text, castLib("scripts.layout"))
+  [ 35] getlocal 0 .............................. <m>
+  [ 37] pushcons 18 ............................. <"sitter_regpoints">
+  [ 39] setobjprop 66 ........................... m.name = "sitter_regpoints"
+  [ 41] getlocal 0 .............................. <m>
+  [ 43] getobjprop 59 ........................... <m.text>
+  [ 45] pusharglist 1 ........................... <m.text>
+  [ 47] extcall 42 .............................. <devoid(m.text)>
+  [ 49] pusharglist 1 ........................... <devoid(m.text)>
+  [ 51] extcall 41 .............................. <value(devoid(m.text))>
+  [ 53] setlocal 1 .............................. val = value(devoid(m.text))
+  [ 55] getlocal 1 .............................. <val>
+  [ 57] getobjprop 179 .......................... <val.ilk>
+  [ 59] pushsymb 180 ............................ <#propList>
+  [ 61] eq ...................................... <val.ilk = #propList>
+  [ 62] not ..................................... <not (val.ilk = #propList)>
+  [ 63] jmpifz [ 71] ............................ if not (val.ilk = #propList) then
+  [ 66] pusharglist 0 ........................... <[:]>
+  [ 68] pushproplist ............................ <[:]>
+  [ 69] setlocal 1 .............................. val = [:]
+  [ 71] getlocal 1 .............................. <val>
+  [ 73] getparam 0 .............................. <id>
+  [ 75] getparam 1 .............................. <rp>
+  [ 77] pusharglistnoret 3 ...................... <val, id, rp>
+  [ 79] objcall 39 .............................. val[id] = rp
+  [ 81] getlocal 0 .............................. <m>
+  [ 83] getlocal 1 .............................. <val>
+  [ 85] pusharglist 1 ........................... <val>
+  [ 87] extcall 24 .............................. <string(val)>
+  [ 89] pusharglist 1 ........................... <string(val)>
+  [ 91] extcall 42 .............................. <devoid(string(val))>
+  [ 93] setobjprop 59 ........................... m.text = devoid(string(val))
+  [ 95] ret
+end
+
+on makeColors
+  [  0] pushcons 19 ............................. <"old_male">
+  [  2] pushcons 20 ............................. <"business_female">
+  [  4] pushcons 21 ............................. <"young_female">
+  [  6] pushcons 22 ............................. <"boy">
+  [  8] pushcons 23 ............................. <"man">
+  [ 10] pusharglist 5 ........................... <["old_male", "business_female", "young_female", "boy", "man"]>
+  [ 12] pushlist ................................ <["old_male", "business_female", "young_female", "boy", "man"]>
+  [ 13] peek 0
+  [ 15] pusharglist 1
+  [ 17] extcall 40
+  [ 19] pushint8 1
+  [ 21] peek 0
+  [ 23] peek 2
+  [ 25] lteq
+  [ 26] jmpifz [ 98] ............................ repeat with j in ["old_male", "business_female", "young_female", "boy", "man"]
+  [ 29] peek 2
+  [ 31] peek 1
+  [ 33] pusharglist 2
+  [ 35] extcall 19
+  [ 37] setlocal 0
+  [ 39] pushcons 24 ............................. <"red">
+  [ 41] pushcons 25 ............................. <"blue">
+  [ 43] pushcons 26 ............................. <"green">
+  [ 45] pushcons 27 ............................. <"purple">
+  [ 47] pushcons 28 ............................. <"yellow">
+  [ 49] pusharglist 5 ........................... <["red", "blue", "green", "purple", "yellow"]>
+  [ 51] pushlist ................................ <["red", "blue", "green", "purple", "yellow"]>
+  [ 52] peek 0
+  [ 54] pusharglist 1
+  [ 56] extcall 40
+  [ 58] pushint8 1
+  [ 60] peek 0
+  [ 62] peek 2
+  [ 64] lteq
+  [ 65] jmpifz [ 91] ............................ repeat with i in ["red", "blue", "green", "purple", "yellow"]
+  [ 68] peek 2
+  [ 70] peek 1
+  [ 72] pusharglist 2
+  [ 74] extcall 19
+  [ 76] setlocal 1
+  [ 78] getlocal 0 .............................. <j>
+  [ 80] getlocal 1 .............................. <i>
+  [ 82] pusharglistnoret 2 ...................... <j, i>
+  [ 84] localcall 11 ............................ makeColor(j, i)
+  [ 86] pushint8 1
+  [ 88] add
+  [ 89] endrepeat [ 60]
+  [ 91] pop 3
+  [ 93] pushint8 1
+  [ 95] add
+  [ 96] endrepeat [ 21]
+  [ 98] pop 3
+  [100] pushcons 29 ............................. <"critic">
+  [102] pushcons 30 ............................. <"critic_dummy">
+  [104] pushcons 13 ............................. <"gfx.layout">
+  [106] pusharglist 2 ........................... <"critic_dummy", "gfx.layout">
+  [108] extcall 43 .............................. <member("critic_dummy", "gfx.layout")>
+  [110] getobjprop 50 ........................... <member("critic_dummy", "gfx.layout").regPoint>
+  [112] pusharglistnoret 2 ...................... <"critic", member("critic_dummy", "gfx.layout").regPoint>
+  [114] localcall 12 ............................ setSitterRegPoint("critic", member("critic_dummy", "gfx.layout").regPoint)
+  [116] ret
+end
+
+on cropChars
+  [  0] pushcons 25 ............................. <"blue">
+  [  2] pushcons 24 ............................. <"red">
+  [  4] pushcons 26 ............................. <"green">
+  [  6] pushcons 28 ............................. <"yellow">
+  [  8] pushcons 27 ............................. <"purple">
+  [ 10] pushcons 31 ............................. <"none">
+  [ 12] pusharglist 6 ........................... <["blue", "red", "green", "yellow", "purple", "none"]>
+  [ 14] pushlist ................................ <["blue", "red", "green", "yellow", "purple", "none"]>
+  [ 15] peek 0
+  [ 17] pusharglist 1
+  [ 19] extcall 40
+  [ 21] pushint8 1
+  [ 23] peek 0
+  [ 25] peek 2
+  [ 27] lteq
+  [ 28] jmpifz [148] ............................ repeat with clr in ["blue", "red", "green", "yellow", "purple", "none"]
+  [ 31] peek 2
+  [ 33] peek 1
+  [ 35] pusharglist 2
+  [ 37] extcall 19
+  [ 39] setlocal 0
+  [ 41] pushcons 14 ............................. <"gfx.people.">
+  [ 43] getlocal 0 .............................. <clr>
+  [ 45] joinstr ................................. <"gfx.people." & clr>
+  [ 46] setlocal 1 .............................. cst = "gfx.people." & clr
+  [ 48] pushint8 1 .............................. <1>
+  [ 50] setlocal 2
+  [ 52] getlocal 2
+  [ 54] getlocal 1 .............................. <cst>
+  [ 56] pushint8 2 .............................. <2>
+  [ 58] get 8 ................................... <the number of castMembers of castLib cst>
+  [ 60] lteq
+  [ 61] jmpifz [143] ............................ repeat with i = 1 to the number of castMembers of castLib cst
+  [ 64] getlocal 2 .............................. <i>
+  [ 66] getlocal 1 .............................. <cst>
+  [ 68] pusharglist 2 ........................... <i, cst>
+  [ 70] extcall 43 .............................. <member(i, cst)>
+  [ 72] setlocal 3 .............................. m = member(i, cst)
+  [ 74] getlocal 2 .............................. <i>
+  [ 76] pushint8 1 .............................. <1>
+  [ 78] add ..................................... <i + 1>
+  [ 79] getlocal 1 .............................. <cst>
+  [ 81] pusharglist 2 ........................... <i + 1, cst>
+  [ 83] extcall 43 .............................. <member(i + 1, cst)>
+  [ 85] setlocal 4 .............................. mp1 = member(i + 1, cst)
+  [ 87] getlocal 3 .............................. <m>
+  [ 89] getobjprop 58 ........................... <m.type>
+  [ 91] pushsymb 182 ............................ <#empty>
+  [ 93] eq ...................................... <m.type = #empty>
+  [ 94] getlocal 4 .............................. <mp1>
+  [ 96] getobjprop 58 ........................... <mp1.type>
+  [ 98] pushsymb 182 ............................ <#empty>
+  [100] eq ...................................... <mp1.type = #empty>
+  [101] or ...................................... <(m.type = #empty) or (mp1.type = #empty)>
+  [102] jmpifz [108] ............................ if (m.type = #empty) or (mp1.type = #empty) then
+  [105] jmp [134] ............................... next repeat
+  [108] getlocal 3 .............................. <m>
+  [110] getobjprop 183 .......................... <m.paletteRef>
+  [112] pushsymb 184 ............................ <#systemWin>
+  [114] nteq .................................... <m.paletteRef <> #systemWin>
+  [115] getlocal 4 .............................. <mp1>
+  [117] getobjprop 183 .......................... <mp1.paletteRef>
+  [119] pushsymb 184 ............................ <#systemWin>
+  [121] eq ...................................... <mp1.paletteRef = #systemWin>
+  [122] and ..................................... <(m.paletteRef <> #systemWin) and (mp1.paletteRef = #systemWin)>
+  [123] jmpifz [134] ............................ if (m.paletteRef <> #systemWin) and (mp1.paletteRef = #systemWin) then
+  [126] getlocal 3 .............................. <m>
+  [128] getlocal 4 .............................. <mp1>
+  [130] pusharglistnoret 2 ...................... <m, mp1>
+  [132] localcall 15 ............................ cropWithAlpha(m, mp1)
+  [134] pushint8 1
+  [136] getlocal 2
+  [138] add
+  [139] setlocal 2
+  [141] endrepeat [ 52]
+  [143] pushint8 1
+  [145] add
+  [146] endrepeat [ 23]
+  [148] pop 3
+  [150] ret
+end
+
+on cropWithAlpha m, msk
+  [  0] pushint16 128 ........................... <128>
+  [  3] setlocal 0 .............................. thresh = 128
+  [  5] getparam 0 .............................. <m>
+  [  7] getobjprop 50 ........................... <m.regPoint>
+  [  9] setlocal 1 .............................. rp = m.regPoint
+  [ 11] getparam 0 .............................. <m>
+  [ 13] getobjprop 61 ........................... <m.width>
+  [ 15] getparam 0 .............................. <m>
+  [ 17] getobjprop 62 ........................... <m.height>
+  [ 19] pushint8 8 .............................. <8>
+  [ 21] pusharglist 3 ........................... <m.width, m.height, 8>
+  [ 23] extcall 60 .............................. <image(m.width, m.height, 8)>
+  [ 25] setlocal 2 .............................. img = image(m.width, m.height, 8)
+  [ 27] getlocal 2 .............................. <img>
+  [ 29] getparam 0 .............................. <m>
+  [ 31] getobjprop 183 .......................... <m.paletteRef>
+  [ 33] setobjprop 183 .......................... img.paletteRef = m.paletteRef
+  [ 35] getlocal 2 .............................. <img>
+  [ 37] getlocal 2 .............................. <img>
+  [ 39] getobjprop 51 ........................... <img.rect>
+  [ 41] pushint16 255 ........................... <255>
+  [ 44] pushint16 255 ........................... <255>
+  [ 47] pushint16 255 ........................... <255>
+  [ 50] pusharglist 3 ........................... <255, 255, 255>
+  [ 52] extcall 187 ............................. <color(255, 255, 255)>
+  [ 54] pusharglistnoret 3 ...................... <img, img.rect, color(255, 255, 255)>
+  [ 56] objcall 188 ............................. img.fill(img.rect, color(255, 255, 255))
+  [ 58] getparam 0 .............................. <m>
+  [ 60] getobjprop 51 ........................... <m.rect>
+  [ 62] setlocal 3 .............................. r = m.rect
+  [ 64] getlocal 2 .............................. <img>
+  [ 66] getparam 0 .............................. <m>
+  [ 68] getobjprop 60 ........................... <m.image>
+  [ 70] getlocal 3 .............................. <r>
+  [ 72] getlocal 3 .............................. <r>
+  [ 74] pushsymb 189 ............................ <#maskImage>
+  [ 76] getparam 1 .............................. <msk>
+  [ 78] getobjprop 60 ........................... <msk.image>
+  [ 80] pusharglist 2 ........................... <[#maskImage: msk.image]>
+  [ 82] pushproplist ............................ <[#maskImage: msk.image]>
+  [ 83] pusharglistnoret 5 ...................... <img, m.image, r, r, [#maskImage: msk.image]>
+  [ 85] objcall 140 ............................. img.copyPixels(m.image, r, r, [#maskImage: msk.image])
+  [ 87] getparam 0 .............................. <m>
+  [ 89] getlocal 2 .............................. <img>
+  [ 91] setobjprop 60 ........................... m.image = img
+  [ 93] getparam 0 .............................. <m>
+  [ 95] getlocal 1 .............................. <rp>
+  [ 97] setobjprop 50 ........................... m.regPoint = rp
+  [ 99] ret
+end
+
+on putDots m, col
+  [  0] getparam 1 .............................. <col>
+  [  2] pusharglist 1 ........................... <col>
+  [  4] extcall 31 .............................. <voidp(col)>
+  [  6] jmpifz [ 18] ............................ if voidp(col) then
+  [  9] pushzero ................................ <0>
+  [ 10] pushzero ................................ <0>
+  [ 11] pushzero ................................ <0>
+  [ 12] pusharglist 3 ........................... <0, 0, 0>
+  [ 14] extcall 159 ............................. <rgb(0, 0, 0)>
+  [ 16] setparam 1 .............................. col = rgb(0, 0, 0)
+  [ 18] getparam 0 .............................. <m>
+  [ 20] getchainedprop 60 ....................... <m.image>
+  [ 22] pushzero ................................ <0>
+  [ 23] pushzero ................................ <0>
+  [ 24] getparam 1 .............................. <col>
+  [ 26] pusharglistnoret 4 ...................... <m.image, 0, 0, col>
+  [ 28] objcall 192 ............................. m.image.setPixel(0, 0, col)
+  [ 30] getparam 0 .............................. <m>
+  [ 32] getchainedprop 60 ....................... <m.image>
+  [ 34] getparam 0 .............................. <m>
+  [ 36] getobjprop 61 ........................... <m.width>
+  [ 38] pushint8 1 .............................. <1>
+  [ 40] sub ..................................... <m.width - 1>
+  [ 41] getparam 0 .............................. <m>
+  [ 43] getobjprop 62 ........................... <m.height>
+  [ 45] pushint8 1 .............................. <1>
+  [ 47] sub ..................................... <m.height - 1>
+  [ 48] getparam 1 .............................. <col>
+  [ 50] pusharglistnoret 4 ...................... <m.image, m.width - 1, m.height - 1, col>
+  [ 52] objcall 192 ............................. m.image.setPixel(m.width - 1, m.height - 1, col)
+  [ 54] ret
+end
+
+on putDotsAll col
+  [  0] getparam 0 .............................. <col>
+  [  2] pusharglist 1 ........................... <col>
+  [  4] extcall 31 .............................. <voidp(col)>
+  [  6] jmpifz [ 18] ............................ if voidp(col) then
+  [  9] pushzero ................................ <0>
+  [ 10] pushzero ................................ <0>
+  [ 11] pushzero ................................ <0>
+  [ 12] pusharglist 3 ........................... <0, 0, 0>
+  [ 14] extcall 159 ............................. <rgb(0, 0, 0)>
+  [ 16] setparam 0 .............................. col = rgb(0, 0, 0)
+  [ 18] pushcons 25 ............................. <"blue">
+  [ 20] pushcons 24 ............................. <"red">
+  [ 22] pushcons 26 ............................. <"green">
+  [ 24] pushcons 28 ............................. <"yellow">
+  [ 26] pushcons 27 ............................. <"purple">
+  [ 28] pushcons 31 ............................. <"none">
+  [ 30] pusharglist 6 ........................... <["blue", "red", "green", "yellow", "purple", "none"]>
+  [ 32] pushlist ................................ <["blue", "red", "green", "yellow", "purple", "none"]>
+  [ 33] peek 0
+  [ 35] pusharglist 1
+  [ 37] extcall 40
+  [ 39] pushint8 1
+  [ 41] peek 0
+  [ 43] peek 2
+  [ 45] lteq
+  [ 46] jmpifz [140] ............................ repeat with clr in ["blue", "red", "green", "yellow", "purple", "none"]
+  [ 49] peek 2
+  [ 51] peek 1
+  [ 53] pusharglist 2
+  [ 55] extcall 19
+  [ 57] setlocal 0
+  [ 59] pushcons 14 ............................. <"gfx.people.">
+  [ 61] getlocal 0 .............................. <clr>
+  [ 63] joinstr ................................. <"gfx.people." & clr>
+  [ 64] setlocal 1 .............................. clibname = "gfx.people." & clr
+  [ 66] pushint8 1 .............................. <1>
+  [ 68] setlocal 2
+  [ 70] getlocal 2
+  [ 72] getlocal 1 .............................. <clibname>
+  [ 74] pushint8 2 .............................. <2>
+  [ 76] get 8 ................................... <the number of castMembers of castLib clibname>
+  [ 78] lteq
+  [ 79] jmpifz [135] ............................ repeat with i = 1 to the number of castMembers of castLib clibname
+  [ 82] getlocal 2 .............................. <i>
+  [ 84] getlocal 1 .............................. <clibname>
+  [ 86] pusharglist 2 ........................... <i, clibname>
+  [ 88] extcall 43 .............................. <member(i, clibname)>
+  [ 90] setlocal 3 .............................. m = member(i, clibname)
+  [ 92] getlocal 3 .............................. <m>
+  [ 94] getobjprop 58 ........................... <m.type>
+  [ 96] pushsymb 142 ............................ <#bitmap>
+  [ 98] nteq .................................... <m.type <> #bitmap>
+  [ 99] jmpifz [105] ............................ if m.type <> #bitmap then
+  [102] jmp [126] ............................... next repeat
+  [105] getlocal 3 .............................. <m>
+  [107] getobjprop 183 .......................... <m.paletteRef>
+  [109] pushsymb 184 ............................ <#systemWin>
+  [111] nteq .................................... <m.paletteRef <> #systemWin>
+  [112] jmpifz [118] ............................ if m.paletteRef <> #systemWin then
+  [115] jmp [126] ............................... next repeat
+  [118] getlocal 3 .............................. <m>
+  [120] getparam 0 .............................. <col>
+  [122] pusharglistnoret 2 ...................... <m, col>
+  [124] localcall 16 ............................ putDots(m, col)
+  [126] pushint8 1
+  [128] getlocal 2
+  [130] add
+  [131] setlocal 2
+  [133] endrepeat [ 70]
+  [135] pushint8 1
+  [137] add
+  [138] endrepeat [ 41]
+  [140] pop 3
+  [142] ret
+end

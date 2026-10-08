@@ -1,0 +1,153 @@
+{
+  "totalLength": 1042,
+  "totalLength2": 1042,
+  "headerLength": 92,
+  "scriptNumber": 4,
+  "unk20": 24,
+  "parentNumber": -1,
+  "scriptFlags": 0,
+  "unk42": 0,
+  "castID": 1966085,
+  "factoryNameID": -1,
+  "handlerVectorsCount": 0,
+  "handlerVectorsOffset": 1042,
+  "handlerVectorsSize": 0,
+  "propertiesCount": 6,
+  "propertiesOffset": 92,
+  "globalsCount": 0,
+  "globalsOffset": 104,
+  "handlersCount": 5,
+  "handlersOffset": 104,
+  "literalsCount": 6,
+  "literalsOffset": 892,
+  "literalsDataCount": 102,
+  "literalsDataOffset": 940,
+  "propertyNameIDs": [
+    45,
+    41,
+    43,
+    54,
+    58,
+    40
+  ],
+  "globalNameIDs": [],
+  "handlers": [
+    {
+      "nameID": 4,
+      "vectorPos": 65535,
+      "compiledLen": 203,
+      "compiledOffset": 334,
+      "argumentCount": 2,
+      "argumentOffset": 538,
+      "localsCount": 4,
+      "localsOffset": 542,
+      "globalsCount": 0,
+      "globalsOffset": 104,
+      "unknown1": 111,
+      "unknown2": 13,
+      "lineCount": 26,
+      "lineOffset": 550,
+      "stackHeight": 9
+    },
+    {
+      "nameID": 5,
+      "vectorPos": 65535,
+      "compiledLen": 45,
+      "compiledOffset": 576,
+      "argumentCount": 1,
+      "argumentOffset": 622,
+      "localsCount": 0,
+      "localsOffset": 624,
+      "globalsCount": 0,
+      "globalsOffset": 104,
+      "unknown1": 785,
+      "unknown2": 42,
+      "lineCount": 7,
+      "lineOffset": 624,
+      "stackHeight": 3
+    },
+    {
+      "nameID": 37,
+      "vectorPos": 65535,
+      "compiledLen": 77,
+      "compiledOffset": 632,
+      "argumentCount": 1,
+      "argumentOffset": 710,
+      "localsCount": 5,
+      "localsOffset": 712,
+      "globalsCount": 0,
+      "globalsOffset": 104,
+      "unknown1": 948,
+      "unknown2": 52,
+      "lineCount": 12,
+      "lineOffset": 722,
+      "stackHeight": 3
+    },
+    {
+      "nameID": 38,
+      "vectorPos": 65535,
+      "compiledLen": 10,
+      "compiledOffset": 734,
+      "argumentCount": 1,
+      "argumentOffset": 744,
+      "localsCount": 0,
+      "localsOffset": 746,
+      "globalsCount": 0,
+      "globalsOffset": 104,
+      "unknown1": 1183,
+      "unknown2": 67,
+      "lineCount": 1,
+      "lineOffset": 746,
+      "stackHeight": 4
+    },
+    {
+      "nameID": 39,
+      "vectorPos": 65535,
+      "compiledLen": 112,
+      "compiledOffset": 748,
+      "argumentCount": 1,
+      "argumentOffset": 860,
+      "localsCount": 4,
+      "localsOffset": 862,
+      "globalsCount": 0,
+      "globalsOffset": 104,
+      "unknown1": 1236,
+      "unknown2": 73,
+      "lineCount": 21,
+      "lineOffset": 870,
+      "stackHeight": 4
+    }
+  ],
+  "literals": [
+    {
+      "type": 1,
+      "offset": 0,
+      "value": "dragndrop"
+    },
+    {
+      "type": 1,
+      "offset": 14,
+      "value": "waitgroup"
+    },
+    {
+      "type": 1,
+      "offset": 28,
+      "value": "waitgroup_drag"
+    },
+    {
+      "type": 1,
+      "offset": 48,
+      "value": "group_"
+    },
+    {
+      "type": 1,
+      "offset": 60,
+      "value": "missing waitgroup"
+    },
+    {
+      "type": 1,
+      "offset": 82,
+      "value": "waitgroup_view"
+    }
+  ]
+}
