@@ -1,0 +1,98 @@
+{
+  "totalLength": 498,
+  "totalLength2": 498,
+  "headerLength": 92,
+  "scriptNumber": 36,
+  "unk20": 24,
+  "parentNumber": -1,
+  "scriptFlags": 0,
+  "unk42": 0,
+  "castID": 1966118,
+  "factoryNameID": -1,
+  "handlerVectorsCount": 0,
+  "handlerVectorsOffset": 498,
+  "handlerVectorsSize": 0,
+  "propertiesCount": 3,
+  "propertiesOffset": 92,
+  "globalsCount": 1,
+  "globalsOffset": 98,
+  "handlersCount": 3,
+  "handlersOffset": 100,
+  "literalsCount": 2,
+  "literalsOffset": 454,
+  "literalsDataCount": 28,
+  "literalsDataOffset": 470,
+  "propertyNameIDs": [
+    45,
+    964,
+    963
+  ],
+  "globalNameIDs": [
+    1
+  ],
+  "handlers": [
+    {
+      "nameID": 4,
+      "vectorPos": 65535,
+      "compiledLen": 137,
+      "compiledOffset": 238,
+      "argumentCount": 2,
+      "argumentOffset": 376,
+      "localsCount": 0,
+      "localsOffset": 380,
+      "globalsCount": 0,
+      "globalsOffset": 98,
+      "unknown1": 47,
+      "unknown2": 5,
+      "lineCount": 15,
+      "lineOffset": 380,
+      "stackHeight": 10
+    },
+    {
+      "nameID": 57,
+      "vectorPos": 65535,
+      "compiledLen": 9,
+      "compiledOffset": 396,
+      "argumentCount": 2,
+      "argumentOffset": 406,
+      "localsCount": 0,
+      "localsOffset": 410,
+      "globalsCount": 0,
+      "globalsOffset": 98,
+      "unknown1": 427,
+      "unknown2": 24,
+      "lineCount": 1,
+      "lineOffset": 410,
+      "stackHeight": 3
+    },
+    {
+      "nameID": 5,
+      "vectorPos": 65535,
+      "compiledLen": 34,
+      "compiledOffset": 412,
+      "argumentCount": 1,
+      "argumentOffset": 446,
+      "localsCount": 0,
+      "localsOffset": 448,
+      "globalsCount": 0,
+      "globalsOffset": 98,
+      "unknown1": 471,
+      "unknown2": 29,
+      "lineCount": 5,
+      "lineOffset": 448,
+      "stackHeight": 2
+    }
+  ],
+  "literals": [
+    {
+      "type": 1,
+      "offset": 0,
+      "value": "endlevel"
+    },
+    {
+      "type": 1,
+      "offset": 14,
+      "value": "okbutton"
+    }
+  ]
+}

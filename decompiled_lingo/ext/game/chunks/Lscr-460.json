@@ -1,0 +1,150 @@
+{
+  "totalLength": 902,
+  "totalLength2": 902,
+  "headerLength": 92,
+  "scriptNumber": 46,
+  "unk20": 24,
+  "parentNumber": -1,
+  "scriptFlags": 0,
+  "unk42": 0,
+  "castID": 1966128,
+  "factoryNameID": -1,
+  "handlerVectorsCount": 0,
+  "handlerVectorsOffset": 902,
+  "handlerVectorsSize": 0,
+  "propertiesCount": 5,
+  "propertiesOffset": 92,
+  "globalsCount": 0,
+  "globalsOffset": 102,
+  "handlersCount": 4,
+  "handlersOffset": 102,
+  "literalsCount": 9,
+  "literalsOffset": 690,
+  "literalsDataCount": 140,
+  "literalsDataOffset": 762,
+  "propertyNameIDs": [
+    45,
+    785,
+    243,
+    1048,
+    1047
+  ],
+  "globalNameIDs": [],
+  "handlers": [
+    {
+      "nameID": 4,
+      "vectorPos": 65535,
+      "compiledLen": 126,
+      "compiledOffset": 286,
+      "argumentCount": 2,
+      "argumentOffset": 412,
+      "localsCount": 0,
+      "localsOffset": 416,
+      "globalsCount": 0,
+      "globalsOffset": 102,
+      "unknown1": 55,
+      "unknown2": 4,
+      "lineCount": 16,
+      "lineOffset": 416,
+      "stackHeight": 4
+    },
+    {
+      "nameID": 57,
+      "vectorPos": 65535,
+      "compiledLen": 9,
+      "compiledOffset": 432,
+      "argumentCount": 2,
+      "argumentOffset": 442,
+      "localsCount": 0,
+      "localsOffset": 446,
+      "globalsCount": 0,
+      "globalsOffset": 102,
+      "unknown1": 421,
+      "unknown2": 23,
+      "lineCount": 1,
+      "lineOffset": 446,
+      "stackHeight": 3
+    },
+    {
+      "nameID": 5,
+      "vectorPos": 65535,
+      "compiledLen": 20,
+      "compiledOffset": 448,
+      "argumentCount": 1,
+      "argumentOffset": 468,
+      "localsCount": 0,
+      "localsOffset": 470,
+      "globalsCount": 0,
+      "globalsOffset": 102,
+      "unknown1": 465,
+      "unknown2": 28,
+      "lineCount": 3,
+      "lineOffset": 470,
+      "stackHeight": 1
+    },
+    {
+      "nameID": 1045,
+      "vectorPos": 65535,
+      "compiledLen": 173,
+      "compiledOffset": 474,
+      "argumentCount": 3,
+      "argumentOffset": 648,
+      "localsCount": 2,
+      "localsOffset": 654,
+      "globalsCount": 0,
+      "globalsOffset": 102,
+      "unknown1": 529,
+      "unknown2": 35,
+      "lineCount": 32,
+      "lineOffset": 658,
+      "stackHeight": 4
+    }
+  ],
+  "literals": [
+    {
+      "type": 1,
+      "offset": 0,
+      "value": "action_txt"
+    },
+    {
+      "type": 1,
+      "offset": 16,
+      "value": "tablenum"
+    },
+    {
+      "type": 1,
+      "offset": 30,
+      "value": "tablenum_bg"
+    },
+    {
+      "type": 1,
+      "offset": 46,
+      "value": "GET DRINKS"
+    },
+    {
+      "type": 1,
+      "offset": 62,
+      "value": "PICK UP FOOD"
+    },
+    {
+      "type": 1,
+      "offset": 80,
+      "value": "GO TO TABLE"
+    },
+    {
+      "type": 1,
+      "offset": 96,
+      "value": "TICKET"
+    },
+    {
+      "type": 1,
+      "offset": 108,
+      "value": "BUS DISHES"
+    },
+    {
+      "type": 1,
+      "offset": 124,
+      "value": "GIVE CHECK"
+    }
+  ]
+}

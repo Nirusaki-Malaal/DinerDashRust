@@ -1,0 +1,315 @@
+{
+  "totalLength": 2608,
+  "totalLength2": 2608,
+  "headerLength": 92,
+  "scriptNumber": 37,
+  "unk20": 24,
+  "parentNumber": -1,
+  "scriptFlags": 0,
+  "unk42": 0,
+  "castID": 1966119,
+  "factoryNameID": -1,
+  "handlerVectorsCount": 0,
+  "handlerVectorsOffset": 2608,
+  "handlerVectorsSize": 0,
+  "propertiesCount": 5,
+  "propertiesOffset": 92,
+  "globalsCount": 0,
+  "globalsOffset": 102,
+  "handlersCount": 9,
+  "handlersOffset": 102,
+  "literalsCount": 25,
+  "literalsOffset": 2034,
+  "literalsDataCount": 374,
+  "literalsDataOffset": 2234,
+  "propertyNameIDs": [
+    1,
+    977,
+    276,
+    972,
+    970
+  ],
+  "globalNameIDs": [],
+  "handlers": [
+    {
+      "nameID": 4,
+      "vectorPos": 65535,
+      "compiledLen": 301,
+      "compiledOffset": 516,
+      "argumentCount": 2,
+      "argumentOffset": 818,
+      "localsCount": 0,
+      "localsOffset": 822,
+      "globalsCount": 0,
+      "globalsOffset": 102,
+      "unknown1": 133,
+      "unknown2": 9,
+      "lineCount": 18,
+      "lineOffset": 822,
+      "stackHeight": 11
+    },
+    {
+      "nameID": 285,
+      "vectorPos": 65535,
+      "compiledLen": 61,
+      "compiledOffset": 840,
+      "argumentCount": 3,
+      "argumentOffset": 902,
+      "localsCount": 1,
+      "localsOffset": 908,
+      "globalsCount": 0,
+      "globalsOffset": 102,
+      "unknown1": 1299,
+      "unknown2": 30,
+      "lineCount": 6,
+      "lineOffset": 910,
+      "stackHeight": 3
+    },
+    {
+      "nameID": 967,
+      "vectorPos": 65535,
+      "compiledLen": 68,
+      "compiledOffset": 916,
+      "argumentCount": 3,
+      "argumentOffset": 984,
+      "localsCount": 1,
+      "localsOffset": 990,
+      "globalsCount": 0,
+      "globalsOffset": 102,
+      "unknown1": 1533,
+      "unknown2": 39,
+      "lineCount": 5,
+      "lineOffset": 992,
+      "stackHeight": 3
+    },
+    {
+      "nameID": 76,
+      "vectorPos": 65535,
+      "compiledLen": 50,
+      "compiledOffset": 998,
+      "argumentCount": 3,
+      "argumentOffset": 1048,
+      "localsCount": 1,
+      "localsOffset": 1054,
+      "globalsCount": 0,
+      "globalsOffset": 102,
+      "unknown1": 1707,
+      "unknown2": 47,
+      "lineCount": 4,
+      "lineOffset": 1056,
+      "stackHeight": 3
+    },
+    {
+      "nameID": 536,
+      "vectorPos": 65535,
+      "compiledLen": 50,
+      "compiledOffset": 1060,
+      "argumentCount": 3,
+      "argumentOffset": 1110,
+      "localsCount": 1,
+      "localsOffset": 1116,
+      "globalsCount": 0,
+      "globalsOffset": 102,
+      "unknown1": 1842,
+      "unknown2": 54,
+      "lineCount": 4,
+      "lineOffset": 1118,
+      "stackHeight": 3
+    },
+    {
+      "nameID": 423,
+      "vectorPos": 65535,
+      "compiledLen": 396,
+      "compiledOffset": 1122,
+      "argumentCount": 1,
+      "argumentOffset": 1518,
+      "localsCount": 10,
+      "localsOffset": 1520,
+      "globalsCount": 0,
+      "globalsOffset": 102,
+      "unknown1": 1971,
+      "unknown2": 62,
+      "lineCount": 61,
+      "lineOffset": 1540,
+      "stackHeight": 15
+    },
+    {
+      "nameID": 5,
+      "vectorPos": 65535,
+      "compiledLen": 79,
+      "compiledOffset": 1602,
+      "argumentCount": 1,
+      "argumentOffset": 1682,
+      "localsCount": 1,
+      "localsOffset": 1684,
+      "globalsCount": 0,
+      "globalsOffset": 102,
+      "unknown1": 3603,
+      "unknown2": 127,
+      "lineCount": 7,
+      "lineOffset": 1686,
+      "stackHeight": 6
+    },
+    {
+      "nameID": 484,
+      "vectorPos": 65535,
+      "compiledLen": 106,
+      "compiledOffset": 1694,
+      "argumentCount": 2,
+      "argumentOffset": 1800,
+      "localsCount": 3,
+      "localsOffset": 1804,
+      "globalsCount": 0,
+      "globalsOffset": 102,
+      "unknown1": 3772,
+      "unknown2": 138,
+      "lineCount": 20,
+      "lineOffset": 1810,
+      "stackHeight": 3
+    },
+    {
+      "nameID": 499,
+      "vectorPos": 65535,
+      "compiledLen": 165,
+      "compiledOffset": 1830,
+      "argumentCount": 2,
+      "argumentOffset": 1996,
+      "localsCount": 1,
+      "localsOffset": 2000,
+      "globalsCount": 0,
+      "globalsOffset": 102,
+      "unknown1": 4164,
+      "unknown2": 162,
+      "lineCount": 31,
+      "lineOffset": 2002,
+      "stackHeight": 4
+    }
+  ],
+  "literals": [
+    {
+      "type": 1,
+      "offset": 0,
+      "value": "6top"
+    },
+    {
+      "type": 1,
+      "offset": 10,
+      "value": "6top_view"
+    },
+    {
+      "type": 1,
+      "offset": 24,
+      "value": "scripts.game"
+    },
+    {
+      "type": 1,
+      "offset": 42,
+      "value": "4top"
+    },
+    {
+      "type": 1,
+      "offset": 52,
+      "value": "4top_view"
+    },
+    {
+      "type": 1,
+      "offset": 66,
+      "value": "2top"
+    },
+    {
+      "type": 1,
+      "offset": 76,
+      "value": "2top_view"
+    },
+    {
+      "type": 1,
+      "offset": 90,
+      "value": "colorbonus"
+    },
+    {
+      "type": 1,
+      "offset": 106,
+      "value": "multbonus"
+    },
+    {
+      "type": 1,
+      "offset": 120,
+      "value": "penalty"
+    },
+    {
+      "type": 1,
+      "offset": 132,
+      "value": "tip"
+    },
+    {
+      "type": 1,
+      "offset": 140,
+      "value": "tip_bonus"
+    },
+    {
+      "type": 1,
+      "offset": 154,
+      "value": "red"
+    },
+    {
+      "type": 1,
+      "offset": 162,
+      "value": "green"
+    },
+    {
+      "type": 1,
+      "offset": 172,
+      "value": "blue"
+    },
+    {
+      "type": 1,
+      "offset": 182,
+      "value": "purple"
+    },
+    {
+      "type": 1,
+      "offset": 194,
+      "value": "yellow"
+    },
+    {
+      "type": 1,
+      "offset": 206,
+      "value": "_"
+    },
+    {
+      "type": 1,
+      "offset": 212,
+      "value": "body"
+    },
+    {
+      "type": 1,
+      "offset": 222,
+      "value": "face"
+    },
+    {
+      "type": 1,
+      "offset": 232,
+      "value": "please_wait"
+    },
+    {
+      "type": 1,
+      "offset": 248,
+      "value": "no view type '"
+    },
+    {
+      "type": 1,
+      "offset": 268,
+      "value": "'"
+    },
+    {
+      "type": 1,
+      "offset": 274,
+      "value": "tried to return view already in free list"
+    },
+    {
+      "type": 1,
+      "offset": 320,
+      "value": "tried to return view not created by this view mgr"
+    }
+  ]
+}

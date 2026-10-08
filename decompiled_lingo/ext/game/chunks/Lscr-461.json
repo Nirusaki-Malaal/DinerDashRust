@@ -1,0 +1,118 @@
+{
+  "totalLength": 622,
+  "totalLength2": 622,
+  "headerLength": 92,
+  "scriptNumber": 45,
+  "unk20": 24,
+  "parentNumber": -1,
+  "scriptFlags": 0,
+  "unk42": 0,
+  "castID": 1966127,
+  "factoryNameID": -1,
+  "handlerVectorsCount": 0,
+  "handlerVectorsOffset": 622,
+  "handlerVectorsSize": 0,
+  "propertiesCount": 3,
+  "propertiesOffset": 92,
+  "globalsCount": 0,
+  "globalsOffset": 98,
+  "handlersCount": 4,
+  "handlersOffset": 98,
+  "literalsCount": 3,
+  "literalsOffset": 556,
+  "literalsDataCount": 42,
+  "literalsDataOffset": 580,
+  "propertyNameIDs": [
+    323,
+    1043,
+    1047
+  ],
+  "globalNameIDs": [],
+  "handlers": [
+    {
+      "nameID": 4,
+      "vectorPos": 65535,
+      "compiledLen": 91,
+      "compiledOffset": 282,
+      "argumentCount": 2,
+      "argumentOffset": 374,
+      "localsCount": 2,
+      "localsOffset": 378,
+      "globalsCount": 0,
+      "globalsOffset": 98,
+      "unknown1": 55,
+      "unknown2": 6,
+      "lineCount": 20,
+      "lineOffset": 382,
+      "stackHeight": 5
+    },
+    {
+      "nameID": 1041,
+      "vectorPos": 65535,
+      "compiledLen": 8,
+      "compiledOffset": 402,
+      "argumentCount": 1,
+      "argumentOffset": 410,
+      "localsCount": 0,
+      "localsOffset": 412,
+      "globalsCount": 0,
+      "globalsOffset": 98,
+      "unknown1": 317,
+      "unknown2": 29,
+      "lineCount": 2,
+      "lineOffset": 412,
+      "stackHeight": 2
+    },
+    {
+      "nameID": 1042,
+      "vectorPos": 65535,
+      "compiledLen": 85,
+      "compiledOffset": 414,
+      "argumentCount": 1,
+      "argumentOffset": 500,
+      "localsCount": 3,
+      "localsOffset": 502,
+      "globalsCount": 0,
+      "globalsOffset": 98,
+      "unknown1": 363,
+      "unknown2": 35,
+      "lineCount": 14,
+      "lineOffset": 508,
+      "stackHeight": 4
+    },
+    {
+      "nameID": 5,
+      "vectorPos": 65535,
+      "compiledLen": 24,
+      "compiledOffset": 522,
+      "argumentCount": 1,
+      "argumentOffset": 546,
+      "localsCount": 0,
+      "localsOffset": 548,
+      "globalsCount": 0,
+      "globalsOffset": 98,
+      "unknown1": 591,
+      "unknown2": 56,
+      "lineCount": 8,
+      "lineOffset": 548,
+      "stackHeight": 3
+    }
+  ],
+  "literals": [
+    {
+      "type": 1,
+      "offset": 0,
+      "value": "checklist"
+    },
+    {
+      "type": 1,
+      "offset": 14,
+      "value": "action_view"
+    },
+    {
+      "type": 1,
+      "offset": 30,
+      "value": "action_"
+    }
+  ]
+}
