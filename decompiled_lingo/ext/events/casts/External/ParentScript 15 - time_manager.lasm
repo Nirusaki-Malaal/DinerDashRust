@@ -1,0 +1,163 @@
+property glob, old_ms, theframe, evt_mgr, initialized, paused, pauseTime, lastPause, showframerate, frameCount, totalms
+global numcalls, totaltime, avgtime, maxtime
+
+on new me, g
+  [  0] getparam 1 .............................. <g>
+  [  2] setprop 52 .............................. glob = g
+  [  4] pushzero ................................ <0>
+  [  5] setprop 198 ............................. showframerate = 0
+  [  7] getparam 0 .............................. <me>
+  [  9] pusharglistnoret 1 ...................... <me>
+  [ 11] extcall 8 ............................... return me
+  [ 13] ret
+end
+
+on init me
+  [  0] getprop 52 .............................. <glob>
+  [  2] getchainedprop 56 ....................... <glob.managers>
+  [  4] getobjprop 57 ........................... <glob.managers.event>
+  [  6] setprop 199 ............................. evt_mgr = glob.managers.event
+  [  8] pushcons 0 .............................. <"play">
+  [ 10] pusharglist 1 ........................... <"play">
+  [ 12] extcall 201 ............................. <marker("play")>
+  [ 14] setprop 200 ............................. theframe = marker("play")
+  [ 16] pushint8 1 .............................. <1>
+  [ 18] setprop 54 .............................. initialized = 1
+  [ 20] ret
+end
+
+on destroy me
+  [  0] pusharglist 0 ........................... <>
+  [  2] extcall 18 .............................. <VOID>
+  [  4] setprop 199 ............................. evt_mgr = VOID
+  [  6] pusharglist 0 ........................... <>
+  [  8] extcall 18 .............................. <VOID>
+  [ 10] setprop 52 .............................. glob = VOID
+  [ 12] ret
+end
+
+on getMS me
+  [  0] getprop 112 ............................. <paused>
+  [  2] jmpifz [ 11] ............................ if paused then
+  [  5] getprop 202 ............................. <lastPause>
+  [  7] pusharglistnoret 1 ...................... <lastPause>
+  [  9] extcall 8 ............................... return lastPause
+  [ 11] getmovieprop 203 ........................ <the milliSeconds>
+  [ 13] getprop 204 ............................. <pauseTime>
+  [ 15] sub ..................................... <the milliSeconds - pauseTime>
+  [ 16] pusharglistnoret 1 ...................... <the milliSeconds - pauseTime>
+  [ 18] extcall 8 ............................... return the milliSeconds - pauseTime
+  [ 20] ret
+end
+
+on goFrame me, fr
+  [  0] getparam 1 .............................. <fr>
+  [  2] pusharglist 1 ........................... <fr>
+  [  4] extcall 205 ............................. <stringp(fr)>
+  [  6] jmpifz [ 17] ............................ if stringp(fr) then
+  [  9] getparam 1 .............................. <fr>
+  [ 11] pusharglist 1 ........................... <fr>
+  [ 13] extcall 201 ............................. <marker(fr)>
+  [ 15] setparam 1 .............................. fr = marker(fr)
+  [ 17] getparam 1 .............................. <fr>
+  [ 19] setprop 200 ............................. theframe = fr
+  [ 21] ret
+end
+
+on showframerate me, b
+  [  0] pushzero ................................ <0>
+  [  1] setprop 207 ............................. totalms = 0
+  [  3] pushzero ................................ <0>
+  [  4] setprop 208 ............................. frameCount = 0
+  [  6] getparam 1 .............................. <b>
+  [  8] setprop 198 ............................. showframerate = b
+  [ 10] ret
+end
+
+on setPaused me, bool
+  [  0] getprop 112 ............................. <paused>
+  [  2] getparam 1 .............................. <bool>
+  [  4] eq ...................................... <paused = bool>
+  [  5] jmpifz [ 12] ............................ if paused = bool then
+  [  8] pusharglistnoret 0 ...................... <>
+  [ 10] extcall 8 ............................... return 
+  [ 12] getparam 1 .............................. <bool>
+  [ 14] setprop 112 ............................. paused = bool
+  [ 16] getparam 1 .............................. <bool>
+  [ 18] jmpifz [ 28] ............................ if bool then / else
+  [ 21] getmovieprop 203 ........................ <the milliSeconds>
+  [ 23] setprop 202 ............................. lastPause = the milliSeconds
+  [ 25] jmp [ 38]
+  [ 28] getprop 204 ............................. <pauseTime>
+  [ 30] getmovieprop 203 ........................ <the milliSeconds>
+  [ 32] getprop 202 ............................. <lastPause>
+  [ 34] sub ..................................... <the milliSeconds - lastPause>
+  [ 35] add ..................................... <pauseTime + (the milliSeconds - lastPause)>
+  [ 36] setprop 204 ............................. pauseTime = pauseTime + (the milliSeconds - lastPause)
+  [ 38] ret
+end
+
+on exitFrame me
+  [  0] getprop 200 ............................. <theframe>
+  [  2] pusharglist 1 ........................... <theframe>
+  [  4] extcall 73 .............................. <voidp(theframe)>
+  [  6] not ..................................... <not voidp(theframe)>
+  [  7] jmpifz [ 16] ............................ if not voidp(theframe) then
+  [ 10] getprop 200 ............................. <theframe>
+  [ 12] pusharglistnoret 1 ...................... <theframe>
+  [ 14] extcall 211 ............................. go(theframe)
+  [ 16] getprop 112 ............................. <paused>
+  [ 18] jmpifz [ 25] ............................ if paused then
+  [ 21] pusharglistnoret 0 ...................... <>
+  [ 23] extcall 8 ............................... return 
+  [ 25] getprop 54 .............................. <initialized>
+  [ 27] not ..................................... <not initialized>
+  [ 28] jmpifz [ 35] ............................ if not initialized then
+  [ 31] pusharglistnoret 0 ...................... <>
+  [ 33] extcall 8 ............................... return 
+  [ 35] getparam 0 .............................. <me>
+  [ 37] pusharglist 1 ........................... <me>
+  [ 39] objcall 133 ............................. <me.getMS()>
+  [ 41] setlocal 0 .............................. ms = me.getMS()
+  [ 43] getlocal 0 .............................. <ms>
+  [ 45] getprop 212 ............................. <old_ms>
+  [ 47] sub ..................................... <ms - old_ms>
+  [ 48] setlocal 1 .............................. delta = ms - old_ms
+  [ 50] getprop 199 ............................. <evt_mgr>
+  [ 52] pushsymb 51 ............................. <#exitFrame>
+  [ 54] getlocal 1 .............................. <delta>
+  [ 56] pusharglistnoret 3 ...................... <evt_mgr, #exitFrame, delta>
+  [ 58] objcall 71 .............................. evt_mgr.sendEvent(#exitFrame, delta)
+  [ 60] getlocal 0 .............................. <ms>
+  [ 62] setprop 212 ............................. old_ms = ms
+  [ 64] getprop 198 ............................. <showframerate>
+  [ 66] jmpifz [115] ............................ if showframerate then
+  [ 69] getprop 208 ............................. <frameCount>
+  [ 71] pushint8 1 .............................. <1>
+  [ 73] add ..................................... <frameCount + 1>
+  [ 74] setprop 208 ............................. frameCount = frameCount + 1
+  [ 76] getprop 207 ............................. <totalms>
+  [ 78] getlocal 1 .............................. <delta>
+  [ 80] add ..................................... <totalms + delta>
+  [ 81] setprop 207 ............................. totalms = totalms + delta
+  [ 83] getprop 208 ............................. <frameCount>
+  [ 85] pushint8 100 ............................ <100>
+  [ 87] eq ...................................... <frameCount = 100>
+  [ 88] jmpifz [115] ............................ if frameCount = 100 then
+  [ 91] pushfloat32 100.0 ....................... <100.0>
+  [ 96] getprop 207 ............................. <totalms>
+  [ 98] pushcons 1 .............................. <0.001>
+  [100] mul ..................................... <totalms * 0.001>
+  [101] div ..................................... <100.0 / (totalms * 0.001)>
+  [102] pushcons 2 .............................. <"fps">
+  [104] joinpadstr .............................. <100.0 / (totalms * 0.001) && "fps">
+  [105] pusharglistnoret 1 ...................... <100.0 / (totalms * 0.001) && "fps">
+  [107] extcall 23 .............................. put 100.0 / (totalms * 0.001) && "fps"
+  [109] pushzero ................................ <0>
+  [110] setprop 207 ............................. totalms = 0
+  [112] pushzero ................................ <0>
+  [113] setprop 208 ............................. frameCount = 0
+  [115] pusharglistnoret 0 ...................... <>
+  [117] extcall 8 ............................... return 
+  [119] ret
+end

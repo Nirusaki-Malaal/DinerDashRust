@@ -1,0 +1,191 @@
+property routers, voidRouter, paused
+
+on new me
+  [  0] pushcons 0 .............................. <"message_router">
+  [  2] pusharglist 1 ........................... <"message_router">
+  [  4] extcall 13 .............................. <script("message_router")>
+  [  6] pusharglist 1 ........................... <script("message_router")>
+  [  8] objcall 0 ............................... <script("message_router").new()>
+  [ 10] setprop 219 ............................. voidRouter = script("message_router").new()
+  [ 12] pusharglist 0 ........................... <[:]>
+  [ 14] pushproplist ............................ <[:]>
+  [ 15] setprop 220 ............................. routers = [:]
+  [ 17] pusharglist 0 ........................... <[]>
+  [ 19] pushlist ................................ <[]>
+  [ 20] setlocal 0 .............................. pausedGroups = []
+  [ 22] pusharglist 0 ........................... <[]>
+  [ 24] pushlist ................................ <[]>
+  [ 25] setlocal 1 .............................. addedGroups = []
+  [ 27] pusharglist 0 ........................... <[]>
+  [ 29] pushlist ................................ <[]>
+  [ 30] setlocal 2 .............................. deletedGroups = []
+  [ 32] getparam 0 .............................. <me>
+  [ 34] pusharglistnoret 1 ...................... <me>
+  [ 36] extcall 8 ............................... return me
+  [ 38] ret
+end
+
+on init me
+  [  0] ret
+end
+
+on destroy me
+  [  0] getprop 219 ............................. <voidRouter>
+  [  2] pusharglistnoret 1 ...................... <voidRouter>
+  [  4] objcall 1 ............................... voidRouter.destroy()
+  [  6] pushsymb 1 .............................. <#destroy>
+  [  8] getprop 220 ............................. <routers>
+  [ 10] pusharglistnoret 2 ...................... <#destroy, routers>
+  [ 12] extcall 16 .............................. call(#destroy, routers)
+  [ 14] pushint8 1 .............................. <1>
+  [ 16] setlocal 0
+  [ 18] getlocal 0
+  [ 20] getparam 0 .............................. <me>
+  [ 22] getobjprop 76 ........................... <me.count>
+  [ 24] lteq
+  [ 25] jmpifz [ 49] ............................ repeat with i = 1 to me.count
+  [ 28] getparam 0 .............................. <me>
+  [ 30] getlocal 0 .............................. <i>
+  [ 32] pusharglist 0 ........................... <>
+  [ 34] extcall 18 .............................. <VOID>
+  [ 36] pusharglistnoret 3 ...................... <me, i, VOID>
+  [ 38] objcall 40 .............................. me[i] = VOID
+  [ 40] pushint8 1
+  [ 42] getlocal 0
+  [ 44] add
+  [ 45] setlocal 0
+  [ 47] endrepeat [ 18]
+  [ 49] ret
+end
+
+on subscribe me, obj, evt, grp
+  [  0] getparam 3 .............................. <grp>
+  [  2] pusharglist 1 ........................... <grp>
+  [  4] extcall 73 .............................. <voidp(grp)>
+  [  6] jmpifz [ 16] ............................ if voidp(grp) then / else
+  [  9] getprop 219 ............................. <voidRouter>
+  [ 11] setlocal 0 .............................. r = voidRouter
+  [ 13] jmp [ 57]
+  [ 16] getprop 220 ............................. <routers>
+  [ 18] getparam 3 .............................. <grp>
+  [ 20] pusharglist 2 ........................... <routers, grp>
+  [ 22] objcall 77 .............................. <routers[grp]>
+  [ 24] setlocal 0 .............................. r = routers[grp]
+  [ 26] getlocal 0 .............................. <r>
+  [ 28] pusharglist 1 ........................... <r>
+  [ 30] extcall 73 .............................. <voidp(r)>
+  [ 32] jmpifz [ 57] ............................ if voidp(r) then
+  [ 35] pushcons 0 .............................. <"message_router">
+  [ 37] pusharglist 1 ........................... <"message_router">
+  [ 39] extcall 13 .............................. <script("message_router")>
+  [ 41] pusharglist 1 ........................... <script("message_router")>
+  [ 43] objcall 0 ............................... <script("message_router").new()>
+  [ 45] setlocal 0 .............................. r = script("message_router").new()
+  [ 47] getprop 220 ............................. <routers>
+  [ 49] getparam 3 .............................. <grp>
+  [ 51] getlocal 0 .............................. <r>
+  [ 53] pusharglistnoret 3 ...................... <routers, grp, r>
+  [ 55] objcall 40 .............................. routers[grp] = r
+  [ 57] getlocal 0 .............................. <r>
+  [ 59] getparam 1 .............................. <obj>
+  [ 61] getparam 2 .............................. <evt>
+  [ 63] pusharglistnoret 3 ...................... <r, obj, evt>
+  [ 65] objcall 7 ............................... r.subscribe(obj, evt)
+  [ 67] ret
+end
+
+on setGroupPaused me, p, grp
+  [  0] getparam 2 .............................. <grp>
+  [  2] pusharglist 1 ........................... <grp>
+  [  4] extcall 73 .............................. <voidp(grp)>
+  [  6] jmpifz [ 21] ............................ if voidp(grp) then
+  [  9] getprop 219 ............................. <voidRouter>
+  [ 11] getparam 1 .............................. <p>
+  [ 13] pusharglistnoret 2 ...................... <voidRouter, p>
+  [ 15] objcall 134 ............................. voidRouter.setPaused(p)
+  [ 17] pusharglistnoret 0 ...................... <>
+  [ 19] extcall 8 ............................... return 
+  [ 21] getprop 220 ............................. <routers>
+  [ 23] getparam 2 .............................. <grp>
+  [ 25] pusharglist 2 ........................... <routers, grp>
+  [ 27] objcall 77 .............................. <routers[grp]>
+  [ 29] setlocal 0 .............................. g = routers[grp]
+  [ 31] getlocal 0 .............................. <g>
+  [ 33] pusharglist 1 ........................... <g>
+  [ 35] extcall 73 .............................. <voidp(g)>
+  [ 37] jmpifz [ 44] ............................ if voidp(g) then
+  [ 40] pusharglistnoret 0 ...................... <>
+  [ 42] extcall 8 ............................... return 
+  [ 44] getlocal 0 .............................. <g>
+  [ 46] getparam 1 .............................. <p>
+  [ 48] pusharglistnoret 2 ...................... <g, p>
+  [ 50] objcall 134 ............................. g.setPaused(p)
+  [ 52] ret
+end
+
+on setPaused me, p
+  [  0] getparam 1 .............................. <p>
+  [  2] setprop 112 ............................. paused = p
+  [  4] ret
+end
+
+on unsubscribe me, obj, evt, grp
+  [  0] getparam 3 .............................. <grp>
+  [  2] pusharglist 1 ........................... <grp>
+  [  4] extcall 73 .............................. <voidp(grp)>
+  [  6] jmpifz [ 22] ............................ if voidp(grp) then / else
+  [  9] getprop 219 ............................. <voidRouter>
+  [ 11] getparam 1 .............................. <obj>
+  [ 13] getparam 2 .............................. <evt>
+  [ 15] pusharglistnoret 3 ...................... <voidRouter, obj, evt>
+  [ 17] objcall 25 .............................. voidRouter.unsubscribe(obj, evt)
+  [ 19] jmp [ 52]
+  [ 22] getprop 220 ............................. <routers>
+  [ 24] getparam 3 .............................. <grp>
+  [ 26] pusharglist 2 ........................... <routers, grp>
+  [ 28] objcall 77 .............................. <routers[grp]>
+  [ 30] setlocal 0 .............................. g = routers[grp]
+  [ 32] getlocal 0 .............................. <g>
+  [ 34] pusharglist 1 ........................... <g>
+  [ 36] extcall 73 .............................. <voidp(g)>
+  [ 38] not ..................................... <not voidp(g)>
+  [ 39] jmpifz [ 52] ............................ if not voidp(g) then
+  [ 42] getlocal 0 .............................. <g>
+  [ 44] getparam 1 .............................. <obj>
+  [ 46] getparam 2 .............................. <evt>
+  [ 48] pusharglistnoret 3 ...................... <g, obj, evt>
+  [ 50] objcall 25 .............................. g.unsubscribe(obj, evt)
+  [ 52] ret
+end
+
+on sendEvent me, evt, dat, grp
+  [  0] getprop 112 ............................. <paused>
+  [  2] jmpifz [  9] ............................ if paused then
+  [  5] pusharglistnoret 0 ...................... <>
+  [  7] extcall 8 ............................... return 
+  [  9] getparam 3 .............................. <grp>
+  [ 11] pusharglist 1 ........................... <grp>
+  [ 13] extcall 73 .............................. <voidp(grp)>
+  [ 15] jmpifz [ 43] ............................ if voidp(grp) then / else
+  [ 18] getprop 219 ............................. <voidRouter>
+  [ 20] getparam 1 .............................. <evt>
+  [ 22] getparam 2 .............................. <dat>
+  [ 24] pusharglistnoret 3 ...................... <voidRouter, evt, dat>
+  [ 26] objcall 71 .............................. voidRouter.sendEvent(evt, dat)
+  [ 28] pushsymb 71 ............................. <#sendEvent>
+  [ 30] getprop 220 ............................. <routers>
+  [ 32] getparam 1 .............................. <evt>
+  [ 34] getparam 2 .............................. <dat>
+  [ 36] pusharglistnoret 4 ...................... <#sendEvent, routers, evt, dat>
+  [ 38] extcall 16 .............................. call(#sendEvent, routers, evt, dat)
+  [ 40] jmp [ 59]
+  [ 43] getprop 220 ............................. <routers>
+  [ 45] getparam 3 .............................. <grp>
+  [ 47] pusharglist 2 ........................... <routers, grp>
+  [ 49] objcall 77 .............................. <routers[grp]>
+  [ 51] getparam 1 .............................. <evt>
+  [ 53] getparam 2 .............................. <dat>
+  [ 55] pusharglistnoret 3 ...................... <routers[grp], evt, dat>
+  [ 57] objcall 71 .............................. routers[grp].sendEvent(evt, dat)
+  [ 59] ret
+end

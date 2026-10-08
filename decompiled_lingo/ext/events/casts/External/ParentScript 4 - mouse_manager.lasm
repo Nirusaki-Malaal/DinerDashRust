@@ -1,0 +1,242 @@
+property glob, mdls, mouseoverModel, mouseoverListener, mousedownListener, listeners, cursor, event_mgr, initialized
+
+on new me, g
+  [  0] getparam 1 .............................. <g>
+  [  2] setprop 52 .............................. glob = g
+  [  4] pusharglist 0 ........................... <[:]>
+  [  6] pushproplist ............................ <[:]>
+  [  7] setprop 31 .............................. listeners = [:]
+  [  9] getparam 0 .............................. <me>
+  [ 11] pusharglistnoret 1 ...................... <me>
+  [ 13] extcall 8 ............................... return me
+  [ 15] ret
+end
+
+on init me
+  [  0] pushint8 1 .............................. <1>
+  [  2] setprop 54 .............................. initialized = 1
+  [  4] getprop 52 .............................. <glob>
+  [  6] getchainedprop 56 ....................... <glob.managers>
+  [  8] getobjprop 57 ........................... <glob.managers.event>
+  [ 10] setprop 55 .............................. event_mgr = glob.managers.event
+  [ 12] getprop 55 .............................. <event_mgr>
+  [ 14] getparam 0 .............................. <me>
+  [ 16] pushsymb 51 ............................. <#exitFrame>
+  [ 18] pusharglistnoret 3 ...................... <event_mgr, me, #exitFrame>
+  [ 20] objcall 7 ............................... event_mgr.subscribe(me, #exitFrame)
+  [ 22] getprop 52 .............................. <glob>
+  [ 24] getchainedprop 56 ....................... <glob.managers>
+  [ 26] getchainedprop 58 ....................... <glob.managers.node>
+  [ 28] pushcons 0 .............................. <"cursor">
+  [ 30] pusharglist 2 ........................... <glob.managers.node, "cursor">
+  [ 32] objcall 59 .............................. <glob.managers.node.getGroup("cursor")>
+  [ 34] setlocal 0 .............................. grp = glob.managers.node.getGroup("cursor")
+  [ 36] getlocal 0 .............................. <grp>
+  [ 38] pusharglistnoret 1 ...................... <grp>
+  [ 40] objcall 60 .............................. grp.moveToFront()
+  [ 42] getlocal 0 .............................. <grp>
+  [ 44] pushcons 0 .............................. <"cursor">
+  [ 46] pusharglist 1 ........................... <"cursor">
+  [ 48] extcall 62 .............................. <getNodeData("cursor")>
+  [ 50] pushsymb 63 ............................. <#children>
+  [ 52] pushint8 1 .............................. <1>
+  [ 54] pusharglist 3 ........................... <getNodeData("cursor"), #children, 1>
+  [ 56] objcall 64 .............................. <getNodeData("cursor").children[1]>
+  [ 58] pusharglist 2 ........................... <grp, getNodeData("cursor").children[1]>
+  [ 60] objcall 65 .............................. <grp.newNode(getNodeData("cursor").children[1])>
+  [ 62] setprop 61 .............................. cursor = grp.newNode(getNodeData("cursor").children[1])
+  [ 64] getprop 61 .............................. <cursor>
+  [ 66] pushint32 100000000 ..................... <100000000>
+  [ 71] pusharglistnoret 2 ...................... <cursor, 100000000>
+  [ 73] objcall 66 .............................. cursor.setZOffset(100000000)
+  [ 75] getprop 61 .............................. <cursor>
+  [ 77] pushint16 5000 .......................... <5000>
+  [ 80] inv ..................................... <-5000>
+  [ 81] pushint16 5000 .......................... <5000>
+  [ 84] inv ..................................... <-5000>
+  [ 85] pusharglist 2 ........................... <-5000, -5000>
+  [ 87] extcall 67 .............................. <point(-5000, -5000)>
+  [ 89] pusharglistnoret 2 ...................... <cursor, point(-5000, -5000)>
+  [ 91] objcall 68 .............................. cursor.setLoc(point(-5000, -5000))
+  [ 93] pushint16 200 ........................... <200>
+  [ 96] pusharglistnoret 1 ...................... <200>
+  [ 98] extcall 61 .............................. cursor(200)
+  [100] getparam 0 .............................. <me>
+  [102] pushsymb 51 ............................. <#exitFrame>
+  [104] pushcons 0 .............................. <"cursor">
+  [106] pusharglistnoret 3 ...................... <me, #exitFrame, "cursor">
+  [108] extcall 7 ............................... subscribe(me, #exitFrame, "cursor")
+  [110] ret
+end
+
+on destroy me
+  [  0] pushint8 1 .............................. <1>
+  [  2] inv ..................................... <-1>
+  [  3] pusharglistnoret 1 ...................... <-1>
+  [  5] extcall 61 .............................. cursor(-1)
+  [  7] getprop 61 .............................. <cursor>
+  [  9] pusharglistnoret 1 ...................... <cursor>
+  [ 11] objcall 1 ............................... cursor.destroy()
+  [ 13] ret
+end
+
+on mouseUp me
+  [  0] getprop 54 .............................. <initialized>
+  [  2] not ..................................... <not initialized>
+  [  3] jmpifz [ 10] ............................ if not initialized then
+  [  6] pusharglistnoret 0 ...................... <>
+  [  8] extcall 8 ............................... return 
+  [ 10] getprop 55 .............................. <event_mgr>
+  [ 12] pushsymb 70 ............................. <#mouseRelease>
+  [ 14] pusharglistnoret 2 ...................... <event_mgr, #mouseRelease>
+  [ 16] objcall 71 .............................. event_mgr.sendEvent(#mouseRelease)
+  [ 18] ret
+end
+
+on mouseDown me
+  [  0] getprop 54 .............................. <initialized>
+  [  2] not ..................................... <not initialized>
+  [  3] jmpifz [ 10] ............................ if not initialized then
+  [  6] pusharglistnoret 0 ...................... <>
+  [  8] extcall 8 ............................... return 
+  [ 10] getprop 55 .............................. <event_mgr>
+  [ 12] pushsymb 72 ............................. <#mousePress>
+  [ 14] pusharglistnoret 2 ...................... <event_mgr, #mousePress>
+  [ 16] objcall 71 .............................. event_mgr.sendEvent(#mousePress)
+  [ 18] ret
+end
+
+on mouseWithinNode me, n, recursive
+  [  0] getprop 54 .............................. <initialized>
+  [  2] not ..................................... <not initialized>
+  [  3] jmpifz [ 10] ............................ if not initialized then
+  [  6] pusharglistnoret 0 ...................... <>
+  [  8] extcall 8 ............................... return 
+  [ 10] getprop 74 .............................. <mdls>
+  [ 12] pusharglist 1 ........................... <mdls>
+  [ 14] extcall 73 .............................. <voidp(mdls)>
+  [ 16] jmpifz [ 23] ............................ if voidp(mdls) then
+  [ 19] pusharglistnoret 0 ...................... <>
+  [ 21] extcall 8 ............................... return 
+  [ 23] getprop 74 .............................. <mdls>
+  [ 25] getparam 1 .............................. <n>
+  [ 27] getobjprop 75 ........................... <n.pModel>
+  [ 29] pusharglist 2 ........................... <mdls, n.pModel>
+  [ 31] objcall 37 .............................. <mdls.getOne(n.pModel)>
+  [ 33] setlocal 0 .............................. ret = mdls.getOne(n.pModel)
+  [ 35] getparam 2 .............................. <recursive>
+  [ 37] not ..................................... <not recursive>
+  [ 38] jmpifz [ 47] ............................ if not recursive then
+  [ 41] getlocal 0 .............................. <ret>
+  [ 43] pusharglistnoret 1 ...................... <ret>
+  [ 45] extcall 8 ............................... return ret
+  [ 47] getparam 1 .............................. <n>
+  [ 49] getobjprop 63 ........................... <n.children>
+  [ 51] peek 0
+  [ 53] pusharglist 1
+  [ 55] extcall 76
+  [ 57] pushint8 1
+  [ 59] peek 0
+  [ 61] peek 2
+  [ 63] lteq
+  [ 64] jmpifz [ 97] ............................ repeat with i in n.children
+  [ 67] peek 2
+  [ 69] peek 1
+  [ 71] pusharglist 2
+  [ 73] extcall 77
+  [ 75] setlocal 1
+  [ 77] getlocal 0 .............................. <ret>
+  [ 79] getparam 0 .............................. <me>
+  [ 81] getlocal 1 .............................. <i>
+  [ 83] pushint8 1 .............................. <1>
+  [ 85] pusharglist 3 ........................... <me, i, 1>
+  [ 87] objcall 49 .............................. <me.mouseWithinNode(i, 1)>
+  [ 89] or ...................................... <ret or me.mouseWithinNode(i, 1)>
+  [ 90] setlocal 0 .............................. ret = ret or me.mouseWithinNode(i, 1)
+  [ 92] pushint8 1
+  [ 94] add
+  [ 95] endrepeat [ 59]
+  [ 97] pop 3
+  [ 99] getlocal 0 .............................. <ret>
+  [101] pusharglistnoret 1 ...................... <ret>
+  [103] extcall 8 ............................... return ret
+  [105] ret
+end
+
+on setcursor me, c
+  [  0] getparam 1 .............................. <c>
+  [  2] peek 0 .................................. case c of
+  [  4] pushsymb 80 ............................. <#hand_closed>
+  [  6] eq
+  [  7] jmpifz [ 27] ............................ (case) #hand_closed:
+  [ 10] getprop 61 .............................. <cursor>
+  [ 12] pushcons 1 .............................. <"cursor_grab">
+  [ 14] pushcons 2 .............................. <"gfx.screens">
+  [ 16] pusharglist 2 ........................... <"cursor_grab", "gfx.screens">
+  [ 18] extcall 81 .............................. <member("cursor_grab", "gfx.screens")>
+  [ 20] pusharglistnoret 2 ...................... <cursor, member("cursor_grab", "gfx.screens")>
+  [ 22] objcall 82 .............................. cursor.setMember(member("cursor_grab", "gfx.screens"))
+  [ 24] jmp [124]
+  [ 27] peek 0
+  [ 29] pushsymb 83 ............................. <#hand_open>
+  [ 31] eq
+  [ 32] jmpifz [ 52] ............................ (case) #hand_open:
+  [ 35] getprop 61 .............................. <cursor>
+  [ 37] pushcons 3 .............................. <"cursor_open">
+  [ 39] pushcons 2 .............................. <"gfx.screens">
+  [ 41] pusharglist 2 ........................... <"cursor_open", "gfx.screens">
+  [ 43] extcall 81 .............................. <member("cursor_open", "gfx.screens")>
+  [ 45] pusharglistnoret 2 ...................... <cursor, member("cursor_open", "gfx.screens")>
+  [ 47] objcall 82 .............................. cursor.setMember(member("cursor_open", "gfx.screens"))
+  [ 49] jmp [124]
+  [ 52] peek 0
+  [ 54] pushsymb 84 ............................. <#finger_up>
+  [ 56] eq
+  [ 57] jmpifz [ 77] ............................ (case) #finger_up:
+  [ 60] getprop 61 .............................. <cursor>
+  [ 62] pushcons 4 .............................. <"cursor_click_1">
+  [ 64] pushcons 2 .............................. <"gfx.screens">
+  [ 66] pusharglist 2 ........................... <"cursor_click_1", "gfx.screens">
+  [ 68] extcall 81 .............................. <member("cursor_click_1", "gfx.screens")>
+  [ 70] pusharglistnoret 2 ...................... <cursor, member("cursor_click_1", "gfx.screens")>
+  [ 72] objcall 82 .............................. cursor.setMember(member("cursor_click_1", "gfx.screens"))
+  [ 74] jmp [124]
+  [ 77] peek 0
+  [ 79] pushsymb 85 ............................. <#finger_down>
+  [ 81] eq
+  [ 82] jmpifz [102] ............................ (case) #finger_down:
+  [ 85] getprop 61 .............................. <cursor>
+  [ 87] pushcons 5 .............................. <"cursor_click_2">
+  [ 89] pushcons 2 .............................. <"gfx.screens">
+  [ 91] pusharglist 2 ........................... <"cursor_click_2", "gfx.screens">
+  [ 93] extcall 81 .............................. <member("cursor_click_2", "gfx.screens")>
+  [ 95] pusharglistnoret 2 ...................... <cursor, member("cursor_click_2", "gfx.screens")>
+  [ 97] objcall 82 .............................. cursor.setMember(member("cursor_click_2", "gfx.screens"))
+  [ 99] jmp [124]
+  [102] peek 0
+  [104] pushsymb 86 ............................. <#arrow>
+  [106] eq
+  [107] jmpifz [124] ............................ (case) #arrow:
+  [110] getprop 61 .............................. <cursor>
+  [112] pushcons 6 .............................. <"cursor_arrow">
+  [114] pushcons 2 .............................. <"gfx.screens">
+  [116] pusharglist 2 ........................... <"cursor_arrow", "gfx.screens">
+  [118] extcall 81 .............................. <member("cursor_arrow", "gfx.screens")>
+  [120] pusharglistnoret 2 ...................... <cursor, member("cursor_arrow", "gfx.screens")>
+  [122] objcall 82 .............................. cursor.setMember(member("cursor_arrow", "gfx.screens"))
+  [124] pop 1 ................................... end case
+  [126] ret
+end
+
+on exitFrame me
+  [  0] getprop 54 .............................. <initialized>
+  [  2] not ..................................... <not initialized>
+  [  3] jmpifz [ 10] ............................ if not initialized then
+  [  6] pusharglistnoret 0 ...................... <>
+  [  8] extcall 8 ............................... return 
+  [ 10] getprop 61 .............................. <cursor>
+  [ 12] getmovieprop 88 ......................... <the mouseLoc>
+  [ 14] pusharglistnoret 2 ...................... <cursor, the mouseLoc>
+  [ 16] objcall 68 .............................. cursor.setLoc(the mouseLoc)
+  [ 18] ret
+end

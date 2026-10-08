@@ -1,0 +1,54 @@
+property groups
+
+on new me
+  [  0] pusharglist 0 ........................... <[:]>
+  [  2] pushproplist ............................ <[:]>
+  [  3] setprop 178 ............................. groups = [:]
+  [  5] getparam 0 .............................. <me>
+  [  7] pusharglistnoret 1 ...................... <me>
+  [  9] extcall 8 ............................... return me
+  [ 11] ret
+end
+
+on init me
+  [  0] ret
+end
+
+on getGroup me, gname
+  [  0] getprop 178 ............................. <groups>
+  [  2] getparam 1 .............................. <gname>
+  [  4] pusharglist 2 ........................... <groups, gname>
+  [  6] objcall 77 .............................. <groups[gname]>
+  [  8] setlocal 0 .............................. g = groups[gname]
+  [ 10] getlocal 0 .............................. <g>
+  [ 12] pusharglist 1 ........................... <g>
+  [ 14] extcall 73 .............................. <voidp(g)>
+  [ 16] jmpifz [ 43] ............................ if voidp(g) then
+  [ 19] pushcons 0 .............................. <"drag_group">
+  [ 21] pushcons 1 .............................. <"scripts.events">
+  [ 23] pusharglist 2 ........................... <"drag_group", "scripts.events">
+  [ 25] extcall 13 .............................. <script("drag_group", "scripts.events")>
+  [ 27] pusharglist 1 ........................... <script("drag_group", "scripts.events")>
+  [ 29] objcall 0 ............................... <script("drag_group", "scripts.events").new()>
+  [ 31] setlocal 0 .............................. g = script("drag_group", "scripts.events").new()
+  [ 33] getprop 178 ............................. <groups>
+  [ 35] getparam 1 .............................. <gname>
+  [ 37] getlocal 0 .............................. <g>
+  [ 39] pusharglistnoret 3 ...................... <groups, gname, g>
+  [ 41] objcall 40 .............................. groups[gname] = g
+  [ 43] getlocal 0 .............................. <g>
+  [ 45] pusharglistnoret 1 ...................... <g>
+  [ 47] extcall 8 ............................... return g
+  [ 49] ret
+end
+
+on destroy me
+  [  0] pushsymb 1 .............................. <#destroy>
+  [  2] getprop 178 ............................. <groups>
+  [  4] pusharglistnoret 2 ...................... <#destroy, groups>
+  [  6] extcall 16 .............................. call(#destroy, groups)
+  [  8] getprop 178 ............................. <groups>
+  [ 10] pusharglistnoret 1 ...................... <groups>
+  [ 12] objcall 17 .............................. groups.deleteAll()
+  [ 14] ret
+end

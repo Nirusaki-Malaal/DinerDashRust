@@ -1,0 +1,294 @@
+property node, textNode, pmembers, mousehandler, callback, disabled, mousepressed, mouseinside
+
+on new me, Args
+  [  0] getparam 1 .............................. <Args>
+  [  2] getobjprop 58 ........................... <Args.node>
+  [  4] setprop 58 .............................. node = Args.node
+  [  6] getparam 1 .............................. <Args>
+  [  8] pushsymb 184 ............................ <#textNode>
+  [ 10] pusharglist 2 ........................... <Args, #textNode>
+  [ 12] objcall 77 .............................. <Args[#textNode]>
+  [ 14] setprop 184 ............................. textNode = Args[#textNode]
+  [ 16] getparam 1 .............................. <Args>
+  [ 18] pushsymb 186 ............................ <#members>
+  [ 20] pusharglist 2 ........................... <Args, #members>
+  [ 22] objcall 77 .............................. <Args[#members]>
+  [ 24] setprop 185 ............................. pmembers = Args[#members]
+  [ 26] getprop 185 ............................. <pmembers>
+  [ 28] pusharglist 1 ........................... <pmembers>
+  [ 30] extcall 73 .............................. <voidp(pmembers)>
+  [ 32] jmpifz [ 40] ............................ if voidp(pmembers) then
+  [ 35] pusharglist 0 ........................... <[:]>
+  [ 37] pushproplist ............................ <[:]>
+  [ 38] setprop 185 ............................. pmembers = [:]
+  [ 40] getprop 58 .............................. <node>
+  [ 42] pusharglist 1 ........................... <node>
+  [ 44] objcall 187 ............................. <node.getMember()>
+  [ 46] setlocal 0 .............................. m = node.getMember()
+  [ 48] pushsymb 188 ............................ <#normal>
+  [ 50] pushsymb 189 ............................ <#down>
+  [ 52] pushsymb 190 ............................ <#rollover>
+  [ 54] pushsymb 191 ............................ <#toggle>
+  [ 56] pusharglist 4 ........................... <[#normal, #down, #rollover, #toggle]>
+  [ 58] pushlist ................................ <[#normal, #down, #rollover, #toggle]>
+  [ 59] peek 0
+  [ 61] pusharglist 1
+  [ 63] extcall 76
+  [ 65] pushint8 1
+  [ 67] peek 0
+  [ 69] peek 2
+  [ 71] lteq
+  [ 72] jmpifz [115] ............................ repeat with i in [#normal, #down, #rollover, #toggle]
+  [ 75] peek 2
+  [ 77] peek 1
+  [ 79] pusharglist 2
+  [ 81] extcall 77
+  [ 83] setlocal 1
+  [ 85] getprop 185 ............................. <pmembers>
+  [ 87] getlocal 1 .............................. <i>
+  [ 89] pusharglist 2 ........................... <pmembers, i>
+  [ 91] objcall 77 .............................. <pmembers[i]>
+  [ 93] pusharglist 1 ........................... <pmembers[i]>
+  [ 95] extcall 73 .............................. <voidp(pmembers[i])>
+  [ 97] jmpifz [110] ............................ if voidp(pmembers[i]) then
+  [100] getprop 185 ............................. <pmembers>
+  [102] getlocal 1 .............................. <i>
+  [104] getlocal 0 .............................. <m>
+  [106] pusharglistnoret 3 ...................... <pmembers, i, m>
+  [108] objcall 40 .............................. pmembers[i] = m
+  [110] pushint8 1
+  [112] add
+  [113] endrepeat [ 67]
+  [115] pop 3
+  [117] pushsymb 58 ............................. <#node>
+  [119] getprop 58 .............................. <node>
+  [121] pushsymb 105 ............................ <#target>
+  [123] getparam 0 .............................. <me>
+  [125] pushsymb 78 ............................. <#recursive>
+  [127] pushint8 1 .............................. <1>
+  [129] pusharglist 6 ........................... <[#node: node, #target: me, #recursive: 1]>
+  [131] pushproplist ............................ <[#node: node, #target: me, #recursive: 1]>
+  [132] pusharglist 1 ........................... <[#node: node, #target: me, #recursive: 1]>
+  [134] extcall 177 ............................. <newMouseListener([#node: node, #target: me, #recursive: 1])>
+  [136] setprop 176 ............................. mousehandler = newMouseListener([#node: node, #target: me, #recursive: 1])
+  [138] getparam 0 .............................. <me>
+  [140] getparam 1 .............................. <Args>
+  [142] pushsymb 129 ............................ <#callback>
+  [144] pusharglist 2 ........................... <Args, #callback>
+  [146] objcall 77 .............................. <Args[#callback]>
+  [148] pusharglistnoret 2 ...................... <me, Args[#callback]>
+  [150] objcall 98 .............................. me.setCallback(Args[#callback])
+  [152] getparam 0 .............................. <me>
+  [154] pusharglistnoret 1 ...................... <me>
+  [156] extcall 8 ............................... return me
+  [158] ret
+end
+
+on setText me, t
+  [  0] getprop 184 ............................. <textNode>
+  [  2] pusharglist 1 ........................... <textNode>
+  [  4] extcall 73 .............................. <voidp(textNode)>
+  [  6] jmpifz [ 13] ............................ if voidp(textNode) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 8 ............................... return 
+  [ 13] getprop 184 ............................. <textNode>
+  [ 15] getparam 1 .............................. <t>
+  [ 17] pusharglistnoret 2 ...................... <textNode, t>
+  [ 19] objcall 181 ............................. textNode.setText(t)
+  [ 21] ret
+end
+
+on setVisible me, v
+  [  0] getprop 58 .............................. <node>
+  [  2] getparam 1 .............................. <v>
+  [  4] pusharglistnoret 2 ...................... <node, v>
+  [  6] objcall 182 ............................. node.setVisible(v)
+  [  8] getprop 184 ............................. <textNode>
+  [ 10] pusharglist 1 ........................... <textNode>
+  [ 12] extcall 73 .............................. <voidp(textNode)>
+  [ 14] not ..................................... <not voidp(textNode)>
+  [ 15] jmpifz [ 26] ............................ if not voidp(textNode) then
+  [ 18] getprop 184 ............................. <textNode>
+  [ 20] getparam 1 .............................. <v>
+  [ 22] pusharglistnoret 2 ...................... <textNode, v>
+  [ 24] objcall 182 ............................. textNode.setVisible(v)
+  [ 26] ret
+end
+
+on setLoc me, p
+  [  0] getprop 58 .............................. <node>
+  [  2] getparam 1 .............................. <p>
+  [  4] pusharglistnoret 2 ...................... <node, p>
+  [  6] objcall 68 .............................. node.setLoc(p)
+  [  8] ret
+end
+
+on setCallback me, cb
+  [  0] getprop 129 ............................. <callback>
+  [  2] getparam 1 .............................. <cb>
+  [  4] eq ...................................... <callback = cb>
+  [  5] jmpifz [ 12] ............................ if callback = cb then
+  [  8] pusharglistnoret 0 ...................... <>
+  [ 10] extcall 8 ............................... return 
+  [ 12] getparam 1 .............................. <cb>
+  [ 14] setprop 129 ............................. callback = cb
+  [ 16] getparam 0 .............................. <me>
+  [ 18] getparam 1 .............................. <cb>
+  [ 20] pusharglist 1 ........................... <cb>
+  [ 22] extcall 73 .............................. <voidp(cb)>
+  [ 24] pusharglistnoret 2 ...................... <me, voidp(cb)>
+  [ 26] objcall 183 ............................. me.setDisabled(voidp(cb))
+  [ 28] ret
+end
+
+on mouseDown me
+  [  0] pushint8 1 .............................. <1>
+  [  2] setprop 113 ............................. mousepressed = 1
+  [  4] getprop 58 .............................. <node>
+  [  6] getprop 185 ............................. <pmembers>
+  [  8] getobjprop 189 .......................... <pmembers.down>
+  [ 10] pusharglistnoret 2 ...................... <node, pmembers.down>
+  [ 12] objcall 82 .............................. node.setMember(pmembers.down)
+  [ 14] ret
+end
+
+on mouseUp me
+  [  0] getprop 58 .............................. <node>
+  [  2] getprop 185 ............................. <pmembers>
+  [  4] getobjprop 190 .......................... <pmembers.rollover>
+  [  6] pusharglistnoret 2 ...................... <node, pmembers.rollover>
+  [  8] objcall 82 .............................. node.setMember(pmembers.rollover)
+  [ 10] getprop 129 ............................. <callback>
+  [ 12] pusharglist 1 ........................... <callback>
+  [ 14] extcall 73 .............................. <voidp(callback)>
+  [ 16] not ..................................... <not voidp(callback)>
+  [ 17] jmpifz [ 44] ............................ if not voidp(callback) then
+  [ 20] getprop 129 ............................. <callback>
+  [ 22] getobjprop 29 ........................... <callback.handler>
+  [ 24] getprop 129 ............................. <callback>
+  [ 26] pushsymb 105 ............................ <#target>
+  [ 28] pusharglist 2 ........................... <callback, #target>
+  [ 30] objcall 77 .............................. <callback[#target]>
+  [ 32] getprop 129 ............................. <callback>
+  [ 34] pushsymb 30 ............................. <#Args>
+  [ 36] pusharglist 2 ........................... <callback, #Args>
+  [ 38] objcall 77 .............................. <callback[#Args]>
+  [ 40] pusharglistnoret 3 ...................... <callback.handler, callback[#target], callback[#Args]>
+  [ 42] extcall 16 .............................. call(callback.handler, callback[#target], callback[#Args])
+  [ 44] ret
+end
+
+on mouseEnter me
+  [  0] pushint8 1 .............................. <1>
+  [  2] setprop 193 ............................. mouseinside = 1
+  [  4] getprop 113 ............................. <mousepressed>
+  [  6] jmpifz [ 22] ............................ if mousepressed then / else
+  [  9] getprop 58 .............................. <node>
+  [ 11] getprop 185 ............................. <pmembers>
+  [ 13] getobjprop 189 .......................... <pmembers.down>
+  [ 15] pusharglistnoret 2 ...................... <node, pmembers.down>
+  [ 17] objcall 82 .............................. node.setMember(pmembers.down)
+  [ 19] jmp [ 32]
+  [ 22] getprop 58 .............................. <node>
+  [ 24] getprop 185 ............................. <pmembers>
+  [ 26] getobjprop 190 .......................... <pmembers.rollover>
+  [ 28] pusharglistnoret 2 ...................... <node, pmembers.rollover>
+  [ 30] objcall 82 .............................. node.setMember(pmembers.rollover)
+  [ 32] ret
+end
+
+on mouseLeave me
+  [  0] pushzero ................................ <0>
+  [  1] setprop 193 ............................. mouseinside = 0
+  [  3] pushzero ................................ <0>
+  [  4] setprop 113 ............................. mousepressed = 0
+  [  6] getprop 58 .............................. <node>
+  [  8] getprop 185 ............................. <pmembers>
+  [ 10] getobjprop 188 .......................... <pmembers.normal>
+  [ 12] pusharglistnoret 2 ...................... <node, pmembers.normal>
+  [ 14] objcall 82 .............................. node.setMember(pmembers.normal)
+  [ 16] ret
+end
+
+on mouseUpOutSide me
+  [  0] pushzero ................................ <0>
+  [  1] setprop 193 ............................. mouseinside = 0
+  [  3] pushzero ................................ <0>
+  [  4] setprop 113 ............................. mousepressed = 0
+  [  6] ret
+end
+
+on setDisabled me, d
+  [  0] getparam 1 .............................. <d>
+  [  2] setprop 194 ............................. disabled = d
+  [  4] getparam 1 .............................. <d>
+  [  6] jmpifz [ 56] ............................ if d then / else
+  [  9] getprop 176 ............................. <mousehandler>
+  [ 11] pusharglistnoret 1 ...................... <mousehandler>
+  [ 13] objcall 97 .............................. mousehandler.clearCallbacks()
+  [ 15] getprop 185 ............................. <pmembers>
+  [ 17] pushsymb 194 ............................ <#disabled>
+  [ 19] pusharglist 2 ........................... <pmembers, #disabled>
+  [ 21] objcall 77 .............................. <pmembers[#disabled]>
+  [ 23] setlocal 0 .............................. m = pmembers[#disabled]
+  [ 25] getlocal 0 .............................. <m>
+  [ 27] pusharglist 1 ........................... <m>
+  [ 29] extcall 73 .............................. <voidp(m)>
+  [ 31] jmpifz [ 45] ............................ if voidp(m) then / else
+  [ 34] getprop 58 .............................. <node>
+  [ 36] pushint8 50 ............................. <50>
+  [ 38] pusharglistnoret 2 ...................... <node, 50>
+  [ 40] objcall 195 ............................. node.setAlpha(50)
+  [ 42] jmp [ 53]
+  [ 45] getprop 58 .............................. <node>
+  [ 47] getlocal 0 .............................. <m>
+  [ 49] pusharglistnoret 2 ...................... <node, m>
+  [ 51] objcall 82 .............................. node.setMember(m)
+  [ 53] jmp [100]
+  [ 56] getprop 176 ............................. <mousehandler>
+  [ 58] getparam 0 .............................. <me>
+  [ 60] pusharglistnoret 2 ...................... <mousehandler, me>
+  [ 62] objcall 96 .............................. mousehandler.forwardEvents(me)
+  [ 64] getprop 58 .............................. <node>
+  [ 66] pushint8 100 ............................ <100>
+  [ 68] pusharglistnoret 2 ...................... <node, 100>
+  [ 70] objcall 195 ............................. node.setAlpha(100)
+  [ 72] getprop 193 ............................. <mouseinside>
+  [ 74] jmpifz [ 90] ............................ if mouseinside then / else
+  [ 77] getprop 58 .............................. <node>
+  [ 79] getprop 185 ............................. <pmembers>
+  [ 81] getobjprop 190 .......................... <pmembers.rollover>
+  [ 83] pusharglistnoret 2 ...................... <node, pmembers.rollover>
+  [ 85] objcall 82 .............................. node.setMember(pmembers.rollover)
+  [ 87] jmp [100]
+  [ 90] getprop 58 .............................. <node>
+  [ 92] getprop 185 ............................. <pmembers>
+  [ 94] getobjprop 188 .......................... <pmembers.normal>
+  [ 96] pusharglistnoret 2 ...................... <node, pmembers.normal>
+  [ 98] objcall 82 .............................. node.setMember(pmembers.normal)
+  [100] ret
+end
+
+on destroy me
+  [  0] getprop 176 ............................. <mousehandler>
+  [  2] pusharglistnoret 1 ...................... <mousehandler>
+  [  4] objcall 1 ............................... mousehandler.destroy()
+  [  6] pusharglist 0 ........................... <>
+  [  8] extcall 18 .............................. <VOID>
+  [ 10] setprop 176 ............................. mousehandler = VOID
+  [ 12] pusharglist 0 ........................... <>
+  [ 14] extcall 18 .............................. <VOID>
+  [ 16] setprop 184 ............................. textNode = VOID
+  [ 18] pusharglist 0 ........................... <>
+  [ 20] extcall 18 .............................. <VOID>
+  [ 22] setprop 58 .............................. node = VOID
+  [ 24] getprop 129 ............................. <callback>
+  [ 26] pusharglist 1 ........................... <callback>
+  [ 28] extcall 73 .............................. <voidp(callback)>
+  [ 30] not ..................................... <not voidp(callback)>
+  [ 31] jmpifz [ 40] ............................ if not voidp(callback) then
+  [ 34] getprop 129 ............................. <callback>
+  [ 36] pusharglistnoret 1 ...................... <callback>
+  [ 38] objcall 17 .............................. callback.deleteAll()
+  [ 40] ret
+end

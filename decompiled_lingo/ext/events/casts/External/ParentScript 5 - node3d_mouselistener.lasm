@@ -1,0 +1,453 @@
+property paused, callbacks, nodeList, mouseover, mousepressed
+global glob
+
+on new me, Args
+  [  0] pushsymb 47 ............................. <#mouseUp>
+  [  2] pusharglist 0 ........................... <>
+  [  4] extcall 18 .............................. <VOID>
+  [  6] pushsymb 99 ............................. <#mouseUpOutSide>
+  [  8] pusharglist 0 ........................... <>
+  [ 10] extcall 18 .............................. <VOID>
+  [ 12] pushsymb 48 ............................. <#mouseDown>
+  [ 14] pusharglist 0 ........................... <>
+  [ 16] extcall 18 .............................. <VOID>
+  [ 18] pushsymb 100 ............................ <#mouseEnter>
+  [ 20] pusharglist 0 ........................... <>
+  [ 22] extcall 18 .............................. <VOID>
+  [ 24] pushsymb 101 ............................ <#mouseLeave>
+  [ 26] pusharglist 0 ........................... <>
+  [ 28] extcall 18 .............................. <VOID>
+  [ 30] pusharglist 10 .......................... <[#mouseUp: VOID, #mouseUpOutSide: VOID, #mouseDown: VOID, #mouseEnter: VOID, #mouseLeave: VOID]>
+  [ 32] pushproplist ............................ <[#mouseUp: VOID, #mouseUpOutSide: VOID, #mouseDown: VOID, #mouseEnter: VOID, #mouseLeave: VOID]>
+  [ 33] setprop 102 ............................. callbacks = [#mouseUp: VOID, #mouseUpOutSide: VOID, #mouseDown: VOID, #mouseEnter: VOID, #mouseLeave: VOID]
+  [ 35] pusharglist 0 ........................... <[]>
+  [ 37] pushlist ................................ <[]>
+  [ 38] setprop 103 ............................. nodeList = []
+  [ 40] getglobal 52 ............................ <glob>
+  [ 42] getchainedprop 56 ....................... <glob.managers>
+  [ 44] getobjprop 104 .......................... <glob.managers.mouse>
+  [ 46] setlocal 0 .............................. mgr = glob.managers.mouse
+  [ 48] getparam 1 .............................. <Args>
+  [ 50] pusharglist 1 ........................... <Args>
+  [ 52] extcall 73 .............................. <voidp(Args)>
+  [ 54] not ..................................... <not voidp(Args)>
+  [ 55] jmpifz [118] ............................ if not voidp(Args) then
+  [ 58] getparam 1 .............................. <Args>
+  [ 60] pushsymb 58 ............................. <#node>
+  [ 62] pusharglist 2 ........................... <Args, #node>
+  [ 64] objcall 77 .............................. <Args[#node]>
+  [ 66] pusharglist 1 ........................... <Args[#node]>
+  [ 68] extcall 73 .............................. <voidp(Args[#node])>
+  [ 70] not ..................................... <not voidp(Args[#node])>
+  [ 71] jmpifz [ 92] ............................ if not voidp(Args[#node]) then
+  [ 74] getparam 0 .............................. <me>
+  [ 76] getparam 1 .............................. <Args>
+  [ 78] getobjprop 58 ........................... <Args.node>
+  [ 80] getparam 1 .............................. <Args>
+  [ 82] pushsymb 78 ............................. <#recursive>
+  [ 84] pusharglist 2 ........................... <Args, #recursive>
+  [ 86] objcall 77 .............................. <Args[#recursive]>
+  [ 88] pusharglistnoret 3 ...................... <me, Args.node, Args[#recursive]>
+  [ 90] objcall 92 .............................. me.addNode(Args.node, Args[#recursive])
+  [ 92] getparam 1 .............................. <Args>
+  [ 94] pushsymb 105 ............................ <#target>
+  [ 96] pusharglist 2 ........................... <Args, #target>
+  [ 98] objcall 77 .............................. <Args[#target]>
+  [100] pusharglist 1 ........................... <Args[#target]>
+  [102] extcall 73 .............................. <voidp(Args[#target])>
+  [104] not ..................................... <not voidp(Args[#target])>
+  [105] jmpifz [118] ............................ if not voidp(Args[#target]) then
+  [108] getparam 0 .............................. <me>
+  [110] getparam 1 .............................. <Args>
+  [112] getobjprop 105 .......................... <Args.target>
+  [114] pusharglistnoret 2 ...................... <me, Args.target>
+  [116] objcall 96 .............................. me.forwardEvents(Args.target)
+  [118] getparam 0 .............................. <me>
+  [120] pusharglistnoret 1 ...................... <me>
+  [122] extcall 8 ............................... return me
+  [124] ret
+end
+
+on destroy me
+  [  0] getparam 0 .............................. <me>
+  [  2] pusharglistnoret 1 ...................... <me>
+  [  4] objcall 97 .............................. me.clearCallbacks()
+  [  6] getparam 0 .............................. <me>
+  [  8] pusharglistnoret 1 ...................... <me>
+  [ 10] objcall 95 .............................. me.removeAllNodes()
+  [ 12] pusharglist 0 ........................... <>
+  [ 14] extcall 18 .............................. <VOID>
+  [ 16] setlocal 0 .............................. mgr = VOID
+  [ 18] ret
+end
+
+on addNode me, n, recursive
+  [  0] getparam 1 .............................. <n>
+  [  2] pusharglist 1 ........................... <n>
+  [  4] extcall 73 .............................. <voidp(n)>
+  [  6] jmpifz [ 13] ............................ if voidp(n) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 8 ............................... return 
+  [ 13] getprop 103 ............................. <nodeList>
+  [ 15] getparam 1 .............................. <n>
+  [ 17] pusharglist 2 ........................... <nodeList, n>
+  [ 19] objcall 37 .............................. <nodeList.getOne(n)>
+  [ 21] pushzero ................................ <0>
+  [ 22] eq ...................................... <nodeList.getOne(n) = 0>
+  [ 23] jmpifz [ 34] ............................ if nodeList.getOne(n) = 0 then
+  [ 26] getprop 103 ............................. <nodeList>
+  [ 28] getparam 1 .............................. <n>
+  [ 30] pusharglistnoret 2 ...................... <nodeList, n>
+  [ 32] objcall 14 .............................. nodeList.add(n)
+  [ 34] getparam 1 .............................. <n>
+  [ 36] getparam 0 .............................. <me>
+  [ 38] pusharglistnoret 2 ...................... <n, me>
+  [ 40] objcall 106 ............................. n.addMouseListener(me)
+  [ 42] getparam 2 .............................. <recursive>
+  [ 44] jmpifz [ 94] ............................ if recursive then
+  [ 47] getparam 1 .............................. <n>
+  [ 49] getobjprop 63 ........................... <n.children>
+  [ 51] peek 0
+  [ 53] pusharglist 1
+  [ 55] extcall 76
+  [ 57] pushint8 1
+  [ 59] peek 0
+  [ 61] peek 2
+  [ 63] lteq
+  [ 64] jmpifz [ 92] ............................ repeat with i in n.children
+  [ 67] peek 2
+  [ 69] peek 1
+  [ 71] pusharglist 2
+  [ 73] extcall 77
+  [ 75] setlocal 0
+  [ 77] getparam 0 .............................. <me>
+  [ 79] getlocal 0 .............................. <i>
+  [ 81] pushint8 1 .............................. <1>
+  [ 83] pusharglistnoret 3 ...................... <me, i, 1>
+  [ 85] objcall 92 .............................. me.addNode(i, 1)
+  [ 87] pushint8 1
+  [ 89] add
+  [ 90] endrepeat [ 59]
+  [ 92] pop 3
+  [ 94] ret
+end
+
+on Refresh me
+  [  0] getprop 103 ............................. <nodeList>
+  [  2] peek 0
+  [  4] pusharglist 1
+  [  6] extcall 76
+  [  8] pushint8 1
+  [ 10] peek 0
+  [ 12] peek 2
+  [ 14] lteq
+  [ 15] jmpifz [ 41] ............................ repeat with i in nodeList
+  [ 18] peek 2
+  [ 20] peek 1
+  [ 22] pusharglist 2
+  [ 24] extcall 77
+  [ 26] setlocal 0
+  [ 28] getparam 0 .............................. <me>
+  [ 30] getlocal 0 .............................. <i>
+  [ 32] pusharglistnoret 2 ...................... <me, i>
+  [ 34] objcall 92 .............................. me.addNode(i)
+  [ 36] pushint8 1
+  [ 38] add
+  [ 39] endrepeat [ 10]
+  [ 41] pop 3
+  [ 43] ret
+end
+
+on removeNode me, n, recursive
+  [  0] getprop 103 ............................. <nodeList>
+  [  2] getparam 1 .............................. <n>
+  [  4] pusharglistnoret 2 ...................... <nodeList, n>
+  [  6] objcall 43 .............................. nodeList.deleteOne(n)
+  [  8] getparam 1 .............................. <n>
+  [ 10] getparam 0 .............................. <me>
+  [ 12] pusharglistnoret 2 ...................... <n, me>
+  [ 14] objcall 107 ............................. n.removeMouseListener(me)
+  [ 16] getparam 2 .............................. <recursive>
+  [ 18] not ..................................... <not recursive>
+  [ 19] jmpifz [ 26] ............................ if not recursive then
+  [ 22] pusharglistnoret 0 ...................... <>
+  [ 24] extcall 8 ............................... return 
+  [ 26] getparam 1 .............................. <n>
+  [ 28] getobjprop 63 ........................... <n.children>
+  [ 30] peek 0
+  [ 32] pusharglist 1
+  [ 34] extcall 76
+  [ 36] pushint8 1
+  [ 38] peek 0
+  [ 40] peek 2
+  [ 42] lteq
+  [ 43] jmpifz [ 71] ............................ repeat with i in n.children
+  [ 46] peek 2
+  [ 48] peek 1
+  [ 50] pusharglist 2
+  [ 52] extcall 77
+  [ 54] setlocal 0
+  [ 56] getparam 0 .............................. <me>
+  [ 58] getlocal 0 .............................. <i>
+  [ 60] pushint8 1 .............................. <1>
+  [ 62] pusharglistnoret 3 ...................... <me, i, 1>
+  [ 64] objcall 94 .............................. me.removeNode(i, 1)
+  [ 66] pushint8 1
+  [ 68] add
+  [ 69] endrepeat [ 38]
+  [ 71] pop 3
+  [ 73] ret
+end
+
+on removeAllNodes me
+  [  0] getprop 103 ............................. <nodeList>
+  [  2] pusharglistnoret 1 ...................... <nodeList>
+  [  4] objcall 17 .............................. nodeList.deleteAll()
+  [  6] ret
+end
+
+on forwardEvents me, obj
+  [  0] getparam 0 .............................. <me>
+  [  2] pusharglistnoret 1 ...................... <me>
+  [  4] objcall 97 .............................. me.clearCallbacks()
+  [  6] getparam 1 .............................. <obj>
+  [  8] pusharglist 1 ........................... <obj>
+  [ 10] objcall 36 .............................. <obj.handlers()>
+  [ 12] setlocal 0 .............................. h = obj.handlers()
+  [ 14] getlocal 0 .............................. <h>
+  [ 16] peek 0
+  [ 18] pusharglist 1
+  [ 20] extcall 76
+  [ 22] pushint8 1
+  [ 24] peek 0
+  [ 26] peek 2
+  [ 28] lteq
+  [ 29] jmpifz [ 82] ............................ repeat with i in h
+  [ 32] peek 2
+  [ 34] peek 1
+  [ 36] pusharglist 2
+  [ 38] extcall 77
+  [ 40] setlocal 1
+  [ 42] getprop 102 ............................. <callbacks>
+  [ 44] getlocal 1 .............................. <i>
+  [ 46] pusharglist 2 ........................... <callbacks, i>
+  [ 48] objcall 108 ............................. <callbacks.findPos(i)>
+  [ 50] pusharglist 1 ........................... <callbacks.findPos(i)>
+  [ 52] extcall 73 .............................. <voidp(callbacks.findPos(i))>
+  [ 54] not ..................................... <not voidp(callbacks.findPos(i))>
+  [ 55] jmpifz [ 77] ............................ if not voidp(callbacks.findPos(i)) then
+  [ 58] getparam 0 .............................. <me>
+  [ 60] getlocal 1 .............................. <i>
+  [ 62] pushsymb 105 ............................ <#target>
+  [ 64] getparam 1 .............................. <obj>
+  [ 66] pushsymb 29 ............................. <#handler>
+  [ 68] getlocal 1 .............................. <i>
+  [ 70] pusharglist 4 ........................... <[#target: obj, #handler: i]>
+  [ 72] pushproplist ............................ <[#target: obj, #handler: i]>
+  [ 73] pusharglistnoret 3 ...................... <me, i, [#target: obj, #handler: i]>
+  [ 75] objcall 98 .............................. me.setCallback(i, [#target: obj, #handler: i])
+  [ 77] pushint8 1
+  [ 79] add
+  [ 80] endrepeat [ 24]
+  [ 82] pop 3
+  [ 84] ret
+end
+
+on clearCallbacks me
+  [  0] pushint8 1 .............................. <1>
+  [  2] setlocal 0
+  [  4] getlocal 0
+  [  6] getprop 102 ............................. <callbacks>
+  [  8] getobjprop 76 ........................... <callbacks.count>
+  [ 10] lteq
+  [ 11] jmpifz [ 35] ............................ repeat with i = 1 to callbacks.count
+  [ 14] getprop 102 ............................. <callbacks>
+  [ 16] getlocal 0 .............................. <i>
+  [ 18] pusharglist 0 ........................... <>
+  [ 20] extcall 18 .............................. <VOID>
+  [ 22] pusharglistnoret 3 ...................... <callbacks, i, VOID>
+  [ 24] objcall 40 .............................. callbacks[i] = VOID
+  [ 26] pushint8 1
+  [ 28] getlocal 0
+  [ 30] add
+  [ 31] setlocal 0
+  [ 33] endrepeat [  4]
+  [ 35] ret
+end
+
+on setCallback me, sym, cb
+  [  0] getprop 102 ............................. <callbacks>
+  [  2] getparam 1 .............................. <sym>
+  [  4] pusharglist 2 ........................... <callbacks, sym>
+  [  6] objcall 108 ............................. <callbacks.findPos(sym)>
+  [  8] pusharglist 1 ........................... <callbacks.findPos(sym)>
+  [ 10] extcall 73 .............................. <voidp(callbacks.findPos(sym))>
+  [ 12] not ..................................... <not voidp(callbacks.findPos(sym))>
+  [ 13] jmpifz [ 26] ............................ if not voidp(callbacks.findPos(sym)) then
+  [ 16] getprop 102 ............................. <callbacks>
+  [ 18] getparam 1 .............................. <sym>
+  [ 20] getparam 2 .............................. <cb>
+  [ 22] pusharglistnoret 3 ...................... <callbacks, sym, cb>
+  [ 24] objcall 40 .............................. callbacks[sym] = cb
+  [ 26] ret
+end
+
+on mouseUp me
+  [  0] getprop 112 ............................. <paused>
+  [  2] getprop 113 ............................. <mousepressed>
+  [  4] not ..................................... <not mousepressed>
+  [  5] or ...................................... <paused or not mousepressed>
+  [  6] jmpifz [ 13] ............................ if paused or not mousepressed then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 8 ............................... return 
+  [ 13] pushzero ................................ <0>
+  [ 14] setprop 113 ............................. mousepressed = 0
+  [ 16] getprop 102 ............................. <callbacks>
+  [ 18] getobjprop 47 ........................... <callbacks.mouseUp>
+  [ 20] setlocal 0 .............................. c = callbacks.mouseUp
+  [ 22] getlocal 0 .............................. <c>
+  [ 24] pusharglist 1 ........................... <c>
+  [ 26] extcall 73 .............................. <voidp(c)>
+  [ 28] jmpifz [ 35] ............................ if voidp(c) then
+  [ 31] pusharglistnoret 0 ...................... <>
+  [ 33] extcall 8 ............................... return 
+  [ 35] getlocal 0 .............................. <c>
+  [ 37] getobjprop 29 ........................... <c.handler>
+  [ 39] getlocal 0 .............................. <c>
+  [ 41] getobjprop 105 .......................... <c.target>
+  [ 43] getlocal 0 .............................. <c>
+  [ 45] pushsymb 30 ............................. <#Args>
+  [ 47] pusharglist 2 ........................... <c, #Args>
+  [ 49] objcall 77 .............................. <c[#Args]>
+  [ 51] pusharglistnoret 3 ...................... <c.handler, c.target, c[#Args]>
+  [ 53] extcall 16 .............................. call(c.handler, c.target, c[#Args])
+  [ 55] ret
+end
+
+on mouseUpOutSide me
+  [  0] getprop 112 ............................. <paused>
+  [  2] getprop 113 ............................. <mousepressed>
+  [  4] not ..................................... <not mousepressed>
+  [  5] or ...................................... <paused or not mousepressed>
+  [  6] jmpifz [ 13] ............................ if paused or not mousepressed then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 8 ............................... return 
+  [ 13] pushzero ................................ <0>
+  [ 14] setprop 113 ............................. mousepressed = 0
+  [ 16] pushzero ................................ <0>
+  [ 17] setprop 114 ............................. mouseover = 0
+  [ 19] getprop 102 ............................. <callbacks>
+  [ 21] getobjprop 99 ........................... <callbacks.mouseUpOutSide>
+  [ 23] setlocal 0 .............................. c = callbacks.mouseUpOutSide
+  [ 25] getlocal 0 .............................. <c>
+  [ 27] pusharglist 1 ........................... <c>
+  [ 29] extcall 73 .............................. <voidp(c)>
+  [ 31] jmpifz [ 38] ............................ if voidp(c) then
+  [ 34] pusharglistnoret 0 ...................... <>
+  [ 36] extcall 8 ............................... return 
+  [ 38] getlocal 0 .............................. <c>
+  [ 40] getobjprop 29 ........................... <c.handler>
+  [ 42] getlocal 0 .............................. <c>
+  [ 44] getobjprop 105 .......................... <c.target>
+  [ 46] getlocal 0 .............................. <c>
+  [ 48] pushsymb 30 ............................. <#Args>
+  [ 50] pusharglist 2 ........................... <c, #Args>
+  [ 52] objcall 77 .............................. <c[#Args]>
+  [ 54] pusharglistnoret 3 ...................... <c.handler, c.target, c[#Args]>
+  [ 56] extcall 16 .............................. call(c.handler, c.target, c[#Args])
+  [ 58] ret
+end
+
+on mouseDown me
+  [  0] getprop 112 ............................. <paused>
+  [  2] getprop 113 ............................. <mousepressed>
+  [  4] or ...................................... <paused or mousepressed>
+  [  5] jmpifz [ 12] ............................ if paused or mousepressed then
+  [  8] pusharglistnoret 0 ...................... <>
+  [ 10] extcall 8 ............................... return 
+  [ 12] pushint8 1 .............................. <1>
+  [ 14] setprop 113 ............................. mousepressed = 1
+  [ 16] getprop 102 ............................. <callbacks>
+  [ 18] getobjprop 48 ........................... <callbacks.mouseDown>
+  [ 20] setlocal 0 .............................. c = callbacks.mouseDown
+  [ 22] getlocal 0 .............................. <c>
+  [ 24] pusharglist 1 ........................... <c>
+  [ 26] extcall 73 .............................. <voidp(c)>
+  [ 28] jmpifz [ 35] ............................ if voidp(c) then
+  [ 31] pusharglistnoret 0 ...................... <>
+  [ 33] extcall 8 ............................... return 
+  [ 35] getlocal 0 .............................. <c>
+  [ 37] getobjprop 29 ........................... <c.handler>
+  [ 39] getlocal 0 .............................. <c>
+  [ 41] getobjprop 105 .......................... <c.target>
+  [ 43] getlocal 0 .............................. <c>
+  [ 45] pushsymb 30 ............................. <#Args>
+  [ 47] pusharglist 2 ........................... <c, #Args>
+  [ 49] objcall 77 .............................. <c[#Args]>
+  [ 51] pusharglistnoret 3 ...................... <c.handler, c.target, c[#Args]>
+  [ 53] extcall 16 .............................. call(c.handler, c.target, c[#Args])
+  [ 55] ret
+end
+
+on mouseEnter me
+  [  0] getprop 112 ............................. <paused>
+  [  2] getprop 114 ............................. <mouseover>
+  [  4] or ...................................... <paused or mouseover>
+  [  5] jmpifz [ 12] ............................ if paused or mouseover then
+  [  8] pusharglistnoret 0 ...................... <>
+  [ 10] extcall 8 ............................... return 
+  [ 12] pushint8 1 .............................. <1>
+  [ 14] setprop 114 ............................. mouseover = 1
+  [ 16] getprop 102 ............................. <callbacks>
+  [ 18] getobjprop 100 .......................... <callbacks.mouseEnter>
+  [ 20] setlocal 0 .............................. c = callbacks.mouseEnter
+  [ 22] getlocal 0 .............................. <c>
+  [ 24] pusharglist 1 ........................... <c>
+  [ 26] extcall 73 .............................. <voidp(c)>
+  [ 28] jmpifz [ 35] ............................ if voidp(c) then
+  [ 31] pusharglistnoret 0 ...................... <>
+  [ 33] extcall 8 ............................... return 
+  [ 35] getlocal 0 .............................. <c>
+  [ 37] getobjprop 29 ........................... <c.handler>
+  [ 39] getlocal 0 .............................. <c>
+  [ 41] getobjprop 105 .......................... <c.target>
+  [ 43] getlocal 0 .............................. <c>
+  [ 45] pushsymb 30 ............................. <#Args>
+  [ 47] pusharglist 2 ........................... <c, #Args>
+  [ 49] objcall 77 .............................. <c[#Args]>
+  [ 51] pusharglistnoret 3 ...................... <c.handler, c.target, c[#Args]>
+  [ 53] extcall 16 .............................. call(c.handler, c.target, c[#Args])
+  [ 55] ret
+end
+
+on mouseLeave me
+  [  0] getprop 112 ............................. <paused>
+  [  2] getprop 114 ............................. <mouseover>
+  [  4] not ..................................... <not mouseover>
+  [  5] or ...................................... <paused or not mouseover>
+  [  6] jmpifz [ 13] ............................ if paused or not mouseover then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 8 ............................... return 
+  [ 13] pushzero ................................ <0>
+  [ 14] setprop 114 ............................. mouseover = 0
+  [ 16] getprop 102 ............................. <callbacks>
+  [ 18] getobjprop 101 .......................... <callbacks.mouseLeave>
+  [ 20] setlocal 0 .............................. c = callbacks.mouseLeave
+  [ 22] getlocal 0 .............................. <c>
+  [ 24] pusharglist 1 ........................... <c>
+  [ 26] extcall 73 .............................. <voidp(c)>
+  [ 28] jmpifz [ 35] ............................ if voidp(c) then
+  [ 31] pusharglistnoret 0 ...................... <>
+  [ 33] extcall 8 ............................... return 
+  [ 35] getlocal 0 .............................. <c>
+  [ 37] getobjprop 29 ........................... <c.handler>
+  [ 39] getlocal 0 .............................. <c>
+  [ 41] getobjprop 105 .......................... <c.target>
+  [ 43] getlocal 0 .............................. <c>
+  [ 45] pushsymb 30 ............................. <#Args>
+  [ 47] pusharglist 2 ........................... <c, #Args>
+  [ 49] objcall 77 .............................. <c[#Args]>
+  [ 51] pusharglistnoret 3 ...................... <c.handler, c.target, c[#Args]>
+  [ 53] extcall 16 .............................. call(c.handler, c.target, c[#Args])
+  [ 55] ret
+end

@@ -1,0 +1,131 @@
+property enabled, listeners, handler, Args, dirty
+
+on new me, hndlr, rgs, startDisabled
+  [  0] getparam 1 .............................. <hndlr>
+  [  2] setprop 29 .............................. handler = hndlr
+  [  4] getparam 2 .............................. <rgs>
+  [  6] setprop 30 .............................. Args = rgs
+  [  8] pusharglist 0 ........................... <[]>
+  [ 10] pushlist ................................ <[]>
+  [ 11] setprop 31 .............................. listeners = []
+  [ 13] getparam 3 .............................. <startDisabled>
+  [ 15] not ..................................... <not startDisabled>
+  [ 16] setprop 32 .............................. enabled = not startDisabled
+  [ 18] getparam 0 .............................. <me>
+  [ 20] pusharglistnoret 1 ...................... <me>
+  [ 22] extcall 8 ............................... return me
+  [ 24] ret
+end
+
+on destroy me
+  [  0] getprop 31 .............................. <listeners>
+  [  2] pusharglistnoret 1 ...................... <listeners>
+  [  4] objcall 17 .............................. listeners.deleteAll()
+  [  6] pusharglist 0 ........................... <>
+  [  8] extcall 18 .............................. <VOID>
+  [ 10] setprop 30 .............................. Args = VOID
+  [ 12] ret
+end
+
+on subscribe me, obj
+  [  0] getparam 1 .............................. <obj>
+  [  2] pusharglist 1 ........................... <obj>
+  [  4] objcall 36 .............................. <obj.handlers()>
+  [  6] getprop 29 .............................. <handler>
+  [  8] pusharglist 2 ........................... <obj.handlers(), handler>
+  [ 10] objcall 37 .............................. <obj.handlers().getOne(handler)>
+  [ 12] pushzero ................................ <0>
+  [ 13] eq ...................................... <obj.handlers().getOne(handler) = 0>
+  [ 14] jmpifz [ 44] ............................ if obj.handlers().getOne(handler) = 0 then
+  [ 17] getparam 1 .............................. <obj>
+  [ 19] pusharglist 1 ........................... <obj>
+  [ 21] extcall 22 .............................. <string(obj)>
+  [ 23] pushcons 0 .............................. <" has no ">
+  [ 25] joinstr ................................. <string(obj) & " has no ">
+  [ 26] getprop 29 .............................. <handler>
+  [ 28] pusharglist 1 ........................... <handler>
+  [ 30] extcall 22 .............................. <string(handler)>
+  [ 32] joinstr ................................. <string(obj) & " has no " & string(handler)>
+  [ 33] pushcons 1 .............................. <" handler">
+  [ 35] joinstr ................................. <string(obj) & " has no " & string(handler) & " handler">
+  [ 36] pusharglistnoret 1 ...................... <string(obj) & " has no " & string(handler) & " handler">
+  [ 38] extcall 38 .............................. complain(string(obj) & " has no " & string(handler) & " handler")
+  [ 40] pusharglistnoret 0 ...................... <>
+  [ 42] extcall 8 ............................... return 
+  [ 44] getprop 31 .............................. <listeners>
+  [ 46] getparam 1 .............................. <obj>
+  [ 48] pusharglist 2 ........................... <listeners, obj>
+  [ 50] objcall 37 .............................. <listeners.getOne(obj)>
+  [ 52] pushzero ................................ <0>
+  [ 53] eq ...................................... <listeners.getOne(obj) = 0>
+  [ 54] jmpifz [ 65] ............................ if listeners.getOne(obj) = 0 then
+  [ 57] getprop 31 .............................. <listeners>
+  [ 59] getparam 1 .............................. <obj>
+  [ 61] pusharglistnoret 2 ...................... <listeners, obj>
+  [ 63] objcall 14 .............................. listeners.add(obj)
+  [ 65] ret
+end
+
+on unsubscribe me, obj
+  [  0] getprop 31 .............................. <listeners>
+  [  2] getparam 1 .............................. <obj>
+  [  4] pusharglist 2 ........................... <listeners, obj>
+  [  6] objcall 37 .............................. <listeners.getOne(obj)>
+  [  8] setlocal 0 .............................. indx = listeners.getOne(obj)
+  [ 10] getlocal 0 .............................. <indx>
+  [ 12] pushzero ................................ <0>
+  [ 13] eq ...................................... <indx = 0>
+  [ 14] jmpifz [ 21] ............................ if indx = 0 then
+  [ 17] pusharglistnoret 0 ...................... <>
+  [ 19] extcall 8 ............................... return 
+  [ 21] getprop 31 .............................. <listeners>
+  [ 23] getlocal 0 .............................. <indx>
+  [ 25] pusharglist 0 ........................... <>
+  [ 27] extcall 18 .............................. <VOID>
+  [ 29] pusharglistnoret 3 ...................... <listeners, indx, VOID>
+  [ 31] objcall 40 .............................. listeners[indx] = VOID
+  [ 33] pushint8 1 .............................. <1>
+  [ 35] setprop 41 .............................. dirty = 1
+  [ 37] ret
+end
+
+on clean me
+  [  0] getprop 31 .............................. <listeners>
+  [  2] pusharglist 0 ........................... <>
+  [  4] extcall 18 .............................. <VOID>
+  [  6] pusharglist 2 ........................... <listeners, VOID>
+  [  8] objcall 37 .............................. <listeners.getOne(VOID)>
+  [ 10] jmpifz [ 25] ............................ repeat while listeners.getOne(VOID)
+  [ 13] getprop 31 .............................. <listeners>
+  [ 15] pusharglist 0 ........................... <>
+  [ 17] extcall 18 .............................. <VOID>
+  [ 19] pusharglistnoret 2 ...................... <listeners, VOID>
+  [ 21] objcall 43 .............................. listeners.deleteOne(VOID)
+  [ 23] endrepeat [  0]
+  [ 25] pushzero ................................ <0>
+  [ 26] setprop 41 .............................. dirty = 0
+  [ 28] ret
+end
+
+on send me, pass_args
+  [  0] getprop 32 .............................. <enabled>
+  [  2] jmpifz [ 17] ............................ if enabled then
+  [  5] getprop 29 .............................. <handler>
+  [  7] getprop 31 .............................. <listeners>
+  [  9] getparam 1 .............................. <pass_args>
+  [ 11] getprop 30 .............................. <Args>
+  [ 13] pusharglistnoret 4 ...................... <handler, listeners, pass_args, Args>
+  [ 15] extcall 16 .............................. call(handler, listeners, pass_args, Args)
+  [ 17] getprop 41 .............................. <dirty>
+  [ 19] jmpifz [ 28] ............................ if dirty then
+  [ 22] getparam 0 .............................. <me>
+  [ 24] pusharglistnoret 1 ...................... <me>
+  [ 26] objcall 26 .............................. me.clean()
+  [ 28] ret
+end
+
+on setEnabled me, e
+  [  0] getparam 1 .............................. <e>
+  [  2] setprop 32 .............................. enabled = e
+  [  4] ret
+end

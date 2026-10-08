@@ -1,0 +1,184 @@
+property mousehandler, source, groups, data
+
+on new me, Args
+  [  0] pusharglist 0 ........................... <>
+  [  2] extcall 177 ............................. <newMouseListener()>
+  [  4] setprop 176 ............................. mousehandler = newMouseListener()
+  [  6] getprop 176 ............................. <mousehandler>
+  [  8] getparam 1 .............................. <Args>
+  [ 10] getobjprop 58 ........................... <Args.node>
+  [ 12] getparam 1 .............................. <Args>
+  [ 14] pushsymb 78 ............................. <#recursive>
+  [ 16] pusharglist 2 ........................... <Args, #recursive>
+  [ 18] objcall 77 .............................. <Args[#recursive]>
+  [ 20] pusharglistnoret 3 ...................... <mousehandler, Args.node, Args[#recursive]>
+  [ 22] objcall 92 .............................. mousehandler.addNode(Args.node, Args[#recursive])
+  [ 24] getprop 176 ............................. <mousehandler>
+  [ 26] getparam 0 .............................. <me>
+  [ 28] pusharglistnoret 2 ...................... <mousehandler, me>
+  [ 30] objcall 96 .............................. mousehandler.forwardEvents(me)
+  [ 32] getparam 1 .............................. <Args>
+  [ 34] pushsymb 121 ............................ <#data>
+  [ 36] pusharglist 2 ........................... <Args, #data>
+  [ 38] objcall 77 .............................. <Args[#data]>
+  [ 40] setprop 121 ............................. data = Args[#data]
+  [ 42] pusharglist 0 ........................... <[]>
+  [ 44] pushlist ................................ <[]>
+  [ 45] setprop 178 ............................. groups = []
+  [ 47] getparam 0 .............................. <me>
+  [ 49] pusharglistnoret 1 ...................... <me>
+  [ 51] extcall 8 ............................... return me
+  [ 53] ret
+end
+
+on addNode me, n
+  [  0] getprop 176 ............................. <mousehandler>
+  [  2] getparam 1 .............................. <n>
+  [  4] pusharglistnoret 2 ...................... <mousehandler, n>
+  [  6] objcall 92 .............................. mousehandler.addNode(n)
+  [  8] ret
+end
+
+on addGroup me, g
+  [  0] getprop 178 ............................. <groups>
+  [  2] getparam 1 .............................. <g>
+  [  4] pusharglist 2 ........................... <groups, g>
+  [  6] objcall 37 .............................. <groups.getOne(g)>
+  [  8] pushzero ................................ <0>
+  [  9] eq ...................................... <groups.getOne(g) = 0>
+  [ 10] jmpifz [ 21] ............................ if groups.getOne(g) = 0 then
+  [ 13] getprop 178 ............................. <groups>
+  [ 15] getparam 1 .............................. <g>
+  [ 17] pusharglistnoret 2 ...................... <groups, g>
+  [ 19] objcall 14 .............................. groups.add(g)
+  [ 21] ret
+end
+
+on removeGroup me, g
+  [  0] getprop 178 ............................. <groups>
+  [  2] getparam 1 .............................. <g>
+  [  4] pusharglistnoret 2 ...................... <groups, g>
+  [  6] objcall 43 .............................. groups.deleteOne(g)
+  [  8] getparam 1 .............................. <g>
+  [ 10] getparam 0 .............................. <me>
+  [ 12] pusharglistnoret 2 ...................... <g, me>
+  [ 14] objcall 152 ............................. g.removeTarget(me)
+  [ 16] ret
+end
+
+on removeAllGroups me, g
+  [  0] pushsymb 152 ............................ <#removeTarget>
+  [  2] getprop 178 ............................. <groups>
+  [  4] getparam 0 .............................. <me>
+  [  6] pusharglistnoret 3 ...................... <#removeTarget, groups, me>
+  [  8] extcall 16 .............................. call(#removeTarget, groups, me)
+  [ 10] getprop 178 ............................. <groups>
+  [ 12] pusharglistnoret 1 ...................... <groups>
+  [ 14] objcall 17 .............................. groups.deleteAll()
+  [ 16] ret
+end
+
+on setData me, d
+  [  0] getprop 121 ............................. <data>
+  [  2] getparam 1 .............................. <d>
+  [  4] eq ...................................... <data = d>
+  [  5] jmpifz [ 12] ............................ if data = d then
+  [  8] pusharglistnoret 0 ...................... <>
+  [ 10] extcall 8 ............................... return 
+  [ 12] getprop 121 ............................. <data>
+  [ 14] pusharglist 1 ........................... <data>
+  [ 16] extcall 73 .............................. <voidp(data)>
+  [ 18] not ..................................... <not voidp(data)>
+  [ 19] jmpifz [ 28] ............................ if not voidp(data) then
+  [ 22] pusharglist 0 ........................... <>
+  [ 24] extcall 18 .............................. <VOID>
+  [ 26] setprop 121 ............................. data = VOID
+  [ 28] getparam 1 .............................. <d>
+  [ 30] setprop 121 ............................. data = d
+  [ 32] ret
+end
+
+on setSource me, d
+  [  0] getparam 1 .............................. <d>
+  [  2] getprop 180 ............................. <source>
+  [  4] eq ...................................... <d = source>
+  [  5] jmpifz [ 12] ............................ if d = source then
+  [  8] pusharglistnoret 0 ...................... <>
+  [ 10] extcall 8 ............................... return 
+  [ 12] getprop 180 ............................. <source>
+  [ 14] pusharglist 1 ........................... <source>
+  [ 16] extcall 73 .............................. <voidp(source)>
+  [ 18] not ..................................... <not voidp(source)>
+  [ 19] jmpifz [ 38] ............................ if not voidp(source) then
+  [ 22] getprop 180 ............................. <source>
+  [ 24] getparam 0 .............................. <me>
+  [ 26] getprop 121 ............................. <data>
+  [ 28] pusharglistnoret 3 ...................... <source, me, data>
+  [ 30] objcall 167 ............................. source.dragLeave(me, data)
+  [ 32] pusharglist 0 ........................... <>
+  [ 34] extcall 18 .............................. <VOID>
+  [ 36] setprop 180 ............................. source = VOID
+  [ 38] getparam 1 .............................. <d>
+  [ 40] setprop 180 ............................. source = d
+  [ 42] getprop 180 ............................. <source>
+  [ 44] pusharglist 1 ........................... <source>
+  [ 46] extcall 73 .............................. <voidp(source)>
+  [ 48] jmpifz [ 64] ............................ if voidp(source) then / else
+  [ 51] getprop 176 ............................. <mousehandler>
+  [ 53] pusharglistnoret 1 ...................... <mousehandler>
+  [ 55] objcall 97 .............................. mousehandler.clearCallbacks()
+  [ 57] pusharglistnoret 0 ...................... <>
+  [ 59] extcall 8 ............................... return 
+  [ 61] jmp [ 72]
+  [ 64] getprop 176 ............................. <mousehandler>
+  [ 66] getparam 0 .............................. <me>
+  [ 68] pusharglistnoret 2 ...................... <mousehandler, me>
+  [ 70] objcall 96 .............................. mousehandler.forwardEvents(me)
+  [ 72] ret
+end
+
+on destroy me
+  [  0] getparam 0 .............................. <me>
+  [  2] pusharglistnoret 1 ...................... <me>
+  [  4] objcall 174 ............................. me.removeAllGroups()
+  [  6] getprop 176 ............................. <mousehandler>
+  [  8] pusharglistnoret 1 ...................... <mousehandler>
+  [ 10] objcall 1 ............................... mousehandler.destroy()
+  [ 12] pusharglist 0 ........................... <>
+  [ 14] extcall 18 .............................. <VOID>
+  [ 16] setprop 176 ............................. mousehandler = VOID
+  [ 18] pusharglist 0 ........................... <>
+  [ 20] extcall 18 .............................. <VOID>
+  [ 22] setlocal 0 .............................. obj = VOID
+  [ 24] ret
+end
+
+on mouseEnter me
+  [  0] getprop 180 ............................. <source>
+  [  2] pusharglist 1 ........................... <source>
+  [  4] extcall 73 .............................. <voidp(source)>
+  [  6] jmpifz [ 13] ............................ if voidp(source) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 8 ............................... return 
+  [ 13] getprop 180 ............................. <source>
+  [ 15] getparam 0 .............................. <me>
+  [ 17] getprop 121 ............................. <data>
+  [ 19] pusharglistnoret 3 ...................... <source, me, data>
+  [ 21] objcall 166 ............................. source.dragEnter(me, data)
+  [ 23] ret
+end
+
+on mouseLeave me
+  [  0] getprop 180 ............................. <source>
+  [  2] pusharglist 1 ........................... <source>
+  [  4] extcall 73 .............................. <voidp(source)>
+  [  6] jmpifz [ 13] ............................ if voidp(source) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 8 ............................... return 
+  [ 13] getprop 180 ............................. <source>
+  [ 15] getparam 0 .............................. <me>
+  [ 17] getprop 121 ............................. <data>
+  [ 19] pusharglistnoret 3 ...................... <source, me, data>
+  [ 21] objcall 167 ............................. source.dragLeave(me, data)
+  [ 23] ret
+end
