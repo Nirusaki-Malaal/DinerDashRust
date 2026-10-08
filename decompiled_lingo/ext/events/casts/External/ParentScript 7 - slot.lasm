@@ -1,0 +1,88 @@
+property callback, signals
+
+on new me, cb
+  [  0] getparam 1 .............................. <cb>
+  [  2] setprop 129 ............................. callback = cb
+  [  4] getparam 0 .............................. <me>
+  [  6] pusharglistnoret 1 ...................... <me>
+  [  8] extcall 8 ............................... return me
+  [ 10] ret
+end
+
+on connectSignal me, sig
+  [  0] getparam 1 .............................. <sig>
+  [  2] getparam 0 .............................. <me>
+  [  4] pusharglistnoret 2 ...................... <sig, me>
+  [  6] objcall 118 ............................. sig.addSlot(me)
+  [  8] getparam 0 .............................. <me>
+  [ 10] getparam 1 .............................. <sig>
+  [ 12] pusharglistnoret 2 ...................... <me, sig>
+  [ 14] objcall 124 ............................. me.addSignal(sig)
+  [ 16] ret
+end
+
+on disconnectSignal me, sig
+  [  0] getparam 1 .............................. <sig>
+  [  2] getparam 0 .............................. <me>
+  [  4] pusharglistnoret 2 ...................... <sig, me>
+  [  6] objcall 119 ............................. sig.removeSlot(me)
+  [  8] getparam 0 .............................. <me>
+  [ 10] getparam 1 .............................. <sig>
+  [ 12] pusharglistnoret 2 ...................... <me, sig>
+  [ 14] objcall 126 ............................. me.removeSignal(sig)
+  [ 16] ret
+end
+
+on disconnectAll me
+  [  0] getprop 131 ............................. <signals>
+  [  2] peek 0
+  [  4] pusharglist 1
+  [  6] extcall 76
+  [  8] pushint8 1
+  [ 10] peek 0
+  [ 12] peek 2
+  [ 14] lteq
+  [ 15] jmpifz [ 41] ............................ repeat with i in signals
+  [ 18] peek 2
+  [ 20] peek 1
+  [ 22] pusharglist 2
+  [ 24] extcall 77
+  [ 26] setlocal 0
+  [ 28] getlocal 0 .............................. <i>
+  [ 30] getparam 0 .............................. <me>
+  [ 32] pusharglistnoret 2 ...................... <i, me>
+  [ 34] objcall 119 ............................. i.removeSlot(me)
+  [ 36] pushint8 1
+  [ 38] add
+  [ 39] endrepeat [ 10]
+  [ 41] pop 3
+  [ 43] getprop 131 ............................. <signals>
+  [ 45] pusharglistnoret 1 ...................... <signals>
+  [ 47] objcall 17 .............................. signals.deleteAll()
+  [ 49] ret
+end
+
+on destroy me
+  [  0] getparam 0 .............................. <me>
+  [  2] pusharglistnoret 1 ...................... <me>
+  [  4] objcall 117 ............................. me.disconnectAll()
+  [  6] getprop 129 ............................. <callback>
+  [  8] pusharglistnoret 1 ...................... <callback>
+  [ 10] objcall 17 .............................. callback.deleteAll()
+  [ 12] ret
+end
+
+on fire me, Args
+  [  0] getprop 129 ............................. <callback>
+  [  2] getobjprop 29 ........................... <callback.handler>
+  [  4] getprop 129 ............................. <callback>
+  [  6] getobjprop 105 .......................... <callback.target>
+  [  8] getparam 1 .............................. <Args>
+  [ 10] getprop 129 ............................. <callback>
+  [ 12] pushsymb 30 ............................. <#Args>
+  [ 14] pusharglist 2 ........................... <callback, #Args>
+  [ 16] objcall 77 .............................. <callback[#Args]>
+  [ 18] pusharglistnoret 4 ...................... <callback.handler, callback.target, Args, callback[#Args]>
+  [ 20] extcall 16 .............................. call(callback.handler, callback.target, Args, callback[#Args])
+  [ 22] ret
+end

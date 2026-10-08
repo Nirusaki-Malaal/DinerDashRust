@@ -1,0 +1,91 @@
+property slots, data
+
+on new me, dat
+  [  0] getparam 1 .............................. <dat>
+  [  2] setprop 121 ............................. data = dat
+  [  4] pusharglist 0 ........................... <[]>
+  [  6] pushlist ................................ <[]>
+  [  7] setprop 122 ............................. slots = []
+  [  9] getparam 0 .............................. <me>
+  [ 11] pusharglistnoret 1 ...................... <me>
+  [ 13] extcall 8 ............................... return me
+  [ 15] ret
+end
+
+on connectSlot me, s
+  [  0] getparam 1 .............................. <s>
+  [  2] getparam 0 .............................. <me>
+  [  4] pusharglistnoret 2 ...................... <s, me>
+  [  6] objcall 124 ............................. s.addSignal(me)
+  [  8] getparam 0 .............................. <me>
+  [ 10] getparam 1 .............................. <s>
+  [ 12] pusharglistnoret 2 ...................... <me, s>
+  [ 14] objcall 118 ............................. me.addSlot(s)
+  [ 16] ret
+end
+
+on disconnectSlot me, s
+  [  0] getparam 1 .............................. <s>
+  [  2] getparam 0 .............................. <me>
+  [  4] pusharglistnoret 2 ...................... <s, me>
+  [  6] objcall 126 ............................. s.removeSignal(me)
+  [  8] getparam 0 .............................. <me>
+  [ 10] getparam 1 .............................. <s>
+  [ 12] pusharglistnoret 2 ...................... <me, s>
+  [ 14] objcall 119 ............................. me.removeSlot(s)
+  [ 16] ret
+end
+
+on disconnectAll me
+  [  0] pushsymb 126 ............................ <#removeSignal>
+  [  2] getprop 122 ............................. <slots>
+  [  4] getparam 0 .............................. <me>
+  [  6] pusharglistnoret 3 ...................... <#removeSignal, slots, me>
+  [  8] extcall 16 .............................. call(#removeSignal, slots, me)
+  [ 10] getprop 122 ............................. <slots>
+  [ 12] pusharglistnoret 1 ...................... <slots>
+  [ 14] objcall 17 .............................. slots.deleteAll()
+  [ 16] ret
+end
+
+on addSlot me, s
+  [  0] getprop 122 ............................. <slots>
+  [  2] getparam 1 .............................. <s>
+  [  4] pusharglist 2 ........................... <slots, s>
+  [  6] objcall 37 .............................. <slots.getOne(s)>
+  [  8] pushzero ................................ <0>
+  [  9] eq ...................................... <slots.getOne(s) = 0>
+  [ 10] jmpifz [ 21] ............................ if slots.getOne(s) = 0 then
+  [ 13] getprop 122 ............................. <slots>
+  [ 15] getparam 1 .............................. <s>
+  [ 17] pusharglistnoret 2 ...................... <slots, s>
+  [ 19] objcall 14 .............................. slots.add(s)
+  [ 21] ret
+end
+
+on removeSlot me, s
+  [  0] getprop 122 ............................. <slots>
+  [  2] getparam 1 .............................. <s>
+  [  4] pusharglistnoret 2 ...................... <slots, s>
+  [  6] objcall 43 .............................. slots.deleteOne(s)
+  [  8] ret
+end
+
+on destroy me
+  [  0] getparam 0 .............................. <me>
+  [  2] pusharglistnoret 1 ...................... <me>
+  [  4] objcall 117 ............................. me.disconnectAll()
+  [  6] pusharglist 0 ........................... <>
+  [  8] extcall 18 .............................. <VOID>
+  [ 10] setprop 121 ............................. data = VOID
+  [ 12] ret
+end
+
+on fire me
+  [  0] pushsymb 120 ............................ <#fire>
+  [  2] getprop 122 ............................. <slots>
+  [  4] getprop 121 ............................. <data>
+  [  6] pusharglistnoret 3 ...................... <#fire, slots, data>
+  [  8] extcall 16 .............................. call(#fire, slots, data)
+  [ 10] ret
+end

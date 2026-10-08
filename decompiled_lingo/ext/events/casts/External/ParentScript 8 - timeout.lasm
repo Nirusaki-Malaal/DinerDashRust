@@ -1,0 +1,175 @@
+property eventGroup, timeleft, period, callback, paused, oneshot, running, group
+global glob
+
+on new me, ms, cb, one, grp
+  [  0] getparam 4 .............................. <grp>
+  [  2] setprop 138 ............................. group = grp
+  [  4] getparam 1 .............................. <ms>
+  [  6] setprop 139 ............................. period = ms
+  [  8] getparam 2 .............................. <cb>
+  [ 10] setprop 129 ............................. callback = cb
+  [ 12] getparam 1 .............................. <ms>
+  [ 14] setprop 140 ............................. timeleft = ms
+  [ 16] getparam 3 .............................. <one>
+  [ 18] setprop 141 ............................. oneshot = one
+  [ 20] getparam 2 .............................. <cb>
+  [ 22] pusharglist 1 ........................... <cb>
+  [ 24] extcall 73 .............................. <voidp(cb)>
+  [ 26] not ..................................... <not voidp(cb)>
+  [ 27] getparam 1 .............................. <ms>
+  [ 29] pusharglist 1 ........................... <ms>
+  [ 31] extcall 73 .............................. <voidp(ms)>
+  [ 33] not ..................................... <not voidp(ms)>
+  [ 34] and ..................................... <not voidp(cb) and not voidp(ms)>
+  [ 35] jmpifz [ 47] ............................ if not voidp(cb) and not voidp(ms) then / else
+  [ 38] getparam 0 .............................. <me>
+  [ 40] pusharglistnoret 1 ...................... <me>
+  [ 42] objcall 136 ............................. me.start()
+  [ 44] jmp [ 51]
+  [ 47] pushint8 1 .............................. <1>
+  [ 49] setprop 112 ............................. paused = 1
+  [ 51] getparam 0 .............................. <me>
+  [ 53] pusharglistnoret 1 ...................... <me>
+  [ 55] extcall 8 ............................... return me
+  [ 57] ret
+end
+
+on setGroup me, grp
+  [  0] getprop 144 ............................. <running>
+  [  2] jmpifz [ 11] ............................ if running then
+  [  5] getparam 0 .............................. <me>
+  [  7] pusharglistnoret 1 ...................... <me>
+  [  9] objcall 137 ............................. me.stop()
+  [ 11] getparam 1 .............................. <grp>
+  [ 13] setprop 138 ............................. group = grp
+  [ 15] ret
+end
+
+on destroy me
+  [  0] pusharglist 0 ........................... <>
+  [  2] extcall 18 .............................. <VOID>
+  [  4] setlocal 0 .............................. target = VOID
+  [  6] pusharglist 0 ........................... <>
+  [  8] extcall 18 .............................. <VOID>
+  [ 10] setprop 129 ............................. callback = VOID
+  [ 12] getparam 0 .............................. <me>
+  [ 14] pushsymb 51 ............................. <#exitFrame>
+  [ 16] getprop 138 ............................. <group>
+  [ 18] pusharglistnoret 3 ...................... <me, #exitFrame, group>
+  [ 20] extcall 25 .............................. unsubscribe(me, #exitFrame, group)
+  [ 22] pushzero ................................ <0>
+  [ 23] setprop 144 ............................. running = 0
+  [ 25] ret
+end
+
+on fire me
+  [  0] getprop 129 ............................. <callback>
+  [  2] pusharglist 1 ........................... <callback>
+  [  4] extcall 73 .............................. <voidp(callback)>
+  [  6] jmpifz [ 13] ............................ if voidp(callback) then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 8 ............................... return 
+  [ 13] getprop 129 ............................. <callback>
+  [ 15] getobjprop 29 ........................... <callback.handler>
+  [ 17] getprop 129 ............................. <callback>
+  [ 19] getobjprop 105 .......................... <callback.target>
+  [ 21] getprop 129 ............................. <callback>
+  [ 23] pushsymb 30 ............................. <#Args>
+  [ 25] pusharglist 2 ........................... <callback, #Args>
+  [ 27] objcall 77 .............................. <callback[#Args]>
+  [ 29] pusharglistnoret 3 ...................... <callback.handler, callback.target, callback[#Args]>
+  [ 31] extcall 16 .............................. call(callback.handler, callback.target, callback[#Args])
+  [ 33] getprop 141 ............................. <oneshot>
+  [ 35] jmpifz [ 47] ............................ if oneshot then / else
+  [ 38] getparam 0 .............................. <me>
+  [ 40] pusharglistnoret 1 ...................... <me>
+  [ 42] objcall 137 ............................. me.stop()
+  [ 44] jmp [ 51]
+  [ 47] getprop 139 ............................. <period>
+  [ 49] setprop 140 ............................. timeleft = period
+  [ 51] ret
+end
+
+on getMS me
+  [  0] getprop 139 ............................. <period>
+  [  2] getprop 140 ............................. <timeleft>
+  [  4] sub ..................................... <period - timeleft>
+  [  5] pusharglistnoret 1 ...................... <period - timeleft>
+  [  7] extcall 8 ............................... return period - timeleft
+  [  9] ret
+end
+
+on setPaused me, p
+  [  0] getparam 1 .............................. <p>
+  [  2] setprop 112 ............................. paused = p
+  [  4] ret
+end
+
+on setCallback me, cb
+  [  0] getparam 1 .............................. <cb>
+  [  2] setprop 129 ............................. callback = cb
+  [  4] ret
+end
+
+on setPeriod me, ms
+  [  0] getparam 1 .............................. <ms>
+  [  2] setprop 139 ............................. period = ms
+  [  4] ret
+end
+
+on start me
+  [  0] getprop 139 ............................. <period>
+  [  2] setprop 140 ............................. timeleft = period
+  [  4] pushzero ................................ <0>
+  [  5] setprop 112 ............................. paused = 0
+  [  7] getparam 0 .............................. <me>
+  [  9] pushsymb 51 ............................. <#exitFrame>
+  [ 11] getprop 138 ............................. <group>
+  [ 13] pusharglistnoret 3 ...................... <me, #exitFrame, group>
+  [ 15] extcall 7 ............................... subscribe(me, #exitFrame, group)
+  [ 17] pushint8 1 .............................. <1>
+  [ 19] setprop 144 ............................. running = 1
+  [ 21] ret
+end
+
+on stop me
+  [  0] getprop 139 ............................. <period>
+  [  2] setprop 140 ............................. timeleft = period
+  [  4] pushint8 1 .............................. <1>
+  [  6] setprop 112 ............................. paused = 1
+  [  8] getparam 0 .............................. <me>
+  [ 10] pushsymb 51 ............................. <#exitFrame>
+  [ 12] getprop 138 ............................. <group>
+  [ 14] pusharglistnoret 3 ...................... <me, #exitFrame, group>
+  [ 16] extcall 25 .............................. unsubscribe(me, #exitFrame, group)
+  [ 18] pushzero ................................ <0>
+  [ 19] setprop 144 ............................. running = 0
+  [ 21] ret
+end
+
+on exitFrame me, ms
+  [  0] getprop 112 ............................. <paused>
+  [  2] getprop 144 ............................. <running>
+  [  4] not ..................................... <not running>
+  [  5] or ...................................... <paused or not running>
+  [  6] jmpifz [ 13] ............................ if paused or not running then
+  [  9] pusharglistnoret 0 ...................... <>
+  [ 11] extcall 8 ............................... return 
+  [ 13] getprop 140 ............................. <timeleft>
+  [ 15] getparam 1 .............................. <ms>
+  [ 17] sub ..................................... <timeleft - ms>
+  [ 18] setprop 140 ............................. timeleft = timeleft - ms
+  [ 20] getprop 140 ............................. <timeleft>
+  [ 22] pushzero ................................ <0>
+  [ 23] lt ...................................... <timeleft < 0>
+  [ 24] jmpifz [ 43] ............................ if timeleft < 0 then
+  [ 27] getprop 129 ............................. <callback>
+  [ 29] pusharglist 1 ........................... <callback>
+  [ 31] extcall 73 .............................. <voidp(callback)>
+  [ 33] not ..................................... <not voidp(callback)>
+  [ 34] jmpifz [ 43] ............................ if not voidp(callback) then
+  [ 37] getparam 0 .............................. <me>
+  [ 39] pusharglistnoret 1 ...................... <me>
+  [ 41] objcall 120 ............................. me.fire()
+  [ 43] ret
+end
