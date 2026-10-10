@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diner Dash — Previous Debug UI</title>
+  <link rel="manifest" href="manifest.json" />
+  <style>
+    :root {
+      --bg: #121016;
+      --panel: #1f1b26;
+      --accent: #ff6b2b;
+      --gold: #f7c948;
+      --text: #f3eff8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Trebuchet MS', system-ui, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 16px;
+      gap: 12px;
+    }
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 960px;
+      background: var(--panel);
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: 1px solid #352f42;
+      gap: 8px;
+    }
+    header h1 {
+      font-size: 1.2rem;
+      color: var(--gold);
+    }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    button, select {
+      background: #2f293a;
+      color: var(--text);
+      border: 1px solid #4a405a;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    button:hover { background: var(--accent); border-color: var(--accent); }
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+      max-width: 1120px;
+      width: 100%;
+    }
+    #game-canvas {
+      border: 2px solid #3f384e;
+      border-radius: 8px;
+      background: #1a1621;
+      max-width: 100%;
+      height: auto;
+      cursor: pointer;
+    }
+    .sidebar {
+      flex: 1;
+      min-width: 260px;
+      max-width: 300px;
+      background: var(--panel);
+      border: 1px solid #352f42;
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 0.85rem;
+    }
+    .sidebar h2 { font-size: 0.95rem; color: var(--gold); }
+    textarea {
+      width: 100%;
+      height: 90px;
+      background: #141118;
+      color: #b9f5d0;
+      border: 1px solid #352f42;
+      border-radius: 4px;
+      padding: 6px;
+      font-family: monospace;
+      font-size: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Diner Dash (Rust + WASM)</h1>
+    <div class="controls">
+      <label>Stage:
+        <select id="stage-select">
+          <option value="1">1 - Flo's Diner</option>
+          <option value="2">2 - Flo's Tiki Palace</option>
+          <option value="3">3 - Fine Seafood</option>
+          <option value="4">4 - Chez Flo's</option>
+          <option value="5">5 - Indian Diner</option>
+        </select>
+      </label>
+      <label>Shift:
+        <select id="level-select">
+          <option value="1">1</option><option value="2">2</option>
+          <option value="3">3</option><option value="4">4</option>
+          <option value="5">5</option><option value="6">6</option>
+          <option value="7">7</option><option value="8">8</option>
+          <option value="9">9</option><option value="10">10</option>
+        </select>
+      </label>
+      <button id="btn-start">Start Shift</button>
+      <button id="btn-endless">Endless Mode</button>
+      <button id="btn-save">Save Now</button>
+      <button id="btn-load">Load Save</button>
+      <button id="btn-reset">Reset Save</button>
+    </div>
+  </header>
+
+  <main>
+    <canvas id="game-canvas" width="800" height="600"></canvas>
+    <aside class="sidebar">
+      <h2>Shift Briefing</h2>
+      <p id="shift-intro">Click waiting customers on the left, then click a clean table to seat them. Click tables to take orders, serve ready dishes from the kitchen, deliver checks, and bus dirty tables.</p>
+      <h2>Web Storage Persistence</h2>
+      <p>Auto-saved to <code>localStorage</code> + <code>IndexedDB (DinerDashDB)</code>.</p>
+      <textarea id="save-json" readonly placeholder="Save JSON snapshot..."></textarea>
+      <div class="controls">
+        <button id="btn-export">Export JSON</button>
+        <button id="btn-import">Import JSON</button>
+      </div>
+    </aside>
+  </main>
+
+  <script type="module">
+    import init, { DinerDashApp } from './pkg/diner_dash_wasm.js';
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
+
+    async function run() {
+      await init();
+      const canvas = document.getElementById('game-canvas');
+      const app = new DinerDashApp('game-canvas');
+      window.dinerDashApp = app;
+
+      const saveBox = document.getElementById('save-json');
+      const introEl = document.getElementById('shift-intro');
+      const stageSel = document.getElementById('stage-select');
+      const levelSel = document.getElementById('level-select');
+
+      const refreshUI = () => {
+        try {
+          const st = JSON.parse(app.get_status_json());
+          if (st.intro) introEl.textContent = st.intro;
+          stageSel.value = String(st.stage);
+          levelSel.value = String(st.level);
+          saveBox.value = app.export_save_json();
+        } catch (_) {}
+      };
+      refreshUI();
+
+      canvas.addEventListener('pointerdown', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / Math.max(rect.width, 1);
+        const scaleY = canvas.height / Math.max(rect.height, 1);
+        const x = (e.clientX - rect.left) * scaleX;
+        const y = (e.clientY - rect.top) * scaleY;
+        app.click(x, y);
+      });
+
+      window.addEventListener('keydown', (e) => {
+        if (document.activeElement === saveBox) return;
+        app.key_down(e.key);
+      });
+
+      window.addEventListener('keyup', (e) => {
+        if (document.activeElement === saveBox) return;
+        app.key_up(e.key);
+      });
+
+      window.addEventListener('beforeunload', () => {
+        try { app.save_now(); } catch (_) {}
+      });
+
+      document.getElementById('btn-start').onclick = () => {
+        app.start_career_level(Number(stageSel.value), Number(levelSel.value));
+        refreshUI();
+      };
+      document.getElementById('btn-endless').onclick = () => {
+        app.start_endless(1);
+        refreshUI();
+      };
+      document.getElementById('btn-save').onclick = () => {
+        saveBox.value = app.save_now();
+      };
+      document.getElementById('btn-load').onclick = () => {
+        saveBox.value = app.load_now();
+        refreshUI();
+      };
+      document.getElementById('btn-reset').onclick = () => {
+        app.reset_save();
+        refreshUI();
+      };
+      document.getElementById('btn-export').onclick = () => {
+        saveBox.removeAttribute('readonly');
+        saveBox.value = app.export_save_json();
+        saveBox.select();
+      };
+      document.getElementById('btn-import').onclick = () => {
+        if (saveBox.value.trim()) {
+          app.import_save_json(saveBox.value.trim());
+          refreshUI();
+        }
+      };
+
+      let lastTs = performance.now();
+      function frame(ts) {
+        const dt = Math.min((ts - lastTs) / 1000, 0.1);
+        lastTs = ts;
+        app.tick(dt);
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    }
+
+    run();
+  </script>
+</body>
+</html>
