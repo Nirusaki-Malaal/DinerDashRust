@@ -1,0 +1,9 @@
+{
+  "name": "Diner Dash Remastered",
+  "short_name": "Diner Dash",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#121016",
+  "theme_color": "#ff6b2b",
+  "description": "Diner Dash Remastered in Rust and WebAssembly"
+}
