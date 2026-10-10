@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#152735">
+  <title>Diner Dash</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="toolbar">
+    <a href="#" id="home">Diner Dash</a>
+    <span id="shift-label">Welcome to Flo’s Diner</span>
+    <div class="toolbar-actions">
+      <button id="resume" hidden>Resume shift</button>
+      <button id="pause" hidden>Pause</button>
+      <button id="mute" aria-pressed="false">Sound on</button>
+      <button id="settings">Settings</button>
+    </div>
+  </header>
+  <main>
+    <section id="stage" aria-label="Diner Dash game">
+      <canvas id="game-canvas" width="800" height="600" aria-label="Restaurant. Select a waiting party, then a table. Click ready tables to take orders; click the kitchen to deliver food."></canvas>
+      <div id="screen" class="screen" aria-label="Main menu"></div>
+      <div id="panel" class="panel" hidden></div>
+    </section>
+    <p id="hint" aria-live="polite">Loading the original menu artwork…</p>
+    <section id="level-list" hidden aria-label="Accessible level selection"></section>
+    <p id="error" role="alert" hidden></p>
+  </main>
+  <dialog id="settings-dialog">
+    <h2>Settings &amp; saved game</h2>
+    <p>Your progress saves automatically. Export a backup before resetting.</p>
+    <div class="settings-actions">
+      <button id="save">Save now</button><button id="load">Load save</button>
+      <button id="export">Export save</button>
+      <label class="file-button">Import save <input id="import" type="file" accept="application/json,.json"></label>
+      <button id="reset" class="danger">Reset progress</button>
+    </div>
+    <button id="close-settings">Done</button>
+  </dialog>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
