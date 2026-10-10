@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Diner Dash
+Comment=Made by Nirusaki
+Exec=diner-dash
+Icon=diner-dash
+Categories=Game;ArcadeGame;
+StartupWMClass=diner-dash
+Terminal=false
