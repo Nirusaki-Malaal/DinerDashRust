@@ -3,13 +3,14 @@
 A modern, native reimplementation of Diner Dash (2004) written in Rust.
 Made by Nirusaki.
 
-This project recreates the original game mechanics, sound, and graphics with high performance. It runs natively on Linux (Wayland and X11), Windows, Android, and Web (WASM).
+This project recreates the original game mechanics, sound, and graphics with high performance. It runs natively on Linux (Wayland and X11), Windows, macOS (Apple Silicon), Android, and Web (WASM).
 
 ## Features
 
 - Fast and native performance with no web wrappers for desktop builds.
 - Native Wayland and X11 support on Linux with window decorations.
 - Native Windows 64-bit support.
+- Native macOS Apple Silicon (ARM64) support with Cocoa and Metal.
 - Android APK build with full touchscreen controls and display scaling.
 - WebAssembly (WASM) browser version.
 - Multi-profile player system with support for up to 10 players.
@@ -22,7 +23,7 @@ This project recreates the original game mechanics, sound, and graphics with hig
 
 The original 2004 game was built as a 32-bit Macromedia Director projector with many limitations on modern computers. This Rust reimplementation improves upon the old binaries:
 
-- **Runs Everywhere**: The old game only ran on legacy 32-bit Windows. This version runs natively on 64-bit Linux (Wayland and X11), modern Windows, Android, and WebAssembly in browsers.
+- **Runs Everywhere**: The old game only ran on legacy 32-bit Windows. This version runs natively on 64-bit Linux (Wayland and X11), modern Windows, macOS (Apple Silicon), Android, and WebAssembly in browsers.
 - **Modern Display Scaling**: The old binaries were locked to a fixed 800x600 window. This version supports fullscreen scaling, high-DPI monitors, and wide screen display on Android.
 - **Touchscreen and Mobile Ready**: The original required mouse input. This version includes full touchscreen drag-and-drop controls for phones and tablets.
 - **Audio Quality**: Replaced legacy 22 kHz mono audio with clean 44.1 kHz stereo sound and accurate music looping.
@@ -51,6 +52,12 @@ make windows
 ```
 The output executable will be located at `dist/windows/diner-dash.exe`.
 
+### macOS (Apple Silicon) Binary
+```bash
+make macos
+```
+The output binary will be located at `dist/macos/diner-dash`.
+
 ### Android Package (APK)
 ```bash
 make apk
@@ -74,8 +81,8 @@ make native-check
 ## Automated Builds and Releases
 
 GitHub Actions workflows run automated CI checks and release packaging:
-- **CI Workflow (`.github/workflows/ci.yml`)**: Builds and tests on every push and pull request across Linux, Windows, Android, and WebAssembly.
-- **Release Workflow (`.github/workflows/release.yml`)**: Triggered on release tags (`v*`) or manual dispatch to build, package, hash (SHA256), and attach binaries to GitHub Releases automatically.
+- **CI Workflow (`.github/workflows/ci.yml`)**: Builds and tests on every push and pull request across Linux, Windows, macOS, Android, and WebAssembly.
+- **Release Workflow (`.github/workflows/release.yml`)**: Triggered on release tags (`v*`) or manual dispatch to build, package, hash (SHA256), and attach binaries to GitHub Releases automatically for Linux, Windows, macOS, Android, and Web.
 
 ## Controls
 

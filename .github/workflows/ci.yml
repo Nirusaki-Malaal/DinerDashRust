@@ -120,6 +120,36 @@ jobs:
           name: diner-dash-windows-x64
           path: diner-dash-windows-x64.zip
 
+  build-macos:
+    name: Build macOS Apple Silicon (ARM64)
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin
+
+      - name: Setup layouts
+        run: python3 scripts/prepare_layouts.py
+
+      - name: Build macOS Apple Silicon binary
+        run: cargo build --locked --release -p diner-dash-native --bin diner-dash --target aarch64-apple-darwin
+
+      - name: Package macOS distribution
+        run: |
+          mkdir -p dist/macos
+          cp target/aarch64-apple-darwin/release/diner-dash dist/macos/
+          tar -czvf diner-dash-macos-arm64.tar.gz -C dist/macos .
+
+      - name: Upload macOS artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: diner-dash-macos-arm64
+          path: diner-dash-macos-arm64.tar.gz
+
   build-wasm:
     name: Build WebAssembly (WASM)
     runs-on: ubuntu-latest

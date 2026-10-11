@@ -44,7 +44,7 @@ fn config() -> Conf {
     };
 
     Conf {
-        window_title: format!("Diner Dash — {CREDIT}"),
+        window_title: format!("Diner Dash - {CREDIT}"),
         window_width: 960,
         window_height: 720,
         high_dpi: true,

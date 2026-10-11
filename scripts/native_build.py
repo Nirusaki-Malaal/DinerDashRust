@@ -50,6 +50,8 @@ def desktop(platform, env):
             env['CARGO_TARGET_X86_64_PC_WINDOWS_GNU_LINKER'] = 'x86_64-w64-mingw32-gcc'
             env['CC_x86_64_pc_windows_gnu'] = 'x86_64-w64-mingw32-gcc'
             env['AR_x86_64_pc_windows_gnu'] = 'x86_64-w64-mingw32-ar'
+    elif platform == 'macos':
+        target = env.get('CARGO_BUILD_TARGET', 'aarch64-apple-darwin')
     else:
         target = 'x86_64-unknown-linux-gnu'
     out = DIST / platform
@@ -252,11 +254,11 @@ def android(env):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('platform',choices=['linux','windows','android','all'])
+    parser.add_argument('platform',choices=['linux','windows','macos','android','all'])
     args=parser.parse_args()
     run([sys.executable, ROOT / "scripts/prepare_layouts.py"])
     env=environment()
-    for platform in (['linux','windows','android'] if args.platform=='all' else [args.platform]):
+    for platform in (['linux','windows','macos','android'] if args.platform=='all' else [args.platform]):
         if platform=='android': android(env)
         else: desktop(platform,env)
     files=sorted(p for p in DIST.rglob('*') if p.is_file() and (p.suffix in ('.exe','.apk') or p.name=='diner-dash'))

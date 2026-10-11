@@ -38,13 +38,16 @@ clean:
 	@rm -rf $(WASM_DIR)/pkg
 
 # Native Rust builds (no browser runtime). Outputs are written to dist/.
-.PHONY: all native linux windows apk android dist icons native-check native-setup
+.PHONY: all native linux windows macos apk android dist icons native-check native-setup
 
 native linux:
 	@$(PYTHON) scripts/native_build.py linux
 
 windows:
 	@$(PYTHON) scripts/native_build.py windows
+
+macos:
+	@$(PYTHON) scripts/native_build.py macos
 
 apk android:
 	@$(PYTHON) scripts/native_build.py android
