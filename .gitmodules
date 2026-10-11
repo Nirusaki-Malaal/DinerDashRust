@@ -1,0 +1,3 @@
+[submodule "tools/ProjectorRays"]
+	path = tools/ProjectorRays
+	url = https://github.com/ProjectorRays/ProjectorRays.git
