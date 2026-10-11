@@ -108,6 +108,10 @@ GitHub Actions workflows run automated CI checks and release packaging:
 - **Reimplementation and Reverse Engineering**: Made by Nirusaki.
 - **Decompiler Tooling**: ProjectorRays team for Shockwave movie research.
 
+## AI Disclosure
+
+Local open models and open-weight tools were used to accelerate this project. They assisted in parsing raw decompiler outputs, analyzing legacy Lingo bytecode, and translating math logic into Rust. Without this acceleration, completing this reverse engineering and rewrite would have taken over six months.
+
 ## License
 
 This project is licensed under the GNU General Public License v3.0 (GPL-3.0). See the [LICENSE](LICENSE) file for details.
