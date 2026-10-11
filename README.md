@@ -18,6 +18,17 @@ This project recreates the original game mechanics, sound, and graphics with hig
 - Restored original graphics, animations, fonts, and 44.1 kHz stereo audio.
 - Authentic customer patience, seating bonuses, and level progression.
 
+## Why This Version Is Better
+
+The original 2004 game was built as a 32-bit Macromedia Director projector with many limitations on modern computers. This Rust reimplementation improves upon the old binaries:
+
+- **Runs Everywhere**: The old game only ran on legacy 32-bit Windows. This version runs natively on 64-bit Linux (Wayland and X11), modern Windows, Android, and WebAssembly in browsers.
+- **Modern Display Scaling**: The old binaries were locked to a fixed 800x600 window. This version supports fullscreen scaling, high-DPI monitors, and wide screen display on Android.
+- **Touchscreen and Mobile Ready**: The original required mouse input. This version includes full touchscreen drag-and-drop controls for phones and tablets.
+- **Audio Quality**: Replaced legacy 22 kHz mono audio with clean 44.1 kHz stereo sound and accurate music looping.
+- **Crash Resistance and Safe Saves**: The original Director engine suffered from memory leaks and corrupted save files on sudden exits. This version uses memory-safe Rust and atomic JSON saves that prevent data corruption.
+- **No Emulators or Compatibility Layers**: Runs as a direct native binary with zero legacy dependencies like DirectDraw wrappers or virtual machines.
+
 ## Requirements
 
 - Rust (edition 2021)
