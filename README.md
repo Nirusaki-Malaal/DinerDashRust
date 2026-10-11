@@ -86,7 +86,7 @@ GitHub Actions workflows run automated CI checks and release packaging:
 
 ## Credits
 
-- **Original Game**: Created by Gamelab and published by PlayFirst (2004).
+- **Original Game**: Created by Gamelab and published by PlayFirst (2004). All copyrights and trademarks are reserved to the original creators.
 - **Reimplementation and Reverse Engineering**: Made by Nirusaki.
 - **Decompiler Tooling**: ProjectorRays team for Shockwave movie research.
 
@@ -94,5 +94,5 @@ GitHub Actions workflows run automated CI checks and release packaging:
 
 This project is licensed under the GNU General Public License v3.0 (GPL-3.0). See the [LICENSE](LICENSE) file for details.
 
-This reverse-engineered project and its reimplementation were created for preservation and research purposes.
+This reverse-engineered project and its reimplementation were created for preservation and research purposes. All copyrights and trademarks are reserved to the original creators.
 Made by Nirusaki.
