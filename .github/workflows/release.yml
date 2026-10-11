@@ -1,0 +1,236 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Tag name for release (e.g. v0.1.2)'
+        required: true
+        default: 'v0.1.2'
+
+permissions:
+  contents: write
+
+jobs:
+  build-linux:
+    name: Build Linux Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libasound2-dev libudev-dev pkg-config
+
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Setup layouts
+        run: python3 scripts/prepare_layouts.py
+
+      - name: Build Linux binary
+        run: cargo build --locked --release -p diner-dash-native --bin diner-dash
+
+      - name: Package Linux distribution
+        run: |
+          mkdir -p dist/linux
+          cp target/release/diner-dash dist/linux/
+          cp packaging/diner-dash.desktop dist/linux/
+          cp packaging/diner-dash.png dist/linux/
+          tar -czvf diner-dash-linux-x86_64.tar.gz -C dist/linux .
+
+      - name: Upload Linux artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: diner-dash-linux-x86_64
+          path: diner-dash-linux-x86_64.tar.gz
+
+  build-windows:
+    name: Build Windows Release
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Setup layouts
+        run: python scripts/prepare_layouts.py
+
+      - name: Build Windows binary
+        run: cargo build --locked --release -p diner-dash-native --bin diner-dash
+
+      - name: Package Windows executable
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path dist/windows
+          Copy-Item target/release/diner-dash.exe dist/windows/
+          Compress-Archive -Path dist/windows/diner-dash.exe -DestinationPath diner-dash-windows-x64.zip
+
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: diner-dash-windows-x64
+          path: diner-dash-windows-x64.zip
+
+  build-android:
+    name: Build Android Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android,x86_64-linux-android
+
+      - name: Setup Android SDK & NDK
+        run: |
+          yes | sdkmanager --licenses || true
+          sdkmanager "platforms;android-34" "build-tools;34.0.0" "ndk;27.2.12479018" || true
+          NDK_DIR=$(find "$ANDROID_HOME/ndk" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | sort -V | tail -n 1)
+          if [ -n "$NDK_DIR" ]; then
+            echo "ANDROID_NDK_HOME=$NDK_DIR" >> $GITHUB_ENV
+          fi
+
+      - name: Build Android APK
+        env:
+          ANDROID_COMPILE_SDK: '34'
+          ANDROID_BUILD_TOOLS: '34.0.0'
+        run: |
+          python3 scripts/native_build.py android
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: diner-dash-apk
+          path: dist/android/diner-dash.apk
+
+  build-wasm:
+    name: Build WebAssembly Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+      - name: Build WASM
+        run: cd wasm && wasm-pack build --target web --out-dir pkg --release
+
+      - name: Package Web Distribution
+        run: |
+          zip -r diner-dash-wasm.zip wasm/index.html wasm/app.js wasm/style.css wasm/manifest.json wasm/sw.js wasm/pkg
+
+      - name: Upload WASM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: diner-dash-wasm
+          path: diner-dash-wasm.zip
+
+  publish:
+    name: Publish GitHub Release
+    needs: [build-linux, build-windows, build-android, build-wasm]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create staging directory
+        run: mkdir -p release-assets
+
+      - name: Download Linux artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: diner-dash-linux-x86_64
+          path: release-assets
+
+      - name: Download Windows artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: diner-dash-windows-x64
+          path: release-assets
+
+      - name: Download Android artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: diner-dash-apk
+          path: release-assets
+
+      - name: Download WASM artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: diner-dash-wasm
+          path: release-assets
+
+      - name: Generate Checksums
+        working-directory: release-assets
+        run: |
+          sha256sum diner-dash-linux-x86_64.tar.gz diner-dash-windows-x64.zip diner-dash.apk diner-dash-wasm.zip > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+
+      - name: Create or Update GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ github.event.inputs.tag_name || github.ref_name }}"
+          cat << 'EOF' > release_body.md
+          ## Diner Dash Release
+
+          Authentic cross-platform reimplementation of Diner Dash (2004) written in Rust.
+          Made by Nirusaki.
+
+          ### Included Binaries
+          - **Linux (x86_64)**: `diner-dash-linux-x86_64.tar.gz` (Native Wayland and X11 with window decorations)
+          - **Windows (x64)**: `diner-dash-windows-x64.zip` (Native 64-bit executable with embedded icon and metadata)
+          - **Android**: `diner-dash.apk` (Signed APK with arm64-v8a and x86_64 native libraries)
+          - **Web (WASM)**: `diner-dash-wasm.zip` (WebAssembly release bundle)
+
+          ### Verification
+          SHA256 checksums are provided in `SHA256SUMS.txt`.
+          EOF
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Updating existing release $TAG"
+            gh release upload "$TAG" \
+              release-assets/diner-dash-linux-x86_64.tar.gz \
+              release-assets/diner-dash-windows-x64.zip \
+              release-assets/diner-dash.apk \
+              release-assets/diner-dash-wasm.zip \
+              release-assets/SHA256SUMS.txt \
+              --clobber
+          else
+            echo "Creating new release $TAG"
+            gh release create "$TAG" \
+              release-assets/diner-dash-linux-x86_64.tar.gz \
+              release-assets/diner-dash-windows-x64.zip \
+              release-assets/diner-dash.apk \
+              release-assets/diner-dash-wasm.zip \
+              release-assets/SHA256SUMS.txt \
+              --title "Diner Dash $TAG" \
+              --notes-file release_body.md
+          fi

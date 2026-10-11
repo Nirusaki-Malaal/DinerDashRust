@@ -60,6 +60,12 @@ make run
 make native-check
 ```
 
+## Automated Builds and Releases
+
+GitHub Actions workflows run automated CI checks and release packaging:
+- **CI Workflow (`.github/workflows/ci.yml`)**: Builds and tests on every push and pull request across Linux, Windows, Android, and WebAssembly.
+- **Release Workflow (`.github/workflows/release.yml`)**: Triggered on release tags (`v*`) or manual dispatch to build, package, hash (SHA256), and attach binaries to GitHub Releases automatically.
+
 ## Controls
 
 - Left Click / Touch: Drag customers, seat tables, take orders, serve food, clear dishes.

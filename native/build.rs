@@ -37,7 +37,7 @@ fn main() {
         let mut res = winresource::WindowsResource::new();
         res.set_icon("../app_icon.ico")
             .set("ProductName", "Diner Dash")
-            .set("FileDescription", "Diner Dash — Made by Nirusaki")
+            .set("FileDescription", "Diner Dash - Made by Nirusaki")
             .set("CompanyName", "Nirusaki")
             .set("LegalCopyright", "Made by Nirusaki")
             .set("Comments", "Made by Nirusaki");

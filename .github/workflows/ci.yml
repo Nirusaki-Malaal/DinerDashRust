@@ -1,0 +1,189 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+  pull_request:
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test & Engine Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libasound2-dev libudev-dev pkg-config
+
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Cargo dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry/index
+            ~/.cargo/registry/cache
+            ~/.cargo/git/db
+            target
+          key: ${{ runner.os }}-cargo-test-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-test-
+
+      - name: Run code check
+        run: cargo check --locked -p diner-dash-native
+
+      - name: Run engine tests
+        run: cargo test --locked -p diner-dash-engine -p diner-dash-native --lib
+
+  build-linux:
+    name: Build Linux Native
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libasound2-dev libudev-dev pkg-config
+
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Setup layouts
+        run: python3 scripts/prepare_layouts.py
+
+      - name: Build Linux binary
+        run: cargo build --locked --release -p diner-dash-native --bin diner-dash
+
+      - name: Package Linux distribution
+        run: |
+          mkdir -p dist/linux
+          cp target/release/diner-dash dist/linux/
+          cp packaging/diner-dash.desktop dist/linux/
+          cp packaging/diner-dash.png dist/linux/
+          tar -czvf diner-dash-linux-x86_64.tar.gz -C dist/linux .
+
+      - name: Upload Linux artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: diner-dash-linux-x86_64
+          path: diner-dash-linux-x86_64.tar.gz
+
+  build-windows:
+    name: Build Windows Native
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Setup layouts
+        run: python scripts/prepare_layouts.py
+
+      - name: Build Windows binary
+        run: cargo build --locked --release -p diner-dash-native --bin diner-dash
+
+      - name: Package Windows executable
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path dist/windows
+          Copy-Item target/release/diner-dash.exe dist/windows/
+          Compress-Archive -Path dist/windows/diner-dash.exe -DestinationPath diner-dash-windows-x64.zip
+
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: diner-dash-windows-x64
+          path: diner-dash-windows-x64.zip
+
+  build-wasm:
+    name: Build WebAssembly (WASM)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+      - name: Build WASM
+        run: cd wasm && wasm-pack build --target web --out-dir pkg --release
+
+      - name: Package Web Distribution
+        run: |
+          zip -r diner-dash-wasm.zip wasm/index.html wasm/app.js wasm/style.css wasm/manifest.json wasm/sw.js wasm/pkg
+
+      - name: Upload WASM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: diner-dash-wasm
+          path: diner-dash-wasm.zip
+
+  build-android:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android,x86_64-linux-android
+
+      - name: Setup Android SDK & NDK
+        run: |
+          yes | sdkmanager --licenses || true
+          sdkmanager "platforms;android-34" "build-tools;34.0.0" "ndk;27.2.12479018" || true
+          NDK_DIR=$(find "$ANDROID_HOME/ndk" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | sort -V | tail -n 1)
+          if [ -n "$NDK_DIR" ]; then
+            echo "ANDROID_NDK_HOME=$NDK_DIR" >> $GITHUB_ENV
+          fi
+
+      - name: Build Android APK
+        env:
+          ANDROID_COMPILE_SDK: '34'
+          ANDROID_BUILD_TOOLS: '34.0.0'
+        run: |
+          python3 scripts/native_build.py android
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: diner-dash-android-apk
+          path: dist/android/diner-dash.apk

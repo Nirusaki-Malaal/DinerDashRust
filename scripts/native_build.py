@@ -42,11 +42,16 @@ def cargo(env, target, library=False):
     return target_dir / target / 'release'
 
 def desktop(platform, env):
-    target = 'x86_64-pc-windows-gnu' if platform == 'windows' else 'x86_64-unknown-linux-gnu'
     if platform == 'windows':
-        env['CARGO_TARGET_X86_64_PC_WINDOWS_GNU_LINKER'] = 'x86_64-w64-mingw32-gcc'
-        env['CC_x86_64_pc_windows_gnu'] = 'x86_64-w64-mingw32-gcc'
-        env['AR_x86_64_pc_windows_gnu'] = 'x86_64-w64-mingw32-ar'
+        if sys.platform == 'win32':
+            target = env.get('CARGO_BUILD_TARGET', 'x86_64-pc-windows-msvc')
+        else:
+            target = 'x86_64-pc-windows-gnu'
+            env['CARGO_TARGET_X86_64_PC_WINDOWS_GNU_LINKER'] = 'x86_64-w64-mingw32-gcc'
+            env['CC_x86_64_pc_windows_gnu'] = 'x86_64-w64-mingw32-gcc'
+            env['AR_x86_64_pc_windows_gnu'] = 'x86_64-w64-mingw32-ar'
+    else:
+        target = 'x86_64-unknown-linux-gnu'
     out = DIST / platform
     out.mkdir(parents=True,exist_ok=True)
     build = cargo(env,target)
@@ -130,17 +135,41 @@ def strip_method_parameters(b):
 
 def android(env):
     sdk = Path(env.get('ANDROID_HOME',env.get('ANDROID_SDK_ROOT',str(Path.home()/'Android/Sdk'))))
-    default_ndk = sdk/'ndk/28.2.13676358'
-    minimal_ndk = ROOT/'.toolchains/android-ndk-r28c-minimal'
-    if not (default_ndk/'toolchains/llvm/prebuilt/linux-x86_64/bin/clang').exists() and minimal_ndk.exists():
-        default_ndk = minimal_ndk
-    ndk = Path(env.get('ANDROID_NDK_HOME', str(default_ndk)))
-    sdk_version = env.get('ANDROID_COMPILE_SDK','34')
-    build_tools = sdk/'build-tools'/env.get('ANDROID_BUILD_TOOLS','34.0.0')
-    android_jar = sdk/'platforms'/f'android-{sdk_version}'/'android.jar'
+    ndk_home = env.get('ANDROID_NDK_HOME')
+    if ndk_home and Path(ndk_home).exists():
+        ndk = Path(ndk_home)
+    elif (sdk/'ndk/28.2.13676358').exists():
+        ndk = sdk/'ndk/28.2.13676358'
+    elif (ROOT/'.toolchains/android-ndk-r28c-minimal').exists():
+        ndk = ROOT/'.toolchains/android-ndk-r28c-minimal'
+    elif (sdk/'ndk').exists() and any((sdk/'ndk').glob('*')):
+        ndk = sorted((sdk/'ndk').glob('*'))[-1]
+    else:
+        ndk = sdk/'ndk/28.2.13676358'
+    
+    bt_name = env.get('ANDROID_BUILD_TOOLS')
+    if bt_name and (sdk/'build-tools'/bt_name).exists():
+        build_tools = sdk/'build-tools'/bt_name
+    elif (sdk/'build-tools/34.0.0').exists():
+        build_tools = sdk/'build-tools/34.0.0'
+    elif (sdk/'build-tools').exists() and any((sdk/'build-tools').glob('*')):
+        build_tools = sorted((sdk/'build-tools').glob('*'))[-1]
+    else:
+        build_tools = sdk/'build-tools/34.0.0'
+
+    sdk_version = env.get('ANDROID_COMPILE_SDK')
+    if sdk_version and (sdk/'platforms'/f'android-{sdk_version}'/'android.jar').exists():
+        android_jar = sdk/'platforms'/f'android-{sdk_version}'/'android.jar'
+    elif (sdk/'platforms/android-34/android.jar').exists():
+        android_jar = sdk/'platforms/android-34/android.jar'
+    elif (sdk/'platforms').exists() and any((sdk/'platforms').glob('android-*/android.jar')):
+        android_jar = sorted((sdk/'platforms').glob('android-*/android.jar'))[-1]
+    else:
+        android_jar = sdk/'platforms/android-34/android.jar'
+
     toolchain = ndk/'toolchains/llvm/prebuilt/linux-x86_64/bin'
     for required in [android_jar,toolchain/'clang',build_tools/'aapt',build_tools/'d8',build_tools/'apksigner']:
-        if not required.exists(): raise RuntimeError(f'Missing {required}. See BUILDING.md prerequisites.')
+        if not required.exists(): raise RuntimeError(f'Missing {required}. See README.md prerequisites.')
     staging = ROOT/'.build/android'
     if staging.exists(): shutil.rmtree(staging)
     for d in ['classes','dex','java/com/nirusaki/dinerdash','java/quad_native']:
@@ -163,15 +192,25 @@ def android(env):
     for abi in env.get('ANDROID_ABIS','arm64-v8a x86_64').split():
         target,compiler = targets[abi]
         build_env = env.copy()
-        build_env['CARGO_TARGET_'+target.upper().replace('-','_')+'_LINKER'] = str(toolchain/(compiler+'26-clang'))
-        build_env['CC_'+target.replace('-','_')] = str(toolchain/(compiler+'26-clang'))
-        build_env['AR_'+target.replace('-','_')] = str(toolchain/'llvm-ar')
+        clang_bin = toolchain/(compiler+'26-clang')
+        if not clang_bin.exists():
+            clang_bin = toolchain/'clang'
+        build_env['CARGO_TARGET_'+target.upper().replace('-','_')+'_LINKER'] = str(clang_bin)
+        build_env['CC_'+target.replace('-','_')] = str(clang_bin)
+        ar_bin = toolchain/'llvm-ar'
+        if not ar_bin.exists():
+            ar_bin = Path(shutil.which('llvm-ar') or 'llvm-ar')
+        build_env['AR_'+target.replace('-','_')] = str(ar_bin)
         build_env['CARGO_TARGET_'+target.upper().replace('-','_')+'_RUSTFLAGS'] = '-C link-arg=-Wl,-z,max-page-size=16384'
         build = cargo(build_env,target,library=True)
         libdir = staging/'lib'/abi
         libdir.mkdir(parents=True)
         shutil.copy2(build/'libdiner_dash.so',libdir)
-        run([toolchain/'llvm-strip','--strip-debug',libdir/'libdiner_dash.so'])
+        strip_bin = toolchain/'llvm-strip'
+        if strip_bin.exists():
+            run([strip_bin,'--strip-debug',libdir/'libdiner_dash.so'])
+        elif shutil.which('llvm-strip'):
+            run(['llvm-strip','--strip-debug',libdir/'libdiner_dash.so'])
     run(['javac','-source','8','-target','8','-bootclasspath',android_jar,'-d',staging/'classes',
         *sorted((staging/'java').rglob('*.java'))])
     for cls in (staging/'classes').rglob('*.class'):
