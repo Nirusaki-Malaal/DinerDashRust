@@ -84,6 +84,12 @@ GitHub Actions workflows run automated CI checks and release packaging:
 - `decompiled_lingo/`: Decompiled source scripts from the original 2004 release.
 - `docs/`: Technical architecture documentation.
 
+## Credits
+
+- **Original Game**: Created by Gamelab and published by PlayFirst (2004).
+- **Reimplementation and Reverse Engineering**: Made by Nirusaki.
+- **Decompiler Tooling**: ProjectorRays team for Shockwave movie research.
+
 ## License
 
 This project is licensed under the GNU General Public License v3.0 (GPL-3.0). See the [LICENSE](LICENSE) file for details.
