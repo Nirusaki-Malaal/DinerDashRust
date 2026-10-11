@@ -256,3 +256,4 @@ All save data is serialized with **Serde JSON** and isolated per player profile:
 - Per-profile saves: `save_<name>.json` (Stores career levels unlocked, star counts, and upgrades).
 
 Atomic temporary file writing (`save_<name>.json.tmp` followed by rename) ensures that game progress is protected against crashes or power loss.
+
